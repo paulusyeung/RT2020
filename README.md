@@ -9,7 +9,7 @@ RT2000 > RT2008 > RT2020
 
 **RT2020** 就再變身為 Open Source，目標係：developed on C#，run on Linux。目前已經可以 run on Linux，不過就要首先解決 reporting 同 OLAP 先算全面 run on Linux。
 
-![RT2020 Logo](/RT2020/Resources/images/logo.png)
+![RT2020 Logo](https://github.com/paulusyeung/RT2020/blob/master/RT2020/Resources/Images/logo.png?raw=true)
 
 ##### Development Environment
 1. .Net Framework 4.5.2
