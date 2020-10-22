@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="ProductBarcode"
+    targetNamespace="http://synergyis.biz/ProductBarcode.xsd"
+    elementFormDefault="qualified"
+    xmlns="http://synergyis.biz/ProductBarcode.xsd"
+    xmlns:mstns="http://synergyis.biz/ProductBarcode.xsd"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+>
+  <xs:element name="ProductBarcode">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="ProductId" type="xs:string" minOccurs="0"  />
+        <xs:element name="STKCODE" type="xs:string" minOccurs="0"  />
+        <xs:element name="APPENDIX1" type="xs:string" minOccurs="0"  />
+        <xs:element name="App1Desc" type="xs:string" minOccurs="0" />
+        <xs:element name="APPENDIX2" type="xs:string" minOccurs="0" />
+        <xs:element name="App2Desc" type="xs:string" minOccurs="0" />
+        <xs:element name="APPENDIX3" type="xs:string" minOccurs="0" />
+        <xs:element name="App3Desc" type="xs:string" minOccurs="0" />
+        <xs:element name="CLASS1" type="xs:string" minOccurs="0" />
+        <xs:element name="C1Desc" type="xs:string" minOccurs="0" />
+        <xs:element name="CLASS2" type="xs:string" minOccurs="0" />
+        <xs:element name="C2Desc" type="xs:string" minOccurs="0" />
+        <xs:element name="CLASS3" type="xs:string" minOccurs="0" />
+        <xs:element name="C3Desc" type="xs:string" minOccurs="0" />
+        <xs:element name="CLASS4" type="xs:string" minOccurs="0" />
+        <xs:element name="C4Desc" type="xs:string" minOccurs="0" />
+        <xs:element name="CLASS5" type="xs:string" minOccurs="0" />
+        <xs:element name="C5Desc" type="xs:string" minOccurs="0" />
+        <xs:element name="CLASS6" type="xs:string" minOccurs="0" />
+        <xs:element name="C6Desc" type="xs:string" minOccurs="0" />
+        <xs:element name="Barcode" type="xs:string" minOccurs="0" />
+        <xs:element name="BarcodeType" type="xs:string" minOccurs="0" />
+        <xs:element name="ProductName" type="xs:string" minOccurs="0" />
+        <xs:element name="ProductName_Chs" type="xs:string" minOccurs="0" />
+        <xs:element name="ProductName_Cht" type="xs:string" minOccurs="0" />
+        <xs:element name="PrimaryBarcode" type="xs:boolean" minOccurs="0" />
+        <xs:element name="RetailPrice" type="xs:double" minOccurs="0" />
+        <xs:element name="CurrencyCode" type="xs:string" minOccurs="0" />
+        <xs:element name="StockMemo" type="xs:string" minOccurs="0" />
+        <xs:element name="StockRemark1" type="xs:string" minOccurs="0" />
+        <xs:element name="Remarks" type="xs:string" minOccurs="0" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

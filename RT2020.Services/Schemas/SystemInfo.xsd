@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="SystemInfo"
+    targetNamespace="http://synergyis.biz/SystemInfo.xsd"
+    elementFormDefault="qualified"
+    xmlns="http://synergyis.biz/SystemInfo.xsd"
+    xmlns:mstns="http://synergyis.biz/SystemInfo.xsd"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+>
+  <xs:element name="SystemInfo">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="SystemInfoId" type="xs:string"  />
+        <xs:element name="ShopNumber" type="xs:string" minOccurs="0"  />
+        <xs:element name="CompanyName" type="xs:string" minOccurs="0"  />
+        <xs:element name="BasicCurrency" type="xs:string" minOccurs="0"  />
+        <xs:element name="BarcodeLabelFormat" type="xs:string" minOccurs="0"  />
+        <xs:element name="LastMonthEnd" type="xs:int" minOccurs="0"  />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

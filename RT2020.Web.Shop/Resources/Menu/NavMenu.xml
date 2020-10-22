@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<root>
+	<rpl Caption="Replenishment">
+		<item Caption="Replenishment" ImageUrl="Icons.48x48.ico_rpl_48x48.png">
+			<item Caption="Confirmation" ImageUrl="Icons.16x16.16_L_check.gif"  Tag="Rpl_Confirmation" />
+			<item Caption="Special Request" ImageUrl="Icons.16x16.ico_16_1010.gif"  Tag="Rpl_SpecialRequest" />
+		</item>
+		<item Caption="Back to Desktop" ImageUrl="Icons.16x16.16_back.gif"  Tag="Rpl_Back" />
+	</rpl>
+	<txf Caption="Transfer-In">
+		<item Caption="Transfer-In" ImageUrl="Icons.48x48.ico_txf_48x48.png">
+			<item Caption="In Transit" ImageUrl="Icons.16x16.ico_18_mappings.gif"  Tag="Txf_InTransit" />
+			<item Caption="Confirmation" ImageUrl="Icons.16x16.16_L_check.gif"  Tag="Txf_Confirmation" />
+			<item Caption="History" ImageUrl="Icons.16x16.ico_16_1084.gif"  Tag="Txf_History" />
+			<item Caption="Daily Summary" ImageUrl="Icons.16x16.ico_16_1090.gif"  Tag="Txf_DailySummary" />
+		</item>
+		<item Caption="Back to Desktop" ImageUrl="Icons.16x16.16_back.gif"  Tag="Txf_Back" />
+	</txf>
+</root>

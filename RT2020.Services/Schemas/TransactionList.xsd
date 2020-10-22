@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="TransactionList"
+    targetNamespace="http://synergyis.biz/TransactionList.xsd"
+    elementFormDefault="qualified"
+    xmlns="http://synergyis.biz/TransactionList.xsd"
+    xmlns:mstns="http://synergyis.biz/TransactionList.xsd"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+>
+  <xs:element name="TransactionList">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="TxNumber" type="xs:string" minOccurs="0"  />
+        <xs:element name="TxType" type="xs:string" minOccurs="0"  />
+        <xs:element name="TxDate" type="xs:string" minOccurs="0"  />
+        <xs:element name="WorkplaceCode" type="xs:string" minOccurs="0"  />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

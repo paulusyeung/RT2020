@@ -1,0 +1,376 @@
+.dxpgControl_Blue
+{
+	color: Black;
+	font: 11px Tahoma;
+	border: solid 1px #4F93E3;
+	background-color: white;	
+}
+.dxpgMainTable_Blue
+{
+	color: Black;
+	font: 11px Tahoma;
+	border: 0px;
+	border-collapse: separate;
+}
+.dxpgHeader_Blue
+{
+	color: #FEFEFE;
+	font-weight: bold;
+	background-color: #BDDFFF;
+	background-image: url('pgheaderbg.gif');
+	border-color: #4F93E3;
+	background-repeat: repeat-x;		
+	cursor: pointer;
+	white-space: nowrap;
+}
+.dxpgHeaderHover_Blue
+{
+	background-color: #BDDFFF;
+	background-image: url('pgheaderbghot.gif');
+	background-repeat: repeat-x;			
+	color: #FEFEFE;
+	font-weight: bold;
+}
+.dxpgArea_Blue, .dxpgArea_Blue table
+{
+	color: #FEFEFE;
+	font: 11px Tahoma;	
+	font-weight: bold;
+}
+.dxpgArea_Blue
+{
+	border: solid 1px #4F93E3;
+	background-color: #DBEBFD;
+	border-left-style: none;
+	border-top-style: none;
+	border-bottom-style: none;
+	border-right-style: none;
+}
+.dxpgFilterArea_Blue
+{
+	background-color: #87BCF6;
+	color: #FEFEFE;
+	border-bottom-style: solid;
+	border-color: #4F93E3;	
+}
+.dxpgColumnFieldValue_Blue
+{
+	color: #1962B9;	
+	background-color: #BBDBFE;
+	border: solid 1px #4F93E3;
+	border-left-style: solid;
+	border-bottom-style: solid;
+	border-right-style: none;
+	border-top-style: none;
+	padding: 4px 6px;
+}
+.dxpgColumnTotalFieldValue_Blue
+{
+	background-color: #97C7FB;
+	border-left-style: solid;
+	border-bottom-style: solid;
+	border-right-style: none;
+	border-top-style: none;
+}
+.dxpgColumnGrandTotalFieldValue_Blue
+{
+	background-color: #97C7FB;
+	border-left-style: solid;
+	border-bottom-style: solid;
+	border-right-style: none;
+	border-top-style: none;
+}
+.dxpgRowFieldValue_Blue
+{
+	color: #1962B9;
+	background-color: #BBDBFE;
+	border: solid 1px #4F93E3;
+	border-left-style: none;
+	border-bottom-style: none;
+	border-right-style: solid;
+	border-top-style: solid;
+	padding: 4px 6px;
+}
+.dxpgRowTotalFieldValue_Blue
+{
+	background-color: #97C7FB;
+	border-left-style: none;
+	border-bottom-style: none;
+	border-right-style: solid;
+	border-top-style: solid;
+}
+.dxpgRowGrandTotalFieldValue_Blue
+{
+	background-color: #97C7FB;
+	border-left-style: none;
+	border-bottom-style: none;
+	border-right-style: solid;
+	border-top-style: solid;
+}
+.dxpgCollapsedButton_Blue
+{
+	vertical-align: -1px;
+	border: 0px;
+	margin-right: 5px;
+}
+.dxpgCell_Blue
+{
+	text-align: right;
+	background-color: #FEFEFE;	
+	border-color: #BEDCFD;
+	border-width: 1px;
+	border-top-style: solid;
+	border-left-style: solid;
+	border-bottom-style: none;
+	border-right-style: none;
+	padding: 4px;
+}
+.dxpgTotalCell_Blue
+{
+	background-color: #E6F1FE;
+}
+.dxpgGrandTotalCell_Blue
+{
+	background-color: #D2E7FE;
+}
+.dxpgRowGrandTotalCell_Blue
+{
+	background-color: #D2E7FE;
+}
+.dxpgColumnGrandTotalCell_Blue
+{
+	background-color: #D2E7FE;
+}
+.dxpgFilterWindow_Blue
+{
+	color: #FEFEFE;
+	font: 11px Tahoma;
+	border: solid 1px #4F93E3;
+}
+.dxpgFilterItemsArea_Blue
+{
+	color: Black;
+	background-color: #ffffff;
+}
+.dxpgFilterItem_Blue
+{
+	font: 11px Tahoma;
+}
+.dxpgFilterButton_Blue
+{
+	font: 11px Tahoma;
+	padding: 2px 6px;
+}
+.dxpgFilterButtonPanel_Blue
+{
+	font: 11px Tahoma;
+	background-color: #DBEBFD;
+	border: 1px solid #BDDFFF;
+	color: Black;
+}
+.dxpgLoadingDiv_Blue
+{
+	z-index: 4999;
+	background-color: White;
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	width: 0px;
+	height: 0px;
+}
+.dxpgTopPager_Blue
+{
+	border-top: none;
+	border-right: none;
+	border-left: none;
+	border-bottom: solid 1px #4F93E3;
+	padding: 0px 5px;
+}
+.dxpgBottomPager_Blue
+{
+	border-top: solid 1px #4F93E3;
+	border-bottom: none;
+	border-right: none;
+	border-left: none;
+	padding: 0px 5px;
+}
+.dxpgCustomizationFieldsHeader_Blue
+{
+	color: White;
+	font: 11px Tahoma;
+}
+.dxpgCustomizationFieldsContent_Blue
+{
+	padding: 0px !important;
+}
+.dxpgLoadingPanel_Blue
+{
+	font: 11px Tahoma;
+	color: #303030;
+	background-color: White;
+	border: solid 1px #4F93E3;
+	text-align: center;			
+	cursor: wait;
+}
+.dxpgLoadingPanel_Blue td.dx
+{
+	padding: 12px 12px 12px 12px;
+}
+
+/*SubMenu*/
+.dxmSubMenu_Blue a
+{
+	font: 8pt Tahoma;
+	color: #333333;
+	text-decoration: none;
+}
+.dxmSubMenu_Blue
+{
+	font: 8pt Tahoma;
+	color: #333333;
+	background-color:#F0F7FF;
+	border: solid 1px #ffffff;	
+
+	padding-top: 11px;
+	padding-right: 0px;
+	padding-bottom: 11px;
+	padding-left: 0px;		
+}
+.dxmSubMenuGutter_Blue
+{
+	background-color: #F0F7FF;
+}
+.dxmSubMenuSeparator_Blue
+{
+	background: Transparent url('mPopupSeparatorBack.gif') no-repeat; 	
+	background-position: left center;	
+	
+	padding-top: 7px;
+	padding-right: 14px;
+	padding-bottom: 7px;
+	padding-left: 19px;		 	
+}
+.dxmSubMenuItem_Blue, .dxmSubMenuItemWithImage_Blue, .dxmSubMenuItemWithPopOutImage_Blue, .dxmSubMenuItemWithImageWithPopOutImage_Blue
+{
+	font: 8pt Tahoma;
+	color: #333333;
+	white-space: nowrap;
+
+	padding-top: 3px;
+	padding-right: 23px;
+	padding-bottom: 4px;
+	padding-left: 19px;	
+}
+.dxmSubMenuItem_Blue, .dxmSubMenuItemWithImage_Blue
+{
+}
+.dxmSubMenuItemWithPopOutImage_Blue, .dxmSubMenuItemWithImageWithPopOutImage_Blue
+{
+}
+.dxmSubMenuItemSelected_Blue, .dxmSubMenuItemSelectedWithImage_Blue, .dxmSubMenuItemSelectedWithPopOutImage_Blue, .dxmSubMenuItemSelectedWithImageWithPopOutImage_Blue
+{
+	background-color: #51A3FD;
+	color: #ffffff;
+	border: 0px;
+
+	padding-top: 3px;
+	padding-right: 23px;
+	padding-bottom: 4px;
+	padding-left: 19px;		
+}
+.dxmSubMenuItemSelected_Blue, .dxmSubMenuItemSelectedWithImage_Blue
+{
+}
+.dxmSubMenuItemSelectedWithPopOutImage_Blue, .dxmSubMenuItemSelectedWithImageWithPopOutImage_Blue
+{
+}
+.dxmSubMenuItemHover_Blue, .dxmSubMenuItemHoverWithImage_Blue, .dxmSubMenuItemHoverWithPopOutImage_Blue, .dxmSubMenuItemHoverWithImageWithPopOutImage_Blue
+{
+	background-color: #D8EAFE;
+	color: #333333;
+	border: 0px;
+
+	padding-top: 3px;
+	padding-right: 23px;
+	padding-bottom: 4px;
+	padding-left: 19px;		
+}
+.dxmSubMenuItemHover_Blue, .dxmSubMenuItemHoverWithImage_Blue
+{
+}
+.dxmSubMenuItemHoverWithPopOutImage_Blue, .dxmSubMenuItemHoverWithImageWithPopOutImage_Blue
+{
+}
+.dxmSubMenuBorderCorrector_Blue
+{
+    position: absolute;
+    border: 0px;
+    padding: 0px;
+}
+
+/* -- ASPxPopupControl -- */
+.dxpcControl_Blue
+{
+	font: 8pt Tahoma;
+	color: black;
+	background-color: #ffffff;
+	border: solid 1px #5094E4;
+}
+.dxpcControl_Blue a
+{
+	color: #1E3695;
+}
+.dxpcCloseButton_Blue
+{
+	font: 8pt Tahoma;
+	color: black;
+}
+.dxpcCloseButtonHover_Blue
+{
+	font: 8pt Tahoma;
+	color: black;	
+}
+.dxpcContent_Blue
+{
+	font: 8pt Tahoma;
+	color: #5A5A5A;
+	background-color: #ffffff;
+	border-width: 0px;
+	white-space: normal;
+	padding: 12px 14px 27px 14px;	
+}
+.dxpcFooter_Blue
+{
+	font: 8pt Tahoma;
+	color: #5D90CD;
+	background-color: #DCECFE;
+	border-top: solid 1px #E0E0E0;
+	border-width: 0px;
+	border-top: solid 1px #BFDDFE;	
+}
+.dxpcFooter_Blue td.dxpc
+{
+	font: 8pt Tahoma;
+	color: #5D90CD;
+	white-space: nowrap;
+	padding: 6px 14px 8px 14px;
+}
+.dxpcHeader_Blue
+{
+	font: 8pt Tahoma;
+	color: #ffffff;
+	background-color: #93C6FE;
+	background-repeat: repeat-x;	    
+	background-image: url('pcHeaderBack.gif');
+	border-width: 0px;
+	border-bottom: solid 1px #82BCFE;
+}
+.dxpcHeader_Blue td.dxpc
+{	
+	font: 8pt Tahoma;
+	color: #ffffff;
+	white-space: nowrap;	
+	padding: 4px 0px 5px 2px;
+}
+
+

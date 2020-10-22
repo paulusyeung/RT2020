@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+<data name="btnRefresh.Text" p1:space="preserve" xmlns:p1="xml"><value>Seite erneuern</value></data><data name="btnExportResources.Text" p1:space="preserve" xmlns:p1="xml"><value>Export zu Resources</value></data><data name="lblLanguages.Text" p1:space="preserve" xmlns:p1="xml"><value>Sprachen:</value></data><data name="btnFileUpload.Text" p1:space="preserve" xmlns:p1="xml"><value>Heraufladen</value></data><data name="btnRecycleApp.Text" p1:space="preserve" xmlns:p1="xml"><value>Recyle</value></data><data name="btnRenameResourceSet.ToolTip" p1:space="preserve" xmlns:p1="xml"><value>Neuer Name</value></data><data name="btnRenameResourceSet.Text" p1:space="preserve" xmlns:p1="xml"><value>Neuer Name</value></data><data name="Page1.Title" p1:space="preserve" xmlns:p1="xml"><value>Übersetzungs Einstellungen</value></data><data name="lblPageHeader.Text" p1:space="preserve" xmlns:p1="xml"><value>Resource Übersetzung</value></data><data name="lblRenamedResourceSet.ToolTip" p1:space="preserve" xmlns:p1="xml"><value>Neuer Name</value></data><data name="imgRenameResourceSet.ToolTip" p1:space="preserve" xmlns:p1="xml"><value>Neuer Name für ResourceSet</value></data><data name="imgDeleteResourceSet.ToolTip" p1:space="preserve" xmlns:p1="xml"><value>ResourceSet löschen</value></data><data name="lblGoogle.Text" p1:space="preserve" xmlns:p1="xml"><value>Übersetzung mit Google:</value></data><data name="lblBabelFish.Text" p1:space="preserve" xmlns:p1="xml"><value>Übersetzung mit Yahoo/Babelfish:</value></data><data name="lblTranslateFrom.Text" p1:space="preserve" xmlns:p1="xml"><value>Von:</value></data><data name="lblTranslateTo.Text" p1:space="preserve" xmlns:p1="xml"><value>Zu:</value></data><data name="lblValue.Text" p1:space="preserve" xmlns:p1="xml"><value>Übersetzter Text:</value></data><data name="lblTranslateHeader.Text" p1:space="preserve" xmlns:p1="xml"><value>Web Service Übersetzung</value></data><data name="ResourceGenerationConfirmation" p1:space="preserve" xmlns:p1="xml"><value>Dieser Operation versucht Ihre Resources in standard .NET
+ResX Akten zu exportieren. Es erfordert, daß der WebServer Zugang hat um in die Netzverzeichnisse ZU SCHREIBEN.
+
+Möchten sie fortfahren?</value></data><data name="btnRefresh.ToolTip" p1:space="preserve" xmlns:p1="xml"><value>Seite erneuern</value></data><data name="btnRecycleApp.ToolTip" p1:space="preserve" xmlns:p1="xml"><value>Recyle Web Applikation</value></data><data name="btnSaveValue.Text" p1:space="preserve" xmlns:p1="xml"><value>Speichern</value></data><data name="btnDelete.Text" p1:space="preserve" xmlns:p1="xml"><value>Löschen</value></data><data name="btnTranslate.Text" p1:space="preserve" xmlns:p1="xml"><value>Übersetzen</value></data><data name="btnAddResourceDisplay.Text" p1:space="preserve" xmlns:p1="xml"><value>Neue Resource</value></data><data name="btnAddResourceDisplay.ToolTip" p1:space="preserve" xmlns:p1="xml"><value>Neue Resource erstellen (Alt-A)</value></data><data name="txtValue.ToolTip" p1:space="preserve" xmlns:p1="xml"><value>Übersetzter Text (Alt-V)</value></data><data name="lblNewLanguage.Text" p1:space="preserve" xmlns:p1="xml"><value>Sprache:</value></data><data name="lblNewValue.Text" p1:space="preserve" xmlns:p1="xml"><value>Übersetzter Text:</value></data><data name="btnAddValue.Text" p1:space="preserve" xmlns:p1="xml"><value>Neue Resource</value></data><data name="Yesterday" p1:space="preserve" xmlns:p1="xml"><value>Gestern</value></data><data name="Today" p1:space="preserve" xmlns:p1="xml"><value>Heute</value></data><data name="lblNewResourceHeader.Text" p1:space="preserve" xmlns:p1="xml"><value>Neue Resource erstellen</value></data><data name="lblTranslationInputText.Text" p1:space="preserve" xmlns:p1="xml"><value>Originaler Text:</value></data><data name="lblFileUpload.Text" p1:space="preserve" xmlns:p1="xml"><value>Akten Upload:</value></data><data name="btnExportResources.ToolTip" p1:space="preserve" xmlns:p1="xml"><value>ResX Resources erstellen</value></data><data name="ResourceSetRenamed" p1:space="preserve" xmlns:p1="xml"><value>ResourceSet umbenannt.</value></data><data name="NoMatchingLanguage" p1:space="preserve" xmlns:p1="xml"><value>Keine Sprache gefunden</value></data><data name="LoaderString" p1:space="preserve" xmlns:p1="xml"><value>akdljalksjdalksdj</value></data><data name="Ready" p1:space="preserve" xmlns:p1="xml"><value>Los</value></data><data name="NoResourcesAvailable" p1:space="preserve" xmlns:p1="xml"><value>Resources sind nicht vorhanden</value></data><data name="NoValueEntered" p1:space="preserve" xmlns:p1="xml"><value>Kein Wert wurde eingegeben.</value></data><data name="ResourceUpdateFailed" p1:space="preserve" xmlns:p1="xml"><value>Resource Schreiben hat nicht funktioniert.</value></data><data name="ResourceUpdated" p1:space="preserve" xmlns:p1="xml"><value>Resource gespeichert.</value></data><data name="ResourceGenerationComplete" p1:space="preserve" xmlns:p1="xml"><value>Resource Erzeugung erfolgreich durchgeführt.</value></data><data name="ResourceSetLoadingFailed" p1:space="preserve" xmlns:p1="xml"><value>ResourceSet konnte nicht geladen werden.</value></data><data name="Loading" p1:space="preserve" xmlns:p1="xml"><value>Laden</value></data><data name="LocalizationTableNotCreated" p1:space="preserve" xmlns:p1="xml"><value>Die Localizations Akte konnte nicht erstellt werden.</value></data><data name="LocalizationTableCreated" p1:space="preserve" xmlns:p1="xml"><value>Lokalisations Akte wurde erfolgreich erstellt.</value></data><data name="FeatureDisabled" p1:space="preserve" xmlns:p1="xml"><value>Diese Funktion ist nicht vorhanden im on-line Demo </value></data><data name="btnImport.Text" p1:space="preserve" xmlns:p1="xml"><value>Import aus Resourcen</value></data><data name="btnCreateTable.Text" p1:space="preserve" xmlns:p1="xml"><value>Neue Tabelle</value></data><data name="BackupComplete" p1:space="preserve" xmlns:p1="xml"><value>Der Backup führte erfolgreich durch</value></data><data name="BackupNotification" p1:space="preserve" xmlns:p1="xml"><value>Diese Operation macht einen Backup von der Lokalisationtabelle. 
+Möchten Sie fortfahren?</value></data><data name="BackupFailed" p1:space="preserve" xmlns:p1="xml"><value>Der Backup konnte nicht durchgeführt werden</value></data><data name="ResourceTableDoesntExist" p1:space="preserve" xmlns:p1="xml"><value>Die Resource Datei besteht noch nicht. Bitte erstellen Sie die Datei zuerst.</value></data><data name="btnRenameResourceKey.Text" p1:space="preserve" xmlns:p1="xml"><value>Umbenennen</value></data><data name="chkPropertyRename.Text" p1:space="preserve" xmlns:p1="xml"><value>Alle Eigenschaften umbenennen</value></data><data name="Close" p1:space="preserve" xmlns:p1="xml"><value>Schliessen</value></data><data name="InvalidResourceId" p1:space="preserve" xmlns:p1="xml"><value>Unzulässige ResourceId</value></data><data name="btnRename.Text" p1:space="preserve" xmlns:p1="xml"><value>Umbenennen</value></data><data name="lblRenameResourceHeader.Text" p1:space="preserve" xmlns:p1="xml"><value>Resource umbenennen</value></data><data name="lblResourceToRename_Label.Text" p1:space="preserve" xmlns:p1="xml"><value>Resource die umbennant werden soll:</value></data><data name="lblRenamedResource.Text" p1:space="preserve" xmlns:p1="xml"><value>Neuer Name für Resource:</value></data><data name="ResourceGenerationFailed" p1:space="preserve" xmlns:p1="xml"><value>Resource Erzeugung hat nicht funktioniert.</value></data><data name="AreYouSureYouWantToRemoveValue" p1:space="preserve" xmlns:p1="xml"><value>Sind Sie sicher dass Sie diesen Wert löschen wollen?</value></data></root>

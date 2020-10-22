@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <metadata name="Detail.Name" xml:space="preserve">
+    <value>Detail</value>
+  </metadata>
+  <metadata name="APP1COMBIN1.Name" xml:space="preserve">
+    <value>APP1COMBIN1</value>
+  </metadata>
+  <metadata name="StatusP1.Name" xml:space="preserve">
+    <value>StatusP1</value>
+  </metadata>
+  <metadata name="Text41.Name" xml:space="preserve">
+    <value>Text41</value>
+  </metadata>
+  <metadata name="Text40.Name" xml:space="preserve">
+    <value>Text40</value>
+  </metadata>
+  <metadata name="Text39.Name" xml:space="preserve">
+    <value>Text39</value>
+  </metadata>
+  <metadata name="Text38.Name" xml:space="preserve">
+    <value>Text38</value>
+  </metadata>
+  <metadata name="VPRC1.Name" xml:space="preserve">
+    <value>VPRC1</value>
+  </metadata>
+  <metadata name="VCURR1.Name" xml:space="preserve">
+    <value>VCURR1</value>
+  </metadata>
+  <metadata name="WHLPRC1.Name" xml:space="preserve">
+    <value>WHLPRC1</value>
+  </metadata>
+  <metadata name="BASPRC1.Name" xml:space="preserve">
+    <value>BASPRC1</value>
+  </metadata>
+  <metadata name="CLASS61.Name" xml:space="preserve">
+    <value>CLASS61</value>
+  </metadata>
+  <metadata name="CLASS41.Name" xml:space="preserve">
+    <value>CLASS41</value>
+  </metadata>
+  <metadata name="DATECREATE1.Name" xml:space="preserve">
+    <value>DATECREATE1</value>
+  </metadata>
+  <metadata name="MAINUNIT1.Name" xml:space="preserve">
+    <value>MAINUNIT1</value>
+  </metadata>
+  <metadata name="DESC1.Name" xml:space="preserve">
+    <value>DESC1</value>
+  </metadata>
+  <metadata name="CLASS51.Name" xml:space="preserve">
+    <value>CLASS51</value>
+  </metadata>
+  <metadata name="CLASS31.Name" xml:space="preserve">
+    <value>CLASS31</value>
+  </metadata>
+  <metadata name="CLASS21.Name" xml:space="preserve">
+    <value>CLASS21</value>
+  </metadata>
+  <metadata name="CLASS11.Name" xml:space="preserve">
+    <value>CLASS11</value>
+  </metadata>
+  <metadata name="APP3COMBIN1.Name" xml:space="preserve">
+    <value>APP3COMBIN1</value>
+  </metadata>
+  <metadata name="APP2COMBIN1.Name" xml:space="preserve">
+    <value>APP2COMBIN1</value>
+  </metadata>
+  <metadata name="STKCODE1.Name" xml:space="preserve">
+    <value>STKCODE1</value>
+  </metadata>
+  <metadata name="oleDbDataAdapter1.Name" xml:space="preserve">
+    <value>oleDbDataAdapter1</value>
+  </metadata>
+  <metadata name="oleDbDataAdapter1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
+  <metadata name="oleDbCommand1.Name" xml:space="preserve">
+    <value>oleDbCommand1</value>
+  </metadata>
+  <metadata name="oleDbCommand1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>165, 17</value>
+  </metadata>
+  <metadata name="oleDbConnection1.Name" xml:space="preserve">
+    <value>oleDbConnection1</value>
+  </metadata>
+  <metadata name="oleDbConnection1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>302, 17</value>
+  </metadata>
+  <metadata name="GroupHeader1.Name" xml:space="preserve">
+    <value>GroupHeader1</value>
+  </metadata>
+  <metadata name="GroupFooter1.Name" xml:space="preserve">
+    <value>GroupFooter1</value>
+  </metadata>
+  <metadata name="ReportHeader.Name" xml:space="preserve">
+    <value>ReportHeader</value>
+  </metadata>
+  <metadata name="hdrCompName1.Name" xml:space="preserve">
+    <value>hdrCompName1</value>
+  </metadata>
+  <metadata name="PrintTime1.Name" xml:space="preserve">
+    <value>PrintTime1</value>
+  </metadata>
+  <metadata name="hdrStkCode1.Name" xml:space="preserve">
+    <value>hdrStkCode1</value>
+  </metadata>
+  <metadata name="Line1.Name" xml:space="preserve">
+    <value>Line1</value>
+  </metadata>
+  <metadata name="App3c1.Name" xml:space="preserve">
+    <value>App3c1</value>
+  </metadata>
+  <metadata name="App2C1.Name" xml:space="preserve">
+    <value>App2C1</value>
+  </metadata>
+  <metadata name="App1C1.Name" xml:space="preserve">
+    <value>App1C1</value>
+  </metadata>
+  <metadata name="Text15.Name" xml:space="preserve">
+    <value>Text15</value>
+  </metadata>
+  <metadata name="Text14.Name" xml:space="preserve">
+    <value>Text14</value>
+  </metadata>
+  <metadata name="Text13.Name" xml:space="preserve">
+    <value>Text13</value>
+  </metadata>
+  <metadata name="Text11.Name" xml:space="preserve">
+    <value>Text11</value>
+  </metadata>
+  <metadata name="Text10.Name" xml:space="preserve">
+    <value>Text10</value>
+  </metadata>
+  <metadata name="Text9.Name" xml:space="preserve">
+    <value>Text9</value>
+  </metadata>
+  <metadata name="Text8.Name" xml:space="preserve">
+    <value>Text8</value>
+  </metadata>
+  <metadata name="Text7.Name" xml:space="preserve">
+    <value>Text7</value>
+  </metadata>
+  <metadata name="Text6.Name" xml:space="preserve">
+    <value>Text6</value>
+  </metadata>
+  <metadata name="TotalPageCount1.Name" xml:space="preserve">
+    <value>TotalPageCount1</value>
+  </metadata>
+  <metadata name="PageNumber1.Name" xml:space="preserve">
+    <value>PageNumber1</value>
+  </metadata>
+  <metadata name="Text5.Name" xml:space="preserve">
+    <value>Text5</value>
+  </metadata>
+  <metadata name="Text4.Name" xml:space="preserve">
+    <value>Text4</value>
+  </metadata>
+  <metadata name="PrintDate1.Name" xml:space="preserve">
+    <value>PrintDate1</value>
+  </metadata>
+  <metadata name="Text3.Name" xml:space="preserve">
+    <value>Text3</value>
+  </metadata>
+  <metadata name="Text2.Name" xml:space="preserve">
+    <value>Text2</value>
+  </metadata>
+  <metadata name="Text1.Name" xml:space="preserve">
+    <value>Text1</value>
+  </metadata>
+  <metadata name="Text12.Name" xml:space="preserve">
+    <value>Text12</value>
+  </metadata>
+  <metadata name="PageHeader.Name" xml:space="preserve">
+    <value>PageHeader</value>
+  </metadata>
+  <metadata name="ReportFooter.Name" xml:space="preserve">
+    <value>ReportFooter</value>
+  </metadata>
+  <metadata name="Line2.Name" xml:space="preserve">
+    <value>Line2</value>
+  </metadata>
+  <metadata name="endofreport1.Name" xml:space="preserve">
+    <value>endofreport1</value>
+  </metadata>
+  <metadata name="PageFooter.Name" xml:space="preserve">
+    <value>PageFooter</value>
+  </metadata>
+  <metadata name="Class62.Name" xml:space="preserve">
+    <value>Class62</value>
+  </metadata>
+  <metadata name="Class52.Name" xml:space="preserve">
+    <value>Class52</value>
+  </metadata>
+  <metadata name="Class42.Name" xml:space="preserve">
+    <value>Class42</value>
+  </metadata>
+  <metadata name="Class32.Name" xml:space="preserve">
+    <value>Class32</value>
+  </metadata>
+  <metadata name="Class22.Name" xml:space="preserve">
+    <value>Class22</value>
+  </metadata>
+  <metadata name="Class12.Name" xml:space="preserve">
+    <value>Class12</value>
+  </metadata>
+  <metadata name="Text57.Name" xml:space="preserve">
+    <value>Text57</value>
+  </metadata>
+  <metadata name="Text56.Name" xml:space="preserve">
+    <value>Text56</value>
+  </metadata>
+  <metadata name="Text55.Name" xml:space="preserve">
+    <value>Text55</value>
+  </metadata>
+  <metadata name="Text54.Name" xml:space="preserve">
+    <value>Text54</value>
+  </metadata>
+  <metadata name="Text53.Name" xml:space="preserve">
+    <value>Text53</value>
+  </metadata>
+  <metadata name="Text52.Name" xml:space="preserve">
+    <value>Text52</value>
+  </metadata>
+  <metadata name="$this.Name" xml:space="preserve">
+    <value>CM1520c</value>
+  </metadata>
+</root>

@@ -1,0 +1,71 @@
+﻿2013.07.10 paulus
+
+1. 在 dbo.RT2020 增加一個 table, Sql Script:
+
+CREATE TABLE [Log4Net] (
+       [Id]        [int] IDENTITY (1, 1) NOT NULL ,
+       [Date]      [datetime]            NOT NULL ,
+       [Thread]    [varchar] (255)       NOT NULL ,
+       [Level]     [varchar] (50)        NOT NULL ,
+       [Logger]    [varchar] (255)       NOT NULL ,
+       [Message]   [nvarchar] (4000)     NOT NULL ,
+       [Exception] [varchar] (2000)      NULL
+)
+
+2. 如果採用外置 log4net.config，可以跳過此步。
+
+   In the beginning of your config file right after the <configuration> section you insert a ConfigSections,
+   it is important that this section is the first section after the <configuration>.
+
+<configuration>
+   <configSections>
+      <section name="log4net" type="System.Configuration.IgnoreSectionHandler"/>
+</configSections>
+
+   This tells the .NET framework that log4net will handle parsing and interception of the log4net configuration.
+
+   Then you insert the log4net configuration section, I prefer to put this section in the end of the config file,
+   just before the </configuration> end tag.
+
+3. 在 AssemblyInfo.cs 增加
+
+[assembly: log4net.Config.XmlConfigurator(Watch=true)]
+
+目前是採用外置 log4net.config 檔案：
+
+[assembly: log4net.Config.XmlConfigurator(ConfigFile = "log4net.config", Watch = true)]
+
+4. Troubleshoot log4net
+
+   在 web.config appSettings 增加
+   
+   <add key="log4net.Internal.Debug" value="true"/>
+   
+   同時，在 system.diagnostics 增加
+   
+   <trace autoflush="true">
+      <listeners>
+        <add
+            name="textWriterTraceListener"
+            type="System.Diagnostics.TextWriterTraceListener"
+            initializeData="c:\temp\log4net.txt" />
+      </listeners>
+   </trace>
+   
+5. Usage examples:
+
+xPort3.Controls.Log4net.LogInfo(xPort3.Controls.Log4net.LogAction.Login, this.ToString());
+xPort3.Controls.Log4net.LogInfo(xPort3.Controls.Log4net.LogAction.Read, oUser.ToString());
+
+6. 設定自動刪除過期的 log：
+
+    <commandText>
+      <![CDATA[INSERT INTO Log4Net ([Date],[Thread],[Level],[Logger],[Message],[Exception])
+             VALUES (@log_date, @thread, @log_level, @logger, @message, @exception);
+             DELETE FROM Log4Net WHERE Date < DATEADD(Day, -1, GETDATE())]]>
+    </commandText>
+
+   可以通過改變 log4net.config 的 <commandText> 達成，上面的 statement 每當 INSERT 時會順道取消一日前的 records.
+   原本的 commandText 是：
+   
+   <commandText value="INSERT INTO Log4Net ([Date], [Thread], [Level], [Logger], [Message], [Exception]) VALUES (@log_date, @thread, @log_level, @logger, @message, @exception)"/>

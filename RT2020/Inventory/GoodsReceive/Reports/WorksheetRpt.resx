@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <metadata name="Detail.Name" xml:space="preserve">
+    <value>Detail</value>
+  </metadata>
+  <metadata name="rptDetails.Name" xml:space="preserve">
+    <value>rptDetails</value>
+  </metadata>
+  <metadata name="GroupHeader1.Name" xml:space="preserve">
+    <value>GroupHeader1</value>
+  </metadata>
+  <metadata name="txtHeaderId.Name" xml:space="preserve">
+    <value>txtHeaderId</value>
+  </metadata>
+  <metadata name="Text31.Name" xml:space="preserve">
+    <value>Text31</value>
+  </metadata>
+  <metadata name="lblSupplierReference.Name" xml:space="preserve">
+    <value>lblSupplierReference</value>
+  </metadata>
+  <metadata name="txtSupplierReference.Name" xml:space="preserve">
+    <value>txtSupplierReference</value>
+  </metadata>
+  <metadata name="txtModifiedOn.Name" xml:space="preserve">
+    <value>txtModifiedOn</value>
+  </metadata>
+  <metadata name="lblModifiedOn.Name" xml:space="preserve">
+    <value>lblModifiedOn</value>
+  </metadata>
+  <metadata name="lblModifiedBy.Name" xml:space="preserve">
+    <value>lblModifiedBy</value>
+  </metadata>
+  <metadata name="txtModifiedBy.Name" xml:space="preserve">
+    <value>txtModifiedBy</value>
+  </metadata>
+  <metadata name="txtSupplierName.Name" xml:space="preserve">
+    <value>txtSupplierName</value>
+  </metadata>
+  <metadata name="Text27.Name" xml:space="preserve">
+    <value>Text27</value>
+  </metadata>
+  <metadata name="lblSupplierCode.Name" xml:space="preserve">
+    <value>lblSupplierCode</value>
+  </metadata>
+  <metadata name="txtSupplierCode.Name" xml:space="preserve">
+    <value>txtSupplierCode</value>
+  </metadata>
+  <metadata name="lblRemarks.Name" xml:space="preserve">
+    <value>lblRemarks</value>
+  </metadata>
+  <metadata name="Text24.Name" xml:space="preserve">
+    <value>Text24</value>
+  </metadata>
+  <metadata name="txtRemarks.Name" xml:space="preserve">
+    <value>txtRemarks</value>
+  </metadata>
+  <metadata name="Text23.Name" xml:space="preserve">
+    <value>Text23</value>
+  </metadata>
+  <metadata name="lblTxDate.Name" xml:space="preserve">
+    <value>lblTxDate</value>
+  </metadata>
+  <metadata name="txtTxDate.Name" xml:space="preserve">
+    <value>txtTxDate</value>
+  </metadata>
+  <metadata name="txtLocationName.Name" xml:space="preserve">
+    <value>txtLocationName</value>
+  </metadata>
+  <metadata name="lblLocation.Name" xml:space="preserve">
+    <value>lblLocation</value>
+  </metadata>
+  <metadata name="Text20.Name" xml:space="preserve">
+    <value>Text20</value>
+  </metadata>
+  <metadata name="txtLocationCode.Name" xml:space="preserve">
+    <value>txtLocationCode</value>
+  </metadata>
+  <metadata name="txtReference.Name" xml:space="preserve">
+    <value>txtReference</value>
+  </metadata>
+  <metadata name="lblReference.Name" xml:space="preserve">
+    <value>lblReference</value>
+  </metadata>
+  <metadata name="Text18.Name" xml:space="preserve">
+    <value>Text18</value>
+  </metadata>
+  <metadata name="txtOperatorName.Name" xml:space="preserve">
+    <value>txtOperatorName</value>
+  </metadata>
+  <metadata name="lblTxNumber.Name" xml:space="preserve">
+    <value>lblTxNumber</value>
+  </metadata>
+  <metadata name="lblOpertor.Name" xml:space="preserve">
+    <value>lblOpertor</value>
+  </metadata>
+  <metadata name="Text15.Name" xml:space="preserve">
+    <value>Text15</value>
+  </metadata>
+  <metadata name="txtOperatorCode.Name" xml:space="preserve">
+    <value>txtOperatorCode</value>
+  </metadata>
+  <metadata name="txtTxNumber.Name" xml:space="preserve">
+    <value>txtTxNumber</value>
+  </metadata>
+  <metadata name="Text14.Name" xml:space="preserve">
+    <value>Text14</value>
+  </metadata>
+  <metadata name="GroupHeader2.Name" xml:space="preserve">
+    <value>GroupHeader2</value>
+  </metadata>
+  <metadata name="GroupHeader3.Name" xml:space="preserve">
+    <value>GroupHeader3</value>
+  </metadata>
+  <metadata name="GroupHeader4.Name" xml:space="preserve">
+    <value>GroupHeader4</value>
+  </metadata>
+  <metadata name="GroupFooter1.Name" xml:space="preserve">
+    <value>GroupFooter1</value>
+  </metadata>
+  <metadata name="lblAccuTotal.Name" xml:space="preserve">
+    <value>lblAccuTotal</value>
+  </metadata>
+  <metadata name="gfTotalAmount.Name" xml:space="preserve">
+    <value>gfTotalAmount</value>
+  </metadata>
+  <metadata name="gfTotalQty.Name" xml:space="preserve">
+    <value>gfTotalQty</value>
+  </metadata>
+  <metadata name="GroupFooter2.Name" xml:space="preserve">
+    <value>GroupFooter2</value>
+  </metadata>
+  <metadata name="GroupFooter3.Name" xml:space="preserve">
+    <value>GroupFooter3</value>
+  </metadata>
+  <metadata name="GroupFooter4.Name" xml:space="preserve">
+    <value>GroupFooter4</value>
+  </metadata>
+  <metadata name="ReportHeader.Name" xml:space="preserve">
+    <value>ReportHeader</value>
+  </metadata>
+  <metadata name="PageHeader.Name" xml:space="preserve">
+    <value>PageHeader</value>
+  </metadata>
+  <metadata name="pnlPageInfo.Name" xml:space="preserve">
+    <value>pnlPageInfo</value>
+  </metadata>
+  <metadata name="phPageNumber.Name" xml:space="preserve">
+    <value>phPageNumber</value>
+  </metadata>
+  <metadata name="phDateTime.Name" xml:space="preserve">
+    <value>phDateTime</value>
+  </metadata>
+  <metadata name="lblPage.Name" xml:space="preserve">
+    <value>lblPage</value>
+  </metadata>
+  <metadata name="lblPrintedOn.Name" xml:space="preserve">
+    <value>lblPrintedOn</value>
+  </metadata>
+  <metadata name="phAppendix3.Name" xml:space="preserve">
+    <value>phAppendix3</value>
+  </metadata>
+  <metadata name="phAppendix2.Name" xml:space="preserve">
+    <value>phAppendix2</value>
+  </metadata>
+  <metadata name="phAppendix1.Name" xml:space="preserve">
+    <value>phAppendix1</value>
+  </metadata>
+  <metadata name="phStkCode.Name" xml:space="preserve">
+    <value>phStkCode</value>
+  </metadata>
+  <metadata name="Line1.Name" xml:space="preserve">
+    <value>Line1</value>
+  </metadata>
+  <metadata name="hdrCompName1.Name" xml:space="preserve">
+    <value>hdrCompName1</value>
+  </metadata>
+  <metadata name="txtTxDateFrom.Name" xml:space="preserve">
+    <value>txtTxDateFrom</value>
+  </metadata>
+  <metadata name="txtTxDateTo.Name" xml:space="preserve">
+    <value>txtTxDateTo</value>
+  </metadata>
+  <metadata name="lblTxDateTo.Name" xml:space="preserve">
+    <value>lblTxDateTo</value>
+  </metadata>
+  <metadata name="lblTxDateFrom.Name" xml:space="preserve">
+    <value>lblTxDateFrom</value>
+  </metadata>
+  <metadata name="lblQty.Name" xml:space="preserve">
+    <value>lblQty</value>
+  </metadata>
+  <metadata name="lblUnitAmount.Name" xml:space="preserve">
+    <value>lblUnitAmount</value>
+  </metadata>
+  <metadata name="lblDescription.Name" xml:space="preserve">
+    <value>lblDescription</value>
+  </metadata>
+  <metadata name="lblAmount.Name" xml:space="preserve">
+    <value>lblAmount</value>
+  </metadata>
+  <metadata name="txtTxNumberTo.Name" xml:space="preserve">
+    <value>txtTxNumberTo</value>
+  </metadata>
+  <metadata name="txtTxNumberFrom.Name" xml:space="preserve">
+    <value>txtTxNumberFrom</value>
+  </metadata>
+  <metadata name="lblTxNumberTo.Name" xml:space="preserve">
+    <value>lblTxNumberTo</value>
+  </metadata>
+  <metadata name="lblTxNumberFrom.Name" xml:space="preserve">
+    <value>lblTxNumberFrom</value>
+  </metadata>
+  <metadata name="Text3.Name" xml:space="preserve">
+    <value>Text3</value>
+  </metadata>
+  <metadata name="ReportFooter.Name" xml:space="preserve">
+    <value>ReportFooter</value>
+  </metadata>
+  <metadata name="PageFooter.Name" xml:space="preserve">
+    <value>PageFooter</value>
+  </metadata>
+  <metadata name="$this.Name" xml:space="preserve">
+    <value>WorksheetRpt</value>
+  </metadata>
+</root>

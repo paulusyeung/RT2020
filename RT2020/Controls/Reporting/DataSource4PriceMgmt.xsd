@@ -1,0 +1,409 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="RT2020.Controls.Reporting.DataSource4PriceMgmt" targetNamespace="http://tempuri.org/DataSource4PriceMgmt.xsd" xmlns:mstns="http://tempuri.org/DataSource4PriceMgmt.xsd" xmlns="http://tempuri.org/DataSource4PriceMgmt.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections>
+          <Connection AppSettingsObjectName="Web.config" AppSettingsPropertyName="SysDb" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="SysDb (Web.config)" ParameterPrefix="@" PropertyReference="AppConfig.System.Configuration.ConfigurationManager.0.ConnectionStrings.SysDb.ConnectionString" Provider="System.Data.SqlClient" />
+        </Connections>
+        <Tables>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="vwRptActivePriceMgmtTableAdapter" GeneratorDataComponentClassName="vwRptActivePriceMgmtTableAdapter" Name="vwRptActivePriceMgmt" UserDataComponentName="vwRptActivePriceMgmtTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="SysDb (Web.config)" DbObjectName="RT2020.dbo.vwRptActivePriceMgmt" DbObjectType="View" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>SELECT     STKCODE, APPENDIX1, APPENDIX2, APPENDIX3, ProductName, CLASS1, CLASS2, CLASS3, CLASS4, CLASS5, CLASS6, Markup, NewDisc, OldDisc, 
+                      RetailPrice, TxType, TxNumber, OldPrice, NewPrice, OldMarkUp, NewMarkUp, AverageCost, EffectDate, Remarks, CreatedOn, ModifiedOn, 
+                      ReasonCode, ReasonName, PM_TYPE, ModifiedBy, PostedOn
+FROM         vwRptActivePriceMgmt</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="STKCODE" DataSetColumn="STKCODE" />
+              <Mapping SourceColumn="APPENDIX1" DataSetColumn="APPENDIX1" />
+              <Mapping SourceColumn="APPENDIX2" DataSetColumn="APPENDIX2" />
+              <Mapping SourceColumn="APPENDIX3" DataSetColumn="APPENDIX3" />
+              <Mapping SourceColumn="ProductName" DataSetColumn="ProductName" />
+              <Mapping SourceColumn="CLASS1" DataSetColumn="CLASS1" />
+              <Mapping SourceColumn="CLASS2" DataSetColumn="CLASS2" />
+              <Mapping SourceColumn="CLASS3" DataSetColumn="CLASS3" />
+              <Mapping SourceColumn="CLASS4" DataSetColumn="CLASS4" />
+              <Mapping SourceColumn="CLASS5" DataSetColumn="CLASS5" />
+              <Mapping SourceColumn="CLASS6" DataSetColumn="CLASS6" />
+              <Mapping SourceColumn="Markup" DataSetColumn="Markup" />
+              <Mapping SourceColumn="NewDisc" DataSetColumn="NewDisc" />
+              <Mapping SourceColumn="OldDisc" DataSetColumn="OldDisc" />
+              <Mapping SourceColumn="RetailPrice" DataSetColumn="RetailPrice" />
+              <Mapping SourceColumn="TxType" DataSetColumn="TxType" />
+              <Mapping SourceColumn="TxNumber" DataSetColumn="TxNumber" />
+              <Mapping SourceColumn="OldPrice" DataSetColumn="OldPrice" />
+              <Mapping SourceColumn="NewPrice" DataSetColumn="NewPrice" />
+              <Mapping SourceColumn="OldMarkUp" DataSetColumn="OldMarkUp" />
+              <Mapping SourceColumn="NewMarkUp" DataSetColumn="NewMarkUp" />
+              <Mapping SourceColumn="AverageCost" DataSetColumn="AverageCost" />
+              <Mapping SourceColumn="EffectDate" DataSetColumn="EffectDate" />
+              <Mapping SourceColumn="Remarks" DataSetColumn="Remarks" />
+              <Mapping SourceColumn="CreatedOn" DataSetColumn="CreatedOn" />
+              <Mapping SourceColumn="ModifiedOn" DataSetColumn="ModifiedOn" />
+              <Mapping SourceColumn="ReasonCode" DataSetColumn="ReasonCode" />
+              <Mapping SourceColumn="ReasonName" DataSetColumn="ReasonName" />
+              <Mapping SourceColumn="PM_TYPE" DataSetColumn="PM_TYPE" />
+              <Mapping SourceColumn="ModifiedBy" DataSetColumn="ModifiedBy" />
+              <Mapping SourceColumn="PostedOn" DataSetColumn="PostedOn" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="vwRptBatchPriceMgmtTableAdapter" GeneratorDataComponentClassName="vwRptBatchPriceMgmtTableAdapter" Name="vwRptBatchPriceMgmt" UserDataComponentName="vwRptBatchPriceMgmtTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="SysDb (Web.config)" DbObjectName="RT2020.dbo.vwRptBatchPriceMgmt" DbObjectType="View" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>SELECT     STKCODE, APPENDIX1, APPENDIX2, APPENDIX3, ProductName, CLASS1, CLASS2, CLASS3, CLASS4, CLASS5, CLASS6, Markup, NewDisc, OldDisc, 
+                      RetailPrice, TxType, TxNumber, OldPrice, NewPrice, OldMarkUp, NewMarkUp, AverageCost, EffectDate, Remarks, CreatedOn, ModifiedOn, 
+                      ReasonCode, ReasonName, PM_TYPE, ModifiedBy, PostedOn
+FROM         vwRptBatchPriceMgmt</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="STKCODE" DataSetColumn="STKCODE" />
+              <Mapping SourceColumn="APPENDIX1" DataSetColumn="APPENDIX1" />
+              <Mapping SourceColumn="APPENDIX2" DataSetColumn="APPENDIX2" />
+              <Mapping SourceColumn="APPENDIX3" DataSetColumn="APPENDIX3" />
+              <Mapping SourceColumn="ProductName" DataSetColumn="ProductName" />
+              <Mapping SourceColumn="CLASS1" DataSetColumn="CLASS1" />
+              <Mapping SourceColumn="CLASS2" DataSetColumn="CLASS2" />
+              <Mapping SourceColumn="CLASS3" DataSetColumn="CLASS3" />
+              <Mapping SourceColumn="CLASS4" DataSetColumn="CLASS4" />
+              <Mapping SourceColumn="CLASS5" DataSetColumn="CLASS5" />
+              <Mapping SourceColumn="CLASS6" DataSetColumn="CLASS6" />
+              <Mapping SourceColumn="Markup" DataSetColumn="Markup" />
+              <Mapping SourceColumn="NewDisc" DataSetColumn="NewDisc" />
+              <Mapping SourceColumn="OldDisc" DataSetColumn="OldDisc" />
+              <Mapping SourceColumn="RetailPrice" DataSetColumn="RetailPrice" />
+              <Mapping SourceColumn="TxType" DataSetColumn="TxType" />
+              <Mapping SourceColumn="TxNumber" DataSetColumn="TxNumber" />
+              <Mapping SourceColumn="OldPrice" DataSetColumn="OldPrice" />
+              <Mapping SourceColumn="NewPrice" DataSetColumn="NewPrice" />
+              <Mapping SourceColumn="OldMarkUp" DataSetColumn="OldMarkUp" />
+              <Mapping SourceColumn="NewMarkUp" DataSetColumn="NewMarkUp" />
+              <Mapping SourceColumn="AverageCost" DataSetColumn="AverageCost" />
+              <Mapping SourceColumn="EffectDate" DataSetColumn="EffectDate" />
+              <Mapping SourceColumn="Remarks" DataSetColumn="Remarks" />
+              <Mapping SourceColumn="CreatedOn" DataSetColumn="CreatedOn" />
+              <Mapping SourceColumn="ModifiedOn" DataSetColumn="ModifiedOn" />
+              <Mapping SourceColumn="ReasonCode" DataSetColumn="ReasonCode" />
+              <Mapping SourceColumn="ReasonName" DataSetColumn="ReasonName" />
+              <Mapping SourceColumn="PM_TYPE" DataSetColumn="PM_TYPE" />
+              <Mapping SourceColumn="ModifiedBy" DataSetColumn="ModifiedBy" />
+              <Mapping SourceColumn="PostedOn" DataSetColumn="PostedOn" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
+        </Tables>
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="RT2020.Controls.Reporting.DataSource4PriceMgmt" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_UserDSName="RT2020.Controls.Reporting.DataSource4PriceMgmt" msprop:Generator_DataSetName="_RT2020_Controls_Reporting_DataSource4PriceMgmt" msprop:EnableTableAdapterManager="true">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="vwRptActivePriceMgmt" msprop:Generator_UserTableName="vwRptActivePriceMgmt" msprop:Generator_RowDeletedName="vwRptActivePriceMgmtRowDeleted" msprop:Generator_RowChangedName="vwRptActivePriceMgmtRowChanged" msprop:Generator_RowClassName="vwRptActivePriceMgmtRow" msprop:Generator_RowChangingName="vwRptActivePriceMgmtRowChanging" msprop:Generator_RowEvArgName="vwRptActivePriceMgmtRowChangeEvent" msprop:Generator_RowEvHandlerName="vwRptActivePriceMgmtRowChangeEventHandler" msprop:Generator_TableClassName="vwRptActivePriceMgmtDataTable" msprop:Generator_TableVarName="tablevwRptActivePriceMgmt" msprop:Generator_RowDeletingName="vwRptActivePriceMgmtRowDeleting" msprop:Generator_TablePropName="vwRptActivePriceMgmt">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="STKCODE" msprop:Generator_UserColumnName="STKCODE" msprop:Generator_ColumnVarNameInTable="columnSTKCODE" msprop:Generator_ColumnPropNameInRow="STKCODE" msprop:Generator_ColumnPropNameInTable="STKCODEColumn" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="10" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="APPENDIX1" msprop:Generator_UserColumnName="APPENDIX1" msprop:Generator_ColumnVarNameInTable="columnAPPENDIX1" msprop:Generator_ColumnPropNameInRow="APPENDIX1" msprop:Generator_ColumnPropNameInTable="APPENDIX1Column" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="4" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="APPENDIX2" msprop:Generator_UserColumnName="APPENDIX2" msprop:Generator_ColumnVarNameInTable="columnAPPENDIX2" msprop:Generator_ColumnPropNameInRow="APPENDIX2" msprop:Generator_ColumnPropNameInTable="APPENDIX2Column" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="4" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="APPENDIX3" msprop:Generator_UserColumnName="APPENDIX3" msprop:Generator_ColumnVarNameInTable="columnAPPENDIX3" msprop:Generator_ColumnPropNameInRow="APPENDIX3" msprop:Generator_ColumnPropNameInTable="APPENDIX3Column" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="4" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="ProductName" msprop:Generator_UserColumnName="ProductName" msprop:Generator_ColumnVarNameInTable="columnProductName" msprop:Generator_ColumnPropNameInRow="ProductName" msprop:Generator_ColumnPropNameInTable="ProductNameColumn" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="64" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="CLASS1" msprop:Generator_UserColumnName="CLASS1" msprop:Generator_ColumnVarNameInTable="columnCLASS1" msprop:Generator_ColumnPropNameInRow="CLASS1" msprop:Generator_ColumnPropNameInTable="CLASS1Column" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="6" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="CLASS2" msprop:Generator_UserColumnName="CLASS2" msprop:Generator_ColumnVarNameInTable="columnCLASS2" msprop:Generator_ColumnPropNameInRow="CLASS2" msprop:Generator_ColumnPropNameInTable="CLASS2Column" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="6" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="CLASS3" msprop:Generator_UserColumnName="CLASS3" msprop:Generator_ColumnVarNameInTable="columnCLASS3" msprop:Generator_ColumnPropNameInRow="CLASS3" msprop:Generator_ColumnPropNameInTable="CLASS3Column" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="6" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="CLASS4" msprop:Generator_UserColumnName="CLASS4" msprop:Generator_ColumnVarNameInTable="columnCLASS4" msprop:Generator_ColumnPropNameInRow="CLASS4" msprop:Generator_ColumnPropNameInTable="CLASS4Column" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="6" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="CLASS5" msprop:Generator_UserColumnName="CLASS5" msprop:Generator_ColumnVarNameInTable="columnCLASS5" msprop:Generator_ColumnPropNameInRow="CLASS5" msprop:Generator_ColumnPropNameInTable="CLASS5Column" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="6" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="CLASS6" msprop:Generator_UserColumnName="CLASS6" msprop:Generator_ColumnVarNameInTable="columnCLASS6" msprop:Generator_ColumnPropNameInRow="CLASS6" msprop:Generator_ColumnPropNameInTable="CLASS6Column" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="6" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Markup" msprop:Generator_UserColumnName="Markup" msprop:Generator_ColumnVarNameInTable="columnMarkup" msprop:Generator_ColumnPropNameInRow="Markup" msprop:Generator_ColumnPropNameInTable="MarkupColumn" type="xs:decimal" minOccurs="0" />
+              <xs:element name="NewDisc" msprop:Generator_UserColumnName="NewDisc" msprop:Generator_ColumnVarNameInTable="columnNewDisc" msprop:Generator_ColumnPropNameInRow="NewDisc" msprop:Generator_ColumnPropNameInTable="NewDiscColumn" type="xs:decimal" minOccurs="0" />
+              <xs:element name="OldDisc" msdata:ReadOnly="true" msprop:Generator_UserColumnName="OldDisc" msprop:Generator_ColumnVarNameInTable="columnOldDisc" msprop:Generator_ColumnPropNameInRow="OldDisc" msprop:Generator_ColumnPropNameInTable="OldDiscColumn" type="xs:decimal" minOccurs="0" />
+              <xs:element name="RetailPrice" msprop:Generator_UserColumnName="RetailPrice" msprop:Generator_ColumnVarNameInTable="columnRetailPrice" msprop:Generator_ColumnPropNameInRow="RetailPrice" msprop:Generator_ColumnPropNameInTable="RetailPriceColumn" type="xs:decimal" minOccurs="0" />
+              <xs:element name="TxType" msprop:Generator_UserColumnName="TxType" msprop:Generator_ColumnVarNameInTable="columnTxType" msprop:Generator_ColumnPropNameInRow="TxType" msprop:Generator_ColumnPropNameInTable="TxTypeColumn" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="3" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="TxNumber" msprop:Generator_UserColumnName="TxNumber" msprop:Generator_ColumnVarNameInTable="columnTxNumber" msprop:Generator_ColumnPropNameInRow="TxNumber" msprop:Generator_ColumnPropNameInTable="TxNumberColumn">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="12" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="OldPrice" msprop:Generator_UserColumnName="OldPrice" msprop:Generator_ColumnVarNameInTable="columnOldPrice" msprop:Generator_ColumnPropNameInRow="OldPrice" msprop:Generator_ColumnPropNameInTable="OldPriceColumn" type="xs:decimal" minOccurs="0" />
+              <xs:element name="NewPrice" msprop:Generator_UserColumnName="NewPrice" msprop:Generator_ColumnVarNameInTable="columnNewPrice" msprop:Generator_ColumnPropNameInRow="NewPrice" msprop:Generator_ColumnPropNameInTable="NewPriceColumn" type="xs:decimal" minOccurs="0" />
+              <xs:element name="OldMarkUp" msdata:ReadOnly="true" msprop:Generator_UserColumnName="OldMarkUp" msprop:Generator_ColumnVarNameInTable="columnOldMarkUp" msprop:Generator_ColumnPropNameInRow="OldMarkUp" msprop:Generator_ColumnPropNameInTable="OldMarkUpColumn" type="xs:decimal" minOccurs="0" />
+              <xs:element name="NewMarkUp" msdata:ReadOnly="true" msprop:Generator_UserColumnName="NewMarkUp" msprop:Generator_ColumnVarNameInTable="columnNewMarkUp" msprop:Generator_ColumnPropNameInRow="NewMarkUp" msprop:Generator_ColumnPropNameInTable="NewMarkUpColumn" type="xs:decimal" minOccurs="0" />
+              <xs:element name="AverageCost" msprop:Generator_UserColumnName="AverageCost" msprop:Generator_ColumnVarNameInTable="columnAverageCost" msprop:Generator_ColumnPropNameInRow="AverageCost" msprop:Generator_ColumnPropNameInTable="AverageCostColumn" type="xs:decimal" />
+              <xs:element name="EffectDate" msprop:Generator_UserColumnName="EffectDate" msprop:Generator_ColumnVarNameInTable="columnEffectDate" msprop:Generator_ColumnPropNameInRow="EffectDate" msprop:Generator_ColumnPropNameInTable="EffectDateColumn" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="Remarks" msprop:Generator_UserColumnName="Remarks" msprop:Generator_ColumnVarNameInTable="columnRemarks" msprop:Generator_ColumnPropNameInRow="Remarks" msprop:Generator_ColumnPropNameInTable="RemarksColumn" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="30" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="CreatedOn" msprop:Generator_UserColumnName="CreatedOn" msprop:Generator_ColumnVarNameInTable="columnCreatedOn" msprop:Generator_ColumnPropNameInRow="CreatedOn" msprop:Generator_ColumnPropNameInTable="CreatedOnColumn" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="ModifiedOn" msprop:Generator_UserColumnName="ModifiedOn" msprop:Generator_ColumnVarNameInTable="columnModifiedOn" msprop:Generator_ColumnPropNameInRow="ModifiedOn" msprop:Generator_ColumnPropNameInTable="ModifiedOnColumn" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="ReasonCode" msdata:ReadOnly="true" msprop:Generator_UserColumnName="ReasonCode" msprop:Generator_ColumnVarNameInTable="columnReasonCode" msprop:Generator_ColumnPropNameInRow="ReasonCode" msprop:Generator_ColumnPropNameInTable="ReasonCodeColumn" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="3" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="ReasonName" msdata:ReadOnly="true" msprop:Generator_UserColumnName="ReasonName" msprop:Generator_ColumnVarNameInTable="columnReasonName" msprop:Generator_ColumnPropNameInRow="ReasonName" msprop:Generator_ColumnPropNameInTable="ReasonNameColumn" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="64" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PM_TYPE" msprop:Generator_UserColumnName="PM_TYPE" msprop:Generator_ColumnVarNameInTable="columnPM_TYPE" msprop:Generator_ColumnPropNameInRow="PM_TYPE" msprop:Generator_ColumnPropNameInTable="PM_TYPEColumn" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="1" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="ModifiedBy" msdata:ReadOnly="true" msprop:Generator_UserColumnName="ModifiedBy" msprop:Generator_ColumnVarNameInTable="columnModifiedBy" msprop:Generator_ColumnPropNameInRow="ModifiedBy" msprop:Generator_ColumnPropNameInTable="ModifiedByColumn" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="4" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PostedOn" msprop:Generator_UserColumnName="PostedOn" msprop:Generator_ColumnVarNameInTable="columnPostedOn" msprop:Generator_ColumnPropNameInRow="PostedOn" msprop:Generator_ColumnPropNameInTable="PostedOnColumn" type="xs:dateTime" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="vwRptBatchPriceMgmt" msprop:Generator_UserTableName="vwRptBatchPriceMgmt" msprop:Generator_RowDeletedName="vwRptBatchPriceMgmtRowDeleted" msprop:Generator_RowChangedName="vwRptBatchPriceMgmtRowChanged" msprop:Generator_RowClassName="vwRptBatchPriceMgmtRow" msprop:Generator_RowChangingName="vwRptBatchPriceMgmtRowChanging" msprop:Generator_RowEvArgName="vwRptBatchPriceMgmtRowChangeEvent" msprop:Generator_RowEvHandlerName="vwRptBatchPriceMgmtRowChangeEventHandler" msprop:Generator_TableClassName="vwRptBatchPriceMgmtDataTable" msprop:Generator_TableVarName="tablevwRptBatchPriceMgmt" msprop:Generator_RowDeletingName="vwRptBatchPriceMgmtRowDeleting" msprop:Generator_TablePropName="vwRptBatchPriceMgmt">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="STKCODE" msprop:Generator_UserColumnName="STKCODE" msprop:Generator_ColumnVarNameInTable="columnSTKCODE" msprop:Generator_ColumnPropNameInRow="STKCODE" msprop:Generator_ColumnPropNameInTable="STKCODEColumn" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="10" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="APPENDIX1" msprop:Generator_UserColumnName="APPENDIX1" msprop:Generator_ColumnVarNameInTable="columnAPPENDIX1" msprop:Generator_ColumnPropNameInRow="APPENDIX1" msprop:Generator_ColumnPropNameInTable="APPENDIX1Column" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="4" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="APPENDIX2" msprop:Generator_UserColumnName="APPENDIX2" msprop:Generator_ColumnVarNameInTable="columnAPPENDIX2" msprop:Generator_ColumnPropNameInRow="APPENDIX2" msprop:Generator_ColumnPropNameInTable="APPENDIX2Column" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="4" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="APPENDIX3" msprop:Generator_UserColumnName="APPENDIX3" msprop:Generator_ColumnVarNameInTable="columnAPPENDIX3" msprop:Generator_ColumnPropNameInRow="APPENDIX3" msprop:Generator_ColumnPropNameInTable="APPENDIX3Column" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="4" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="ProductName" msprop:Generator_UserColumnName="ProductName" msprop:Generator_ColumnVarNameInTable="columnProductName" msprop:Generator_ColumnPropNameInRow="ProductName" msprop:Generator_ColumnPropNameInTable="ProductNameColumn" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="64" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="CLASS1" msprop:Generator_UserColumnName="CLASS1" msprop:Generator_ColumnVarNameInTable="columnCLASS1" msprop:Generator_ColumnPropNameInRow="CLASS1" msprop:Generator_ColumnPropNameInTable="CLASS1Column" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="6" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="CLASS2" msprop:Generator_UserColumnName="CLASS2" msprop:Generator_ColumnVarNameInTable="columnCLASS2" msprop:Generator_ColumnPropNameInRow="CLASS2" msprop:Generator_ColumnPropNameInTable="CLASS2Column" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="6" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="CLASS3" msprop:Generator_UserColumnName="CLASS3" msprop:Generator_ColumnVarNameInTable="columnCLASS3" msprop:Generator_ColumnPropNameInRow="CLASS3" msprop:Generator_ColumnPropNameInTable="CLASS3Column" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="6" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="CLASS4" msprop:Generator_UserColumnName="CLASS4" msprop:Generator_ColumnVarNameInTable="columnCLASS4" msprop:Generator_ColumnPropNameInRow="CLASS4" msprop:Generator_ColumnPropNameInTable="CLASS4Column" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="6" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="CLASS5" msprop:Generator_UserColumnName="CLASS5" msprop:Generator_ColumnVarNameInTable="columnCLASS5" msprop:Generator_ColumnPropNameInRow="CLASS5" msprop:Generator_ColumnPropNameInTable="CLASS5Column" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="6" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="CLASS6" msprop:Generator_UserColumnName="CLASS6" msprop:Generator_ColumnVarNameInTable="columnCLASS6" msprop:Generator_ColumnPropNameInRow="CLASS6" msprop:Generator_ColumnPropNameInTable="CLASS6Column" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="6" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Markup" msprop:Generator_UserColumnName="Markup" msprop:Generator_ColumnVarNameInTable="columnMarkup" msprop:Generator_ColumnPropNameInRow="Markup" msprop:Generator_ColumnPropNameInTable="MarkupColumn" type="xs:decimal" minOccurs="0" />
+              <xs:element name="NewDisc" msprop:Generator_UserColumnName="NewDisc" msprop:Generator_ColumnVarNameInTable="columnNewDisc" msprop:Generator_ColumnPropNameInRow="NewDisc" msprop:Generator_ColumnPropNameInTable="NewDiscColumn" type="xs:decimal" minOccurs="0" />
+              <xs:element name="OldDisc" msdata:ReadOnly="true" msprop:Generator_UserColumnName="OldDisc" msprop:Generator_ColumnVarNameInTable="columnOldDisc" msprop:Generator_ColumnPropNameInRow="OldDisc" msprop:Generator_ColumnPropNameInTable="OldDiscColumn" type="xs:decimal" minOccurs="0" />
+              <xs:element name="RetailPrice" msprop:Generator_UserColumnName="RetailPrice" msprop:Generator_ColumnVarNameInTable="columnRetailPrice" msprop:Generator_ColumnPropNameInRow="RetailPrice" msprop:Generator_ColumnPropNameInTable="RetailPriceColumn" type="xs:decimal" minOccurs="0" />
+              <xs:element name="TxType" msprop:Generator_UserColumnName="TxType" msprop:Generator_ColumnVarNameInTable="columnTxType" msprop:Generator_ColumnPropNameInRow="TxType" msprop:Generator_ColumnPropNameInTable="TxTypeColumn" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="3" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="TxNumber" msprop:Generator_UserColumnName="TxNumber" msprop:Generator_ColumnVarNameInTable="columnTxNumber" msprop:Generator_ColumnPropNameInRow="TxNumber" msprop:Generator_ColumnPropNameInTable="TxNumberColumn">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="12" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="OldPrice" msprop:Generator_UserColumnName="OldPrice" msprop:Generator_ColumnVarNameInTable="columnOldPrice" msprop:Generator_ColumnPropNameInRow="OldPrice" msprop:Generator_ColumnPropNameInTable="OldPriceColumn" type="xs:decimal" minOccurs="0" />
+              <xs:element name="NewPrice" msprop:Generator_UserColumnName="NewPrice" msprop:Generator_ColumnVarNameInTable="columnNewPrice" msprop:Generator_ColumnPropNameInRow="NewPrice" msprop:Generator_ColumnPropNameInTable="NewPriceColumn" type="xs:decimal" minOccurs="0" />
+              <xs:element name="OldMarkUp" msdata:ReadOnly="true" msprop:Generator_UserColumnName="OldMarkUp" msprop:Generator_ColumnVarNameInTable="columnOldMarkUp" msprop:Generator_ColumnPropNameInRow="OldMarkUp" msprop:Generator_ColumnPropNameInTable="OldMarkUpColumn" type="xs:decimal" minOccurs="0" />
+              <xs:element name="NewMarkUp" msdata:ReadOnly="true" msprop:Generator_UserColumnName="NewMarkUp" msprop:Generator_ColumnVarNameInTable="columnNewMarkUp" msprop:Generator_ColumnPropNameInRow="NewMarkUp" msprop:Generator_ColumnPropNameInTable="NewMarkUpColumn" type="xs:decimal" minOccurs="0" />
+              <xs:element name="AverageCost" msprop:Generator_UserColumnName="AverageCost" msprop:Generator_ColumnVarNameInTable="columnAverageCost" msprop:Generator_ColumnPropNameInRow="AverageCost" msprop:Generator_ColumnPropNameInTable="AverageCostColumn" type="xs:decimal" />
+              <xs:element name="EffectDate" msprop:Generator_UserColumnName="EffectDate" msprop:Generator_ColumnVarNameInTable="columnEffectDate" msprop:Generator_ColumnPropNameInRow="EffectDate" msprop:Generator_ColumnPropNameInTable="EffectDateColumn" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="Remarks" msprop:Generator_UserColumnName="Remarks" msprop:Generator_ColumnVarNameInTable="columnRemarks" msprop:Generator_ColumnPropNameInRow="Remarks" msprop:Generator_ColumnPropNameInTable="RemarksColumn" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="30" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="CreatedOn" msprop:Generator_UserColumnName="CreatedOn" msprop:Generator_ColumnVarNameInTable="columnCreatedOn" msprop:Generator_ColumnPropNameInRow="CreatedOn" msprop:Generator_ColumnPropNameInTable="CreatedOnColumn" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="ModifiedOn" msprop:Generator_UserColumnName="ModifiedOn" msprop:Generator_ColumnVarNameInTable="columnModifiedOn" msprop:Generator_ColumnPropNameInRow="ModifiedOn" msprop:Generator_ColumnPropNameInTable="ModifiedOnColumn" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="ReasonCode" msdata:ReadOnly="true" msprop:Generator_UserColumnName="ReasonCode" msprop:Generator_ColumnVarNameInTable="columnReasonCode" msprop:Generator_ColumnPropNameInRow="ReasonCode" msprop:Generator_ColumnPropNameInTable="ReasonCodeColumn" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="3" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="ReasonName" msdata:ReadOnly="true" msprop:Generator_UserColumnName="ReasonName" msprop:Generator_ColumnVarNameInTable="columnReasonName" msprop:Generator_ColumnPropNameInRow="ReasonName" msprop:Generator_ColumnPropNameInTable="ReasonNameColumn" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="64" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PM_TYPE" msprop:Generator_UserColumnName="PM_TYPE" msprop:Generator_ColumnVarNameInTable="columnPM_TYPE" msprop:Generator_ColumnPropNameInRow="PM_TYPE" msprop:Generator_ColumnPropNameInTable="PM_TYPEColumn" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="1" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="ModifiedBy" msdata:ReadOnly="true" msprop:Generator_UserColumnName="ModifiedBy" msprop:Generator_ColumnVarNameInTable="columnModifiedBy" msprop:Generator_ColumnPropNameInRow="ModifiedBy" msprop:Generator_ColumnPropNameInTable="ModifiedByColumn" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="4" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PostedOn" msprop:Generator_UserColumnName="PostedOn" msprop:Generator_ColumnVarNameInTable="columnPostedOn" msprop:Generator_ColumnPropNameInRow="PostedOn" msprop:Generator_ColumnPropNameInTable="PostedOnColumn" type="xs:dateTime" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

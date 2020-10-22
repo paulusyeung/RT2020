@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<root>
+	<inventory Caption="Inventory" ImageUrl="24x24.settings_24x24.gif">
+		<item Caption="Goods Receive" ImageUrl="16x16.ico_16_1089.gif" Tag="Invt_GoodsReceive" />
+		<item Caption="Goods Return" ImageUrl="16x16.ico_16_1089.gif" Tag="Invt_GoodsReturn" />
+		<item Caption="Transfer" ImageUrl="16x16.ico_16_1089.gif" Tag="Invt_Txfer" />
+		<item Caption="Adjustment" ImageUrl="16x16.ico_16_1089.gif" Tag="Invt_Adjustment" />
+		<item Caption="Replenishment" ImageUrl="16x16.ico_16_1089.gif" Tag="Invt_Replenishment" />
+		<item Caption="Stock Take" ImageUrl="16x16.ico_16_1089.gif" Tag="Invt_StockTake" />
+		<item Caption="Product Care">
+			<item Caption="Product" ImageUrl="16x16.Product16.gif" Tag="ProductCare_Product" />
+			<item Caption="APPENDIX1" ImageUrl="16x16.Product16.gif" Tag="ProductCare_Appendix1" />
+			<item Caption="APPENDIX2" ImageUrl="16x16.Product16.gif" Tag="ProductCare_Appendix2" />
+			<item Caption="APPENDIX3" ImageUrl="16x16.Product16.gif" Tag="ProductCare_Appendix3" />
+			<item Caption="CLASS1" ImageUrl="16x16.Product16.gif" Tag="ProductCare_Class1" />
+			<item Caption="CLASS2" ImageUrl="16x16.Product16.gif" Tag="ProductCare_Class2" />
+			<item Caption="CLASS3" ImageUrl="16x16.Product16.gif" Tag="ProductCare_Class3" />
+			<item Caption="CLASS4" ImageUrl="16x16.Product16.gif" Tag="ProductCare_Class4" />
+			<item Caption="CLASS5" ImageUrl="16x16.Product16.gif" Tag="ProductCare_Class5" />
+			<item Caption="CLASS6" ImageUrl="16x16.Product16.gif" Tag="ProductCare_Class6" />
+			<item Caption="Combination" ImageUrl="16x16.Product16.gif" Tag="ProductCare_Combination" />
+			<item Caption="Analysis Code" ImageUrl="16x16.Product16.gif" Tag="ProductCare_AnalysisCode" />
+		</item>
+	</inventory>
+</root>

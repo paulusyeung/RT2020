@@ -1,0 +1,771 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="14.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{5CBA960E-08D5-40BF-8AF5-62F239E72DE4}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>RT2020.Web.Reports</RootNamespace>
+    <AssemblyName>RT2020.Web.Reports</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <StartPageUrl>Form1.wgx</StartPageUrl>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+    <UseIISExpress>false</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <StartPageUrl>Form1.wgx</StartPageUrl>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DevExpress.Printing.v15.2.Core, Version=15.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Data.v15.2, Version=15.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Utils.v15.2, Version=15.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Web.ASPxPivotGrid.v15.2, Version=15.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Office.v15.2.Core, Version=15.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.RichEdit.v15.2.Core, Version=15.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Web.v15.2, Version=15.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraPivotGrid.v15.2, Version=15.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.PivotGrid.v15.2.Core, Version=15.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="Gizmox.WebGUI.Common, Version=4.5.25701.0, Culture=neutral, PublicKeyToken=263fa4ef694acff6, processorArchitecture=MSIL" />
+    <Reference Include="Gizmox.WebGUI.Forms, Version=4.5.25701.0, Culture=neutral, PublicKeyToken=c508b41386c60f1d, processorArchitecture=MSIL" />
+    <Reference Include="Gizmox.WebGUI.Server, Version=4.5.25701.0, Culture=neutral, PublicKeyToken=3de6eb684226c24d, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.Common, Version=3.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.Data, Version=3.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.ReportViewer.WebForms, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
+    <Reference Include="RT2020.DAL, Version=1.0.2209.1739, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\RT2020.DAL\bin\Debug\RT2020.DAL.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.ServiceProcess" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Extensions.Design" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_Themes\Blue\PivotGrid\Loading.gif" />
+    <Content Include="App_Themes\Blue\PivotGrid\mPopupSeparatorBack.gif" />
+    <Content Include="App_Themes\Blue\PivotGrid\pgcollapsebtn.png" />
+    <Content Include="App_Themes\Blue\PivotGrid\pgCustomizationFormBackground.gif" />
+    <Content Include="App_Themes\Blue\PivotGrid\pgCustomizationFormCloseButton.png" />
+    <Content Include="App_Themes\Blue\PivotGrid\pgDragArrowDown.gif" />
+    <Content Include="App_Themes\Blue\PivotGrid\pgDragArrowUp.gif" />
+    <Content Include="App_Themes\Blue\PivotGrid\pgDragHideField.gif" />
+    <Content Include="App_Themes\Blue\PivotGrid\pgexpandbtn.png" />
+    <Content Include="App_Themes\Blue\PivotGrid\pgfilterbtn.png" />
+    <Content Include="App_Themes\Blue\PivotGrid\pgfilterbtnactive.png" />
+    <Content Include="App_Themes\Blue\PivotGrid\pgFilterResizer.gif" />
+    <Content Include="App_Themes\Blue\PivotGrid\pgheaderbg.gif" />
+    <Content Include="App_Themes\Blue\PivotGrid\pgheaderbghot.gif" />
+    <Content Include="App_Themes\Blue\PivotGrid\pgheadersortdown.png" />
+    <Content Include="App_Themes\Blue\PivotGrid\pgheadersortup.png" />
+    <Content Include="App_Themes\Blue\PivotGrid\styles.css" />
+    <Content Include="App_Themes\Blue\Web\dvItemBack.gif" />
+    <Content Include="App_Themes\Blue\Web\dvLastDisabled.png" />
+    <Content Include="App_Themes\Blue\Web\hlTail.gif" />
+    <Content Include="App_Themes\Blue\Web\Loading.gif" />
+    <Content Include="App_Themes\Blue\Web\mHorizontalPopOut.gif" />
+    <Content Include="App_Themes\Blue\Web\mItemBack.gif" />
+    <Content Include="App_Themes\Blue\Web\mItemHBack.gif" />
+    <Content Include="App_Themes\Blue\Web\mItemSBack.gif" />
+    <Content Include="App_Themes\Blue\Web\mLargeItemBack.gif" />
+    <Content Include="App_Themes\Blue\Web\mLargeItemHBack.gif" />
+    <Content Include="App_Themes\Blue\Web\mLargeItemSBack.gif" />
+    <Content Include="App_Themes\Blue\Web\mPopupSeparatorBack.gif" />
+    <Content Include="App_Themes\Blue\Web\mSeparatorBack.gif" />
+    <Content Include="App_Themes\Blue\Web\mVerticalPopOut.gif" />
+    <Content Include="App_Themes\Blue\Web\nbBack.gif" />
+    <Content Include="App_Themes\Blue\Web\nbCollapse.gif" />
+    <Content Include="App_Themes\Blue\Web\nbExpand.gif" />
+    <Content Include="App_Themes\Blue\Web\nbHeaderBack.gif" />
+    <Content Include="App_Themes\Blue\Web\nbHeaderBackCollapsed.gif" />
+    <Content Include="App_Themes\Blue\Web\nbHeaderHBack.gif" />
+    <Content Include="App_Themes\Blue\Web\ncBackToTop.png" />
+    <Content Include="App_Themes\Blue\Web\ncTail.gif" />
+    <Content Include="App_Themes\Blue\Web\pAll.png" />
+    <Content Include="App_Themes\Blue\Web\pAllDisabled.png" />
+    <Content Include="App_Themes\Blue\Web\pcCloseButton.png" />
+    <Content Include="App_Themes\Blue\Web\pcHeaderBack.gif" />
+    <Content Include="App_Themes\Blue\Web\pcSizeGrip.gif" />
+    <Content Include="App_Themes\Blue\Web\pFirst.png" />
+    <Content Include="App_Themes\Blue\Web\pFirstDisabled.png" />
+    <Content Include="App_Themes\Blue\Web\pLast.png" />
+    <Content Include="App_Themes\Blue\Web\pLastDisabled.png" />
+    <Content Include="App_Themes\Blue\Web\pNext.png" />
+    <Content Include="App_Themes\Blue\Web\pNextDisabled.png" />
+    <Content Include="App_Themes\Blue\Web\pPrev.png" />
+    <Content Include="App_Themes\Blue\Web\pPrevDisabled.png" />
+    <Content Include="App_Themes\Blue\Web\rpBottomLeftCorner.png" />
+    <Content Include="App_Themes\Blue\Web\rpBottomRightCorner.png" />
+    <Content Include="App_Themes\Blue\Web\rpHeaderBack.png" />
+    <Content Include="App_Themes\Blue\Web\rpHeaderEdge.png" />
+    <Content Include="App_Themes\Blue\Web\rpTopLeftCorner.png" />
+    <Content Include="App_Themes\Blue\Web\rpTopRightCorner.png" />
+    <Content Include="App_Themes\Blue\Web\smBack.gif" />
+    <Content Include="App_Themes\Blue\Web\smFirstLevelBack.gif" />
+    <Content Include="App_Themes\Blue\Web\smSecondLevelBullet.gif" />
+    <Content Include="App_Themes\Blue\Web\styles.css" />
+    <Content Include="App_Themes\Blue\Web\tcHTabBack.gif" />
+    <Content Include="App_Themes\Blue\Web\tcTabABack.gif" />
+    <Content Include="App_Themes\Blue\Web\tcTabBack.gif" />
+    <Content Include="App_Themes\Blue\Web\tiBackToTop.png" />
+    <Content Include="App_Themes\Blue\Web\tiContentBottom.gif" />
+    <Content Include="App_Themes\Glass\Editors\edtButtonEditButtonBack.gif" />
+    <Content Include="App_Themes\Glass\Editors\edtCalendarButtonBack.gif" />
+    <Content Include="App_Themes\Glass\Editors\edtCalendarButtonHoverBack.gif" />
+    <Content Include="App_Themes\Glass\Editors\edtCalendarButtonPressedBack.gif" />
+    <Content Include="App_Themes\Glass\Editors\edtCalendarNextMonth.gif" />
+    <Content Include="App_Themes\Glass\Editors\edtCalendarNextYear.gif" />
+    <Content Include="App_Themes\Glass\Editors\edtCalendarPrevMonth.gif" />
+    <Content Include="App_Themes\Glass\Editors\edtCalendarPrevYear.gif" />
+    <Content Include="App_Themes\Glass\Editors\edtCheckBoxOff.gif" />
+    <Content Include="App_Themes\Glass\Editors\edtCheckBoxOn.gif" />
+    <Content Include="App_Themes\Glass\Editors\edtCheckBoxUndefined.gif" />
+    <Content Include="App_Themes\Glass\Editors\edtDropDown.gif" />
+    <Content Include="App_Themes\Glass\Editors\edtDropDownButtonHoverBack.gif" />
+    <Content Include="App_Themes\Glass\Editors\edtDropDownButtonPressedBack.gif" />
+    <Content Include="App_Themes\Glass\Editors\edtEllipsis.gif" />
+    <Content Include="App_Themes\Glass\Editors\edtError.png" />
+    <Content Include="App_Themes\Glass\Editors\edtRadioButtonOff.gif" />
+    <Content Include="App_Themes\Glass\Editors\edtRadioButtonOn.gif" />
+    <Content Include="App_Themes\Glass\Editors\Loading.gif" />
+    <Content Include="App_Themes\Glass\Editors\styles.css" />
+    <Content Include="App_Themes\Glass\GridView\gvCollapsedButton.gif" />
+    <Content Include="App_Themes\Glass\GridView\gvDetailCollapsedButton.gif" />
+    <Content Include="App_Themes\Glass\GridView\gvDetailExpandedButton.gif" />
+    <Content Include="App_Themes\Glass\GridView\gvDragAndDropArrowDown.gif" />
+    <Content Include="App_Themes\Glass\GridView\gvDragAndDropArrowUp.gif" />
+    <Content Include="App_Themes\Glass\GridView\gvDragAndDropHideColumn.gif" />
+    <Content Include="App_Themes\Glass\GridView\gvExpandedButton.gif" />
+    <Content Include="App_Themes\Glass\GridView\gvGroupPanelBackground.gif" />
+    <Content Include="App_Themes\Glass\GridView\gvGroupPanelSelBackground.gif" />
+    <Content Include="App_Themes\Glass\GridView\gvHeaderBackground.gif" />
+    <Content Include="App_Themes\Glass\GridView\gvHeaderSortDown.gif" />
+    <Content Include="App_Themes\Glass\GridView\gvHeaderSortUp.gif" />
+    <Content Include="App_Themes\Glass\GridView\gvLoadingOnStatusBar.gif" />
+    <Content Include="App_Themes\Glass\GridView\gvParentGroupRows.gif" />
+    <Content Include="App_Themes\Glass\GridView\Loading.gif" />
+    <Content Include="App_Themes\Glass\GridView\styles.css" />
+    <Content Include="App_Themes\Glass\PivotGrid\Loading.gif" />
+    <Content Include="App_Themes\Glass\PivotGrid\pgCollapsedButton.gif" />
+    <Content Include="App_Themes\Glass\PivotGrid\pgCustomizationFormBackground.gif" />
+    <Content Include="App_Themes\Glass\PivotGrid\pgCustomizationFormCloseButton.gif" />
+    <Content Include="App_Themes\Glass\PivotGrid\pgDragArrowDown.gif" />
+    <Content Include="App_Themes\Glass\PivotGrid\pgDragArrowUp.gif" />
+    <Content Include="App_Themes\Glass\PivotGrid\pgDragHideField.gif" />
+    <Content Include="App_Themes\Glass\PivotGrid\pgExpandedButton.gif" />
+    <Content Include="App_Themes\Glass\PivotGrid\pgFilterAreaBack.gif" />
+    <Content Include="App_Themes\Glass\PivotGrid\pgFilterButton.gif" />
+    <Content Include="App_Themes\Glass\PivotGrid\pgFilterButtonActive.gif" />
+    <Content Include="App_Themes\Glass\PivotGrid\pgFilterPanelBack.gif" />
+    <Content Include="App_Themes\Glass\PivotGrid\pgFilterResizer.gif" />
+    <Content Include="App_Themes\Glass\PivotGrid\pgHeaderBack.gif" />
+    <Content Include="App_Themes\Glass\PivotGrid\pgHeaderBackHot.gif" />
+    <Content Include="App_Themes\Glass\PivotGrid\pgSortDownButton.gif" />
+    <Content Include="App_Themes\Glass\PivotGrid\pgSortUpButton.gif" />
+    <Content Include="App_Themes\Glass\PivotGrid\styles.css" />
+    <Content Include="App_Themes\Glass\Web\hlTail.gif" />
+    <Content Include="App_Themes\Glass\Web\Loading.gif" />
+    <Content Include="App_Themes\Glass\Web\mHorizontalPopOut.gif" />
+    <Content Include="App_Themes\Glass\Web\mItemBack.gif" />
+    <Content Include="App_Themes\Glass\Web\mItemHBack.gif" />
+    <Content Include="App_Themes\Glass\Web\mItemSBack.gif" />
+    <Content Include="App_Themes\Glass\Web\mLargeItemBack.gif" />
+    <Content Include="App_Themes\Glass\Web\mLargeItemHBack.gif" />
+    <Content Include="App_Themes\Glass\Web\mLargeItemSBack.gif" />
+    <Content Include="App_Themes\Glass\Web\mVerticalPopOut.gif" />
+    <Content Include="App_Themes\Glass\Web\mVItemBack.gif" />
+    <Content Include="App_Themes\Glass\Web\mVItemHBack.gif" />
+    <Content Include="App_Themes\Glass\Web\mVItemSBack.gif" />
+    <Content Include="App_Themes\Glass\Web\nbCollapse.png" />
+    <Content Include="App_Themes\Glass\Web\nbExpand.png" />
+    <Content Include="App_Themes\Glass\Web\nbHeaderBack.gif" />
+    <Content Include="App_Themes\Glass\Web\nbHeaderHBack.gif" />
+    <Content Include="App_Themes\Glass\Web\ncBackToTop.png" />
+    <Content Include="App_Themes\Glass\Web\ncTail.gif" />
+    <Content Include="App_Themes\Glass\Web\pAll.gif" />
+    <Content Include="App_Themes\Glass\Web\pAll.png" />
+    <Content Include="App_Themes\Glass\Web\pAllDisabled.gif" />
+    <Content Include="App_Themes\Glass\Web\pAllDisabled.png" />
+    <Content Include="App_Themes\Glass\Web\pcCloseButton.png" />
+    <Content Include="App_Themes\Glass\Web\pcContentBack.gif" />
+    <Content Include="App_Themes\Glass\Web\pcContentWithTabBottomBack.gif" />
+    <Content Include="App_Themes\Glass\Web\pcFooterBack.gif" />
+    <Content Include="App_Themes\Glass\Web\pcHeaderBack.gif" />
+    <Content Include="App_Themes\Glass\Web\pcSizeGrip.png" />
+    <Content Include="App_Themes\Glass\Web\pFirst.gif" />
+    <Content Include="App_Themes\Glass\Web\pFirst.png" />
+    <Content Include="App_Themes\Glass\Web\pFirstDisabled.gif" />
+    <Content Include="App_Themes\Glass\Web\pFirstDisabled.png" />
+    <Content Include="App_Themes\Glass\Web\pLast.gif" />
+    <Content Include="App_Themes\Glass\Web\pLast.png" />
+    <Content Include="App_Themes\Glass\Web\pLastDisabled.gif" />
+    <Content Include="App_Themes\Glass\Web\pLastDisabled.png" />
+    <Content Include="App_Themes\Glass\Web\pNext.gif" />
+    <Content Include="App_Themes\Glass\Web\pNext.png" />
+    <Content Include="App_Themes\Glass\Web\pNextDisabled.gif" />
+    <Content Include="App_Themes\Glass\Web\pNextDisabled.png" />
+    <Content Include="App_Themes\Glass\Web\pPrev.gif" />
+    <Content Include="App_Themes\Glass\Web\pPrev.png" />
+    <Content Include="App_Themes\Glass\Web\pPrevDisabled.gif" />
+    <Content Include="App_Themes\Glass\Web\pPrevDisabled.png" />
+    <Content Include="App_Themes\Glass\Web\rpBottomBack.gif" />
+    <Content Include="App_Themes\Glass\Web\rpBottomLeftCorner.png" />
+    <Content Include="App_Themes\Glass\Web\rpBottomRightCorner.png" />
+    <Content Include="App_Themes\Glass\Web\rpContentBack.gif" />
+    <Content Include="App_Themes\Glass\Web\rpHeaderBack.gif" />
+    <Content Include="App_Themes\Glass\Web\rpHeaderLeftEdge.gif" />
+    <Content Include="App_Themes\Glass\Web\rpHeaderRightEdge.gif" />
+    <Content Include="App_Themes\Glass\Web\rpHeaderRightEdge.png" />
+    <Content Include="App_Themes\Glass\Web\rpLeftEdge.gif" />
+    <Content Include="App_Themes\Glass\Web\rpRightEdge.gif" />
+    <Content Include="App_Themes\Glass\Web\rpTopLeftCorner.png" />
+    <Content Include="App_Themes\Glass\Web\rpTopRightCorner.png" />
+    <Content Include="App_Themes\Glass\Web\smLevel0Back.gif" />
+    <Content Include="App_Themes\Glass\Web\styles.css" />
+    <Content Include="App_Themes\Glass\Web\tcATabBack.gif" />
+    <Content Include="App_Themes\Glass\Web\tcATabBottomBack.gif" />
+    <Content Include="App_Themes\Glass\Web\tcContentBack.gif" />
+    <Content Include="App_Themes\Glass\Web\tcHTabBack.gif" />
+    <Content Include="App_Themes\Glass\Web\tcHTabBottomBack.gif" />
+    <Content Include="App_Themes\Glass\Web\tcTabBack.gif" />
+    <Content Include="App_Themes\Glass\Web\tcTabBottomBack.gif" />
+    <Content Include="App_Themes\Glass\Web\tiBackToTop.png" />
+    <Content Include="App_Themes\Glass\Web\tiHeaderBack.gif" />
+    <Content Include="Default.aspx" />
+    <Content Include="Olap\OlapMonthlySalesTransactionPage.aspx" />
+    <Content Include="Rdlc\ColorSchema.txt" />
+    <Content Include="Readme.txt" />
+    <Content Include="Resources\Icons\16x16\ico_16_1091.gif" />
+    <Content Include="Resources\Icons\16x16\ico_16_4009.gif" />
+    <Content Include="Resources\Icons\16x16\ico_18_1024.gif" />
+    <Content Include="Resources\Icons\16x16\ico_18_add_member_af.gif" />
+    <Content Include="Resources\Icons\48x48\ico_48x48_apply_vip.gif" />
+    <Content Include="Resources\Icons\48x48\ico_48x48_daily_shop_transaction.gif" />
+    <Content Include="Resources\Icons\48x48\ico_48x48_discount_status.gif" />
+    <Content Include="Resources\Icons\48x48\ico_48x48_in_out_history.gif" />
+    <Content Include="Resources\Icons\48x48\ico_48x48_olap.gif" />
+    <Content Include="Resources\Icons\48x48\ico_48x48_stock_list.gif" />
+    <Content Include="Resources\Icons\48x48\ico_48x48_stockqtystatus.gif" />
+    <Content Include="Resources\Icons\48x48\ico_48x48_stockqtystatu_photo.gif" />
+    <Content Include="Resources\Icons\48x48\ico_48x48_vip_profiles.gif" />
+    <Content Include="Resources\Icons\48x48\ico_48x48_vip_sales_analysis.gif" />
+    <Content Include="Resources\Icons\Line\line.png" />
+    <Content Include="Resources\Images\no_photo.jpg" />
+    <None Include="Resources\List\ReportList.dev.xml" />
+    <Content Include="Resources\Icons\16x16\16_activate.gif" />
+    <Content Include="Resources\Icons\16x16\16_alert.gif" />
+    <Content Include="Resources\Icons\16x16\16_back.gif" />
+    <Content Include="Resources\Icons\16x16\16_cardview.png" />
+    <Content Include="Resources\Icons\16x16\16_close.gif" />
+    <Content Include="Resources\Icons\16x16\16_closeObj.gif" />
+    <Content Include="Resources\Icons\16x16\16_convert.gif" />
+    <Content Include="Resources\Icons\16x16\16_convertresponse.gif" />
+    <Content Include="Resources\Icons\16x16\16_converttooppo.gif" />
+    <Content Include="Resources\Icons\16x16\16_deactivate.gif" />
+    <Content Include="Resources\Icons\16x16\16_error.gif" />
+    <Content Include="Resources\Icons\16x16\16_excel.gif" />
+    <Content Include="Resources\Icons\16x16\16_export.gif" />
+    <Content Include="Resources\Icons\16x16\16_find.gif" />
+    <Content Include="Resources\Icons\16x16\16_forward.gif" />
+    <Content Include="Resources\Icons\16x16\16_help.gif" />
+    <Content Include="Resources\Icons\16x16\16_info.gif" />
+    <Content Include="Resources\Icons\16x16\16_listview.png" />
+    <Content Include="Resources\Icons\16x16\16_L_check.gif" />
+    <Content Include="Resources\Icons\16x16\16_L_help.gif" />
+    <Content Include="Resources\Icons\16x16\16_L_refresh.gif" />
+    <Content Include="Resources\Icons\16x16\16_L_remove.gif" />
+    <Content Include="Resources\Icons\16x16\16_L_save.gif" />
+    <Content Include="Resources\Icons\16x16\16_L_saveOpen.gif" />
+    <Content Include="Resources\Icons\16x16\16_print.gif" />
+    <Content Include="Resources\Icons\16x16\16_propagate.gif" />
+    <Content Include="Resources\Icons\16x16\16_reports.gif" />
+    <Content Include="Resources\Icons\16x16\16_save.gif" />
+    <Content Include="Resources\Icons\16x16\16_saveClose.gif" />
+    <Content Include="Resources\Icons\16x16\16_saveCompleted.gif" />
+    <Content Include="Resources\Icons\16x16\16_schedule.gif" />
+    <Content Include="Resources\Icons\16x16\16_send.gif" />
+    <Content Include="Resources\Icons\16x16\16_thumbnails.png" />
+    <Content Include="Resources\Icons\16x16\18_addResourceGroups.gif" />
+    <Content Include="Resources\Icons\16x16\18_addResources.gif" />
+    <Content Include="Resources\Icons\16x16\18_addSelectionRule.gif" />
+    <Content Include="Resources\Icons\16x16\18_addTeam.gif" />
+    <Content Include="Resources\Icons\16x16\18_addView.gif" />
+    <Content Include="Resources\Icons\16x16\18_editForm.gif" />
+    <Content Include="Resources\Icons\16x16\18_sales.gif" />
+    <Content Include="Resources\Icons\16x16\barcode_16.JPG" />
+    <Content Include="Resources\Icons\16x16\btn_on_lookup.gif" />
+    <Content Include="Resources\Icons\16x16\down.gif" />
+    <Content Include="Resources\Icons\16x16\English16.gif" />
+    <Content Include="Resources\Icons\16x16\ico_16_1.gif" />
+    <Content Include="Resources\Icons\16x16\ico_16_1010.gif" />
+    <Content Include="Resources\Icons\16x16\ico_16_1039_default.gif" />
+    <Content Include="Resources\Icons\16x16\ico_16_1084.gif" />
+    <Content Include="Resources\Icons\16x16\ico_16_1089.gif" />
+    <Content Include="Resources\Icons\16x16\ico_16_1090.gif" />
+    <Content Include="Resources\Icons\16x16\ico_16_137.gif" />
+    <Content Include="Resources\Icons\16x16\ico_16_2.gif" />
+    <Content Include="Resources\Icons\16x16\ico_16_3.gif" />
+    <Content Include="Resources\Icons\16x16\ico_16_4001.gif" />
+    <Content Include="Resources\Icons\16x16\ico_16_4007.gif" />
+    <Content Include="Resources\Icons\16x16\ico_16_4209.gif" />
+    <Content Include="Resources\Icons\16x16\ico_16_4407.gif" />
+    <Content Include="Resources\Icons\16x16\ico_16_4502_d.gif" />
+    <Content Include="Resources\Icons\16x16\ico_16_4503.gif" />
+    <Content Include="Resources\Icons\16x16\ico_16_5.gif" />
+    <Content Include="Resources\Icons\16x16\ico_16_9.gif" />
+    <Content Include="Resources\Icons\16x16\ico_16_exportCustomizations.gif" />
+    <Content Include="Resources\Icons\16x16\ico_16_oneToManyCustomRelationship_d.gif" />
+    <Content Include="Resources\Icons\16x16\ico_16_rpt_chart.gif" />
+    <Content Include="Resources\Icons\16x16\ico_18_home.gif" />
+    <Content Include="Resources\Icons\16x16\ico_18_mappings.gif" />
+    <Content Include="Resources\Icons\16x16\ico_18_relationships.gif" />
+    <Content Include="Resources\Icons\16x16\info.GIF" />
+    <Content Include="Resources\Icons\16x16\orgchart_16.gif" />
+    <Content Include="Resources\Icons\16x16\Product16.gif" />
+    <Content Include="Resources\Icons\16x16\SimpChinese16.gif" />
+    <Content Include="Resources\Icons\16x16\TradChinese16.gif" />
+    <Content Include="Resources\Icons\16x16\Tutorial16.gif" />
+    <Content Include="Resources\Icons\2x2\ico_lrg_bg.gif" />
+    <Content Include="Resources\Icons\2x2\ico_lrg_btn_bg_2x106.png" />
+    <Content Include="Resources\Icons\2x2\ico_lrg_hdr_bg_2x106.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Common\Utility.cs" />
+    <Compile Include="Controls\CustomPanel\CardView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\CustomPanel\ThumbnailsView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\DataSource.cs">
+      <DependentUpon>DataSource.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\DataSource.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DataSource.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\CustomPanel\CustomPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\CustomPanel\CustomPanel.Designer.cs">
+      <DependentUpon>CustomPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\CustomPanel\PanelEnums.cs">
+    </Compile>
+    <Compile Include="Controls\ReportViewer.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\ReportViewer.designer.cs">
+      <DependentUpon>ReportViewer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\OlapViewer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\OlapViewer.Designer.cs">
+      <DependentUpon>OlapViewer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ProductImage.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\Viewer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Viewer.Designer.cs">
+      <DependentUpon>Viewer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ViewImage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\ViewImage.Designer.cs">
+      <DependentUpon>ViewImage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\WizardBase.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\WizardBase.Designer.cs">
+      <DependentUpon>WizardBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Default.aspx.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Default.aspx.designer.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\VIPSalesAnalysis_Inline.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\VIPSalesAnalysis_Inline.Designer.cs">
+      <DependentUpon>VIPSalesAnalysis_Inline.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\VIPProfile_Inline.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\VIPProfile_Inline.Designer.cs">
+      <DependentUpon>VIPProfile_Inline.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\StockInOutHistory_Inline.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\StockInOutHistory_Inline.Designer.cs">
+      <DependentUpon>StockInOutHistory_Inline.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\DailyShopTransaction_Inline.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\DailyShopTransaction_Inline.Designer.cs">
+      <DependentUpon>DailyShopTransaction_Inline.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\StockDiscountStatus_Inline.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\StockDiscountStatus_Inline.Designer.cs">
+      <DependentUpon>StockDiscountStatus_Inline.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\StockQtyStatusWithPhoto_Inline.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\StockQtyStatusWithPhoto_Inline.Designer.cs">
+      <DependentUpon>StockQtyStatusWithPhoto_Inline.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\StockList_Inline.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\StockList_Inline.Designer.cs">
+      <DependentUpon>StockList_Inline.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\StockQtyStatus_Inline.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\StockQtyStatus_Inline.Designer.cs">
+      <DependentUpon>StockQtyStatus_Inline.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WebReports.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WebReports.Designer.cs">
+      <DependentUpon>WebReports.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Controls\CustomPanel\CustomPanel.resx">
+      <DependentUpon>CustomPanel.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\OlapViewer.resx">
+      <DependentUpon>OlapViewer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Viewer.resx">
+      <DependentUpon>Viewer.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\ViewImage.resx">
+      <DependentUpon>ViewImage.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\WizardBase.resx">
+      <DependentUpon>WizardBase.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\VIPSalesAnalysis_Inline.resx">
+      <DependentUpon>VIPSalesAnalysis_Inline.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\VIPProfile_Inline.resx">
+      <DependentUpon>VIPProfile_Inline.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\StockInOutHistory_Inline.resx">
+      <DependentUpon>StockInOutHistory_Inline.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\DailyShopTransaction_Inline.resx">
+      <DependentUpon>DailyShopTransaction_Inline.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\StockDiscountStatus_Inline.resx">
+      <DependentUpon>StockDiscountStatus_Inline.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\StockQtyStatusWithPhoto_Inline.resx">
+      <DependentUpon>StockQtyStatusWithPhoto_Inline.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\StockList_Inline.resx">
+      <DependentUpon>StockList_Inline.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\StockQtyStatus_Inline.resx">
+      <DependentUpon>StockQtyStatus_Inline.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Rdlc\VIPProfileRdl_Ex.rdlc" />
+    <EmbeddedResource Include="Rdlc\StockInOutHistorySubReportHistory_List.rdlc" />
+    <EmbeddedResource Include="Rdlc\StockInOutHistorySubReportCurrent_List.rdlc" />
+    <EmbeddedResource Include="Rdlc\StockInOutHistoryRdl_List.rdlc" />
+    <EmbeddedResource Include="Rdlc\StockQtyStatusWithPhotoRdl_List.rdlc" />
+    <EmbeddedResource Include="Rdlc\StockQtyStatusRdl_List.rdlc" />
+    <EmbeddedResource Include="Rdlc\StockInOutHistorySubReportHistory.rdlc" />
+    <EmbeddedResource Include="Rdlc\StockInOutHistorySubReportCurrent.rdlc" />
+    <EmbeddedResource Include="Rdlc\StockInOutHistorySubReportSubHistory.rdlc" />
+    <EmbeddedResource Include="Rdlc\StockInOutHistorySubReportSubCurrent.rdlc" />
+    <EmbeddedResource Include="Rdlc\StockQtyStatusWithPhotoSubReportRdl.rdlc" />
+    <EmbeddedResource Include="Rdlc\VIPSalesAnalysisByClass2.rdlc" />
+    <EmbeddedResource Include="Rdlc\VIPSalesAnalysisFullListByClass.rdlc" />
+    <EmbeddedResource Include="Rdlc\VIPSalesAnalysisByClass5.rdlc" />
+    <EmbeddedResource Include="Rdlc\VIPSalesAnalysisNoOfVisits.rdlc" />
+    <EmbeddedResource Include="WebReports.resx">
+      <DependentUpon>WebReports.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\OlapMonthlySalesTransaction.resx">
+      <DependentUpon>OlapMonthlySalesTransaction.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\VipApplyForm.resx">
+      <DependentUpon>VipApplyForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\VIPSalesAnalysis.resx">
+      <DependentUpon>VIPSalesAnalysis.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\StockInOutHistory.resx">
+      <DependentUpon>StockInOutHistory.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\StockQtyStatus.resx">
+      <DependentUpon>StockQtyStatus.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\StockList.resx">
+      <DependentUpon>StockList.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\DailyShopTransaction .resx">
+      <DependentUpon>DailyShopTransaction .cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\VIPProfile.resx">
+      <DependentUpon>VIPProfile.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\StockDiscountStatus.resx">
+      <DependentUpon>StockDiscountStatus.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\StockQtyStatusWithPhoto.resx">
+      <DependentUpon>StockQtyStatusWithPhoto.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\licenses.licx" />
+    <EmbeddedResource Include="Rdlc\DailyShopTransactionMaster.rdlc" />
+    <EmbeddedResource Include="Rdlc\DailyShopTransactionSubReport.rdlc" />
+    <EmbeddedResource Include="Rdlc\StockInOutHistoryRdl.rdlc" />
+    <EmbeddedResource Include="Rdlc\StockQtyStatusRdl.rdlc" />
+    <EmbeddedResource Include="Rdlc\DailyShopTransactionRdl.rdlc" />
+    <EmbeddedResource Include="Rdlc\Photo.rdlc" />
+    <EmbeddedResource Include="Controls\HeaderPane.resx">
+      <DependentUpon>HeaderPane.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Rdlc\StockDiscountStatusRdl.rdlc" />
+    <EmbeddedResource Include="Rdlc\StockListRdl.rdlc" />
+    <EmbeddedResource Include="Rdlc\StockQtyStatusWithPhotoRdl.rdlc" />
+    <EmbeddedResource Include="Rdlc\VIPProfileRdl.rdlc" />
+    <EmbeddedResource Include="Rdlc\VIPSalesAnalysisFullList.rdlc" />
+    <Compile Include="Forms\OlapMonthlySalesTransaction.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\OlapMonthlySalesTransaction.Designer.cs">
+      <DependentUpon>OlapMonthlySalesTransaction.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\VipApplyForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\VipApplyForm.Designer.cs">
+      <DependentUpon>VipApplyForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\VIPSalesAnalysis.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\VIPSalesAnalysis.Designer.cs">
+      <DependentUpon>VIPSalesAnalysis.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\StockInOutHistory.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\StockInOutHistory.Designer.cs">
+      <DependentUpon>StockInOutHistory.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\StockQtyStatus.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\StockQtyStatus.Designer.cs">
+      <DependentUpon>StockQtyStatus.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\StockList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\StockList.Designer.cs">
+      <DependentUpon>StockList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\DailyShopTransaction .cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\DailyShopTransaction .Designer.cs">
+      <DependentUpon>DailyShopTransaction .cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\VIPProfile.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\VIPProfile.Designer.cs">
+      <DependentUpon>VIPProfile.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\StockDiscountStatus.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\StockDiscountStatus.Designer.cs">
+      <DependentUpon>StockDiscountStatus.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\StockQtyStatusWithPhoto.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\StockQtyStatusWithPhoto.Designer.cs">
+      <DependentUpon>StockQtyStatusWithPhoto.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Olap\OlapMonthlySalesTransactionPage.aspx.cs">
+      <DependentUpon>OlapMonthlySalesTransactionPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Olap\OlapMonthlySalesTransactionPage.aspx.designer.cs">
+      <DependentUpon>OlapMonthlySalesTransactionPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Controls\HeaderPane.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\HeaderPane.Designer.cs">
+      <DependentUpon>HeaderPane.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Controls\DataSource.xsc">
+      <DependentUpon>DataSource.xsd</DependentUpon>
+    </None>
+    <None Include="Controls\DataSource.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DataSource.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Controls\DataSource.xss">
+      <DependentUpon>DataSource.xsd</DependentUpon>
+    </None>
+    <None Include="Web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <CustomReference Include="Gizmox.WebGUI.Themes.Vista">
+      <HintPath>C:\Program Files (x86)\Gizmox\Visual WebGUI\SDK 3.5\Assemblies\Gizmox.WebGUI.Themes.Vista.dll</HintPath>
+      <Visible>false</Visible>
+    </CustomReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Public\" />
+    <Folder Include="Resources\Icons\32x32\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+
+	DRORTEST
+  -->
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>1851</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost/RT2020.Web.Reports</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+      <UserProperties StartDate="20091013" />
+    </VisualStudio>
+  </ProjectExtensions>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v14.0\WebApplications\Microsoft.WebApplication.targets" />
+</Project>

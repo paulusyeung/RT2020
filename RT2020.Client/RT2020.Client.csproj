@@ -1,0 +1,547 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{13423CB1-73E7-4D89-8C59-E1AC2D6B5593}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>RT2020.Client</RootNamespace>
+    <AssemblyName>RT2020.Client</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <IsWebBootstrapper>true</IsWebBootstrapper>
+    <ManifestCertificateThumbprint>EE725E531D7B28441DC458BE0ACCC464DDED0CDE</ManifestCertificateThumbprint>
+    <ManifestKeyFile>nx201307.pfx</ManifestKeyFile>
+    <GenerateManifests>true</GenerateManifests>
+    <SignManifests>false</SignManifests>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <TargetFrameworkProfile />
+    <PublishUrl>C:\Projects\RT2020\Publish\Client\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Web</InstallFrom>
+    <UpdateEnabled>true</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <InstallUrl>http://192.168.1.170/RT2020/Publish/Client/</InstallUrl>
+    <UpdateUrl>http://192.168.1.170/RT2020/Publish/Client/</UpdateUrl>
+    <SupportUrl>http://www.synergyis.biz/support.htm</SupportUrl>
+    <ErrorReportUrl>http://www.synergyis.biz/support.htm</ErrorReportUrl>
+    <ProductName>RT2020 Client</ProductName>
+    <PublisherName>Synergy IS Ltd.</PublisherName>
+    <SuiteName>Synergy Information System Limited</SuiteName>
+    <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
+    <WebPage>index.htm</WebPage>
+    <ApplicationRevision>28</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <CreateDesktopShortcut>true</CreateDesktopShortcut>
+    <PublishWizardCompleted>true</PublishWizardCompleted>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <BootstrapperComponentsUrl>http://192.168.1.187/RT2020/Client/Prerequisites</BootstrapperComponentsUrl>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Itchin.Winforms.Controls_F2.NavigationBar">
+      <HintPath>..\..\Itchin Navigation Bar\Itchin.Winforms.Controls_F2.NavigationBar.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.Common, Version=6.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\EnterpriseLibrary.Common.6.0.1304.0\lib\NET45\Microsoft.Practices.EnterpriseLibrary.Common.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.Data, Version=6.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\EnterpriseLibrary.Data.6.0.1304.0\lib\NET45\Microsoft.Practices.EnterpriseLibrary.Data.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Common\Common.cs" />
+    <Compile Include="Common\MyDataGrideView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Common\MyDataGrideView.Designer.cs">
+      <DependentUpon>MyDataGrideView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Common\ProgressEventArgs.cs" />
+    <Compile Include="Common\SignOnPrincipal.cs" />
+    <Compile Include="Common\Theme.cs" />
+    <Compile Include="Products\Wizard\ProdCare_FindBatch.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Products\Wizard\ProdCare_FindBatch.Designer.cs">
+      <DependentUpon>ProdCare_FindBatch.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Products\Wizard\ProdCare_FindProd.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Products\Wizard\ProdCare_FindProd.Designer.cs">
+      <DependentUpon>ProdCare_FindProd.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Products\Wizard\ProductNatureWizard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Products\Wizard\ProductNatureWizard.Designer.cs">
+      <DependentUpon>ProductNatureWizard.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Products\Wizard\ProductWizard_Batch.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Products\Wizard\ProductWizard_Batch.Designer.cs">
+      <DependentUpon>ProductWizard_Batch.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Products\Wizard\ProductWizard_Combination.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Products\Wizard\ProductWizard_Combination.Designer.cs">
+      <DependentUpon>ProductWizard_Combination.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Products\Wizard\ProductWizard_FastCreation.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Products\Wizard\ProductWizard_FastCreation.Designer.cs">
+      <DependentUpon>ProductWizard_FastCreation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Products\Wizard\ProductWizard_MassUpdate.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Products\Wizard\ProductWizard_MassUpdate.Designer.cs">
+      <DependentUpon>ProductWizard_MassUpdate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Purchasing\PurchasingUtils.cs" />
+    <Compile Include="Products\Wizard\ProductWizard_Misc.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Products\Wizard\ProductWizard_Misc.Designer.cs">
+      <DependentUpon>ProductWizard_Misc.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Purchasing\Wizard\Receiving.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Purchasing\Wizard\Receiving.Designer.cs">
+      <DependentUpon>Receiving.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Purchasing\Wizard\ReceivingFind.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Purchasing\Wizard\ReceivingFind.Designer.cs">
+      <DependentUpon>ReceivingFind.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WizardWithTabsBase.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WizardWithTabsBase.designer.cs">
+      <DependentUpon>WizardWithTabsBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Help\About.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Help\About.Designer.cs">
+      <DependentUpon>About.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Inventory\GoodsReceive\Default.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Inventory\GoodsReceive\Default.Designer.cs">
+      <DependentUpon>Default.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Inventory\GoodsReceive\Detail.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Inventory\GoodsReceive\Detail.Designer.cs">
+      <DependentUpon>Detail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Inventory\GoodsReceive\Wizard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Inventory\GoodsReceive\Wizard.Designer.cs">
+      <DependentUpon>Wizard.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Login.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Login.designer.cs">
+      <DependentUpon>Login.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Main.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Main.Designer.cs">
+      <DependentUpon>Main.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Products\Default.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Products\Default.Designer.cs">
+      <DependentUpon>Default.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Products\Wizard\ProductWizard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Products\Wizard\ProductWizard.Designer.cs">
+      <DependentUpon>ProductWizard.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Products\Wizard\ProductWizard_Barcode.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Products\Wizard\ProductWizard_Barcode.Designer.cs">
+      <DependentUpon>ProductWizard_Barcode.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Products\Wizard\ProductWizard_Discount.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Products\Wizard\ProductWizard_Discount.Designer.cs">
+      <DependentUpon>ProductWizard_Discount.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Products\Wizard\ProductWizard_General.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Products\Wizard\ProductWizard_General.Designer.cs">
+      <DependentUpon>ProductWizard_General.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Products\Wizard\ProductWizard_Order.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Products\Wizard\ProductWizard_Order.Designer.cs">
+      <DependentUpon>ProductWizard_Order.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Products\Wizard\ProductWizard_Quantity.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Products\Wizard\ProductWizard_Quantity.Designer.cs">
+      <DependentUpon>ProductWizard_Quantity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Products\Wizard\ProdCare_FindBatch.resx">
+      <DependentUpon>ProdCare_FindBatch.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Products\Wizard\ProdCare_FindProd.resx">
+      <DependentUpon>ProdCare_FindProd.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Products\Wizard\ProductNatureWizard.resx">
+      <DependentUpon>ProductNatureWizard.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Products\Wizard\ProductWizard_Batch.resx">
+      <DependentUpon>ProductWizard_Batch.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Products\Wizard\ProductWizard_Combination.resx">
+      <DependentUpon>ProductWizard_Combination.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Products\Wizard\ProductWizard_FastCreation.resx">
+      <DependentUpon>ProductWizard_FastCreation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Products\Wizard\ProductWizard_MassUpdate.resx">
+      <DependentUpon>ProductWizard_MassUpdate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Purchasing\Wizard\PurchaseOrder.resx">
+      <DependentUpon>PurchaseOrder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Products\Wizard\ProductWizard_Misc.resx">
+      <DependentUpon>ProductWizard_Misc.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Purchasing\Wizard\Receiving.resx">
+      <DependentUpon>Receiving.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Purchasing\Wizard\ReceivingFind.resx">
+      <DependentUpon>ReceivingFind.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WizardWithTabsBase.resx">
+      <DependentUpon>WizardWithTabsBase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Help\About.resx">
+      <DependentUpon>About.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Inventory\GoodsReceive\Default.resx">
+      <DependentUpon>Default.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Inventory\GoodsReceive\Detail.resx">
+      <DependentUpon>Detail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Inventory\GoodsReceive\Wizard.resx">
+      <DependentUpon>Wizard.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Login.resx">
+      <DependentUpon>Login.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Main.resx">
+      <DependentUpon>Main.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Products\Default.resx">
+      <DependentUpon>Default.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Products\Wizard\ProductWizard.resx">
+      <DependentUpon>ProductWizard.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Products\Wizard\ProductWizard_Barcode.resx">
+      <DependentUpon>ProductWizard_Barcode.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Products\Wizard\ProductWizard_Discount.resx">
+      <DependentUpon>ProductWizard_Discount.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Products\Wizard\ProductWizard_General.resx">
+      <DependentUpon>ProductWizard_General.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Products\Wizard\ProductWizard_Order.resx">
+      <DependentUpon>ProductWizard_Order.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Products\Wizard\ProductWizard_Quantity.resx">
+      <DependentUpon>ProductWizard_Quantity.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Purchasing\DefaultPOList.resx">
+      <DependentUpon>DefaultPOList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Purchasing\DefaultRECList.resx">
+      <DependentUpon>DefaultRECList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Purchasing\Wizard\ByMultipleLocation.resx">
+      <DependentUpon>ByMultipleLocation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SqlConnection.resx">
+      <DependentUpon>SqlConnection.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WizardBase.resx">
+      <DependentUpon>WizardBase.cs</DependentUpon>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="app.config" />
+    <None Include="nx201307.pfx" />
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Purchasing\DefaultPOList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Purchasing\DefaultPOList.Designer.cs">
+      <DependentUpon>DefaultPOList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Purchasing\DefaultRECList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Purchasing\DefaultRECList.Designer.cs">
+      <DependentUpon>DefaultRECList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Purchasing\Wizard\ByMultipleLocation.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Purchasing\Wizard\ByMultipleLocation.Designer.cs">
+      <DependentUpon>ByMultipleLocation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Purchasing\Wizard\PurchaseOrder.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Purchasing\Wizard\PurchaseOrder.Designer.cs">
+      <DependentUpon>PurchaseOrder.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SqlConnection.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SqlConnection.designer.cs">
+      <DependentUpon>SqlConnection.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WizardBase.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WizardBase.designer.cs">
+      <DependentUpon>WizardBase.cs</DependentUpon>
+    </Compile>
+    <None Include="RT2020.Client_TemporaryKey.pfx" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\RT2020.DAL\RT2020.DAL.csproj">
+      <Project>{C3765763-DB6E-4DDE-AF69-FC99C86F4F2B}</Project>
+      <Name>RT2020.DAL</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <PublishFile Include="Gizmox.WebGUI.Common">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Assembly</FileType>
+    </PublishFile>
+    <PublishFile Include="Gizmox.WebGUI.Forms">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Assembly</FileType>
+    </PublishFile>
+    <PublishFile Include="Itchin.Winforms.Controls_F2.NavigationBar">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Assembly</FileType>
+    </PublishFile>
+    <PublishFile Include="Microsoft.Practices.EnterpriseLibrary.Common">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Assembly</FileType>
+    </PublishFile>
+    <PublishFile Include="Microsoft.Practices.EnterpriseLibrary.Data">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Assembly</FileType>
+    </PublishFile>
+    <PublishFile Include="Microsoft.Practices.ObjectBuilder">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Assembly</FileType>
+    </PublishFile>
+    <PublishFile Include="RT2020.DAL">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Assembly</FileType>
+    </PublishFile>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 2.0 %28x86%29</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.0 %28x86%29</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties Reset="1" AssemblyVersion="1" AssemblyFileVersion="1" StartDate="20101012" BuildVersion_BuildVersioningStyle="None.Increment.Increment.Increment" BuildVersion_UpdateAssemblyVersion="True" BuildVersion_UpdateFileVersion="True" BuildVersion_StartDate="2010/8/25" />
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

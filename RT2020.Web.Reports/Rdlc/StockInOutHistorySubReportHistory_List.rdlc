@@ -1,0 +1,152 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2005/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <DataSources>
+    <DataSource Name="SysDb">
+      <rd:DataSourceID>a480fb02-a413-4c0e-b38e-21b3d3571dea</rd:DataSourceID>
+      <ConnectionProperties>
+        <DataProvider>SQL</DataProvider>
+        <ConnectString />
+      </ConnectionProperties>
+    </DataSource>
+  </DataSources>
+  <InteractiveHeight>11in</InteractiveHeight>
+  <ReportParameters>
+    <ReportParameter Name="shop">
+      <DataType>String</DataType>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>shop</Prompt>
+    </ReportParameter>
+  </ReportParameters>
+  <rd:DrawGrid>true</rd:DrawGrid>
+  <InteractiveWidth>8.5in</InteractiveWidth>
+  <rd:SnapToGrid>true</rd:SnapToGrid>
+  <RightMargin>1in</RightMargin>
+  <LeftMargin>1in</LeftMargin>
+  <BottomMargin>1in</BottomMargin>
+  <rd:ReportID>d2825f55-93fb-420a-a1da-f1b6b67ce749</rd:ReportID>
+  <DataSets>
+    <DataSet Name="DataSource_vwStockInOutHistory3">
+      <Fields>
+        <Field Name="STKCODE">
+          <DataField>STKCODE</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="APPENDIX1">
+          <DataField>APPENDIX1</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="APPENDIX2">
+          <DataField>APPENDIX2</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="APPENDIX3">
+          <DataField>APPENDIX3</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="TxDate">
+          <DataField>TxDate</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="TxType">
+          <DataField>TxType</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="TxNumber">
+          <DataField>TxNumber</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="FromLocation">
+          <DataField>FromLocation</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ToLocation">
+          <DataField>ToLocation</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Qty">
+          <DataField>Qty</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="Amount">
+          <DataField>Amount</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="ProductName">
+          <DataField>ProductName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+      <Query>
+        <DataSourceName>SysDb</DataSourceName>
+        <CommandText>SELECT     STKCODE, APPENDIX1, APPENDIX2, APPENDIX3, TxDate, TxType, TxNumber, FromLocation, ToLocation, Qty, Amount, ProductName
+FROM         vwStockInOutHistory</CommandText>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+      </Query>
+      <rd:DataSetInfo>
+        <rd:DataSetName>DataSource</rd:DataSetName>
+        <rd:TableName>vwStockInOutHistory3</rd:TableName>
+        <rd:TableAdapterName>vwStockInOutHistory3TableAdapter</rd:TableAdapterName>
+        <rd:TableAdapterFillMethod>Fill</rd:TableAdapterFillMethod>
+        <rd:TableAdapterGetDataMethod>GetData</rd:TableAdapterGetDataMethod>
+      </rd:DataSetInfo>
+    </DataSet>
+  </DataSets>
+  <Width>10.25in</Width>
+  <Body>
+    <ReportItems>
+      <List Name="list1">
+        <DataSetName>DataSource_vwStockInOutHistory3</DataSetName>
+        <ReportItems>
+          <Subreport Name="subreport1">
+            <Parameters>
+              <Parameter Name="date">
+                <Value>=Format(Fields!TxDate.Value,"dd/MM/yyyy")</Value>
+              </Parameter>
+              <Parameter Name="shop">
+                <Value>=Fields!FromLocation.Value</Value>
+              </Parameter>
+            </Parameters>
+            <ReportName>StockInOutHistorySubReportSubHistory</ReportName>
+            <ZIndex>1</ZIndex>
+            <Left>0.7in</Left>
+          </Subreport>
+          <Textbox Name="textbox41">
+            <rd:DefaultName>textbox41</rd:DefaultName>
+            <Width>0.7in</Width>
+            <Style>
+              <Color>#008080</Color>
+              <FontSize>8pt</FontSize>
+              <FontWeight>700</FontWeight>
+              <Format>dd/MM/yyyy</Format>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+            <CanGrow>true</CanGrow>
+            <Value>=Fields!TxDate.Value</Value>
+          </Textbox>
+        </ReportItems>
+        <Filters>
+          <Filter>
+            <FilterExpression>=Fields!FromLocation.Value</FilterExpression>
+            <Operator>Equal</Operator>
+            <FilterValues>
+              <FilterValue>=Parameters!shop.Value</FilterValue>
+            </FilterValues>
+          </Filter>
+        </Filters>
+        <Width>10.20208in</Width>
+        <Grouping Name="list1_Details_Group">
+          <GroupExpressions>
+            <GroupExpression>=Parameters!shop.Value</GroupExpression>
+          </GroupExpressions>
+        </Grouping>
+        <Height>0.25in</Height>
+      </List>
+    </ReportItems>
+    <Height>0.375in</Height>
+  </Body>
+  <Language>en-US</Language>
+  <TopMargin>1in</TopMargin>
+</Report>

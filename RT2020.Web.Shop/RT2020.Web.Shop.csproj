@@ -1,0 +1,394 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="14.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{A22AEC47-1E4E-4D5D-8721-779B87258197}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>RT2020.Web.Shop</RootNamespace>
+    <AssemblyName>RT2020.Web.Shop</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <StartPageUrl>Form1.wgx</StartPageUrl>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+    <UseIISExpress>false</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <StartPageUrl>Form1.wgx</StartPageUrl>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Gizmox.WebGUI.Common, Version=4.5.25701.0, Culture=neutral, PublicKeyToken=263fa4ef694acff6, processorArchitecture=MSIL" />
+    <Reference Include="Gizmox.WebGUI.Forms, Version=4.5.25701.0, Culture=neutral, PublicKeyToken=c508b41386c60f1d, processorArchitecture=MSIL" />
+    <Reference Include="Gizmox.WebGUI.Forms.Office, Version=4.5.25701.0, Culture=neutral, PublicKeyToken=d50c2c7452ba77d9, processorArchitecture=MSIL" />
+    <Reference Include="Gizmox.WebGUI.Forms.Themes, Version=4.5.25701.0, Culture=neutral, PublicKeyToken=263fa4ef694acff6, processorArchitecture=MSIL" />
+    <Reference Include="Gizmox.WebGUI.Server, Version=4.5.25701.0, Culture=neutral, PublicKeyToken=3de6eb684226c24d, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.Common, Version=3.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.Data, Version=3.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="RT2020.DAL, Version=1.0.2209.1739, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\RT2020.DAL\bin\Debug\RT2020.DAL.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Default.aspx" />
+    <Content Include="Readme.txt" />
+    <Content Include="Resources\Icons\16x16\16_activate.gif" />
+    <Content Include="Resources\Icons\16x16\16_alert.gif" />
+    <Content Include="Resources\Icons\16x16\16_back.gif" />
+    <Content Include="Resources\Icons\16x16\16_cardview.png" />
+    <Content Include="Resources\Icons\16x16\16_close.gif" />
+    <Content Include="Resources\Icons\16x16\16_closeObj.gif" />
+    <Content Include="Resources\Icons\16x16\16_convert.gif" />
+    <Content Include="Resources\Icons\16x16\16_convertresponse.gif" />
+    <Content Include="Resources\Icons\16x16\16_converttooppo.gif" />
+    <Content Include="Resources\Icons\16x16\16_deactivate.gif" />
+    <Content Include="Resources\Icons\16x16\16_error.gif" />
+    <Content Include="Resources\Icons\16x16\16_excel.gif" />
+    <Content Include="Resources\Icons\16x16\16_export.gif" />
+    <Content Include="Resources\Icons\16x16\16_find.gif" />
+    <Content Include="Resources\Icons\16x16\16_forward.gif" />
+    <Content Include="Resources\Icons\16x16\16_help.gif" />
+    <Content Include="Resources\Icons\16x16\16_info.gif" />
+    <Content Include="Resources\Icons\16x16\16_listview.png" />
+    <Content Include="Resources\Icons\16x16\16_L_check.gif" />
+    <Content Include="Resources\Icons\16x16\16_L_help.gif" />
+    <Content Include="Resources\Icons\16x16\16_L_refresh.gif" />
+    <Content Include="Resources\Icons\16x16\16_L_remove.gif" />
+    <Content Include="Resources\Icons\16x16\16_L_save.gif" />
+    <Content Include="Resources\Icons\16x16\16_L_saveOpen.gif" />
+    <Content Include="Resources\Icons\16x16\16_print.gif" />
+    <Content Include="Resources\Icons\16x16\16_propagate.gif" />
+    <Content Include="Resources\Icons\16x16\16_reports.gif" />
+    <Content Include="Resources\Icons\16x16\16_save.gif" />
+    <Content Include="Resources\Icons\16x16\16_saveClose.gif" />
+    <Content Include="Resources\Icons\16x16\16_saveCompleted.gif" />
+    <Content Include="Resources\Icons\16x16\16_schedule.gif" />
+    <Content Include="Resources\Icons\16x16\16_send.gif" />
+    <Content Include="Resources\Icons\16x16\16_thumbnails.png" />
+    <Content Include="Resources\Icons\16x16\18_addResourceGroups.gif" />
+    <Content Include="Resources\Icons\16x16\18_addResources.gif" />
+    <Content Include="Resources\Icons\16x16\18_addSelectionRule.gif" />
+    <Content Include="Resources\Icons\16x16\18_addTeam.gif" />
+    <Content Include="Resources\Icons\16x16\18_addView.gif" />
+    <Content Include="Resources\Icons\16x16\18_editForm.gif" />
+    <Content Include="Resources\Icons\16x16\18_sales.gif" />
+    <Content Include="Resources\Icons\16x16\barcode_16.JPG" />
+    <Content Include="Resources\Icons\16x16\btn_on_lookup.gif" />
+    <Content Include="Resources\Icons\16x16\down.gif" />
+    <Content Include="Resources\Icons\16x16\English16.gif" />
+    <Content Include="Resources\Icons\16x16\ico_16_1.gif" />
+    <Content Include="Resources\Icons\16x16\ico_16_1010.gif" />
+    <Content Include="Resources\Icons\16x16\ico_16_1039_default.gif" />
+    <Content Include="Resources\Icons\16x16\ico_16_1084.gif" />
+    <Content Include="Resources\Icons\16x16\ico_16_1089.gif" />
+    <Content Include="Resources\Icons\16x16\ico_16_1090.gif" />
+    <Content Include="Resources\Icons\16x16\ico_16_137.gif" />
+    <Content Include="Resources\Icons\16x16\ico_16_2.gif" />
+    <Content Include="Resources\Icons\16x16\ico_16_3.gif" />
+    <Content Include="Resources\Icons\16x16\ico_16_4001.gif" />
+    <Content Include="Resources\Icons\16x16\ico_16_4007.gif" />
+    <Content Include="Resources\Icons\16x16\ico_16_4209.gif" />
+    <Content Include="Resources\Icons\16x16\ico_16_4407.gif" />
+    <Content Include="Resources\Icons\16x16\ico_16_4502_d.gif" />
+    <Content Include="Resources\Icons\16x16\ico_16_4503.gif" />
+    <Content Include="Resources\Icons\16x16\ico_16_5.gif" />
+    <Content Include="Resources\Icons\16x16\ico_16_9.gif" />
+    <Content Include="Resources\Icons\16x16\ico_16_exportCustomizations.gif" />
+    <Content Include="Resources\Icons\16x16\ico_16_oneToManyCustomRelationship_d.gif" />
+    <Content Include="Resources\Icons\16x16\ico_16_rpt_chart.gif" />
+    <Content Include="Resources\Icons\16x16\ico_18_home.gif" />
+    <Content Include="Resources\Icons\16x16\ico_18_mappings.gif" />
+    <Content Include="Resources\Icons\16x16\ico_18_relationships.gif" />
+    <Content Include="Resources\Icons\16x16\info.GIF" />
+    <Content Include="Resources\Icons\16x16\orgchart_16.gif" />
+    <Content Include="Resources\Icons\16x16\Product16.gif" />
+    <Content Include="Resources\Icons\16x16\SimpChinese16.gif" />
+    <Content Include="Resources\Icons\16x16\TradChinese16.gif" />
+    <Content Include="Resources\Icons\16x16\Tutorial16.gif" />
+    <Content Include="Resources\Icons\2x2\ico_lrg_hdr_bg_2x106.png" />
+    <Content Include="Resources\Icons\2x2\ico_lrg_bg.gif" />
+    <Content Include="Resources\Icons\2x2\ico_lrg_btn_bg_2x106.png" />
+    <Content Include="Resources\Icons\48x48\ico_rpl_48x48.png" />
+    <Content Include="Resources\Icons\48x48\ico_txf_48x48.png" />
+    <Content Include="Resources\Menu\NavMenu.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Common\NavMenu.cs" />
+    <Compile Include="Common\Utility.cs" />
+    <Compile Include="Default.aspx.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Default.aspx.designer.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Desktop.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Desktop.Designer.cs">
+      <DependentUpon>Desktop.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Desktop.resx">
+      <DependentUpon>Desktop.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Public\HeaderPane.resx">
+      <DependentUpon>HeaderPane.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Public\Logon.resx">
+      <DependentUpon>Logon.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StockReplenishment\Confirmation.resx">
+      <DependentUpon>Confirmation.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StockReplenishment\ConfirmationWizard.resx">
+      <DependentUpon>ConfirmationWizard.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StockReplenishment\Default.resx">
+      <DependentUpon>Default.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StockReplenishment\SpecialRequest.resx">
+      <DependentUpon>SpecialRequest.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StockReplenishment\SpecialRequestWizard.resx">
+      <DependentUpon>SpecialRequestWizard.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Transfer\Confirmation.resx">
+      <DependentUpon>Confirmation.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Transfer\ConfirmationWizard.resx">
+      <DependentUpon>ConfirmationWizard.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Transfer\DailySummary.resx">
+      <DependentUpon>DailySummary.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Transfer\HistoryDetail.resx">
+      <DependentUpon>HistoryDetail.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Transfer\History.resx">
+      <DependentUpon>History.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Transfer\Default.resx">
+      <DependentUpon>Default.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Transfer\InTransit.resx">
+      <DependentUpon>InTransit.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Transfer\InTransitWizard.resx">
+      <DependentUpon>InTransitWizard.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Public\HeaderPane.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Public\HeaderPane.Designer.cs">
+      <DependentUpon>HeaderPane.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Public\Logon.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Public\Logon.Designer.cs">
+      <DependentUpon>Logon.cs</DependentUpon>
+    </Compile>
+    <Compile Include="StockReplenishment\Confirmation.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="StockReplenishment\Confirmation.Designer.cs">
+      <DependentUpon>Confirmation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="StockReplenishment\ConfirmationWizard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="StockReplenishment\ConfirmationWizard.Designer.cs">
+      <DependentUpon>ConfirmationWizard.cs</DependentUpon>
+    </Compile>
+    <Compile Include="StockReplenishment\Default.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="StockReplenishment\Default.Designer.cs">
+      <DependentUpon>Default.cs</DependentUpon>
+    </Compile>
+    <Compile Include="StockReplenishment\SpecialRequest.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="StockReplenishment\SpecialRequest.Designer.cs">
+      <DependentUpon>SpecialRequest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="StockReplenishment\SpecialRequestWizard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="StockReplenishment\SpecialRequestWizard.Designer.cs">
+      <DependentUpon>SpecialRequestWizard.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Transfer\Confirmation.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Transfer\Confirmation.Designer.cs">
+      <DependentUpon>Confirmation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Transfer\ConfirmationWizard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Transfer\ConfirmationWizard.Designer.cs">
+      <DependentUpon>ConfirmationWizard.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Transfer\DailySummary.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Transfer\DailySummary.Designer.cs">
+      <DependentUpon>DailySummary.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Transfer\HistoryDetail.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Transfer\HistoryDetail.Designer.cs">
+      <DependentUpon>HistoryDetail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Transfer\History.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Transfer\History.Designer.cs">
+      <DependentUpon>History.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Transfer\Default.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Transfer\Default.Designer.cs">
+      <DependentUpon>Default.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Transfer\InTransit.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Transfer\InTransit.Designer.cs">
+      <DependentUpon>InTransit.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Transfer\InTransitWizard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Transfer\InTransitWizard.Designer.cs">
+      <DependentUpon>InTransitWizard.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <CustomReference Include="Gizmox.WebGUI.Themes.Vista">
+      <HintPath>D:\Projects\RT2020.Web\RT2020.Web.Shop\bin\Gizmox.WebGUI.Themes.Vista.dll</HintPath>
+      <Visible>false</Visible>
+    </CustomReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+
+	DRORTEST
+  -->
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>7052</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost/RT2020.Web.Shop</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+      <UserProperties StartDate="20091013" />
+    </VisualStudio>
+  </ProjectExtensions>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v14.0\WebApplications\Microsoft.WebApplication.targets" />
+</Project>

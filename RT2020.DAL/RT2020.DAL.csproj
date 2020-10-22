@@ -1,0 +1,273 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{C3765763-DB6E-4DDE-AF69-FC99C86F4F2B}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>RT2020.DAL</RootNamespace>
+    <AssemblyName>RT2020.DAL</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <TargetFrameworkProfile />
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Gizmox.WebGUI.Common, Version=4.5.25701.0, Culture=neutral, PublicKeyToken=263fa4ef694acff6, processorArchitecture=MSIL" />
+    <Reference Include="Gizmox.WebGUI.Forms, Version=4.5.25701.0, Culture=neutral, PublicKeyToken=c508b41386c60f1d, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.Common, Version=6.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\EnterpriseLibrary.Common.6.0.1304.0\lib\NET45\Microsoft.Practices.EnterpriseLibrary.Common.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.Data, Version=6.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\EnterpriseLibrary.Data.6.0.1304.0\lib\NET45\Microsoft.Practices.EnterpriseLibrary.Data.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="City.cs" />
+    <Compile Include="Common.cs" />
+    <Compile Include="Country.cs" />
+    <Compile Include="Currency.cs" />
+    <Compile Include="EPOSBatchDetails.cs" />
+    <Compile Include="EPOSBatchHeader.cs" />
+    <Compile Include="EPOSBatchTender.cs" />
+    <Compile Include="EPOSSubLedgerDetails.cs" />
+    <Compile Include="EPOSSubLedgerHeader.cs" />
+    <Compile Include="EPOSSubLedgerTender.cs" />
+    <Compile Include="FepAudit.cs" />
+    <Compile Include="FepBatchDetail.cs" />
+    <Compile Include="FepBatchHeader.cs" />
+    <Compile Include="FepBatchTender.cs" />
+    <Compile Include="InternetTag.cs" />
+    <Compile Include="InvtBatchADJ_Details.cs" />
+    <Compile Include="InvtBatchADJ_Header.cs" />
+    <Compile Include="InvtBatchCAP_Details.cs" />
+    <Compile Include="InvtBatchCAP_Header.cs" />
+    <Compile Include="InvtBatchREC_Details.cs" />
+    <Compile Include="InvtBatchREC_Header.cs" />
+    <Compile Include="InvtBatchRPL_Details.cs" />
+    <Compile Include="InvtBatchRPL_Header.cs" />
+    <Compile Include="InvtBatchTXF_Details.cs" />
+    <Compile Include="InvtBatchTXF_Header.cs" />
+    <Compile Include="InvtBatchTXF_Log.cs" />
+    <Compile Include="InvtLedgerDetails.cs" />
+    <Compile Include="InvtLedgerHeader.cs" />
+    <Compile Include="InvtSubLedgerADJ_Details.cs" />
+    <Compile Include="InvtSubLedgerADJ_Header.cs" />
+    <Compile Include="InvtSubLedgerCAP_Details.cs" />
+    <Compile Include="InvtSubLedgerCAP_Header.cs" />
+    <Compile Include="InvtSubLedgerREC_Details.cs" />
+    <Compile Include="InvtSubLedgerREC_Header.cs" />
+    <Compile Include="InvtSubLedgerRPL_Details.cs" />
+    <Compile Include="InvtSubLedgerRPL_Header.cs" />
+    <Compile Include="InvtSubLedgerTXF_Details.cs" />
+    <Compile Include="InvtSubLedgerTXF_Header.cs" />
+    <Compile Include="JobTitle.cs" />
+    <Compile Include="LineOfOperation.cs" />
+    <Compile Include="MarketSector.cs" />
+    <Compile Include="Member.cs" />
+    <Compile Include="MemberAddress.cs" />
+    <Compile Include="MemberAddressType.cs" />
+    <Compile Include="MemberApply.cs" />
+    <Compile Include="MemberApply4TempVip.cs" />
+    <Compile Include="MemberApply4TempVipLog.cs" />
+    <Compile Include="MemberClass.cs" />
+    <Compile Include="MemberGroup.cs" />
+    <Compile Include="MemberSmartTag.cs" />
+    <Compile Include="MemberVipData.cs" />
+    <Compile Include="MemberVipLineOfOperation.cs" />
+    <Compile Include="MemberVipSupplement.cs" />
+    <Compile Include="PhoneTag.cs" />
+    <Compile Include="PosAnalysisCode.cs" />
+    <Compile Include="PosLedgerAnalysis.cs" />
+    <Compile Include="PosLedgerDetails.cs" />
+    <Compile Include="PosLedgerHeader.cs" />
+    <Compile Include="PosLedgerTender.cs" />
+    <Compile Include="PosTenderType.cs" />
+    <Compile Include="PriceManagementActiveDetails.cs" />
+    <Compile Include="PriceManagementActiveHeader.cs" />
+    <Compile Include="PriceManagementBatchDetails.cs" />
+    <Compile Include="PriceManagementBatchHeader.cs" />
+    <Compile Include="PriceManagementReason.cs" />
+    <Compile Include="Product.cs" />
+    <Compile Include="ProductAppendix1.cs" />
+    <Compile Include="ProductAppendix2.cs" />
+    <Compile Include="ProductAppendix3.cs" />
+    <Compile Include="ProductApply.cs" />
+    <Compile Include="ProductBarcode.cs" />
+    <Compile Include="ProductBatch.cs" />
+    <Compile Include="ProductClass1.cs" />
+    <Compile Include="ProductClass2.cs" />
+    <Compile Include="ProductClass3.cs" />
+    <Compile Include="ProductClass4.cs" />
+    <Compile Include="ProductClass5.cs" />
+    <Compile Include="ProductClass6.cs" />
+    <Compile Include="ProductCode.cs" />
+    <Compile Include="ProductCurrentSummary.cs" />
+    <Compile Include="ProductDim.cs" />
+    <Compile Include="ProductDim_Details.cs" />
+    <Compile Include="ProductNature.cs" />
+    <Compile Include="ProductPeriodicSummary.cs" />
+    <Compile Include="ProductPrice.cs" />
+    <Compile Include="ProductPriceType.cs" />
+    <Compile Include="ProductPrice_LineOfOperation.cs" />
+    <Compile Include="ProductRemarks.cs" />
+    <Compile Include="ProductSupplement.cs" />
+    <Compile Include="ProductWorkplace.cs" />
+    <Compile Include="ProductWorkplacePeriodicSummary.cs" />
+    <Compile Include="PromotionPaymentFactor.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Province.cs" />
+    <Compile Include="PurchaseOrderDetails.cs" />
+    <Compile Include="PurchaseOrderHeader.cs" />
+    <Compile Include="PurchaseOrderHHTDetails.cs" />
+    <Compile Include="PurchaseOrderHHTHeader.cs" />
+    <Compile Include="PurchaseOrderReceiveDetails.cs" />
+    <Compile Include="PurchaseOrderReceiveHeader.cs" />
+    <Compile Include="Remarks.cs" />
+    <Compile Include="Salutation.cs" />
+    <Compile Include="ShipmentMethod.cs" />
+    <Compile Include="SmartTag4Member.cs" />
+    <Compile Include="SmartTag4Staff.cs" />
+    <Compile Include="SmartTag4Supplier.cs" />
+    <Compile Include="SmartTag4Workplace.cs" />
+    <Compile Include="SqlHelper.cs" />
+    <Compile Include="Staff.cs" />
+    <Compile Include="StaffAddress.cs" />
+    <Compile Include="StaffDept.cs" />
+    <Compile Include="StaffGroup.cs" />
+    <Compile Include="StaffHR.cs" />
+    <Compile Include="StaffInternetTag.cs" />
+    <Compile Include="StaffJobTitle.cs" />
+    <Compile Include="StaffPreference.cs" />
+    <Compile Include="StaffSecurity.cs" />
+    <Compile Include="StaffSmartTag.cs" />
+    <Compile Include="StockTakeDetails.cs" />
+    <Compile Include="StockTakeDetails_HHT.cs" />
+    <Compile Include="StockTakeHeader.cs" />
+    <Compile Include="StocktakeHeader_HHT.cs" />
+    <Compile Include="Supplier.cs" />
+    <Compile Include="SupplierAddress.cs" />
+    <Compile Include="SupplierAddressType.cs" />
+    <Compile Include="SupplierContact.cs" />
+    <Compile Include="SupplierSmartTag.cs" />
+    <Compile Include="SupplierTerms.cs" />
+    <Compile Include="SystemHHTLog.cs" />
+    <Compile Include="SystemInfo.cs" />
+    <Compile Include="SystemLabel.cs" />
+    <Compile Include="SystemQueue.cs" />
+    <Compile Include="TransferReason.cs" />
+    <Compile Include="UserPreference.cs" />
+    <Compile Include="UserProfile.cs" />
+    <Compile Include="Workplace.cs" />
+    <Compile Include="WorkplaceAddress.cs" />
+    <Compile Include="WorkplaceNature.cs" />
+    <Compile Include="WorkplaceSmartTag.cs" />
+    <Compile Include="WorkplaceZone.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties StartDate="20080107" AssemblyFileVersion="1" AssemblyVersion="1" Reset="1" />
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

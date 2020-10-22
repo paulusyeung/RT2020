@@ -1,0 +1,217 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{89D4E7D3-1E41-4AE2-A7BC-445EBB4B1CBD}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>RT2020.Services</RootNamespace>
+    <AssemblyName>RT2020.Services</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Runtime.Serialization">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.ServiceModel">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Mobile" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Appendices.svc" />
+    <Content Include="ProductList.svc" />
+    <Content Include="TransactionDetailList.svc" />
+    <Content Include="TransactionList.svc" />
+    <Content Include="SystemLabels.svc" />
+    <Content Include="SystemInfo.svc" />
+    <Content Include="Workplace.svc" />
+    <Content Include="ProductBarcode.svc" />
+    <None Include="Readme.txt" />
+    <Content Include="Staff.svc" />
+    <None Include="Web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Appendices.svc.cs">
+      <DependentUpon>Appendices.svc</DependentUpon>
+    </Compile>
+    <Compile Include="Contracts\IProductList.cs" />
+    <Compile Include="Contracts\ITransactionDetailList.cs" />
+    <Compile Include="Contracts\ITransactionList.cs" />
+    <Compile Include="Contracts\ISystemLabels.cs" />
+    <Compile Include="Contracts\ISystemInfo.cs" />
+    <Compile Include="Contracts\IWorkplace.cs" />
+    <Compile Include="Contracts\IStaff.cs" />
+    <Compile Include="Contracts\IAppendices.cs" />
+    <Compile Include="ProductList.svc.cs">
+      <DependentUpon>ProductList.svc</DependentUpon>
+    </Compile>
+    <Compile Include="Schemas\ProductList.cs">
+      <DependentUpon>ProductList.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="TransactionDetailList.svc.cs">
+      <DependentUpon>TransactionDetailList.svc</DependentUpon>
+    </Compile>
+    <Compile Include="Schemas\TransactionDetailList.cs">
+      <DependentUpon>TransactionDetailList.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="TransactionList.svc.cs">
+      <DependentUpon>TransactionList.svc</DependentUpon>
+    </Compile>
+    <Compile Include="Schemas\TransactionList.cs">
+      <DependentUpon>TransactionList.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="SystemLabels.svc.cs">
+      <DependentUpon>SystemLabels.svc</DependentUpon>
+    </Compile>
+    <Compile Include="Schemas\SystemInfo.cs">
+      <DependentUpon>SystemInfo.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Schemas\SystemLabels.cs">
+      <DependentUpon>SystemLabels.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="SystemInfo.svc.cs">
+      <DependentUpon>SystemInfo.svc</DependentUpon>
+    </Compile>
+    <Compile Include="Workplace.svc.cs">
+      <DependentUpon>Workplace.svc</DependentUpon>
+    </Compile>
+    <Compile Include="Staff.svc.cs">
+      <DependentUpon>Staff.svc</DependentUpon>
+    </Compile>
+    <Compile Include="Schemas\ProductBarcode.cs">
+      <DependentUpon>ProductBarcode.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="ProductBarcode.svc.cs">
+      <DependentUpon>ProductBarcode.svc</DependentUpon>
+    </Compile>
+    <Compile Include="Contracts\IProductBarcode.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Schemas\ProductList.xsd" />
+    <None Include="Schemas\SystemLabels.xsd" />
+    <None Include="Schemas\ProductBarcode.xsd" />
+    <None Include="Schemas\SystemInfo.xsd" />
+    <None Include="Schemas\TransactionDetailList.xsd" />
+    <None Include="Schemas\TransactionList.xsd" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\RT2020.DAL\RT2020.DAL.csproj">
+      <Project>{C3765763-DB6E-4DDE-AF69-FC99C86F4F2B}</Project>
+      <Name>RT2020.DAL</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>4049</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:4049/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+      <UserProperties Reset="1" AssemblyVersion="1" AssemblyFileVersion="1" StartDate="20100128" />
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

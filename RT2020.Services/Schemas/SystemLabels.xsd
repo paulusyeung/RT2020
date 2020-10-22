@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="SystemInfo"
+    targetNamespace="http://synergyis.biz/SystemLabels.xsd"
+    elementFormDefault="qualified"
+    xmlns="http://synergyis.biz/SystemLabels.xsd"
+    xmlns:mstns="http://synergyis.biz/SystemLabels.xsd"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+>
+  <xs:element name="SystemLabels">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="LabelId" type="xs:string"  />
+        <xs:element name="LanguageCode" type="xs:string" minOccurs="0"  />
+        <xs:element name="STKCODE" type="xs:string" minOccurs="0"  />
+        <xs:element name="CLASS1" type="xs:string" minOccurs="0"  />
+        <xs:element name="CLASS2" type="xs:string" minOccurs="0"  />
+        <xs:element name="CLASS3" type="xs:string" minOccurs="0"  />
+        <xs:element name="CLASS4" type="xs:string" minOccurs="0"  />
+        <xs:element name="CLASS5" type="xs:string" minOccurs="0"  />
+        <xs:element name="CLASS6" type="xs:string" minOccurs="0"  />
+        <xs:element name="APPENDIX1" type="xs:string" minOccurs="0"  />
+        <xs:element name="APPENDIX2" type="xs:string" minOccurs="0"  />
+        <xs:element name="APPENDIX3" type="xs:string" minOccurs="0"  />
+        <xs:element name="REMARK1" type="xs:string" minOccurs="0"  />
+        <xs:element name="REMARK2" type="xs:string" minOccurs="0"  />
+        <xs:element name="REMARK3" type="xs:string" minOccurs="0"  />
+        <xs:element name="REMARK4" type="xs:string" minOccurs="0"  />
+        <xs:element name="REMARK5" type="xs:string" minOccurs="0"  />
+        <xs:element name="REMARK6" type="xs:string" minOccurs="0"  />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

@@ -1,0 +1,10 @@
+﻿Font Color: #008080
+Family:  Arial
+Size:  pt
+Weight: Bold
+
+Header Background: #90ee90
+
+STKCODE/A1/A2/A3 Column Background: 	#FFFFE0
+
+Grid Line: 0.5pt Gainsboro

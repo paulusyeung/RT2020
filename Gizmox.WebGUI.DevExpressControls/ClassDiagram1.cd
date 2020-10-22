@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Gizmox.WebGUI.DevExpressControls.Web.ASPxClasses.DxASPxDataWebControl" Collapsed="true">
+    <Position X="0.5" Y="4.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAABAAgAAAAAAAAAAAAAEEAAAAAAAAAAAAAAAAIA=</HashCode>
+      <FileName>Web\ASPxClasses\DxASPxDataWebControl.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Gizmox.WebGUI.DevExpressControls.Web.ASPxClasses.DxASPxDataWebControlBase" Collapsed="true">
+    <Position X="0.5" Y="3.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AIEAAAAAAgAAAgQAAAAAAAAAEAAAAAAAAAAAAAAAAoA=</HashCode>
+      <FileName>Web\ASPxClasses\DxASPxDataWebControlBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Gizmox.WebGUI.DevExpressControls.Web.ASPxClasses.DxASPxWebControl" Collapsed="true">
+    <Position X="0.5" Y="2" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAIIAAAAR0AhIKTAAEAUAEADIAFgBAgAAABEAAgQAIA=</HashCode>
+      <FileName>Web\ASPxClasses\DxASPxWebControl.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Gizmox.WebGUI.DevExpressControls.Web.ASPxClasses.DxASPxWebControlBase" Collapsed="true">
+    <Position X="0.5" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAEAEAAAAgAAgCAAAAEEAAAAAIgAACAAAAAgAAAQAII=</HashCode>
+      <FileName>Web\ASPxClasses\DxASPxWebControlBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Gizmox.WebGUI.DevExpressControls.Web.ASPxGridView.DxASPxGridView" Collapsed="true">
+    <Position X="0.5" Y="6" Width="2" />
+    <TypeIdentifier>
+      <HashCode>wj4AXaKEZvMygX0WKcixdsOhaoBSJN4Q5VEoQZsxTJg=</HashCode>
+      <FileName>Web\ASPxGridView\DxASPxGridView.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Tahoma" Size="8.25" />
+</ClassDiagram>

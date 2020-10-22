@@ -1,0 +1,1 @@
+﻿<%@ ServiceHost Language="C#" Debug="true" Service="RT2020.Services.ProductBarcode" CodeBehind="ProductBarcode.svc.cs" %>

@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <Reports PanelType="CardView">
+    <Report Caption="Stock List" Image_ListView="Icons.16x16.ico_16_1089.gif" Image_CardView="Icons.48x48.ico_48x48_stock_list.gif" Image_Thumb="Icons.48x48.ico_48x48_stock_list.gif" Description="Stock List Enquiry" Tag="Stock_List" LastAccessedOn="" />
+    <Report Caption="Stock Qty Status" Image_ListView="Icons.48x48.ico_48x48_stockqtystatus.gif" Image_CardView="Icons.48x48.ico_48x48_stockqtystatus.gif" Image_Thumb="Icons.48x48.ico_48x48_stockqtystatus.gif" Description="Stock Qty Status Enquiry" Tag="Stock_Qty_Status" LastAccessedOn="" />
+    <Report Caption="Stock Qty Status (Photo)" Image_ListView="Icons.16x16.ico_16_1091.gif" Image_CardView="Icons.48x48.ico_48x48_stockqtystatu_photo.gif" Image_Thumb="Icons.48x48.ico_48x48_stockqtystatu_photo.gif" Description="Stock Qty Status Enquiry (with Photo Display)" Tag="Stock_Qty_Status_Photo" LastAccessedOn="" />
+    <Report Caption="Stock Discount Status" Image_ListView="Icons.16x16.ico_16_1084.gif" Image_CardView="Icons.48x48.ico_48x48_discount_status.gif" Image_Thumb="Icons.48x48.ico_48x48_discount_status.gif" Description="Stock Discount Status Enquiry" Tag="Stock_Discount_Status" LastAccessedOn="" />
+    <Report Caption="Daily Shop Transaction" Image_ListView="Icons.16x16.ico_16_4009.gif" Image_CardView="Icons.48x48.ico_48x48_daily_shop_transaction.gif" Image_Thumb="Icons.48x48.ico_48x48_daily_shop_transaction.gif" Description="Daily Shop Transaction Enquiry (By Shop &amp; Date)" Tag="Daily_Shop_Transaction" LastAccessedOn="" />
+    <Report Caption="Stock In/Out History" Image_ListView="Icons.16x16.ico_18_mappings.gif" Image_CardView="Icons.48x48.ico_48x48_in_out_history.gif" Image_Thumb="Icons.48x48.ico_48x48_in_out_history.gif" Description="Stock In/Out History" Tag="Stock_InOut_History" LastAccessedOn="" />
+    <Report Caption="OLAP Monthly Sales Transaction" Image_ListView="Icons.16x16.ico_18_1024.gif" Image_CardView="Icons.48x48.ico_48x48_olap.gif" Image_Thumb="Icons.48x48.ico_48x48_olap.gif" Description="OLAP Monthly Sales Transaction Report" Tag="OLAP_Monthly_Sales_Transaction" LastAccessedOn="" />
+    <Report Caption="VIP Profile" Image_ListView="Icons.16x16.ico_16_2.gif" Image_CardView="Icons.48x48.ico_48x48_vip_profiles.gif" Image_Thumb="Icons.48x48.ico_48x48_vip_profiles.gif" Description="VIP Profile Enquiry" Tag="VIP_Profile" LastAccessedOn="" />
+    <Report Caption="VIP Sales Analysis (CRM)" Image_ListView="Icons.16x16.ico_16_4001.gif" Image_CardView="Icons.48x48.ico_48x48_vip_sales_analysis.gif" Image_Thumb="Icons.48x48.ico_48x48_vip_sales_analysis.gif" Description="VIP Sales Analysis (CRM)" Tag="VIP_Sales_Analysis" LastAccessedOn="" />
+    <Report Caption="Apply VIP" Image_ListView="Icons.16x16.ico_18_add_member_af.gif" Image_CardView="Icons.48x48.ico_48x48_apply_vip.gif" Image_Thumb="Icons.48x48.ico_48x48_apply_vip.gif" Description="Apply VIP" Tag="Apply_VIP" LastAccessedOn="" />
+  </Reports>
+</root>

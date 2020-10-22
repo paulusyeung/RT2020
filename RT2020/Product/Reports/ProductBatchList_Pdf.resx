@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <metadata name="Detail.Name" xml:space="preserve">
+    <value>Detail</value>
+  </metadata>
+  <metadata name="lbl4.Name" xml:space="preserve">
+    <value>lbl4</value>
+  </metadata>
+  <metadata name="txtORIPRC.Name" xml:space="preserve">
+    <value>txtORIPRC</value>
+  </metadata>
+  <metadata name="lblOPrc.Name" xml:space="preserve">
+    <value>lblOPrc</value>
+  </metadata>
+  <metadata name="lbl1.Name" xml:space="preserve">
+    <value>lbl1</value>
+  </metadata>
+  <metadata name="txtBASPRC.Name" xml:space="preserve">
+    <value>txtBASPRC</value>
+  </metadata>
+  <metadata name="lblRPrc.Name" xml:space="preserve">
+    <value>lblRPrc</value>
+  </metadata>
+  <metadata name="lbl5.Name" xml:space="preserve">
+    <value>lbl5</value>
+  </metadata>
+  <metadata name="lbl3.Name" xml:space="preserve">
+    <value>lbl3</value>
+  </metadata>
+  <metadata name="lbl2.Name" xml:space="preserve">
+    <value>lbl2</value>
+  </metadata>
+  <metadata name="txtSTATUS.Name" xml:space="preserve">
+    <value>txtSTATUS</value>
+  </metadata>
+  <metadata name="txtVPRC.Name" xml:space="preserve">
+    <value>txtVPRC</value>
+  </metadata>
+  <metadata name="txtVCURR.Name" xml:space="preserve">
+    <value>txtVCURR</value>
+  </metadata>
+  <metadata name="txtWHLPRC.Name" xml:space="preserve">
+    <value>txtWHLPRC</value>
+  </metadata>
+  <metadata name="lblStatus.Name" xml:space="preserve">
+    <value>lblStatus</value>
+  </metadata>
+  <metadata name="lblWPrc.Name" xml:space="preserve">
+    <value>lblWPrc</value>
+  </metadata>
+  <metadata name="lblVPrc.Name" xml:space="preserve">
+    <value>lblVPrc</value>
+  </metadata>
+  <metadata name="txtDATECREATE.Name" xml:space="preserve">
+    <value>txtDATECREATE</value>
+  </metadata>
+  <metadata name="txtMAINUNIT.Name" xml:space="preserve">
+    <value>txtMAINUNIT</value>
+  </metadata>
+  <metadata name="txtCLASS6.Name" xml:space="preserve">
+    <value>txtCLASS6</value>
+  </metadata>
+  <metadata name="txtCLASS5.Name" xml:space="preserve">
+    <value>txtCLASS5</value>
+  </metadata>
+  <metadata name="txtCLASS4.Name" xml:space="preserve">
+    <value>txtCLASS4</value>
+  </metadata>
+  <metadata name="txtCLASS3.Name" xml:space="preserve">
+    <value>txtCLASS3</value>
+  </metadata>
+  <metadata name="txtCLASS2.Name" xml:space="preserve">
+    <value>txtCLASS2</value>
+  </metadata>
+  <metadata name="txtCLASS1.Name" xml:space="preserve">
+    <value>txtCLASS1</value>
+  </metadata>
+  <metadata name="txtDESC.Name" xml:space="preserve">
+    <value>txtDESC</value>
+  </metadata>
+  <metadata name="txtAPP3_COMBIN.Name" xml:space="preserve">
+    <value>txtAPP3_COMBIN</value>
+  </metadata>
+  <metadata name="txtAPP2_COMBIN.Name" xml:space="preserve">
+    <value>txtAPP2_COMBIN</value>
+  </metadata>
+  <metadata name="txtAPP1_COMBIN.Name" xml:space="preserve">
+    <value>txtAPP1_COMBIN</value>
+  </metadata>
+  <metadata name="txtSTKCODE.Name" xml:space="preserve">
+    <value>txtSTKCODE</value>
+  </metadata>
+  <metadata name="txtStatusDesc.Name" xml:space="preserve">
+    <value>txtStatusDesc</value>
+  </metadata>
+  <metadata name="PageHeader.Name" xml:space="preserve">
+    <value>PageHeader</value>
+  </metadata>
+  <metadata name="Line1.Name" xml:space="preserve">
+    <value>Line1</value>
+  </metadata>
+  <metadata name="lblDesc.Name" xml:space="preserve">
+    <value>lblDesc</value>
+  </metadata>
+  <metadata name="lblUnit.Name" xml:space="preserve">
+    <value>lblUnit</value>
+  </metadata>
+  <metadata name="lblCompName.Name" xml:space="preserve">
+    <value>lblCompName</value>
+  </metadata>
+  <metadata name="lblDC.Name" xml:space="preserve">
+    <value>lblDC</value>
+  </metadata>
+  <metadata name="lblA3_CT.Name" xml:space="preserve">
+    <value>lblA3_CT</value>
+  </metadata>
+  <metadata name="lblA2_CT.Name" xml:space="preserve">
+    <value>lblA2_CT</value>
+  </metadata>
+  <metadata name="lblA1_CT.Name" xml:space="preserve">
+    <value>lblA1_CT</value>
+  </metadata>
+  <metadata name="lblC6.Name" xml:space="preserve">
+    <value>lblC6</value>
+  </metadata>
+  <metadata name="lblC5.Name" xml:space="preserve">
+    <value>lblC5</value>
+  </metadata>
+  <metadata name="lblC4.Name" xml:space="preserve">
+    <value>lblC4</value>
+  </metadata>
+  <metadata name="lblC3.Name" xml:space="preserve">
+    <value>lblC3</value>
+  </metadata>
+  <metadata name="lblC2.Name" xml:space="preserve">
+    <value>lblC2</value>
+  </metadata>
+  <metadata name="lblC1.Name" xml:space="preserve">
+    <value>lblC1</value>
+  </metadata>
+  <metadata name="lblA3.Name" xml:space="preserve">
+    <value>lblA3</value>
+  </metadata>
+  <metadata name="lblA2.Name" xml:space="preserve">
+    <value>lblA2</value>
+  </metadata>
+  <metadata name="lblA1.Name" xml:space="preserve">
+    <value>lblA1</value>
+  </metadata>
+  <metadata name="txtPages.Name" xml:space="preserve">
+    <value>txtPages</value>
+  </metadata>
+  <metadata name="txtPage.Name" xml:space="preserve">
+    <value>txtPage</value>
+  </metadata>
+  <metadata name="lblOf.Name" xml:space="preserve">
+    <value>lblOf</value>
+  </metadata>
+  <metadata name="lblPage.Name" xml:space="preserve">
+    <value>lblPage</value>
+  </metadata>
+  <metadata name="txtPrint.Name" xml:space="preserve">
+    <value>txtPrint</value>
+  </metadata>
+  <metadata name="lblPrint.Name" xml:space="preserve">
+    <value>lblPrint</value>
+  </metadata>
+  <metadata name="lblCaption.Name" xml:space="preserve">
+    <value>lblCaption</value>
+  </metadata>
+  <metadata name="lblSTK.Name" xml:space="preserve">
+    <value>lblSTK</value>
+  </metadata>
+  <metadata name="ghSTK.Name" xml:space="preserve">
+    <value>ghSTK</value>
+  </metadata>
+  <metadata name="gfSTK.Name" xml:space="preserve">
+    <value>gfSTK</value>
+  </metadata>
+  <metadata name="PageFooter.Name" xml:space="preserve">
+    <value>PageFooter</value>
+  </metadata>
+  <metadata name="lblClass6.Name" xml:space="preserve">
+    <value>lblClass6</value>
+  </metadata>
+  <metadata name="lblClass5.Name" xml:space="preserve">
+    <value>lblClass5</value>
+  </metadata>
+  <metadata name="lblClass4.Name" xml:space="preserve">
+    <value>lblClass4</value>
+  </metadata>
+  <metadata name="lblClass3.Name" xml:space="preserve">
+    <value>lblClass3</value>
+  </metadata>
+  <metadata name="lblClass2.Name" xml:space="preserve">
+    <value>lblClass2</value>
+  </metadata>
+  <metadata name="lblClass1.Name" xml:space="preserve">
+    <value>lblClass1</value>
+  </metadata>
+  <metadata name="$this.Name" xml:space="preserve">
+    <value>ProductBatchList</value>
+  </metadata>
+</root>

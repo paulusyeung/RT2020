@@ -1,0 +1,210 @@
+.dxpgLoadingPanel_Glass
+{
+	font: 11px Tahoma;
+	color: #303030;
+	text-align: center;			
+	cursor: wait;	
+	border:solid 1px #7EACB1;
+	background-color: White;
+}
+.dxpgLoadingPanel_Glass td
+{
+	padding: 12px;
+}
+.dxpgControl_Glass
+{
+	color: Black;
+	font: 11px Tahoma;
+	border: solid 1px #7EACB1;
+}
+.dxpgMainTable_Glass
+{
+	color: Black;
+	font: 11px Tahoma;
+	border: 0px;
+	border-collapse: separate;
+}
+.dxpgHeader_Glass
+{
+	color: Black;
+	background-color: #DADFE0;
+	cursor: pointer;
+	white-space: nowrap;
+	font-weight: bold;
+	border-color: #7EACB1;
+}
+.dxpgHeaderHover_Glass
+{
+	background-color: #f1f1f1;
+}
+.dxpgArea_Glass, .dxpgArea_Glass table
+{
+	color: Black;
+	font: 11px Tahoma;
+	font-weight: bold;
+}
+.dxpgArea_Glass
+{
+	border: solid 1px #7EACB1;
+	background-color: #EDF3F4;
+	border-left-style: none;
+	border-top-style: none;
+	border-bottom-style: none;
+	border-right-style: none;
+}
+.dxpgFilterArea_Glass
+{
+	background-color: #DAE8EB;
+	color: Black;
+	border-bottom-style: solid;
+	font-weight: bold;
+}
+.dxpgColumnFieldValue_Glass
+{
+	background-color: #DFEAEC;
+	border: solid 1px #7EACB1;
+	border-left-style: solid;
+	border-bottom-style: solid;
+	border-right-style: none;
+	border-top-style: none;
+	padding: 4px 6px;
+}
+.dxpgColumnTotalFieldValue_Glass
+{
+	background-color: #C7DEDF;
+	border-left-style: solid;
+	border-bottom-style: solid;
+	border-right-style: none;
+	border-top-style: none;
+}
+.dxpgColumnGrandTotalFieldValue_Glass
+{
+	background-color: #9AC4C8;
+	border-left-style: solid;
+	border-bottom-style: solid;
+	border-right-style: none;
+	border-top-style: none;
+}
+.dxpgRowFieldValue_Glass
+{
+	background-color: #DFEAEC;
+	border: solid 1px #7EACB1;
+	border-left-style: none;
+	border-bottom-style: none;
+	border-right-style: solid;
+	border-top-style: solid;
+	padding: 4px 6px;
+}
+.dxpgRowTotalFieldValue_Glass
+{
+	background-color: #C7DEDF;
+	border-left-style: none;
+	border-bottom-style: none;
+	border-right-style: solid;
+	border-top-style: solid;
+}
+.dxpgRowGrandTotalFieldValue_Glass
+{
+	background-color: #9AC4C8;
+	border-left-style: none;
+	border-bottom-style: none;
+	border-right-style: solid;
+	border-top-style: solid;
+}
+.dxpgCollapsedButton_Glass
+{
+	vertical-align: -1px;
+	margin-right: 5px;
+}
+.dxpgCell_Glass
+{
+	text-align: right;
+	background-color: #FFFFFF;	
+	border-color: #C2D8DA;
+	border-width: 1px;
+	border-top-style: solid;
+	border-left-style: solid;
+	border-bottom-style: none;
+	border-right-style: none;
+	padding: 4px;
+}
+.dxpgTotalCell_Glass
+{
+	background-color: #EDF3F4;
+}
+.dxpgGrandTotalCell_Glass
+{
+	background-color: #D8E6E8;
+}
+.dxpgRowGrandTotalCell_Glass
+{
+	background-color: #e2e2e2;
+}
+.dxpgColumnGrandTotalCell_Glass
+{
+	background-color: #e2e2e2;
+}
+.dxpgFilterWindow_Glass
+{
+	color: Black;
+	font: 11px Tahoma;
+	border: solid 1px #FFFFFF;
+}
+.dxpgFilterItemsArea_Glass
+{
+	color: Black;
+	background-color: White;
+}
+.dxpgFilterItem_Glass
+{
+	font: 11px Tahoma;
+}
+.dxpgFilterButton_Glass
+{
+	font: 11px Tahoma;
+	padding: 2px 6px;
+}
+.dxpgFilterButtonPanel_Glass
+{
+	font: 11px Tahoma;
+	background-color: #ededed;
+	border: 1px solid #dcdcdc;
+	color: Black;
+}
+.dxpgLoadingDiv_Glass
+{
+	z-index: 4999;
+	background-color: White;
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	width: 0px;
+	height: 0px;
+}
+.dxpgTopPager_Glass
+{
+	border-top: none;
+	border-right: none;
+	border-left: none;
+	border-bottom: solid 1px #7EACB1;
+}
+.dxpgBottomPager_Glass
+{
+	border-top: solid 1px #7EACB1;
+	border-bottom: none;
+	border-right: none;
+	border-left: none;
+}
+.dxpgCustomizationFieldsHeader_Glass
+{
+	color: Black;
+	font: 11px Tahoma !important;
+}
+.dxpgCustomizationFieldsContent_Glass
+{
+	padding: 0px !important;
+}
+.dxpgMenuItem_Glass
+{
+	font: 11px Tahoma !important;	
+}
