@@ -122,10 +122,27 @@ namespace RT2020.NavPane
                         wspPane.Controls.Add(oSysMe);
                         break;
                     case "settings.security":
-                        RT2020.Settings.SystemSecurity oSysSec = new RT2020.Settings.SystemSecurity();
-                        oSysSec.Dock = DockStyle.Fill;
-                        oSysSec.DockPadding.All = 6;
-                        wspPane.Controls.Add(oSysSec);
+                        if (NetSqlAzManHelper.UseNetSqlAzMan)
+                        {
+                            #region 使用 RT2020 NetSqlAzMan Access Control
+                            var netSql = new VWG.Community.NetSqlAzMan.WebConsole()
+                            {
+                                Dock = DockStyle.Fill,
+                                SqlConnectionString = NetSqlAzManHelper.ConnectionString,
+                                Theme = ThemeHelper.CurrentTheme
+                            };
+                            wspPane.Controls.Add(netSql);
+                            #endregion
+                        }
+                        else
+                        {
+                            #region 使用 RT2008 Access Control
+                            RT2020.Settings.SystemSecurity oSysSec = new RT2020.Settings.SystemSecurity();
+                            oSysSec.Dock = DockStyle.Fill;
+                            oSysSec.DockPadding.All = 6;
+                            wspPane.Controls.Add(oSysSec);
+                            #endregion
+                        }
                         break;
                     case "settings.translation":
                         RT2020.Settings.Translation oTranslate = new RT2020.Settings.Translation();

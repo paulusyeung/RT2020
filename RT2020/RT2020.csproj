@@ -160,6 +160,10 @@
       <HintPath>..\packages\Microsoft.ReportViewer.WebForms.v12.12.0.0.0\lib\Microsoft.ReportViewer.WebForms.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="NetSqlAzMan, Version=3.6.0.15, Culture=neutral, PublicKeyToken=ad1153f7ddd0e504, processorArchitecture=MSIL">
+      <HintPath>..\packages\NetSqlAzMan-x64.3.6.0.15\lib\net40\NetSqlAzMan.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
@@ -172,9 +176,14 @@
     <Reference Include="System.configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data.Linq" />
     <Reference Include="System.Design" />
+    <Reference Include="System.DirectoryServices" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Web" />
     <Reference Include="Gizmox.WebGUI.Common">
       <Private>True</Private>
@@ -191,6 +200,10 @@
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
+    <Reference Include="VWG.Community.NetSqlAzMan, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\VWG.Community.NetSqlAzMan.1.0.1\lib\VWG.Community.NetSqlAzMan.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Westwind.Globalization, Version=3.0.5.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Westwind.Globalization.3.0.5\lib\net45\Westwind.Globalization.dll</HintPath>
       <Private>True</Private>
@@ -292,6 +305,225 @@
     <Content Include="Resources\Icons\24x24\earth.png" />
     <Content Include="Resources\Icons\24x24\half.png" />
     <Content Include="Resources\Icons\24x24\power_24.png" />
+    <Content Include="Resources\Icons\dark\16\mdi-account-alert-outline.png" />
+    <Content Include="Resources\Icons\dark\16\mdi-account-details.png" />
+    <Content Include="Resources\Icons\dark\16\mdi-account-multiple-plus.png" />
+    <Content Include="Resources\Icons\dark\16\mdi-account-multiple.png" />
+    <Content Include="Resources\Icons\dark\16\mdi-account-off-outline.png" />
+    <Content Include="Resources\Icons\dark\16\mdi-account-outline.png" />
+    <Content Include="Resources\Icons\dark\16\mdi-account-supervisor-circle-outline.png" />
+    <Content Include="Resources\Icons\dark\16\mdi-account-supervisor-circle.png" />
+    <Content Include="Resources\Icons\dark\16\mdi-account-tie.png" />
+    <Content Include="Resources\Icons\dark\16\mdi-account.png" />
+    <Content Include="Resources\Icons\dark\16\mdi-bell-plus.png" />
+    <Content Include="Resources\Icons\dark\16\mdi-briefcase-account.png" />
+    <Content Include="Resources\Icons\dark\16\mdi-check-box-outline.png" />
+    <Content Include="Resources\Icons\dark\16\mdi-check-circle-outline.png" />
+    <Content Include="Resources\Icons\dark\16\mdi-clipboard-check-outline.png" />
+    <Content Include="Resources\Icons\dark\16\mdi-cog-outline.png" />
+    <Content Include="Resources\Icons\dark\16\mdi-database-plus.png" />
+    <Content Include="Resources\Icons\dark\16\mdi-database.png" />
+    <Content Include="Resources\Icons\dark\16\mdi-delete.png" />
+    <Content Include="Resources\Icons\dark\16\mdi-domain-plus.png" />
+    <Content Include="Resources\Icons\dark\16\mdi-domain.png" />
+    <Content Include="Resources\Icons\dark\16\mdi-eye.png" />
+    <Content Include="Resources\Icons\dark\16\mdi-file-document-edit-outline.png" />
+    <Content Include="Resources\Icons\dark\16\mdi-file-tree-outline.png" />
+    <Content Include="Resources\Icons\dark\16\mdi-folder-account-outline.png" />
+    <Content Include="Resources\Icons\dark\16\mdi-folder-account.png" />
+    <Content Include="Resources\Icons\dark\16\mdi-folder-cog-outline.png" />
+    <Content Include="Resources\Icons\dark\16\mdi-folder-plus-outline.png" />
+    <Content Include="Resources\Icons\dark\16\mdi-folder.png" />
+    <Content Include="Resources\Icons\dark\16\mdi-format-list-bulleted.png" />
+    <Content Include="Resources\Icons\dark\16\mdi-notification-clear-all.png" />
+    <Content Include="Resources\Icons\dark\16\mdi-order-bool-ascending-variant.png" />
+    <Content Include="Resources\Icons\dark\16\mdi-pencil-outline.png" />
+    <Content Include="Resources\Icons\dark\16\mdi-reload.png" />
+    <Content Include="Resources\Icons\dark\16\mdi-shield-account.png" />
+    <Content Include="Resources\Icons\dark\16\mdi-sort-ascending.png" />
+    <Content Include="Resources\Icons\dark\16\mdi-table-heart.png" />
+    <Content Include="Resources\Icons\dark\16\mdi-text-box-check-outline.png" />
+    <Content Include="Resources\Icons\dark\16\mdi-text-box-plus-outline.png" />
+    <Content Include="Resources\Icons\dark\16\mdi-view-column-outline.png" />
+    <Content Include="Resources\Icons\dark\16\mdi-view-grid-outline.png" />
+    <Content Include="Resources\Icons\dark\16\mdi-view-list.png" />
+    <Content Include="Resources\Icons\dark\16\mdi-view-sequential-outline.png" />
+    <Content Include="Resources\Icons\dark\24\mdi-account-alert-outline.png" />
+    <Content Include="Resources\Icons\dark\24\mdi-account-details.png" />
+    <Content Include="Resources\Icons\dark\24\mdi-account-multiple-plus.png" />
+    <Content Include="Resources\Icons\dark\24\mdi-account-multiple.png" />
+    <Content Include="Resources\Icons\dark\24\mdi-account-off-outline.png" />
+    <Content Include="Resources\Icons\dark\24\mdi-account-outline.png" />
+    <Content Include="Resources\Icons\dark\24\mdi-account-search.png" />
+    <Content Include="Resources\Icons\dark\24\mdi-account-supervisor-circle-outline.png" />
+    <Content Include="Resources\Icons\dark\24\mdi-account-supervisor-circle.png" />
+    <Content Include="Resources\Icons\dark\24\mdi-account-tie.png" />
+    <Content Include="Resources\Icons\dark\24\mdi-account.png" />
+    <Content Include="Resources\Icons\dark\24\mdi-arrow-collapse.png" />
+    <Content Include="Resources\Icons\dark\24\mdi-arrow-expand.png" />
+    <Content Include="Resources\Icons\dark\24\mdi-bell-plus.png" />
+    <Content Include="Resources\Icons\dark\24\mdi-briefcase-account.png" />
+    <Content Include="Resources\Icons\dark\24\mdi-check-box-outline.png" />
+    <Content Include="Resources\Icons\dark\24\mdi-check-circle-outline.png" />
+    <Content Include="Resources\Icons\dark\24\mdi-clipboard-check-outline.png" />
+    <Content Include="Resources\Icons\dark\24\mdi-cog-outline.png" />
+    <Content Include="Resources\Icons\dark\24\mdi-database-plus.png" />
+    <Content Include="Resources\Icons\dark\24\mdi-database.png" />
+    <Content Include="Resources\Icons\dark\24\mdi-delete.png" />
+    <Content Include="Resources\Icons\dark\24\mdi-domain-plus.png" />
+    <Content Include="Resources\Icons\dark\24\mdi-domain.png" />
+    <Content Include="Resources\Icons\dark\24\mdi-export.png" />
+    <Content Include="Resources\Icons\dark\24\mdi-eye.png" />
+    <Content Include="Resources\Icons\dark\24\mdi-file-document-edit-outline.png" />
+    <Content Include="Resources\Icons\dark\24\mdi-file-tree-outline.png" />
+    <Content Include="Resources\Icons\dark\24\mdi-folder-account-outline.png" />
+    <Content Include="Resources\Icons\dark\24\mdi-folder-account.png" />
+    <Content Include="Resources\Icons\dark\24\mdi-folder-cog-outline.png" />
+    <Content Include="Resources\Icons\dark\24\mdi-folder-plus-outline.png" />
+    <Content Include="Resources\Icons\dark\24\mdi-folder.png" />
+    <Content Include="Resources\Icons\dark\24\mdi-format-list-bulleted.png" />
+    <Content Include="Resources\Icons\dark\24\mdi-import.png" />
+    <Content Include="Resources\Icons\dark\24\mdi-notification-clear-all.png" />
+    <Content Include="Resources\Icons\dark\24\mdi-order-bool-ascending-variant.png" />
+    <Content Include="Resources\Icons\dark\24\mdi-pencil-outline.png" />
+    <Content Include="Resources\Icons\dark\24\mdi-reload.png" />
+    <Content Include="Resources\Icons\dark\24\mdi-shield-account.png" />
+    <Content Include="Resources\Icons\dark\24\mdi-sort-ascending.png" />
+    <Content Include="Resources\Icons\dark\24\mdi-table-heart.png" />
+    <Content Include="Resources\Icons\dark\24\mdi-text-box-check-outline.png" />
+    <Content Include="Resources\Icons\dark\24\mdi-text-box-plus-outline.png" />
+    <Content Include="Resources\Icons\dark\24\mdi-view-column-outline.png" />
+    <Content Include="Resources\Icons\dark\24\mdi-view-grid-outline.png" />
+    <Content Include="Resources\Icons\dark\24\mdi-view-list.png" />
+    <Content Include="Resources\Icons\dark\24\mdi-view-sequential-outline.png" />
+    <Content Include="Resources\Icons\dark\32\mdi-account-alert-outline.png" />
+    <Content Include="Resources\Icons\dark\32\mdi-account-details.png" />
+    <Content Include="Resources\Icons\dark\32\mdi-account-multiple.png" />
+    <Content Include="Resources\Icons\dark\32\mdi-account-supervisor-circle-outline.png" />
+    <Content Include="Resources\Icons\dark\32\mdi-account-supervisor-circle.png" />
+    <Content Include="Resources\Icons\dark\32\mdi-account-tie.png" />
+    <Content Include="Resources\Icons\dark\32\mdi-briefcase-account.png" />
+    <Content Include="Resources\Icons\dark\32\mdi-clipboard-check-outline.png" />
+    <Content Include="Resources\Icons\dark\32\mdi-cog-outline.png" />
+    <Content Include="Resources\Icons\dark\32\mdi-domain.png" />
+    <Content Include="Resources\Icons\dark\32\mdi-folder-account-outline.png" />
+    <Content Include="Resources\Icons\dark\32\mdi-folder-account.png" />
+    <Content Include="Resources\Icons\dark\32\mdi-folder-cog-outline.png" />
+    <Content Include="Resources\Icons\dark\32\mdi-folder.png" />
+    <Content Include="Resources\Icons\dark\48\mdi-account-outline.png" />
+    <Content Include="Resources\Icons\dark\48\mdi-account-tie.png" />
+    <Content Include="Resources\Icons\dark\48\mdi-account.png" />
+    <Content Include="Resources\Icons\dark\48\mdi-plus.circle.png" />
+    <Content Include="Resources\Icons\light\16\mdi-account-alert-outline.png" />
+    <Content Include="Resources\Icons\light\16\mdi-account-details.png" />
+    <Content Include="Resources\Icons\light\16\mdi-account-multiple-plus.png" />
+    <Content Include="Resources\Icons\light\16\mdi-account-multiple.png" />
+    <Content Include="Resources\Icons\light\16\mdi-account-off-outline.png" />
+    <Content Include="Resources\Icons\light\16\mdi-account-outline.png" />
+    <Content Include="Resources\Icons\light\16\mdi-account-supervisor-circle-outline.png" />
+    <Content Include="Resources\Icons\light\16\mdi-account-supervisor-circle.png" />
+    <Content Include="Resources\Icons\light\16\mdi-account-tie.png" />
+    <Content Include="Resources\Icons\light\16\mdi-account.png" />
+    <Content Include="Resources\Icons\light\16\mdi-bell-plus.png" />
+    <Content Include="Resources\Icons\light\16\mdi-briefcase-account.png" />
+    <Content Include="Resources\Icons\light\16\mdi-check-box-outline.png" />
+    <Content Include="Resources\Icons\light\16\mdi-check-circle-outline.png" />
+    <Content Include="Resources\Icons\light\16\mdi-clipboard-check-outline.png" />
+    <Content Include="Resources\Icons\light\16\mdi-cog-outline.png" />
+    <Content Include="Resources\Icons\light\16\mdi-database-plus.png" />
+    <Content Include="Resources\Icons\light\16\mdi-database.png" />
+    <Content Include="Resources\Icons\light\16\mdi-delete.png" />
+    <Content Include="Resources\Icons\light\16\mdi-domain-plus.png" />
+    <Content Include="Resources\Icons\light\16\mdi-domain.png" />
+    <Content Include="Resources\Icons\light\16\mdi-eye.png" />
+    <Content Include="Resources\Icons\light\16\mdi-file-document-edit-outline.png" />
+    <Content Include="Resources\Icons\light\16\mdi-file-tree-outline.png" />
+    <Content Include="Resources\Icons\light\16\mdi-folder-account-outline.png" />
+    <Content Include="Resources\Icons\light\16\mdi-folder-account.png" />
+    <Content Include="Resources\Icons\light\16\mdi-folder-cog-outline.png" />
+    <Content Include="Resources\Icons\light\16\mdi-folder-plus-outline.png" />
+    <Content Include="Resources\Icons\light\16\mdi-folder.png" />
+    <Content Include="Resources\Icons\light\16\mdi-format-list-bulleted.png" />
+    <Content Include="Resources\Icons\light\16\mdi-notification-clear-all.png" />
+    <Content Include="Resources\Icons\light\16\mdi-order-bool-ascending-variant.png" />
+    <Content Include="Resources\Icons\light\16\mdi-pencil-outline.png" />
+    <Content Include="Resources\Icons\light\16\mdi-reload.png" />
+    <Content Include="Resources\Icons\light\16\mdi-shield-account.png" />
+    <Content Include="Resources\Icons\light\16\mdi-sort-ascending.png" />
+    <Content Include="Resources\Icons\light\16\mdi-table-heart.png" />
+    <Content Include="Resources\Icons\light\16\mdi-text-box-check-outline.png" />
+    <Content Include="Resources\Icons\light\16\mdi-text-box-plus-outline.png" />
+    <Content Include="Resources\Icons\light\16\mdi-view-column-outline.png" />
+    <Content Include="Resources\Icons\light\16\mdi-view-grid-outline.png" />
+    <Content Include="Resources\Icons\light\16\mdi-view-list.png" />
+    <Content Include="Resources\Icons\light\16\mdi-view-sequential-outline.png" />
+    <Content Include="Resources\Icons\light\24\mdi-account-alert-outline.png" />
+    <Content Include="Resources\Icons\light\24\mdi-account-details.png" />
+    <Content Include="Resources\Icons\light\24\mdi-account-multiple-plus.png" />
+    <Content Include="Resources\Icons\light\24\mdi-account-multiple.png" />
+    <Content Include="Resources\Icons\light\24\mdi-account-off-outline.png" />
+    <Content Include="Resources\Icons\light\24\mdi-account-outline.png" />
+    <Content Include="Resources\Icons\light\24\mdi-account-search.png" />
+    <Content Include="Resources\Icons\light\24\mdi-account-supervisor-circle-outline.png" />
+    <Content Include="Resources\Icons\light\24\mdi-account-supervisor-circle.png" />
+    <Content Include="Resources\Icons\light\24\mdi-account-tie.png" />
+    <Content Include="Resources\Icons\light\24\mdi-account.png" />
+    <Content Include="Resources\Icons\light\24\mdi-arrow-collapse.png" />
+    <Content Include="Resources\Icons\light\24\mdi-arrow-expand.png" />
+    <Content Include="Resources\Icons\light\24\mdi-bell-plus.png" />
+    <Content Include="Resources\Icons\light\24\mdi-briefcase-account.png" />
+    <Content Include="Resources\Icons\light\24\mdi-check-box-outline.png" />
+    <Content Include="Resources\Icons\light\24\mdi-check-circle-outline.png" />
+    <Content Include="Resources\Icons\light\24\mdi-clipboard-check-outline.png" />
+    <Content Include="Resources\Icons\light\24\mdi-cog-outline.png" />
+    <Content Include="Resources\Icons\light\24\mdi-database-plus.png" />
+    <Content Include="Resources\Icons\light\24\mdi-database.png" />
+    <Content Include="Resources\Icons\light\24\mdi-delete.png" />
+    <Content Include="Resources\Icons\light\24\mdi-domain-plus.png" />
+    <Content Include="Resources\Icons\light\24\mdi-domain.png" />
+    <Content Include="Resources\Icons\light\24\mdi-export.png" />
+    <Content Include="Resources\Icons\light\24\mdi-eye.png" />
+    <Content Include="Resources\Icons\light\24\mdi-file-document-edit-outline.png" />
+    <Content Include="Resources\Icons\light\24\mdi-file-tree-outline.png" />
+    <Content Include="Resources\Icons\light\24\mdi-folder-account-outline.png" />
+    <Content Include="Resources\Icons\light\24\mdi-folder-account.png" />
+    <Content Include="Resources\Icons\light\24\mdi-folder-cog-outline.png" />
+    <Content Include="Resources\Icons\light\24\mdi-folder-plus-outline.png" />
+    <Content Include="Resources\Icons\light\24\mdi-folder.png" />
+    <Content Include="Resources\Icons\light\24\mdi-format-list-bulleted.png" />
+    <Content Include="Resources\Icons\light\24\mdi-import.png" />
+    <Content Include="Resources\Icons\light\24\mdi-notification-clear-all.png" />
+    <Content Include="Resources\Icons\light\24\mdi-order-bool-ascending-variant.png" />
+    <Content Include="Resources\Icons\light\24\mdi-pencil-outline.png" />
+    <Content Include="Resources\Icons\light\24\mdi-reload.png" />
+    <Content Include="Resources\Icons\light\24\mdi-shield-account.png" />
+    <Content Include="Resources\Icons\light\24\mdi-sort-ascending.png" />
+    <Content Include="Resources\Icons\light\24\mdi-table-heart.png" />
+    <Content Include="Resources\Icons\light\24\mdi-text-box-check-outline.png" />
+    <Content Include="Resources\Icons\light\24\mdi-text-box-plus-outline.png" />
+    <Content Include="Resources\Icons\light\24\mdi-view-column-outline.png" />
+    <Content Include="Resources\Icons\light\24\mdi-view-grid-outline.png" />
+    <Content Include="Resources\Icons\light\24\mdi-view-list.png" />
+    <Content Include="Resources\Icons\light\24\mdi-view-sequential-outline.png" />
+    <Content Include="Resources\Icons\light\32\mdi-account-alert-outline.png" />
+    <Content Include="Resources\Icons\light\32\mdi-account-details.png" />
+    <Content Include="Resources\Icons\light\32\mdi-account-multiple.png" />
+    <Content Include="Resources\Icons\light\32\mdi-account-supervisor-circle-outline.png" />
+    <Content Include="Resources\Icons\light\32\mdi-account-supervisor-circle.png" />
+    <Content Include="Resources\Icons\light\32\mdi-account-tie.png" />
+    <Content Include="Resources\Icons\light\32\mdi-briefcase-account.png" />
+    <Content Include="Resources\Icons\light\32\mdi-clipboard-check-outline.png" />
+    <Content Include="Resources\Icons\light\32\mdi-cog-outline.png" />
+    <Content Include="Resources\Icons\light\32\mdi-domain.png" />
+    <Content Include="Resources\Icons\light\32\mdi-folder-account-outline.png" />
+    <Content Include="Resources\Icons\light\32\mdi-folder-account.png" />
+    <Content Include="Resources\Icons\light\32\mdi-folder-cog-outline.png" />
+    <Content Include="Resources\Icons\light\32\mdi-folder.png" />
+    <Content Include="Resources\Icons\light\32\store.gif" />
+    <Content Include="Resources\Icons\light\48\mdi-account-outline.png" />
+    <Content Include="Resources\Icons\light\48\mdi-account-tie.png" />
+    <Content Include="Resources\Icons\light\48\mdi-account.png" />
+    <Content Include="Resources\Icons\light\48\mdi-plus.circle.png" />
     <Content Include="Resources\Images\RT2020.jpg" />
     <Content Include="Resources\Images\RT2020.Logo.jpg" />
     <Content Include="Resources\Menu\NavMenu.xml">
@@ -591,6 +823,7 @@
     </Compile>
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Helper\CookieHelper.cs" />
+    <Compile Include="Helper\NetSqlAzManHelper.cs" />
     <Compile Include="Helper\ThemeHelper.cs" />
     <Compile Include="Helper\WestwindHelper.cs" />
     <Compile Include="Help\About.cs">
@@ -4431,8 +4664,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_LocalResources\" />
-    <Folder Include="Resources\Icons\dark\" />
-    <Folder Include="Resources\Icons\light\" />
     <Folder Include="Resources\Icons\neutral\" />
     <Folder Include="Staff\Import\" />
   </ItemGroup>
