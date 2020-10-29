@@ -60,6 +60,7 @@ namespace RT2020
             atsPane.Controls.Add(oTopPane);
         }
 
+        /** 廢棄
         private void SetTaskbar()
         {
             var taskbar = new Panel()
@@ -89,6 +90,7 @@ namespace RT2020
             taskbar.Controls.AddRange(new Control[] { user, theme });
             atsPane.Controls.Add(taskbar);
         }
+        */
 
         private void SetTheme()
         {
@@ -112,6 +114,8 @@ namespace RT2020
         }
 
         #region Close Button
+
+        /** 廢棄
         private void SetCloseButton()
         {
             Button cmdClose = new Button();
@@ -131,6 +135,7 @@ namespace RT2020
         {
             Shutdown();
         }
+        */
 
         private void Shutdown()
         {
