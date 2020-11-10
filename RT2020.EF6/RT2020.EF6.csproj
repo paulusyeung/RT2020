@@ -1,0 +1,524 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{80747BA9-D766-4DCA-B58A-E8426BF72ACE}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>RT2020.EF6</RootNamespace>
+    <AssemblyName>RT2020.EF6</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="City.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Country.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Currency.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EPOSBatchDetail.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EPOSBatchHeader.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EPOSBatchTender.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EPOSSubLedgerDetail.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EPOSSubLedgerHeader.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EPOSSubLedgerTender.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FepAudit.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FepBatchDetail.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FepBatchHeader.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FepBatchTender.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="InternetTag.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="InvtBatchADJ_Details.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="InvtBatchADJ_Header.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="InvtBatchCAP_Details.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="InvtBatchCAP_Header.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="InvtBatchREC_Details.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="InvtBatchREC_Header.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="InvtBatchRPL_Details.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="InvtBatchRPL_Header.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="InvtBatchTXF_Details.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="InvtBatchTXF_Header.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="InvtBatchTXF_Log.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="InvtLedgerDetail.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="InvtLedgerHeader.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="InvtSubLedgerADJ_Details.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="InvtSubLedgerADJ_Header.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="InvtSubLedgerCAP_Details.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="InvtSubLedgerCAP_Header.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="InvtSubLedgerREC_Details.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="InvtSubLedgerREC_Header.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="InvtSubLedgerRPL_Details.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="InvtSubLedgerRPL_Header.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="InvtSubLedgerTXF_Details.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="InvtSubLedgerTXF_Header.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="JobTitle.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="LineOfOperation.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MarketSector.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Member.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MemberAddress.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MemberAddressType.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MemberApply.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MemberApply4TempVip.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MemberApply4TempVipLog.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MemberClass.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MemberGroup.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MemberSmartTag.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MemberVipData.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MemberVipLineOfOperation.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MemberVipSupplement.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PhoneTag.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PosAnalysisCode.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PosLedgerAnalysi.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PosLedgerDetail.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PosLedgerHeader.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PosLedgerTender.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PosTenderType.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PriceManagementActiveDetail.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PriceManagementActiveHeader.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PriceManagementBatchDetail.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PriceManagementBatchHeader.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PriceManagementReason.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Product.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProductAppendix1.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProductAppendix2.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProductAppendix3.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProductApply.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProductBarcode.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProductBatch.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProductClass1.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProductClass2.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProductClass3.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProductClass4.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProductClass5.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProductClass6.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProductCode.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProductCurrentSummary.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProductDim.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProductDim_Details.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProductNature.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProductPeriodicSummary.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProductPrice.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProductPriceType.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProductPrice_LineOfOperation.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProductRemark.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProductSupplement.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProductWorkplace.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProductWorkplacePeriodicSummary.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PromotionPaymentFactor.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Province.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PurchaseOrderDetail.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PurchaseOrderHeader.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PurchaseOrderHHTDetail.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PurchaseOrderHHTHeader.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PurchaseOrderReceiveDetail.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PurchaseOrderReceiveHeader.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Remark.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RT2020Model.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RT2020Model.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RT2020Model.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RT2020Model.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RT2020Model.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Salutation.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ShipmentMethod.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SmartTag4Member.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SmartTag4Staff.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SmartTag4Supplier.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SmartTag4Workplace.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Staff.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="StaffAddress.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="StaffDept.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="StaffGroup.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="StaffHR.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="StaffInternetTag.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="StaffJobTitle.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="StaffPreference.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="StaffSecurity.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="StaffSmartTag.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="StockTakeDetail.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="StockTakeDetails_HHT.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="StockTakeHeader.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="StocktakeHeader_HHT.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Supplier.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SupplierAddress.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SupplierAddressType.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SupplierContact.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SupplierSmartTag.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SupplierTerm.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SystemHHTLog.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SystemInfo.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SystemLabel.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SystemQueue.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TransferReason.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TxferAdvanceImport.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TxferAdvanceImportSummary.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UserPreference.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UserProfile.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Workplace.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="WorkplaceAddress.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="WorkplaceNature.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="WorkplaceSmartTag.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="WorkplaceZone.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EntityDeploy Include="RT2020Model.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>RT2020Model.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.Config" />
+    <None Include="packages.config" />
+    <None Include="RT2020Model.edmx.diagram">
+      <DependentUpon>RT2020Model.edmx</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="RT2020Model.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>RT2020Model.Context.cs</LastGenOutput>
+      <DependentUpon>RT2020Model.edmx</DependentUpon>
+    </Content>
+    <Content Include="RT2020Model.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>RT2020Model.edmx</DependentUpon>
+      <LastGenOutput>RT2020Model.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

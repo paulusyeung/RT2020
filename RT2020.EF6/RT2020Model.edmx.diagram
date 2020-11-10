@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="e61f97d03e8b4f06bacba75ba9481768" Name="Diagram1">
+        <EntityTypeShape EntityType="RT2020Model.City" Width="1.5" PointX="8.25" PointY="18.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.Country" Width="1.5" PointX="3.75" PointY="11.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.Currency" Width="1.5" PointX="12.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.EPOSBatchDetail" Width="1.5" PointX="3" PointY="86.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.EPOSBatchHeader" Width="1.5" PointX="0.75" PointY="142" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.EPOSBatchTender" Width="1.5" PointX="18" PointY="73.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.EPOSSubLedgerDetail" Width="1.5" PointX="6" PointY="86.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.EPOSSubLedgerHeader" Width="1.5" PointX="3.75" PointY="104" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.EPOSSubLedgerTender" Width="1.5" PointX="18" PointY="59.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.FepAudit" Width="1.5" PointX="14.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.FepBatchDetail" Width="1.5" PointX="9" PointY="84.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.FepBatchHeader" Width="1.5" PointX="6.75" PointY="107.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.FepBatchTender" Width="1.5" PointX="15" PointY="63.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.InternetTag" Width="1.5" PointX="14.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.InvtBatchADJ_Details" Width="1.5" PointX="3" PointY="82" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.InvtBatchADJ_Header" Width="1.5" PointX="0.75" PointY="134" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.InvtBatchCAP_Details" Width="1.5" PointX="3" PointY="94.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.InvtBatchCAP_Header" Width="1.5" PointX="0.75" PointY="178.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.InvtBatchREC_Details" Width="1.5" PointX="6" PointY="80.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.InvtBatchREC_Header" Width="1.5" PointX="3.75" PointY="59.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.InvtBatchRPL_Details" Width="1.5" PointX="6" PointY="94.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.InvtBatchRPL_Header" Width="1.5" PointX="3.75" PointY="116.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.InvtBatchTXF_Details" Width="1.5" PointX="9" PointY="79.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.InvtBatchTXF_Header" Width="1.5" PointX="6.75" PointY="67" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.InvtBatchTXF_Log" Width="1.5" PointX="11.25" PointY="70.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.InvtLedgerDetail" Width="1.5" PointX="12" PointY="86.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.InvtLedgerHeader" Width="1.5" PointX="9.75" PointY="113.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.InvtSubLedgerADJ_Details" Width="1.5" PointX="9" PointY="96" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.InvtSubLedgerADJ_Header" Width="1.5" PointX="6.75" PointY="125" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.InvtSubLedgerCAP_Details" Width="1.5" PointX="12" PointY="82.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.InvtSubLedgerCAP_Header" Width="1.5" PointX="9.75" PointY="105.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.InvtSubLedgerREC_Details" Width="1.5" PointX="12" PointY="93.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.InvtSubLedgerREC_Header" Width="1.5" PointX="9.75" PointY="121.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.InvtSubLedgerRPL_Details" Width="1.5" PointX="3" PointY="78.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.InvtSubLedgerRPL_Header" Width="1.5" PointX="0.75" PointY="74.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.InvtSubLedgerTXF_Details" Width="1.5" PointX="3" PointY="98.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.InvtSubLedgerTXF_Header" Width="1.5" PointX="0.75" PointY="197" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.JobTitle" Width="1.5" PointX="1.5" PointY="166.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.LineOfOperation" Width="1.5" PointX="1.5" PointY="120.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.MarketSector" Width="1.5" PointX="1.5" PointY="1.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.Member" Width="1.5" PointX="1.5" PointY="157.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.MemberAddress" Width="1.5" PointX="17.5" PointY="78.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.MemberAddressType" Width="1.5" PointX="15.25" PointY="69.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.MemberApply" Width="1.5" PointX="14.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.MemberApply4TempVip" Width="1.5" PointX="1.5" PointY="209" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.MemberApply4TempVipLog" Width="1.5" PointX="3.75" PointY="160.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.MemberClass" Width="1.5" PointX="1.5" PointY="174.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.MemberGroup" Width="1.5" PointX="1.5" PointY="189.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.MemberSmartTag" Width="1.5" PointX="3.75" PointY="157.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.MemberVipData" Width="1.5" PointX="3.75" PointY="164" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.MemberVipLineOfOperation" Width="1.5" PointX="6" PointY="143.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.MemberVipSupplement" Width="1.5" PointX="6" PointY="163.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.PhoneTag" Width="1.5" PointX="16.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.PosAnalysisCode" Width="1.5" PointX="5.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.PosLedgerAnalysi" Width="1.5" PointX="15" PointY="39" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.PosLedgerDetail" Width="1.5" PointX="15" PointY="85.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.PosLedgerHeader" Width="1.5" PointX="12.75" PointY="35.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.PosLedgerTender" Width="1.5" PointX="15" PointY="25" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.PosTenderType" Width="1.5" PointX="12.75" PointY="8" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.PriceManagementActiveDetail" Width="1.5" PointX="6" PointY="98.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.PriceManagementActiveHeader" Width="1.5" PointX="3.75" PointY="124.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.PriceManagementBatchDetail" Width="1.5" PointX="12" PointY="78.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.PriceManagementBatchHeader" Width="1.5" PointX="9.75" PointY="58.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.PriceManagementReason" Width="1.5" PointX="7.5" PointY="59.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.Product" Width="1.5" PointX="0.75" PointY="82.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.ProductAppendix1" Width="1.5" PointX="12.75" PointY="58.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.ProductAppendix2" Width="1.5" PointX="12.75" PointY="52.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.ProductAppendix3" Width="1.5" PointX="12.75" PointY="46.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.ProductApply" Width="1.5" PointX="16.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.ProductBarcode" Width="1.5" PointX="3" PointY="170.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.ProductBatch" Width="1.5" PointX="17.75" PointY="15.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.ProductClass1" Width="1.5" PointX="12.75" PointY="103" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.ProductClass2" Width="1.5" PointX="12.75" PointY="108.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.ProductClass3" Width="1.5" PointX="12.75" PointY="113.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.ProductClass4" Width="1.5" PointX="12.75" PointY="118.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.ProductClass5" Width="1.5" PointX="12.75" PointY="123.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.ProductClass6" Width="1.5" PointX="12.75" PointY="129.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.ProductCode" Width="1.5" PointX="15" PointY="79.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.ProductCurrentSummary" Width="1.5" PointX="3" PointY="179.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.ProductDim" Width="1.5" PointX="7.75" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.ProductDim_Details" Width="1.5" PointX="10" PointY="1.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.ProductNature" Width="1.5" PointX="1.5" PointY="103.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.ProductPeriodicSummary" Width="1.5" PointX="3" PointY="183.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.ProductPrice" Width="1.5" PointX="12" PointY="99.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.ProductPrice_LineOfOperation" Width="1.5" PointX="15" PointY="95.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.ProductPriceType" Width="1.5" PointX="9.75" PointY="134.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.ProductRemark" Width="1.5" PointX="3" PointY="199" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.ProductSupplement" Width="1.5" PointX="3" PointY="204.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.ProductWorkplace" Width="1.5" PointX="6" PointY="75.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.ProductWorkplacePeriodicSummary" Width="1.5" PointX="9" PointY="74.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.PromotionPaymentFactor" Width="1.5" PointX="3.75" PointY="136.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.Province" Width="1.5" PointX="6" PointY="18.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.PurchaseOrderDetail" Width="1.5" PointX="9" PointY="101" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.PurchaseOrderHeader" Width="1.5" PointX="1.5" PointY="36.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.PurchaseOrderHHTDetail" Width="1.5" PointX="15" PointY="73.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.PurchaseOrderHHTHeader" Width="1.5" PointX="12.75" PointY="64.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.PurchaseOrderReceiveDetail" Width="1.5" PointX="3" PointY="72.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.PurchaseOrderReceiveHeader" Width="1.5" PointX="0.75" PointY="60.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.Remark" Width="1.5" PointX="3.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.Salutation" Width="1.5" PointX="1.5" PointY="192.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.ShipmentMethod" Width="1.5" PointX="3.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.SmartTag4Member" Width="1.5" PointX="1.5" PointY="154.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.SmartTag4Staff" Width="1.5" PointX="4.5" PointY="39" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.SmartTag4Supplier" Width="1.5" PointX="1.5" PointY="69.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.SmartTag4Workplace" Width="1.5" PointX="13.5" PointY="135.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.Staff" Width="1.5" PointX="1.5" PointY="25.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.StaffAddress" Width="1.5" PointX="10.5" PointY="21.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.StaffDept" Width="1.5" PointX="1.5" PointY="21.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.StaffGroup" Width="1.5" PointX="1.5" PointY="16.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.StaffHR" Width="1.5" PointX="3.75" PointY="23.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.StaffInternetTag" Width="1.5" PointX="3.75" PointY="27.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.StaffJobTitle" Width="1.5" PointX="1.5" PointY="50" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.StaffPreference" Width="1.5" PointX="3.75" PointY="31.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.StaffSecurity" Width="1.5" PointX="3.75" PointY="34.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.StaffSmartTag" Width="1.5" PointX="6.75" PointY="29.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.StockTakeDetail" Width="1.5" PointX="6" PointY="102.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.StockTakeDetails_HHT" Width="1.5" PointX="12" PointY="74" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.StockTakeHeader" Width="1.5" PointX="3.75" PointY="130.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.StocktakeHeader_HHT" Width="1.5" PointX="9.75" PointY="64.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.Supplier" Width="1.5" PointX="1.5" PointY="6" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.SupplierAddress" Width="1.5" PointX="10.5" PointY="11.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.SupplierAddressType" Width="1.5" PointX="8.25" PointY="12.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.SupplierContact" Width="1.5" PointX="15.75" PointY="106.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.SupplierSmartTag" Width="1.5" PointX="3.75" PointY="8.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.SupplierTerm" Width="1.5" PointX="1.5" PointY="53.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.SystemHHTLog" Width="1.5" PointX="10.75" PointY="17.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.SystemInfo" Width="1.5" PointX="3.75" PointY="141.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.SystemLabel" Width="1.5" PointX="18.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.SystemQueue" Width="1.5" PointX="9.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.TransferReason" Width="1.5" PointX="18.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.UserPreference" Width="1.5" PointX="8" PointY="7.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.UserProfile" Width="1.5" PointX="5.75" PointY="7" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.Workplace" Width="1.5" PointX="1.5" PointY="107.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.WorkplaceAddress" Width="1.5" PointX="15.5" PointY="58" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.WorkplaceNature" Width="1.5" PointX="1.5" PointY="124.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.WorkplaceSmartTag" Width="1.5" PointX="15.75" PointY="112.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.WorkplaceZone" Width="1.5" PointX="1.5" PointY="128.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.TxferAdvanceImport" Width="1.5" PointX="18.75" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.TxferAdvanceImportSummary" Width="1.5" PointX="19.75" PointY="14.75" IsExpanded="true" />
+        <AssociationConnector Association="RT2020Model.FK_City_MemberAddress" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_City_StaffAddress" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_City_SupplierAddress" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_City_WorkplaceAddress" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Province_City" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Country_MemberAddress" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Country_Province" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Country_StaffAddress" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Country_SupplierAddress" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Country_WorkplaceAddress" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_EPOSBatchHeader_EPOSBatchDetails" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Product_EPOSBatchDetails" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_EPOSBatchHeader_EPOSBatchTender" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Member_EPOSBatchHeader" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Staff_EPOSBatchHeader" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Supplier_EPOSBatchHeader" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Workplace_EPOSBatchHeader" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_PosTenderType_EPOSBatchTender" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_EPOSSubLedgerHeader_EPOSSubLedgerDetails" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Product_EPOSSubLedgerDetails" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_EPOSSubLedgerHeader_EPOSSubLedgerTender" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Member_EPOSSubLedgerHeader" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Staff_EPOSSubLedgerHeader" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Supplier_EPOSSubLedgerHeader" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Workplace_EPOSSubLedgerHeader" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_PosTenderType_EPOSSubLedgerTender" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_FepBatchHeader_FepBatchDetail" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Product_FepBatchDetail" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_FepBatchHeader_FepBatchTender" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_PosTenderType_FepBatchTender" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_InvtBatchADJ_Header_InvtBatchADJ_Details" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Product_InvtBatchADJ_Details" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Staff_InvtBatchADJ_Header" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Workplace_InvtBatchADJ_Header" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_InvtBatchCAP_Header_InvtBatchCAP_Details" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Product_InvtBatchCAP_Details" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Staff_InvtBatchCAP_Header" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Supplier_InvtBatchCAP_Header" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Workplace_InvtBatchCAP_Header" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_InvtBatchREC_Header_InvtBatchREC_Details" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Product_InvtBatchREC_Details" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Staff_InvtBatchREC_Header" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Supplier_InvtBatchREC_Header" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Workplace_InvtBatchREC_Header" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_InvtBatchRPL_Header_InvtBatchRPL_Details" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Product_InvtBatchRPL_Details" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Staff_InvtBatchRPL_Header" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_InvtBatchTXF_Details_InvtBatchTXF_Log" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_InvtBatchTXF_Header_InvtBatchTXF_Details" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Product_InvtBatchTXF_Details" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Staff_InvtBatchTXF_Header" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_InvtLedgerHeader_InvtLedgerDetails" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Product_InvtLedgerDetails" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Staff_InvtLedgerHeader" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Supplier_InvtLedgerHeader" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Workplace_InvtLedgerHeader" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_InvtSubLedgerADJ_Header_InvtSubLedgerADJ_Details" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Product_InvtSubLedgerADJ_Details" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Staff_InvtSubLedgerADJ_Header" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Workplace_InvtSubLedgerADJ_Header" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_InvtSubLedgerCAP_Header_InvtSubLedgerCAP_Details" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Product_InvtSubLedgerCAP_Details" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Staff_InvtSubLedgerCAP_Header" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Supplier_InvtSubLedgerCAP_Header" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Workplace_InvtSubLedgerCAP_Header" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_InvtSubLedgerREC_Header_InvtSubLedgerREC_Details" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Product_InvtSubLedgerREC_Details" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Staff_InvtSubLedgerREC_Header" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Supplier_InvtSubLedgerREC_Header" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Workplace_InvtSubLedgerREC_Header" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_InvtSubLedgerRPL_Header_InvtSubLedgerRPL_Details" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Product_InvtSubLedgerRPL_Details" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Staff_InvtSubLedgerRPL_Header" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_InvtSubLedgerTXF_Header_InvtSubLedgerTXF_Details" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Product_InvtSubLedgerTXF_Details" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Staff_InvtSubLedgerTXF_Header" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_JobTitle_JobTitle" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_JobTitle_Member" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_JobTitle_SupplierContact" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_LineOfOperation_LineOfOperation" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_LineOfOperation_MemberVipLineOfOperation" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_LineOfOperation_ProductPrice_LineOfOperation" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_LineOfOperation_Workplace" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_MarketSector_MarketSector" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_MarketSector_Supplier" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Member_MemberAddress" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Member_MemberApply4TempVipLog" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Member_MemberSmartTag" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Member_MemberVipData" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Member_PosLedgerHeader" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_MemberClass_Member" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_MemberGroup_Member" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Salutation_Member" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Workplace_Member" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_MemberAddressType_MemberAddress" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Province_MemberAddress" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_MemberApply4TempVip_MemberApply4TempVipLog" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_MemberClass_MemberClass" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_MemberGroup_MemberGroup" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_SmartTag4Member_MemberSmartTag" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_MemberVipData_MemberVipLineOfOperation" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_MemberVipData_MemberVipSupple" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_MemberVipData_MemberVipSupplement" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_PosAnalysisCode_PosAnalysisCode" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_PosLedgerHeader_PosLedgerAnalysis" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_PosLedgerHeader_PosLedgerDetails" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Product_PosLedgerDetails" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_PosLedgerHeader_PosLedgerTender" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Staff_PosLedgerHeader" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Supplier_PosLedgerHeader" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Workplace_PosLedgerHeader" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_PosTenderType_PosLedgerTender" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_PriceManagementActiveHeader_PriceManagementActiveDetails" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Product_PriceManagementActiveDetails" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_PriceManagementReason_PriceManagementActiveHeader" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_PriceManagementBatchHeader_PriceManagementBatchDetails" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Product_PriceManagementBatchDetails" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_PriceManagementReason_PriceManagementBatchHeader" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Product_ProductBarcode" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Product_ProductCode" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Product_ProductCurrentSummary" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Product_ProductPeriodicSummary" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Product_ProductPrice" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Product_ProductPrice_LineOfOperation" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Product_ProductRemarks" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Product_ProductSupplement" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Product_ProductWorkplace" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Product_ProductWorkplacePeriodicSummary" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Product_PurchaseOrderDetails" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Product_PurchaseOrderHHTDetails" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Product_PurchaseOrderReceiveDetails" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Product_StockTakeDetails" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Product_StockTakeDetails_HHT" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_ProductNature_Product" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_ProductAppendix1_ProductAppendix1" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_ProductAppendix1_ProductCode" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_ProductAppendix2_ProductAppendix2" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_ProductAppendix2_ProductCode" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_ProductAppendix3_ProductAppendix3" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_ProductAppendix3_ProductCode" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_ProductClass1_ProductClass1" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_ProductClass1_ProductCode" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_ProductClass2_ProductClass2" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_ProductClass2_ProductCode" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_ProductClass3_ProductClass3" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_ProductClass3_ProductCode" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_ProductClass4_ProductClass4" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_ProductClass4_ProductCode" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_ProductClass5_ProductClass5" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_ProductClass5_ProductCode" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_ProductClass6_ProductClass6" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_ProductClass6_ProductCode" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_ProductDim_ProductDim_Details" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_ProductNature_ProductNature" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_ProductPriceType_ProductPrice" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Workplace_ProductWorkplace" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Workplace_ProductWorkplacePeriodicSummary" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Workplace_PromotionPaymentFactor" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Province_StaffAddress" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Province_SupplierAddress" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Province_WorkplaceAddress" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_PurchaseOrderHeader_PurchaseOrderDetails" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_PurchaseOrderHeader_PurchaseOrderHHTHeader" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_PurchaseOrderHeader_PurchaseOrderReceiveHeader" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Staff_PurchaseOrderHeader" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Supplier_PurchaseOrderHeader" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_SupplierTerms_PurchaseOrderHeader" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Workplace_PurchaseOrderHeader" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_PurchaseOrderHHTHeader_PurchaseOrderHHTDetails" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_PurchaseOrderReceiveHeader_PurchaseOrderReceiveDetails" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Staff_PurchaseOrderReceiveHeader" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Workplace_PurchaseOrderReceiveHeader" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Remarks_Remarks" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Salutation_Salutation" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Salutation_SupplierContact" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_ShipmentMethod_ShipmentMethod" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_SmartTag4Staff_StaffSmartTag" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_SmartTag4Supplier_SupplierSmartTag" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_SmartTag4Workplace_WorkplaceSmartTag" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Staff_StaffAddress" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Staff_StaffHR" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Staff_StaffInternetTag" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Staff_StaffPreference" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Staff_StaffSecurity" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Staff_StaffSmartTag" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_StaffDept_Staff" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_StaffGroup_Staff" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_StaffJobTitle_Staff" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_StaffDept_StaffDept" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_StaffGroup_StaffGroup" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_StockTakeHeader_StockTakeDetails" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Workplace_StockTakeDetails" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_StocktakeHeader_HHT_StockTakeDetails_HHT" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Workplace_StockTakeHeader" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Workplace_StocktakeHeader_HHT" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Supplier_SupplierAddress" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Supplier_SupplierContact" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Supplier_SupplierSmartTag" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_SupplierTerms_Supplier" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_SupplierAddressType_SupplierAddress" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_SupplierTerms_SupplierTerms" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_WorkplaceZone_SystemInfo" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_UserProfile_UserPreference" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Workplace_WorkplaceAddress" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_Workplace_WorkplaceSmartTag" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_WorkplaceNature_Workplace" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_WorkplaceZone_Workplace" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_WorkplaceNature_WorkplaceNature" ManuallyRouted="false" />
+        <AssociationConnector Association="RT2020Model.FK_WorkplaceZone_WorkplaceZone" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
