@@ -73,7 +73,8 @@ namespace RT2020.Bot
 
             WebApiConfig.Register(config);
 
-            // 2020.11.11 paulus: UseWebApi 要加 package: Microsoft.AspNet.WebApi.OwinSelfHost
+            // 2020.11.11 paulus: Hangfire v1.7.17: UseWebApi 要加 package: Microsoft.AspNet.WebApi.OwinSelfHost
+            // refer: https://stackoverflow.com/a/38309141
             app.UseWebApi(config);
         }
 
