@@ -17,7 +17,7 @@ namespace RT2020.EF6
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public UserProfile()
         {
-            this.UserPreferences = new HashSet<UserPreference>();
+            this.UserPreference = new HashSet<UserPreference>();
         }
     
         public System.Guid UserId { get; set; }
@@ -28,6 +28,6 @@ namespace RT2020.EF6
         public string Alias { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<UserPreference> UserPreferences { get; set; }
+        public virtual ICollection<UserPreference> UserPreference { get; set; }
     }
 }

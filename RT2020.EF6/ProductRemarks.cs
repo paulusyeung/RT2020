@@ -12,7 +12,7 @@ namespace RT2020.EF6
     using System;
     using System.Collections.Generic;
     
-    public partial class ProductRemark
+    public partial class ProductRemarks
     {
         public System.Guid ProductRemarksId { get; set; }
         public System.Guid ProductId { get; set; }

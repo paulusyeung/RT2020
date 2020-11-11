@@ -12,14 +12,14 @@ namespace RT2020.EF6
     using System;
     using System.Collections.Generic;
     
-    public partial class SupplierTerm
+    public partial class SupplierTerms
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public SupplierTerm()
+        public SupplierTerms()
         {
-            this.PurchaseOrderHeaders = new HashSet<PurchaseOrderHeader>();
-            this.Suppliers = new HashSet<Supplier>();
-            this.SupplierTerms1 = new HashSet<SupplierTerm>();
+            this.PurchaseOrderHeader = new HashSet<PurchaseOrderHeader>();
+            this.Supplier = new HashSet<Supplier>();
+            this.SupplierTerms1 = new HashSet<SupplierTerms>();
         }
     
         public System.Guid TermsId { get; set; }
@@ -30,11 +30,11 @@ namespace RT2020.EF6
         public string TermsName_Cht { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PurchaseOrderHeader> PurchaseOrderHeaders { get; set; }
+        public virtual ICollection<PurchaseOrderHeader> PurchaseOrderHeader { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Supplier> Suppliers { get; set; }
+        public virtual ICollection<Supplier> Supplier { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SupplierTerm> SupplierTerms1 { get; set; }
-        public virtual SupplierTerm SupplierTerm1 { get; set; }
+        public virtual ICollection<SupplierTerms> SupplierTerms1 { get; set; }
+        public virtual SupplierTerms SupplierTerms2 { get; set; }
     }
 }

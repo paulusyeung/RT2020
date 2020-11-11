@@ -12,50 +12,35 @@ namespace RT2020.EF6
     using System;
     using System.Collections.Generic;
     
-    public partial class PosLedgerDetail
+    public partial class EPOSBatchDetails
     {
         public System.Guid DetailsId { get; set; }
         public System.Guid HeaderId { get; set; }
         public string TxType { get; set; }
         public string TxNumber { get; set; }
         public Nullable<System.DateTime> TxDate { get; set; }
-        public Nullable<int> LineNumber { get; set; }
+        public int LineNumber { get; set; }
         public System.Guid ProductId { get; set; }
         public string SHOP { get; set; }
-        public string TERMINAL { get; set; }
         public string OPERATOR { get; set; }
         public Nullable<decimal> Qty { get; set; }
         public Nullable<decimal> UnitAmount { get; set; }
         public Nullable<decimal> Discount { get; set; }
         public Nullable<decimal> Amount { get; set; }
-        public Nullable<decimal> AverageCost { get; set; }
-        public Nullable<decimal> BasicPrice { get; set; }
-        public string Reference { get; set; }
-        public string Barcode { get; set; }
-        public string SerialNumber { get; set; }
-        public string VendorItemRef { get; set; }
-        public string CouponNumber { get; set; }
-        public Nullable<int> Replenishment { get; set; }
-        public Nullable<decimal> CONFIRM_TRF_QTY { get; set; }
+        public string REF { get; set; }
+        public string BARCODE { get; set; }
+        public string SERIALNO { get; set; }
+        public string VITEM { get; set; }
+        public string COUPONNO { get; set; }
         public Nullable<decimal> PROPRC { get; set; }
-        public Nullable<decimal> DISC_2 { get; set; }
-        public string DISC_INDICATOR { get; set; }
-        public Nullable<decimal> DISC_VIPAMT { get; set; }
-        public Nullable<decimal> DISC_MARKDOWN { get; set; }
-        public Nullable<decimal> DISC_ITEMAMT { get; set; }
-        public string DISC_ITEMTYPE { get; set; }
-        public string DISC_ITEMREF { get; set; }
-        public Nullable<decimal> DISC_ALLAMT { get; set; }
-        public string DISC_ALLTYPE { get; set; }
-        public string DISC_ALLREF1 { get; set; }
-        public string DISC_ALLREF2 { get; set; }
-        public string DISC_ALLREF3 { get; set; }
-        public string DISCOUNTCODE { get; set; }
         public Nullable<decimal> AMT_TTLSALES { get; set; }
         public Nullable<decimal> AMT_NETSALES { get; set; }
         public Nullable<decimal> AMT_TAX { get; set; }
+        public string DISCOUNTCODE { get; set; }
+        public Nullable<decimal> UAMT_FCURR { get; set; }
+        public Nullable<decimal> AMOUNT_FCURR { get; set; }
     
-        public virtual PosLedgerHeader PosLedgerHeader { get; set; }
+        public virtual EPOSBatchHeader EPOSBatchHeader { get; set; }
         public virtual Product Product { get; set; }
     }
 }

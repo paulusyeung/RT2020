@@ -17,7 +17,7 @@ namespace RT2020.EF6
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public SmartTag4Supplier()
         {
-            this.SupplierSmartTags = new HashSet<SupplierSmartTag>();
+            this.SupplierSmartTag = new HashSet<SupplierSmartTag>();
         }
     
         public System.Guid TagId { get; set; }
@@ -28,6 +28,6 @@ namespace RT2020.EF6
         public int Priority { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SupplierSmartTag> SupplierSmartTags { get; set; }
+        public virtual ICollection<SupplierSmartTag> SupplierSmartTag { get; set; }
     }
 }

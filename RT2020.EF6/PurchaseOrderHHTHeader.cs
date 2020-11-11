@@ -17,7 +17,7 @@ namespace RT2020.EF6
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public PurchaseOrderHHTHeader()
         {
-            this.PurchaseOrderHHTDetails = new HashSet<PurchaseOrderHHTDetail>();
+            this.PurchaseOrderHHTDetails = new HashSet<PurchaseOrderHHTDetails>();
         }
     
         public System.Guid HeaderId { get; set; }
@@ -40,6 +40,6 @@ namespace RT2020.EF6
     
         public virtual PurchaseOrderHeader PurchaseOrderHeader { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PurchaseOrderHHTDetail> PurchaseOrderHHTDetails { get; set; }
+        public virtual ICollection<PurchaseOrderHHTDetails> PurchaseOrderHHTDetails { get; set; }
     }
 }

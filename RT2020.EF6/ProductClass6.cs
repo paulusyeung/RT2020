@@ -18,7 +18,7 @@ namespace RT2020.EF6
         public ProductClass6()
         {
             this.ProductClass61 = new HashSet<ProductClass6>();
-            this.ProductCodes = new HashSet<ProductCode>();
+            this.ProductCode = new HashSet<ProductCode>();
         }
     
         public System.Guid Class6Id { get; set; }
@@ -41,6 +41,6 @@ namespace RT2020.EF6
         public virtual ICollection<ProductClass6> ProductClass61 { get; set; }
         public virtual ProductClass6 ProductClass62 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ProductCode> ProductCodes { get; set; }
+        public virtual ICollection<ProductCode> ProductCode { get; set; }
     }
 }

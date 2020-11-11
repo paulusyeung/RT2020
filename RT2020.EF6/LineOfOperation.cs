@@ -18,9 +18,9 @@ namespace RT2020.EF6
         public LineOfOperation()
         {
             this.LineOfOperation1 = new HashSet<LineOfOperation>();
-            this.MemberVipLineOfOperations = new HashSet<MemberVipLineOfOperation>();
+            this.MemberVipLineOfOperation = new HashSet<MemberVipLineOfOperation>();
             this.ProductPrice_LineOfOperation = new HashSet<ProductPrice_LineOfOperation>();
-            this.Workplaces = new HashSet<Workplace>();
+            this.Workplace = new HashSet<Workplace>();
         }
     
         public System.Guid LineOfOperationId { get; set; }
@@ -36,10 +36,10 @@ namespace RT2020.EF6
         public virtual ICollection<LineOfOperation> LineOfOperation1 { get; set; }
         public virtual LineOfOperation LineOfOperation2 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<MemberVipLineOfOperation> MemberVipLineOfOperations { get; set; }
+        public virtual ICollection<MemberVipLineOfOperation> MemberVipLineOfOperation { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ProductPrice_LineOfOperation> ProductPrice_LineOfOperation { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Workplace> Workplaces { get; set; }
+        public virtual ICollection<Workplace> Workplace { get; set; }
     }
 }

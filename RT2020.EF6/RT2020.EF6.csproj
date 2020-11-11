@@ -60,7 +60,7 @@
     <Compile Include="Currency.cs">
       <DependentUpon>RT2020Model.tt</DependentUpon>
     </Compile>
-    <Compile Include="EPOSBatchDetail.cs">
+    <Compile Include="EPOSBatchDetails.cs">
       <DependentUpon>RT2020Model.tt</DependentUpon>
     </Compile>
     <Compile Include="EPOSBatchHeader.cs">
@@ -69,7 +69,7 @@
     <Compile Include="EPOSBatchTender.cs">
       <DependentUpon>RT2020Model.tt</DependentUpon>
     </Compile>
-    <Compile Include="EPOSSubLedgerDetail.cs">
+    <Compile Include="EPOSSubLedgerDetails.cs">
       <DependentUpon>RT2020Model.tt</DependentUpon>
     </Compile>
     <Compile Include="EPOSSubLedgerHeader.cs">
@@ -126,7 +126,7 @@
     <Compile Include="InvtBatchTXF_Log.cs">
       <DependentUpon>RT2020Model.tt</DependentUpon>
     </Compile>
-    <Compile Include="InvtLedgerDetail.cs">
+    <Compile Include="InvtLedgerDetails.cs">
       <DependentUpon>RT2020Model.tt</DependentUpon>
     </Compile>
     <Compile Include="InvtLedgerHeader.cs">
@@ -166,6 +166,9 @@
       <DependentUpon>RT2020Model.tt</DependentUpon>
     </Compile>
     <Compile Include="LineOfOperation.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Localizations_Backup.cs">
       <DependentUpon>RT2020Model.tt</DependentUpon>
     </Compile>
     <Compile Include="MarketSector.cs">
@@ -213,10 +216,10 @@
     <Compile Include="PosAnalysisCode.cs">
       <DependentUpon>RT2020Model.tt</DependentUpon>
     </Compile>
-    <Compile Include="PosLedgerAnalysi.cs">
+    <Compile Include="PosLedgerAnalysis.cs">
       <DependentUpon>RT2020Model.tt</DependentUpon>
     </Compile>
-    <Compile Include="PosLedgerDetail.cs">
+    <Compile Include="PosLedgerDetails.cs">
       <DependentUpon>RT2020Model.tt</DependentUpon>
     </Compile>
     <Compile Include="PosLedgerHeader.cs">
@@ -228,13 +231,13 @@
     <Compile Include="PosTenderType.cs">
       <DependentUpon>RT2020Model.tt</DependentUpon>
     </Compile>
-    <Compile Include="PriceManagementActiveDetail.cs">
+    <Compile Include="PriceManagementActiveDetails.cs">
       <DependentUpon>RT2020Model.tt</DependentUpon>
     </Compile>
     <Compile Include="PriceManagementActiveHeader.cs">
       <DependentUpon>RT2020Model.tt</DependentUpon>
     </Compile>
-    <Compile Include="PriceManagementBatchDetail.cs">
+    <Compile Include="PriceManagementBatchDetails.cs">
       <DependentUpon>RT2020Model.tt</DependentUpon>
     </Compile>
     <Compile Include="PriceManagementBatchHeader.cs">
@@ -309,7 +312,7 @@
     <Compile Include="ProductPrice_LineOfOperation.cs">
       <DependentUpon>RT2020Model.tt</DependentUpon>
     </Compile>
-    <Compile Include="ProductRemark.cs">
+    <Compile Include="ProductRemarks.cs">
       <DependentUpon>RT2020Model.tt</DependentUpon>
     </Compile>
     <Compile Include="ProductSupplement.cs">
@@ -328,25 +331,25 @@
     <Compile Include="Province.cs">
       <DependentUpon>RT2020Model.tt</DependentUpon>
     </Compile>
-    <Compile Include="PurchaseOrderDetail.cs">
+    <Compile Include="PurchaseOrderDetails.cs">
       <DependentUpon>RT2020Model.tt</DependentUpon>
     </Compile>
     <Compile Include="PurchaseOrderHeader.cs">
       <DependentUpon>RT2020Model.tt</DependentUpon>
     </Compile>
-    <Compile Include="PurchaseOrderHHTDetail.cs">
+    <Compile Include="PurchaseOrderHHTDetails.cs">
       <DependentUpon>RT2020Model.tt</DependentUpon>
     </Compile>
     <Compile Include="PurchaseOrderHHTHeader.cs">
       <DependentUpon>RT2020Model.tt</DependentUpon>
     </Compile>
-    <Compile Include="PurchaseOrderReceiveDetail.cs">
+    <Compile Include="PurchaseOrderReceiveDetails.cs">
       <DependentUpon>RT2020Model.tt</DependentUpon>
     </Compile>
     <Compile Include="PurchaseOrderReceiveHeader.cs">
       <DependentUpon>RT2020Model.tt</DependentUpon>
     </Compile>
-    <Compile Include="Remark.cs">
+    <Compile Include="Remarks.cs">
       <DependentUpon>RT2020Model.tt</DependentUpon>
     </Compile>
     <Compile Include="RT2020Model.Context.cs">
@@ -412,7 +415,7 @@
     <Compile Include="StaffSmartTag.cs">
       <DependentUpon>RT2020Model.tt</DependentUpon>
     </Compile>
-    <Compile Include="StockTakeDetail.cs">
+    <Compile Include="StockTakeDetails.cs">
       <DependentUpon>RT2020Model.tt</DependentUpon>
     </Compile>
     <Compile Include="StockTakeDetails_HHT.cs">
@@ -439,7 +442,7 @@
     <Compile Include="SupplierSmartTag.cs">
       <DependentUpon>RT2020Model.tt</DependentUpon>
     </Compile>
-    <Compile Include="SupplierTerm.cs">
+    <Compile Include="SupplierTerms.cs">
       <DependentUpon>RT2020Model.tt</DependentUpon>
     </Compile>
     <Compile Include="SystemHHTLog.cs">
@@ -486,32 +489,30 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.Config" />
+    <None Include="packages.config" />
     <EntityDeploy Include="RT2020Model.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>RT2020Model.Designer.cs</LastGenOutput>
     </EntityDeploy>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.Config" />
-    <None Include="packages.config" />
     <None Include="RT2020Model.edmx.diagram">
       <DependentUpon>RT2020Model.edmx</DependentUpon>
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
     <Content Include="RT2020Model.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>RT2020Model.Context.cs</LastGenOutput>
       <DependentUpon>RT2020Model.edmx</DependentUpon>
+      <LastGenOutput>RT2020Model.Context.cs</LastGenOutput>
     </Content>
     <Content Include="RT2020Model.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>RT2020Model.edmx</DependentUpon>
       <LastGenOutput>RT2020Model.cs</LastGenOutput>
     </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

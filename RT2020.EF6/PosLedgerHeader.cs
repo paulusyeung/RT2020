@@ -17,9 +17,9 @@ namespace RT2020.EF6
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public PosLedgerHeader()
         {
-            this.PosLedgerAnalysis = new HashSet<PosLedgerAnalysi>();
-            this.PosLedgerDetails = new HashSet<PosLedgerDetail>();
-            this.PosLedgerTenders = new HashSet<PosLedgerTender>();
+            this.PosLedgerAnalysis = new HashSet<PosLedgerAnalysis>();
+            this.PosLedgerDetails = new HashSet<PosLedgerDetails>();
+            this.PosLedgerTender = new HashSet<PosLedgerTender>();
         }
     
         public System.Guid HeaderId { get; set; }
@@ -68,11 +68,11 @@ namespace RT2020.EF6
     
         public virtual Member Member { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PosLedgerAnalysi> PosLedgerAnalysis { get; set; }
+        public virtual ICollection<PosLedgerAnalysis> PosLedgerAnalysis { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PosLedgerDetail> PosLedgerDetails { get; set; }
+        public virtual ICollection<PosLedgerDetails> PosLedgerDetails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PosLedgerTender> PosLedgerTenders { get; set; }
+        public virtual ICollection<PosLedgerTender> PosLedgerTender { get; set; }
         public virtual Staff Staff { get; set; }
         public virtual Supplier Supplier { get; set; }
         public virtual Workplace Workplace { get; set; }

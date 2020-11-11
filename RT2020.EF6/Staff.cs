@@ -17,28 +17,28 @@ namespace RT2020.EF6
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Staff()
         {
-            this.EPOSBatchHeaders = new HashSet<EPOSBatchHeader>();
-            this.EPOSSubLedgerHeaders = new HashSet<EPOSSubLedgerHeader>();
+            this.EPOSBatchHeader = new HashSet<EPOSBatchHeader>();
+            this.EPOSSubLedgerHeader = new HashSet<EPOSSubLedgerHeader>();
             this.InvtBatchADJ_Header = new HashSet<InvtBatchADJ_Header>();
             this.InvtBatchCAP_Header = new HashSet<InvtBatchCAP_Header>();
             this.InvtBatchREC_Header = new HashSet<InvtBatchREC_Header>();
             this.InvtBatchRPL_Header = new HashSet<InvtBatchRPL_Header>();
             this.InvtBatchTXF_Header = new HashSet<InvtBatchTXF_Header>();
-            this.InvtLedgerHeaders = new HashSet<InvtLedgerHeader>();
+            this.InvtLedgerHeader = new HashSet<InvtLedgerHeader>();
             this.InvtSubLedgerADJ_Header = new HashSet<InvtSubLedgerADJ_Header>();
             this.InvtSubLedgerCAP_Header = new HashSet<InvtSubLedgerCAP_Header>();
             this.InvtSubLedgerREC_Header = new HashSet<InvtSubLedgerREC_Header>();
             this.InvtSubLedgerRPL_Header = new HashSet<InvtSubLedgerRPL_Header>();
             this.InvtSubLedgerTXF_Header = new HashSet<InvtSubLedgerTXF_Header>();
-            this.PosLedgerHeaders = new HashSet<PosLedgerHeader>();
-            this.PurchaseOrderHeaders = new HashSet<PurchaseOrderHeader>();
-            this.PurchaseOrderReceiveHeaders = new HashSet<PurchaseOrderReceiveHeader>();
-            this.StaffAddresses = new HashSet<StaffAddress>();
-            this.StaffHRs = new HashSet<StaffHR>();
-            this.StaffInternetTags = new HashSet<StaffInternetTag>();
-            this.StaffPreferences = new HashSet<StaffPreference>();
-            this.StaffSecurities = new HashSet<StaffSecurity>();
-            this.StaffSmartTags = new HashSet<StaffSmartTag>();
+            this.PosLedgerHeader = new HashSet<PosLedgerHeader>();
+            this.PurchaseOrderHeader = new HashSet<PurchaseOrderHeader>();
+            this.PurchaseOrderReceiveHeader = new HashSet<PurchaseOrderReceiveHeader>();
+            this.StaffAddress = new HashSet<StaffAddress>();
+            this.StaffHR = new HashSet<StaffHR>();
+            this.StaffInternetTag = new HashSet<StaffInternetTag>();
+            this.StaffPreference = new HashSet<StaffPreference>();
+            this.StaffSecurity = new HashSet<StaffSecurity>();
+            this.StaffSmartTag = new HashSet<StaffSmartTag>();
         }
     
         public System.Guid StaffId { get; set; }
@@ -65,9 +65,9 @@ namespace RT2020.EF6
         public Nullable<System.Guid> RetiredBy { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<EPOSBatchHeader> EPOSBatchHeaders { get; set; }
+        public virtual ICollection<EPOSBatchHeader> EPOSBatchHeader { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<EPOSSubLedgerHeader> EPOSSubLedgerHeaders { get; set; }
+        public virtual ICollection<EPOSSubLedgerHeader> EPOSSubLedgerHeader { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<InvtBatchADJ_Header> InvtBatchADJ_Header { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -79,7 +79,7 @@ namespace RT2020.EF6
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<InvtBatchTXF_Header> InvtBatchTXF_Header { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<InvtLedgerHeader> InvtLedgerHeaders { get; set; }
+        public virtual ICollection<InvtLedgerHeader> InvtLedgerHeader { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<InvtSubLedgerADJ_Header> InvtSubLedgerADJ_Header { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -91,23 +91,23 @@ namespace RT2020.EF6
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<InvtSubLedgerTXF_Header> InvtSubLedgerTXF_Header { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PosLedgerHeader> PosLedgerHeaders { get; set; }
+        public virtual ICollection<PosLedgerHeader> PosLedgerHeader { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PurchaseOrderHeader> PurchaseOrderHeaders { get; set; }
+        public virtual ICollection<PurchaseOrderHeader> PurchaseOrderHeader { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PurchaseOrderReceiveHeader> PurchaseOrderReceiveHeaders { get; set; }
+        public virtual ICollection<PurchaseOrderReceiveHeader> PurchaseOrderReceiveHeader { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<StaffAddress> StaffAddresses { get; set; }
+        public virtual ICollection<StaffAddress> StaffAddress { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<StaffHR> StaffHRs { get; set; }
+        public virtual ICollection<StaffHR> StaffHR { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<StaffInternetTag> StaffInternetTags { get; set; }
+        public virtual ICollection<StaffInternetTag> StaffInternetTag { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<StaffPreference> StaffPreferences { get; set; }
+        public virtual ICollection<StaffPreference> StaffPreference { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<StaffSecurity> StaffSecurities { get; set; }
+        public virtual ICollection<StaffSecurity> StaffSecurity { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<StaffSmartTag> StaffSmartTags { get; set; }
+        public virtual ICollection<StaffSmartTag> StaffSmartTag { get; set; }
         public virtual StaffDept StaffDept { get; set; }
         public virtual StaffGroup StaffGroup { get; set; }
         public virtual StaffJobTitle StaffJobTitle { get; set; }

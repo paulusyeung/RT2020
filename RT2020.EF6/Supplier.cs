@@ -17,18 +17,18 @@ namespace RT2020.EF6
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Supplier()
         {
-            this.EPOSBatchHeaders = new HashSet<EPOSBatchHeader>();
-            this.EPOSSubLedgerHeaders = new HashSet<EPOSSubLedgerHeader>();
+            this.EPOSBatchHeader = new HashSet<EPOSBatchHeader>();
+            this.EPOSSubLedgerHeader = new HashSet<EPOSSubLedgerHeader>();
             this.InvtBatchCAP_Header = new HashSet<InvtBatchCAP_Header>();
             this.InvtBatchREC_Header = new HashSet<InvtBatchREC_Header>();
-            this.InvtLedgerHeaders = new HashSet<InvtLedgerHeader>();
+            this.InvtLedgerHeader = new HashSet<InvtLedgerHeader>();
             this.InvtSubLedgerCAP_Header = new HashSet<InvtSubLedgerCAP_Header>();
             this.InvtSubLedgerREC_Header = new HashSet<InvtSubLedgerREC_Header>();
-            this.PosLedgerHeaders = new HashSet<PosLedgerHeader>();
-            this.PurchaseOrderHeaders = new HashSet<PurchaseOrderHeader>();
-            this.SupplierAddresses = new HashSet<SupplierAddress>();
-            this.SupplierContacts = new HashSet<SupplierContact>();
-            this.SupplierSmartTags = new HashSet<SupplierSmartTag>();
+            this.PosLedgerHeader = new HashSet<PosLedgerHeader>();
+            this.PurchaseOrderHeader = new HashSet<PurchaseOrderHeader>();
+            this.SupplierAddress = new HashSet<SupplierAddress>();
+            this.SupplierContact = new HashSet<SupplierContact>();
+            this.SupplierSmartTag = new HashSet<SupplierSmartTag>();
         }
     
         public System.Guid SupplierId { get; set; }
@@ -65,30 +65,30 @@ namespace RT2020.EF6
         public Nullable<System.Guid> RetiredBy { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<EPOSBatchHeader> EPOSBatchHeaders { get; set; }
+        public virtual ICollection<EPOSBatchHeader> EPOSBatchHeader { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<EPOSSubLedgerHeader> EPOSSubLedgerHeaders { get; set; }
+        public virtual ICollection<EPOSSubLedgerHeader> EPOSSubLedgerHeader { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<InvtBatchCAP_Header> InvtBatchCAP_Header { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<InvtBatchREC_Header> InvtBatchREC_Header { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<InvtLedgerHeader> InvtLedgerHeaders { get; set; }
+        public virtual ICollection<InvtLedgerHeader> InvtLedgerHeader { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<InvtSubLedgerCAP_Header> InvtSubLedgerCAP_Header { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<InvtSubLedgerREC_Header> InvtSubLedgerREC_Header { get; set; }
         public virtual MarketSector MarketSector { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PosLedgerHeader> PosLedgerHeaders { get; set; }
+        public virtual ICollection<PosLedgerHeader> PosLedgerHeader { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PurchaseOrderHeader> PurchaseOrderHeaders { get; set; }
+        public virtual ICollection<PurchaseOrderHeader> PurchaseOrderHeader { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SupplierAddress> SupplierAddresses { get; set; }
+        public virtual ICollection<SupplierAddress> SupplierAddress { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SupplierContact> SupplierContacts { get; set; }
+        public virtual ICollection<SupplierContact> SupplierContact { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SupplierSmartTag> SupplierSmartTags { get; set; }
-        public virtual SupplierTerm SupplierTerm { get; set; }
+        public virtual ICollection<SupplierSmartTag> SupplierSmartTag { get; set; }
+        public virtual SupplierTerms SupplierTerms { get; set; }
     }
 }

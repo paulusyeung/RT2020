@@ -12,21 +12,22 @@ namespace RT2020.EF6
     using System;
     using System.Collections.Generic;
     
-    public partial class PurchaseOrderDetail
+    public partial class PurchaseOrderReceiveDetails
     {
-        public System.Guid OrderDetailsId { get; set; }
-        public System.Guid OrderHeaderId { get; set; }
+        public System.Guid ReceiveDetailsId { get; set; }
+        public System.Guid ReceiveHeaderId { get; set; }
         public int LineNumber { get; set; }
         public Nullable<System.Guid> ProductId { get; set; }
-        public decimal OrderedQty { get; set; }
+        public decimal ReceivedQty { get; set; }
         public decimal UnitCost { get; set; }
-        public decimal TotalQtyReceived { get; set; }
         public decimal DiscountPcn { get; set; }
         public decimal NetUnitCost { get; set; }
         public decimal NetUnitCostCoefficient { get; set; }
+        public decimal BillQty { get; set; }
+        public decimal BillUnitAmount { get; set; }
         public string Notes { get; set; }
     
         public virtual Product Product { get; set; }
-        public virtual PurchaseOrderHeader PurchaseOrderHeader { get; set; }
+        public virtual PurchaseOrderReceiveHeader PurchaseOrderReceiveHeader { get; set; }
     }
 }

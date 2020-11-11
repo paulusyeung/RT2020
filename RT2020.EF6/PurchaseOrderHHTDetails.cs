@@ -12,7 +12,7 @@ namespace RT2020.EF6
     using System;
     using System.Collections.Generic;
     
-    public partial class PurchaseOrderHHTDetail
+    public partial class PurchaseOrderHHTDetails
     {
         public System.Guid DetailsId { get; set; }
         public System.Guid HeaderId { get; set; }

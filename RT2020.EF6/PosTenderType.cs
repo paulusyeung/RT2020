@@ -17,10 +17,10 @@ namespace RT2020.EF6
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public PosTenderType()
         {
-            this.EPOSBatchTenders = new HashSet<EPOSBatchTender>();
-            this.EPOSSubLedgerTenders = new HashSet<EPOSSubLedgerTender>();
-            this.FepBatchTenders = new HashSet<FepBatchTender>();
-            this.PosLedgerTenders = new HashSet<PosLedgerTender>();
+            this.EPOSBatchTender = new HashSet<EPOSBatchTender>();
+            this.EPOSSubLedgerTender = new HashSet<EPOSSubLedgerTender>();
+            this.FepBatchTender = new HashSet<FepBatchTender>();
+            this.PosLedgerTender = new HashSet<PosLedgerTender>();
         }
     
         public System.Guid TypeId { get; set; }
@@ -48,12 +48,12 @@ namespace RT2020.EF6
         public Nullable<System.DateTime> RetiredOn { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<EPOSBatchTender> EPOSBatchTenders { get; set; }
+        public virtual ICollection<EPOSBatchTender> EPOSBatchTender { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<EPOSSubLedgerTender> EPOSSubLedgerTenders { get; set; }
+        public virtual ICollection<EPOSSubLedgerTender> EPOSSubLedgerTender { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<FepBatchTender> FepBatchTenders { get; set; }
+        public virtual ICollection<FepBatchTender> FepBatchTender { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PosLedgerTender> PosLedgerTenders { get; set; }
+        public virtual ICollection<PosLedgerTender> PosLedgerTender { get; set; }
     }
 }

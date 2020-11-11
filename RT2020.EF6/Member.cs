@@ -17,13 +17,13 @@ namespace RT2020.EF6
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Member()
         {
-            this.EPOSBatchHeaders = new HashSet<EPOSBatchHeader>();
-            this.EPOSSubLedgerHeaders = new HashSet<EPOSSubLedgerHeader>();
-            this.MemberAddresses = new HashSet<MemberAddress>();
+            this.EPOSBatchHeader = new HashSet<EPOSBatchHeader>();
+            this.EPOSSubLedgerHeader = new HashSet<EPOSSubLedgerHeader>();
+            this.MemberAddress = new HashSet<MemberAddress>();
             this.MemberApply4TempVipLog = new HashSet<MemberApply4TempVipLog>();
-            this.MemberSmartTags = new HashSet<MemberSmartTag>();
-            this.MemberVipDatas = new HashSet<MemberVipData>();
-            this.PosLedgerHeaders = new HashSet<PosLedgerHeader>();
+            this.MemberSmartTag = new HashSet<MemberSmartTag>();
+            this.MemberVipData = new HashSet<MemberVipData>();
+            this.PosLedgerHeader = new HashSet<PosLedgerHeader>();
         }
     
         public System.Guid MemberId { get; set; }
@@ -53,20 +53,20 @@ namespace RT2020.EF6
         public Nullable<System.Guid> RetiredBy { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<EPOSBatchHeader> EPOSBatchHeaders { get; set; }
+        public virtual ICollection<EPOSBatchHeader> EPOSBatchHeader { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<EPOSSubLedgerHeader> EPOSSubLedgerHeaders { get; set; }
+        public virtual ICollection<EPOSSubLedgerHeader> EPOSSubLedgerHeader { get; set; }
         public virtual JobTitle JobTitle { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<MemberAddress> MemberAddresses { get; set; }
+        public virtual ICollection<MemberAddress> MemberAddress { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<MemberApply4TempVipLog> MemberApply4TempVipLog { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<MemberSmartTag> MemberSmartTags { get; set; }
+        public virtual ICollection<MemberSmartTag> MemberSmartTag { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<MemberVipData> MemberVipDatas { get; set; }
+        public virtual ICollection<MemberVipData> MemberVipData { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PosLedgerHeader> PosLedgerHeaders { get; set; }
+        public virtual ICollection<PosLedgerHeader> PosLedgerHeader { get; set; }
         public virtual MemberClass MemberClass { get; set; }
         public virtual MemberGroup MemberGroup { get; set; }
         public virtual Salutation Salutation { get; set; }

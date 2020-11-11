@@ -17,7 +17,7 @@ namespace RT2020.EF6
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public MemberClass()
         {
-            this.Members = new HashSet<Member>();
+            this.Member = new HashSet<Member>();
             this.MemberClass1 = new HashSet<MemberClass>();
         }
     
@@ -29,7 +29,7 @@ namespace RT2020.EF6
         public string ClassName_Cht { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Member> Members { get; set; }
+        public virtual ICollection<Member> Member { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<MemberClass> MemberClass1 { get; set; }
         public virtual MemberClass MemberClass2 { get; set; }

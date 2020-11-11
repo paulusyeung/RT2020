@@ -17,7 +17,7 @@ namespace RT2020.EF6
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public PurchaseOrderReceiveHeader()
         {
-            this.PurchaseOrderReceiveDetails = new HashSet<PurchaseOrderReceiveDetail>();
+            this.PurchaseOrderReceiveDetails = new HashSet<PurchaseOrderReceiveDetails>();
         }
     
         public System.Guid ReceiveHeaderId { get; set; }
@@ -57,7 +57,7 @@ namespace RT2020.EF6
     
         public virtual PurchaseOrderHeader PurchaseOrderHeader { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PurchaseOrderReceiveDetail> PurchaseOrderReceiveDetails { get; set; }
+        public virtual ICollection<PurchaseOrderReceiveDetails> PurchaseOrderReceiveDetails { get; set; }
         public virtual Staff Staff { get; set; }
         public virtual Workplace Workplace { get; set; }
     }

@@ -17,7 +17,7 @@ namespace RT2020.EF6
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public WorkplaceNature()
         {
-            this.Workplaces = new HashSet<Workplace>();
+            this.Workplace = new HashSet<Workplace>();
             this.WorkplaceNature1 = new HashSet<WorkplaceNature>();
         }
     
@@ -29,7 +29,7 @@ namespace RT2020.EF6
         public string NatureName_Cht { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Workplace> Workplaces { get; set; }
+        public virtual ICollection<Workplace> Workplace { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<WorkplaceNature> WorkplaceNature1 { get; set; }
         public virtual WorkplaceNature WorkplaceNature2 { get; set; }

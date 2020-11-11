@@ -17,7 +17,7 @@ namespace RT2020.EF6
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public StaffGroup()
         {
-            this.Staffs = new HashSet<Staff>();
+            this.Staff = new HashSet<Staff>();
             this.StaffGroup1 = new HashSet<StaffGroup>();
         }
     
@@ -33,7 +33,7 @@ namespace RT2020.EF6
         public Nullable<bool> CanPost { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Staff> Staffs { get; set; }
+        public virtual ICollection<Staff> Staff { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<StaffGroup> StaffGroup1 { get; set; }
         public virtual StaffGroup StaffGroup2 { get; set; }

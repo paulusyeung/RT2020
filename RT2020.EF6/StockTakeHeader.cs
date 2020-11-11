@@ -17,7 +17,7 @@ namespace RT2020.EF6
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public StockTakeHeader()
         {
-            this.StockTakeDetails = new HashSet<StockTakeDetail>();
+            this.StockTakeDetails = new HashSet<StockTakeDetails>();
         }
     
         public System.Guid HeaderId { get; set; }
@@ -42,7 +42,7 @@ namespace RT2020.EF6
         public Nullable<System.Guid> RetiredBy { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<StockTakeDetail> StockTakeDetails { get; set; }
+        public virtual ICollection<StockTakeDetails> StockTakeDetails { get; set; }
         public virtual Workplace Workplace { get; set; }
     }
 }

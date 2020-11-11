@@ -17,7 +17,7 @@ namespace RT2020.EF6
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public SmartTag4Workplace()
         {
-            this.WorkplaceSmartTags = new HashSet<WorkplaceSmartTag>();
+            this.WorkplaceSmartTag = new HashSet<WorkplaceSmartTag>();
         }
     
         public System.Guid TagId { get; set; }
@@ -28,6 +28,6 @@ namespace RT2020.EF6
         public int Priority { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<WorkplaceSmartTag> WorkplaceSmartTags { get; set; }
+        public virtual ICollection<WorkplaceSmartTag> WorkplaceSmartTag { get; set; }
     }
 }

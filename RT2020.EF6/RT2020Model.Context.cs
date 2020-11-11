@@ -25,20 +25,20 @@ namespace RT2020.EF6
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<City> Cities { get; set; }
-        public virtual DbSet<Country> Countries { get; set; }
-        public virtual DbSet<Currency> Currencies { get; set; }
-        public virtual DbSet<EPOSBatchDetail> EPOSBatchDetails { get; set; }
-        public virtual DbSet<EPOSBatchHeader> EPOSBatchHeaders { get; set; }
-        public virtual DbSet<EPOSBatchTender> EPOSBatchTenders { get; set; }
-        public virtual DbSet<EPOSSubLedgerDetail> EPOSSubLedgerDetails { get; set; }
-        public virtual DbSet<EPOSSubLedgerHeader> EPOSSubLedgerHeaders { get; set; }
-        public virtual DbSet<EPOSSubLedgerTender> EPOSSubLedgerTenders { get; set; }
-        public virtual DbSet<FepAudit> FepAudits { get; set; }
-        public virtual DbSet<FepBatchDetail> FepBatchDetails { get; set; }
-        public virtual DbSet<FepBatchHeader> FepBatchHeaders { get; set; }
-        public virtual DbSet<FepBatchTender> FepBatchTenders { get; set; }
-        public virtual DbSet<InternetTag> InternetTags { get; set; }
+        public virtual DbSet<City> City { get; set; }
+        public virtual DbSet<Country> Country { get; set; }
+        public virtual DbSet<Currency> Currency { get; set; }
+        public virtual DbSet<EPOSBatchDetails> EPOSBatchDetails { get; set; }
+        public virtual DbSet<EPOSBatchHeader> EPOSBatchHeader { get; set; }
+        public virtual DbSet<EPOSBatchTender> EPOSBatchTender { get; set; }
+        public virtual DbSet<EPOSSubLedgerDetails> EPOSSubLedgerDetails { get; set; }
+        public virtual DbSet<EPOSSubLedgerHeader> EPOSSubLedgerHeader { get; set; }
+        public virtual DbSet<EPOSSubLedgerTender> EPOSSubLedgerTender { get; set; }
+        public virtual DbSet<FepAudit> FepAudit { get; set; }
+        public virtual DbSet<FepBatchDetail> FepBatchDetail { get; set; }
+        public virtual DbSet<FepBatchHeader> FepBatchHeader { get; set; }
+        public virtual DbSet<FepBatchTender> FepBatchTender { get; set; }
+        public virtual DbSet<InternetTag> InternetTag { get; set; }
         public virtual DbSet<InvtBatchADJ_Details> InvtBatchADJ_Details { get; set; }
         public virtual DbSet<InvtBatchADJ_Header> InvtBatchADJ_Header { get; set; }
         public virtual DbSet<InvtBatchCAP_Details> InvtBatchCAP_Details { get; set; }
@@ -50,8 +50,8 @@ namespace RT2020.EF6
         public virtual DbSet<InvtBatchTXF_Details> InvtBatchTXF_Details { get; set; }
         public virtual DbSet<InvtBatchTXF_Header> InvtBatchTXF_Header { get; set; }
         public virtual DbSet<InvtBatchTXF_Log> InvtBatchTXF_Log { get; set; }
-        public virtual DbSet<InvtLedgerDetail> InvtLedgerDetails { get; set; }
-        public virtual DbSet<InvtLedgerHeader> InvtLedgerHeaders { get; set; }
+        public virtual DbSet<InvtLedgerDetails> InvtLedgerDetails { get; set; }
+        public virtual DbSet<InvtLedgerHeader> InvtLedgerHeader { get; set; }
         public virtual DbSet<InvtSubLedgerADJ_Details> InvtSubLedgerADJ_Details { get; set; }
         public virtual DbSet<InvtSubLedgerADJ_Header> InvtSubLedgerADJ_Header { get; set; }
         public virtual DbSet<InvtSubLedgerCAP_Details> InvtSubLedgerCAP_Details { get; set; }
@@ -62,107 +62,108 @@ namespace RT2020.EF6
         public virtual DbSet<InvtSubLedgerRPL_Header> InvtSubLedgerRPL_Header { get; set; }
         public virtual DbSet<InvtSubLedgerTXF_Details> InvtSubLedgerTXF_Details { get; set; }
         public virtual DbSet<InvtSubLedgerTXF_Header> InvtSubLedgerTXF_Header { get; set; }
-        public virtual DbSet<JobTitle> JobTitles { get; set; }
-        public virtual DbSet<LineOfOperation> LineOfOperations { get; set; }
-        public virtual DbSet<MarketSector> MarketSectors { get; set; }
-        public virtual DbSet<Member> Members { get; set; }
-        public virtual DbSet<MemberAddress> MemberAddresses { get; set; }
-        public virtual DbSet<MemberAddressType> MemberAddressTypes { get; set; }
-        public virtual DbSet<MemberApply> MemberApplies { get; set; }
+        public virtual DbSet<JobTitle> JobTitle { get; set; }
+        public virtual DbSet<LineOfOperation> LineOfOperation { get; set; }
+        public virtual DbSet<MarketSector> MarketSector { get; set; }
+        public virtual DbSet<Member> Member { get; set; }
+        public virtual DbSet<MemberAddress> MemberAddress { get; set; }
+        public virtual DbSet<MemberAddressType> MemberAddressType { get; set; }
+        public virtual DbSet<MemberApply> MemberApply { get; set; }
         public virtual DbSet<MemberApply4TempVip> MemberApply4TempVip { get; set; }
         public virtual DbSet<MemberApply4TempVipLog> MemberApply4TempVipLog { get; set; }
-        public virtual DbSet<MemberClass> MemberClasses { get; set; }
-        public virtual DbSet<MemberGroup> MemberGroups { get; set; }
-        public virtual DbSet<MemberSmartTag> MemberSmartTags { get; set; }
-        public virtual DbSet<MemberVipData> MemberVipDatas { get; set; }
-        public virtual DbSet<MemberVipLineOfOperation> MemberVipLineOfOperations { get; set; }
-        public virtual DbSet<MemberVipSupplement> MemberVipSupplements { get; set; }
-        public virtual DbSet<PhoneTag> PhoneTags { get; set; }
-        public virtual DbSet<PosAnalysisCode> PosAnalysisCodes { get; set; }
-        public virtual DbSet<PosLedgerAnalysi> PosLedgerAnalysis { get; set; }
-        public virtual DbSet<PosLedgerDetail> PosLedgerDetails { get; set; }
-        public virtual DbSet<PosLedgerHeader> PosLedgerHeaders { get; set; }
-        public virtual DbSet<PosLedgerTender> PosLedgerTenders { get; set; }
-        public virtual DbSet<PosTenderType> PosTenderTypes { get; set; }
-        public virtual DbSet<PriceManagementActiveDetail> PriceManagementActiveDetails { get; set; }
-        public virtual DbSet<PriceManagementActiveHeader> PriceManagementActiveHeaders { get; set; }
-        public virtual DbSet<PriceManagementBatchDetail> PriceManagementBatchDetails { get; set; }
-        public virtual DbSet<PriceManagementBatchHeader> PriceManagementBatchHeaders { get; set; }
-        public virtual DbSet<PriceManagementReason> PriceManagementReasons { get; set; }
-        public virtual DbSet<Product> Products { get; set; }
+        public virtual DbSet<MemberClass> MemberClass { get; set; }
+        public virtual DbSet<MemberGroup> MemberGroup { get; set; }
+        public virtual DbSet<MemberSmartTag> MemberSmartTag { get; set; }
+        public virtual DbSet<MemberVipData> MemberVipData { get; set; }
+        public virtual DbSet<MemberVipLineOfOperation> MemberVipLineOfOperation { get; set; }
+        public virtual DbSet<MemberVipSupplement> MemberVipSupplement { get; set; }
+        public virtual DbSet<PhoneTag> PhoneTag { get; set; }
+        public virtual DbSet<PosAnalysisCode> PosAnalysisCode { get; set; }
+        public virtual DbSet<PosLedgerAnalysis> PosLedgerAnalysis { get; set; }
+        public virtual DbSet<PosLedgerDetails> PosLedgerDetails { get; set; }
+        public virtual DbSet<PosLedgerHeader> PosLedgerHeader { get; set; }
+        public virtual DbSet<PosLedgerTender> PosLedgerTender { get; set; }
+        public virtual DbSet<PosTenderType> PosTenderType { get; set; }
+        public virtual DbSet<PriceManagementActiveDetails> PriceManagementActiveDetails { get; set; }
+        public virtual DbSet<PriceManagementActiveHeader> PriceManagementActiveHeader { get; set; }
+        public virtual DbSet<PriceManagementBatchDetails> PriceManagementBatchDetails { get; set; }
+        public virtual DbSet<PriceManagementBatchHeader> PriceManagementBatchHeader { get; set; }
+        public virtual DbSet<PriceManagementReason> PriceManagementReason { get; set; }
+        public virtual DbSet<Product> Product { get; set; }
         public virtual DbSet<ProductAppendix1> ProductAppendix1 { get; set; }
         public virtual DbSet<ProductAppendix2> ProductAppendix2 { get; set; }
         public virtual DbSet<ProductAppendix3> ProductAppendix3 { get; set; }
-        public virtual DbSet<ProductApply> ProductApplies { get; set; }
-        public virtual DbSet<ProductBarcode> ProductBarcodes { get; set; }
-        public virtual DbSet<ProductBatch> ProductBatches { get; set; }
+        public virtual DbSet<ProductApply> ProductApply { get; set; }
+        public virtual DbSet<ProductBarcode> ProductBarcode { get; set; }
+        public virtual DbSet<ProductBatch> ProductBatch { get; set; }
         public virtual DbSet<ProductClass1> ProductClass1 { get; set; }
         public virtual DbSet<ProductClass2> ProductClass2 { get; set; }
         public virtual DbSet<ProductClass3> ProductClass3 { get; set; }
         public virtual DbSet<ProductClass4> ProductClass4 { get; set; }
         public virtual DbSet<ProductClass5> ProductClass5 { get; set; }
         public virtual DbSet<ProductClass6> ProductClass6 { get; set; }
-        public virtual DbSet<ProductCode> ProductCodes { get; set; }
-        public virtual DbSet<ProductCurrentSummary> ProductCurrentSummaries { get; set; }
-        public virtual DbSet<ProductDim> ProductDims { get; set; }
+        public virtual DbSet<ProductCode> ProductCode { get; set; }
+        public virtual DbSet<ProductCurrentSummary> ProductCurrentSummary { get; set; }
+        public virtual DbSet<ProductDim> ProductDim { get; set; }
         public virtual DbSet<ProductDim_Details> ProductDim_Details { get; set; }
-        public virtual DbSet<ProductNature> ProductNatures { get; set; }
-        public virtual DbSet<ProductPeriodicSummary> ProductPeriodicSummaries { get; set; }
-        public virtual DbSet<ProductPrice> ProductPrices { get; set; }
+        public virtual DbSet<ProductNature> ProductNature { get; set; }
+        public virtual DbSet<ProductPeriodicSummary> ProductPeriodicSummary { get; set; }
+        public virtual DbSet<ProductPrice> ProductPrice { get; set; }
         public virtual DbSet<ProductPrice_LineOfOperation> ProductPrice_LineOfOperation { get; set; }
-        public virtual DbSet<ProductPriceType> ProductPriceTypes { get; set; }
-        public virtual DbSet<ProductRemark> ProductRemarks { get; set; }
-        public virtual DbSet<ProductSupplement> ProductSupplements { get; set; }
-        public virtual DbSet<ProductWorkplace> ProductWorkplaces { get; set; }
-        public virtual DbSet<ProductWorkplacePeriodicSummary> ProductWorkplacePeriodicSummaries { get; set; }
-        public virtual DbSet<PromotionPaymentFactor> PromotionPaymentFactors { get; set; }
-        public virtual DbSet<Province> Provinces { get; set; }
-        public virtual DbSet<PurchaseOrderDetail> PurchaseOrderDetails { get; set; }
-        public virtual DbSet<PurchaseOrderHeader> PurchaseOrderHeaders { get; set; }
-        public virtual DbSet<PurchaseOrderHHTDetail> PurchaseOrderHHTDetails { get; set; }
-        public virtual DbSet<PurchaseOrderHHTHeader> PurchaseOrderHHTHeaders { get; set; }
-        public virtual DbSet<PurchaseOrderReceiveDetail> PurchaseOrderReceiveDetails { get; set; }
-        public virtual DbSet<PurchaseOrderReceiveHeader> PurchaseOrderReceiveHeaders { get; set; }
-        public virtual DbSet<Remark> Remarks { get; set; }
-        public virtual DbSet<Salutation> Salutations { get; set; }
-        public virtual DbSet<ShipmentMethod> ShipmentMethods { get; set; }
+        public virtual DbSet<ProductPriceType> ProductPriceType { get; set; }
+        public virtual DbSet<ProductRemarks> ProductRemarks { get; set; }
+        public virtual DbSet<ProductSupplement> ProductSupplement { get; set; }
+        public virtual DbSet<ProductWorkplace> ProductWorkplace { get; set; }
+        public virtual DbSet<ProductWorkplacePeriodicSummary> ProductWorkplacePeriodicSummary { get; set; }
+        public virtual DbSet<PromotionPaymentFactor> PromotionPaymentFactor { get; set; }
+        public virtual DbSet<Province> Province { get; set; }
+        public virtual DbSet<PurchaseOrderDetails> PurchaseOrderDetails { get; set; }
+        public virtual DbSet<PurchaseOrderHeader> PurchaseOrderHeader { get; set; }
+        public virtual DbSet<PurchaseOrderHHTDetails> PurchaseOrderHHTDetails { get; set; }
+        public virtual DbSet<PurchaseOrderHHTHeader> PurchaseOrderHHTHeader { get; set; }
+        public virtual DbSet<PurchaseOrderReceiveDetails> PurchaseOrderReceiveDetails { get; set; }
+        public virtual DbSet<PurchaseOrderReceiveHeader> PurchaseOrderReceiveHeader { get; set; }
+        public virtual DbSet<Remarks> Remarks { get; set; }
+        public virtual DbSet<Salutation> Salutation { get; set; }
+        public virtual DbSet<ShipmentMethod> ShipmentMethod { get; set; }
         public virtual DbSet<SmartTag4Member> SmartTag4Member { get; set; }
         public virtual DbSet<SmartTag4Staff> SmartTag4Staff { get; set; }
         public virtual DbSet<SmartTag4Supplier> SmartTag4Supplier { get; set; }
         public virtual DbSet<SmartTag4Workplace> SmartTag4Workplace { get; set; }
-        public virtual DbSet<Staff> Staffs { get; set; }
-        public virtual DbSet<StaffAddress> StaffAddresses { get; set; }
-        public virtual DbSet<StaffDept> StaffDepts { get; set; }
-        public virtual DbSet<StaffGroup> StaffGroups { get; set; }
-        public virtual DbSet<StaffHR> StaffHRs { get; set; }
-        public virtual DbSet<StaffInternetTag> StaffInternetTags { get; set; }
-        public virtual DbSet<StaffJobTitle> StaffJobTitles { get; set; }
-        public virtual DbSet<StaffPreference> StaffPreferences { get; set; }
-        public virtual DbSet<StaffSecurity> StaffSecurities { get; set; }
-        public virtual DbSet<StaffSmartTag> StaffSmartTags { get; set; }
-        public virtual DbSet<StockTakeDetail> StockTakeDetails { get; set; }
+        public virtual DbSet<Staff> Staff { get; set; }
+        public virtual DbSet<StaffAddress> StaffAddress { get; set; }
+        public virtual DbSet<StaffDept> StaffDept { get; set; }
+        public virtual DbSet<StaffGroup> StaffGroup { get; set; }
+        public virtual DbSet<StaffHR> StaffHR { get; set; }
+        public virtual DbSet<StaffInternetTag> StaffInternetTag { get; set; }
+        public virtual DbSet<StaffJobTitle> StaffJobTitle { get; set; }
+        public virtual DbSet<StaffPreference> StaffPreference { get; set; }
+        public virtual DbSet<StaffSecurity> StaffSecurity { get; set; }
+        public virtual DbSet<StaffSmartTag> StaffSmartTag { get; set; }
+        public virtual DbSet<StockTakeDetails> StockTakeDetails { get; set; }
         public virtual DbSet<StockTakeDetails_HHT> StockTakeDetails_HHT { get; set; }
-        public virtual DbSet<StockTakeHeader> StockTakeHeaders { get; set; }
+        public virtual DbSet<StockTakeHeader> StockTakeHeader { get; set; }
         public virtual DbSet<StocktakeHeader_HHT> StocktakeHeader_HHT { get; set; }
-        public virtual DbSet<Supplier> Suppliers { get; set; }
-        public virtual DbSet<SupplierAddress> SupplierAddresses { get; set; }
-        public virtual DbSet<SupplierAddressType> SupplierAddressTypes { get; set; }
-        public virtual DbSet<SupplierContact> SupplierContacts { get; set; }
-        public virtual DbSet<SupplierSmartTag> SupplierSmartTags { get; set; }
-        public virtual DbSet<SupplierTerm> SupplierTerms { get; set; }
-        public virtual DbSet<SystemHHTLog> SystemHHTLogs { get; set; }
-        public virtual DbSet<SystemInfo> SystemInfoes { get; set; }
-        public virtual DbSet<SystemLabel> SystemLabels { get; set; }
-        public virtual DbSet<SystemQueue> SystemQueues { get; set; }
-        public virtual DbSet<TransferReason> TransferReasons { get; set; }
-        public virtual DbSet<UserPreference> UserPreferences { get; set; }
-        public virtual DbSet<UserProfile> UserProfiles { get; set; }
-        public virtual DbSet<Workplace> Workplaces { get; set; }
-        public virtual DbSet<WorkplaceAddress> WorkplaceAddresses { get; set; }
-        public virtual DbSet<WorkplaceNature> WorkplaceNatures { get; set; }
-        public virtual DbSet<WorkplaceSmartTag> WorkplaceSmartTags { get; set; }
-        public virtual DbSet<WorkplaceZone> WorkplaceZones { get; set; }
-        public virtual DbSet<TxferAdvanceImport> TxferAdvanceImports { get; set; }
-        public virtual DbSet<TxferAdvanceImportSummary> TxferAdvanceImportSummaries { get; set; }
+        public virtual DbSet<Supplier> Supplier { get; set; }
+        public virtual DbSet<SupplierAddress> SupplierAddress { get; set; }
+        public virtual DbSet<SupplierAddressType> SupplierAddressType { get; set; }
+        public virtual DbSet<SupplierContact> SupplierContact { get; set; }
+        public virtual DbSet<SupplierSmartTag> SupplierSmartTag { get; set; }
+        public virtual DbSet<SupplierTerms> SupplierTerms { get; set; }
+        public virtual DbSet<SystemHHTLog> SystemHHTLog { get; set; }
+        public virtual DbSet<SystemInfo> SystemInfo { get; set; }
+        public virtual DbSet<SystemLabel> SystemLabel { get; set; }
+        public virtual DbSet<SystemQueue> SystemQueue { get; set; }
+        public virtual DbSet<TransferReason> TransferReason { get; set; }
+        public virtual DbSet<UserPreference> UserPreference { get; set; }
+        public virtual DbSet<UserProfile> UserProfile { get; set; }
+        public virtual DbSet<Workplace> Workplace { get; set; }
+        public virtual DbSet<WorkplaceAddress> WorkplaceAddress { get; set; }
+        public virtual DbSet<WorkplaceNature> WorkplaceNature { get; set; }
+        public virtual DbSet<WorkplaceSmartTag> WorkplaceSmartTag { get; set; }
+        public virtual DbSet<WorkplaceZone> WorkplaceZone { get; set; }
+        public virtual DbSet<Localizations_Backup> Localizations_Backup { get; set; }
+        public virtual DbSet<TxferAdvanceImport> TxferAdvanceImport { get; set; }
+        public virtual DbSet<TxferAdvanceImportSummary> TxferAdvanceImportSummary { get; set; }
     }
 }

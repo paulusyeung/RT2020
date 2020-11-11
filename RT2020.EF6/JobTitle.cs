@@ -18,8 +18,8 @@ namespace RT2020.EF6
         public JobTitle()
         {
             this.JobTitle1 = new HashSet<JobTitle>();
-            this.Members = new HashSet<Member>();
-            this.SupplierContacts = new HashSet<SupplierContact>();
+            this.Member = new HashSet<Member>();
+            this.SupplierContact = new HashSet<SupplierContact>();
         }
     
         public System.Guid JobTitleId { get; set; }
@@ -33,8 +33,8 @@ namespace RT2020.EF6
         public virtual ICollection<JobTitle> JobTitle1 { get; set; }
         public virtual JobTitle JobTitle2 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Member> Members { get; set; }
+        public virtual ICollection<Member> Member { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SupplierContact> SupplierContacts { get; set; }
+        public virtual ICollection<SupplierContact> SupplierContact { get; set; }
     }
 }

@@ -17,8 +17,8 @@ namespace RT2020.EF6
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public EPOSSubLedgerHeader()
         {
-            this.EPOSSubLedgerDetails = new HashSet<EPOSSubLedgerDetail>();
-            this.EPOSSubLedgerTenders = new HashSet<EPOSSubLedgerTender>();
+            this.EPOSSubLedgerDetails = new HashSet<EPOSSubLedgerDetails>();
+            this.EPOSSubLedgerTender = new HashSet<EPOSSubLedgerTender>();
         }
     
         public System.Guid HeaderId { get; set; }
@@ -71,9 +71,9 @@ namespace RT2020.EF6
         public string ANALYSIS_CODE10 { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<EPOSSubLedgerDetail> EPOSSubLedgerDetails { get; set; }
+        public virtual ICollection<EPOSSubLedgerDetails> EPOSSubLedgerDetails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<EPOSSubLedgerTender> EPOSSubLedgerTenders { get; set; }
+        public virtual ICollection<EPOSSubLedgerTender> EPOSSubLedgerTender { get; set; }
         public virtual Member Member { get; set; }
         public virtual Staff Staff { get; set; }
         public virtual Supplier Supplier { get; set; }

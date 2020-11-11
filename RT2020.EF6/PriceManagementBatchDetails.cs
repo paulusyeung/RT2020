@@ -12,7 +12,7 @@ namespace RT2020.EF6
     using System;
     using System.Collections.Generic;
     
-    public partial class PriceManagementActiveDetail
+    public partial class PriceManagementBatchDetails
     {
         public System.Guid DetailId { get; set; }
         public System.Guid HeaderId { get; set; }
@@ -23,7 +23,7 @@ namespace RT2020.EF6
         public Nullable<decimal> OLD_FIGURE { get; set; }
         public Nullable<decimal> NEW_FIGURE { get; set; }
     
-        public virtual PriceManagementActiveHeader PriceManagementActiveHeader { get; set; }
+        public virtual PriceManagementBatchHeader PriceManagementBatchHeader { get; set; }
         public virtual Product Product { get; set; }
     }
 }

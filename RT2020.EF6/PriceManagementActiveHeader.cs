@@ -17,7 +17,7 @@ namespace RT2020.EF6
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public PriceManagementActiveHeader()
         {
-            this.PriceManagementActiveDetails = new HashSet<PriceManagementActiveDetail>();
+            this.PriceManagementActiveDetails = new HashSet<PriceManagementActiveDetails>();
         }
     
         public System.Guid HeaderId { get; set; }
@@ -39,7 +39,7 @@ namespace RT2020.EF6
         public System.Guid ModifiedBy { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PriceManagementActiveDetail> PriceManagementActiveDetails { get; set; }
+        public virtual ICollection<PriceManagementActiveDetails> PriceManagementActiveDetails { get; set; }
         public virtual PriceManagementReason PriceManagementReason { get; set; }
     }
 }

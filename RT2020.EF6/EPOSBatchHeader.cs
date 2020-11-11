@@ -17,8 +17,8 @@ namespace RT2020.EF6
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public EPOSBatchHeader()
         {
-            this.EPOSBatchDetails = new HashSet<EPOSBatchDetail>();
-            this.EPOSBatchTenders = new HashSet<EPOSBatchTender>();
+            this.EPOSBatchDetails = new HashSet<EPOSBatchDetails>();
+            this.EPOSBatchTender = new HashSet<EPOSBatchTender>();
         }
     
         public System.Guid HeaderId { get; set; }
@@ -71,9 +71,9 @@ namespace RT2020.EF6
         public string ANALYSIS_CODE10 { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<EPOSBatchDetail> EPOSBatchDetails { get; set; }
+        public virtual ICollection<EPOSBatchDetails> EPOSBatchDetails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<EPOSBatchTender> EPOSBatchTenders { get; set; }
+        public virtual ICollection<EPOSBatchTender> EPOSBatchTender { get; set; }
         public virtual Member Member { get; set; }
         public virtual Staff Staff { get; set; }
         public virtual Supplier Supplier { get; set; }

@@ -12,7 +12,7 @@ namespace RT2020.EF6
     using System;
     using System.Collections.Generic;
     
-    public partial class StockTakeDetail
+    public partial class StockTakeDetails
     {
         public System.Guid DetailsId { get; set; }
         public System.Guid HeaderId { get; set; }

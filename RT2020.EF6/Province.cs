@@ -17,11 +17,11 @@ namespace RT2020.EF6
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Province()
         {
-            this.Cities = new HashSet<City>();
-            this.MemberAddresses = new HashSet<MemberAddress>();
-            this.StaffAddresses = new HashSet<StaffAddress>();
-            this.SupplierAddresses = new HashSet<SupplierAddress>();
-            this.WorkplaceAddresses = new HashSet<WorkplaceAddress>();
+            this.City = new HashSet<City>();
+            this.MemberAddress = new HashSet<MemberAddress>();
+            this.StaffAddress = new HashSet<StaffAddress>();
+            this.SupplierAddress = new HashSet<SupplierAddress>();
+            this.WorkplaceAddress = new HashSet<WorkplaceAddress>();
         }
     
         public System.Guid ProvinceId { get; set; }
@@ -32,15 +32,15 @@ namespace RT2020.EF6
         public string ProvinceName_Cht { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<City> Cities { get; set; }
+        public virtual ICollection<City> City { get; set; }
         public virtual Country Country { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<MemberAddress> MemberAddresses { get; set; }
+        public virtual ICollection<MemberAddress> MemberAddress { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<StaffAddress> StaffAddresses { get; set; }
+        public virtual ICollection<StaffAddress> StaffAddress { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SupplierAddress> SupplierAddresses { get; set; }
+        public virtual ICollection<SupplierAddress> SupplierAddress { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<WorkplaceAddress> WorkplaceAddresses { get; set; }
+        public virtual ICollection<WorkplaceAddress> WorkplaceAddress { get; set; }
     }
 }

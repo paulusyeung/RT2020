@@ -17,7 +17,7 @@ namespace RT2020.EF6
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public StaffJobTitle()
         {
-            this.Staffs = new HashSet<Staff>();
+            this.Staff = new HashSet<Staff>();
         }
     
         public System.Guid JobTitleId { get; set; }
@@ -27,6 +27,6 @@ namespace RT2020.EF6
         public string JobTitleName_Cht { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Staff> Staffs { get; set; }
+        public virtual ICollection<Staff> Staff { get; set; }
     }
 }

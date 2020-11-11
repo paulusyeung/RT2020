@@ -17,9 +17,9 @@ namespace RT2020.EF6
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Salutation()
         {
-            this.Members = new HashSet<Member>();
+            this.Member = new HashSet<Member>();
             this.Salutation1 = new HashSet<Salutation>();
-            this.SupplierContacts = new HashSet<SupplierContact>();
+            this.SupplierContact = new HashSet<SupplierContact>();
         }
     
         public System.Guid SalutationId { get; set; }
@@ -30,11 +30,11 @@ namespace RT2020.EF6
         public string SalutationName_Cht { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Member> Members { get; set; }
+        public virtual ICollection<Member> Member { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Salutation> Salutation1 { get; set; }
         public virtual Salutation Salutation2 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SupplierContact> SupplierContacts { get; set; }
+        public virtual ICollection<SupplierContact> SupplierContact { get; set; }
     }
 }

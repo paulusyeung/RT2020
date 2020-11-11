@@ -17,37 +17,37 @@ namespace RT2020.EF6
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Product()
         {
-            this.EPOSBatchDetails = new HashSet<EPOSBatchDetail>();
-            this.EPOSSubLedgerDetails = new HashSet<EPOSSubLedgerDetail>();
-            this.FepBatchDetails = new HashSet<FepBatchDetail>();
+            this.EPOSBatchDetails = new HashSet<EPOSBatchDetails>();
+            this.EPOSSubLedgerDetails = new HashSet<EPOSSubLedgerDetails>();
+            this.FepBatchDetail = new HashSet<FepBatchDetail>();
             this.InvtBatchADJ_Details = new HashSet<InvtBatchADJ_Details>();
             this.InvtBatchCAP_Details = new HashSet<InvtBatchCAP_Details>();
             this.InvtBatchREC_Details = new HashSet<InvtBatchREC_Details>();
             this.InvtBatchRPL_Details = new HashSet<InvtBatchRPL_Details>();
             this.InvtBatchTXF_Details = new HashSet<InvtBatchTXF_Details>();
-            this.InvtLedgerDetails = new HashSet<InvtLedgerDetail>();
+            this.InvtLedgerDetails = new HashSet<InvtLedgerDetails>();
             this.InvtSubLedgerADJ_Details = new HashSet<InvtSubLedgerADJ_Details>();
             this.InvtSubLedgerCAP_Details = new HashSet<InvtSubLedgerCAP_Details>();
             this.InvtSubLedgerREC_Details = new HashSet<InvtSubLedgerREC_Details>();
             this.InvtSubLedgerRPL_Details = new HashSet<InvtSubLedgerRPL_Details>();
             this.InvtSubLedgerTXF_Details = new HashSet<InvtSubLedgerTXF_Details>();
-            this.PosLedgerDetails = new HashSet<PosLedgerDetail>();
-            this.PriceManagementActiveDetails = new HashSet<PriceManagementActiveDetail>();
-            this.PriceManagementBatchDetails = new HashSet<PriceManagementBatchDetail>();
-            this.ProductBarcodes = new HashSet<ProductBarcode>();
-            this.ProductCodes = new HashSet<ProductCode>();
-            this.ProductCurrentSummaries = new HashSet<ProductCurrentSummary>();
-            this.ProductPeriodicSummaries = new HashSet<ProductPeriodicSummary>();
-            this.ProductPrices = new HashSet<ProductPrice>();
+            this.PosLedgerDetails = new HashSet<PosLedgerDetails>();
+            this.PriceManagementActiveDetails = new HashSet<PriceManagementActiveDetails>();
+            this.PriceManagementBatchDetails = new HashSet<PriceManagementBatchDetails>();
+            this.ProductBarcode = new HashSet<ProductBarcode>();
+            this.ProductCode = new HashSet<ProductCode>();
+            this.ProductCurrentSummary = new HashSet<ProductCurrentSummary>();
+            this.ProductPeriodicSummary = new HashSet<ProductPeriodicSummary>();
+            this.ProductPrice = new HashSet<ProductPrice>();
             this.ProductPrice_LineOfOperation = new HashSet<ProductPrice_LineOfOperation>();
-            this.ProductRemarks = new HashSet<ProductRemark>();
-            this.ProductSupplements = new HashSet<ProductSupplement>();
-            this.ProductWorkplaces = new HashSet<ProductWorkplace>();
-            this.ProductWorkplacePeriodicSummaries = new HashSet<ProductWorkplacePeriodicSummary>();
-            this.PurchaseOrderDetails = new HashSet<PurchaseOrderDetail>();
-            this.PurchaseOrderHHTDetails = new HashSet<PurchaseOrderHHTDetail>();
-            this.PurchaseOrderReceiveDetails = new HashSet<PurchaseOrderReceiveDetail>();
-            this.StockTakeDetails = new HashSet<StockTakeDetail>();
+            this.ProductRemarks = new HashSet<ProductRemarks>();
+            this.ProductSupplement = new HashSet<ProductSupplement>();
+            this.ProductWorkplace = new HashSet<ProductWorkplace>();
+            this.ProductWorkplacePeriodicSummary = new HashSet<ProductWorkplacePeriodicSummary>();
+            this.PurchaseOrderDetails = new HashSet<PurchaseOrderDetails>();
+            this.PurchaseOrderHHTDetails = new HashSet<PurchaseOrderHHTDetails>();
+            this.PurchaseOrderReceiveDetails = new HashSet<PurchaseOrderReceiveDetails>();
+            this.StockTakeDetails = new HashSet<StockTakeDetails>();
             this.StockTakeDetails_HHT = new HashSet<StockTakeDetails_HHT>();
         }
     
@@ -92,11 +92,11 @@ namespace RT2020.EF6
         public Nullable<System.Guid> RetiredBy { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<EPOSBatchDetail> EPOSBatchDetails { get; set; }
+        public virtual ICollection<EPOSBatchDetails> EPOSBatchDetails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<EPOSSubLedgerDetail> EPOSSubLedgerDetails { get; set; }
+        public virtual ICollection<EPOSSubLedgerDetails> EPOSSubLedgerDetails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<FepBatchDetail> FepBatchDetails { get; set; }
+        public virtual ICollection<FepBatchDetail> FepBatchDetail { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<InvtBatchADJ_Details> InvtBatchADJ_Details { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -108,7 +108,7 @@ namespace RT2020.EF6
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<InvtBatchTXF_Details> InvtBatchTXF_Details { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<InvtLedgerDetail> InvtLedgerDetails { get; set; }
+        public virtual ICollection<InvtLedgerDetails> InvtLedgerDetails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<InvtSubLedgerADJ_Details> InvtSubLedgerADJ_Details { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -120,39 +120,39 @@ namespace RT2020.EF6
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<InvtSubLedgerTXF_Details> InvtSubLedgerTXF_Details { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PosLedgerDetail> PosLedgerDetails { get; set; }
+        public virtual ICollection<PosLedgerDetails> PosLedgerDetails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PriceManagementActiveDetail> PriceManagementActiveDetails { get; set; }
+        public virtual ICollection<PriceManagementActiveDetails> PriceManagementActiveDetails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PriceManagementBatchDetail> PriceManagementBatchDetails { get; set; }
+        public virtual ICollection<PriceManagementBatchDetails> PriceManagementBatchDetails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ProductBarcode> ProductBarcodes { get; set; }
+        public virtual ICollection<ProductBarcode> ProductBarcode { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ProductCode> ProductCodes { get; set; }
+        public virtual ICollection<ProductCode> ProductCode { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ProductCurrentSummary> ProductCurrentSummaries { get; set; }
+        public virtual ICollection<ProductCurrentSummary> ProductCurrentSummary { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ProductPeriodicSummary> ProductPeriodicSummaries { get; set; }
+        public virtual ICollection<ProductPeriodicSummary> ProductPeriodicSummary { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ProductPrice> ProductPrices { get; set; }
+        public virtual ICollection<ProductPrice> ProductPrice { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ProductPrice_LineOfOperation> ProductPrice_LineOfOperation { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ProductRemark> ProductRemarks { get; set; }
+        public virtual ICollection<ProductRemarks> ProductRemarks { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ProductSupplement> ProductSupplements { get; set; }
+        public virtual ICollection<ProductSupplement> ProductSupplement { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ProductWorkplace> ProductWorkplaces { get; set; }
+        public virtual ICollection<ProductWorkplace> ProductWorkplace { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ProductWorkplacePeriodicSummary> ProductWorkplacePeriodicSummaries { get; set; }
+        public virtual ICollection<ProductWorkplacePeriodicSummary> ProductWorkplacePeriodicSummary { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PurchaseOrderDetail> PurchaseOrderDetails { get; set; }
+        public virtual ICollection<PurchaseOrderDetails> PurchaseOrderDetails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PurchaseOrderHHTDetail> PurchaseOrderHHTDetails { get; set; }
+        public virtual ICollection<PurchaseOrderHHTDetails> PurchaseOrderHHTDetails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PurchaseOrderReceiveDetail> PurchaseOrderReceiveDetails { get; set; }
+        public virtual ICollection<PurchaseOrderReceiveDetails> PurchaseOrderReceiveDetails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<StockTakeDetail> StockTakeDetails { get; set; }
+        public virtual ICollection<StockTakeDetails> StockTakeDetails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<StockTakeDetails_HHT> StockTakeDetails_HHT { get; set; }
         public virtual ProductNature ProductNature { get; set; }

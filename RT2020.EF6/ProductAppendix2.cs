@@ -18,7 +18,7 @@ namespace RT2020.EF6
         public ProductAppendix2()
         {
             this.ProductAppendix21 = new HashSet<ProductAppendix2>();
-            this.ProductCodes = new HashSet<ProductCode>();
+            this.ProductCode = new HashSet<ProductCode>();
         }
     
         public System.Guid Appendix2Id { get; set; }
@@ -40,6 +40,6 @@ namespace RT2020.EF6
         public virtual ICollection<ProductAppendix2> ProductAppendix21 { get; set; }
         public virtual ProductAppendix2 ProductAppendix22 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ProductCode> ProductCodes { get; set; }
+        public virtual ICollection<ProductCode> ProductCode { get; set; }
     }
 }

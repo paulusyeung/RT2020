@@ -17,27 +17,27 @@ namespace RT2020.EF6
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Workplace()
         {
-            this.EPOSBatchHeaders = new HashSet<EPOSBatchHeader>();
-            this.EPOSSubLedgerHeaders = new HashSet<EPOSSubLedgerHeader>();
+            this.EPOSBatchHeader = new HashSet<EPOSBatchHeader>();
+            this.EPOSSubLedgerHeader = new HashSet<EPOSSubLedgerHeader>();
             this.InvtBatchADJ_Header = new HashSet<InvtBatchADJ_Header>();
             this.InvtBatchCAP_Header = new HashSet<InvtBatchCAP_Header>();
             this.InvtBatchREC_Header = new HashSet<InvtBatchREC_Header>();
-            this.InvtLedgerHeaders = new HashSet<InvtLedgerHeader>();
+            this.InvtLedgerHeader = new HashSet<InvtLedgerHeader>();
             this.InvtSubLedgerADJ_Header = new HashSet<InvtSubLedgerADJ_Header>();
             this.InvtSubLedgerCAP_Header = new HashSet<InvtSubLedgerCAP_Header>();
             this.InvtSubLedgerREC_Header = new HashSet<InvtSubLedgerREC_Header>();
-            this.Members = new HashSet<Member>();
-            this.PosLedgerHeaders = new HashSet<PosLedgerHeader>();
-            this.ProductWorkplaces = new HashSet<ProductWorkplace>();
-            this.ProductWorkplacePeriodicSummaries = new HashSet<ProductWorkplacePeriodicSummary>();
-            this.PromotionPaymentFactors = new HashSet<PromotionPaymentFactor>();
-            this.PurchaseOrderHeaders = new HashSet<PurchaseOrderHeader>();
-            this.PurchaseOrderReceiveHeaders = new HashSet<PurchaseOrderReceiveHeader>();
-            this.StockTakeDetails = new HashSet<StockTakeDetail>();
-            this.StockTakeHeaders = new HashSet<StockTakeHeader>();
+            this.Member = new HashSet<Member>();
+            this.PosLedgerHeader = new HashSet<PosLedgerHeader>();
+            this.ProductWorkplace = new HashSet<ProductWorkplace>();
+            this.ProductWorkplacePeriodicSummary = new HashSet<ProductWorkplacePeriodicSummary>();
+            this.PromotionPaymentFactor = new HashSet<PromotionPaymentFactor>();
+            this.PurchaseOrderHeader = new HashSet<PurchaseOrderHeader>();
+            this.PurchaseOrderReceiveHeader = new HashSet<PurchaseOrderReceiveHeader>();
+            this.StockTakeDetails = new HashSet<StockTakeDetails>();
+            this.StockTakeHeader = new HashSet<StockTakeHeader>();
             this.StocktakeHeader_HHT = new HashSet<StocktakeHeader_HHT>();
-            this.WorkplaceAddresses = new HashSet<WorkplaceAddress>();
-            this.WorkplaceSmartTags = new HashSet<WorkplaceSmartTag>();
+            this.WorkplaceAddress = new HashSet<WorkplaceAddress>();
+            this.WorkplaceSmartTag = new HashSet<WorkplaceSmartTag>();
         }
     
         public System.Guid WorkplaceId { get; set; }
@@ -70,9 +70,9 @@ namespace RT2020.EF6
         public Nullable<System.DateTime> RetiredOn { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<EPOSBatchHeader> EPOSBatchHeaders { get; set; }
+        public virtual ICollection<EPOSBatchHeader> EPOSBatchHeader { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<EPOSSubLedgerHeader> EPOSSubLedgerHeaders { get; set; }
+        public virtual ICollection<EPOSSubLedgerHeader> EPOSSubLedgerHeader { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<InvtBatchADJ_Header> InvtBatchADJ_Header { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -80,7 +80,7 @@ namespace RT2020.EF6
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<InvtBatchREC_Header> InvtBatchREC_Header { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<InvtLedgerHeader> InvtLedgerHeaders { get; set; }
+        public virtual ICollection<InvtLedgerHeader> InvtLedgerHeader { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<InvtSubLedgerADJ_Header> InvtSubLedgerADJ_Header { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -89,29 +89,29 @@ namespace RT2020.EF6
         public virtual ICollection<InvtSubLedgerREC_Header> InvtSubLedgerREC_Header { get; set; }
         public virtual LineOfOperation LineOfOperation { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Member> Members { get; set; }
+        public virtual ICollection<Member> Member { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PosLedgerHeader> PosLedgerHeaders { get; set; }
+        public virtual ICollection<PosLedgerHeader> PosLedgerHeader { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ProductWorkplace> ProductWorkplaces { get; set; }
+        public virtual ICollection<ProductWorkplace> ProductWorkplace { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ProductWorkplacePeriodicSummary> ProductWorkplacePeriodicSummaries { get; set; }
+        public virtual ICollection<ProductWorkplacePeriodicSummary> ProductWorkplacePeriodicSummary { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PromotionPaymentFactor> PromotionPaymentFactors { get; set; }
+        public virtual ICollection<PromotionPaymentFactor> PromotionPaymentFactor { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PurchaseOrderHeader> PurchaseOrderHeaders { get; set; }
+        public virtual ICollection<PurchaseOrderHeader> PurchaseOrderHeader { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PurchaseOrderReceiveHeader> PurchaseOrderReceiveHeaders { get; set; }
+        public virtual ICollection<PurchaseOrderReceiveHeader> PurchaseOrderReceiveHeader { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<StockTakeDetail> StockTakeDetails { get; set; }
+        public virtual ICollection<StockTakeDetails> StockTakeDetails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<StockTakeHeader> StockTakeHeaders { get; set; }
+        public virtual ICollection<StockTakeHeader> StockTakeHeader { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<StocktakeHeader_HHT> StocktakeHeader_HHT { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<WorkplaceAddress> WorkplaceAddresses { get; set; }
+        public virtual ICollection<WorkplaceAddress> WorkplaceAddress { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<WorkplaceSmartTag> WorkplaceSmartTags { get; set; }
+        public virtual ICollection<WorkplaceSmartTag> WorkplaceSmartTag { get; set; }
         public virtual WorkplaceNature WorkplaceNature { get; set; }
         public virtual WorkplaceZone WorkplaceZone { get; set; }
     }

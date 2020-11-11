@@ -17,8 +17,8 @@ namespace RT2020.EF6
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public FepBatchHeader()
         {
-            this.FepBatchDetails = new HashSet<FepBatchDetail>();
-            this.FepBatchTenders = new HashSet<FepBatchTender>();
+            this.FepBatchDetail = new HashSet<FepBatchDetail>();
+            this.FepBatchTender = new HashSet<FepBatchTender>();
         }
     
         public System.Guid HeaderId { get; set; }
@@ -98,8 +98,8 @@ namespace RT2020.EF6
         public Nullable<System.Guid> RetiredBy { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<FepBatchDetail> FepBatchDetails { get; set; }
+        public virtual ICollection<FepBatchDetail> FepBatchDetail { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<FepBatchTender> FepBatchTenders { get; set; }
+        public virtual ICollection<FepBatchTender> FepBatchTender { get; set; }
     }
 }

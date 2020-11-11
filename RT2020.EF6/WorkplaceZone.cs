@@ -17,8 +17,8 @@ namespace RT2020.EF6
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public WorkplaceZone()
         {
-            this.SystemInfoes = new HashSet<SystemInfo>();
-            this.Workplaces = new HashSet<Workplace>();
+            this.SystemInfo = new HashSet<SystemInfo>();
+            this.Workplace = new HashSet<Workplace>();
             this.WorkplaceZone1 = new HashSet<WorkplaceZone>();
         }
     
@@ -35,9 +35,9 @@ namespace RT2020.EF6
         public string MetadataXml { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SystemInfo> SystemInfoes { get; set; }
+        public virtual ICollection<SystemInfo> SystemInfo { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Workplace> Workplaces { get; set; }
+        public virtual ICollection<Workplace> Workplace { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<WorkplaceZone> WorkplaceZone1 { get; set; }
         public virtual WorkplaceZone WorkplaceZone2 { get; set; }

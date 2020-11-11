@@ -17,7 +17,7 @@ namespace RT2020.EF6
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public ProductPriceType()
         {
-            this.ProductPrices = new HashSet<ProductPrice>();
+            this.ProductPrice = new HashSet<ProductPrice>();
         }
     
         public System.Guid PriceTypeId { get; set; }
@@ -26,6 +26,6 @@ namespace RT2020.EF6
         public bool CoreSystemPrice { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ProductPrice> ProductPrices { get; set; }
+        public virtual ICollection<ProductPrice> ProductPrice { get; set; }
     }
 }

@@ -17,9 +17,9 @@ namespace RT2020.EF6
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public MemberVipData()
         {
-            this.MemberVipLineOfOperations = new HashSet<MemberVipLineOfOperation>();
-            this.MemberVipSupplements = new HashSet<MemberVipSupplement>();
-            this.MemberVipSupplements1 = new HashSet<MemberVipSupplement>();
+            this.MemberVipLineOfOperation = new HashSet<MemberVipLineOfOperation>();
+            this.MemberVipSupplement = new HashSet<MemberVipSupplement>();
+            this.MemberVipSupplement1 = new HashSet<MemberVipSupplement>();
         }
     
         public System.Guid MemberVipId { get; set; }
@@ -42,10 +42,10 @@ namespace RT2020.EF6
     
         public virtual Member Member { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<MemberVipLineOfOperation> MemberVipLineOfOperations { get; set; }
+        public virtual ICollection<MemberVipLineOfOperation> MemberVipLineOfOperation { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<MemberVipSupplement> MemberVipSupplements { get; set; }
+        public virtual ICollection<MemberVipSupplement> MemberVipSupplement { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<MemberVipSupplement> MemberVipSupplements1 { get; set; }
+        public virtual ICollection<MemberVipSupplement> MemberVipSupplement1 { get; set; }
     }
 }

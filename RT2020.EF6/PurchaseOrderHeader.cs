@@ -17,9 +17,9 @@ namespace RT2020.EF6
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public PurchaseOrderHeader()
         {
-            this.PurchaseOrderDetails = new HashSet<PurchaseOrderDetail>();
-            this.PurchaseOrderHHTHeaders = new HashSet<PurchaseOrderHHTHeader>();
-            this.PurchaseOrderReceiveHeaders = new HashSet<PurchaseOrderReceiveHeader>();
+            this.PurchaseOrderDetails = new HashSet<PurchaseOrderDetails>();
+            this.PurchaseOrderHHTHeader = new HashSet<PurchaseOrderHHTHeader>();
+            this.PurchaseOrderReceiveHeader = new HashSet<PurchaseOrderReceiveHeader>();
         }
     
         public System.Guid OrderHeaderId { get; set; }
@@ -79,14 +79,14 @@ namespace RT2020.EF6
         public Nullable<System.Guid> RetiredBy { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PurchaseOrderDetail> PurchaseOrderDetails { get; set; }
+        public virtual ICollection<PurchaseOrderDetails> PurchaseOrderDetails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PurchaseOrderHHTHeader> PurchaseOrderHHTHeaders { get; set; }
+        public virtual ICollection<PurchaseOrderHHTHeader> PurchaseOrderHHTHeader { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PurchaseOrderReceiveHeader> PurchaseOrderReceiveHeaders { get; set; }
+        public virtual ICollection<PurchaseOrderReceiveHeader> PurchaseOrderReceiveHeader { get; set; }
         public virtual Staff Staff { get; set; }
         public virtual Supplier Supplier { get; set; }
-        public virtual SupplierTerm SupplierTerm { get; set; }
+        public virtual SupplierTerms SupplierTerms { get; set; }
         public virtual Workplace Workplace { get; set; }
     }
 }

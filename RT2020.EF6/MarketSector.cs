@@ -18,7 +18,7 @@ namespace RT2020.EF6
         public MarketSector()
         {
             this.MarketSector1 = new HashSet<MarketSector>();
-            this.Suppliers = new HashSet<Supplier>();
+            this.Supplier = new HashSet<Supplier>();
         }
     
         public System.Guid MarketSectorId { get; set; }
@@ -32,6 +32,6 @@ namespace RT2020.EF6
         public virtual ICollection<MarketSector> MarketSector1 { get; set; }
         public virtual MarketSector MarketSector2 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Supplier> Suppliers { get; set; }
+        public virtual ICollection<Supplier> Supplier { get; set; }
     }
 }

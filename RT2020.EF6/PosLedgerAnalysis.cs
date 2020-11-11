@@ -12,7 +12,7 @@ namespace RT2020.EF6
     using System;
     using System.Collections.Generic;
     
-    public partial class PosLedgerAnalysi
+    public partial class PosLedgerAnalysis
     {
         public System.Guid AnalysisId { get; set; }
         public System.Guid HeaderId { get; set; }

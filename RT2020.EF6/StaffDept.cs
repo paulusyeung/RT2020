@@ -17,7 +17,7 @@ namespace RT2020.EF6
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public StaffDept()
         {
-            this.Staffs = new HashSet<Staff>();
+            this.Staff = new HashSet<Staff>();
             this.StaffDept1 = new HashSet<StaffDept>();
         }
     
@@ -29,7 +29,7 @@ namespace RT2020.EF6
         public string DeptName_Cht { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Staff> Staffs { get; set; }
+        public virtual ICollection<Staff> Staff { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<StaffDept> StaffDept1 { get; set; }
         public virtual StaffDept StaffDept2 { get; set; }
