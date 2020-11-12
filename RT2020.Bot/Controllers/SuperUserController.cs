@@ -12,7 +12,7 @@ using RT2020.Bot.Helper;
 
 namespace RT2020.Bot.Controllers
 {
-    public class BotController : ApiController
+    public class SuperUserController : ApiController
     {
         #region Instead of naming my invoking class, I started using the following:
         //private static log4net.ILog Log { get; set; }

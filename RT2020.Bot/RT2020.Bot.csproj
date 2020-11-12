@@ -161,7 +161,7 @@
   <ItemGroup>
     <Compile Include="App_Start\SwaggerConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Controllers\BotController.cs" />
+    <Compile Include="Controllers\SuperUserController.cs" />
     <Compile Include="Helper\SuperUserHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
