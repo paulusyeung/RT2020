@@ -41,7 +41,7 @@ namespace RT2020.Help
 
             textBox2.Text += Environment.NewLine + Environment.NewLine +
                 "Credits:" + Environment.NewLine +
-                "Arron Tam, David Chen, Ken Fong, Paulus Yeung";
+                "Arron Tam, Brabara Cheung, David Chen, Ken Fong, Paulus Yeung";
         }
 
         private void cmdOK_Click(object sender, EventArgs e)

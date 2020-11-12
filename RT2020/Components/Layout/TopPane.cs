@@ -58,18 +58,18 @@ namespace RT2020.Components.Layout
 
             pnlTaskbarRight.Dock = DockStyle.Fill;
             butPower.Image = new IconResourceHandle(ThemeHelper.GetIconThemed("fa-power-off.32.png"));
-            //butPower.FlatAppearance.BorderColor = Color.Red;    // 冇效嘅，咩顏色 border 都係 none，唔加就出黑框
-            //butPower.FlatStyle = FlatStyle.Flat;
+            butPower.FlatAppearance.BorderColor = Color.Red;    // 冇效嘅，咩顏色 border 都係 none，唔加就出黑框
+            butPower.FlatStyle = FlatStyle.Flat;
             butPower.Click += Power_OnClick;
             //
             butTheme.Image = new IconResourceHandle(ThemeHelper.GetIconThemed("fa-adjust.32.png"));
-            //butTheme.FlatAppearance.BorderColor = Color.Red;
-            //butTheme.FlatStyle = FlatStyle.Flat;
+            butTheme.FlatAppearance.BorderColor = Color.Red;
+            butTheme.FlatStyle = FlatStyle.Flat;
             butTheme.Click += Theme_OnClick;
             //
             butLanguage.Image = new IconResourceHandle(ThemeHelper.GetIconThemed("zmdi-translate.32.png"));
-            //butLanguage.FlatAppearance.BorderColor = Color.Red;
-            //butLanguage.FlatStyle = FlatStyle.Flat;
+            butLanguage.FlatAppearance.BorderColor = Color.Red;
+            butLanguage.FlatStyle = FlatStyle.Flat;
             SetLanguageMenu();
         }
 

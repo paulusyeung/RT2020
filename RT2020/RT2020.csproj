@@ -77,6 +77,10 @@
       <HintPath>..\packages\CommonMark.NET.0.15.1\lib\net45\CommonMark.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="CsvHelper, Version=15.0.0.0, Culture=neutral, PublicKeyToken=8c4959082be5c823, processorArchitecture=MSIL">
+      <HintPath>..\packages\CsvHelper.15.0.8\lib\net45\CsvHelper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="DevExpress.Printing.v15.2.Core, Version=15.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <Private>True</Private>
     </Reference>
@@ -130,6 +134,14 @@
     <Reference Include="DocumentFormat.OpenXml, Version=2.0.5022.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
     </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="FileHelpers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=3e0c08d59cc3d657, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files\FileHelpers\Binaries\DotNet 2.0\FileHelpers.dll</HintPath>
@@ -172,7 +184,12 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files\Common Files\nxStudio\nxStudio.dll</HintPath>
     </Reference>
+    <Reference Include="RestSharp, Version=106.11.7.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
+      <HintPath>..\packages\RestSharp.106.11.7\lib\net452\RestSharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -184,6 +201,10 @@
     <Reference Include="System.Security" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Transactions" />
+    <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.4.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Web" />
     <Reference Include="Gizmox.WebGUI.Common">
       <Private>True</Private>
@@ -202,6 +223,10 @@
     <Reference Include="System.Xml.Linq" />
     <Reference Include="VWG.Community.NetSqlAzMan, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\VWG.Community.NetSqlAzMan.1.0.1\lib\VWG.Community.NetSqlAzMan.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="VWG.Community.Util, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\VWG.Community.Util.1.1.1\lib\VWG.Community.Util.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Westwind.Globalization, Version=3.0.5.0, Culture=neutral, processorArchitecture=MSIL">
@@ -822,6 +847,7 @@
       <DependentUpon>SearchMember.cs</DependentUpon>
     </Compile>
     <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="Helper\BotHelper.cs" />
     <Compile Include="Helper\CookieHelper.cs" />
     <Compile Include="Helper\NetSqlAzManHelper.cs" />
     <Compile Include="Helper\ThemeHelper.cs" />
@@ -2442,6 +2468,12 @@
     <Compile Include="Settings\MonthEndProcess\Step08.cs" />
     <Compile Include="Settings\MonthEndProcess\Step09.cs" />
     <Compile Include="Settings\MonthEndProcess\Step10.cs" />
+    <Compile Include="Settings\SuperUser\Phone.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Settings\SuperUser\Phone.Designer.cs">
+      <DependentUpon>Phone.cs</DependentUpon>
+    </Compile>
     <Compile Include="Settings\SystemMonthEnd.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -2847,7 +2879,9 @@
       <DependentUpon>DataSource4PriceMgmt.xsd</DependentUpon>
     </None>
     <Content Include="log4net.config" />
-    <Content Include="packages.config" />
+    <Content Include="packages.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="README.md" />
     <Content Include="LocalizationAdmin\scripts\vendor\ng-file-upload\README.md" />
     <Content Include="LocalizationAdmin\scripts\vendor\ng-file-upload\npm-debug.log" />
@@ -4394,6 +4428,10 @@
       <DependentUpon>SettleOrder.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Settings\SuperUser\Phone.resx">
+      <DependentUpon>Phone.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Settings\SystemMonthEnd.resx">
       <DependentUpon>SystemMonthEnd.cs</DependentUpon>
     </EmbeddedResource>
@@ -4650,6 +4688,10 @@
     <ProjectReference Include="..\RT2020.DAL\RT2020.DAL.csproj">
       <Project>{c3765763-db6e-4dde-af69-fc99c86f4f2b}</Project>
       <Name>RT2020.DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RT2020.EF6\RT2020.EF6.csproj">
+      <Project>{80747ba9-d766-4dca-b58a-e8426bf72ace}</Project>
+      <Name>RT2020.EF6</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

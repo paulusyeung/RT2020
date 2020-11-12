@@ -85,5 +85,12 @@
       <item Caption="Monthend" ImageUrl="16x16.ico_16_4500.gif" Tag="settings.monthend" />
       <item Caption="Translation" ImageUrl="16x16.ico_16_4500.gif" Tag="System_Translation" />
     </item>
-	</settings>
+    <item Caption="SuperUser">
+      <item Caption="Label" ImageUrl="16x16.ico_18_relationships.gif" Tag="System_Label" />
+      <item Caption="Info" ImageUrl="16x16.16_info.gif" Tag="System_Info" />
+      <item Caption="Security" ImageUrl="16x16.ico_16_4500.gif" Tag="System_Security" />
+      <item Caption="Monthend" ImageUrl="16x16.ico_16_4500.gif" Tag="settings.monthend" />
+      <item Caption="Translation" ImageUrl="16x16.ico_16_4500.gif" Tag="System_Translation" />
+    </item>
+  </settings>
 </root>

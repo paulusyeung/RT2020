@@ -83,5 +83,9 @@
       <item Caption="Monthend" ImageUrl="16x16.ico_16_4500.gif" Tag="settings.monthend" />
       <item Caption="Translation" ImageUrl="dark.zmdi-translate.16.png" Tag="settings.translation" />
     </item>
-	</settings>
+    <item Caption="SuperUser" Tag="settings.superuser">
+      <item Caption="Phone" ImageUrl="16x16.ico_18_relationships.gif" Tag="settings.phone" />
+      <item Caption="TxDate" ImageUrl="16x16.16_info.gif" Tag="settings.txdate" />
+    </item>
+  </settings>
 </root>

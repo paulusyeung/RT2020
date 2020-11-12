@@ -150,6 +150,12 @@ namespace RT2020.NavPane
                         oTranslate.DockPadding.All = 6;
                         wspPane.Controls.Add(oTranslate);
                         break;
+                    case "settings.phone":
+                        var oPhone = new RT2020.Settings.SuperUser.Phone();
+                        oPhone.Dock = DockStyle.Fill;
+                        oPhone.DockPadding.All = 6;
+                        wspPane.Controls.Add(oPhone);
+                        break;
                 }
             }
         }
