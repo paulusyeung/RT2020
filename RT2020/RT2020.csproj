@@ -4681,10 +4681,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Gizmox.WebGUI.DevExpressControls\Gizmox.WebGUI.DevExpressControls.csproj">
-      <Project>{38da1df7-fb99-4337-a15d-5a1a713e34fd}</Project>
-      <Name>Gizmox.WebGUI.DevExpressControls</Name>
-    </ProjectReference>
     <ProjectReference Include="..\RT2020.DAL\RT2020.DAL.csproj">
       <Project>{c3765763-db6e-4dde-af69-fc99c86f4f2b}</Project>
       <Name>RT2020.DAL</Name>
