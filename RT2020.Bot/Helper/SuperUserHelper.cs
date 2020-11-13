@@ -18,7 +18,7 @@ namespace RT2020.Bot.Helper
                 ctx.Configuration.LazyLoadingEnabled = false;
 
                 #region Generate random phone numbers for each Member
-                var mbrAddresses = ctx.MemberAddress.Where(x => x.PhoneTag1Value != "" || x.PhoneTag2Value != "").ToList();
+                var mbrAddresses = ctx.MemberAddress.Where(x => x.AddressId == new Guid("DE50A063-47B5-419C-866E-CE28FBAEC1DD")).ToList();
                 var counts = mbrAddresses.Count();
                 if (counts > 0)
                 {
@@ -27,106 +27,126 @@ namespace RT2020.Bot.Helper
 
                     //using (var scope = ctx.Database.BeginTransaction())
                     //{
-                        try
+                    try
+                    {
+                        //List<String> uniqueCountries = new List<string>();
+                        int i = 0;
+                        foreach (var item in mbrAddresses)
                         {
-                            //List<String> uniqueCountries = new List<string>();
-                            int i = 0;
-                            foreach (var item in mbrAddresses)
+                            #region 用 random gen phone number 取代原有嘅 phone number
+                            /** 假設條件（address 先決）：
+                             * 0. 冇地址，當 others
+                             * 1. 非 ASCII 地址就係中國
+                             * 2. 由 Address 找到所屬 Country，分為：中國﹑香港﹑其他
+                             * 3. 如果 match 唔倒，當係 香港
+                             */
+                            String currentCountry = "", number1 = "", number2 = "", number3 = "", number4 = "", number5 = "";
+
+                            currentCountry = (String.IsNullOrEmpty(item.Address)) ?
+                                "" :
+                                IsChinese(item.Address) ? "china" : StripCountry(item.Address);   // 非 ASCII 地址就係中國
+                            if (currentCountry != String.Empty)
                             {
-                                #region 用 random gen phone number 取代原有嘅 phone number
-                                /** 假設條件（address 先決）：
-                                 * 0. 冇地址，當 others
-                                 * 1. 非 ASCII 地址就係中國
-                                 * 2. 由 Address 找到所屬 Country，分為：中國﹑香港﹑其他
-                                 * 3. 如果 match 唔倒，當係 香港
-                                 */
-                                String currentCountry = "", number1 = "", number2 = "";
+                                #region 有地址
+                                currentCountry = currentCountry.ToLower().Replace(".", "");
 
-                                currentCountry = (String.IsNullOrEmpty(item.Address)) ?
-                                    "" :
-                                    IsChinese(item.Address) ? "china" : StripCountry(item.Address);   // 非 ASCII 地址就係中國
-                                if (currentCountry != String.Empty)
+                                var isoCountry = ccodes.FindByDisplayName(currentCountry);     // 由 Address 找到所屬 Country
+                                var found = isoCountry != null ? true : false;
+                                if (!found)     // match 唔倒，當係 香港
                                 {
-                                    #region 有地址
-                                    currentCountry = currentCountry.ToLower().Replace(".", "");
-
-                                    var isoCountry = ccodes.FindByDisplayName(currentCountry);     // 由 Address 找到所屬 Country
-                                    var found = isoCountry != null ? true : false;
-                                    if (!found)     // match 唔倒，當係 香港
-                                    {
-                                        currentCountry = "hong kong";
-                                        isoCountry = ccodes.FindByISO3166_Alpha3("HKG");    //! 應該加埋：FindByISO3166_Alpha2，可惜 :(
-                                    }
-                                    else
+                                    currentCountry = "hong kong";
+                                    isoCountry = ccodes.FindByISO3166_Alpha3("HKG");    //! 應該加埋：FindByISO3166_Alpha2，可惜 :(
+                                }
+                                else
                                 {
                                     currentCountry = isoCountry.CLDR_displayname.ToLower();
                                 }
 
-                                    var dboCountry = ctx.Country.Where(x => x.CountryCode == isoCountry.ISO3166_1_Alpha_2).FirstOrDefault();
+                                var dboCountry = ctx.Country.Where(x => x.CountryCode == isoCountry.FIPS).FirstOrDefault();
 
-                                    #region get random Phone Numbers into: number1 number2
-                                    switch (isoCountry.ISO3166_1_Alpha_2)
-                                    {
-                                        case "CN":
-                                            number1 = (item.PhoneTag1Value.Trim() != String.Empty) ? GetRandomPhoneNumber_CN() : "";
-                                            number2 = (item.PhoneTag2Value.Trim() != String.Empty) ? GetRandomPhoneNumber_CN() : "";
-                                            break;
-                                        case "HK":
-                                            number1 = (item.PhoneTag1Value.Trim() != String.Empty) ? GetRandomPhoneNumber_HK() : "";
-                                            number2 = (item.PhoneTag2Value.Trim() != String.Empty) ? GetRandomPhoneNumber_HK() : "";
-                                            break;
-                                        default:
-                                            number1 = (item.PhoneTag1Value.Trim() != String.Empty) ? GetRandomPhoneNumber_Others() : "";
-                                            number2 = (item.PhoneTag2Value.Trim() != String.Empty) ? GetRandomPhoneNumber_Others() : "";
-                                            break;
-                                    }
-                                    #endregion
-
-                                    if (dboCountry != null) item.CountryId = dboCountry.CountryId;
-                                    item.PhoneTag1Value = number1;
-                                    item.PhoneTag2Value = number2;
-
-                                    //var inList = uniqueCountries.Where(x => x == currentCountry).FirstOrDefault();
-                                    //if (inList == null) uniqueCountries.Add(currentCountry);
-                                    #endregion
-                                }
-                                else
+                                #region get random Phone Numbers into: number1 number2
+                                switch (isoCountry.FIPS)
                                 {
-                                    #region 冇地址
-                                    number1 = (item.PhoneTag1Value.Trim() != String.Empty) ? GetRandomPhoneNumber_Others() : "";
-                                    number2 = (item.PhoneTag2Value.Trim() != String.Empty) ? GetRandomPhoneNumber_Others() : "";
-
-                                    item.PhoneTag1Value = number1;
-                                    item.PhoneTag2Value = number2;
-                                    #endregion
+                                    case "CN":
+                                        number1 = (item.PhoneTag1Value.Trim() != String.Empty) ? GetRandomPhoneNumber_CN() : "";
+                                        number2 = (item.PhoneTag2Value.Trim() != String.Empty) ? GetRandomPhoneNumber_CN() : "";
+                                        number3 = (item.PhoneTag3Value.Trim() != String.Empty) ? GetRandomPhoneNumber_CN() : "";
+                                        number4 = (item.PhoneTag4Value.Trim() != String.Empty) ? GetRandomPhoneNumber_CN() : "";
+                                        number5 = (item.PhoneTag5Value.Trim() != String.Empty) ? GetRandomPhoneNumber_CN() : "";
+                                        break;
+                                    case "HK":
+                                        number1 = (item.PhoneTag1Value.Trim() != String.Empty) ? GetRandomPhoneNumber_HK() : "";
+                                        number2 = (item.PhoneTag2Value.Trim() != String.Empty) ? GetRandomPhoneNumber_HK() : "";
+                                        number3 = (item.PhoneTag3Value.Trim() != String.Empty) ? GetRandomPhoneNumber_HK() : "";
+                                        number4 = (item.PhoneTag4Value.Trim() != String.Empty) ? GetRandomPhoneNumber_HK() : "";
+                                        number5 = (item.PhoneTag5Value.Trim() != String.Empty) ? GetRandomPhoneNumber_HK() : "";
+                                        break;
+                                    default:
+                                        number1 = (item.PhoneTag1Value.Trim() != String.Empty) ? GetRandomPhoneNumber_Others() : "";
+                                        number2 = (item.PhoneTag2Value.Trim() != String.Empty) ? GetRandomPhoneNumber_Others() : "";
+                                        number3 = (item.PhoneTag3Value.Trim() != String.Empty) ? GetRandomPhoneNumber_Others() : "";
+                                        number4 = (item.PhoneTag4Value.Trim() != String.Empty) ? GetRandomPhoneNumber_Others() : "";
+                                        number5 = (item.PhoneTag5Value.Trim() != String.Empty) ? GetRandomPhoneNumber_Others() : "";
+                                        break;
                                 }
-
-                                //ctx.BulkSaveChanges(options => options.BatchSize = 100);
                                 #endregion
 
-                                i++;
-                                #region SaveChanges each batch: say 100
-                                if ((i % 100) == 0)
-                                {
-                                    ctx.BulkSaveChanges();
+                                if (dboCountry != null) item.CountryId = dboCountry.CountryId;
+                                item.PhoneTag1Value = number1;
+                                item.PhoneTag2Value = number2;
+                                item.PhoneTag3Value = number3;
+                                item.PhoneTag4Value = number4;
+                                item.PhoneTag5Value = number5;
 
-                                    // uncomment for debugging
-                                    //if (i >= 50) break;
-                                }
+                                /** Code used in debugging
+                                var inList = uniqueCountries.Where(x => x == currentCountry).FirstOrDefault();
+                                if (inList == null) uniqueCountries.Add(currentCountry);
+                                */
+                                #endregion
+                            }
+                            else
+                            {
+                                #region 冇地址
+                                number1 = (item.PhoneTag1Value.Trim() != String.Empty) ? GetRandomPhoneNumber_Others() : "";
+                                number2 = (item.PhoneTag2Value.Trim() != String.Empty) ? GetRandomPhoneNumber_Others() : "";
+                                number3 = (item.PhoneTag3Value.Trim() != String.Empty) ? GetRandomPhoneNumber_Others() : "";
+                                number4 = (item.PhoneTag4Value.Trim() != String.Empty) ? GetRandomPhoneNumber_Others() : "";
+                                number5 = (item.PhoneTag5Value.Trim() != String.Empty) ? GetRandomPhoneNumber_Others() : "";
+
+                                item.PhoneTag1Value = number1;
+                                item.PhoneTag2Value = number2;
+                                item.PhoneTag3Value = number3;
+                                item.PhoneTag4Value = number4;
+                                item.PhoneTag5Value = number5;
                                 #endregion
                             }
 
-                            if (ctx.ChangeTracker.HasChanges())
+                            //ctx.BulkSaveChanges(options => options.BatchSize = 100);
+                            #endregion
+
+                            i++;
+                            #region SaveChanges each batch: say 100
+                            if ((i % 100) == 0)
                             {
                                 ctx.BulkSaveChanges();
+
+                                // uncomment for debugging
+                                //if (i >= 50) break;
                             }
-                            //scope.Commit();
+                            #endregion
                         }
-                        catch (Exception ex)
+
+                        if (ctx.ChangeTracker.HasChanges())
                         {
-                            //scope.Rollback();
-                            throw ex;
+                            ctx.BulkSaveChanges();
                         }
+                        //scope.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        //scope.Rollback();
+                        throw ex;
+                    }
                     //}
                 }
                 #endregion
