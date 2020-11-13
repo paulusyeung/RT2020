@@ -18,7 +18,7 @@ namespace RT2020.Bot.Helper
                 ctx.Configuration.LazyLoadingEnabled = false;
 
                 #region Generate random phone numbers for each Member
-                var mbrAddresses = ctx.MemberAddress.Where(x => x.AddressId == new Guid("DE50A063-47B5-419C-866E-CE28FBAEC1DD")).ToList();
+                var mbrAddresses = ctx.MemberAddress.Where(x => x.PhoneTag1Value != "" || x.PhoneTag2Value != "").ToList();
                 var counts = mbrAddresses.Count();
                 if (counts > 0)
                 {
