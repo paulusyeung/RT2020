@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace RT2020.Helper
+namespace RT2020.Helper.GenData
 {
     /// <summary>
     /// dbo.Country = Hong Kong SAR
@@ -11,7 +11,7 @@ namespace RT2020.Helper
     /// dbo.City = District: 18 區 (refer: https://en.wikipedia.org/wiki/Hong_Kong)
     /// 順豐分區圖：https://www.sf-express.com/hk/tc/dynamic_function/range/
     /// </summary>
-    public class TaiwanHelper
+    public class TaiwanData
     {
         /// <summary>
         /// 寫啲 default values 入：

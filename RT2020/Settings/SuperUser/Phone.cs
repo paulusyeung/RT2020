@@ -237,10 +237,10 @@ namespace RT2020.Settings.SuperUser
 
         public void LTT_RegionCode(string s)
         {
-            if (chkChina.Checked) ChinaHelper.WriteDefaultValues();
-            if (chkHongKong.Checked) HongKongHelper.WriteDefaultValues();
-            if (chkMacao.Checked) MacaoHelper.WriteDefaultValues();
-            if (chkTaiwan.Checked) TaiwanHelper.WriteDefaultValues();
+            if (chkChina.Checked) Helper.GenData.ChinaData.WriteDefaultValues();
+            if (chkHongKong.Checked) Helper.GenData.HongKongData.WriteDefaultValues();
+            if (chkMacao.Checked) Helper.GenData.MacaoData.WriteDefaultValues();
+            if (chkTaiwan.Checked) Helper.GenData.TaiwanData.WriteDefaultValues();
         }
 
         public void TC_RegionCode(IAsyncResult R)
