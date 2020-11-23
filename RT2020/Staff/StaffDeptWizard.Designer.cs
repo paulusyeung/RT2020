@@ -28,37 +28,38 @@ namespace RT2020.Staff
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.splitContainer = new Gizmox.WebGUI.Forms.SplitContainer();
             this.lvStaffDeptList = new Gizmox.WebGUI.Forms.ListView();
-            this.colStaffDeptId = new Gizmox.WebGUI.Forms.ColumnHeader();
-            this.colLN = new Gizmox.WebGUI.Forms.ColumnHeader();
-            this.colStaffDeptCode = new Gizmox.WebGUI.Forms.ColumnHeader();
-            this.colStaffDeptName = new Gizmox.WebGUI.Forms.ColumnHeader();
-            this.colStaffDeptNameChs = new Gizmox.WebGUI.Forms.ColumnHeader();
-            this.colStaffDeptNameCht = new Gizmox.WebGUI.Forms.ColumnHeader();
+            this.colStaffDeptId = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colLN = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colStaffDeptCode = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colStaffDeptName = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colStaffDeptNameAlt1 = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colStaffDeptNameAlt2 = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
             this.cboParentDept = new Gizmox.WebGUI.Forms.ComboBox();
             this.lblParentDept = new Gizmox.WebGUI.Forms.Label();
             this.tbWizardAction = new Gizmox.WebGUI.Forms.ToolBar();
-            this.txtStaffDeptNameCht = new Gizmox.WebGUI.Forms.TextBox();
-            this.txtStaffDeptNameChs = new Gizmox.WebGUI.Forms.TextBox();
+            this.txtStaffDeptNameAlt2 = new Gizmox.WebGUI.Forms.TextBox();
+            this.txtStaffDeptNameAlt1 = new Gizmox.WebGUI.Forms.TextBox();
             this.txtStaffDeptName = new Gizmox.WebGUI.Forms.TextBox();
-            this.lblStaffDeptNameCht = new Gizmox.WebGUI.Forms.Label();
-            this.lblStaffDeptNameChs = new Gizmox.WebGUI.Forms.Label();
+            this.lblStaffDeptNameAlt2 = new Gizmox.WebGUI.Forms.Label();
+            this.lblStaffDeptNameAlt1 = new Gizmox.WebGUI.Forms.Label();
             this.lblStaffDeptName = new Gizmox.WebGUI.Forms.Label();
             this.txtStaffDeptCode = new Gizmox.WebGUI.Forms.TextBox();
             this.lblStaffDeptCode = new Gizmox.WebGUI.Forms.Label();
-            this.errorProvider = new Gizmox.WebGUI.Forms.ErrorProvider();
+            this.errorProvider = new Gizmox.WebGUI.Forms.ErrorProvider(this.components);
+            this.colParentDept = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
             this.SuspendLayout();
             // 
             // splitContainer
             // 
-            this.splitContainer.Anchor = Gizmox.WebGUI.Forms.AnchorStyles.None;
+            this.splitContainer.AutoValidate = Gizmox.WebGUI.Forms.AutoValidate.EnablePreventFocusChange;
             this.splitContainer.BorderStyle = Gizmox.WebGUI.Forms.BorderStyle.Clear;
             this.splitContainer.Dock = Gizmox.WebGUI.Forms.DockStyle.Fill;
             this.splitContainer.FixedPanel = Gizmox.WebGUI.Forms.FixedPanel.Panel1;
             this.splitContainer.Location = new System.Drawing.Point(0, 0);
             this.splitContainer.Name = "splitContainer";
-            this.splitContainer.Orientation = Gizmox.WebGUI.Forms.Orientation.Vertical;
             // 
             // splitContainer.Panel1
             // 
@@ -69,11 +70,11 @@ namespace RT2020.Staff
             this.splitContainer.Panel2.Controls.Add(this.cboParentDept);
             this.splitContainer.Panel2.Controls.Add(this.lblParentDept);
             this.splitContainer.Panel2.Controls.Add(this.tbWizardAction);
-            this.splitContainer.Panel2.Controls.Add(this.txtStaffDeptNameCht);
-            this.splitContainer.Panel2.Controls.Add(this.txtStaffDeptNameChs);
+            this.splitContainer.Panel2.Controls.Add(this.txtStaffDeptNameAlt2);
+            this.splitContainer.Panel2.Controls.Add(this.txtStaffDeptNameAlt1);
             this.splitContainer.Panel2.Controls.Add(this.txtStaffDeptName);
-            this.splitContainer.Panel2.Controls.Add(this.lblStaffDeptNameCht);
-            this.splitContainer.Panel2.Controls.Add(this.lblStaffDeptNameChs);
+            this.splitContainer.Panel2.Controls.Add(this.lblStaffDeptNameAlt2);
+            this.splitContainer.Panel2.Controls.Add(this.lblStaffDeptNameAlt1);
             this.splitContainer.Panel2.Controls.Add(this.lblStaffDeptName);
             this.splitContainer.Panel2.Controls.Add(this.txtStaffDeptCode);
             this.splitContainer.Panel2.Controls.Add(this.lblStaffDeptCode);
@@ -83,16 +84,16 @@ namespace RT2020.Staff
             // 
             // lvStaffDeptList
             // 
-            this.lvStaffDeptList.Anchor = Gizmox.WebGUI.Forms.AnchorStyles.None;
             this.lvStaffDeptList.Columns.AddRange(new Gizmox.WebGUI.Forms.ColumnHeader[] {
             this.colStaffDeptId,
             this.colLN,
+            this.colParentDept,
             this.colStaffDeptCode,
             this.colStaffDeptName,
-            this.colStaffDeptNameChs,
-            this.colStaffDeptNameCht});
+            this.colStaffDeptNameAlt1,
+            this.colStaffDeptNameAlt2});
+            this.lvStaffDeptList.DataMember = null;
             this.lvStaffDeptList.Dock = Gizmox.WebGUI.Forms.DockStyle.Fill;
-            this.lvStaffDeptList.ItemsPerPage = 20;
             this.lvStaffDeptList.Location = new System.Drawing.Point(0, 0);
             this.lvStaffDeptList.Name = "lvStaffDeptList";
             this.lvStaffDeptList.Size = new System.Drawing.Size(499, 506);
@@ -102,140 +103,135 @@ namespace RT2020.Staff
             // 
             // colStaffDeptId
             // 
-            this.colStaffDeptId.Image = null;
             this.colStaffDeptId.Text = "StaffDeptId";
             this.colStaffDeptId.Visible = false;
             this.colStaffDeptId.Width = 150;
             // 
             // colLN
             // 
-            this.colLN.Image = null;
             this.colLN.Text = "LN";
             this.colLN.Width = 30;
             // 
             // colStaffDeptCode
             // 
-            this.colStaffDeptCode.Image = null;
+            this.colStaffDeptCode.ContentAlign = Gizmox.WebGUI.Forms.ExtendedHorizontalAlignment.Center;
             this.colStaffDeptCode.Text = "Dept Code";
             this.colStaffDeptCode.Width = 80;
             // 
             // colStaffDeptName
             // 
-            this.colStaffDeptName.Image = null;
             this.colStaffDeptName.Text = "Dept Name";
             this.colStaffDeptName.Width = 120;
             // 
-            // colStaffDeptNameChs
+            // colStaffDeptNameAlt1
             // 
-            this.colStaffDeptNameChs.Image = null;
-            this.colStaffDeptNameChs.Text = "Dept Name Chs";
-            this.colStaffDeptNameChs.Width = 120;
+            this.colStaffDeptNameAlt1.Text = "Dept Name Chs";
+            this.colStaffDeptNameAlt1.Width = 120;
             // 
-            // colStaffDeptNameCht
+            // colStaffDeptNameAlt2
             // 
-            this.colStaffDeptNameCht.Image = null;
-            this.colStaffDeptNameCht.Text = "Dept Name Cht";
-            this.colStaffDeptNameCht.Width = 120;
+            this.colStaffDeptNameAlt2.Text = "Dept Name Cht";
+            this.colStaffDeptNameAlt2.Width = 120;
             // 
             // cboParentDept
             // 
             this.cboParentDept.BorderStyle = Gizmox.WebGUI.Forms.BorderStyle.Fixed3D;
             this.cboParentDept.DropDownStyle = Gizmox.WebGUI.Forms.ComboBoxStyle.DropDownList;
             this.cboParentDept.DropDownWidth = 142;
-            this.cboParentDept.Location = new System.Drawing.Point(122, 129);
+            this.cboParentDept.Location = new System.Drawing.Point(153, 129);
             this.cboParentDept.Name = "cboParentDept";
-            this.cboParentDept.Size = new System.Drawing.Size(142, 21);
+            this.cboParentDept.Size = new System.Drawing.Size(131, 21);
             this.cboParentDept.TabIndex = 5;
             // 
             // lblParentDept
             // 
             this.lblParentDept.Location = new System.Drawing.Point(16, 132);
             this.lblParentDept.Name = "lblParentDept";
-            this.lblParentDept.Size = new System.Drawing.Size(100, 23);
+            this.lblParentDept.Size = new System.Drawing.Size(131, 23);
             this.lblParentDept.TabIndex = 9;
             this.lblParentDept.Text = "Attached To:";
             // 
             // tbWizardAction
             // 
-            this.tbWizardAction.Anchor = Gizmox.WebGUI.Forms.AnchorStyles.None;
-            this.tbWizardAction.Appearance = Gizmox.WebGUI.Forms.ToolBarAppearance.Normal;
-            this.tbWizardAction.Dock = Gizmox.WebGUI.Forms.DockStyle.Top;
+            this.tbWizardAction.ButtonSize = new System.Drawing.Size(20, 20);
             this.tbWizardAction.DragHandle = true;
-            this.tbWizardAction.DropDownArrows = false;
-            this.tbWizardAction.ImageList = null;
+            this.tbWizardAction.DropDownArrows = true;
+            this.tbWizardAction.ImageSize = new System.Drawing.Size(16, 16);
             this.tbWizardAction.Location = new System.Drawing.Point(0, 0);
             this.tbWizardAction.MenuHandle = true;
             this.tbWizardAction.Name = "tbWizardAction";
-            //this.tbWizardAction.RightToLeft = false;
             this.tbWizardAction.ShowToolTips = true;
+            this.tbWizardAction.Size = new System.Drawing.Size(302, 26);
             this.tbWizardAction.TabIndex = 8;
             // 
-            // txtStaffDeptNameCht
+            // txtStaffDeptNameAlt2
             // 
-            this.txtStaffDeptNameCht.Location = new System.Drawing.Point(122, 106);
-            this.txtStaffDeptNameCht.Name = "txtStaffDeptNameCht";
-            this.txtStaffDeptNameCht.Size = new System.Drawing.Size(142, 20);
-            this.txtStaffDeptNameCht.TabIndex = 4;
+            this.txtStaffDeptNameAlt2.Location = new System.Drawing.Point(153, 106);
+            this.txtStaffDeptNameAlt2.Name = "txtStaffDeptNameAlt2";
+            this.txtStaffDeptNameAlt2.Size = new System.Drawing.Size(131, 20);
+            this.txtStaffDeptNameAlt2.TabIndex = 4;
             // 
-            // txtStaffDeptNameChs
+            // txtStaffDeptNameAlt1
             // 
-            this.txtStaffDeptNameChs.Location = new System.Drawing.Point(122, 83);
-            this.txtStaffDeptNameChs.Name = "txtStaffDeptNameChs";
-            this.txtStaffDeptNameChs.Size = new System.Drawing.Size(142, 20);
-            this.txtStaffDeptNameChs.TabIndex = 3;
+            this.txtStaffDeptNameAlt1.Location = new System.Drawing.Point(153, 83);
+            this.txtStaffDeptNameAlt1.Name = "txtStaffDeptNameAlt1";
+            this.txtStaffDeptNameAlt1.Size = new System.Drawing.Size(131, 20);
+            this.txtStaffDeptNameAlt1.TabIndex = 3;
             // 
             // txtStaffDeptName
             // 
-            this.txtStaffDeptName.Location = new System.Drawing.Point(122, 60);
+            this.txtStaffDeptName.Location = new System.Drawing.Point(153, 60);
             this.txtStaffDeptName.Name = "txtStaffDeptName";
-            this.txtStaffDeptName.Size = new System.Drawing.Size(142, 20);
+            this.txtStaffDeptName.Size = new System.Drawing.Size(131, 20);
             this.txtStaffDeptName.TabIndex = 2;
             // 
-            // lblStaffDeptNameCht
+            // lblStaffDeptNameAlt2
             // 
-            this.lblStaffDeptNameCht.Location = new System.Drawing.Point(16, 109);
-            this.lblStaffDeptNameCht.Name = "lblStaffDeptNameCht";
-            this.lblStaffDeptNameCht.Size = new System.Drawing.Size(100, 23);
-            this.lblStaffDeptNameCht.TabIndex = 4;
-            this.lblStaffDeptNameCht.Text = "Dept Name Cht";
+            this.lblStaffDeptNameAlt2.Location = new System.Drawing.Point(28, 109);
+            this.lblStaffDeptNameAlt2.Name = "lblStaffDeptNameAlt2";
+            this.lblStaffDeptNameAlt2.Size = new System.Drawing.Size(125, 23);
+            this.lblStaffDeptNameAlt2.TabIndex = 4;
+            this.lblStaffDeptNameAlt2.Text = "Dept Name Cht";
             // 
-            // lblStaffDeptNameChs
+            // lblStaffDeptNameAlt1
             // 
-            this.lblStaffDeptNameChs.Location = new System.Drawing.Point(16, 86);
-            this.lblStaffDeptNameChs.Name = "lblStaffDeptNameChs";
-            this.lblStaffDeptNameChs.Size = new System.Drawing.Size(100, 23);
-            this.lblStaffDeptNameChs.TabIndex = 3;
-            this.lblStaffDeptNameChs.Text = "Dept Name Chs:";
+            this.lblStaffDeptNameAlt1.Location = new System.Drawing.Point(28, 86);
+            this.lblStaffDeptNameAlt1.Name = "lblStaffDeptNameAlt1";
+            this.lblStaffDeptNameAlt1.Size = new System.Drawing.Size(125, 23);
+            this.lblStaffDeptNameAlt1.TabIndex = 3;
+            this.lblStaffDeptNameAlt1.Text = "Dept Name Chs:";
             // 
             // lblStaffDeptName
             // 
             this.lblStaffDeptName.Location = new System.Drawing.Point(16, 63);
             this.lblStaffDeptName.Name = "lblStaffDeptName";
-            this.lblStaffDeptName.Size = new System.Drawing.Size(100, 23);
+            this.lblStaffDeptName.Size = new System.Drawing.Size(131, 23);
             this.lblStaffDeptName.TabIndex = 2;
             this.lblStaffDeptName.Text = "Dept Name:";
             // 
             // txtStaffDeptCode
             // 
-            this.txtStaffDeptCode.Location = new System.Drawing.Point(122, 37);
+            this.txtStaffDeptCode.Location = new System.Drawing.Point(153, 37);
             this.txtStaffDeptCode.Name = "txtStaffDeptCode";
-            this.txtStaffDeptCode.Size = new System.Drawing.Size(142, 20);
+            this.txtStaffDeptCode.Size = new System.Drawing.Size(131, 20);
             this.txtStaffDeptCode.TabIndex = 1;
             // 
             // lblStaffDeptCode
             // 
             this.lblStaffDeptCode.Location = new System.Drawing.Point(16, 40);
             this.lblStaffDeptCode.Name = "lblStaffDeptCode";
-            this.lblStaffDeptCode.Size = new System.Drawing.Size(100, 23);
+            this.lblStaffDeptCode.Size = new System.Drawing.Size(131, 23);
             this.lblStaffDeptCode.TabIndex = 0;
             this.lblStaffDeptCode.Text = "Dept Code:";
             // 
             // errorProvider
             // 
             this.errorProvider.BlinkRate = 3;
-            this.errorProvider.BlinkStyle = Gizmox.WebGUI.Forms.ErrorBlinkStyle.BlinkIfDifferentError;
-            this.errorProvider.DataMember = "";
-            this.errorProvider.DataSource = "";
+            // 
+            // colParentDept
+            // 
+            this.colParentDept.Text = "Parent Dept.";
+            this.colParentDept.Width = 80;
             // 
             // StaffDeptWizard
             // 
@@ -257,13 +253,13 @@ namespace RT2020.Staff
         private Gizmox.WebGUI.Forms.ColumnHeader colLN;
         private Gizmox.WebGUI.Forms.ColumnHeader colStaffDeptCode;
         private Gizmox.WebGUI.Forms.ColumnHeader colStaffDeptName;
-        private Gizmox.WebGUI.Forms.ColumnHeader colStaffDeptNameChs;
-        private Gizmox.WebGUI.Forms.ColumnHeader colStaffDeptNameCht;
-        private Gizmox.WebGUI.Forms.TextBox txtStaffDeptNameCht;
-        private Gizmox.WebGUI.Forms.TextBox txtStaffDeptNameChs;
+        private Gizmox.WebGUI.Forms.ColumnHeader colStaffDeptNameAlt1;
+        private Gizmox.WebGUI.Forms.ColumnHeader colStaffDeptNameAlt2;
+        private Gizmox.WebGUI.Forms.TextBox txtStaffDeptNameAlt2;
+        private Gizmox.WebGUI.Forms.TextBox txtStaffDeptNameAlt1;
         private Gizmox.WebGUI.Forms.TextBox txtStaffDeptName;
-        private Gizmox.WebGUI.Forms.Label lblStaffDeptNameCht;
-        private Gizmox.WebGUI.Forms.Label lblStaffDeptNameChs;
+        private Gizmox.WebGUI.Forms.Label lblStaffDeptNameAlt2;
+        private Gizmox.WebGUI.Forms.Label lblStaffDeptNameAlt1;
         private Gizmox.WebGUI.Forms.Label lblStaffDeptName;
         private Gizmox.WebGUI.Forms.TextBox txtStaffDeptCode;
         private Gizmox.WebGUI.Forms.Label lblStaffDeptCode;
@@ -271,7 +267,6 @@ namespace RT2020.Staff
         private Gizmox.WebGUI.Forms.ErrorProvider errorProvider;
         private Gizmox.WebGUI.Forms.ComboBox cboParentDept;
         private Gizmox.WebGUI.Forms.Label lblParentDept;
-
-
+        private Gizmox.WebGUI.Forms.ColumnHeader colParentDept;
     }
 }

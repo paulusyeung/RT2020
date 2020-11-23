@@ -28,11 +28,7 @@ namespace RT2020.Settings
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            Gizmox.WebGUI.Common.Resources.IconResourceHandle iconResourceHandle1 = new Gizmox.WebGUI.Common.Resources.IconResourceHandle();
-            Gizmox.WebGUI.Common.Resources.IconResourceHandle iconResourceHandle2 = new Gizmox.WebGUI.Common.Resources.IconResourceHandle();
-            Gizmox.WebGUI.Common.Resources.IconResourceHandle iconResourceHandle3 = new Gizmox.WebGUI.Common.Resources.IconResourceHandle();
-            Gizmox.WebGUI.Common.Resources.IconResourceHandle iconResourceHandle4 = new Gizmox.WebGUI.Common.Resources.IconResourceHandle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SystemInfoForm));
             this.lblLastMonthEnd = new Gizmox.WebGUI.Forms.Label();
             this.txtLastMonthEnd = new Gizmox.WebGUI.Forms.TextBox();
             this.formPane = new Gizmox.WebGUI.Forms.Panel();
@@ -53,12 +49,12 @@ namespace RT2020.Settings
             this.lblInternetUrl = new Gizmox.WebGUI.Forms.Label();
             this.txtOfficeNumber = new Gizmox.WebGUI.Forms.TextBox();
             this.tpAddressInfo = new Gizmox.WebGUI.Forms.TabPage();
-            this.gbChineseAddress = new Gizmox.WebGUI.Forms.GroupBox();
-            this.lblCompanyNameChn = new Gizmox.WebGUI.Forms.Label();
-            this.lblAddressChn = new Gizmox.WebGUI.Forms.Label();
-            this.txtCompanyNameChn = new Gizmox.WebGUI.Forms.TextBox();
-            this.txtAddressChn = new Gizmox.WebGUI.Forms.TextBox();
-            this.gbEnglishAddress = new Gizmox.WebGUI.Forms.GroupBox();
+            this.gbAddressAlt1 = new Gizmox.WebGUI.Forms.GroupBox();
+            this.lblCompanyNameAlt1 = new Gizmox.WebGUI.Forms.Label();
+            this.lblAddressAlt1 = new Gizmox.WebGUI.Forms.Label();
+            this.txtCompanyNameAlt1 = new Gizmox.WebGUI.Forms.TextBox();
+            this.txtAddressAlt1 = new Gizmox.WebGUI.Forms.TextBox();
+            this.gbAddressDefault = new Gizmox.WebGUI.Forms.GroupBox();
             this.txtAddressEn = new Gizmox.WebGUI.Forms.TextBox();
             this.txtCompanyNameEn = new Gizmox.WebGUI.Forms.TextBox();
             this.lblAddressEn = new Gizmox.WebGUI.Forms.Label();
@@ -157,6 +153,7 @@ namespace RT2020.Settings
             this.lblCashPurchase = new Gizmox.WebGUI.Forms.Label();
             this.tpLogoInfo = new Gizmox.WebGUI.Forms.TabPage();
             this.gbLogo = new Gizmox.WebGUI.Forms.GroupBox();
+            this.imgLogo = new RT2020.Controls.RTImage();
             this.lblLogoDimension = new Gizmox.WebGUI.Forms.Label();
             this.btnDeleteLogo = new Gizmox.WebGUI.Forms.Button();
             this.btnAddLogo = new Gizmox.WebGUI.Forms.Button();
@@ -164,6 +161,7 @@ namespace RT2020.Settings
             this.lblCompanyLogo = new Gizmox.WebGUI.Forms.Label();
             this.tpLetterHeadInfo = new Gizmox.WebGUI.Forms.TabPage();
             this.gbLetterHead = new Gizmox.WebGUI.Forms.GroupBox();
+            this.imgLetterHead = new RT2020.Controls.RTImage();
             this.lblLetterHeadDimension = new Gizmox.WebGUI.Forms.Label();
             this.btnDeleteLetterHead = new Gizmox.WebGUI.Forms.Button();
             this.btnAddLetterHead = new Gizmox.WebGUI.Forms.Button();
@@ -194,9 +192,42 @@ namespace RT2020.Settings
             this.tbWizardAction = new Gizmox.WebGUI.Forms.ToolBar();
             this.openFileDialog_Logo = new Gizmox.WebGUI.Forms.OpenFileDialog();
             this.openFileDialog_LetterHead = new Gizmox.WebGUI.Forms.OpenFileDialog();
-            this.toolTip = new Gizmox.WebGUI.Forms.ToolTip(this.components);
-            this.imgLogo = new RT2020.Controls.RTImage();
-            this.imgLetterHead = new RT2020.Controls.RTImage();
+            this.toolTip = new Gizmox.WebGUI.Forms.ToolTip();
+            this.lblCompanyNameAlt2 = new Gizmox.WebGUI.Forms.Label();
+            this.lblAddressAlt2 = new Gizmox.WebGUI.Forms.Label();
+            this.txtCompanyNameAlt2 = new Gizmox.WebGUI.Forms.TextBox();
+            this.txtAddressAlt2 = new Gizmox.WebGUI.Forms.TextBox();
+            this.gbAddressAlt2 = new Gizmox.WebGUI.Forms.GroupBox();
+            this.formPane.SuspendLayout();
+            this.mainPane.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.tbSystemInfo)).BeginInit();
+            this.tbSystemInfo.SuspendLayout();
+            this.tpCompanyInfo.SuspendLayout();
+            this.gbCompanyInfo.SuspendLayout();
+            this.tpAddressInfo.SuspendLayout();
+            this.gbAddressAlt1.SuspendLayout();
+            this.gbAddressDefault.SuspendLayout();
+            this.tpSystemInfo.SuspendLayout();
+            this.gbDates.SuspendLayout();
+            this.gbLastTxNumber.SuspendLayout();
+            this.lastTxNumberPane.SuspendLayout();
+            this.gbAdvance.SuspendLayout();
+            this.gbAccounts.SuspendLayout();
+            this.gbWholesales.SuspendLayout();
+            this.gbEmulatedPoS.SuspendLayout();
+            this.groupBox1.SuspendLayout();
+            this.gbPurchaseOrder.SuspendLayout();
+            this.gbInventory.SuspendLayout();
+            this.tpLogoInfo.SuspendLayout();
+            this.gbLogo.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.imgLogo)).BeginInit();
+            this.tpLetterHeadInfo.SuspendLayout();
+            this.gbLetterHead.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.imgLetterHead)).BeginInit();
+            this.tpOthers.SuspendLayout();
+            this.gbOthers.SuspendLayout();
+            this.gbTax.SuspendLayout();
+            this.gbAddressAlt2.SuspendLayout();
             this.SuspendLayout();
             // 
             // lblLastMonthEnd
@@ -218,7 +249,6 @@ namespace RT2020.Settings
             // 
             // formPane
             // 
-            this.formPane.Anchor = Gizmox.WebGUI.Forms.AnchorStyles.None;
             this.formPane.BackColor = System.Drawing.Color.WhiteSmoke;
             this.formPane.Controls.Add(this.mainPane);
             this.formPane.Controls.Add(this.tbWizardAction);
@@ -230,18 +260,17 @@ namespace RT2020.Settings
             // 
             // mainPane
             // 
-            this.mainPane.Anchor = Gizmox.WebGUI.Forms.AnchorStyles.None;
             this.mainPane.Controls.Add(this.tbSystemInfo);
             this.mainPane.Dock = Gizmox.WebGUI.Forms.DockStyle.Fill;
             this.mainPane.DockPadding.All = 4;
             this.mainPane.Location = new System.Drawing.Point(0, 28);
             this.mainPane.Name = "mainPane";
+            this.mainPane.Padding = new Gizmox.WebGUI.Forms.Padding(4);
             this.mainPane.Size = new System.Drawing.Size(797, 878);
             this.mainPane.TabIndex = 4;
             // 
             // tbSystemInfo
             // 
-            this.tbSystemInfo.Anchor = Gizmox.WebGUI.Forms.AnchorStyles.None;
             this.tbSystemInfo.Controls.Add(this.tpCompanyInfo);
             this.tbSystemInfo.Controls.Add(this.tpAddressInfo);
             this.tbSystemInfo.Controls.Add(this.tpSystemInfo);
@@ -250,7 +279,6 @@ namespace RT2020.Settings
             this.tbSystemInfo.Controls.Add(this.tpOthers);
             this.tbSystemInfo.Dock = Gizmox.WebGUI.Forms.DockStyle.Fill;
             this.tbSystemInfo.Location = new System.Drawing.Point(4, 4);
-            this.tbSystemInfo.Multiline = false;
             this.tbSystemInfo.Name = "tbSystemInfo";
             this.tbSystemInfo.SelectedIndex = 0;
             this.tbSystemInfo.Size = new System.Drawing.Size(789, 870);
@@ -262,7 +290,7 @@ namespace RT2020.Settings
             this.tpCompanyInfo.Dock = Gizmox.WebGUI.Forms.DockStyle.Fill;
             this.tpCompanyInfo.Location = new System.Drawing.Point(4, 22);
             this.tpCompanyInfo.Name = "tpCompanyInfo";
-            this.tpCompanyInfo.Size = new System.Drawing.Size(781, 844);
+            this.tpCompanyInfo.Size = new System.Drawing.Size(781, 830);
             this.tpCompanyInfo.TabIndex = 0;
             this.tpCompanyInfo.Text = "Company Info.";
             // 
@@ -285,6 +313,7 @@ namespace RT2020.Settings
             this.gbCompanyInfo.Name = "gbCompanyInfo";
             this.gbCompanyInfo.Size = new System.Drawing.Size(753, 477);
             this.gbCompanyInfo.TabIndex = 10;
+            this.gbCompanyInfo.TabStop = false;
             this.gbCompanyInfo.Text = "Info";
             // 
             // lblCompanyInitial
@@ -379,79 +408,83 @@ namespace RT2020.Settings
             // 
             // tpAddressInfo
             // 
-            this.tpAddressInfo.Controls.Add(this.gbChineseAddress);
-            this.tpAddressInfo.Controls.Add(this.gbEnglishAddress);
+            this.tpAddressInfo.Controls.Add(this.gbAddressAlt2);
+            this.tpAddressInfo.Controls.Add(this.gbAddressAlt1);
+            this.tpAddressInfo.Controls.Add(this.gbAddressDefault);
             this.tpAddressInfo.Dock = Gizmox.WebGUI.Forms.DockStyle.Fill;
             this.tpAddressInfo.Location = new System.Drawing.Point(4, 22);
             this.tpAddressInfo.Name = "tpAddressInfo";
-            this.tpAddressInfo.Size = new System.Drawing.Size(781, 844);
+            this.tpAddressInfo.Size = new System.Drawing.Size(781, 830);
             this.tpAddressInfo.TabIndex = 0;
             this.tpAddressInfo.Text = "Address Info.";
             // 
-            // gbChineseAddress
+            // gbAddressAlt1
             // 
-            this.gbChineseAddress.Controls.Add(this.lblCompanyNameChn);
-            this.gbChineseAddress.Controls.Add(this.lblAddressChn);
-            this.gbChineseAddress.Controls.Add(this.txtCompanyNameChn);
-            this.gbChineseAddress.Controls.Add(this.txtAddressChn);
-            this.gbChineseAddress.FlatStyle = Gizmox.WebGUI.Forms.FlatStyle.Flat;
-            this.gbChineseAddress.Location = new System.Drawing.Point(14, 245);
-            this.gbChineseAddress.Name = "gbChineseAddress";
-            this.gbChineseAddress.Size = new System.Drawing.Size(753, 226);
-            this.gbChineseAddress.TabIndex = 1;
-            this.gbChineseAddress.Text = "Chinese";
+            this.gbAddressAlt1.Controls.Add(this.lblCompanyNameAlt1);
+            this.gbAddressAlt1.Controls.Add(this.lblAddressAlt1);
+            this.gbAddressAlt1.Controls.Add(this.txtCompanyNameAlt1);
+            this.gbAddressAlt1.Controls.Add(this.txtAddressAlt1);
+            this.gbAddressAlt1.FlatStyle = Gizmox.WebGUI.Forms.FlatStyle.Flat;
+            this.gbAddressAlt1.Location = new System.Drawing.Point(14, 153);
+            this.gbAddressAlt1.Name = "gbAddressAlt1";
+            this.gbAddressAlt1.Size = new System.Drawing.Size(753, 129);
+            this.gbAddressAlt1.TabIndex = 1;
+            this.gbAddressAlt1.TabStop = false;
+            this.gbAddressAlt1.Text = "Chinese";
             // 
-            // lblCompanyNameChn
+            // lblCompanyNameAlt1
             // 
-            this.lblCompanyNameChn.Location = new System.Drawing.Point(28, 27);
-            this.lblCompanyNameChn.Name = "lblCompanyNameChn";
-            this.lblCompanyNameChn.Size = new System.Drawing.Size(100, 23);
-            this.lblCompanyNameChn.TabIndex = 1;
-            this.lblCompanyNameChn.Text = "Company Name:";
+            this.lblCompanyNameAlt1.Location = new System.Drawing.Point(28, 27);
+            this.lblCompanyNameAlt1.Name = "lblCompanyNameAlt1";
+            this.lblCompanyNameAlt1.Size = new System.Drawing.Size(100, 23);
+            this.lblCompanyNameAlt1.TabIndex = 1;
+            this.lblCompanyNameAlt1.Text = "Company Name:";
             // 
-            // lblAddressChn
+            // lblAddressAlt1
             // 
-            this.lblAddressChn.Location = new System.Drawing.Point(28, 53);
-            this.lblAddressChn.Name = "lblAddressChn";
-            this.lblAddressChn.Size = new System.Drawing.Size(100, 23);
-            this.lblAddressChn.TabIndex = 2;
-            this.lblAddressChn.Text = "Address:";
+            this.lblAddressAlt1.Location = new System.Drawing.Point(28, 53);
+            this.lblAddressAlt1.Name = "lblAddressAlt1";
+            this.lblAddressAlt1.Size = new System.Drawing.Size(100, 23);
+            this.lblAddressAlt1.TabIndex = 2;
+            this.lblAddressAlt1.Text = "Address:";
             // 
-            // txtCompanyNameChn
+            // txtCompanyNameAlt1
             // 
-            this.txtCompanyNameChn.Location = new System.Drawing.Point(134, 24);
-            this.txtCompanyNameChn.Name = "txtCompanyNameChn";
-            this.txtCompanyNameChn.Size = new System.Drawing.Size(455, 20);
-            this.txtCompanyNameChn.TabIndex = 4;
+            this.txtCompanyNameAlt1.Location = new System.Drawing.Point(134, 24);
+            this.txtCompanyNameAlt1.Name = "txtCompanyNameAlt1";
+            this.txtCompanyNameAlt1.Size = new System.Drawing.Size(455, 20);
+            this.txtCompanyNameAlt1.TabIndex = 4;
             // 
-            // txtAddressChn
+            // txtAddressAlt1
             // 
-            this.txtAddressChn.Location = new System.Drawing.Point(134, 50);
-            this.txtAddressChn.Multiline = true;
-            this.txtAddressChn.Name = "txtAddressChn";
-            this.txtAddressChn.Size = new System.Drawing.Size(455, 159);
-            this.txtAddressChn.TabIndex = 5;
+            this.txtAddressAlt1.Location = new System.Drawing.Point(134, 50);
+            this.txtAddressAlt1.Multiline = true;
+            this.txtAddressAlt1.Name = "txtAddressAlt1";
+            this.txtAddressAlt1.Size = new System.Drawing.Size(455, 62);
+            this.txtAddressAlt1.TabIndex = 5;
             // 
-            // gbEnglishAddress
+            // gbAddressDefault
             // 
-            this.gbEnglishAddress.Controls.Add(this.txtAddressEn);
-            this.gbEnglishAddress.Controls.Add(this.txtCompanyNameEn);
-            this.gbEnglishAddress.Controls.Add(this.lblAddressEn);
-            this.gbEnglishAddress.Controls.Add(this.lblCompanyNameEn);
-            this.gbEnglishAddress.FlatStyle = Gizmox.WebGUI.Forms.FlatStyle.Flat;
-            this.gbEnglishAddress.Location = new System.Drawing.Point(14, 13);
-            this.gbEnglishAddress.Name = "gbEnglishAddress";
-            this.gbEnglishAddress.Size = new System.Drawing.Size(753, 226);
-            this.gbEnglishAddress.TabIndex = 0;
-            this.gbEnglishAddress.Text = "English";
+            this.gbAddressDefault.Controls.Add(this.txtAddressEn);
+            this.gbAddressDefault.Controls.Add(this.txtCompanyNameEn);
+            this.gbAddressDefault.Controls.Add(this.lblAddressEn);
+            this.gbAddressDefault.Controls.Add(this.lblCompanyNameEn);
+            this.gbAddressDefault.FlatStyle = Gizmox.WebGUI.Forms.FlatStyle.Flat;
+            this.gbAddressDefault.Location = new System.Drawing.Point(14, 13);
+            this.gbAddressDefault.Name = "gbAddressDefault";
+            this.gbAddressDefault.Size = new System.Drawing.Size(753, 126);
+            this.gbAddressDefault.TabIndex = 0;
+            this.gbAddressDefault.TabStop = false;
+            this.gbAddressDefault.Text = "English";
             // 
             // txtAddressEn
             // 
             this.txtAddressEn.Location = new System.Drawing.Point(134, 50);
             this.txtAddressEn.Multiline = true;
             this.txtAddressEn.Name = "txtAddressEn";
-            this.txtAddressEn.Size = new System.Drawing.Size(455, 159);
+            this.txtAddressEn.Size = new System.Drawing.Size(455, 62);
             this.txtAddressEn.TabIndex = 5;
+            this.txtAddressEn.Text = "line 1\r\nline 2\r\nline 3\r\nline 4";
             // 
             // txtCompanyNameEn
             // 
@@ -479,8 +512,6 @@ namespace RT2020.Settings
             // tpSystemInfo
             // 
             this.tpSystemInfo.AutoScroll = true;
-            this.tpSystemInfo.AutoSize = true;
-            this.tpSystemInfo.AutoSizeMode = Gizmox.WebGUI.Forms.AutoSizeMode.GrowAndShrink;
             this.tpSystemInfo.Controls.Add(this.gbDates);
             this.tpSystemInfo.Controls.Add(this.gbLastTxNumber);
             this.tpSystemInfo.Dock = Gizmox.WebGUI.Forms.DockStyle.Fill;
@@ -509,6 +540,7 @@ namespace RT2020.Settings
             this.gbDates.Name = "gbDates";
             this.gbDates.Size = new System.Drawing.Size(753, 88);
             this.gbDates.TabIndex = 3;
+            this.gbDates.TabStop = false;
             this.gbDates.Text = "Dates";
             // 
             // txtLastAPYearEnd
@@ -604,11 +636,11 @@ namespace RT2020.Settings
             this.gbLastTxNumber.Name = "gbLastTxNumber";
             this.gbLastTxNumber.Size = new System.Drawing.Size(753, 721);
             this.gbLastTxNumber.TabIndex = 2;
+            this.gbLastTxNumber.TabStop = false;
             this.gbLastTxNumber.Text = "Last Tx Number";
             // 
             // lastTxNumberPane
             // 
-            this.lastTxNumberPane.Anchor = Gizmox.WebGUI.Forms.AnchorStyles.None;
             this.lastTxNumberPane.Controls.Add(this.gbAdvance);
             this.lastTxNumberPane.Controls.Add(this.gbAccounts);
             this.lastTxNumberPane.Controls.Add(this.gbWholesales);
@@ -620,6 +652,7 @@ namespace RT2020.Settings
             this.lastTxNumberPane.DockPadding.All = 6;
             this.lastTxNumberPane.Location = new System.Drawing.Point(3, 16);
             this.lastTxNumberPane.Name = "lastTxNumberPane";
+            this.lastTxNumberPane.Padding = new Gizmox.WebGUI.Forms.Padding(6);
             this.lastTxNumberPane.Size = new System.Drawing.Size(747, 702);
             this.lastTxNumberPane.TabIndex = 1;
             // 
@@ -643,6 +676,7 @@ namespace RT2020.Settings
             this.gbAdvance.Name = "gbAdvance";
             this.gbAdvance.Size = new System.Drawing.Size(729, 82);
             this.gbAdvance.TabIndex = 6;
+            this.gbAdvance.TabStop = false;
             this.gbAdvance.Text = "Advance";
             // 
             // lblORN
@@ -771,6 +805,7 @@ namespace RT2020.Settings
             this.gbAccounts.Name = "gbAccounts";
             this.gbAccounts.Size = new System.Drawing.Size(729, 100);
             this.gbAccounts.TabIndex = 5;
+            this.gbAccounts.TabStop = false;
             this.gbAccounts.Text = "Accounts";
             // 
             // lblAPS
@@ -890,6 +925,7 @@ namespace RT2020.Settings
             this.gbWholesales.Name = "gbWholesales";
             this.gbWholesales.Size = new System.Drawing.Size(729, 167);
             this.gbWholesales.TabIndex = 4;
+            this.gbWholesales.TabStop = false;
             this.gbWholesales.Text = "Wholesales";
             // 
             // lblIPS
@@ -1075,6 +1111,7 @@ namespace RT2020.Settings
             this.gbEmulatedPoS.Name = "gbEmulatedPoS";
             this.gbEmulatedPoS.Size = new System.Drawing.Size(729, 62);
             this.gbEmulatedPoS.TabIndex = 3;
+            this.gbEmulatedPoS.TabStop = false;
             this.gbEmulatedPoS.Text = "Retail (Emulated Point-of-Sales)";
             // 
             // txtCAS
@@ -1106,6 +1143,7 @@ namespace RT2020.Settings
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(729, 66);
             this.groupBox1.TabIndex = 2;
+            this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Price Control (PMS)";
             // 
             // txtPMS
@@ -1158,6 +1196,7 @@ namespace RT2020.Settings
             this.gbPurchaseOrder.Name = "gbPurchaseOrder";
             this.gbPurchaseOrder.Size = new System.Drawing.Size(729, 63);
             this.gbPurchaseOrder.TabIndex = 1;
+            this.gbPurchaseOrder.TabStop = false;
             this.gbPurchaseOrder.Text = "Purchase Order";
             // 
             // lblPOP
@@ -1239,6 +1278,7 @@ namespace RT2020.Settings
             this.gbInventory.Name = "gbInventory";
             this.gbInventory.Size = new System.Drawing.Size(729, 108);
             this.gbInventory.TabIndex = 0;
+            this.gbInventory.TabStop = false;
             this.gbInventory.Text = "Inventory";
             // 
             // lblSTK
@@ -1426,7 +1466,16 @@ namespace RT2020.Settings
             this.gbLogo.Name = "gbLogo";
             this.gbLogo.Size = new System.Drawing.Size(753, 477);
             this.gbLogo.TabIndex = 0;
+            this.gbLogo.TabStop = false;
             this.gbLogo.Text = "Logo";
+            // 
+            // imgLogo
+            // 
+            this.imgLogo.Location = new System.Drawing.Point(6, 56);
+            this.imgLogo.Name = "imgLogo";
+            this.imgLogo.Size = new System.Drawing.Size(741, 364);
+            this.imgLogo.TabIndex = 4;
+            this.imgLogo.TabStop = false;
             // 
             // lblLogoDimension
             // 
@@ -1440,8 +1489,7 @@ namespace RT2020.Settings
             // 
             // btnDeleteLogo
             // 
-            iconResourceHandle1.File = "16x16.16_L_remove.gif";
-            this.btnDeleteLogo.Image = iconResourceHandle1;
+            this.btnDeleteLogo.Image = new Gizmox.WebGUI.Common.Resources.IconResourceHandle(resources.GetString("btnDeleteLogo.Image"));
             this.btnDeleteLogo.Location = new System.Drawing.Point(606, 22);
             this.btnDeleteLogo.Name = "btnDeleteLogo";
             this.btnDeleteLogo.Size = new System.Drawing.Size(32, 23);
@@ -1450,8 +1498,7 @@ namespace RT2020.Settings
             // 
             // btnAddLogo
             // 
-            iconResourceHandle2.File = "16x16.16_find.gif";
-            this.btnAddLogo.Image = iconResourceHandle2;
+            this.btnAddLogo.Image = new Gizmox.WebGUI.Common.Resources.IconResourceHandle(resources.GetString("btnAddLogo.Image"));
             this.btnAddLogo.Location = new System.Drawing.Point(568, 22);
             this.btnAddLogo.Name = "btnAddLogo";
             this.btnAddLogo.Size = new System.Drawing.Size(32, 23);
@@ -1496,7 +1543,16 @@ namespace RT2020.Settings
             this.gbLetterHead.Name = "gbLetterHead";
             this.gbLetterHead.Size = new System.Drawing.Size(753, 477);
             this.gbLetterHead.TabIndex = 0;
+            this.gbLetterHead.TabStop = false;
             this.gbLetterHead.Text = "Letter Head";
+            // 
+            // imgLetterHead
+            // 
+            this.imgLetterHead.Location = new System.Drawing.Point(6, 56);
+            this.imgLetterHead.Name = "imgLetterHead";
+            this.imgLetterHead.Size = new System.Drawing.Size(741, 364);
+            this.imgLetterHead.TabIndex = 4;
+            this.imgLetterHead.TabStop = false;
             // 
             // lblLetterHeadDimension
             // 
@@ -1510,8 +1566,7 @@ namespace RT2020.Settings
             // 
             // btnDeleteLetterHead
             // 
-            iconResourceHandle3.File = "16x16.16_L_remove.gif";
-            this.btnDeleteLetterHead.Image = iconResourceHandle3;
+            this.btnDeleteLetterHead.Image = new Gizmox.WebGUI.Common.Resources.IconResourceHandle(resources.GetString("btnDeleteLetterHead.Image"));
             this.btnDeleteLetterHead.Location = new System.Drawing.Point(606, 22);
             this.btnDeleteLetterHead.Name = "btnDeleteLetterHead";
             this.btnDeleteLetterHead.Size = new System.Drawing.Size(32, 23);
@@ -1520,8 +1575,7 @@ namespace RT2020.Settings
             // 
             // btnAddLetterHead
             // 
-            iconResourceHandle4.File = "16x16.16_find.gif";
-            this.btnAddLetterHead.Image = iconResourceHandle4;
+            this.btnAddLetterHead.Image = new Gizmox.WebGUI.Common.Resources.IconResourceHandle(resources.GetString("btnAddLetterHead.Image"));
             this.btnAddLetterHead.Location = new System.Drawing.Point(568, 22);
             this.btnAddLetterHead.Name = "btnAddLetterHead";
             this.btnAddLetterHead.Size = new System.Drawing.Size(32, 23);
@@ -1576,6 +1630,7 @@ namespace RT2020.Settings
             this.gbOthers.Name = "gbOthers";
             this.gbOthers.Size = new System.Drawing.Size(753, 357);
             this.gbOthers.TabIndex = 1;
+            this.gbOthers.TabStop = false;
             this.gbOthers.Text = "Others";
             // 
             // msgUseMultiplePricebook
@@ -1640,14 +1695,10 @@ namespace RT2020.Settings
             // 
             // chkUseMultiplePricebook
             // 
-            this.chkUseMultiplePricebook.Checked = false;
-            this.chkUseMultiplePricebook.CheckState = Gizmox.WebGUI.Forms.CheckState.Unchecked;
-            this.chkUseMultiplePricebook.FlatStyle = Gizmox.WebGUI.Forms.FlatStyle.Standard;
             this.chkUseMultiplePricebook.Location = new System.Drawing.Point(159, 152);
             this.chkUseMultiplePricebook.Name = "chkUseMultiplePricebook";
             this.chkUseMultiplePricebook.Size = new System.Drawing.Size(104, 24);
             this.chkUseMultiplePricebook.TabIndex = 6;
-            this.chkUseMultiplePricebook.ThreeState = false;
             // 
             // lblUserMultiplePricebook
             // 
@@ -1710,6 +1761,7 @@ namespace RT2020.Settings
             this.gbTax.Name = "gbTax";
             this.gbTax.Size = new System.Drawing.Size(753, 114);
             this.gbTax.TabIndex = 0;
+            this.gbTax.TabStop = false;
             this.gbTax.Text = "Tax";
             // 
             // txtTaxRegisterNumber
@@ -1730,15 +1782,11 @@ namespace RT2020.Settings
             // chkPriceTagIncludeTax
             // 
             this.chkPriceTagIncludeTax.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.chkPriceTagIncludeTax.Checked = false;
-            this.chkPriceTagIncludeTax.CheckState = Gizmox.WebGUI.Forms.CheckState.Unchecked;
-            this.chkPriceTagIncludeTax.FlatStyle = Gizmox.WebGUI.Forms.FlatStyle.Standard;
             this.chkPriceTagIncludeTax.Location = new System.Drawing.Point(25, 76);
             this.chkPriceTagIncludeTax.Name = "chkPriceTagIncludeTax";
             this.chkPriceTagIncludeTax.Size = new System.Drawing.Size(158, 24);
             this.chkPriceTagIncludeTax.TabIndex = 2;
             this.chkPriceTagIncludeTax.Text = "Price Tag - Tax Inclusive : ";
-            this.chkPriceTagIncludeTax.ThreeState = false;
             // 
             // lblTaxRegisterNumber
             // 
@@ -1758,46 +1806,72 @@ namespace RT2020.Settings
             // 
             // tbWizardAction
             // 
-            this.tbWizardAction.Anchor = Gizmox.WebGUI.Forms.AnchorStyles.None;
-            this.tbWizardAction.Appearance = Gizmox.WebGUI.Forms.ToolBarAppearance.Normal;
-            this.tbWizardAction.Dock = Gizmox.WebGUI.Forms.DockStyle.Top;
             this.tbWizardAction.DragHandle = true;
-            this.tbWizardAction.DropDownArrows = false;
-            this.tbWizardAction.ImageList = null;
+            this.tbWizardAction.DropDownArrows = true;
+            this.tbWizardAction.ImageSize = new System.Drawing.Size(16, 16);
             this.tbWizardAction.Location = new System.Drawing.Point(0, 0);
             this.tbWizardAction.MenuHandle = true;
             this.tbWizardAction.Name = "tbWizardAction";
-            //this.tbWizardAction.RightToLeft = false;
             this.tbWizardAction.ShowToolTips = true;
+            this.tbWizardAction.Size = new System.Drawing.Size(100, 22);
             this.tbWizardAction.TabIndex = 3;
             // 
             // openFileDialog_Logo
             // 
             this.openFileDialog_Logo.Filter = "Jpg files|*.jpg|JPEG files|*.jpeg|GIF files|*.gif";
+            this.openFileDialog_Logo.Theme = "";
             this.openFileDialog_Logo.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog_Logo_FileOk);
             // 
             // openFileDialog_LetterHead
             // 
             this.openFileDialog_LetterHead.Filter = "Jpg files|*.jpg|JPEG files|*.jpeg|GIF files|*.gif";
+            this.openFileDialog_LetterHead.Theme = "";
             this.openFileDialog_LetterHead.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog_LetterHead_FileOk);
             // 
-            // imgLogo
+            // lblCompanyNameAlt2
             // 
-            this.imgLogo.Image = null;
-            this.imgLogo.Location = new System.Drawing.Point(6, 56);
-            this.imgLogo.Name = "imgLogo";
-            this.imgLogo.Size = new System.Drawing.Size(741, 364);
-            this.imgLogo.SizeMode = Gizmox.WebGUI.Forms.PictureBoxSizeMode.Normal;
-            this.imgLogo.TabIndex = 4;
+            this.lblCompanyNameAlt2.Location = new System.Drawing.Point(28, 27);
+            this.lblCompanyNameAlt2.Name = "lblCompanyNameAlt2";
+            this.lblCompanyNameAlt2.Size = new System.Drawing.Size(100, 23);
+            this.lblCompanyNameAlt2.TabIndex = 1;
+            this.lblCompanyNameAlt2.Text = "Company Name:";
             // 
-            // imgLetterHead
+            // lblAddressAlt2
             // 
-            this.imgLetterHead.Image = null;
-            this.imgLetterHead.Location = new System.Drawing.Point(6, 56);
-            this.imgLetterHead.Name = "imgLetterHead";
-            this.imgLetterHead.Size = new System.Drawing.Size(741, 364);
-            this.imgLetterHead.SizeMode = Gizmox.WebGUI.Forms.PictureBoxSizeMode.Normal;
-            this.imgLetterHead.TabIndex = 4;
+            this.lblAddressAlt2.Location = new System.Drawing.Point(28, 53);
+            this.lblAddressAlt2.Name = "lblAddressAlt2";
+            this.lblAddressAlt2.Size = new System.Drawing.Size(100, 23);
+            this.lblAddressAlt2.TabIndex = 2;
+            this.lblAddressAlt2.Text = "Address:";
+            // 
+            // txtCompanyNameAlt2
+            // 
+            this.txtCompanyNameAlt2.Location = new System.Drawing.Point(134, 24);
+            this.txtCompanyNameAlt2.Name = "txtCompanyNameAlt2";
+            this.txtCompanyNameAlt2.Size = new System.Drawing.Size(455, 20);
+            this.txtCompanyNameAlt2.TabIndex = 4;
+            // 
+            // txtAddressAlt2
+            // 
+            this.txtAddressAlt2.Location = new System.Drawing.Point(134, 50);
+            this.txtAddressAlt2.Multiline = true;
+            this.txtAddressAlt2.Name = "txtAddressAlt2";
+            this.txtAddressAlt2.Size = new System.Drawing.Size(455, 62);
+            this.txtAddressAlt2.TabIndex = 5;
+            // 
+            // gbAddressAlt2
+            // 
+            this.gbAddressAlt2.Controls.Add(this.lblCompanyNameAlt2);
+            this.gbAddressAlt2.Controls.Add(this.lblAddressAlt2);
+            this.gbAddressAlt2.Controls.Add(this.txtCompanyNameAlt2);
+            this.gbAddressAlt2.Controls.Add(this.txtAddressAlt2);
+            this.gbAddressAlt2.FlatStyle = Gizmox.WebGUI.Forms.FlatStyle.Flat;
+            this.gbAddressAlt2.Location = new System.Drawing.Point(14, 295);
+            this.gbAddressAlt2.Name = "gbAddressAlt2";
+            this.gbAddressAlt2.Size = new System.Drawing.Size(753, 129);
+            this.gbAddressAlt2.TabIndex = 1;
+            this.gbAddressAlt2.TabStop = false;
+            this.gbAddressAlt2.Text = "Chinese";
             // 
             // SystemInfoForm
             // 
@@ -1806,6 +1880,36 @@ namespace RT2020.Settings
             this.Size = new System.Drawing.Size(797, 906);
             this.Text = "SystemInfoForm";
             this.Load += new System.EventHandler(this.SystemInfoForm_Load);
+            this.formPane.ResumeLayout(false);
+            this.mainPane.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.tbSystemInfo)).EndInit();
+            this.tbSystemInfo.ResumeLayout(false);
+            this.tpCompanyInfo.ResumeLayout(false);
+            this.gbCompanyInfo.ResumeLayout(false);
+            this.tpAddressInfo.ResumeLayout(false);
+            this.gbAddressAlt1.ResumeLayout(false);
+            this.gbAddressDefault.ResumeLayout(false);
+            this.tpSystemInfo.ResumeLayout(false);
+            this.gbDates.ResumeLayout(false);
+            this.gbLastTxNumber.ResumeLayout(false);
+            this.lastTxNumberPane.ResumeLayout(false);
+            this.gbAdvance.ResumeLayout(false);
+            this.gbAccounts.ResumeLayout(false);
+            this.gbWholesales.ResumeLayout(false);
+            this.gbEmulatedPoS.ResumeLayout(false);
+            this.groupBox1.ResumeLayout(false);
+            this.gbPurchaseOrder.ResumeLayout(false);
+            this.gbInventory.ResumeLayout(false);
+            this.tpLogoInfo.ResumeLayout(false);
+            this.gbLogo.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.imgLogo)).EndInit();
+            this.tpLetterHeadInfo.ResumeLayout(false);
+            this.gbLetterHead.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.imgLetterHead)).EndInit();
+            this.tpOthers.ResumeLayout(false);
+            this.gbOthers.ResumeLayout(false);
+            this.gbTax.ResumeLayout(false);
+            this.gbAddressAlt2.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -1834,12 +1938,12 @@ namespace RT2020.Settings
         private Gizmox.WebGUI.Forms.Label lblFax;
         private Gizmox.WebGUI.Forms.Label lblPhoneNumber;
         private Gizmox.WebGUI.Forms.Label lblOfficeNumber;
-        private Gizmox.WebGUI.Forms.GroupBox gbChineseAddress;
-        private Gizmox.WebGUI.Forms.Label lblCompanyNameChn;
-        private Gizmox.WebGUI.Forms.Label lblAddressChn;
-        private Gizmox.WebGUI.Forms.TextBox txtCompanyNameChn;
-        private Gizmox.WebGUI.Forms.TextBox txtAddressChn;
-        private Gizmox.WebGUI.Forms.GroupBox gbEnglishAddress;
+        private Gizmox.WebGUI.Forms.GroupBox gbAddressAlt1;
+        private Gizmox.WebGUI.Forms.Label lblCompanyNameAlt1;
+        private Gizmox.WebGUI.Forms.Label lblAddressAlt1;
+        private Gizmox.WebGUI.Forms.TextBox txtCompanyNameAlt1;
+        private Gizmox.WebGUI.Forms.TextBox txtAddressAlt1;
+        private Gizmox.WebGUI.Forms.GroupBox gbAddressDefault;
         private Gizmox.WebGUI.Forms.TextBox txtAddressEn;
         private Gizmox.WebGUI.Forms.TextBox txtCompanyNameEn;
         private Gizmox.WebGUI.Forms.Label lblAddressEn;
@@ -1976,7 +2080,10 @@ namespace RT2020.Settings
         private Gizmox.WebGUI.Forms.Label lblStockReject;
         private Gizmox.WebGUI.Forms.Label lblCashPurchase;
         private Gizmox.WebGUI.Forms.ToolTip toolTip;
-
-
+        private Gizmox.WebGUI.Forms.GroupBox gbAddressAlt2;
+        private Gizmox.WebGUI.Forms.Label lblCompanyNameAlt2;
+        private Gizmox.WebGUI.Forms.Label lblAddressAlt2;
+        private Gizmox.WebGUI.Forms.TextBox txtCompanyNameAlt2;
+        private Gizmox.WebGUI.Forms.TextBox txtAddressAlt2;
     }
 }

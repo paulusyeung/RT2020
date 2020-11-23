@@ -1,4 +1,4 @@
-#region Using
+﻿#region Using
 
 using System;
 using System.Collections.Generic;
@@ -13,6 +13,9 @@ using Gizmox.WebGUI.Common.Resources;
 using RT2020.DAL;
 using System.Data.SqlClient;
 using System.Configuration;
+using RT2020.Helper;
+using System.Linq;
+using System.Data.Entity;
 
 #endregion
 
@@ -23,11 +26,75 @@ namespace RT2020.Staff
         public StaffDeptWizard()
         {
             InitializeComponent();
+
+            SetCaptions();
+            SetAttributes();
             SetToolBar();
             FillParentDeptList();
             BindStaffDeptList();
             SetCtrlEditable();
         }
+
+        #region SetCaptions SetAttributes
+
+        private void SetCaptions()
+        {
+            colLN.Text = WestwindHelper.GetWord("tools.listview.line", "Tools");
+
+            colParentDept.Text = WestwindHelper.GetWord("department.parent", "Model");
+            colStaffDeptCode.Text = WestwindHelper.GetWord("department.code", "Model");
+            colStaffDeptName.Text = WestwindHelper.GetWord("department.name", "Model");
+            colStaffDeptNameAlt1.Text = WestwindHelper.GetWord(String.Format("language.{0}", LanguageHelper.AlternateLanguage1.Key.ToLower()), "Menu");
+            colStaffDeptNameAlt2.Text = WestwindHelper.GetWord(String.Format("language.{0}", LanguageHelper.AlternateLanguage2.Key.ToLower()), "Menu");
+
+            lblStaffDeptCode.Text = WestwindHelper.GetWordWithColon("department.code", "Model");
+            lblStaffDeptName.Text = WestwindHelper.GetWordWithColon("department.name", "Model");
+            lblStaffDeptNameAlt1.Text = WestwindHelper.GetWordWithColon(String.Format("language.{0}", LanguageHelper.AlternateLanguage1.Key.ToLower()), "Menu");
+            lblStaffDeptNameAlt2.Text = WestwindHelper.GetWordWithColon(String.Format("language.{0}", LanguageHelper.AlternateLanguage2.Key.ToLower()), "Menu");
+
+            lblParentDept.Text = WestwindHelper.GetWordWithColon("department.parent", "Model");
+        }
+
+        private void SetAttributes()
+        {
+            colLN.TextAlign = HorizontalAlignment.Center;
+            colParentDept.TextAlign = HorizontalAlignment.Left;
+            colParentDept.ContentAlign = ExtendedHorizontalAlignment.Center;
+            colStaffDeptCode.TextAlign = HorizontalAlignment.Left;
+            colStaffDeptCode.ContentAlign = ExtendedHorizontalAlignment.Center;
+            colStaffDeptName.TextAlign = HorizontalAlignment.Left;
+            colStaffDeptName.ContentAlign = ExtendedHorizontalAlignment.Center;
+            colStaffDeptNameAlt1.TextAlign = HorizontalAlignment.Left;
+            colStaffDeptNameAlt1.ContentAlign = ExtendedHorizontalAlignment.Center;
+            colStaffDeptNameAlt2.TextAlign = HorizontalAlignment.Left;
+            colStaffDeptNameAlt2.ContentAlign = ExtendedHorizontalAlignment.Center;
+
+            switch (LanguageHelper.AlternateLanguagesUsed)
+            {
+                case 1:
+                    // hide alt2
+                    lblStaffDeptNameAlt2.Visible = txtStaffDeptNameAlt2.Visible = false;
+                    colStaffDeptNameAlt2.Visible = false;
+                    // push parent dept. up
+                    lblParentDept.Location = new Point(lblParentDept.Location.X, lblStaffDeptNameAlt2.Location.Y);
+                    cboParentDept.Location = new Point(cboParentDept.Location.X, txtStaffDeptNameAlt2.Location.Y);
+                    break;
+                case 2:
+                    // do nothing
+                    break;
+                case 0:
+                default:
+                    // hide alt1 & alt2
+                    lblStaffDeptNameAlt1.Visible = lblStaffDeptNameAlt2.Visible = txtStaffDeptNameAlt2.Visible = false;
+                    colStaffDeptNameAlt1.Visible = colStaffDeptNameAlt2.Visible = false;
+                    // push parent dept up
+                    lblParentDept.Location = new Point(lblParentDept.Location.X, lblStaffDeptNameAlt1.Location.Y);
+                    cboParentDept.Location = new Point(cboParentDept.Location.X, txtStaffDeptNameAlt1.Location.Y);
+                    break;
+            }
+        }
+
+        #endregion
 
         #region ToolBar
         private void SetToolBar()
@@ -42,21 +109,21 @@ namespace RT2020.Staff
             sep.Style = ToolBarButtonStyle.Separator;
 
             // cmdSave
-            ToolBarButton cmdNew = new ToolBarButton("New", "New");
+            ToolBarButton cmdNew = new ToolBarButton("New", WestwindHelper.GetWord("edit.new", "General"));
             cmdNew.Tag = "New";
             cmdNew.Image = new IconResourceHandle("16x16.ico_16_3.gif");
 
             this.tbWizardAction.Buttons.Add(cmdNew);
 
             // cmdSave
-            ToolBarButton cmdSave = new ToolBarButton("Save", "Save");
+            ToolBarButton cmdSave = new ToolBarButton("Save", WestwindHelper.GetWord("edit.save", "General"));
             cmdSave.Tag = "Save";
             cmdSave.Image = new IconResourceHandle("16x16.16_L_save.gif");
 
             this.tbWizardAction.Buttons.Add(cmdSave);
 
             // cmdSaveNew
-            ToolBarButton cmdRefresh = new ToolBarButton("Refresh", "Refresh");
+            ToolBarButton cmdRefresh = new ToolBarButton("Refresh", WestwindHelper.GetWord("edit.refresh", "General"));
             cmdRefresh.Tag = "refresh";
             cmdRefresh.Image = new IconResourceHandle("16x16.16_L_refresh.gif");
 
@@ -64,7 +131,7 @@ namespace RT2020.Staff
             this.tbWizardAction.Buttons.Add(sep);
 
             // cmdDelete
-            ToolBarButton cmdDelete = new ToolBarButton("Delete", "Delete");
+            ToolBarButton cmdDelete = new ToolBarButton("Delete", WestwindHelper.GetWord("edit.delete", "General"));
             cmdDelete.Tag = "Delete";
             cmdDelete.Image = new IconResourceHandle("16x16.16_L_remove.gif");
 
@@ -130,18 +197,7 @@ namespace RT2020.Staff
         #region Fill Combo List
         private void FillParentDeptList()
         {
-            cboParentDept.DataSource = null;
-            cboParentDept.Items.Clear();
-
-            string sql = "DeptId NOT IN ('" + this.StaffDeptId.ToString() + "')";
-            string[] orderBy = new string[] { "DeptCode" };
-            StaffDeptCollection oStaffDeptList = StaffDept.LoadCollection(sql, orderBy, true);
-            oStaffDeptList.Add(new StaffDept());
-            cboParentDept.DataSource = oStaffDeptList;
-            cboParentDept.DisplayMember = "DeptCode";
-            cboParentDept.ValueMember = "DeptId";
-
-            cboParentDept.SelectedIndex = cboParentDept.Items.Count - 1;
+            ModelEx.StaffDeptEx.LoadCombo(ref cboParentDept, "DeptName", true, true, string.Empty, "");
         }
         #endregion
 
@@ -152,26 +208,21 @@ namespace RT2020.Staff
             this.lvStaffDeptList.Items.Clear();
 
             int iCount = 1;
-            StringBuilder sql = new StringBuilder();
-            sql.Append("SELECT DeptId,  ROW_NUMBER() OVER (ORDER BY DeptCode) AS rownum, ");
-            sql.Append(" DeptCode, DeptName, DeptName_Chs, DeptName_Cht ");
-            sql.Append(" FROM StaffDept ");
-            
-            SqlCommand cmd = new SqlCommand();
-            cmd.CommandText = sql.ToString();
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
-            cmd.CommandType= CommandType.Text;
-
-            using (SqlDataReader reader = SqlHelper.Default.ExecuteReader(cmd))
+            using (var ctx = new EF6.RT2020Entities())
             {
-                while (reader.Read())
+                //ctx.Configuration.LazyLoadingEnabled = false;
+                var list = ctx.StaffDept.OrderBy(x => x.DeptCode).AsNoTracking().ToList();
+                foreach (var item in list)
                 {
-                    ListViewItem objItem = this.lvStaffDeptList.Items.Add(reader.GetGuid(0).ToString()); // StaffDeptId
-                    objItem.SubItems.Add(iCount.ToString()); // Line Number
-                    objItem.SubItems.Add(reader.GetString(2)); // StaffDeptCode
-                    objItem.SubItems.Add(reader.GetString(3)); // StaffDept Name
-                    objItem.SubItems.Add(reader.GetString(4)); // StaffDept Name Chs
-                    objItem.SubItems.Add(reader.GetString(5)); // StaffDept Name Cht
+                    var parent = ctx.StaffDept.Where(x => x.DeptId == item.ParentDept).FirstOrDefault();
+
+                    ListViewItem objItem = this.lvStaffDeptList.Items.Add(item.DeptId.ToString());
+                    objItem.SubItems.Add(iCount.ToString());
+                    objItem.SubItems.Add(parent == null ? "" : parent.DeptCode);
+                    objItem.SubItems.Add(item.DeptCode);
+                    objItem.SubItems.Add(item.DeptName);
+                    objItem.SubItems.Add(item.DeptName_Chs);
+                    objItem.SubItems.Add(item.DeptName_Cht);
 
                     iCount++;
                 }
@@ -180,55 +231,58 @@ namespace RT2020.Staff
         #endregion
 
         #region Save
-        private bool CodeExists()
-        {
-            string sql = "DeptCode = '" + txtStaffDeptCode.Text.Trim() + "'";
-            StaffDeptCollection deptList = StaffDept.LoadCollection(sql);
-            if (deptList.Count > 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
 
-        private bool Save()
+        private bool IsValid()
         {
+            bool result = false;
+
+            #region DeptCode 唔可以吉
+            errorProvider.SetError(txtStaffDeptCode, string.Empty);
             if (txtStaffDeptCode.Text.Length == 0)
             {
                 errorProvider.SetError(txtStaffDeptCode, "Cannot be blank!");
                 return false;
             }
-            else
+            #endregion
+
+            #region 新增，要 check CityCode 係咪 in use
+            errorProvider.SetError(txtStaffDeptCode, string.Empty);
+            if (ModelEx.StaffDeptEx.IsDeptCodeInUse(txtStaffDeptCode.Text.Trim()))
             {
-                errorProvider.SetError(txtStaffDeptCode, string.Empty);
-
-                StaffDept oStaffDept = StaffDept.Load(this.StaffDeptId);
-                if (oStaffDept == null)
-                {
-                    oStaffDept = new StaffDept();
-
-                    if (CodeExists())
-                    {
-                        errorProvider.SetError(txtStaffDeptCode, string.Format(Resources.Common.DuplicatedCode, "Department Code"));
-                        return false;
-                    }
-                    else
-                    {
-                        errorProvider.SetError(txtStaffDeptCode, string.Empty);
-                        oStaffDept.DeptCode = txtStaffDeptCode.Text;
-                    }
-                }
-                oStaffDept.DeptName = txtStaffDeptName.Text;
-                oStaffDept.DeptName_Chs = txtStaffDeptNameChs.Text;
-                oStaffDept.DeptName_Cht = txtStaffDeptNameCht.Text;
-                oStaffDept.ParentDept = (cboParentDept.SelectedValue == null) ? System.Guid.Empty : new System.Guid(cboParentDept.SelectedValue.ToString());
-
-                oStaffDept.Save();
-                return true;
+                errorProvider.SetError(txtStaffDeptCode, "Dept Code in use");
+                return false;
             }
+            #endregion
+
+            return result;
+        }
+
+        private bool Save()
+        {
+            bool result = false;
+
+            using (var ctx = new EF6.RT2020Entities())
+            {
+                var dept = ctx.StaffDept.Find(this.StaffDeptId);
+
+                if (dept == null)
+                {
+                    dept = new EF6.StaffDept();
+                    dept.DeptId = new Guid();
+
+                    ctx.StaffDept.Add(dept);
+                    dept.DeptCode = txtStaffDeptCode.Text;
+                }
+                dept.DeptName = txtStaffDeptName.Text;
+                dept.DeptName_Chs = txtStaffDeptNameAlt1.Text;
+                dept.DeptName_Cht = txtStaffDeptNameAlt2.Text;
+                dept.ParentDept = new Guid(cboParentDept.SelectedValue.ToString());
+
+                ctx.SaveChanges();
+                result = true;
+            }
+
+            return result;
         }
 
         private void Clear()
@@ -257,16 +311,20 @@ namespace RT2020.Staff
 
         private void Delete()
         {
-            StaffDept oStaffDept = StaffDept.Load(this.StaffDeptId);
-            if (oStaffDept != null)
+            using (var ctx = new EF6.RT2020Entities())
             {
                 try
                 {
-                    oStaffDept.Delete();
+                    var dept = ctx.StaffDept.Find(this.StaffDeptId);
+                    if (dept != null)
+                    {
+                        ctx.StaffDept.Remove(dept);
+                        ctx.SaveChanges();
+                    }
                 }
                 catch
                 {
-                    MessageBox.Show("Cannot delete the record being used by other record!", "Delete Warning");
+                    MessageBox.Show("Cannot delete the record...Might be in use by other record!", "Delete Warning");
                 }
             }
         }
@@ -275,23 +333,24 @@ namespace RT2020.Staff
         {
             if (lvStaffDeptList.SelectedItem != null)
             {
-                if (Common.Utility.IsGUID(lvStaffDeptList.SelectedItem.Text))
+                var id = Guid.NewGuid();
+                if (Guid.TryParse(lvStaffDeptList.SelectedItem.Text, out id))
                 {
-                    StaffDept oStaffDept = StaffDept.Load(new System.Guid(lvStaffDeptList.SelectedItem.Text));
-                    if (oStaffDept != null)
+                    this.StaffDeptId = id;
+                    using (var ctx = new EF6.RT2020Entities())
                     {
-                        this.StaffDeptId = oStaffDept.DeptId;
+                        var dept = ctx.StaffDept.Find(this.StaffDeptId);
+                        if (dept != null)
+                        {
+                            txtStaffDeptCode.Text = dept.DeptCode;
+                            txtStaffDeptName.Text = dept.DeptName;
+                            txtStaffDeptNameAlt1.Text = dept.DeptName_Chs;
+                            txtStaffDeptNameAlt2.Text = dept.DeptName_Cht;
+                            cboParentDept.SelectedValue = dept.ParentDept;
 
-                        FillParentDeptList();
-
-                        txtStaffDeptCode.Text = oStaffDept.DeptCode;
-                        txtStaffDeptName.Text = oStaffDept.DeptName;
-                        txtStaffDeptNameChs.Text = oStaffDept.DeptName_Chs;
-                        txtStaffDeptNameCht.Text = oStaffDept.DeptName_Cht;
-                        cboParentDept.SelectedValue = oStaffDept.ParentDept;
-
-                        SetCtrlEditable();
-                        SetToolBar();
+                            SetCtrlEditable();
+                            SetToolBar();
+                        }
                     }
                 }
             }

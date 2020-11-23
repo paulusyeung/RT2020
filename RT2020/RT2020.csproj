@@ -848,9 +848,16 @@
     </Compile>
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Helper\BotHelper.cs" />
+    <Compile Include="Helper\ComboBoxHelper.cs" />
     <Compile Include="Helper\CookieHelper.cs" />
+    <Compile Include="Helper\ChinaHelper.cs" />
+    <Compile Include="Helper\TaiwanHelper.cs" />
+    <Compile Include="Helper\MacaoHelper.cs" />
+    <Compile Include="Helper\HongKongHelper.cs" />
+    <Compile Include="Helper\LanguageHelper.cs" />
     <Compile Include="Helper\NetSqlAzManHelper.cs" />
     <Compile Include="Helper\ThemeHelper.cs" />
+    <Compile Include="Helper\WebConfigHelper.cs" />
     <Compile Include="Helper\WestwindHelper.cs" />
     <Compile Include="Help\About.cs">
       <SubType>Form</SubType>
@@ -1617,6 +1624,8 @@
     <Compile Include="MenuStrip\SettingsAms.cs" />
     <Compile Include="MenuStrip\ToolsAms.cs" />
     <Compile Include="MenuStrip\ViewAms.cs" />
+    <Compile Include="ModelEx\CityEx.cs" />
+    <Compile Include="ModelEx\StaffDeptEx.cs" />
     <Compile Include="NavPane\NavMenu.cs" />
     <Compile Include="NavPane\PurchasingNav.cs">
       <SubType>UserControl</SubType>

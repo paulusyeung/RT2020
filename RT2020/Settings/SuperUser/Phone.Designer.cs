@@ -38,8 +38,15 @@ namespace RT2020.Settings.SuperUser
             this.lblCountryCode = new Gizmox.WebGUI.Forms.Label();
             this.gbxGenPhoneNumber = new Gizmox.WebGUI.Forms.GroupBox();
             this.lblGenPhoneNumber = new Gizmox.WebGUI.Forms.Label();
+            this.cmdGenRegionCode = new Gizmox.WebGUI.Forms.Button();
+            this.gbxStateCity = new Gizmox.WebGUI.Forms.GroupBox();
+            this.chkTaiwan = new Gizmox.WebGUI.Forms.CheckBox();
+            this.chkHongKong = new Gizmox.WebGUI.Forms.CheckBox();
+            this.chkChina = new Gizmox.WebGUI.Forms.CheckBox();
+            this.chkMacao = new Gizmox.WebGUI.Forms.CheckBox();
             this.gbxCountryCode.SuspendLayout();
             this.gbxGenPhoneNumber.SuspendLayout();
+            this.gbxStateCity.SuspendLayout();
             this.SuspendLayout();
             // 
             // cmdGenPhoneNumbers
@@ -74,7 +81,7 @@ namespace RT2020.Settings.SuperUser
             this.gbxCountryCode.Controls.Add(this.lblCountryCode);
             this.gbxCountryCode.Controls.Add(this.cmdGenCountryCode);
             this.gbxCountryCode.FlatStyle = Gizmox.WebGUI.Forms.FlatStyle.Flat;
-            this.gbxCountryCode.Location = new System.Drawing.Point(21, 37);
+            this.gbxCountryCode.Location = new System.Drawing.Point(43, 34);
             this.gbxCountryCode.Name = "gbxCountryCode";
             this.gbxCountryCode.Size = new System.Drawing.Size(347, 103);
             this.gbxCountryCode.TabIndex = 2;
@@ -96,7 +103,7 @@ namespace RT2020.Settings.SuperUser
             this.gbxGenPhoneNumber.Controls.Add(this.lblGenPhoneNumber);
             this.gbxGenPhoneNumber.Controls.Add(this.cmdGenPhoneNumbers);
             this.gbxGenPhoneNumber.FlatStyle = Gizmox.WebGUI.Forms.FlatStyle.Flat;
-            this.gbxGenPhoneNumber.Location = new System.Drawing.Point(21, 171);
+            this.gbxGenPhoneNumber.Location = new System.Drawing.Point(43, 152);
             this.gbxGenPhoneNumber.Name = "gbxGenPhoneNumber";
             this.gbxGenPhoneNumber.Size = new System.Drawing.Size(347, 106);
             this.gbxGenPhoneNumber.TabIndex = 3;
@@ -113,15 +120,78 @@ namespace RT2020.Settings.SuperUser
     " submit to Bot Server to do it in background.";
             this.lblGenPhoneNumber.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
+            // cmdGenRegionCode
+            // 
+            this.cmdGenRegionCode.Location = new System.Drawing.Point(18, 67);
+            this.cmdGenRegionCode.Name = "cmdGenRegionCode";
+            this.cmdGenRegionCode.Size = new System.Drawing.Size(313, 23);
+            this.cmdGenRegionCode.TabIndex = 0;
+            this.cmdGenRegionCode.Text = "Generate Region Codes";
+            this.cmdGenRegionCode.Click += new System.EventHandler(this.cmdGenRegionCode_Click);
+            // 
+            // gbxStateCity
+            // 
+            this.gbxStateCity.Anchor = Gizmox.WebGUI.Forms.AnchorStyles.Top;
+            this.gbxStateCity.Controls.Add(this.chkMacao);
+            this.gbxStateCity.Controls.Add(this.chkTaiwan);
+            this.gbxStateCity.Controls.Add(this.chkHongKong);
+            this.gbxStateCity.Controls.Add(this.chkChina);
+            this.gbxStateCity.Controls.Add(this.cmdGenRegionCode);
+            this.gbxStateCity.FlatStyle = Gizmox.WebGUI.Forms.FlatStyle.Flat;
+            this.gbxStateCity.Location = new System.Drawing.Point(406, 34);
+            this.gbxStateCity.Name = "gbxStateCity";
+            this.gbxStateCity.Size = new System.Drawing.Size(347, 103);
+            this.gbxStateCity.TabIndex = 2;
+            this.gbxStateCity.TabStop = false;
+            this.gbxStateCity.Text = "Generate Region Codes";
+            // 
+            // chkTaiwan
+            // 
+            this.chkTaiwan.AutoSize = true;
+            this.chkTaiwan.Location = new System.Drawing.Point(271, 31);
+            this.chkTaiwan.Name = "chkTaiwan";
+            this.chkTaiwan.Size = new System.Drawing.Size(60, 17);
+            this.chkTaiwan.TabIndex = 1;
+            this.chkTaiwan.Text = "Taiwan";
+            // 
+            // chkHongKong
+            // 
+            this.chkHongKong.AutoSize = true;
+            this.chkHongKong.Location = new System.Drawing.Point(90, 31);
+            this.chkHongKong.Name = "chkHongKong";
+            this.chkHongKong.Size = new System.Drawing.Size(78, 17);
+            this.chkHongKong.TabIndex = 1;
+            this.chkHongKong.Text = "Hong Kong";
+            // 
+            // chkChina
+            // 
+            this.chkChina.AutoSize = true;
+            this.chkChina.Location = new System.Drawing.Point(22, 31);
+            this.chkChina.Name = "chkChina";
+            this.chkChina.Size = new System.Drawing.Size(53, 17);
+            this.chkChina.TabIndex = 1;
+            this.chkChina.Text = "China";
+            // 
+            // chkMacao
+            // 
+            this.chkMacao.AutoSize = true;
+            this.chkMacao.Location = new System.Drawing.Point(190, 31);
+            this.chkMacao.Name = "chkMacao";
+            this.chkMacao.Size = new System.Drawing.Size(57, 17);
+            this.chkMacao.TabIndex = 1;
+            this.chkMacao.Text = "Macao";
+            // 
             // Phone
             // 
+            this.Controls.Add(this.gbxStateCity);
             this.Controls.Add(this.gbxGenPhoneNumber);
             this.Controls.Add(this.gbxCountryCode);
             this.Controls.Add(this.progressBar1);
-            this.Size = new System.Drawing.Size(391, 306);
+            this.Size = new System.Drawing.Size(800, 306);
             this.Text = "Phone";
             this.gbxCountryCode.ResumeLayout(false);
             this.gbxGenPhoneNumber.ResumeLayout(false);
+            this.gbxStateCity.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -136,5 +206,11 @@ namespace RT2020.Settings.SuperUser
         private Label lblCountryCode;
         private GroupBox gbxGenPhoneNumber;
         private Label lblGenPhoneNumber;
+        private Button cmdGenRegionCode;
+        private GroupBox gbxStateCity;
+        private CheckBox chkTaiwan;
+        private CheckBox chkHongKong;
+        private CheckBox chkChina;
+        private CheckBox chkMacao;
     }
 }

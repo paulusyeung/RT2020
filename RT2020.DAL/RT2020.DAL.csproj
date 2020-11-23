@@ -106,7 +106,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="City.cs" />
     <Compile Include="Common.cs" />
     <Compile Include="Country.cs" />
     <Compile Include="Currency.cs" />
@@ -216,7 +215,6 @@
     <Compile Include="SqlHelper.cs" />
     <Compile Include="Staff.cs" />
     <Compile Include="StaffAddress.cs" />
-    <Compile Include="StaffDept.cs" />
     <Compile Include="StaffGroup.cs" />
     <Compile Include="StaffHR.cs" />
     <Compile Include="StaffInternetTag.cs" />

@@ -28,76 +28,70 @@ namespace RT2020.Settings
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.splitContainer = new Gizmox.WebGUI.Forms.SplitContainer();
             this.lvCityList = new Gizmox.WebGUI.Forms.ListView();
-            this.colCityId = new Gizmox.WebGUI.Forms.ColumnHeader();
-            this.colLN = new Gizmox.WebGUI.Forms.ColumnHeader();
-            this.colCityCode = new Gizmox.WebGUI.Forms.ColumnHeader();
-            this.colCityName = new Gizmox.WebGUI.Forms.ColumnHeader();
-            this.colCityNameChs = new Gizmox.WebGUI.Forms.ColumnHeader();
-            this.colCityNameCht = new Gizmox.WebGUI.Forms.ColumnHeader();
+            this.colCityId = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colLN = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colCityCode = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colCityName = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colCityNameAlt1 = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colCityNameAlt2 = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
             this.lblProvince = new Gizmox.WebGUI.Forms.Label();
             this.cboProvince = new Gizmox.WebGUI.Forms.ComboBox();
             this.tbWizardAction = new Gizmox.WebGUI.Forms.ToolBar();
-            this.txtCityNameCht = new Gizmox.WebGUI.Forms.TextBox();
-            this.txtCityNameChs = new Gizmox.WebGUI.Forms.TextBox();
+            this.txtCityNameAlt2 = new Gizmox.WebGUI.Forms.TextBox();
+            this.txtCityNameAlt1 = new Gizmox.WebGUI.Forms.TextBox();
             this.txtCityName = new Gizmox.WebGUI.Forms.TextBox();
-            this.lblCityNameCht = new Gizmox.WebGUI.Forms.Label();
-            this.lblCityNameChs = new Gizmox.WebGUI.Forms.Label();
+            this.lblCityNameAlt2 = new Gizmox.WebGUI.Forms.Label();
+            this.lblCityNameAlt1 = new Gizmox.WebGUI.Forms.Label();
             this.lblCityName = new Gizmox.WebGUI.Forms.Label();
             this.txtCityCode = new Gizmox.WebGUI.Forms.TextBox();
             this.lblCityCode = new Gizmox.WebGUI.Forms.Label();
-            this.errorProvider = new Gizmox.WebGUI.Forms.ErrorProvider();
+            this.errorProvider = new Gizmox.WebGUI.Forms.ErrorProvider(this.components);
             this.SuspendLayout();
             // 
             // splitContainer
             // 
-            this.splitContainer.Anchor = Gizmox.WebGUI.Forms.AnchorStyles.None;
+            this.splitContainer.AutoValidate = Gizmox.WebGUI.Forms.AutoValidate.EnablePreventFocusChange;
             this.splitContainer.BorderStyle = Gizmox.WebGUI.Forms.BorderStyle.Clear;
             this.splitContainer.Dock = Gizmox.WebGUI.Forms.DockStyle.Fill;
-            this.splitContainer.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
             this.splitContainer.FixedPanel = Gizmox.WebGUI.Forms.FixedPanel.Panel1;
             this.splitContainer.Location = new System.Drawing.Point(0, 0);
             this.splitContainer.Name = "splitContainer";
-            this.splitContainer.Orientation = Gizmox.WebGUI.Forms.Orientation.Vertical;
             // 
             // splitContainer.Panel1
             // 
             this.splitContainer.Panel1.Controls.Add(this.lvCityList);
-            this.splitContainer.Panel1.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
             // 
             // splitContainer.Panel2
             // 
             this.splitContainer.Panel2.Controls.Add(this.lblProvince);
             this.splitContainer.Panel2.Controls.Add(this.cboProvince);
             this.splitContainer.Panel2.Controls.Add(this.tbWizardAction);
-            this.splitContainer.Panel2.Controls.Add(this.txtCityNameCht);
-            this.splitContainer.Panel2.Controls.Add(this.txtCityNameChs);
+            this.splitContainer.Panel2.Controls.Add(this.txtCityNameAlt2);
+            this.splitContainer.Panel2.Controls.Add(this.txtCityNameAlt1);
             this.splitContainer.Panel2.Controls.Add(this.txtCityName);
-            this.splitContainer.Panel2.Controls.Add(this.lblCityNameCht);
-            this.splitContainer.Panel2.Controls.Add(this.lblCityNameChs);
+            this.splitContainer.Panel2.Controls.Add(this.lblCityNameAlt2);
+            this.splitContainer.Panel2.Controls.Add(this.lblCityNameAlt1);
             this.splitContainer.Panel2.Controls.Add(this.lblCityName);
             this.splitContainer.Panel2.Controls.Add(this.txtCityCode);
             this.splitContainer.Panel2.Controls.Add(this.lblCityCode);
-            this.splitContainer.Panel2.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
             this.splitContainer.Size = new System.Drawing.Size(806, 506);
             this.splitContainer.SplitterDistance = 500;
             this.splitContainer.TabIndex = 0;
             // 
             // lvCityList
             // 
-            this.lvCityList.Anchor = Gizmox.WebGUI.Forms.AnchorStyles.None;
             this.lvCityList.Columns.AddRange(new Gizmox.WebGUI.Forms.ColumnHeader[] {
             this.colCityId,
             this.colLN,
             this.colCityCode,
             this.colCityName,
-            this.colCityNameChs,
-            this.colCityNameCht});
+            this.colCityNameAlt1,
+            this.colCityNameAlt2});
             this.lvCityList.DataMember = null;
             this.lvCityList.Dock = Gizmox.WebGUI.Forms.DockStyle.Fill;
-            this.lvCityList.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.lvCityList.ItemsPerPage = 20;
             this.lvCityList.Location = new System.Drawing.Point(0, 0);
             this.lvCityList.Name = "lvCityList";
             this.lvCityList.Size = new System.Drawing.Size(499, 506);
@@ -107,50 +101,37 @@ namespace RT2020.Settings
             // 
             // colCityId
             // 
-            this.colCityId.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.colCityId.Image = null;
             this.colCityId.Text = "CityId";
             this.colCityId.Visible = false;
             this.colCityId.Width = 150;
             // 
             // colLN
             // 
-            this.colLN.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.colLN.Image = null;
             this.colLN.Text = "LN";
             this.colLN.Width = 30;
             // 
             // colCityCode
             // 
-            this.colCityCode.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.colCityCode.Image = null;
             this.colCityCode.Text = "City Code";
             this.colCityCode.Width = 80;
             // 
             // colCityName
             // 
-            this.colCityName.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.colCityName.Image = null;
             this.colCityName.Text = "City Name";
             this.colCityName.Width = 120;
             // 
-            // colCityNameChs
+            // colCityNameAlt1
             // 
-            this.colCityNameChs.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.colCityNameChs.Image = null;
-            this.colCityNameChs.Text = "City Name Chs";
-            this.colCityNameChs.Width = 120;
+            this.colCityNameAlt1.Text = "City Name Chs";
+            this.colCityNameAlt1.Width = 120;
             // 
-            // colCityNameCht
+            // colCityNameAlt2
             // 
-            this.colCityNameCht.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.colCityNameCht.Image = null;
-            this.colCityNameCht.Text = "City Name Cht";
-            this.colCityNameCht.Width = 120;
+            this.colCityNameAlt2.Text = "City Name Cht";
+            this.colCityNameAlt2.Width = 120;
             // 
             // lblProvince
             // 
-            this.lblProvince.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
             this.lblProvince.Location = new System.Drawing.Point(16, 132);
             this.lblProvince.Name = "lblProvince";
             this.lblProvince.Size = new System.Drawing.Size(100, 23);
@@ -160,74 +141,64 @@ namespace RT2020.Settings
             // cboProvince
             // 
             this.cboProvince.BorderStyle = Gizmox.WebGUI.Forms.BorderStyle.Fixed3D;
-            this.cboProvince.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
             this.cboProvince.DropDownWidth = 121;
-            this.cboProvince.Location = new System.Drawing.Point(122, 129);
+            this.cboProvince.Location = new System.Drawing.Point(159, 129);
             this.cboProvince.Name = "cboProvince";
-            this.cboProvince.Size = new System.Drawing.Size(142, 21);
+            this.cboProvince.Size = new System.Drawing.Size(131, 21);
             this.cboProvince.TabIndex = 4;
             // 
             // tbWizardAction
             // 
-            this.tbWizardAction.Anchor = Gizmox.WebGUI.Forms.AnchorStyles.None;
-            this.tbWizardAction.Appearance = Gizmox.WebGUI.Forms.ToolBarAppearance.Normal;
-            this.tbWizardAction.Dock = Gizmox.WebGUI.Forms.DockStyle.Top;
+            this.tbWizardAction.ButtonSize = new System.Drawing.Size(20, 20);
             this.tbWizardAction.DragHandle = true;
-            this.tbWizardAction.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.tbWizardAction.DropDownArrows = false;
-            this.tbWizardAction.ImageList = null;
+            this.tbWizardAction.DropDownArrows = true;
+            this.tbWizardAction.ImageSize = new System.Drawing.Size(16, 16);
             this.tbWizardAction.Location = new System.Drawing.Point(0, 0);
             this.tbWizardAction.MenuHandle = true;
             this.tbWizardAction.Name = "tbWizardAction";
-            //this.tbWizardAction.RightToLeft = false;
             this.tbWizardAction.ShowToolTips = true;
+            this.tbWizardAction.Size = new System.Drawing.Size(302, 26);
             this.tbWizardAction.TabIndex = 5;
             // 
-            // txtCityNameCht
+            // txtCityNameAlt2
             // 
-            this.txtCityNameCht.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.txtCityNameCht.Location = new System.Drawing.Point(122, 106);
-            this.txtCityNameCht.Name = "txtCityNameCht";
-            this.txtCityNameCht.Size = new System.Drawing.Size(142, 20);
-            this.txtCityNameCht.TabIndex = 3;
+            this.txtCityNameAlt2.Location = new System.Drawing.Point(159, 106);
+            this.txtCityNameAlt2.Name = "txtCityNameAlt2";
+            this.txtCityNameAlt2.Size = new System.Drawing.Size(131, 20);
+            this.txtCityNameAlt2.TabIndex = 3;
             // 
-            // txtCityNameChs
+            // txtCityNameAlt1
             // 
-            this.txtCityNameChs.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.txtCityNameChs.Location = new System.Drawing.Point(122, 83);
-            this.txtCityNameChs.Name = "txtCityNameChs";
-            this.txtCityNameChs.Size = new System.Drawing.Size(142, 20);
-            this.txtCityNameChs.TabIndex = 2;
+            this.txtCityNameAlt1.Location = new System.Drawing.Point(159, 83);
+            this.txtCityNameAlt1.Name = "txtCityNameAlt1";
+            this.txtCityNameAlt1.Size = new System.Drawing.Size(131, 20);
+            this.txtCityNameAlt1.TabIndex = 2;
             // 
             // txtCityName
             // 
-            this.txtCityName.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.txtCityName.Location = new System.Drawing.Point(122, 60);
+            this.txtCityName.Location = new System.Drawing.Point(159, 60);
             this.txtCityName.Name = "txtCityName";
-            this.txtCityName.Size = new System.Drawing.Size(142, 20);
+            this.txtCityName.Size = new System.Drawing.Size(131, 20);
             this.txtCityName.TabIndex = 1;
             // 
-            // lblCityNameCht
+            // lblCityNameAlt2
             // 
-            this.lblCityNameCht.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.lblCityNameCht.Location = new System.Drawing.Point(16, 109);
-            this.lblCityNameCht.Name = "lblCityNameCht";
-            this.lblCityNameCht.Size = new System.Drawing.Size(100, 23);
-            this.lblCityNameCht.TabIndex = 4;
-            this.lblCityNameCht.Text = "City Name Cht";
+            this.lblCityNameAlt2.Location = new System.Drawing.Point(24, 109);
+            this.lblCityNameAlt2.Name = "lblCityNameAlt2";
+            this.lblCityNameAlt2.Size = new System.Drawing.Size(132, 23);
+            this.lblCityNameAlt2.TabIndex = 4;
+            this.lblCityNameAlt2.Text = "City Name Cht";
             // 
-            // lblCityNameChs
+            // lblCityNameAlt1
             // 
-            this.lblCityNameChs.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.lblCityNameChs.Location = new System.Drawing.Point(16, 86);
-            this.lblCityNameChs.Name = "lblCityNameChs";
-            this.lblCityNameChs.Size = new System.Drawing.Size(100, 23);
-            this.lblCityNameChs.TabIndex = 3;
-            this.lblCityNameChs.Text = "City Name Chs:";
+            this.lblCityNameAlt1.Location = new System.Drawing.Point(24, 86);
+            this.lblCityNameAlt1.Name = "lblCityNameAlt1";
+            this.lblCityNameAlt1.Size = new System.Drawing.Size(132, 23);
+            this.lblCityNameAlt1.TabIndex = 3;
+            this.lblCityNameAlt1.Text = "City Name Chs:";
             // 
             // lblCityName
             // 
-            this.lblCityName.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
             this.lblCityName.Location = new System.Drawing.Point(16, 63);
             this.lblCityName.Name = "lblCityName";
             this.lblCityName.Size = new System.Drawing.Size(100, 23);
@@ -236,16 +207,14 @@ namespace RT2020.Settings
             // 
             // txtCityCode
             // 
-            this.txtCityCode.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.txtCityCode.Location = new System.Drawing.Point(122, 37);
+            this.txtCityCode.Location = new System.Drawing.Point(159, 37);
             this.txtCityCode.MaxLength = 10;
             this.txtCityCode.Name = "txtCityCode";
-            this.txtCityCode.Size = new System.Drawing.Size(142, 20);
+            this.txtCityCode.Size = new System.Drawing.Size(131, 20);
             this.txtCityCode.TabIndex = 0;
             // 
             // lblCityCode
             // 
-            this.lblCityCode.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
             this.lblCityCode.Location = new System.Drawing.Point(16, 40);
             this.lblCityCode.Name = "lblCityCode";
             this.lblCityCode.Size = new System.Drawing.Size(100, 23);
@@ -255,9 +224,6 @@ namespace RT2020.Settings
             // errorProvider
             // 
             this.errorProvider.BlinkRate = 3;
-            this.errorProvider.BlinkStyle = Gizmox.WebGUI.Forms.ErrorBlinkStyle.BlinkIfDifferentError;
-            this.errorProvider.DataMember = "";
-            this.errorProvider.DataSource = "";
             // 
             // CityWizard
             // 
@@ -279,13 +245,13 @@ namespace RT2020.Settings
         private Gizmox.WebGUI.Forms.ColumnHeader colLN;
         private Gizmox.WebGUI.Forms.ColumnHeader colCityCode;
         private Gizmox.WebGUI.Forms.ColumnHeader colCityName;
-        private Gizmox.WebGUI.Forms.ColumnHeader colCityNameChs;
-        private Gizmox.WebGUI.Forms.ColumnHeader colCityNameCht;
-        private Gizmox.WebGUI.Forms.TextBox txtCityNameCht;
-        private Gizmox.WebGUI.Forms.TextBox txtCityNameChs;
+        private Gizmox.WebGUI.Forms.ColumnHeader colCityNameAlt1;
+        private Gizmox.WebGUI.Forms.ColumnHeader colCityNameAlt2;
+        private Gizmox.WebGUI.Forms.TextBox txtCityNameAlt2;
+        private Gizmox.WebGUI.Forms.TextBox txtCityNameAlt1;
         private Gizmox.WebGUI.Forms.TextBox txtCityName;
-        private Gizmox.WebGUI.Forms.Label lblCityNameCht;
-        private Gizmox.WebGUI.Forms.Label lblCityNameChs;
+        private Gizmox.WebGUI.Forms.Label lblCityNameAlt2;
+        private Gizmox.WebGUI.Forms.Label lblCityNameAlt1;
         private Gizmox.WebGUI.Forms.Label lblCityName;
         private Gizmox.WebGUI.Forms.TextBox txtCityCode;
         private Gizmox.WebGUI.Forms.Label lblCityCode;

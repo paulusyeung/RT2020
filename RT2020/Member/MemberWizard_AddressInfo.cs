@@ -11,6 +11,8 @@ using Gizmox.WebGUI.Common;
 using Gizmox.WebGUI.Forms;
 using RT2020.DAL;
 using RT2020.Controls;
+using System.Linq;
+using System.Data.Entity;
 
 #endregion
 
@@ -103,6 +105,7 @@ namespace RT2020.Member
 
         private void FillCityList(System.Guid ProvinceId)
         {
+            /**
             cboCity.DataSource = null;
             cboCity.Items.Clear();
 
@@ -116,6 +119,16 @@ namespace RT2020.Member
             cboCity.ValueMember = "CityId";
 
             cboCity.SelectedIndex = cboCity.Items.Count - 1;
+            */
+
+            //using (var ctx = new EF6.RT2020Entities())
+            //{
+            //    var cityList = ctx.City.Where(x => x.ProvinceId == ProvinceId).AsNoTracking().ToList();
+            //    cboCity.DataSource = cityList;
+            //    cboCity.DisplayMember = "CityName";
+            //    cboCity.ValueMember = "CityId";
+            //}
+            ModelEx.CityEx.LoadCombo(ref cboCity, "CityName", false, true, "", String.Format("ProvinceId = {0}", ProvinceId.ToString()));
         }
         #endregion
 

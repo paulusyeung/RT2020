@@ -1,4 +1,4 @@
-#region Using
+﻿#region Using
 
 using System;
 using System.Collections.Generic;
@@ -13,6 +13,7 @@ using Gizmox.WebGUI.Common.Resources;
 using System.IO;
 using RT2020.Controls;
 using RT2020.DAL;
+using RT2020.Helper;
 
 #endregion
 
@@ -60,14 +61,46 @@ namespace RT2020.Settings
             txtEmail.Text = SystemInfo.CurrentInfo.Default.SysInfo.EMail;
             txtInternetUrl.Text = SystemInfo.CurrentInfo.Default.SysInfo.URL;
 
-            // Address Info.
-            // English
+            #region Address Info.
+
+            #region Default
+            gbAddressDefault.Text = WestwindHelper.GetWord("language.en", "Menu");
+
             txtCompanyNameEn.Text = SystemInfo.CurrentInfo.Default.SysInfo.CompanyName;
             txtAddressEn.Text = SystemInfo.CurrentInfo.Default.SysInfo.CompanyAddess;
+            #endregion
 
-            // Chinese
-            txtCompanyNameChn.Text = SystemInfo.CurrentInfo.Default.SysInfo.CompanyName_Chs;
-            txtAddressChn.Text = SystemInfo.CurrentInfo.Default.SysInfo.CompanyAddress_Chs;
+            #region Alt-1
+            if (LanguageHelper.AlternateLanguagesUsed >= 1)
+            {
+                // 攞個 Alt1，不過唔用個 Value (NativeName)，去 Westwind 搵自己叫嘅名
+                gbAddressAlt1.Text = WestwindHelper.GetWord(String.Format("language.{0}", LanguageHelper.AlternateLanguage1.Key.ToLower()), "Menu");
+
+                txtCompanyNameAlt1.Text = SystemInfo.CurrentInfo.Default.SysInfo.CompanyName_Chs;
+                txtAddressAlt1.Text = SystemInfo.CurrentInfo.Default.SysInfo.CompanyAddress_Chs;
+            }
+            else
+            {
+                gbAddressAlt1.Visible = false;
+            }
+            #endregion
+
+            #region Alt-2
+            if (LanguageHelper.AlternateLanguagesUsed >= 2)
+            {
+                // 攞個 Alt2，不過唔用個 Value (NativeName)，去 Westwind 搵自己叫嘅名
+                gbAddressAlt2.Text = WestwindHelper.GetWord(String.Format("language.{0}", LanguageHelper.AlternateLanguage2.Key.ToLower()), "Menu");
+
+                txtCompanyNameAlt2.Text = SystemInfo.CurrentInfo.Default.SysInfo.CompanyName_Cht;
+                txtAddressAlt2.Text = SystemInfo.CurrentInfo.Default.SysInfo.CompanyAddress_Cht;
+            }
+            else
+            {
+                gbAddressAlt2.Visible = false;
+            }
+            #endregion
+
+            #endregion
 
             // System Info.
             txtLastAPMonthEnd.BackColor = SystemInfo.ControlBackColor.DisabledBox;
@@ -417,10 +450,10 @@ namespace RT2020.Settings
                 oSysInfo.CompanyAddess = txtAddressEn.Text;
 
                 // Chinese
-                oSysInfo.CompanyName_Chs = txtCompanyNameChn.Text;
-                oSysInfo.CompanyAddress_Chs = txtAddressChn.Text;
-                oSysInfo.CompanyName_Cht = txtCompanyNameChn.Text;
-                oSysInfo.CompanyAddress_Cht = txtAddressChn.Text;
+                oSysInfo.CompanyName_Chs = txtCompanyNameAlt1.Text;
+                oSysInfo.CompanyAddress_Chs = txtAddressAlt1.Text;
+                oSysInfo.CompanyName_Cht = txtCompanyNameAlt1.Text;
+                oSysInfo.CompanyAddress_Cht = txtAddressAlt1.Text;
 
                 // Logo
                 oSysInfo.LOGO = txtCompanyLogo.Text;

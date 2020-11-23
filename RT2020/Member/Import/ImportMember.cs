@@ -13,6 +13,8 @@ using System.IO;
 using RT2020.Controls;
 using FileHelpers;
 using RT2020.DAL;
+using System.Linq;
+using System.Data.Entity;
 
 #endregion
 
@@ -310,12 +312,12 @@ namespace RT2020.Member.Import
 
         private Guid GetCityId(string cityName)
         {
-            System.Guid result = System.Guid.Empty;
-            string sql = "CityName = '" + cityName + "'";
-            City oCity = City.LoadWhere(sql);
-            if (oCity != null)
+            var result = Guid.Empty;
+
+            using (var ctx = new EF6.RT2020Entities())
             {
-                result = oCity.CityId;
+                var city = ctx.City.Where(x => x.CityName == cityName).AsNoTracking().FirstOrDefault();
+                if (city != null) result = city.CityId;
             }
 
             return result;

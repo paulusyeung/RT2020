@@ -35,7 +35,7 @@ namespace RT2020.Settings.SuperUser
         {
             InitializeComponent();
 
-            cmdGenCountryCode.ClickOnce = cmdGenPhoneNumbers.ClickOnce = true;
+            cmdGenCountryCode.ClickOnce = cmdGenRegionCode.ClickOnce = cmdGenPhoneNumbers.ClickOnce = true;
 
             progressBar1.Dock = DockStyle.Top;
             progressBar1.CustomStyle = "Flat";
@@ -59,7 +59,7 @@ namespace RT2020.Settings.SuperUser
                 #region Task AsyncCallback 話搞掂
                 _Timer.Stop();
 
-                cmdGenCountryCode.Enabled = cmdGenPhoneNumbers.Enabled = true;
+                cmdGenCountryCode.Enabled = cmdGenRegionCode.Enabled = cmdGenPhoneNumbers.Enabled = true;
                 progressBar1.Visible = false;
 
                 MessageBox.Show(_AllCountries);
@@ -188,6 +188,67 @@ namespace RT2020.Settings.SuperUser
             _IsAllItemsProcessed = true;    // tell Timer the job is done
         }
         #endregion
+
+
+        #region Gen Country/Province/City Code for China/ Hong Kong/ Taiwan
+        private void cmdGenRegionCode_Click(object sender, EventArgs e)
+        {
+            if (chkChina.Checked)
+            {
+                _IsAllItemsProcessed = false;
+
+                LongTimeTask_Delegate d = new LongTimeTask_Delegate(LTT_RegionCode);
+                IAsyncResult R = d.BeginInvoke("GenRegionCodes", new AsyncCallback(TC_RegionCode), null);   //invoking the method
+
+                progressBar1.Visible = true;
+                _Timer.Start();
+            }
+            if (chkHongKong.Checked)
+            {
+                _IsAllItemsProcessed = false;
+
+                LongTimeTask_Delegate d = new LongTimeTask_Delegate(LTT_RegionCode);
+                IAsyncResult R = d.BeginInvoke("GenRegionCodes", new AsyncCallback(TC_RegionCode), null);   //invoking the method
+
+                progressBar1.Visible = true;
+                _Timer.Start();
+            }
+            if (chkMacao.Checked)
+            {
+                _IsAllItemsProcessed = false;
+
+                LongTimeTask_Delegate d = new LongTimeTask_Delegate(LTT_RegionCode);
+                IAsyncResult R = d.BeginInvoke("GenRegionCodes", new AsyncCallback(TC_RegionCode), null);   //invoking the method
+
+                progressBar1.Visible = true;
+                _Timer.Start();
+            }
+            if (chkTaiwan.Checked)
+            {
+                _IsAllItemsProcessed = false;
+
+                LongTimeTask_Delegate d = new LongTimeTask_Delegate(LTT_RegionCode);
+                IAsyncResult R = d.BeginInvoke("GenRegionCodes", new AsyncCallback(TC_RegionCode), null);   //invoking the method
+
+                progressBar1.Visible = true;
+                _Timer.Start();
+            }
+        }
+
+        public void LTT_RegionCode(string s)
+        {
+            if (chkChina.Checked) ChinaHelper.WriteDefaultValues();
+            if (chkHongKong.Checked) HongKongHelper.WriteDefaultValues();
+            if (chkMacao.Checked) MacaoHelper.WriteDefaultValues();
+            if (chkTaiwan.Checked) TaiwanHelper.WriteDefaultValues();
+        }
+
+        public void TC_RegionCode(IAsyncResult R)
+        {
+            _IsAllItemsProcessed = true;    // tell Timer the job is done
+        }
+        #endregion
+
 
         #region 本地 Gen Phone Numbers，已經唔再用，改為 Bot Server Hangfire background job
 

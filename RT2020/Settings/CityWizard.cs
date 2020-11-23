@@ -1,4 +1,4 @@
-#region Using
+﻿#region Using
 
 using System;
 using System.Collections.Generic;
@@ -13,6 +13,8 @@ using Gizmox.WebGUI.Common.Resources;
 using RT2020.DAL;
 using System.Data.SqlClient;
 using System.Configuration;
+using System.Linq;
+using RT2020.Helper;
 
 #endregion
 
@@ -23,11 +25,76 @@ namespace RT2020.Settings
         public CityWizard()
         {
             InitializeComponent();
+
+            SetCaptions();
+            SetAttributes();
+
             SetCtrlEditable();
             SetToolBar();
             FillProvinceName();
             BindCityList();
         }
+
+        #region SetCaptions SetAttributes
+
+        private void SetCaptions()
+        {
+            colLN.Text = WestwindHelper.GetWord("tools.listview.line", "Tools");
+
+            //colParentDept.Text = WestwindHelper.GetWord("department.parent", "Model");
+            colCityCode.Text = WestwindHelper.GetWord("city.code", "Model");
+            colCityName.Text = WestwindHelper.GetWord("city.name", "Model");
+            colCityNameAlt1.Text = WestwindHelper.GetWord(String.Format("language.{0}", LanguageHelper.AlternateLanguage1.Key.ToLower()), "Menu");
+            colCityNameAlt2.Text = WestwindHelper.GetWord(String.Format("language.{0}", LanguageHelper.AlternateLanguage2.Key.ToLower()), "Menu");
+
+            lblCityCode.Text = WestwindHelper.GetWordWithColon("city.code", "Model");
+            lblCityName.Text = WestwindHelper.GetWordWithColon("city.name", "Model");
+            lblCityNameAlt1.Text = WestwindHelper.GetWordWithColon(String.Format("language.{0}", LanguageHelper.AlternateLanguage1.Key.ToLower()), "Menu");
+            lblCityNameAlt2.Text = WestwindHelper.GetWordWithColon(String.Format("language.{0}", LanguageHelper.AlternateLanguage2.Key.ToLower()), "Menu");
+
+            lblProvince.Text = WestwindHelper.GetWordWithColon("province", "Model");
+        }
+
+        private void SetAttributes()
+        {
+            colLN.TextAlign = HorizontalAlignment.Center;
+            //colParentDept.TextAlign = HorizontalAlignment.Left;
+            //colParentDept.ContentAlign = ExtendedHorizontalAlignment.Center;
+            colCityCode.TextAlign = HorizontalAlignment.Left;
+            colCityCode.ContentAlign = ExtendedHorizontalAlignment.Center;
+            colCityName.TextAlign = HorizontalAlignment.Left;
+            colCityName.ContentAlign = ExtendedHorizontalAlignment.Center;
+            colCityNameAlt1.TextAlign = HorizontalAlignment.Left;
+            colCityNameAlt1.ContentAlign = ExtendedHorizontalAlignment.Center;
+            colCityNameAlt2.TextAlign = HorizontalAlignment.Left;
+            colCityNameAlt2.ContentAlign = ExtendedHorizontalAlignment.Center;
+
+            switch (LanguageHelper.AlternateLanguagesUsed)
+            {
+                case 1:
+                    // hide alt2
+                    lblCityNameAlt2.Visible = txtCityNameAlt2.Visible = false;
+                    colCityNameAlt2.Visible = false;
+                    // push parent dept. up
+                    lblProvince.Location = new Point(lblProvince.Location.X, lblCityNameAlt1.Location.Y);
+                    cboProvince.Location = new Point(cboProvince.Location.X, txtCityNameAlt2.Location.Y);
+                    break;
+                case 2:
+                    // do nothing
+                    break;
+                case 0:
+                default:
+                    // hide alt1 & alt2
+                    lblCityNameAlt1.Visible = lblCityNameAlt2.Visible = txtCityNameAlt2.Visible = false;
+                    colCityNameAlt1.Visible = colCityNameAlt2.Visible = false;
+                    // push parent dept up
+                    lblProvince.Location = new Point(lblProvince.Location.X, lblCityNameAlt1.Location.Y);
+                    cboProvince.Location = new Point(cboProvince.Location.X, txtCityNameAlt1.Location.Y);
+                    break;
+            }
+        }
+
+        #endregion
 
         #region ToolBar
         private void SetToolBar()
@@ -42,21 +109,21 @@ namespace RT2020.Settings
             sep.Style = ToolBarButtonStyle.Separator;
 
             // cmdSave
-            ToolBarButton cmdNew = new ToolBarButton("New", "New");
+            ToolBarButton cmdNew = new ToolBarButton("New", WestwindHelper.GetWord("edit.new", "General"));
             cmdNew.Tag = "New";
             cmdNew.Image = new IconResourceHandle("16x16.ico_16_3.gif");
 
             this.tbWizardAction.Buttons.Add(cmdNew);
 
             // cmdSave
-            ToolBarButton cmdSave = new ToolBarButton("Save", "Save");
+            ToolBarButton cmdSave = new ToolBarButton("Save", WestwindHelper.GetWord("edit.save", "General"));
             cmdSave.Tag = "Save";
             cmdSave.Image = new IconResourceHandle("16x16.16_L_save.gif");
 
             this.tbWizardAction.Buttons.Add(cmdSave);
 
             // cmdSaveNew
-            ToolBarButton cmdRefresh = new ToolBarButton("Refresh", "Refresh");
+            ToolBarButton cmdRefresh = new ToolBarButton("Refresh", WestwindHelper.GetWord("edit.refresh", "General"));
             cmdRefresh.Tag = "refresh";
             cmdRefresh.Image = new IconResourceHandle("16x16.16_L_refresh.gif");
 
@@ -64,7 +131,7 @@ namespace RT2020.Settings
             this.tbWizardAction.Buttons.Add(sep);
 
             // cmdDelete
-            ToolBarButton cmdDelete = new ToolBarButton("Delete", "Delete");
+            ToolBarButton cmdDelete = new ToolBarButton("Delete", WestwindHelper.GetWord("edit.delete", "General"));
             cmdDelete.Tag = "Delete";
             cmdDelete.Image = new IconResourceHandle("16x16.16_L_remove.gif");
 
@@ -93,8 +160,9 @@ namespace RT2020.Settings
                         SetCtrlEditable();
                         break;
                     case "save":
-                        if (Save())
+                        if (IsValid())
                         {
+                            Save();
                             Clear();
                             BindCityList();
                             this.Update();
@@ -176,63 +244,66 @@ namespace RT2020.Settings
         #endregion
 
         #region Save
-        private bool CodeExists()
-        {
-            string sql = "CityCode = '" + txtCityCode.Text.Trim() + "'";
-            CityCollection cityList = City.LoadCollection(sql);
-            if (cityList.Count > 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
 
-        private bool Save()
+        private bool IsValid()
         {
+            bool result = false;
+
+            #region CityCode 唔可以吉
+            errorProvider.SetError(txtCityCode, string.Empty);
             if (txtCityCode.Text.Length == 0)
             {
                 errorProvider.SetError(txtCityCode, "Cannot be blank!");
                 return false;
             }
-            else
+            #endregion
+
+            #region 新增，要 check CityCode 係咪 in use
+            errorProvider.SetError(txtCityCode, string.Empty);
+            if (this.CityId == System.Guid.Empty && ModelEx.CityEx.IsCityCodeInUse(txtCityCode.Text.Trim()))
             {
-                errorProvider.SetError(txtCityCode, string.Empty);
-
-                City oCity = City.Load(this.CityId);
-                if (oCity == null)
-                {
-                    oCity = new City();
-
-                    if (CodeExists())
-                    {
-                        errorProvider.SetError(txtCityCode, string.Format(Resources.Common.DuplicatedCode, "City Code"));
-                        return false;
-                    }
-                    else
-                    {
-                        oCity.CityCode = txtCityCode.Text;
-                        errorProvider.SetError(txtCityCode, string.Empty);
-                    }
-                }
-                oCity.CityName = txtCityName.Text;
-                oCity.CityName_Chs = txtCityNameChs.Text;
-                oCity.CityName_Cht = txtCityNameCht.Text;
-                oCity.ProvinceId = new Guid(cboProvince.SelectedValue.ToString());
-
-                oCity.Save();
-                return true;
+                errorProvider.SetError(txtCityCode, "City Code in use");
+                return false;
             }
+            #endregion
+
+            return result;
+        }
+
+        private bool Save()
+        {
+            bool result = false;
+
+            using (var ctx = new EF6.RT2020Entities())
+            {
+                var city = ctx.City.Find(this.CityId);
+
+                if (city == null)
+                {
+                    city = new EF6.City();
+                    city.CityId = new Guid();
+
+                    ctx.City.Add(city);
+                    city.CityCode = txtCityCode.Text;
+                }
+                city.CityName = txtCityName.Text;
+                city.CityName_Chs = txtCityNameAlt1.Text;
+                city.CityName_Cht = txtCityNameAlt2.Text;
+                city.ProvinceId = new Guid(cboProvince.SelectedValue.ToString());
+
+                ctx.SaveChanges();
+                result = true;
+            }
+
+            return result; ;
         }
 
         private void Clear()
         {
             txtCityCode.Text = string.Empty;
             txtCityName.Text = string.Empty;
-            txtCityNameChs.Text = string.Empty;
-            txtCityNameCht.Text = string.Empty;
+            txtCityNameAlt1.Text = string.Empty;
+            txtCityNameAlt2.Text = string.Empty;
 
             this.CityId = System.Guid.Empty;
         }
@@ -255,16 +326,20 @@ namespace RT2020.Settings
 
         private void Delete()
         {
-            City oCity = City.Load(this.CityId);
-            if (oCity != null)
+            using (var ctx = new EF6.RT2020Entities())
             {
                 try
                 {
-                    oCity.Delete();
+                    var city = ctx.City.Find(this.CityId);
+                    if (city != null)
+                    {
+                        ctx.City.Remove(city);
+                        ctx.SaveChanges();
+                    }
                 }
                 catch
                 {
-                    MessageBox.Show("Cannot delete the record being used by other record!", "Delete Warning");
+                    MessageBox.Show("Cannot delete the record...Might be in use by other record!", "Delete Warning");
                 }
             }
         }
@@ -273,21 +348,24 @@ namespace RT2020.Settings
         {
             if (lvCityList.SelectedItem != null)
             {
-                if (Common.Utility.IsGUID(lvCityList.SelectedItem.Text))
+                var id = Guid.NewGuid();
+                if (Guid.TryParse(lvCityList.SelectedItem.Text, out id))
                 {
-                    City oCity = City.Load(new System.Guid(lvCityList.SelectedItem.Text));
-                    if (oCity != null)
+                    this.CityId = id;
+                    using (var ctx = new EF6.RT2020Entities())
                     {
-                        txtCityCode.Text = oCity.CityCode;
-                        txtCityName.Text = oCity.CityName;
-                        txtCityNameChs.Text = oCity.CityName_Chs;
-                        txtCityNameCht.Text = oCity.CityName_Cht;
-                        cboProvince.SelectedValue = oCity.ProvinceId;
+                        var city = ctx.City.Find(this.CityId);
+                        if (city != null)
+                        {
+                            txtCityCode.Text = city.CityCode;
+                            txtCityName.Text = city.CityName;
+                            txtCityNameAlt1.Text = city.CityName_Chs;
+                            txtCityNameAlt2.Text = city.CityName_Cht;
+                            cboProvince.SelectedValue = city.ProvinceId;
 
-                        this.CityId = oCity.CityId;
-
-                        SetCtrlEditable();
-                        SetToolBar();
+                            SetCtrlEditable();
+                            SetToolBar();
+                        }
                     }
                 }
             }

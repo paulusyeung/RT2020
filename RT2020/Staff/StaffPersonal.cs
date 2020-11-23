@@ -90,7 +90,8 @@ namespace RT2020.Staff
             cmbCity.Items.Clear();
 
             string sql = " ProvinceId = '" + ProvinceId.ToString() + "'";
-            DAL.City.LoadCombo(ref cmbCity, "CityName", false, true, String.Empty, sql);
+            //DAL.City.LoadCombo(ref cmbCity, "CityName", false, true, String.Empty, sql);
+            ModelEx.CityEx.LoadCombo(ref cmbCity, "CityName", false, true, String.Empty, sql);
             cmbCity.SelectedIndex = 0;
         }
         #endregion
