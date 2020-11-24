@@ -148,7 +148,10 @@ namespace RT2020.Settings.SuperUser
                         {
                             //! CountryCode = ISO3166_1_Alpha_2，CountryName = CLDR_displayname
                             if (item.ISO3166_1_Alpha_2 == String.Empty) continue;
-                            var exist = ctx.Country.Where(x => x.CountryCode == item.FIPS).FirstOrDefault();
+
+                            // 2020.11.25 paulus: 再改番用 ISO3166_1_Alpha_2
+                            //var exist = ctx.Country.Where(x => x.CountryCode == item.FIPS).FirstOrDefault();
+                            var exist = ctx.Country.Where(x => x.CountryCode == item.ISO3166_1_Alpha_2).FirstOrDefault();
                             if (exist == null)
                             {
                                 exist = new Country();

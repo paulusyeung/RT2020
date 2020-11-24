@@ -64,5 +64,28 @@ namespace RT2020.Helper
             }
             set { _AlternateLanguage2 = value; }
         }
+
+        public enum LanguageMode
+        {
+            Default,
+            Alt1,
+            Alt2
+        }
+
+        public static LanguageMode CurrentLanguageMode
+        {
+            get
+            {
+                var result = LanguageMode.Default;
+
+                result = CookieHelper.CurrentLocaleId == _AlternateLanguage1.Key ?
+                    result = LanguageMode.Alt1 :
+                    CookieHelper.CurrentLocaleId == _AlternateLanguage2.Key ?
+                    result = LanguageMode.Alt2 :
+                    result = LanguageMode.Default;
+
+                return result;
+            }
+        }
     }
 }

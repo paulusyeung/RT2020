@@ -88,46 +88,11 @@ namespace RT2020.Member
 
         private void FillProvinceList(System.Guid CountryId)
         {
-            cboProvince.DataSource = null;
-            cboProvince.Items.Clear();
-
-            string sql = " CountryId = '" + CountryId.ToString() + "'";
-            string[] orderBy = new string[] { "ProvinceName" };
-            ProvinceCollection provinceList = Province.LoadCollection(sql, orderBy, true);
-            provinceList.Add(new Province());
-
-            cboProvince.DataSource = provinceList;
-            cboProvince.DisplayMember = "ProvinceName";
-            cboProvince.ValueMember = "ProvinceId";
-
-            cboProvince.SelectedIndex = cboProvince.Items.Count - 1;
+            ModelEx.ProvinceEx.LoadCombo(ref cboProvince, "ProvinceName", false, true, "", String.Format("CountryId = {0}", CountryId.ToString()));
         }
 
         private void FillCityList(System.Guid ProvinceId)
         {
-            /**
-            cboCity.DataSource = null;
-            cboCity.Items.Clear();
-
-            string sql = " ProvinceId = '" + ProvinceId.ToString() + "'";
-            string[] orderBy = new string[] { "CityName" };
-            CityCollection cityList = City.LoadCollection(sql, orderBy, true);
-            cityList.Add(new City());
-
-            cboCity.DataSource = cityList;
-            cboCity.DisplayMember = "CityName";
-            cboCity.ValueMember = "CityId";
-
-            cboCity.SelectedIndex = cboCity.Items.Count - 1;
-            */
-
-            //using (var ctx = new EF6.RT2020Entities())
-            //{
-            //    var cityList = ctx.City.Where(x => x.ProvinceId == ProvinceId).AsNoTracking().ToList();
-            //    cboCity.DataSource = cityList;
-            //    cboCity.DisplayMember = "CityName";
-            //    cboCity.ValueMember = "CityId";
-            //}
             ModelEx.CityEx.LoadCombo(ref cboCity, "CityName", false, true, "", String.Format("ProvinceId = {0}", ProvinceId.ToString()));
         }
         #endregion

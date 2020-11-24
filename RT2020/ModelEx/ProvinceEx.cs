@@ -8,16 +8,29 @@ using RT2020.Helper;
 
 namespace RT2020.ModelEx
 {
-    public class CityEx
+    public class ProvinceEx
     {
-        public static bool IsCityCodeInUse(string code)
+        public static Guid GetProvinceIdByName(string name)
+        {
+            var result = Guid.Empty;
+
+            using (var ctx = new EF6.RT2020Entities())
+            {
+                var p = ctx.Province.Where(x => x.ProvinceName == name).FirstOrDefault();
+                if (p != null) result = p.ProvinceId;
+            }
+
+            return result;
+        }
+
+        public static bool IsProvinceCodeInUse(string code)
         {
             bool result = false;
 
             using (var ctx = new EF6.RT2020Entities())
             {
-                var city = ctx.City.Where(x => x.CityCode == code).FirstOrDefault();
-                if (city != null) result = true;
+                var province = ctx.Province.Where(x => x.ProvinceCode == code).FirstOrDefault();
+                if (province != null) result = true;
             }
 
             return result;
@@ -75,9 +88,9 @@ namespace RT2020.ModelEx
 
             using (var ctx = new RT2020.EF6.RT2020Entities())
             {
-                var list = ctx.City.SqlQuery(
+                var list = ctx.Province.SqlQuery(
                     String.Format(
-                        "Select * from City Where {0} Order By {1}",
+                        "Select * from Province Where {0} Order By {1}",
                         String.IsNullOrEmpty(WhereClause) ? "1 = 1" : WhereClause,
                         orderby
                     ))
@@ -87,23 +100,23 @@ namespace RT2020.ModelEx
                 #region BlankLine? 加個 blank item，置頂
                 if (BlankLine)
                 {
-                    list.Insert(0, new EF6.City()
+                    list.Insert(0, new EF6.Province()
                     {
-                        CityId = Guid.Empty,
-                        CityName = BlankLineText,
-                        CityName_Chs = BlankLineText,
-                        CityName_Cht = BlankLineText,
+                        ProvinceId = Guid.Empty,
+                        ProvinceName = BlankLineText,
+                        ProvinceName_Chs = BlankLineText,
+                        ProvinceName_Cht = BlankLineText,
                     });
                 }
                 #endregion
 
                 ddList.DataSource = list;
-                ddList.ValueMember = "CityId";
-                ddList.DisplayMember = !SwitchLocale ? "CityName" :
+                ddList.ValueMember = "ProvinceId";
+                ddList.DisplayMember = !SwitchLocale ? "ProvinceName" :
                     CookieHelper.CurrentLocaleId == LanguageHelper.AlternateLanguage2.Key ?
-                    "CityName_Cht" : CookieHelper.CurrentLocaleId == LanguageHelper.AlternateLanguage1.Key ?
-                    "CityName_Chs" :
-                    "CityName";
+                    "ProvinceName_Cht" : CookieHelper.CurrentLocaleId == LanguageHelper.AlternateLanguage1.Key ?
+                    "ProvinceName_Chs" :
+                    "ProvinceName";
             }
             if (ddList.Items.Count > 0) ddList.SelectedIndex = 0;
         }

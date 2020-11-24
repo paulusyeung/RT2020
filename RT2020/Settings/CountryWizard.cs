@@ -13,6 +13,8 @@ using Gizmox.WebGUI.Common.Resources;
 using RT2020.DAL;
 using System.Data.SqlClient;
 using System.Configuration;
+using System.Linq;
+using System.Data.Entity;
 
 #endregion
 
@@ -133,26 +135,17 @@ namespace RT2020.Settings
             this.lvCountryList.Items.Clear();
 
             int iCount = 1;
-            StringBuilder sql = new StringBuilder();
-            sql.Append("SELECT CountryId,  ROW_NUMBER() OVER (ORDER BY CountryCode) AS rownum, ");
-            sql.Append(" CountryCode, CountryName, CountryName_Chs, CountryName_Cht ");
-            sql.Append(" FROM Country ");
-            
-            SqlCommand cmd = new SqlCommand();
-            cmd.CommandText = sql.ToString();
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
-            cmd.CommandType= CommandType.Text;
-
-            using (SqlDataReader reader = SqlHelper.Default.ExecuteReader(cmd))
+            using (var ctx = new EF6.RT2020Entities())
             {
-                while (reader.Read())
+                var list = ctx.Country.OrderBy(x => x.CountryName).AsNoTracking().ToList();
+                foreach (var item in list)
                 {
-                    ListViewItem objItem = this.lvCountryList.Items.Add(reader.GetGuid(0).ToString()); // CountryId
-                    objItem.SubItems.Add(iCount.ToString()); // Line Number
-                    objItem.SubItems.Add(reader.GetString(2)); // CountryCode
-                    objItem.SubItems.Add(reader.GetString(3)); // Country Name
-                    objItem.SubItems.Add(reader.GetString(4)); // Country Name Chs
-                    objItem.SubItems.Add(reader.GetString(5)); // Country Name Cht
+                    var oItem = this.lvCountryList.Items.Add(item.CountryId.ToString());
+                    oItem.SubItems.Add(iCount.ToString());
+                    oItem.SubItems.Add(item.CountryCode);
+                    oItem.SubItems.Add(item.CountryName);
+                    oItem.SubItems.Add(item.CountryName_Chs);
+                    oItem.SubItems.Add(item.CountryName_Cht);
 
                     iCount++;
                 }

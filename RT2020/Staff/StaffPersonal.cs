@@ -77,7 +77,7 @@ namespace RT2020.Staff
             cmbProvince.Items.Clear();
 
             string sql = " CountryId = '" + CountryId.ToString() + "'";
-            DAL.Province.LoadCombo(ref cmbProvince, "ProvinceName", false, true, String.Empty, sql);
+            ModelEx.ProvinceEx.LoadCombo(ref cmbProvince, "ProvinceName", false, true, String.Empty, sql);
             cmbProvince.SelectedIndex = 0;
 
             cmbCity.DataSource = null;

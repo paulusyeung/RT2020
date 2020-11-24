@@ -297,19 +297,6 @@ namespace RT2020.Member.Import
             return result;
         }
 
-        private Guid GetProvinceId(string provinceName)
-        {
-            System.Guid result = System.Guid.Empty;
-            string sql = "ProvinceName = '" + provinceName + "'";
-            Province oProvince = Province.LoadWhere(sql);
-            if (oProvince != null)
-            {
-                result = oProvince.ProvinceId;
-            }
-
-            return result;
-        }
-
         private Guid GetCityId(string cityName)
         {
             var result = Guid.Empty;
@@ -574,7 +561,7 @@ namespace RT2020.Member.Import
             oAddress.Address = member.ADDRESS4;
             oAddress.PostalCode = string.Empty;
             oAddress.CountryId = GetCountryId(member.ADDRESS1);
-            oAddress.ProvinceId = GetProvinceId(member.ADDRESS2);
+            oAddress.ProvinceId = ModelEx.ProvinceEx.GetProvinceIdByName(member.ADDRESS2);
             oAddress.CityId = GetCityId(member.ADDRESS3);
             oAddress.District = string.Empty;
             oAddress.Mailing = true;

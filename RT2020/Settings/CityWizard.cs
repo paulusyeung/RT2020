@@ -15,6 +15,7 @@ using System.Data.SqlClient;
 using System.Configuration;
 using System.Linq;
 using RT2020.Helper;
+using System.Data.Entity;
 
 #endregion
 
@@ -39,7 +40,7 @@ namespace RT2020.Settings
 
         private void SetCaptions()
         {
-            colLN.Text = WestwindHelper.GetWord("tools.listview.line", "Tools");
+            colLN.Text = WestwindHelper.GetWord("listview.line", "Tools");
 
             //colParentDept.Text = WestwindHelper.GetWord("department.parent", "Model");
             colCityCode.Text = WestwindHelper.GetWord("city.code", "Model");
@@ -198,14 +199,8 @@ namespace RT2020.Settings
         #region Province Name
         private void FillProvinceName()
         {
-            cboProvince.DataSource = null;
-            cboProvince.Items.Clear();
+            ModelEx.ProvinceEx.LoadCombo(ref cboProvince, "ProvinceName", false, true, "", "");
 
-            string[] orderBy = new string[] { "ProvinceName" };
-            ProvinceCollection oProvinceList = Province.LoadCollection(orderBy, true);
-            cboProvince.DataSource = oProvinceList;
-            cboProvince.DisplayMember = "ProvinceName";
-            cboProvince.ValueMember = "ProvinceId";
         }
         #endregion
 
@@ -216,26 +211,18 @@ namespace RT2020.Settings
             this.lvCityList.Items.Clear();
 
             int iCount = 1;
-            StringBuilder sql = new StringBuilder();
-            sql.Append("SELECT CityId,  ROW_NUMBER() OVER (ORDER BY CityCode) AS rownum, ");
-            sql.Append(" CityCode, CityName, CityName_Chs, CityName_Cht ");
-            sql.Append(" FROM City ");
-            
-            SqlCommand cmd = new SqlCommand();
-            cmd.CommandText = sql.ToString();
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
-            cmd.CommandType= CommandType.Text;
 
-            using (SqlDataReader reader = SqlHelper.Default.ExecuteReader(cmd))
+            using (var ctx = new EF6.RT2020Entities())
             {
-                while (reader.Read())
+                var list = ctx.City.OrderBy(x => x.Province.ProvinceName).ThenBy(x => x.CityName).AsNoTracking().ToList();
+                foreach (var item in list)
                 {
-                    ListViewItem objItem = this.lvCityList.Items.Add(reader.GetGuid(0).ToString()); // CityId
-                    objItem.SubItems.Add(iCount.ToString()); // Line Number
-                    objItem.SubItems.Add(reader.GetString(2)); // CityCode
-                    objItem.SubItems.Add(reader.GetString(3)); // City Name
-                    objItem.SubItems.Add(reader.GetString(4)); // City Name Chs
-                    objItem.SubItems.Add(reader.GetString(5)); // City Name Cht
+                    var oItem = this.lvCityList.Items.Add(item.CityId.ToString());
+                    oItem.SubItems.Add(iCount.ToString());
+                    oItem.SubItems.Add(item.CityCode);
+                    oItem.SubItems.Add(item.CityName);
+                    oItem.SubItems.Add(item.CityName_Chs);
+                    oItem.SubItems.Add(item.CityName_Cht);
 
                     iCount++;
                 }

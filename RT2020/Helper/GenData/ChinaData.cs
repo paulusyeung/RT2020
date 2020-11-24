@@ -31,7 +31,7 @@ namespace RT2020.Helper.GenData
                     try
                     {
                         #region dbo.Country
-                        var country = ctx.Country.Where(x => x.CountryCode == "HK").FirstOrDefault();
+                        var country = ctx.Country.Where(x => x.CountryCode == "CN").FirstOrDefault();
 
                         if (country == null)
                         {

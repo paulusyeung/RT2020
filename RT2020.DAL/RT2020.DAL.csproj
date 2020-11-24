@@ -198,7 +198,6 @@
     <Compile Include="ProductWorkplacePeriodicSummary.cs" />
     <Compile Include="PromotionPaymentFactor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Province.cs" />
     <Compile Include="PurchaseOrderDetails.cs" />
     <Compile Include="PurchaseOrderHeader.cs" />
     <Compile Include="PurchaseOrderHHTDetails.cs" />

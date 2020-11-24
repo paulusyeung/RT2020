@@ -1,4 +1,4 @@
-#region Using
+﻿#region Using
 
 using System;
 using System.Collections.Generic;
@@ -13,6 +13,9 @@ using Gizmox.WebGUI.Common.Resources;
 using RT2020.DAL;
 using System.Data.SqlClient;
 using System.Configuration;
+using RT2020.Helper;
+using System.Linq;
+using System.Data.Entity;
 
 #endregion
 
@@ -20,17 +23,176 @@ namespace RT2020.Settings
 {
     public partial class ProvinceWizard : Form
     {
+        private Guid _Filter_CountryId = Guid.Empty;
+
         public ProvinceWizard()
         {
             InitializeComponent();
-            SetToolBar();
+        }
+
+        private void ProvinceWizard_Load(object sender, EventArgs e)
+        {
+            SetCaptions();
+            SetAttributes();
+            SetListViewAns();
+            SetFormToolBar();
+
             FillCountryName();
             BindProvinceList();
             SetCtrlEditable();
         }
 
+        #region SetCaptions SetAttributes
+
+        private void SetCaptions()
+        {
+            colLN.Text = WestwindHelper.GetWord("listview.line", "Tools");
+
+            colCountry.Text = WestwindHelper.GetWord("country", "Model");
+            colProvinceCode.Text = WestwindHelper.GetWord("province.code", "Model");
+            colProvinceName.Text = WestwindHelper.GetWord("province.name", "Model");
+            colProvinceNameAlt1.Text = WestwindHelper.GetWord(String.Format("language.{0}", LanguageHelper.AlternateLanguage1.Key.ToLower()), "Menu");
+            colProvinceNameAlt2.Text = WestwindHelper.GetWord(String.Format("language.{0}", LanguageHelper.AlternateLanguage2.Key.ToLower()), "Menu");
+
+            lblProvinceCode.Text = WestwindHelper.GetWordWithColon("province.code", "Model");
+            lblProvinceName.Text = WestwindHelper.GetWordWithColon("province.name", "Model");
+            lblProvinceNameAlt1.Text = WestwindHelper.GetWordWithColon(String.Format("language.{0}", LanguageHelper.AlternateLanguage1.Key.ToLower()), "Menu");
+            lblProvinceNameAlt2.Text = WestwindHelper.GetWordWithColon(String.Format("language.{0}", LanguageHelper.AlternateLanguage2.Key.ToLower()), "Menu");
+
+            lblCountry.Text = WestwindHelper.GetWordWithColon("country", "Model");
+        }
+
+        private void SetAttributes()
+        {
+            int toolbarHeight = 18;
+
+            tbrListView.Height = tbWizardAction.Height = toolbarHeight;
+            lvProvinceList.Dock = DockStyle.Fill;
+
+            colLN.TextAlign = HorizontalAlignment.Center;
+            colCountry.TextAlign = HorizontalAlignment.Left;
+            colCountry.ContentAlign = ExtendedHorizontalAlignment.Center;
+            colProvinceCode.TextAlign = HorizontalAlignment.Left;
+            colProvinceCode.ContentAlign = ExtendedHorizontalAlignment.Center;
+            colProvinceName.TextAlign = HorizontalAlignment.Left;
+            colProvinceName.ContentAlign = ExtendedHorizontalAlignment.Center;
+            colProvinceNameAlt1.TextAlign = HorizontalAlignment.Left;
+            colProvinceNameAlt1.ContentAlign = ExtendedHorizontalAlignment.Center;
+            colProvinceNameAlt2.TextAlign = HorizontalAlignment.Left;
+            colProvinceNameAlt2.ContentAlign = ExtendedHorizontalAlignment.Center;
+
+            switch (LanguageHelper.AlternateLanguagesUsed)
+            {
+                case 1:
+                    // hide alt2
+                    lblProvinceNameAlt2.Visible = txtProvinceNameAlt2.Visible = false;
+                    colProvinceNameAlt2.Visible = false;
+                    // push parent dept. up
+                    lblCountry.Location = new Point(lblCountry.Location.X, lblProvinceNameAlt2.Location.Y);
+                    cboCountry.Location = new Point(cboCountry.Location.X, txtProvinceNameAlt2.Location.Y);
+                    break;
+                case 2:
+                    // do nothing
+                    break;
+                case 0:
+                default:
+                    // hide alt1 & alt2
+                    lblProvinceNameAlt1.Visible = lblProvinceNameAlt2.Visible = txtProvinceNameAlt1.Visible = txtProvinceNameAlt2.Visible = false;
+                    colProvinceNameAlt1.Visible = colProvinceNameAlt2.Visible = false;
+                    // push parent dept up
+                    lblCountry.Location = new Point(lblCountry.Location.X, lblProvinceNameAlt1.Location.Y);
+                    cboCountry.Location = new Point(cboCountry.Location.X, txtProvinceNameAlt1.Location.Y);
+                    break;
+            }
+        }
+
+        #endregion
+
         #region ToolBar
-        private void SetToolBar()
+        private void SetListViewAns()
+        {
+            tbrListView.MenuHandle = false;
+            tbrListView.DragHandle = false;
+            tbrListView.TextAlign = ToolBarTextAlign.Right;
+
+            ToolBarButton sep = new ToolBarButton();
+            sep.Style = ToolBarButtonStyle.Separator;
+
+            #region cmdFilter_Country 下拉選單
+
+            ContextMenu ddlFilter_Country = new ContextMenu();
+
+            using (var ctx = new EF6.RT2020Entities())
+            {
+                #region 加第一隻，係 default = All
+                ddlFilter_Country.MenuItems.Add
+                    (
+                        new MenuItem()
+                        {
+                            Checked = true,
+                            Index = 0,
+                            Tag = Guid.Empty,
+                            Text = WestwindHelper.GetWord("glossary.all", "General")
+                        }
+                    );
+                #endregion
+
+                #region 加：有 Province 嘅 Countries
+                var list = ctx.Province.Select(x => x.CountryId).Distinct().ToList();
+                var listEx = ctx.Country.Where(x => list.Contains(x.CountryId)).OrderBy(x => x.CountryName).ToList();
+
+                foreach (var item in listEx)
+                {
+                    ddlFilter_Country.MenuItems.Add(
+                        new MenuItem()
+                        {
+                            Checked = false,
+                            Tag = item.CountryId,
+                            Text = LanguageHelper.CurrentLanguageMode == LanguageHelper.LanguageMode.Alt1 ?
+                                item.CountryName_Chs : LanguageHelper.CurrentLanguageMode == LanguageHelper.LanguageMode.Alt2 ?
+                                item.CountryName_Cht :
+                                item.CountryName
+                        }
+                    );
+                }
+                #endregion
+            }
+
+            ToolBarButton cmdFilter_Country = new ToolBarButton("Filter", WestwindHelper.GetWord("listview.filter", "Tools"));
+            cmdFilter_Country.Style = ToolBarButtonStyle.DropDownButton;
+            cmdFilter_Country.Image = new IconResourceHandle(ThemeHelper.GetIconThemed("16.mdi-filter.png"));
+            cmdFilter_Country.DropDownMenu = ddlFilter_Country;
+
+            cmdFilter_Country.MenuClick += new MenuEventHandler(cmdFilter_Country_MenuClick);
+            #endregion
+
+            tbrListView.Buttons.Add(cmdFilter_Country);
+        }
+
+        private void cmdFilter_Country_MenuClick(object sender, MenuItemEventArgs e)
+        {
+            if (e.MenuItem.Tag != null)
+            {
+                #region reset Check marks
+                var but = (ToolBarButton)sender;
+                foreach (MenuItem item in but.DropDownMenu.MenuItems)
+                {
+                    item.Checked = false;
+                }
+                #endregion
+
+                var countryName = e.MenuItem.Text;
+                var countryId = (Guid)e.MenuItem.Tag;
+
+                e.MenuItem.Checked = true;
+                _Filter_CountryId = countryId;
+
+                // filter the list according to the filter selcted
+                BindProvinceList();
+            }
+        }
+
+        private void SetFormToolBar()
         {
             this.tbWizardAction.MenuHandle = false;
             this.tbWizardAction.DragHandle = false;
@@ -42,21 +204,21 @@ namespace RT2020.Settings
             sep.Style = ToolBarButtonStyle.Separator;
 
             // cmdSave
-            ToolBarButton cmdNew = new ToolBarButton("New", "New");
+            ToolBarButton cmdNew = new ToolBarButton("New", WestwindHelper.GetWord("edit.new", "General"));
             cmdNew.Tag = "New";
             cmdNew.Image = new IconResourceHandle("16x16.ico_16_3.gif");
 
             this.tbWizardAction.Buttons.Add(cmdNew);
 
             // cmdSave
-            ToolBarButton cmdSave = new ToolBarButton("Save", "Save");
+            ToolBarButton cmdSave = new ToolBarButton("Save", WestwindHelper.GetWord("edit.save", "General"));
             cmdSave.Tag = "Save";
             cmdSave.Image = new IconResourceHandle("16x16.16_L_save.gif");
 
             this.tbWizardAction.Buttons.Add(cmdSave);
 
             // cmdSaveNew
-            ToolBarButton cmdRefresh = new ToolBarButton("Refresh", "Refresh");
+            ToolBarButton cmdRefresh = new ToolBarButton("Refresh", WestwindHelper.GetWord("edit.refresh", "General"));
             cmdRefresh.Tag = "refresh";
             cmdRefresh.Image = new IconResourceHandle("16x16.16_L_refresh.gif");
 
@@ -64,7 +226,7 @@ namespace RT2020.Settings
             this.tbWizardAction.Buttons.Add(sep);
 
             // cmdDelete
-            ToolBarButton cmdDelete = new ToolBarButton("Delete", "Delete");
+            ToolBarButton cmdDelete = new ToolBarButton("Delete", WestwindHelper.GetWord("edit.delete", "General"));
             cmdDelete.Tag = "Delete";
             cmdDelete.Image = new IconResourceHandle("16x16.16_L_remove.gif");
 
@@ -93,8 +255,9 @@ namespace RT2020.Settings
                         SetCtrlEditable();
                         break;
                     case "save":
-                        if (Save())
+                        if (IsValid())
                         {
+                            Save();
                             Clear();
                             BindProvinceList();
                             this.Update();
@@ -134,26 +297,25 @@ namespace RT2020.Settings
             this.lvProvinceList.Items.Clear();
 
             int iCount = 1;
-            StringBuilder sql = new StringBuilder();
-            sql.Append("SELECT ProvinceId,  ROW_NUMBER() OVER (ORDER BY ProvinceCode) AS rownum, ");
-            sql.Append(" ProvinceCode, ProvinceName, ProvinceName_Chs, ProvinceName_Cht ");
-            sql.Append(" FROM Province ");
-            
-            SqlCommand cmd = new SqlCommand();
-            cmd.CommandText = sql.ToString();
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
-            cmd.CommandType= CommandType.Text;
-
-            using (SqlDataReader reader = SqlHelper.Default.ExecuteReader(cmd))
+            using (var ctx = new EF6.RT2020Entities())
             {
-                while (reader.Read())
+                List<EF6.Province> list = new List<EF6.Province>();
+                list = _Filter_CountryId == Guid.Empty ?
+                    ctx.Province.OrderBy(x => x.Country.CountryName).ThenBy(x => x.ProvinceName).AsNoTracking().ToList() :
+                    ctx.Province.Where(x => x.CountryId == _Filter_CountryId).OrderBy(x => x.Country.CountryName).ThenBy(x => x.ProvinceName).AsNoTracking().ToList();
+                foreach (var item in list)
                 {
-                    ListViewItem objItem = this.lvProvinceList.Items.Add(reader.GetGuid(0).ToString()); // ProvinceId
-                    objItem.SubItems.Add(iCount.ToString()); // Line Number
-                    objItem.SubItems.Add(reader.GetString(2)); // ProvinceCode
-                    objItem.SubItems.Add(reader.GetString(3)); // Province Name
-                    objItem.SubItems.Add(reader.GetString(4)); // Province Name Chs
-                    objItem.SubItems.Add(reader.GetString(5)); // Province Name Cht
+                    ListViewItem oItem = this.lvProvinceList.Items.Add(item.ProvinceId.ToString());
+                    oItem.SubItems.Add(iCount.ToString());
+                    oItem.SubItems.Add(
+                        LanguageHelper.CurrentLanguageMode == LanguageHelper.LanguageMode.Alt1 ?
+                        item.Country.CountryName_Chs : LanguageHelper.CurrentLanguageMode == LanguageHelper.LanguageMode.Alt2 ?
+                        item.Country.CountryName_Cht :
+                        item.Country.CountryName);
+                    oItem.SubItems.Add(item.ProvinceCode);
+                    oItem.SubItems.Add(item.ProvinceName);
+                    oItem.SubItems.Add(item.ProvinceName_Chs);
+                    oItem.SubItems.Add(item.ProvinceName_Cht);
 
                     iCount++;
                 }
@@ -176,55 +338,58 @@ namespace RT2020.Settings
         #endregion
 
         #region Save
-        private bool CodeExists()
-        {
-            string sql = "ProvinceCode = '" + txtProvinceCode.Text.Trim() + "'";
-            ProvinceCollection provinceList = Province.LoadCollection(sql);
-            if (provinceList.Count > 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
 
-        private bool Save()
+        private bool IsValid()
         {
+            bool result = false;
+
+            #region ProvinceCode 唔可以吉
+            errorProvider.SetError(txtProvinceCode, string.Empty);
             if (txtProvinceCode.Text.Length == 0)
             {
                 errorProvider.SetError(txtProvinceCode, "Cannot be blank!");
                 return false;
             }
-            else
+            #endregion
+
+            #region 新增，要 check ProvinceCode 係咪 in use
+            errorProvider.SetError(txtProvinceCode, string.Empty);
+            if (this.ProvinceId == System.Guid.Empty && ModelEx.ProvinceEx.IsProvinceCodeInUse(txtProvinceCode.Text.Trim()))
             {
-                errorProvider.SetError(txtProvinceCode, string.Empty);
-
-                Province oProvince = Province.Load(this.ProvinceId);
-                if (oProvince == null)
-                {
-                    oProvince = new Province();
-
-                    if (CodeExists())
-                    {
-                        errorProvider.SetError(txtProvinceCode, string.Format(Resources.Common.DuplicatedCode, "Province Code"));
-                        return false;
-                    }
-                    else
-                    {
-                        oProvince.ProvinceCode = txtProvinceCode.Text;
-                        errorProvider.SetError(txtProvinceCode, string.Empty);
-                    }
-                }
-                oProvince.ProvinceName = txtProvinceName.Text;
-                oProvince.ProvinceName_Chs = txtProvinceNameChs.Text;
-                oProvince.ProvinceName_Cht = txtProvinceNameCht.Text;
-                oProvince.CountryId = new Guid(cboCountry.SelectedValue.ToString());
-
-                oProvince.Save();
-                return true;
+                errorProvider.SetError(txtProvinceCode, "Province Code in use");
+                return false;
             }
+            #endregion
+
+            return result;
+        }
+
+        private bool Save()
+        {
+            bool result = false;
+
+            using (var ctx = new EF6.RT2020Entities())
+            {
+                var province = ctx.Province.Find(this.ProvinceId);
+
+                if (province == null)
+                {
+                    province = new EF6.Province();
+                    province.ProvinceId = new Guid();
+
+                    ctx.Province.Add(province);
+                    province.ProvinceCode = txtProvinceCode.Text;
+                }
+                province.ProvinceName = txtProvinceName.Text;
+                province.ProvinceName_Chs = txtProvinceNameAlt1.Text;
+                province.ProvinceName_Cht = txtProvinceNameAlt2.Text;
+                province.ProvinceId = new Guid(cboCountry.SelectedValue.ToString());
+
+                ctx.SaveChanges();
+                result = true;
+            }
+
+            return result;
         }
 
         private void Clear()
@@ -253,16 +418,20 @@ namespace RT2020.Settings
 
         private void Delete()
         {
-            Province oProvince = Province.Load(this.ProvinceId);
-            if (oProvince != null)
+            using (var ctx = new EF6.RT2020Entities())
             {
                 try
                 {
-                    oProvince.Delete();
+                    var province = ctx.Province.Find(this.ProvinceId);
+                    if (province != null)
+                    {
+                        ctx.Province.Remove(province);
+                        ctx.SaveChanges();
+                    }
                 }
                 catch
                 {
-                    MessageBox.Show("Cannot delete the record being used by other record!", "Delete Warning");
+                    MessageBox.Show("Cannot delete the record...Might be in use by other record!", "Delete Warning");
                 }
             }
         }
@@ -273,19 +442,25 @@ namespace RT2020.Settings
             {
                 if (Common.Utility.IsGUID(lvProvinceList.SelectedItem.Text))
                 {
-                    Province oProvince = Province.Load(new System.Guid(lvProvinceList.SelectedItem.Text));
-                    if (oProvince != null)
+                    var id = Guid.NewGuid();
+                    if (Guid.TryParse(lvProvinceList.SelectedItem.Text, out id))
                     {
-                        txtProvinceCode.Text = oProvince.ProvinceCode;
-                        txtProvinceName.Text = oProvince.ProvinceName;
-                        txtProvinceNameChs.Text = oProvince.ProvinceName_Chs;
-                        txtProvinceNameCht.Text = oProvince.ProvinceName_Cht;
-                        cboCountry.SelectedValue = oProvince.CountryId;
+                        this.ProvinceId = id;
+                        using (var ctx = new EF6.RT2020Entities())
+                        {
+                            var province = ctx.Province.Find(this.ProvinceId);
+                            if (province != null)
+                            {
+                                txtProvinceCode.Text = province.ProvinceCode;
+                                txtProvinceName.Text = province.ProvinceName;
+                                txtProvinceNameAlt1.Text = province.ProvinceName_Chs;
+                                txtProvinceNameAlt2.Text = province.ProvinceName_Cht;
+                                cboCountry.SelectedValue = province.CountryId;
 
-                        this.ProvinceId = oProvince.ProvinceId;
-
-                        SetCtrlEditable();
-                        SetToolBar();
+                                SetCtrlEditable();
+                                SetFormToolBar();
+                            }
+                        }
                     }
                 }
             }
