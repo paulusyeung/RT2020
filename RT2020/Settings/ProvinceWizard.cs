@@ -326,14 +326,7 @@ namespace RT2020.Settings
         #region Country Name
         private void FillCountryName()
         {
-            cboCountry.DataSource = null;
-            cboCountry.Items.Clear();
-
-            string[] orderBy = new string[] { "CountryName" };
-            CountryCollection oCountryList = Country.LoadCollection(orderBy, true);
-            cboCountry.DataSource = oCountryList;
-            cboCountry.DisplayMember = "CountryName";
-            cboCountry.ValueMember = "CountryId";
+            ModelEx.CountryEx.LoadCombo(ref cboCountry, "CountryName", true);
         }
         #endregion
 

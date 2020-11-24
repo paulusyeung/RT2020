@@ -444,30 +444,6 @@ namespace RT2020.Member
         }
 
         /// <summary>
-        /// Gets the country id.
-        /// </summary>
-        /// <param name="countryCode">The country code.</param>
-        /// <returns></returns>
-        private Guid GetCountryId(string countryCode)
-        {
-            string query = "CountryCode = '" + countryCode + "'";
-            Country oCountry = Country.LoadWhere(query);
-            if (oCountry == null)
-            {
-                oCountry = new Country();
-                oCountry.CountryId = System.Guid.NewGuid();
-                oCountry.CountryCode = countryCode;
-                oCountry.CountryName = countryCode;
-                oCountry.CountryName_Chs = countryCode;
-                oCountry.CountryName_Cht = countryCode;
-
-                oCountry.Save();
-            }
-
-            return oCountry.CountryId;
-        }
-
-        /// <summary>
         /// Gets the line of operation id.
         /// </summary>
         /// <param name="p">The p.</param>

@@ -1,4 +1,4 @@
-#region Using
+﻿#region Using
 
 using System;
 using System.Collections.Generic;
@@ -94,8 +94,9 @@ namespace RT2020.Settings
                         SetCtrlEditable();
                         break;
                     case "save":
-                        if (Save())
+                        if (IsValid())
                         {
+                            Save();
                             Clear();
                             BindCountryList();
                             this.Update();
@@ -154,62 +155,64 @@ namespace RT2020.Settings
         #endregion
 
         #region Save
-        private bool CodeExists()
-        {
-            string sql = "CountryCode = '" + txtCountryCode.Text.Trim() + "'";
-            CountryCollection countryList = Country.LoadCollection(sql);
-            if (countryList.Count > 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
 
-        private bool Save()
+        private bool IsValid()
         {
+            bool result = false;
+
+            #region CountryCode 唔可以吉
+            errorProvider.SetError(txtCountryCode, string.Empty);
             if (txtCountryCode.Text.Length == 0)
             {
                 errorProvider.SetError(txtCountryCode, "Cannot be blank!");
                 return false;
             }
-            else
+            #endregion
+
+            #region 新增，要 check CountryCode 係咪 in use
+            errorProvider.SetError(txtCountryCode, string.Empty);
+            if (this.CountryId == System.Guid.Empty && ModelEx.ProvinceEx.IsProvinceCodeInUse(txtCountryCode.Text.Trim()))
             {
-                errorProvider.SetError(txtCountryCode, string.Empty);
-
-                Country oCountry = Country.Load(this.CountryId);
-                if (oCountry == null)
-                {
-                    oCountry = new Country();
-
-                    if (CodeExists())
-                    {
-                        errorProvider.SetError(txtCountryCode, string.Format(Resources.Common.DuplicatedCode, "Country Code"));
-                        return false;
-                    }
-                    else
-                    {
-                        oCountry.CountryCode = txtCountryCode.Text;
-                        errorProvider.SetError(txtCountryCode, string.Empty);
-                    }
-                }
-                oCountry.CountryName = txtCountryName.Text;
-                oCountry.CountryName_Chs = txtCountryNameChs.Text;
-                oCountry.CountryName_Cht = txtCountryNameCht.Text;
-
-                oCountry.Save();
-                return true;
+                errorProvider.SetError(txtCountryCode, "Country Code in use");
+                return false;
             }
+            #endregion
+
+            return result;
+        }
+        private bool Save()
+        {
+            bool result = false;
+
+            using (var ctx = new EF6.RT2020Entities())
+            {
+                var country = ctx.Country.Find(this.CountryId);
+
+                if (country == null)
+                {
+                    country = new EF6.Country();
+                    country.CountryId = new Guid();
+
+                    ctx.Country.Add(country);
+                    country.CountryCode = txtCountryCode.Text;
+                }
+                country.CountryName = txtCountryName.Text;
+                country.CountryName_Chs = txtCountryNameAlt1.Text;
+                country.CountryName_Cht = txtCountryNameAlt2.Text;
+
+                ctx.SaveChanges();
+                result = true;
+            }
+
+            return result;
         }
 
         private void Clear()
         {
             txtCountryCode.Text = string.Empty;
             txtCountryName.Text = string.Empty;
-            txtCountryNameChs.Text = string.Empty;
-            txtCountryNameCht.Text = string.Empty;
+            txtCountryNameAlt1.Text = string.Empty;
+            txtCountryNameAlt2.Text = string.Empty;
 
             this.CountryId = System.Guid.Empty;
         }
@@ -232,16 +235,20 @@ namespace RT2020.Settings
 
         private void Delete()
         {
-            Country oCountry = Country.Load(this.CountryId);
-            if (oCountry != null)
+            using (var ctx = new EF6.RT2020Entities())
             {
                 try
                 {
-                    oCountry.Delete();
+                    var country = ctx.Country.Find(this.CountryId);
+                    if (country != null)
+                    {
+                        ctx.Country.Remove(country);
+                        ctx.SaveChanges();
+                    }
                 }
                 catch
                 {
-                    MessageBox.Show("Cannot delete the record being used by other record!", "Delete Warning");
+                    MessageBox.Show("Cannot delete the record...Might be in use by other record!", "Delete Warning");
                 }
             }
         }
@@ -252,18 +259,24 @@ namespace RT2020.Settings
             {
                 if (Common.Utility.IsGUID(lvCountryList.SelectedItem.Text))
                 {
-                    Country oCountry = Country.Load(new System.Guid(lvCountryList.SelectedItem.Text));
-                    if (oCountry != null)
+                    var id = Guid.NewGuid();
+                    if (Guid.TryParse(lvCountryList.SelectedItem.Text, out id))
                     {
-                        txtCountryCode.Text = oCountry.CountryCode;
-                        txtCountryName.Text = oCountry.CountryName;
-                        txtCountryNameChs.Text = oCountry.CountryName_Chs;
-                        txtCountryNameCht.Text = oCountry.CountryName_Cht;
+                        this.CountryId = id;
+                        using (var ctx = new EF6.RT2020Entities())
+                        {
+                            var country = ctx.Country.Find(this.CountryId);
+                            if (country != null)
+                            {
+                                txtCountryCode.Text = country.CountryCode;
+                                txtCountryName.Text = country.CountryName;
+                                txtCountryNameAlt1.Text = country.CountryName_Chs;
+                                txtCountryNameAlt2.Text = country.CountryName_Cht;
 
-                        this.CountryId = oCountry.CountryId;
-
-                        SetCtrlEditable();
-                        SetToolBar();
+                                SetCtrlEditable();
+                                SetToolBar();
+                            }
+                        }
                     }
                 }
             }

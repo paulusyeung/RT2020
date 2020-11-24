@@ -284,19 +284,6 @@ namespace RT2020.Member.Import
             return result;
         }
 
-        private Guid GetCountryId(string countryName)
-        {
-            System.Guid result = System.Guid.Empty;
-            string sql = "CountryName = '" + countryName + "'";
-            Country oCountry = Country.LoadWhere(sql);
-            if (oCountry != null)
-            {
-                result = oCountry.CountryId;
-            }
-
-            return result;
-        }
-
         private Guid GetCityId(string cityName)
         {
             var result = Guid.Empty;
@@ -560,7 +547,7 @@ namespace RT2020.Member.Import
             }
             oAddress.Address = member.ADDRESS4;
             oAddress.PostalCode = string.Empty;
-            oAddress.CountryId = GetCountryId(member.ADDRESS1);
+            oAddress.CountryId = ModelEx.CountryEx.GetCountryIdByName(member.ADDRESS1);
             oAddress.ProvinceId = ModelEx.ProvinceEx.GetProvinceIdByName(member.ADDRESS2);
             oAddress.CityId = GetCityId(member.ADDRESS3);
             oAddress.District = string.Empty;

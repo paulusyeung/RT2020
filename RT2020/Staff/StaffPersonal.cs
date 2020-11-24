@@ -59,11 +59,7 @@ namespace RT2020.Staff
 
         private void FillCountry()
         {
-            cmbCountry.DataSource = null;
-            cmbCountry.Items.Clear();
-
-            DAL.Country.LoadCombo(ref cmbCountry, "CountryName", false, true, String.Empty, String.Empty);
-            cmbCountry.SelectedIndex = 0;
+            ModelEx.CountryEx.LoadCombo(ref cmbCountry, "CountryName", true);
 
             cmbProvince.DataSource = null;
             cmbProvince.Items.Clear();

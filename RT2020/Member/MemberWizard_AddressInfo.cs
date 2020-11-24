@@ -72,18 +72,7 @@ namespace RT2020.Member
 
         private void FillCountryList()
         {
-            cboCountry.DataSource = null;
-            cboCountry.Items.Clear();
-
-            string[] orderBy = new string[] { "CountryName" };
-            CountryCollection countryList = Country.LoadCollection(orderBy, true);
-            countryList.Add(new Country());
-
-            cboCountry.DataSource = countryList;
-            cboCountry.DisplayMember = "CountryName";
-            cboCountry.ValueMember = "CountryId";
-
-            cboCountry.SelectedIndex = cboCountry.Items.Count - 1;
+            ModelEx.CountryEx.LoadCombo(ref cboCountry, "CountryName", true);
         }
 
         private void FillProvinceList(System.Guid CountryId)
