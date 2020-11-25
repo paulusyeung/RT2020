@@ -23,15 +23,22 @@ namespace RT2020.Settings
 {
     public partial class CityWizard : Form
     {
+        private Guid _Filter_CountryId = Guid.Empty;
+        private Guid _Filter_ProvinceId = Guid.Empty;
+
         public CityWizard()
         {
             InitializeComponent();
+        }
 
+        private void CityWizard_Load(object sender, EventArgs e)
+        {
             SetCaptions();
             SetAttributes();
+            SetListViewAns();
 
             SetCtrlEditable();
-            SetToolBar();
+            SetFormToolBar();
             FillProvinceName();
             BindCityList();
         }
@@ -58,6 +65,8 @@ namespace RT2020.Settings
 
         private void SetAttributes()
         {
+            lvCityList.Dock = DockStyle.Fill;
+
             colLN.TextAlign = HorizontalAlignment.Center;
             //colParentDept.TextAlign = HorizontalAlignment.Left;
             //colParentDept.ContentAlign = ExtendedHorizontalAlignment.Center;
@@ -98,7 +107,185 @@ namespace RT2020.Settings
         #endregion
 
         #region ToolBar
-        private void SetToolBar()
+        private void SetListViewAns()
+        {
+            ansListView.MenuHandle = false;
+            ansListView.DragHandle = false;
+            ansListView.TextAlign = ToolBarTextAlign.Right;
+
+            SetListViewAns_CountryFilter();
+            //SetListViewAns_ProvinceFilter();
+        }
+
+        private void SetListViewAns_CountryFilter()
+        {
+            ToolBarButton sep = new ToolBarButton();
+            sep.Style = ToolBarButtonStyle.Separator;
+
+            #region cmdFilter_Country 下拉選單
+
+            ContextMenu ddlFilter_Country = new ContextMenu();
+
+            using (var ctx = new EF6.RT2020Entities())
+            {
+                #region 加第一隻，係 default = All
+                ddlFilter_Country.MenuItems.Add
+                    (
+                        new MenuItem()
+                        {
+                            Checked = true,
+                            Index = 0,
+                            Tag = Guid.Empty,
+                            Text = WestwindHelper.GetWord("glossary.all", "General")
+                        }
+                    );
+                #endregion
+
+                #region 加：有 Province 嘅 Countries
+                var list = ctx.Province.Select(x => x.CountryId).Distinct().ToList();
+                var listEx = ctx.Country.Where(x => list.Contains(x.CountryId)).OrderBy(x => x.CountryName).ToList();
+
+                foreach (var item in listEx)
+                {
+                    ddlFilter_Country.MenuItems.Add(
+                        new MenuItem()
+                        {
+                            Checked = false,
+                            Tag = item.CountryId,
+                            Text = LanguageHelper.CurrentLanguageMode == LanguageHelper.LanguageMode.Alt1 ?
+                                item.CountryName_Chs : LanguageHelper.CurrentLanguageMode == LanguageHelper.LanguageMode.Alt2 ?
+                                item.CountryName_Cht :
+                                item.CountryName
+                        }
+                    );
+                }
+                #endregion
+            }
+
+            ToolBarButton cmdFilter_Country = new ToolBarButton("Country", WestwindHelper.GetWord("country", "Model"));
+            cmdFilter_Country.Style = ToolBarButtonStyle.DropDownButton;
+            cmdFilter_Country.Image = new IconResourceHandle(ThemeHelper.GetIconThemed("16.mdi-filter.png"));
+            cmdFilter_Country.DropDownMenu = ddlFilter_Country;
+
+            cmdFilter_Country.MenuClick += new MenuEventHandler(cmdFilter_Country_MenuClick);
+            #endregion
+
+            ansListView.Buttons.Add(cmdFilter_Country);
+            ansListView.Buttons.Add(sep);
+        }
+
+        private void SetListViewAns_ProvinceFilter()
+        {
+            ResetProvinceFilter();
+
+            ToolBarButton sep = new ToolBarButton();
+            sep.Style = ToolBarButtonStyle.Separator;
+
+            #region cmdFilter_Province 下拉選單
+
+            ContextMenu ddlFilter_Province = new ContextMenu();
+
+            using (var ctx = new EF6.RT2020Entities())
+            {
+                #region 加第一隻，係 default = All
+                ddlFilter_Province.MenuItems.Add
+                    (
+                        new MenuItem()
+                        {
+                            Checked = true,
+                            Index = 0,
+                            Tag = Guid.Empty,
+                            Text = WestwindHelper.GetWord("glossary.all", "General")
+                        }
+                    );
+                #endregion
+
+                #region 加：有 Province 嘅 Countries
+                //var list = ctx.Province.Select(x => x.CountryId).Distinct().ToList();
+                //var listEx = ctx.Country.Where(x => list.Contains(x.CountryId)).OrderBy(x => x.CountryName).ToList();
+                var list = ctx.Province.Where(x => x.CountryId == _Filter_CountryId).OrderBy(x => x.ProvinceName).AsNoTracking().ToList();
+                foreach (var item in list)
+                {
+                    ddlFilter_Province.MenuItems.Add(
+                        new MenuItem()
+                        {
+                            Checked = false,
+                            Tag = item.ProvinceId,
+                            Text = LanguageHelper.CurrentLanguageMode == LanguageHelper.LanguageMode.Alt1 ?
+                                item.ProvinceName_Chs : LanguageHelper.CurrentLanguageMode == LanguageHelper.LanguageMode.Alt2 ?
+                                item.ProvinceName_Cht :
+                                item.ProvinceName
+                        }
+                    );
+                }
+                #endregion
+            }
+
+            ToolBarButton cmdFilter_Province = new ToolBarButton("Province", WestwindHelper.GetWord("province", "Model"));
+            cmdFilter_Province.Style = ToolBarButtonStyle.DropDownButton;
+            cmdFilter_Province.Image = new IconResourceHandle(ThemeHelper.GetIconThemed("16.mdi-filter.png"));
+            cmdFilter_Province.DropDownMenu = ddlFilter_Province;
+
+            cmdFilter_Province.MenuClick += new MenuEventHandler(cmdFilter_Province_MenuClick);
+            #endregion
+
+            ansListView.Buttons.Add(cmdFilter_Province);
+        }
+
+        private void ResetProvinceFilter()
+        {
+            if (ansListView.Buttons.Count > 1)
+                ansListView.Buttons.Remove(ansListView.Buttons[ansListView.Buttons.Count - 1]);
+        }
+
+        private void cmdFilter_Country_MenuClick(object sender, MenuItemEventArgs e)
+        {
+            if (e.MenuItem.Tag != null)
+            {
+                #region reset Check marks
+                var but = (ToolBarButton)sender;
+                foreach (MenuItem item in but.DropDownMenu.MenuItems)
+                {
+                    item.Checked = false;
+                }
+                #endregion
+
+                var countryName = e.MenuItem.Text;
+                var countryId = (Guid)e.MenuItem.Tag;
+
+                e.MenuItem.Checked = true;
+                _Filter_CountryId = countryId;
+
+                // filter the list according to the filter selcted
+                SetListViewAns_ProvinceFilter();
+                BindCityList();
+            }
+        }
+
+        private void cmdFilter_Province_MenuClick(object sender, MenuItemEventArgs e)
+        {
+            if (e.MenuItem.Tag != null)
+            {
+                #region reset Check marks
+                var but = (ToolBarButton)sender;
+                foreach (MenuItem item in but.DropDownMenu.MenuItems)
+                {
+                    item.Checked = false;
+                }
+                #endregion
+
+                var provinceName = e.MenuItem.Text;
+                var provinceId = (Guid)e.MenuItem.Tag;
+
+                e.MenuItem.Checked = true;
+                _Filter_ProvinceId = provinceId;
+
+                // filter the list according to the filter selcted
+                BindCityList();
+            }
+        }
+
+        private void SetFormToolBar()
         {
             this.tbWizardAction.MenuHandle = false;
             this.tbWizardAction.DragHandle = false;
@@ -214,7 +401,30 @@ namespace RT2020.Settings
 
             using (var ctx = new EF6.RT2020Entities())
             {
-                var list = ctx.City.OrderBy(x => x.Province.ProvinceName).ThenBy(x => x.CityName).AsNoTracking().ToList();
+                var list = new List<EF6.City>();
+
+                #region Priority: Province > Country > All
+                if (_Filter_ProvinceId != Guid.Empty)
+                {
+                    list = ctx.City
+                        .Where(x => x.ProvinceId == _Filter_ProvinceId)
+                        .OrderBy(x => x.Province.ProvinceName).ThenBy(x => x.CityName).AsNoTracking().ToList();
+                }
+                else
+                {
+                    if (_Filter_CountryId != Guid.Empty)
+                    {
+                        list = ctx.City
+                            .Where(x => x.Province.CountryId == _Filter_CountryId)
+                            .OrderBy(x => x.Province.ProvinceName).ThenBy(x => x.CityName).AsNoTracking().ToList();
+                    }
+                    else
+                    {
+                        list = ctx.City.OrderBy(x => x.Province.ProvinceName).ThenBy(x => x.CityName).AsNoTracking().ToList();
+                    }
+                }
+                #endregion
+
                 foreach (var item in list)
                 {
                     var oItem = this.lvCityList.Items.Add(item.CityId.ToString());
@@ -351,7 +561,7 @@ namespace RT2020.Settings
                             cboProvince.SelectedValue = city.ProvinceId;
 
                             SetCtrlEditable();
-                            SetToolBar();
+                            SetFormToolBar();
                         }
                     }
                 }

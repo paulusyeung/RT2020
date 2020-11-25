@@ -30,6 +30,7 @@ namespace RT2020.Settings
         {
             this.components = new System.ComponentModel.Container();
             this.splitContainer = new Gizmox.WebGUI.Forms.SplitContainer();
+            this.ansListView = new Gizmox.WebGUI.Forms.ToolBar();
             this.lvCityList = new Gizmox.WebGUI.Forms.ListView();
             this.colCityId = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
             this.colLN = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
@@ -49,6 +50,8 @@ namespace RT2020.Settings
             this.txtCityCode = new Gizmox.WebGUI.Forms.TextBox();
             this.lblCityCode = new Gizmox.WebGUI.Forms.Label();
             this.errorProvider = new Gizmox.WebGUI.Forms.ErrorProvider(this.components);
+            this.panel1 = new Gizmox.WebGUI.Forms.Panel();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer
@@ -62,7 +65,8 @@ namespace RT2020.Settings
             // 
             // splitContainer.Panel1
             // 
-            this.splitContainer.Panel1.Controls.Add(this.lvCityList);
+            this.splitContainer.Panel1.Controls.Add(this.panel1);
+            this.splitContainer.Panel1.Controls.Add(this.ansListView);
             // 
             // splitContainer.Panel2
             // 
@@ -81,6 +85,19 @@ namespace RT2020.Settings
             this.splitContainer.SplitterDistance = 500;
             this.splitContainer.TabIndex = 0;
             // 
+            // ansListView
+            // 
+            this.ansListView.ButtonSize = new System.Drawing.Size(20, 20);
+            this.ansListView.DragHandle = true;
+            this.ansListView.DropDownArrows = true;
+            this.ansListView.ImageSize = new System.Drawing.Size(16, 16);
+            this.ansListView.Location = new System.Drawing.Point(0, 0);
+            this.ansListView.MenuHandle = true;
+            this.ansListView.Name = "ansListView";
+            this.ansListView.ShowToolTips = true;
+            this.ansListView.Size = new System.Drawing.Size(500, 26);
+            this.ansListView.TabIndex = 1;
+            // 
             // lvCityList
             // 
             this.lvCityList.Columns.AddRange(new Gizmox.WebGUI.Forms.ColumnHeader[] {
@@ -91,10 +108,9 @@ namespace RT2020.Settings
             this.colCityNameAlt1,
             this.colCityNameAlt2});
             this.lvCityList.DataMember = null;
-            this.lvCityList.Dock = Gizmox.WebGUI.Forms.DockStyle.Fill;
-            this.lvCityList.Location = new System.Drawing.Point(0, 0);
+            this.lvCityList.Location = new System.Drawing.Point(43, 30);
             this.lvCityList.Name = "lvCityList";
-            this.lvCityList.Size = new System.Drawing.Size(499, 506);
+            this.lvCityList.Size = new System.Drawing.Size(241, 110);
             this.lvCityList.TabIndex = 0;
             this.lvCityList.UseInternalPaging = true;
             this.lvCityList.SelectedIndexChanged += new System.EventHandler(this.lvCityList_SelectedIndexChanged);
@@ -103,7 +119,7 @@ namespace RT2020.Settings
             // 
             this.colCityId.Text = "CityId";
             this.colCityId.Visible = false;
-            this.colCityId.Width = 150;
+            this.colCityId.Width = 80;
             // 
             // colLN
             // 
@@ -225,6 +241,15 @@ namespace RT2020.Settings
             // 
             this.errorProvider.BlinkRate = 3;
             // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.lvCityList);
+            this.panel1.Dock = Gizmox.WebGUI.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(0, 26);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(500, 480);
+            this.panel1.TabIndex = 2;
+            // 
             // CityWizard
             // 
             this.Controls.Add(this.splitContainer);
@@ -233,6 +258,8 @@ namespace RT2020.Settings
             this.Size = new System.Drawing.Size(806, 506);
             this.StartPosition = Gizmox.WebGUI.Forms.FormStartPosition.CenterParent;
             this.Text = "City Wizard";
+            this.Load += new System.EventHandler(this.CityWizard_Load);
+            this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -259,7 +286,7 @@ namespace RT2020.Settings
         private Gizmox.WebGUI.Forms.ErrorProvider errorProvider;
         private Gizmox.WebGUI.Forms.Label lblProvince;
         private Gizmox.WebGUI.Forms.ComboBox cboProvince;
-
-
+        private Gizmox.WebGUI.Forms.ToolBar ansListView;
+        private Gizmox.WebGUI.Forms.Panel panel1;
     }
 }

@@ -238,6 +238,7 @@ namespace RT2020.Settings
             this.Size = new System.Drawing.Size(806, 506);
             this.StartPosition = Gizmox.WebGUI.Forms.FormStartPosition.CenterParent;
             this.Text = "Country Wizard";
+            this.Load += new System.EventHandler(this.CountryWizard_Load);
             this.ResumeLayout(false);
 
         }
