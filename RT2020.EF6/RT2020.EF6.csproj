@@ -90,6 +90,7 @@
     <Compile Include="FepBatchTender.cs">
       <DependentUpon>RT2020Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="Helper\Convertor.cs" />
     <Compile Include="InternetTag.cs">
       <DependentUpon>RT2020Model.tt</DependentUpon>
     </Compile>
