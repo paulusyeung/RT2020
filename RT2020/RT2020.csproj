@@ -1624,6 +1624,7 @@
     <Compile Include="MenuStrip\SettingsAms.cs" />
     <Compile Include="MenuStrip\ToolsAms.cs" />
     <Compile Include="MenuStrip\ViewAms.cs" />
+    <Compile Include="ModelEx\CurrencyEx.cs" />
     <Compile Include="ModelEx\CountryEx.cs" />
     <Compile Include="ModelEx\CityEx.cs" />
     <Compile Include="ModelEx\ProvinceEx.cs" />

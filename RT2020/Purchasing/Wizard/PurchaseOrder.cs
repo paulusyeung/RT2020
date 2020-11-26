@@ -17,6 +17,7 @@ namespace RT2020.Purchasing.Wizard
     using Gizmox.WebGUI.Forms;
 
     using RT2020.DAL;
+    using System.Linq;
 
     /// <summary>
     /// Documentation for the second part of PurchaseOrder.
@@ -330,15 +331,17 @@ namespace RT2020.Purchasing.Wizard
         /// <param name="currencyCode">The currency code.</param>
         private void InitCurrency(string currencyCode)
         {
-            string sql = "CurrencyCode = '" + currencyCode + "'";
-            Currency objCny = Currency.LoadWhere(sql);
-            if (objCny != null)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                this.InitCurrency(objCny.CurrencyId);
-            }
-            else
-            {
-                this.InitCurrency(Common.Utility.IsGUID(this.cboCurrency.SelectedValue.ToString()) ? System.Guid.Empty : new System.Guid(this.cboCurrency.SelectedValue.ToString()));
+                var oCny = ctx.Currency.Where(x => x.CurrencyCode == currencyCode).FirstOrDefault();
+                if (oCny != null)
+                {
+                    this.InitCurrency(oCny.CurrencyId);
+                }
+                else
+                {
+                    this.InitCurrency(Common.Utility.IsGUID(this.cboCurrency.SelectedValue.ToString()) ? System.Guid.Empty : new System.Guid(this.cboCurrency.SelectedValue.ToString()));
+                }
             }
         }
 
@@ -348,11 +351,14 @@ namespace RT2020.Purchasing.Wizard
         /// <param name="selectedCurrency">The selected currency.</param>
         private void InitCurrency(Guid selectedCurrency)
         {
-            Currency objCurrency = Currency.Load(selectedCurrency);
-            if (objCurrency != null)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                this.txtXRate.Text = objCurrency.ExchangeRate.ToString("n6");
-                this.txtCoeffcient.Text = objCurrency.ExchangeRate.ToString("n6");
+                var oCny = ctx.Currency.Find(selectedCurrency);
+                if (oCny != null)
+                {
+                    this.txtXRate.Text = oCny.ExchangeRate.Value.ToString("n6");
+                    this.txtCoeffcient.Text = oCny.ExchangeRate.Value.ToString("n6");
+                }
             }
         }
         #endregion
@@ -613,7 +619,7 @@ namespace RT2020.Purchasing.Wizard
         /// </summary>
         private void FillCurrencyList()
         {
-            RT2020.DAL.Currency.LoadCombo(ref this.cboCurrency, "CurrencyCode", false);
+            ModelEx.CurrencyEx.LoadCombo(ref this.cboCurrency, "CurrencyCode", false);
         }
 
         /// <summary>

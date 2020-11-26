@@ -398,7 +398,7 @@ namespace RT2020.EmulatedPoS
         /// </summary>
         private void FillCurrencyCodeList()
         {
-            RT2020.DAL.Currency.LoadCombo(ref cboCurrencyCode, "CurrencyCode", false);
+            ModelEx.CurrencyEx.LoadCombo(ref cboCurrencyCode, "CurrencyCode", false);
 
             if (cboCurrencyCode.Items.Count > 0)
             {
@@ -468,15 +468,17 @@ namespace RT2020.EmulatedPoS
         /// <param name="currencyCode">The currency code.</param>
         private void InitCurrency(string currencyCode)
         {
-            string sql = "CurrencyCode = '" + currencyCode + "'";
-            Currency oCny = Currency.LoadWhere(sql);
-            if (oCny != null)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                InitCurrency(oCny.CurrencyId);
-            }
-            else
-            {
-                InitCurrency(Common.Utility.IsGUID(cboCurrencyCode.SelectedValue.ToString()) ? System.Guid.Empty : new System.Guid(cboCurrencyCode.SelectedValue.ToString()));
+                var oCny = ctx.Currency.Where(x => x.CurrencyCode == currencyCode).FirstOrDefault();
+                if (oCny != null)
+                {
+                    InitCurrency(oCny.CurrencyId);
+                }
+                else
+                {
+                    InitCurrency(Common.Utility.IsGUID(cboCurrencyCode.SelectedValue.ToString()) ? System.Guid.Empty : new System.Guid(cboCurrencyCode.SelectedValue.ToString()));
+                }
             }
         }
 
@@ -486,10 +488,10 @@ namespace RT2020.EmulatedPoS
         /// <param name="selectedCurrency">The selected currency.</param>
         private void InitCurrency(Guid selectedCurrency)
         {
-            Currency oCny = Currency.Load(selectedCurrency);
-            if (oCny != null)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                txtExchangeRate.Text = oCny.ExchangeRate.ToString("n4");
+                var oCny = ctx.Currency.Find(selectedCurrency);
+                if (oCny != null) txtExchangeRate.Text = oCny.ExchangeRate.Value.ToString("n4");
             }
         }
         #endregion

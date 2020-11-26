@@ -169,13 +169,7 @@ namespace RT2020.Settings
         #region Fill Currency List
         private void FillCurrencyList()
         {
-            cboCurrency.DataSource = null;
-            cboCurrency.Items.Clear();
-
-            CurrencyCollection oCnyList = Currency.LoadCollection();
-            cboCurrency.DataSource = oCnyList;
-            cboCurrency.DisplayMember = "CurrencyCode";
-            cboCurrency.ValueMember = "CurrencyId";
+            ModelEx.CurrencyEx.LoadCombo(ref cboCurrency, "CurrencyCode", false);
         }
         #endregion
 
@@ -357,13 +351,10 @@ namespace RT2020.Settings
 
         private void cboCurrency_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (Common.Utility.IsGUID(cboCurrency.SelectedValue.ToString()))
+            var id = Guid.Empty;
+            if (Guid.TryParse(cboCurrency.SelectedValue.ToString(), out id))
             {
-                Currency oCny = Currency.Load(new Guid(cboCurrency.SelectedValue.ToString()));
-                if (oCny != null)
-                {
-                    txtExchangeRate.Text = oCny.ExchangeRate.ToString("n4");
-                }
+                txtExchangeRate.Text = ModelEx.CurrencyEx.GetExchangeRateById(id).ToString("n4");
             }
         }
     }

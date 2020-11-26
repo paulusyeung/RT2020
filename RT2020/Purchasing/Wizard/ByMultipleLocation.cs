@@ -15,6 +15,7 @@ namespace RT2020.Purchasing.Wizard
     using Gizmox.WebGUI.Forms;
 
     using RT2020.DAL;
+    using System.Linq;
 
     /// <summary>
     /// Documentation for the second part of ByMultipleLocation.
@@ -546,7 +547,7 @@ namespace RT2020.Purchasing.Wizard
         /// </summary>
         private void FillCurrencyList()
         {
-            RT2020.DAL.Currency.LoadCombo(ref this.cboCurrency, "CurrencyCode", false);
+            ModelEx.CurrencyEx.LoadCombo(ref this.cboCurrency, "CurrencyCode", false);
         }
         #endregion
 
@@ -812,17 +813,18 @@ namespace RT2020.Purchasing.Wizard
         private decimal InitCurrency(string currencyCode)
         {
             decimal value = 0;
-            string sql = "CurrencyCode = '" + currencyCode + "'";
-            Currency objCny = Currency.LoadWhere(sql);
-            if (objCny != null)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                value = this.InitCurrency(objCny.CurrencyId);
+                var cny = ctx.Currency.Where(x => x.CurrencyCode == currencyCode).FirstOrDefault();
+                if (cny != null)
+                {
+                    value = this.InitCurrency(cny.CurrencyId);
+                }
+                else
+                {
+                    value = this.InitCurrency(Common.Utility.IsGUID(this.cboCurrency.SelectedValue.ToString()) ? System.Guid.Empty : new System.Guid(this.cboCurrency.SelectedValue.ToString()));
+                }
             }
-            else
-            {
-                value = this.InitCurrency(Common.Utility.IsGUID(this.cboCurrency.SelectedValue.ToString()) ? System.Guid.Empty : new System.Guid(this.cboCurrency.SelectedValue.ToString()));
-            }
-
             return value;
         }
 
@@ -834,10 +836,10 @@ namespace RT2020.Purchasing.Wizard
         private decimal InitCurrency(Guid selectedCurrency)
         {
             decimal value = 0;
-            Currency objCny = Currency.Load(selectedCurrency);
-            if (objCny != null)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                value = objCny.ExchangeRate;
+                var cny = ctx.Currency.Find(selectedCurrency);
+                if (cny != null) value = cny.ExchangeRate.Value;
             }
 
             return value;

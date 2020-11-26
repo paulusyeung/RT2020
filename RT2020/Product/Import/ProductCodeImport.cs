@@ -346,9 +346,10 @@ namespace RT2020.Product.Import
         {
             if (!string.IsNullOrEmpty(row[colVendorCurrency].ToString()))
             {
-                string sql = "CurrencyCode = '" + row[colVendorCurrency].ToString() + "'";
-                Currency oCurr = Currency.LoadWhere(sql);
-                if (oCurr != null)
+                //string sql = "CurrencyCode = '" + row[colVendorCurrency].ToString() + "'";
+                //Currency oCurr = Currency.LoadWhere(sql);
+                //if (oCurr != null)
+                if (ModelEx.CurrencyEx.IsCurrencyCodeInUse(row[colVendorCurrency].ToString()))
                 {
                     // TODO:Set the cell style of DataGridView
                 }

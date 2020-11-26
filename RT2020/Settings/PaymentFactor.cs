@@ -272,14 +272,7 @@ FROM        vwPaymentFactorList";
 
         private void FillCurrencyList()
         {
-            cboCurrency.DataSource = null;
-            cboCurrency.Items.Clear();
-
-            string[] orderBy = new string[] { "CurrencyCode" };
-            CurrencyCollection oCurrencyList = Currency.LoadCollection(orderBy, true);
-            cboCurrency.DataSource = oCurrencyList;
-            cboCurrency.DisplayMember = "CurrencyCode";
-            cboCurrency.ValueMember = "CurrencyId";
+            ModelEx.CurrencyEx.LoadCombo(ref cboCurrency, "CurrencyCode", false);
         }
 
         private void FillEventCodeList()

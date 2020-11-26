@@ -14,6 +14,7 @@ using Gizmox.WebGUI.Common.Interfaces;
 
 using RT2020.DAL;
 using RT2020.Controls;
+using System.Linq;
 
 namespace RT2020.Inventory.GoodsReceive
 {
@@ -200,37 +201,42 @@ namespace RT2020.Inventory.GoodsReceive
         #region Init Currency
         private void InitCurrency(string currencyCode)
         {
-            string sql = "CurrencyCode = '" + currencyCode + "'";
-            Currency oCny = Currency.LoadWhere(sql);
-            if (oCny != null)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                InitCurrency(oCny.CurrencyId);
-            }
-            else
-            {
-                InitCurrency(Common.Utility.IsGUID(cboCurrency.SelectedValue.ToString()) ? System.Guid.Empty : new System.Guid(cboCurrency.SelectedValue.ToString()));
+                var oCny = ctx.Currency.Where(x => x.CurrencyCode == currencyCode).FirstOrDefault();
+                if (oCny != null)
+                {
+                    InitCurrency(oCny.CurrencyId);
+                }
+                else
+                {
+                    InitCurrency(Common.Utility.IsGUID(cboCurrency.SelectedValue.ToString()) ? System.Guid.Empty : new System.Guid(cboCurrency.SelectedValue.ToString()));
+                }
             }
         }
 
         private void InitCurrency(Guid selectedCurrency)
         {
-            Currency oCny = Currency.Load(selectedCurrency);
-            if (oCny != null)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                lblUnitPrice_1.Text = string.Format(Utility.Dictionary.GetWord("unit_amount_with_currency"), oCny.CurrencyCode);
-                lblLastCost_1.Text = string.Format(Utility.Dictionary.GetWord("last_cost_with_currency"), oCny.CurrencyCode);
-                lblAvrCost_1.Text = string.Format(Utility.Dictionary.GetWord("average_cost_with_currency"), oCny.CurrencyCode);
+                var oCny = ctx.Currency.Find(selectedCurrency);
+                if (oCny != null)
+                {
+                    lblUnitPrice_1.Text = string.Format(Utility.Dictionary.GetWord("unit_amount_with_currency"), oCny.CurrencyCode);
+                    lblLastCost_1.Text = string.Format(Utility.Dictionary.GetWord("last_cost_with_currency"), oCny.CurrencyCode);
+                    lblAvrCost_1.Text = string.Format(Utility.Dictionary.GetWord("average_cost_with_currency"), oCny.CurrencyCode);
 
-                colUnitAmount.Text = string.Format(Utility.Dictionary.GetWord("unit_amount_with_currency"), oCny.CurrencyCode);
+                    colUnitAmount.Text = string.Format(Utility.Dictionary.GetWord("unit_amount_with_currency"), oCny.CurrencyCode);
 
-                txtCoefficient.Text = oCny.ExchangeRate.ToString("n4");
+                    txtCoefficient.Text = oCny.ExchangeRate.Value.ToString("n4");
 
-                decimal unitPrice = Convert.ToDecimal(Common.Utility.IsNumeric(txtUnitPrice_1.Text) ? txtUnitPrice_1.Text : "0");
-                txtUnitPrice_2.Text = (unitPrice * oCny.ExchangeRate).ToString("n2");
+                    decimal unitPrice = Convert.ToDecimal(Common.Utility.IsNumeric(txtUnitPrice_1.Text) ? txtUnitPrice_1.Text : "0");
+                    txtUnitPrice_2.Text = (unitPrice * oCny.ExchangeRate.Value).ToString("n2");
 
-                GetSummaryCost(this.ProductId);
+                    GetSummaryCost(this.ProductId);
 
-                ResetCAPDetails(oCny.ExchangeRate);
+                    ResetCAPDetails(oCny.ExchangeRate.Value);
+                }
             }
         }
 
@@ -466,7 +472,7 @@ namespace RT2020.Inventory.GoodsReceive
 
         private void FillCurrencyList()
         {
-            RT2020.DAL.Currency.LoadCombo(ref cboCurrency, "CurrencyCode", false);
+            ModelEx.CurrencyEx.LoadCombo(ref cboCurrency, "CurrencyCode", false);
 
             if (cboCurrency.Items.Count > 0)
             {

@@ -241,6 +241,7 @@ namespace RT2020.Settings
 
             return result;
         }
+
         private bool Save()
         {
             bool result = false;
@@ -318,25 +319,22 @@ namespace RT2020.Settings
         {
             if (lvCountryList.SelectedItem != null)
             {
-                if (Common.Utility.IsGUID(lvCountryList.SelectedItem.Text))
+                var id = Guid.NewGuid();
+                if (Guid.TryParse(lvCountryList.SelectedItem.Text, out id))
                 {
-                    var id = Guid.NewGuid();
-                    if (Guid.TryParse(lvCountryList.SelectedItem.Text, out id))
+                    this.CountryId = id;
+                    using (var ctx = new EF6.RT2020Entities())
                     {
-                        this.CountryId = id;
-                        using (var ctx = new EF6.RT2020Entities())
+                        var country = ctx.Country.Find(this.CountryId);
+                        if (country != null)
                         {
-                            var country = ctx.Country.Find(this.CountryId);
-                            if (country != null)
-                            {
-                                txtCountryCode.Text = country.CountryCode;
-                                txtCountryName.Text = country.CountryName;
-                                txtCountryNameAlt1.Text = country.CountryName_Chs;
-                                txtCountryNameAlt2.Text = country.CountryName_Cht;
+                            txtCountryCode.Text = country.CountryCode;
+                            txtCountryName.Text = country.CountryName;
+                            txtCountryNameAlt1.Text = country.CountryName_Chs;
+                            txtCountryNameAlt2.Text = country.CountryName_Cht;
 
-                                SetCtrlEditable();
-                                SetToolBar();
-                            }
+                            SetCtrlEditable();
+                            SetToolBar();
                         }
                     }
                 }

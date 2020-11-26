@@ -17,6 +17,8 @@ using RT2020.DAL;
 using RT2020.Settings;
 using System.Data.Common;
 using System.Configuration;
+using System.Linq;
+using System.Data.Entity;
 
 
 #endregion
@@ -33,19 +35,18 @@ namespace RT2020.Settings.Reports
         #region FillComboBox
         private void FillComboBox()
         {
-
-            CurrencyCollection collection = RT2020.DAL.Currency.LoadCollection(new string[] { "CurrencyCode" }, true);
-            if (collection.Count > 0)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                foreach (RT2020.DAL.Currency oCurrency in collection)
+                var list = ctx.Currency.OrderBy(x => x.CurrencyCode).AsNoTracking().ToList();
+                foreach (var cny in list)
                 {
-                    System.Web.UI.WebControls.ListItem item = new System.Web.UI.WebControls.ListItem(oCurrency.CurrencyCode, oCurrency.CurrencyId.ToString());
+                    var item = new System.Web.UI.WebControls.ListItem(cny.CurrencyCode, cny.CurrencyId.ToString());
                     cmbFrmCurrencyCode.Items.Add(item);
                     cmbToCurrencyCode.Items.Add(item);
                 }
-                cmbFrmCurrencyCode.SelectedIndex = 0;
 
-                cmbToCurrencyCode.SelectedIndex = collection.Count - 1;
+                cmbFrmCurrencyCode.SelectedIndex = 0;
+                cmbToCurrencyCode.SelectedIndex = list.Count - 1;
             }
         }
 

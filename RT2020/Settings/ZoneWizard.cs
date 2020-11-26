@@ -170,17 +170,7 @@ namespace RT2020.Settings
 
         private void FillCurrencyList()
         {
-            cboCurrency.DataSource = null;
-            cboCurrency.Items.Clear();
-
-            string[] orderBy = new string[] { "CurrencyCode" };
-            CurrencyCollection oCnyList = Currency.LoadCollection(orderBy, true);
-            oCnyList.Add(new Currency());
-            cboCurrency.DataSource = oCnyList;
-            cboCurrency.DisplayMember = "CurrencyCode";
-            cboCurrency.ValueMember = "CurrencyId";
-
-            cboCurrency.SelectedIndex = cboCurrency.Items.Count - 1;
+            ModelEx.CurrencyEx.LoadCombo(ref cboCurrency, "CurrencyCode", false);
         }
 
         private void FillParentLineList()

@@ -57,7 +57,7 @@ namespace RT2020.Supplier
         {
             cboCurrency.Items.Clear();
 
-            Currency.LoadCombo(ref cboCurrency, "CurrencyCode", false, true, String.Empty, String.Empty);
+            ModelEx.CurrencyEx.LoadCombo(ref cboCurrency, "CurrencyCode", false, true, String.Empty, String.Empty);
             cboCurrency.SelectedIndex = 0;
         }
         #endregion
