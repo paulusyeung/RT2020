@@ -414,30 +414,6 @@ namespace RT2020.Member
             }
         }
 
-        /// <summary>
-        /// Gets the line of operation id.
-        /// </summary>
-        /// <param name="p">The p.</param>
-        /// <returns></returns>
-        private Guid GetLineOfOperationId(string looCode)
-        {
-            string query = "LineOfOperationCode = '" + looCode + "'";
-            LineOfOperation oLoo = LineOfOperation.LoadWhere(query);
-            if (oLoo == null)
-            {
-                oLoo = new LineOfOperation();
-                oLoo.LineOfOperationId = System.Guid.NewGuid();
-                oLoo.LineOfOperationCode = looCode;
-                oLoo.LineOfOperationName = looCode;
-                oLoo.LineOfOperationName_Chs = looCode;
-                oLoo.LineOfOperationName_Cht = looCode;
-
-                oLoo.Save();
-            }
-
-            return oLoo.LineOfOperationId;
-        }
-
         #endregion
 
         /// <summary>
@@ -619,7 +595,7 @@ namespace RT2020.Member
                 oVipLoo = new MemberVipLineOfOperation();
                 oVipLoo.VipLooId = System.Guid.NewGuid();
                 oVipLoo.MemberVipId = memberVipId;
-                oVipLoo.LineOfOperationId = GetLineOfOperationId(objTempVip.LOOID);
+                oVipLoo.LineOfOperationId = ModelEx.LineOfOperationEx.GetLineOfOperationIdByName(objTempVip.LOOID);
             }
             oVipLoo.NormalDiscount = (decimal)objTempVip.NRDISC;
             oVipLoo.PromotionDiscount = (decimal)objTempVip.PRO_DISC;

@@ -190,7 +190,7 @@ namespace RT2020.Member
         {
             cboLineOfOperation.Items.Clear();
 
-            LineOfOperation.LoadCombo(ref cboLineOfOperation, "LineOfOperationName", false);
+            ModelEx.LineOfOperationEx.LoadCombo(ref cboLineOfOperation, "LineOfOperationName", false);
             cboLineOfOperation.SelectedIndex = 0;
         }
         #endregion

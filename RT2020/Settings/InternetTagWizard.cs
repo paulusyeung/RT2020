@@ -14,6 +14,8 @@ using RT2020.DAL;
 using System.Data.SqlClient;
 using System.Configuration;
 using RT2020.Helper;
+using System.Linq;
+using System.Data.Entity;
 
 #endregion
 
@@ -195,26 +197,18 @@ namespace RT2020.Settings
             this.lvInternetTagList.Items.Clear();
 
             int iCount = 1;
-            StringBuilder sql = new StringBuilder();
-            sql.Append("SELECT TagId,  ROW_NUMBER() OVER (ORDER BY TagCode) AS rownum, ");
-            sql.Append(" TagCode, TagName, TagName_Chs, TagName_Cht ");
-            sql.Append(" FROM InternetTag ");
-            
-            SqlCommand cmd = new SqlCommand();
-            cmd.CommandText = sql.ToString();
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
-            cmd.CommandType= CommandType.Text;
 
-            using (SqlDataReader reader = SqlHelper.Default.ExecuteReader(cmd))
+            using (var ctx = new EF6.RT2020Entities())
             {
-                while (reader.Read())
+                var list = ctx.InternetTag.OrderBy(x => x.TagCode).AsNoTracking().ToList();
+                foreach (var item in list)
                 {
-                    ListViewItem objItem = this.lvInternetTagList.Items.Add(reader.GetGuid(0).ToString()); // TagId
+                    var objItem = this.lvInternetTagList.Items.Add(item.TagId.ToString());
                     objItem.SubItems.Add(iCount.ToString()); // Line Number
-                    objItem.SubItems.Add(reader.GetString(2)); // TagCode
-                    objItem.SubItems.Add(reader.GetString(3)); // InternetTag Name
-                    objItem.SubItems.Add(reader.GetString(4)); // InternetTag Name Chs
-                    objItem.SubItems.Add(reader.GetString(5)); // InternetTag Name Cht
+                    objItem.SubItems.Add(item.TagCode);
+                    objItem.SubItems.Add(item.TagName);
+                    objItem.SubItems.Add(item.TagName_Chs);
+                    objItem.SubItems.Add(item.TagName_Cht);
 
                     iCount++;
                 }

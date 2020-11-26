@@ -14,6 +14,8 @@ using RT2020.DAL;
 using System.Data.SqlClient;
 using System.Configuration;
 using RT2020.Helper;
+using System.Linq;
+using System.Data.Entity;
 
 #endregion
 
@@ -205,26 +207,18 @@ namespace RT2020.Settings
             this.lvMarketSectorList.Items.Clear();
 
             int iCount = 1;
-            StringBuilder sql = new StringBuilder();
-            sql.Append("SELECT MarketSectorId,  ROW_NUMBER() OVER (ORDER BY MarketSectorCode) AS rownum, ");
-            sql.Append(" MarketSectorCode, MarketSectorName, MarketSectorName_Chs, MarketSectorName_Cht ");
-            sql.Append(" FROM MarketSector ");
-            
-            SqlCommand cmd = new SqlCommand();
-            cmd.CommandText = sql.ToString();
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
-            cmd.CommandType= CommandType.Text;
 
-            using (SqlDataReader reader = SqlHelper.Default.ExecuteReader(cmd))
+            using (var ctx = new EF6.RT2020Entities())
             {
-                while (reader.Read())
+                var list = ctx.MarketSector.OrderBy(x => x.MarketSectorCode).AsNoTracking().ToList();
+                foreach (var item in list)
                 {
-                    ListViewItem objItem = this.lvMarketSectorList.Items.Add(reader.GetGuid(0).ToString()); // MarketSectorId
+                    var objItem = this.lvMarketSectorList.Items.Add(item.MarketSectorId.ToString());
                     objItem.SubItems.Add(iCount.ToString()); // Line Number
-                    objItem.SubItems.Add(reader.GetString(2)); // MarketSectorCode
-                    objItem.SubItems.Add(reader.GetString(3)); // MarketSector Name
-                    objItem.SubItems.Add(reader.GetString(4)); // MarketSector Name Chs
-                    objItem.SubItems.Add(reader.GetString(5)); // MarketSector Name Cht
+                    objItem.SubItems.Add(item.MarketSectorCode);
+                    objItem.SubItems.Add(item.MarketSectorName);
+                    objItem.SubItems.Add(item.MarketSectorName_Chs);
+                    objItem.SubItems.Add(item.MarketSectorName_Cht);
 
                     iCount++;
                 }

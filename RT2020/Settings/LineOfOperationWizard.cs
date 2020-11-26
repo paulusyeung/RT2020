@@ -1,4 +1,4 @@
-#region Using
+﻿#region Using
 
 using System;
 using System.Collections.Generic;
@@ -13,6 +13,9 @@ using Gizmox.WebGUI.Common.Resources;
 using RT2020.DAL;
 using System.Data.SqlClient;
 using System.Configuration;
+using RT2020.Helper;
+using System.Linq;
+using System.Data.Entity;
 
 #endregion
 
@@ -23,11 +26,74 @@ namespace RT2020.Settings
         public LineOfOperationWizard()
         {
             InitializeComponent();
+        }
+
+        private void LineOfOperationWizard_Load(object sender, EventArgs e)
+        {
+            SetCaptions();
+            SetAttributes();
+
             SetToolBar();
             FillComboList();
             BindLineOfOperationList();
             SetCtrlEditable();
         }
+
+        #region SetCaptions SetAttributes
+
+        private void SetCaptions()
+        {
+            this.Text = WestwindHelper.GetWord("lineOfOperation", "Model");
+
+            colLN.Text = WestwindHelper.GetWord("listview.line", "Tools");
+
+            colLineOfOperationCode.Text = WestwindHelper.GetWord("lineOfOperation.code", "Model");
+            colLineOfOperationName.Text = WestwindHelper.GetWord("lineOfOperation.name", "Model");
+            colLineOfOperationNameAlt1.Text = WestwindHelper.GetWord(String.Format("language.{0}", LanguageHelper.AlternateLanguage1.Key.ToLower()), "Menu");
+            colLineOfOperationNameAlt2.Text = WestwindHelper.GetWord(String.Format("language.{0}", LanguageHelper.AlternateLanguage2.Key.ToLower()), "Menu");
+
+            lblLineOfOperationCode.Text = WestwindHelper.GetWordWithColon("lineOfOperation.code", "Model");
+            lblLineOfOperationName.Text = WestwindHelper.GetWordWithColon("lineOfOperation.name", "Model");
+            lblLineOfOperationNameAlt1.Text = WestwindHelper.GetWordWithColon(String.Format("language.{0}", LanguageHelper.AlternateLanguage1.Key.ToLower()), "Menu");
+            lblLineOfOperationNameAlt2.Text = WestwindHelper.GetWordWithColon(String.Format("language.{0}", LanguageHelper.AlternateLanguage2.Key.ToLower()), "Menu");
+
+            lblCurrency.Text = WestwindHelper.GetWord("currency", "Model");
+            lblPrimaryLine.Text = WestwindHelper.GetWord("lineOfOperation.primary", "Model");
+            lblParentLine.Text = WestwindHelper.GetWord("lineOfOperation.parent", "Model");
+        }
+
+        private void SetAttributes()
+        {
+            colLN.TextAlign = HorizontalAlignment.Center;
+            colLineOfOperationCode.TextAlign = HorizontalAlignment.Left;
+            colLineOfOperationCode.ContentAlign = ExtendedHorizontalAlignment.Center;
+            colLineOfOperationName.TextAlign = HorizontalAlignment.Left;
+            colLineOfOperationName.ContentAlign = ExtendedHorizontalAlignment.Center;
+            colLineOfOperationNameAlt1.TextAlign = HorizontalAlignment.Left;
+            colLineOfOperationNameAlt1.ContentAlign = ExtendedHorizontalAlignment.Center;
+            colLineOfOperationNameAlt2.TextAlign = HorizontalAlignment.Left;
+            colLineOfOperationNameAlt2.ContentAlign = ExtendedHorizontalAlignment.Center;
+
+            switch (LanguageHelper.AlternateLanguagesUsed)
+            {
+                case 1:
+                    // hide alt2
+                    lblLineOfOperationNameAlt2.Visible = txtLineOfOperationNameAlt2.Visible = false;
+                    colLineOfOperationNameAlt2.Visible = false;
+                    break;
+                case 2:
+                    // do nothing
+                    break;
+                case 0:
+                default:
+                    // hide alt1 & alt2
+                    lblLineOfOperationNameAlt1.Visible = lblLineOfOperationNameAlt2.Visible = txtLineOfOperationNameAlt1.Visible = txtLineOfOperationNameAlt2.Visible = false;
+                    colLineOfOperationNameAlt1.Visible = colLineOfOperationNameAlt2.Visible = false;
+                    break;
+            }
+        }
+
+        #endregion
 
         #region ToolBar
         private void SetToolBar()
@@ -42,21 +108,21 @@ namespace RT2020.Settings
             sep.Style = ToolBarButtonStyle.Separator;
 
             // cmdSave
-            ToolBarButton cmdNew = new ToolBarButton("New", "New");
+            ToolBarButton cmdNew = new ToolBarButton("New", WestwindHelper.GetWord("edit.new", "General"));
             cmdNew.Tag = "New";
             cmdNew.Image = new IconResourceHandle("16x16.ico_16_3.gif");
 
             this.tbWizardAction.Buttons.Add(cmdNew);
 
             // cmdSave
-            ToolBarButton cmdSave = new ToolBarButton("Save", "Save");
+            ToolBarButton cmdSave = new ToolBarButton("Save", WestwindHelper.GetWord("edit.save", "General"));
             cmdSave.Tag = "Save";
             cmdSave.Image = new IconResourceHandle("16x16.16_L_save.gif");
 
             this.tbWizardAction.Buttons.Add(cmdSave);
 
             // cmdSaveNew
-            ToolBarButton cmdRefresh = new ToolBarButton("Refresh", "Refresh");
+            ToolBarButton cmdRefresh = new ToolBarButton("Refresh", WestwindHelper.GetWord("edit.refresh", "General"));
             cmdRefresh.Tag = "refresh";
             cmdRefresh.Image = new IconResourceHandle("16x16.16_L_refresh.gif");
 
@@ -64,7 +130,7 @@ namespace RT2020.Settings
             this.tbWizardAction.Buttons.Add(sep);
 
             // cmdDelete
-            ToolBarButton cmdDelete = new ToolBarButton("Delete", "Delete");
+            ToolBarButton cmdDelete = new ToolBarButton("Delete", WestwindHelper.GetWord("edit.delete", "General"));
             cmdDelete.Tag = "Delete";
             cmdDelete.Image = new IconResourceHandle("16x16.16_L_remove.gif");
 
@@ -93,8 +159,9 @@ namespace RT2020.Settings
                         SetCtrlEditable();
                         break;
                     case "save":
-                        if (Save())
+                        if (IsValid())
                         {
+                            Save();
                             Clear();
                             BindLineOfOperationList();
                             this.Update();
@@ -134,26 +201,18 @@ namespace RT2020.Settings
             this.lvLineOfOperationList.Items.Clear();
 
             int iCount = 1;
-            StringBuilder sql = new StringBuilder();
-            sql.Append("SELECT LineOfOperationId,  ROW_NUMBER() OVER (ORDER BY LineOfOperationCode) AS rownum, ");
-            sql.Append(" LineOfOperationCode, LineOfOperationName, LineOfOperationName_Chs, LineOfOperationName_Cht ");
-            sql.Append(" FROM LineOfOperation ");
-            
-            SqlCommand cmd = new SqlCommand();
-            cmd.CommandText = sql.ToString();
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
-            cmd.CommandType= CommandType.Text;
 
-            using (SqlDataReader reader = SqlHelper.Default.ExecuteReader(cmd))
+            using (var ctx = new EF6.RT2020Entities())
             {
-                while (reader.Read())
+                var list = ctx.LineOfOperation.OrderBy(x => x.LineOfOperationCode).AsNoTracking().ToList();
+                foreach (var item in list)
                 {
-                    ListViewItem objItem = this.lvLineOfOperationList.Items.Add(reader.GetGuid(0).ToString()); // LineOfOperationId
+                    var objItem = this.lvLineOfOperationList.Items.Add(item.LineOfOperationId.ToString());
                     objItem.SubItems.Add(iCount.ToString()); // Line Number
-                    objItem.SubItems.Add(reader.GetString(2)); // LineOfOperationCode
-                    objItem.SubItems.Add(reader.GetString(3)); // LineOfOperation Name
-                    objItem.SubItems.Add(reader.GetString(4)); // LineOfOperation Name Chs
-                    objItem.SubItems.Add(reader.GetString(5)); // LineOfOperation Name Cht
+                    objItem.SubItems.Add(item.LineOfOperationCode);
+                    objItem.SubItems.Add(item.LineOfOperationName);
+                    objItem.SubItems.Add(item.LineOfOperationName_Chs);
+                    objItem.SubItems.Add(item.LineOfOperationName_Cht);
 
                     iCount++;
                 }
@@ -175,73 +234,67 @@ namespace RT2020.Settings
 
         private void FillParentLineList()
         {
-            cboParentLine.DataSource = null;
-            cboParentLine.Items.Clear();
-
             string sql = "LineOfOperationId NOT IN ('" + this.LineOfOperationId.ToString() + "')";
             string[] orderBy = new string[] { "LineOfOperationCode" };
-            LineOfOperationCollection oLOOList = LineOfOperation.LoadCollection(sql, orderBy, true);
-            oLOOList.Add(new LineOfOperation(System.Guid.Empty, System.Guid.Empty, string.Empty, string.Empty, string.Empty, string.Empty, string.Empty, false));
-            cboParentLine.DataSource = oLOOList;
-            cboParentLine.DisplayMember = "LineOfOperationCode";
-            cboParentLine.ValueMember = "LineOfOperationId";
-
-            cboParentLine.SelectedIndex = cboParentLine.Items.Count - 1;
+            ModelEx.LineOfOperationEx.LoadCombo(ref cboParentLine, "LineOfOperationCode", true, true, "", sql, orderBy);
         }
         #endregion
 
         #region Save
-        private bool CodeExists()
+
+        private bool IsValid()
         {
-            string sql = "LineOfOperationCode = '" + txtLineOfOperationCode.Text.Trim() + "'";
-            LineOfOperationCollection locList = LineOfOperation.LoadCollection(sql);
-            if (locList.Count > 0)
-            {
-                return true;
-            }
-            else
-            {
+            bool result = false;
+
+            #region Group Code 唔可以吉
+            errorProvider.SetError(txtLineOfOperationCode, string.Empty);
+            if (txtLineOfOperationCode.Text.Length == 0)
+            { 
+                errorProvider.SetError(txtLineOfOperationCode, "Cannot be blank!");
                 return false;
             }
+            #endregion
+
+            #region 新增，要 check Group Code 係咪 in use
+            errorProvider.SetError(txtLineOfOperationCode, string.Empty);
+            if (this.LineOfOperationId == Guid.Empty && ModelEx.LineOfOperationEx.IsLineOfOperationCodeInUse(txtLineOfOperationCode.Text.Trim()))
+            {
+                errorProvider.SetError(txtLineOfOperationCode, "Group Code in use");
+                return false;
+            }
+            #endregion
+
+            return result;
         }
 
         private bool Save()
         {
-            if (txtLineOfOperationCode.Text.Length == 0)
-            {
-                errorProvider.SetError(txtLineOfOperationCode, "Cannot be blank!");
-                return false;
-            }
-            else
-            {
-                errorProvider.SetError(txtLineOfOperationCode, string.Empty);
+            bool result = false;
 
-                LineOfOperation oLineOfOperation = LineOfOperation.Load(this.LineOfOperationId);
-                if (oLineOfOperation == null)
+            using (var ctx = new EF6.RT2020Entities())
+            {
+                var m = ctx.LineOfOperation.Find(this.LineOfOperationId);
+
+                if (m == null)
                 {
-                    oLineOfOperation = new LineOfOperation();
+                    m = new EF6.LineOfOperation();
+                    m.LineOfOperationId = new Guid();
 
-                    if (CodeExists())
-                    {
-                        errorProvider.SetError(txtLineOfOperationCode, string.Format(Resources.Common.DuplicatedCode, "Line of Operation Code"));
-                        return false;
-                    }
-                    else
-                    {
-                        oLineOfOperation.LineOfOperationCode = txtLineOfOperationCode.Text;
-                        errorProvider.SetError(txtLineOfOperationCode, string.Empty);
-                    }
+                    ctx.LineOfOperation.Add(m);
+                    m.LineOfOperationCode = txtLineOfOperationCode.Text;
                 }
-                oLineOfOperation.LineOfOperationName = txtLineOfOperationName.Text;
-                oLineOfOperation.LineOfOperationName_Chs = txtLineOfOperationNameChs.Text;
-                oLineOfOperation.LineOfOperationName_Cht = txtLineOfOperationNameCht.Text;
-                oLineOfOperation.CurrencyCode = cboCurrency.Text;
-                oLineOfOperation.PrimaryLine = chkPrimaryLine.Checked;
-                oLineOfOperation.ParentLine = (cboParentLine.SelectedValue == null) ? System.Guid.Empty : new System.Guid(cboParentLine.SelectedValue.ToString());
+                m.LineOfOperationName = txtLineOfOperationName.Text;
+                m.LineOfOperationName_Chs = txtLineOfOperationNameAlt1.Text;
+                m.LineOfOperationName_Cht = txtLineOfOperationNameAlt2.Text;
+                m.CurrencyCode = cboCurrency.Text;
+                m.PrimaryLine = chkPrimaryLine.Checked;
+                m.ParentLine = (cboParentLine.SelectedValue == null) ? Guid.Empty : new Guid(cboParentLine.SelectedValue.ToString());
 
-                oLineOfOperation.Save();
-                return true;
+                ctx.SaveChanges();
+                result = true;
             }
+
+            return result;
         }
 
         private void Clear()
@@ -270,16 +323,20 @@ namespace RT2020.Settings
 
         private void Delete()
         {
-            LineOfOperation oLineOfOperation = LineOfOperation.Load(this.LineOfOperationId);
-            if (oLineOfOperation != null)
+            using (var ctx = new EF6.RT2020Entities())
             {
                 try
                 {
-                    oLineOfOperation.Delete();
+                    var m = ctx.LineOfOperation.Find(this.LineOfOperationId);
+                    if (m != null)
+                    {
+                        ctx.LineOfOperation.Remove(m);
+                        ctx.SaveChanges();
+                    }
                 }
                 catch
                 {
-                    MessageBox.Show("Cannot delete the record being used by other record!", "Delete Warning");
+                    MessageBox.Show("Cannot delete the record...Might be in use by other record!", "Delete Warning");
                 }
             }
         }
@@ -288,25 +345,28 @@ namespace RT2020.Settings
         {
             if (lvLineOfOperationList.SelectedItem != null)
             {
-                if (Common.Utility.IsGUID(lvLineOfOperationList.SelectedItem.Text))
+                var id = Guid.NewGuid();
+                if (Guid.TryParse(lvLineOfOperationList.SelectedItem.Text, out id))
                 {
-                    LineOfOperation oLineOfOperation = LineOfOperation.Load(new System.Guid(lvLineOfOperationList.SelectedItem.Text));
-                    if (oLineOfOperation != null)
+                    this.LineOfOperationId = id;
+                    using (var ctx = new EF6.RT2020Entities())
                     {
-                        this.LineOfOperationId = oLineOfOperation.LineOfOperationId;
+                        var m = ctx.LineOfOperation.Find(this.LineOfOperationId);
+                        if (m != null)
+                        {
+                            FillComboList();
 
-                        FillComboList();
+                            txtLineOfOperationCode.Text = m.LineOfOperationCode;
+                            txtLineOfOperationName.Text = m.LineOfOperationName;
+                            txtLineOfOperationNameAlt1.Text = m.LineOfOperationName_Chs;
+                            txtLineOfOperationNameAlt2.Text = m.LineOfOperationName_Cht;
+                            cboCurrency.Text = m.CurrencyCode;
+                            chkPrimaryLine.Checked = m.PrimaryLine;
+                            cboParentLine.SelectedValue = m.ParentLine;
 
-                        txtLineOfOperationCode.Text = oLineOfOperation.LineOfOperationCode;
-                        txtLineOfOperationName.Text = oLineOfOperation.LineOfOperationName;
-                        txtLineOfOperationNameChs.Text = oLineOfOperation.LineOfOperationName_Chs;
-                        txtLineOfOperationNameCht.Text = oLineOfOperation.LineOfOperationName_Cht;
-                        cboCurrency.Text = oLineOfOperation.CurrencyCode;
-                        chkPrimaryLine.Checked = oLineOfOperation.PrimaryLine;
-                        cboParentLine.SelectedValue = oLineOfOperation.ParentLine;
-
-                        SetCtrlEditable();
-                        SetToolBar();
+                            SetCtrlEditable();
+                            SetToolBar();
+                        }
                     }
                 }
             }

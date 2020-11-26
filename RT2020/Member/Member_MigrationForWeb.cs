@@ -224,13 +224,8 @@ namespace RT2020.Member
         /// </summary>
         private void FillLineOfOperationList()
         {
-            cboLineOfOperation.Items.Clear();
-
             string[] orderBy = new string[] { "LineOfOperationName" };
-            LineOfOperationCollection oLOOList = LineOfOperation.LoadCollection(orderBy, true);
-            cboLineOfOperation.DataSource = oLOOList;
-            cboLineOfOperation.DisplayMember = "LineOfOperationName";
-            cboLineOfOperation.ValueMember = "LineOfOperationId";
+            ModelEx.LineOfOperationEx.LoadCombo(ref cboLineOfOperation, "LineOfOperationName", true, false, "", "", orderBy);
         }
 
         #endregion

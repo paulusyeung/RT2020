@@ -14,6 +14,8 @@ using RT2020.DAL;
 using System.Data.SqlClient;
 using System.Configuration;
 using System.Linq;
+using RT2020.Helper;
+using System.Data.Entity;
 
 #endregion
 
@@ -43,21 +45,21 @@ namespace RT2020.Settings
             sep.Style = ToolBarButtonStyle.Separator;
 
             // cmdSave
-            ToolBarButton cmdNew = new ToolBarButton("New", "New");
+            ToolBarButton cmdNew = new ToolBarButton("New", WestwindHelper.GetWord("edit.new", "General"));
             cmdNew.Tag = "New";
             cmdNew.Image = new IconResourceHandle("16x16.ico_16_3.gif");
 
             this.tbWizardAction.Buttons.Add(cmdNew);
 
             // cmdSave
-            ToolBarButton cmdSave = new ToolBarButton("Save", "Save");
+            ToolBarButton cmdSave = new ToolBarButton("Save", WestwindHelper.GetWord("edit.save", "General"));
             cmdSave.Tag = "Save";
             cmdSave.Image = new IconResourceHandle("16x16.16_L_save.gif");
 
             this.tbWizardAction.Buttons.Add(cmdSave);
 
             // cmdSaveNew
-            ToolBarButton cmdRefresh = new ToolBarButton("Refresh", "Refresh");
+            ToolBarButton cmdRefresh = new ToolBarButton("Refresh", WestwindHelper.GetWord("edit.refresh", "General"));
             cmdRefresh.Tag = "refresh";
             cmdRefresh.Image = new IconResourceHandle("16x16.16_L_refresh.gif");
 
@@ -65,7 +67,7 @@ namespace RT2020.Settings
             this.tbWizardAction.Buttons.Add(sep);
 
             // cmdDelete
-            ToolBarButton cmdDelete = new ToolBarButton("Delete", "Delete");
+            ToolBarButton cmdDelete = new ToolBarButton("Delete", WestwindHelper.GetWord("edit.delete", "General"));
             cmdDelete.Tag = "Delete";
             cmdDelete.Image = new IconResourceHandle("16x16.16_L_remove.gif");
 
@@ -144,26 +146,18 @@ namespace RT2020.Settings
             this.lvJobTitleList.Items.Clear();
 
             int iCount = 1;
-            StringBuilder sql = new StringBuilder();
-            sql.Append("SELECT JobTitleId,  ROW_NUMBER() OVER (ORDER BY JobTitleCode) AS rownum, ");
-            sql.Append(" JobTitleCode, JobTitleName, JobTitleName_Chs, JobTitleName_Cht ");
-            sql.Append(" FROM JobTitle ");
-            
-            SqlCommand cmd = new SqlCommand();
-            cmd.CommandText = sql.ToString();
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
-            cmd.CommandType= CommandType.Text;
 
-            using (SqlDataReader reader = SqlHelper.Default.ExecuteReader(cmd))
+            using (var ctx = new EF6.RT2020Entities())
             {
-                while (reader.Read())
+                var list = ctx.JobTitle.OrderBy(x => x.JobTitleCode).AsNoTracking().ToList();
+                foreach (var item in list)
                 {
-                    ListViewItem objItem = this.lvJobTitleList.Items.Add(reader.GetGuid(0).ToString()); // JobTitleId
-                    objItem.SubItems.Add(iCount.ToString()); // Line Number
-                    objItem.SubItems.Add(reader.GetString(2)); // JobTitleCode
-                    objItem.SubItems.Add(reader.GetString(3)); // JobTitle Name
-                    objItem.SubItems.Add(reader.GetString(4)); // JobTitle Name Chs
-                    objItem.SubItems.Add(reader.GetString(5)); // JobTitle Name Cht
+                    var objItem = this.lvJobTitleList.Items.Add(item.JobTitleId.ToString());
+                    objItem.SubItems.Add(iCount.ToString());
+                    objItem.SubItems.Add(item.JobTitleCode);
+                    objItem.SubItems.Add(item.JobTitleName);
+                    objItem.SubItems.Add(item.JobTitleName_Chs);
+                    objItem.SubItems.Add(item.JobTitleName_Cht);
 
                     iCount++;
                 }

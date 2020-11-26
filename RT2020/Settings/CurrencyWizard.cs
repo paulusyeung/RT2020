@@ -14,6 +14,8 @@ using RT2020.DAL;
 using System.Data.SqlClient;
 using System.Configuration;
 using RT2020.Helper;
+using System.Linq;
+using System.Data.Entity;
 
 #endregion
 
@@ -186,29 +188,20 @@ namespace RT2020.Settings
             this.lvCurrencyList.Items.Clear();
 
             int iCount = 1;
-            StringBuilder sql = new StringBuilder();
-            sql.Append("SELECT CurrencyId,  ROW_NUMBER() OVER (ORDER BY CurrencyCode) AS rownum, ");
-            sql.Append(" CurrencyCode, CurrencyName, CountryName, ExchangeRate,");
-            sql.Append(" CreatedOn, ModifiedOn, CreatedBy, ModifiedBy ");
-            sql.Append(" FROM Currency ");
-            
-            SqlCommand cmd = new SqlCommand();
-            cmd.CommandText = sql.ToString();
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
-            cmd.CommandType= CommandType.Text;
 
-            using (SqlDataReader reader = SqlHelper.Default.ExecuteReader(cmd))
+            using (var ctx = new EF6.RT2020Entities())
             {
-                while (reader.Read())
+                var list = ctx.Currency.OrderBy(x => x.CurrencyCode).AsNoTracking().ToList();
+                foreach (var item in list)
                 {
-                    ListViewItem objItem = this.lvCurrencyList.Items.Add(reader.GetGuid(0).ToString()); // CurrencyId
-                    objItem.SubItems.Add(iCount.ToString()); // Line Number
-                    objItem.SubItems.Add(reader.GetString(4)); // Country Name
-                    objItem.SubItems.Add(reader.GetString(2)); // CurrencyCode
-                    objItem.SubItems.Add(reader.GetString(3)); // Currency Name
-                    objItem.SubItems.Add(reader.GetDecimal(5).ToString("n4")); // Exchange Rate
-                    objItem.SubItems.Add(RT2020.SystemInfo.Settings.DateTimeToString(reader.GetDateTime(6), true)); // CreatedOn
-                    objItem.SubItems.Add(RT2020.SystemInfo.Settings.DateTimeToString(reader.GetDateTime(7), true)); // ModifiedOn
+                    var oItem = this.lvCurrencyList.Items.Add(item.CurrencyId.ToString());
+                    oItem.SubItems.Add(iCount.ToString()); // Line Number
+                    oItem.SubItems.Add(item.CountryName);
+                    oItem.SubItems.Add(item.CurrencyCode);
+                    oItem.SubItems.Add(item.CurrencyName);
+                    oItem.SubItems.Add(item.ExchangeRate.Value.ToString("n4"));
+                    oItem.SubItems.Add(RT2020.SystemInfo.Settings.DateTimeToString(item.CreatedOn, true));
+                    oItem.SubItems.Add(RT2020.SystemInfo.Settings.DateTimeToString(item.ModifiedOn, true));
 
                     iCount++;
                 }
