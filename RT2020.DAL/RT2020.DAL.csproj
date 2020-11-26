@@ -117,7 +117,6 @@
     <Compile Include="FepBatchDetail.cs" />
     <Compile Include="FepBatchHeader.cs" />
     <Compile Include="FepBatchTender.cs" />
-    <Compile Include="InternetTag.cs" />
     <Compile Include="InvtBatchADJ_Details.cs" />
     <Compile Include="InvtBatchADJ_Header.cs" />
     <Compile Include="InvtBatchCAP_Details.cs" />

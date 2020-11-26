@@ -1,4 +1,4 @@
-#region Using
+﻿#region Using
 
 using System;
 using System.Collections.Generic;
@@ -13,6 +13,7 @@ using Gizmox.WebGUI.Common.Resources;
 using RT2020.DAL;
 using System.Data.SqlClient;
 using System.Configuration;
+using RT2020.Helper;
 
 #endregion
 
@@ -23,10 +24,69 @@ namespace RT2020.Settings
         public InternetTagWizard()
         {
             InitializeComponent();
+        }
+
+        private void InternetTagWizard_Load(object sender, EventArgs e)
+        {
+            SetCaptions();
+            SetAttributes();
+
             SetCtrlEditable();
             SetToolBar();
             BindInternetTagList();
         }
+
+        #region SetCaptions SetAttributes
+
+        private void SetCaptions()
+        {
+            colLN.Text = WestwindHelper.GetWord("listview.line", "Tools");
+
+            colInternetTagCode.Text = WestwindHelper.GetWord("internetTag.code", "Model");
+            colInternetTagName.Text = WestwindHelper.GetWord("internetTag.name", "Model");
+            colInternetTagNameAlt1.Text = WestwindHelper.GetWord(String.Format("language.{0}", LanguageHelper.AlternateLanguage1.Key.ToLower()), "Menu");
+            colInternetTagNameAlt2.Text = WestwindHelper.GetWord(String.Format("language.{0}", LanguageHelper.AlternateLanguage2.Key.ToLower()), "Menu");
+
+            lblInternetTagCode.Text = WestwindHelper.GetWordWithColon("internetTag.code", "Model");
+            lblInternetTagName.Text = WestwindHelper.GetWordWithColon("internetTag.name", "Model");
+            lblInternetTagNameAlt1.Text = WestwindHelper.GetWordWithColon(String.Format("language.{0}", LanguageHelper.AlternateLanguage1.Key.ToLower()), "Menu");
+            lblInternetTagNameAlt2.Text = WestwindHelper.GetWordWithColon(String.Format("language.{0}", LanguageHelper.AlternateLanguage2.Key.ToLower()), "Menu");
+
+            lblPriority.Text = WestwindHelper.GetWord("internetTag.priority", "Model");
+        }
+
+        private void SetAttributes()
+        {
+            colLN.TextAlign = HorizontalAlignment.Center;
+            colInternetTagCode.TextAlign = HorizontalAlignment.Left;
+            colInternetTagCode.ContentAlign = ExtendedHorizontalAlignment.Center;
+            colInternetTagName.TextAlign = HorizontalAlignment.Left;
+            colInternetTagName.ContentAlign = ExtendedHorizontalAlignment.Center;
+            colInternetTagNameAlt1.TextAlign = HorizontalAlignment.Left;
+            colInternetTagNameAlt1.ContentAlign = ExtendedHorizontalAlignment.Center;
+            colInternetTagNameAlt2.TextAlign = HorizontalAlignment.Left;
+            colInternetTagNameAlt2.ContentAlign = ExtendedHorizontalAlignment.Center;
+
+            switch (LanguageHelper.AlternateLanguagesUsed)
+            {
+                case 1:
+                    // hide alt2
+                    lblInternetTagNameAlt2.Visible = txtInternetTagNameAlt2.Visible = false;
+                    colInternetTagNameAlt2.Visible = false;
+                    break;
+                case 2:
+                    // do nothing
+                    break;
+                case 0:
+                default:
+                    // hide alt1 & alt2
+                    lblInternetTagNameAlt1.Visible = lblInternetTagNameAlt2.Visible = txtInternetTagNameAlt1.Visible = txtInternetTagNameAlt2.Visible = false;
+                    colInternetTagNameAlt1.Visible = colInternetTagNameAlt2.Visible = false;
+                    break;
+            }
+        }
+
+        #endregion
 
         #region ToolBar
         private void SetToolBar()
@@ -41,21 +101,21 @@ namespace RT2020.Settings
             sep.Style = ToolBarButtonStyle.Separator;
 
             // cmdSave
-            ToolBarButton cmdNew = new ToolBarButton("New", "New");
+            ToolBarButton cmdNew = new ToolBarButton("New", WestwindHelper.GetWord("edit.new", "General"));
             cmdNew.Tag = "New";
             cmdNew.Image = new IconResourceHandle("16x16.ico_16_3.gif");
 
             this.tbWizardAction.Buttons.Add(cmdNew);
 
             // cmdSave
-            ToolBarButton cmdSave = new ToolBarButton("Save", "Save");
+            ToolBarButton cmdSave = new ToolBarButton("Save", WestwindHelper.GetWord("edit.save", "General"));
             cmdSave.Tag = "Save";
             cmdSave.Image = new IconResourceHandle("16x16.16_L_save.gif");
 
             this.tbWizardAction.Buttons.Add(cmdSave);
 
             // cmdSaveNew
-            ToolBarButton cmdRefresh = new ToolBarButton("Refresh", "Refresh");
+            ToolBarButton cmdRefresh = new ToolBarButton("Refresh", WestwindHelper.GetWord("edit.refresh", "General"));
             cmdRefresh.Tag = "refresh";
             cmdRefresh.Image = new IconResourceHandle("16x16.16_L_refresh.gif");
 
@@ -63,7 +123,7 @@ namespace RT2020.Settings
             this.tbWizardAction.Buttons.Add(sep);
 
             // cmdDelete
-            ToolBarButton cmdDelete = new ToolBarButton("Delete", "Delete");
+            ToolBarButton cmdDelete = new ToolBarButton("Delete", WestwindHelper.GetWord("edit.delete", "General"));
             cmdDelete.Tag = "Delete";
             cmdDelete.Image = new IconResourceHandle("16x16.16_L_remove.gif");
 
@@ -92,8 +152,9 @@ namespace RT2020.Settings
                         SetCtrlEditable();
                         break;
                     case "save":
-                        if (Save())
+                        if (IsValid())
                         {
+                            Save();
                             Clear();
                             BindInternetTagList();
                             this.Update();
@@ -162,66 +223,58 @@ namespace RT2020.Settings
         #endregion
 
         #region Save
-        private bool CodeExists()
-        {
-            string sql = "TagCode = '" + txtInternetTagCode.Text.Trim() + "'";
-            InternetTagCollection tagList = InternetTag.LoadCollection(sql);
-            if (tagList.Count > 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
 
-        private bool Save()
+        private bool IsValid()
         {
+            bool result = false;
+
+            #region CountryCode 唔可以吉
+            errorProvider.SetError(txtInternetTagCode, string.Empty);
             if (txtInternetTagCode.Text.Length == 0)
             {
                 errorProvider.SetError(txtInternetTagCode, "Cannot be blank!");
                 return false;
             }
-            else if (txtPriority.Text.Length == 0)
-            {
-                errorProvider.SetError(txtPriority, "Cannot be blank!");
-                return false;
-            }
-            else if (!Common.Utility.IsNumeric(txtPriority.Text))
-            {
-                errorProvider.SetError(txtPriority, Resources.Common.DigitalNeeded);
-                return false;
-            }
-            else
-            {
-                errorProvider.SetError(txtInternetTagCode, string.Empty);
-                errorProvider.SetError(txtPriority, string.Empty);
+            #endregion
 
-                InternetTag oInternetTag = InternetTag.Load(this.TagId);
-                if (oInternetTag == null)
+            #region 新增，要 check TagCode 係咪 in use
+            errorProvider.SetError(txtInternetTagCode, string.Empty);
+            if (this.TagId == System.Guid.Empty && ModelEx.InternetTagEx.IsInternetTagCodeInUse(txtInternetTagCode.Text.Trim()))
+            {
+                errorProvider.SetError(txtInternetTagCode, "Tag Code in use");
+                return false;
+            }
+            #endregion
+
+            return result;
+        }
+
+        private bool Save()
+        {
+            bool result = false;
+
+            using (var ctx = new EF6.RT2020Entities())
+            {
+                var tag = ctx.InternetTag.Find(this.TagId);
+
+                if (tag == null)
                 {
-                    oInternetTag = new InternetTag();
+                    tag = new EF6.InternetTag();
+                    tag.TagId = new Guid();
 
-                    if (CodeExists())
-                    {
-                        errorProvider.SetError(txtInternetTagCode, string.Format(Resources.Common.DuplicatedCode, "Internet Tag Code"));
-                        return false;
-                    }
-                    else
-                    {
-                        oInternetTag.TagCode = txtInternetTagCode.Text;
-                        errorProvider.SetError(txtInternetTagCode, string.Empty);
-                    }
+                    ctx.InternetTag.Add(tag);
+                    tag.TagCode = txtInternetTagCode.Text;
                 }
-                oInternetTag.TagName = txtInternetTagName.Text;
-                oInternetTag.TagName_Chs = txtInternetTagNameChs.Text;
-                oInternetTag.TagName_Cht = txtInternetTagNameCht.Text;
-                oInternetTag.Priority = Convert.ToInt32(txtPriority.Text);
+                tag.TagName = txtInternetTagName.Text;
+                tag.TagName_Chs = txtInternetTagNameAlt1.Text;
+                tag.TagName_Cht = txtInternetTagNameAlt2.Text;
+                tag.Priority = Convert.ToInt32(txtPriority.Text);
 
-                oInternetTag.Save();
-                return true;
+                ctx.SaveChanges();
+                result = true;
             }
+
+            return result;
         }
 
         private void Clear()
@@ -250,16 +303,20 @@ namespace RT2020.Settings
 
         private void Delete()
         {
-            InternetTag oInternetTag = InternetTag.Load(this.TagId);
-            if (oInternetTag != null)
+            using (var ctx = new EF6.RT2020Entities())
             {
                 try
                 {
-                    oInternetTag.Delete();
+                    var tag = ctx.InternetTag.Find(this.TagId);
+                    if (tag != null)
+                    {
+                        ctx.InternetTag.Remove(tag);
+                        ctx.SaveChanges();
+                    }
                 }
                 catch
                 {
-                    MessageBox.Show("Cannot delete the record being used by other record!", "Delete Warning");
+                    MessageBox.Show("Cannot delete the record...Might be in use by other record!", "Delete Warning");
                 }
             }
         }
@@ -268,21 +325,24 @@ namespace RT2020.Settings
         {
             if (lvInternetTagList.SelectedItem != null)
             {
-                if (Common.Utility.IsGUID(lvInternetTagList.SelectedItem.Text))
+                var id = Guid.NewGuid();
+                if (Guid.TryParse(lvInternetTagList.SelectedItem.Text, out id))
                 {
-                    InternetTag oInternetTag = InternetTag.Load(new System.Guid(lvInternetTagList.SelectedItem.Text));
-                    if (oInternetTag != null)
+                    this.TagId = id;
+                    using (var ctx = new EF6.RT2020Entities())
                     {
-                        txtInternetTagCode.Text = oInternetTag.TagCode;
-                        txtInternetTagName.Text = oInternetTag.TagName;
-                        txtInternetTagNameChs.Text = oInternetTag.TagName_Chs;
-                        txtInternetTagNameCht.Text = oInternetTag.TagName_Cht;
-                        txtPriority.Text = oInternetTag.Priority.ToString();
+                        var tag = ctx.InternetTag.Find(this.TagId);
+                        if (tag != null)
+                        {
+                            txtInternetTagCode.Text = tag.TagCode;
+                            txtInternetTagName.Text = tag.TagName;
+                            txtInternetTagNameAlt1.Text = tag.TagName_Chs;
+                            txtInternetTagNameAlt2.Text = tag.TagName_Cht;
+                            txtPriority.Text = tag.Priority.ToString();
 
-                        this.TagId = oInternetTag.TagId;
-
-                        SetCtrlEditable();
-                        SetToolBar();
+                            SetCtrlEditable();
+                            SetToolBar();
+                        }
                     }
                 }
             }
