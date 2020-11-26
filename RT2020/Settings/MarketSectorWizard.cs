@@ -1,4 +1,4 @@
-#region Using
+﻿#region Using
 
 using System;
 using System.Collections.Generic;
@@ -13,6 +13,7 @@ using Gizmox.WebGUI.Common.Resources;
 using RT2020.DAL;
 using System.Data.SqlClient;
 using System.Configuration;
+using RT2020.Helper;
 
 #endregion
 
@@ -23,11 +24,70 @@ namespace RT2020.Settings
         public MarketSectorWizard()
         {
             InitializeComponent();
+        }
+
+        private void MarketSectorWizard_Load(object sender, EventArgs e)
+        {
+            SetCaptions();
+            SetAttributes();
+
             SetToolBar();
             FillParentSectorList();
             BindMarketSectorList();
             SetCtrlEditable();
         }
+
+        #region SetCaptions SetAttributes
+
+        private void SetCaptions()
+        {
+            colLN.Text = WestwindHelper.GetWord("listview.line", "Tools");
+
+            colMarketSectorCode.Text = WestwindHelper.GetWord("marketSector.code", "Model");
+            colMarketSectorName.Text = WestwindHelper.GetWord("marketSector.name", "Model");
+            colMarketSectorNameAlt1.Text = WestwindHelper.GetWord(String.Format("language.{0}", LanguageHelper.AlternateLanguage1.Key.ToLower()), "Menu");
+            colMarketSectorNameAlt2.Text = WestwindHelper.GetWord(String.Format("language.{0}", LanguageHelper.AlternateLanguage2.Key.ToLower()), "Menu");
+
+            lblMarketSectorCode.Text = WestwindHelper.GetWordWithColon("marketSector.code", "Model");
+            lblMarketSectorName.Text = WestwindHelper.GetWordWithColon("marketSector.name", "Model");
+            lblMarketSectorNameAlt1.Text = WestwindHelper.GetWordWithColon(String.Format("language.{0}", LanguageHelper.AlternateLanguage1.Key.ToLower()), "Menu");
+            lblMarketSectorNameAlt2.Text = WestwindHelper.GetWordWithColon(String.Format("language.{0}", LanguageHelper.AlternateLanguage2.Key.ToLower()), "Menu");
+
+            lblParentSector.Text = WestwindHelper.GetWord("marketSector.parent", "Model");
+        }
+
+        private void SetAttributes()
+        {
+            colLN.TextAlign = HorizontalAlignment.Center;
+            colMarketSectorCode.TextAlign = HorizontalAlignment.Left;
+            colMarketSectorCode.ContentAlign = ExtendedHorizontalAlignment.Center;
+            colMarketSectorName.TextAlign = HorizontalAlignment.Left;
+            colMarketSectorName.ContentAlign = ExtendedHorizontalAlignment.Center;
+            colMarketSectorNameAlt1.TextAlign = HorizontalAlignment.Left;
+            colMarketSectorNameAlt1.ContentAlign = ExtendedHorizontalAlignment.Center;
+            colMarketSectorNameAlt2.TextAlign = HorizontalAlignment.Left;
+            colMarketSectorNameAlt2.ContentAlign = ExtendedHorizontalAlignment.Center;
+
+            switch (LanguageHelper.AlternateLanguagesUsed)
+            {
+                case 1:
+                    // hide alt2
+                    lblMarketSectorNameAlt2.Visible = txtMarketSectorNameAlt2.Visible = false;
+                    colMarketSectorNameAlt2.Visible = false;
+                    break;
+                case 2:
+                    // do nothing
+                    break;
+                case 0:
+                default:
+                    // hide alt1 & alt2
+                    lblMarketSectorNameAlt1.Visible = lblMarketSectorNameAlt2.Visible = txtMarketSectorNameAlt1.Visible = txtMarketSectorNameAlt2.Visible = false;
+                    colMarketSectorNameAlt1.Visible = colMarketSectorNameAlt2.Visible = false;
+                    break;
+            }
+        }
+
+        #endregion
 
         #region ToolBar
         private void SetToolBar()
@@ -42,21 +102,21 @@ namespace RT2020.Settings
             sep.Style = ToolBarButtonStyle.Separator;
 
             // cmdSave
-            ToolBarButton cmdNew = new ToolBarButton("New", "New");
+            ToolBarButton cmdNew = new ToolBarButton("New", WestwindHelper.GetWord("edit.new", "General"));
             cmdNew.Tag = "New";
             cmdNew.Image = new IconResourceHandle("16x16.ico_16_3.gif");
 
             this.tbWizardAction.Buttons.Add(cmdNew);
 
             // cmdSave
-            ToolBarButton cmdSave = new ToolBarButton("Save", "Save");
+            ToolBarButton cmdSave = new ToolBarButton("Save", WestwindHelper.GetWord("edit.save", "General"));
             cmdSave.Tag = "Save";
             cmdSave.Image = new IconResourceHandle("16x16.16_L_save.gif");
 
             this.tbWizardAction.Buttons.Add(cmdSave);
 
             // cmdSaveNew
-            ToolBarButton cmdRefresh = new ToolBarButton("Refresh", "Refresh");
+            ToolBarButton cmdRefresh = new ToolBarButton("Refresh", WestwindHelper.GetWord("edit.refresh", "General"));
             cmdRefresh.Tag = "refresh";
             cmdRefresh.Image = new IconResourceHandle("16x16.16_L_refresh.gif");
 
@@ -64,7 +124,7 @@ namespace RT2020.Settings
             this.tbWizardAction.Buttons.Add(sep);
 
             // cmdDelete
-            ToolBarButton cmdDelete = new ToolBarButton("Delete", "Delete");
+            ToolBarButton cmdDelete = new ToolBarButton("Delete", WestwindHelper.GetWord("edit.delete", "General"));
             cmdDelete.Tag = "Delete";
             cmdDelete.Image = new IconResourceHandle("16x16.16_L_remove.gif");
 
@@ -93,8 +153,9 @@ namespace RT2020.Settings
                         SetCtrlEditable();
                         break;
                     case "save":
-                        if (Save())
+                        if (IsValid())
                         {
+                            Save();
                             Clear();
                             BindMarketSectorList();
                             this.Update();
@@ -130,18 +191,10 @@ namespace RT2020.Settings
         #region Fill Combo List
         private void FillParentSectorList()
         {
-            cboParentSector.DataSource = null;
-            cboParentSector.Items.Clear();
-
             string sql = "MarketSectorId NOT IN ('" + this.MarketSectorId.ToString() + "')";
             string[] orderBy = new string[] { "MarketSectorCode" };
-            MarketSectorCollection oMarketSectorList = MarketSector.LoadCollection(sql, orderBy, true);
-            oMarketSectorList.Add(new MarketSector(System.Guid.Empty, System.Guid.Empty, string.Empty, string.Empty, string.Empty, string.Empty));
-            cboParentSector.DataSource = oMarketSectorList;
-            cboParentSector.DisplayMember = "MarketSectorCode";
-            cboParentSector.ValueMember = "MarketSectorId";
 
-            cboParentSector.SelectedIndex = cboParentSector.Items.Count - 1;
+            ModelEx.MarketSectorEx.LoadCombo(ref cboParentSector, "MarketSectorCode", false, true, "", sql, orderBy);
         }
         #endregion
 
@@ -180,55 +233,58 @@ namespace RT2020.Settings
         #endregion
 
         #region Save
-        private bool CodeExists()
-        {
-            string sql = "MarketSectorCode = '" + txtMarketSectorCode.Text.Trim() + "'";
-            MarketSectorCollection mList = MarketSector.LoadCollection(sql);
-            if (mList.Count > 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
 
-        private bool Save()
+        private bool IsValid()
         {
+            bool result = false;
+
+            #region CountryCode 唔可以吉
+            errorProvider.SetError(txtMarketSectorCode, string.Empty);
             if (txtMarketSectorCode.Text.Length == 0)
             {
                 errorProvider.SetError(txtMarketSectorCode, "Cannot be blank!");
                 return false;
             }
-            else
+            #endregion
+
+            #region 新增，要 check CountryCode 係咪 in use
+            errorProvider.SetError(txtMarketSectorCode, string.Empty);
+            if (this.MarketSectorId == System.Guid.Empty && ModelEx.MarketSectorEx.IsMarketSectorCodeInUse(txtMarketSectorCode.Text.Trim()))
             {
-                errorProvider.SetError(txtMarketSectorCode, string.Empty);
-
-                MarketSector oMarketSector = MarketSector.Load(this.MarketSectorId);
-                if (oMarketSector == null)
-                {
-                    oMarketSector = new MarketSector();
-
-                    if (CodeExists())
-                    {
-                        errorProvider.SetError(txtMarketSectorCode, string.Format(Resources.Common.DuplicatedCode, "Market Sector Code"));
-                        return false;
-                    }
-                    else
-                    {
-                        oMarketSector.MarketSectorCode = txtMarketSectorCode.Text;
-                        errorProvider.SetError(txtMarketSectorCode, string.Empty);
-                    }
-                }
-                oMarketSector.MarketSectorName = txtMarketSectorName.Text;
-                oMarketSector.MarketSectorName_Chs = txtMarketSectorNameChs.Text;
-                oMarketSector.MarketSectorName_Cht = txtMarketSectorNameCht.Text;
-                oMarketSector.ParentSector = (cboParentSector.SelectedValue == null) ? System.Guid.Empty : new System.Guid(cboParentSector.SelectedValue.ToString());
-
-                oMarketSector.Save();
-                return true;
+                errorProvider.SetError(txtMarketSectorCode, "Market Sector Code in use");
+                return false;
             }
+            #endregion
+
+            return result;
+        }
+
+        private bool Save()
+        {
+            bool result = false;
+
+            using (var ctx = new EF6.RT2020Entities())
+            {
+                var m = ctx.MarketSector.Find(this.MarketSectorId);
+
+                if (m == null)
+                {
+                    m = new EF6.MarketSector();
+                    m.MarketSectorId = new Guid();
+
+                    ctx.MarketSector.Add(m);
+                    m.MarketSectorCode = txtMarketSectorCode.Text;
+                }
+                m.MarketSectorName = txtMarketSectorName.Text;
+                m.MarketSectorName_Chs = txtMarketSectorNameAlt1.Text;
+                m.MarketSectorName_Cht = txtMarketSectorNameAlt2.Text;
+                m.ParentSector = (cboParentSector.SelectedValue == null) ? Guid.Empty : new Guid(cboParentSector.SelectedValue.ToString());
+
+                ctx.SaveChanges();
+                result = true;
+            }
+
+            return result;
         }
 
         private void Clear()
@@ -257,16 +313,20 @@ namespace RT2020.Settings
 
         private void Delete()
         {
-            MarketSector oMarketSector = MarketSector.Load(this.MarketSectorId);
-            if (oMarketSector != null)
+            using (var ctx = new EF6.RT2020Entities())
             {
                 try
                 {
-                    oMarketSector.Delete();
+                    var m = ctx.MarketSector.Find(this.MarketSectorId);
+                    if (m != null)
+                    {
+                        ctx.MarketSector.Remove(m);
+                        ctx.SaveChanges();
+                    }
                 }
                 catch
                 {
-                    MessageBox.Show("Cannot delete the record being used by other record!", "Delete Warning");
+                    MessageBox.Show("Cannot delete the record...Might be in use by other record!", "Delete Warning");
                 }
             }
         }
@@ -275,23 +335,26 @@ namespace RT2020.Settings
         {
             if (lvMarketSectorList.SelectedItem != null)
             {
-                if (Common.Utility.IsGUID(lvMarketSectorList.SelectedItem.Text))
+                var id = Guid.NewGuid();
+                if (Guid.TryParse(lvMarketSectorList.SelectedItem.Text, out id))
                 {
-                    MarketSector oMarketSector = MarketSector.Load(new System.Guid(lvMarketSectorList.SelectedItem.Text));
-                    if (oMarketSector != null)
+                    this.MarketSectorId = id;
+                    using (var ctx = new EF6.RT2020Entities())
                     {
-                        this.MarketSectorId = oMarketSector.MarketSectorId;
+                        var m = ctx.MarketSector.Find(this.MarketSectorId);
+                        if (m != null)
+                        {
+                            FillParentSectorList();
 
-                        FillParentSectorList();
+                            txtMarketSectorCode.Text = m.MarketSectorCode;
+                            txtMarketSectorName.Text = m.MarketSectorName;
+                            txtMarketSectorNameAlt1.Text = m.MarketSectorName_Chs;
+                            txtMarketSectorNameAlt2.Text = m.MarketSectorName_Cht;
+                            if (m.ParentSector != null) cboParentSector.SelectedValue = m.ParentSector;
 
-                        txtMarketSectorCode.Text = oMarketSector.MarketSectorCode;
-                        txtMarketSectorName.Text = oMarketSector.MarketSectorName;
-                        txtMarketSectorNameChs.Text = oMarketSector.MarketSectorName_Chs;
-                        txtMarketSectorNameCht.Text = oMarketSector.MarketSectorName_Cht;
-                        cboParentSector.SelectedValue = oMarketSector.ParentSector;
-
-                        SetCtrlEditable();
-                        SetToolBar();
+                            SetCtrlEditable();
+                            SetToolBar();
+                        }
                     }
                 }
             }

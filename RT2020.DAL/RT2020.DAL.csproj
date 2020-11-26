@@ -141,7 +141,6 @@
     <Compile Include="InvtSubLedgerTXF_Details.cs" />
     <Compile Include="InvtSubLedgerTXF_Header.cs" />
     <Compile Include="LineOfOperation.cs" />
-    <Compile Include="MarketSector.cs" />
     <Compile Include="Member.cs" />
     <Compile Include="MemberAddress.cs" />
     <Compile Include="MemberAddressType.cs" />
