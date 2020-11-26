@@ -247,7 +247,7 @@ namespace RT2020.Member
             objMember.FullName = objTempVip.FNAME + "," + objTempVip.LNAME; // Full Name
             objMember.FullName_Chs = objTempVip.CNAME; // Chinese Name (S)
             objMember.FullName_Cht = objTempVip.CNAME; // Chinese Name (T)
-            objMember.JobTitleId = GetJobTitleId(objTempVip.TITLE);
+            objMember.JobTitleId = ModelEx.JobTitleEx.GetJobTitleIdByName(objTempVip.TITLE);
             objMember.AssignedTo = System.Guid.Empty;
             objMember.Remarks = objTempVip.REMARKS;
             objMember.NormalDiscount = (decimal)objTempVip.NRDISC;
@@ -352,35 +352,6 @@ namespace RT2020.Member
             else
             {
                 return objSalutationList[0].SalutationId;
-            }
-        }
-
-
-        /// <summary>
-        /// Gets the job title id.
-        /// </summary>
-        /// <param name="groupCode">The title code.</param>
-        /// <returns></returns>
-        private Guid GetJobTitleId(string titleCode)
-        {
-            string query = "JobTitleCode = '" + titleCode + "'";
-            JobTitleCollection objJobTitleList = JobTitle.LoadCollection(query);
-            if (objJobTitleList.Count == 0)
-            {
-                JobTitle objJobTitle = new JobTitle();
-                objJobTitle.JobTitleId = System.Guid.NewGuid();
-                objJobTitle.JobTitleCode = titleCode;
-                objJobTitle.JobTitleName = titleCode;
-                objJobTitle.JobTitleName_Chs = titleCode;
-                objJobTitle.JobTitleName_Cht = titleCode;
-
-                objJobTitle.Save();
-
-                return objJobTitle.JobTitleId;
-            }
-            else
-            {
-                return objJobTitleList[0].JobTitleId;
             }
         }
 

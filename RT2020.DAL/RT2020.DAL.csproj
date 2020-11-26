@@ -140,7 +140,6 @@
     <Compile Include="InvtSubLedgerRPL_Header.cs" />
     <Compile Include="InvtSubLedgerTXF_Details.cs" />
     <Compile Include="InvtSubLedgerTXF_Header.cs" />
-    <Compile Include="JobTitle.cs" />
     <Compile Include="LineOfOperation.cs" />
     <Compile Include="MarketSector.cs" />
     <Compile Include="Member.cs" />

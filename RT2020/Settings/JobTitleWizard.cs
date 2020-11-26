@@ -1,4 +1,4 @@
-#region Using
+﻿#region Using
 
 using System;
 using System.Collections.Generic;
@@ -13,6 +13,7 @@ using Gizmox.WebGUI.Common.Resources;
 using RT2020.DAL;
 using System.Data.SqlClient;
 using System.Configuration;
+using System.Linq;
 
 #endregion
 
@@ -93,8 +94,9 @@ namespace RT2020.Settings
                         SetCtrlEditable();
                         break;
                     case "save":
-                        if (Save())
+                        if (IsValid())
                         {
+                            Save();
                             Clear();
                             BindJobTitleList();
                             this.Update();
@@ -130,18 +132,8 @@ namespace RT2020.Settings
         #region Fill Combo List
         private void FillParentJobTitleList()
         {
-            cboParentJobTitle.DataSource = null;
-            cboParentJobTitle.Items.Clear();
-
             string sql = "JobTitleId NOT IN ('" + this.JobTitleId.ToString() + "')";
-            string[] orderBy = new string[] { "JobTitleCode" };
-            JobTitleCollection oJobTitleList = JobTitle.LoadCollection(sql, orderBy, true);
-            oJobTitleList.Add(new JobTitle());
-            cboParentJobTitle.DataSource = oJobTitleList;
-            cboParentJobTitle.DisplayMember = "JobTitleCode";
-            cboParentJobTitle.ValueMember = "JobTitleId";
-
-            cboParentJobTitle.SelectedIndex = cboParentJobTitle.Items.Count - 1;
+            ModelEx.JobTitleEx.LoadCombo(ref cboParentJobTitle, "JobTitleCode", true, true, "", sql);
         }
         #endregion
 
@@ -180,55 +172,58 @@ namespace RT2020.Settings
         #endregion
 
         #region Save
-        private bool CodeExists()
+
+        private bool IsValid()
         {
-            string sql = "JobTitleCode = '" + txtJobTitleCode.Text.Trim() + "'";
-            JobTitleCollection jbList = JobTitle.LoadCollection(sql);
-            if (jbList.Count > 0)
+            bool result = false;
+
+            #region CountryCode 唔可以吉
+            errorProvider.SetError(txtJobTitleCode, string.Empty);
+            if (txtJobTitleCode.Text.Length == 0)
             {
-                return true;
+                errorProvider.SetError(txtJobTitleCode, "Cannot be blank!");
+                result = false;
             }
-            else
+            #endregion
+
+            #region 新增，要 check CountryCode 係咪 in use
+            errorProvider.SetError(txtJobTitleCode, string.Empty);
+            if (this.JobTitleId == System.Guid.Empty && ModelEx.JobTitleEx.IsJobTitleCodeInUse(txtJobTitleCode.Text.Trim()))
             {
-                return false;
+                errorProvider.SetError(txtJobTitleCode, "Job Title Code in use");
+                result = false;
             }
+            #endregion
+
+            return result;
         }
 
         private bool Save()
         {
-            if (txtJobTitleCode.Text.Length == 0)
-            {
-                errorProvider.SetError(txtJobTitleCode, "Cannot be blank!");
-                return false;
-            }
-            else
-            {
-                errorProvider.SetError(txtJobTitleCode, string.Empty);
+            bool result = false;
 
-                JobTitle oJobTitle = JobTitle.Load(this.JobTitleId);
-                if (oJobTitle == null)
+            using (var ctx = new EF6.RT2020Entities())
+            {
+                var jt = ctx.JobTitle.Find(this.JobTitleId);
+
+                if (jt == null)
                 {
-                    oJobTitle = new JobTitle();
+                    jt = new EF6.JobTitle();
+                    jt.JobTitleId = new Guid();
 
-                    if (CodeExists())
-                    {
-                        errorProvider.SetError(txtJobTitleCode, string.Format(Resources.Common.DuplicatedCode, "Job Title Code"));
-                        return false;
-                    }
-                    else
-                    {
-                        oJobTitle.JobTitleCode = txtJobTitleCode.Text;
-                        errorProvider.SetError(txtJobTitleCode, string.Empty);
-                    }
+                    ctx.JobTitle.Add(jt);
+                    jt.JobTitleCode = txtJobTitleCode.Text;
                 }
-                oJobTitle.JobTitleName = txtJobTitleName.Text;
-                oJobTitle.JobTitleName_Chs = txtJobTitleNameChs.Text;
-                oJobTitle.JobTitleName_Cht = txtJobTitleNameCht.Text;
-                oJobTitle.ParentJobTitle = (cboParentJobTitle.SelectedValue == null) ? System.Guid.Empty : new System.Guid(cboParentJobTitle.SelectedValue.ToString());
+                jt.JobTitleName = txtJobTitleName.Text;
+                jt.JobTitleName_Chs = txtJobTitleNameChs.Text;
+                jt.JobTitleName_Cht = txtJobTitleNameCht.Text;
+                jt.ParentJobTitle = (cboParentJobTitle.SelectedValue == null) ? Guid.Empty : new Guid(cboParentJobTitle.SelectedValue.ToString());
 
-                oJobTitle.Save();
-                return true;
+                ctx.SaveChanges();
+                result = true;
             }
+
+            return result;
         }
 
         private void Clear()
@@ -257,26 +252,24 @@ namespace RT2020.Settings
 
         private bool Delete()
         {
-            bool result = true;
-            string sql = "JobTitleId = '" + this.JobTitleId.ToString() + "'";
-            RT2020.DAL.Member oMember = RT2020.DAL.Member.LoadWhere(sql);
-            if (oMember != null)
+            bool result = false;
+
+            using (var ctx = new EF6.RT2020Entities())
             {
-                result = false;
-            }
-            else
-            {
-                JobTitle oJobTitle = JobTitle.Load(this.JobTitleId);
-                if (oJobTitle != null)
+                try
                 {
-                    try
+                    var jt = ctx.JobTitle.Find(this.JobTitleId);
+                    if (jt != null)
                     {
-                        oJobTitle.Delete();
+                        ctx.JobTitle.Remove(jt);
+                        ctx.SaveChanges();
+
+                        result = true;
                     }
-                    catch
-                    {
-                        MessageBox.Show("Cannot delete the record being used by other record!", "Delete Warning");
-                    }
+                }
+                catch
+                {
+                    MessageBox.Show("Cannot delete the record...Might be in use by other record!", "Delete Warning");
                 }
             }
 
@@ -287,24 +280,27 @@ namespace RT2020.Settings
         {
             if (lvJobTitleList.SelectedItem != null)
             {
-                if (Common.Utility.IsGUID(lvJobTitleList.SelectedItem.Text))
+                var id = Guid.NewGuid();
+                if (Guid.TryParse(lvJobTitleList.SelectedItem.Text, out id))
                 {
-                    JobTitle oJobTitle = JobTitle.Load(new System.Guid(lvJobTitleList.SelectedItem.Text));
-                    if (oJobTitle != null)
+                    this.JobTitleId = id;
+                    using (var ctx = new EF6.RT2020Entities())
                     {
-                        FillParentJobTitleList();
+                        var jt = ctx.JobTitle.Find(this.JobTitleId);
+                        if (jt != null)
+                        {
+                            FillParentJobTitleList();
 
-                        txtJobTitleCode.Text = oJobTitle.JobTitleCode;
-                        txtJobTitleName.Text = oJobTitle.JobTitleName;
-                        txtJobTitleNameChs.Text = oJobTitle.JobTitleName_Chs;
-                        txtJobTitleNameCht.Text = oJobTitle.JobTitleName_Cht;
+                            txtJobTitleCode.Text = jt.JobTitleCode;
+                            txtJobTitleName.Text = jt.JobTitleName;
+                            txtJobTitleNameChs.Text = jt.JobTitleName_Chs;
+                            txtJobTitleNameCht.Text = jt.JobTitleName_Cht;
 
-                        cboParentJobTitle.SelectedValue = oJobTitle.ParentJobTitle;
+                            cboParentJobTitle.SelectedValue = jt.ParentJobTitle;
 
-                        this.JobTitleId = oJobTitle.JobTitleId;
-
-                        SetCtrlEditable();
-                        SetToolBar();
+                            SetCtrlEditable();
+                            SetToolBar();
+                        }
                     }
                 }
             }

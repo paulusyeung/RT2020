@@ -245,19 +245,6 @@ namespace RT2020.Member.Import
             return result;
         }
 
-        private Guid GetJobTitleId(string titleCode)
-        {
-            System.Guid result = System.Guid.Empty;
-            string sql = "JobTitleCode = '" + titleCode + "'";
-            JobTitle oJobTitle = JobTitle.LoadWhere(sql);
-            if (oJobTitle != null)
-            {
-                result = oJobTitle.JobTitleId;
-            }
-
-            return result;
-        }
-
         private Guid GetSmartTagId(string priority)
         {
             System.Guid result = System.Guid.Empty;
@@ -346,7 +333,7 @@ namespace RT2020.Member.Import
             oMember.FullName = member.LNAME + ", " + member.FNAME;
             oMember.FullName_Chs = member.CNAME;
             oMember.FullName_Cht = member.CNAME;
-            oMember.JobTitleId = GetJobTitleId(member.TITLE);
+            oMember.JobTitleId = ModelEx.JobTitleEx.GetJobTitleIdByName(member.TITLE);
             oMember.AssignedTo = System.Guid.Empty;
             oMember.Remarks = member.REMARKS;
             oMember.NormalDiscount = member.NRDISC;
