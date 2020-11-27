@@ -39,7 +39,7 @@ namespace RT2020.Settings
 
             SetCtrlEditable();
             SetFormToolBar();
-            FillProvinceName();
+            SetComboBox();
             BindCityList();
         }
 
@@ -261,6 +261,7 @@ namespace RT2020.Settings
                 // filter the list according to the filter selcted
                 SetListViewAns_ProvinceFilter();
                 BindCityList();
+                SetComboBox();
             }
         }
 
@@ -385,10 +386,13 @@ namespace RT2020.Settings
         }
         #endregion
 
-        #region Province Name
-        private void FillProvinceName()
+        #region Set: cboProvince
+        private void SetComboBox()
         {
-            ModelEx.ProvinceEx.LoadCombo(ref cboProvince, "ProvinceName", false, true, "", "");
+            var sql = (_Filter_CountryId != Guid.Empty) ?
+                String.Format("CountryId = '{0}'", _Filter_CountryId.ToString()) :
+                "";
+            ModelEx.ProvinceEx.LoadCombo(ref cboProvince, "ProvinceName", true, true, "", sql);
 
         }
         #endregion

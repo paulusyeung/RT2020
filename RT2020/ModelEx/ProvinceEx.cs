@@ -78,10 +78,10 @@ namespace RT2020.ModelEx
             if (SwitchLocale && TextField[0] == OrderBy[0] && OrderBy.Length == 1)
             {
                 OrderBy[0] = CookieHelper.CurrentLocaleId == LanguageHelper.AlternateLanguage2.Key ?
-                    "CityName_Cht" :
+                    "ProvinceName_Cht" :
                     CookieHelper.CurrentLocaleId == LanguageHelper.AlternateLanguage1.Key ?
-                    "CityName_Chs" :
-                    "CityName";
+                    "ProvinceName_Chs" :
+                    "ProvinceName";
             }
             var orderby = String.Join(",", OrderBy.Select(x => "[" + x + "]"));
             #endregion

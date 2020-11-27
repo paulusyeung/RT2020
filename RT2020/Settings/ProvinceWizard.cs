@@ -191,6 +191,7 @@ namespace RT2020.Settings
 
                 // filter the list according to the filter selcted
                 BindProvinceList();
+                FillCountryName();
             }
         }
 
@@ -328,7 +329,10 @@ namespace RT2020.Settings
         #region Country Name
         private void FillCountryName()
         {
-            ModelEx.CountryEx.LoadCombo(ref cboCountry, "CountryName", true);
+            var sql = (_Filter_CountryId != Guid.Empty) ?
+                String.Format("CountryId = '{0}'", _Filter_CountryId.ToString()) :
+                "";
+            ModelEx.CountryEx.LoadCombo(ref cboCountry, "CountryName", true, true, "", sql);
         }
         #endregion
 
