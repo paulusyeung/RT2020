@@ -90,6 +90,7 @@ namespace RT2020.ModelEx
                     list.Insert(0, new EF6.StaffDept()
                     {
                         DeptId = Guid.Empty,
+                        DeptCode = "",
                         DeptName = BlankLineText,
                         DeptName_Chs = BlankLineText,
                         DeptName_Cht = BlankLineText,

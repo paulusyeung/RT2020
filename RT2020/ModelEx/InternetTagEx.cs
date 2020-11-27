@@ -90,6 +90,7 @@ namespace RT2020.ModelEx
                     list.Insert(0, new EF6.InternetTag()
                     {
                         TagId = Guid.Empty,
+                        TagCode = "",
                         TagName = BlankLineText,
                         TagName_Chs = BlankLineText,
                         TagName_Cht = BlankLineText,

@@ -103,6 +103,7 @@ namespace RT2020.ModelEx
                     list.Insert(0, new EF6.Country()
                     {
                         CountryId = Guid.Empty,
+                        CountryCode = "",
                         CountryName = BlankLineText,
                         CountryName_Chs = BlankLineText,
                         CountryName_Cht = BlankLineText,

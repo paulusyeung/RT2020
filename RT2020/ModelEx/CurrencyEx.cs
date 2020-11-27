@@ -117,6 +117,7 @@ namespace RT2020.ModelEx
                     {
                         CurrencyId = Guid.Empty,
                         CurrencyName = BlankLineText,
+                        CurrencyCode = "",
                         //CurrencyName_Chs = BlankLineText,
                         //CurrencyName_Cht = BlankLineText,
                     });

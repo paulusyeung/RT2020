@@ -90,6 +90,7 @@ namespace RT2020.ModelEx
                     list.Insert(0, new EF6.City()
                     {
                         CityId = Guid.Empty,
+                        CityCode = "",
                         CityName = BlankLineText,
                         CityName_Chs = BlankLineText,
                         CityName_Cht = BlankLineText,

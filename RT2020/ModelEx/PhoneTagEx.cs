@@ -103,7 +103,7 @@ namespace RT2020.ModelEx
                     list.Insert(0, new EF6.PhoneTag()
                     {
                         PhoneTagId = Guid.Empty,
-                        PhoneCode = BlankLineText,
+                        PhoneCode = "",
                         PhoneName = BlankLineText,
                         PhoneName_Chs = BlankLineText,
                         PhoneName_Cht = BlankLineText,

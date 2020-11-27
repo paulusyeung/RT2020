@@ -46,14 +46,7 @@ namespace RT2020.Purchasing.Reports.Others
         /// </summary>
         private void FillFromList()
         {
-            cboFrom.Items.Clear();
-
-            string[] orderBy = { "RemarkCode" };
-
-            RT2020.DAL.RemarksCollection remarksCol = RT2020.DAL.Remarks.LoadCollection(orderBy, true);
-            cboFrom.DataSource = remarksCol;
-            cboFrom.DisplayMember = "RemarkCode";
-            cboFrom.ValueMember = "RemarkId";
+            ModelEx.RemarksEx.LoadCombo(ref cboFrom, "RemarkCode", false);
         }
 
         /// <summary>
@@ -61,16 +54,9 @@ namespace RT2020.Purchasing.Reports.Others
         /// </summary>
         private void FillToList()
         {
-            cboTo.Items.Clear();
+            ModelEx.RemarksEx.LoadCombo(ref cboFrom, "RemarkCode", false);
 
-            string[] orderBy = { "RemarkCode" };
-
-            RT2020.DAL.RemarksCollection remarksCol = RT2020.DAL.Remarks.LoadCollection(orderBy, true);
-            cboTo.DataSource = remarksCol;
-            cboTo.DisplayMember = "RemarkCode";
-            cboTo.ValueMember = "RemarkId";
-
-            cboTo.SelectedIndex = remarksCol.Count - 1;
+            cboTo.SelectedIndex = cboTo.Items.Count - 1;
         }
        
         #endregion

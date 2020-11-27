@@ -197,7 +197,6 @@
     <Compile Include="PurchaseOrderHHTHeader.cs" />
     <Compile Include="PurchaseOrderReceiveDetails.cs" />
     <Compile Include="PurchaseOrderReceiveHeader.cs" />
-    <Compile Include="Remarks.cs" />
     <Compile Include="Salutation.cs" />
     <Compile Include="ShipmentMethod.cs" />
     <Compile Include="SmartTag4Member.cs" />

@@ -103,6 +103,7 @@ namespace RT2020.ModelEx
                     list.Insert(0, new EF6.JobTitle()
                     {
                         JobTitleId = Guid.Empty,
+                        JobTitleCode = "",
                         JobTitleName = BlankLineText,
                         JobTitleName_Chs = BlankLineText,
                         JobTitleName_Cht = BlankLineText,

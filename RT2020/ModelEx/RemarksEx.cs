@@ -8,29 +8,29 @@ using RT2020.Helper;
 
 namespace RT2020.ModelEx
 {
-    public class ProvinceEx
+    public class RemarksEx
     {
-        public static Guid GetProvinceIdByName(string name)
+        public static Guid GetRemarkIdByCode(string code)
         {
             var result = Guid.Empty;
 
             using (var ctx = new EF6.RT2020Entities())
             {
-                var p = ctx.Province.Where(x => x.ProvinceName == name).FirstOrDefault();
-                if (p != null) result = p.ProvinceId;
+                var p = ctx.Remarks.Where(x => x.RemarkCode == code).FirstOrDefault();
+                if (p != null) result = p.RemarkId;
             }
 
             return result;
         }
 
-        public static bool IsProvinceCodeInUse(string code)
+        public static bool IsRemarkCodeInUse(string code)
         {
             bool result = false;
 
             using (var ctx = new EF6.RT2020Entities())
             {
-                var province = ctx.Province.Where(x => x.ProvinceCode == code).FirstOrDefault();
-                if (province != null) result = true;
+                var country = ctx.Remarks.Where(x => x.RemarkCode == code).FirstOrDefault();
+                if (country != null) result = true;
             }
 
             return result;
@@ -78,19 +78,19 @@ namespace RT2020.ModelEx
             if (SwitchLocale && TextField[0] == OrderBy[0] && OrderBy.Length == 1)
             {
                 OrderBy[0] = CookieHelper.CurrentLocaleId == LanguageHelper.AlternateLanguage2.Key ?
-                    "ProvinceName_Cht" :
+                    "Remarks3" :
                     CookieHelper.CurrentLocaleId == LanguageHelper.AlternateLanguage1.Key ?
-                    "ProvinceName_Chs" :
-                    "ProvinceName";
+                    "Remarks2" :
+                    "Remarks1";
             }
             var orderby = String.Join(",", OrderBy.Select(x => "[" + x + "]"));
             #endregion
 
             using (var ctx = new RT2020.EF6.RT2020Entities())
             {
-                var list = ctx.Province.SqlQuery(
+                var list = ctx.Remarks.SqlQuery(
                     String.Format(
-                        "Select * from Province Where {0} Order By {1}",
+                        "Select * from Remarks Where {0} Order By {1}",
                         String.IsNullOrEmpty(WhereClause) ? "1 = 1" : WhereClause,
                         orderby
                     ))
@@ -100,24 +100,24 @@ namespace RT2020.ModelEx
                 #region BlankLine? 加個 blank item，置頂
                 if (BlankLine)
                 {
-                    list.Insert(0, new EF6.Province()
+                    list.Insert(0, new EF6.Remarks()
                     {
-                        ProvinceId = Guid.Empty,
-                        ProvinceCode = "",
-                        ProvinceName = BlankLineText,
-                        ProvinceName_Chs = BlankLineText,
-                        ProvinceName_Cht = BlankLineText,
+                        RemarkId = Guid.Empty,
+                        RemarkCode = "",
+                        Remarks1 = BlankLineText,
+                        Remarks2 = BlankLineText,
+                        Remarks3 = BlankLineText,
                     });
                 }
                 #endregion
 
                 ddList.DataSource = list;
-                ddList.ValueMember = "ProvinceId";
-                ddList.DisplayMember = !SwitchLocale ? "ProvinceName" :
+                ddList.ValueMember = "RemarkId";
+                ddList.DisplayMember = !SwitchLocale ? "Remarks1" :
                     CookieHelper.CurrentLocaleId == LanguageHelper.AlternateLanguage2.Key ?
-                    "ProvinceName_Cht" : CookieHelper.CurrentLocaleId == LanguageHelper.AlternateLanguage1.Key ?
-                    "ProvinceName_Chs" :
-                    "ProvinceName";
+                    "Remarks3" : CookieHelper.CurrentLocaleId == LanguageHelper.AlternateLanguage1.Key ?
+                    "Remarks2" :
+                    "Remarks1";
             }
             if (ddList.Items.Count > 0) ddList.SelectedIndex = 0;
         }

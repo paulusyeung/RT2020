@@ -103,6 +103,7 @@ namespace RT2020.ModelEx
                     list.Insert(0, new EF6.MarketSector()
                     {
                         MarketSectorId = Guid.Empty,
+                        MarketSectorCode = "",
                         MarketSectorName = BlankLineText,
                         MarketSectorName_Chs = BlankLineText,
                         MarketSectorName_Cht = BlankLineText,

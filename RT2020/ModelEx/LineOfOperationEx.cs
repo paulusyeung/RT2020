@@ -103,6 +103,7 @@ namespace RT2020.ModelEx
                     list.Insert(0, new EF6.LineOfOperation()
                     {
                         LineOfOperationId = Guid.Empty,
+                        LineOfOperationCode = "",
                         LineOfOperationName = BlankLineText,
                         LineOfOperationName_Chs = BlankLineText,
                         LineOfOperationName_Cht = BlankLineText,
