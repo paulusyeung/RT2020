@@ -236,7 +236,7 @@ namespace RT2020.Staff
 
         private bool IsValid()
         {
-            bool result = false;
+            bool result = true;
 
             #region DeptCode 唔可以吉
             errorProvider.SetError(txtStaffDeptCode, string.Empty);

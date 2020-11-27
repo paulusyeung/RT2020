@@ -12,6 +12,7 @@ using Gizmox.WebGUI.Forms;
 using Gizmox.WebGUI.Common.Resources;
 using RT2020.DAL;
 using System.Data.SqlClient;
+using RT2020.Helper;
 
 #endregion
 
@@ -22,12 +23,59 @@ namespace RT2020.Settings
         public PaymentFactor(FactorType type)
         {
             InitializeComponent();
+
             this.PaymentFactorType = type;
+        }
+
+        private void PaymentFactor_Load(object sender, EventArgs e)
+        {
+            SetCaptions();
+            SetAttributes();
+
             ControlChanging();
             SetToolBar();
             FillComboList();
             BindPaymentFactorList();
         }
+
+        #region SetCaptions SetAttributes
+
+        private void SetCaptions()
+        {
+            this.Text = WestwindHelper.GetWord("country.setup", "Model");
+
+            colLN.Text = WestwindHelper.GetWord("listview.line", "Tools");
+
+            //colCountryCode.Text = WestwindHelper.GetWord("country.code", "Model");
+            //colCountryName.Text = WestwindHelper.GetWord("country.name", "Model");
+            //colCountryNameAlt1.Text = WestwindHelper.GetWord(String.Format("language.{0}", LanguageHelper.AlternateLanguage1.Key.ToLower()), "Menu");
+            //colCountryNameAlt2.Text = WestwindHelper.GetWord(String.Format("language.{0}", LanguageHelper.AlternateLanguage2.Key.ToLower()), "Menu");
+
+            //lblCountryCode.Text = WestwindHelper.GetWordWithColon("country.code", "Model");
+            //lblCountryName.Text = WestwindHelper.GetWordWithColon("country.name", "Model");
+            //lblCountryNameAlt1.Text = WestwindHelper.GetWordWithColon(String.Format("language.{0}", LanguageHelper.AlternateLanguage1.Key.ToLower()), "Menu");
+            //lblCountryNameAlt2.Text = WestwindHelper.GetWordWithColon(String.Format("language.{0}", LanguageHelper.AlternateLanguage2.Key.ToLower()), "Menu");
+
+            //lnkAddProvince.Text = WestwindHelper.GetWord("province", "Model");
+            //lnkAddCity.Text = WestwindHelper.GetWord("city", "Model");
+        }
+
+        private void SetAttributes()
+        {
+            lvPaymentFactor.Dock = DockStyle.Fill;
+
+            colLN.TextAlign = HorizontalAlignment.Center;
+            //colCountryCode.TextAlign = HorizontalAlignment.Left;
+            //colCountryCode.ContentAlign = ExtendedHorizontalAlignment.Center;
+            //colCountryName.TextAlign = HorizontalAlignment.Left;
+            //colCountryName.ContentAlign = ExtendedHorizontalAlignment.Center;
+            //colCountryNameAlt1.TextAlign = HorizontalAlignment.Left;
+            //colCountryNameAlt1.ContentAlign = ExtendedHorizontalAlignment.Center;
+            //colCountryNameAlt2.TextAlign = HorizontalAlignment.Left;
+            //colCountryNameAlt2.ContentAlign = ExtendedHorizontalAlignment.Center;
+        }
+
+        #endregion
 
         public PaymentFactor(Guid paymentFactorId, FactorType type)
         {
@@ -124,21 +172,21 @@ namespace RT2020.Settings
             sep.Style = ToolBarButtonStyle.Separator;
 
             // cmdSave
-            ToolBarButton cmdNew = new ToolBarButton("New", "New");
+            ToolBarButton cmdNew = new ToolBarButton("New", WestwindHelper.GetWord("edit.new", "General"));
             cmdNew.Tag = "New";
             cmdNew.Image = new IconResourceHandle("16x16.ico_16_3.gif");
 
             this.tbWizardAction.Buttons.Add(cmdNew);
 
             // cmdSave
-            ToolBarButton cmdSave = new ToolBarButton("Save", "Save");
+            ToolBarButton cmdSave = new ToolBarButton("Save", WestwindHelper.GetWord("edit.save", "General"));
             cmdSave.Tag = "Save";
             cmdSave.Image = new IconResourceHandle("16x16.16_L_save.gif");
 
             this.tbWizardAction.Buttons.Add(cmdSave);
 
             // cmdSaveNew
-            ToolBarButton cmdRefresh = new ToolBarButton("Refresh", "Refresh");
+            ToolBarButton cmdRefresh = new ToolBarButton("Refresh", WestwindHelper.GetWord("edit.refresh", "General"));
             cmdRefresh.Tag = "refresh";
             cmdRefresh.Image = new IconResourceHandle("16x16.16_L_refresh.gif");
 
@@ -146,7 +194,7 @@ namespace RT2020.Settings
             this.tbWizardAction.Buttons.Add(sep);
 
             // cmdDelete
-            ToolBarButton cmdDelete = new ToolBarButton("Delete", "Delete");
+            ToolBarButton cmdDelete = new ToolBarButton("Delete", WestwindHelper.GetWord("edit.delete", "General"));
             cmdDelete.Tag = "Delete";
             cmdDelete.Image = new IconResourceHandle("16x16.16_L_remove.gif");
 

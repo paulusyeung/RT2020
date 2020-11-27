@@ -375,26 +375,6 @@ namespace RT2020.Member
         }
 
         /// <summary>
-        /// Gets the phone tag id.
-        /// </summary>
-        /// <param name="phoneCode">The phone code.</param>
-        /// <param name="priority">The priority.</param>
-        /// <returns></returns>
-        private Guid GetPhoneTagId(string phoneCode, int priority)
-        {
-            string query = "PhoneCode = '" + phoneCode + "' AND Priority = '" + priority.ToString() + "'";
-            PhoneTag oTag = PhoneTag.LoadWhere(query);
-            if (oTag != null)
-            {
-                return oTag.PhoneTagId;
-            }
-            else
-            {
-                return System.Guid.Empty;
-            }
-        }
-
-        /// <summary>
         /// Gets the smart tag id.
         /// </summary>
         /// <param name="tagCode">The tag code.</param>
@@ -459,15 +439,15 @@ namespace RT2020.Member
             objAddress.CityId = System.Guid.Empty;
             objAddress.District = string.Empty;
             objAddress.Mailing = false;
-            objAddress.PhoneTag1 = GetPhoneTagId("Work", 1); // Work
+            objAddress.PhoneTag1 = ModelEx.PhoneTagEx.GetPhoneTagIdByPriority(1);
             objAddress.PhoneTag1Value = workPhone;
-            objAddress.PhoneTag2 = GetPhoneTagId("Home", 2); // Home
+            objAddress.PhoneTag2 = ModelEx.PhoneTagEx.GetPhoneTagIdByPriority(2);
             objAddress.PhoneTag2Value = homePhone;
-            objAddress.PhoneTag3 = GetPhoneTagId("Fax", 3); // Fax
+            objAddress.PhoneTag3 = ModelEx.PhoneTagEx.GetPhoneTagIdByPriority(3);
             objAddress.PhoneTag3Value = fax;
-            objAddress.PhoneTag4 = GetPhoneTagId("Other", 4); // other
+            objAddress.PhoneTag4 = ModelEx.PhoneTagEx.GetPhoneTagIdByPriority(4);
             objAddress.PhoneTag4Value = otherPhone;
-            objAddress.PhoneTag5 = GetPhoneTagId("Pager", 5); // Pager
+            objAddress.PhoneTag5 = ModelEx.PhoneTagEx.GetPhoneTagIdByPriority(5);
             objAddress.PhoneTag5Value = pager;
 
             objAddress.Save();

@@ -219,7 +219,7 @@ namespace RT2020.Staff
 
         private bool IsValid()
         {
-            bool result = false;
+            bool result = true;
 
             #region StaffJobTitleCode 唔可以吉
             errorProvider.SetError(txtJobTitleCode, string.Empty);

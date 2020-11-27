@@ -28,76 +28,72 @@ namespace RT2020.Settings
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.splitContainer = new Gizmox.WebGUI.Forms.SplitContainer();
             this.lvPhoneList = new Gizmox.WebGUI.Forms.ListView();
-            this.colPhoneId = new Gizmox.WebGUI.Forms.ColumnHeader();
-            this.colLN = new Gizmox.WebGUI.Forms.ColumnHeader();
-            this.colPhoneCode = new Gizmox.WebGUI.Forms.ColumnHeader();
-            this.colPhoneName = new Gizmox.WebGUI.Forms.ColumnHeader();
-            this.colPhoneNameChs = new Gizmox.WebGUI.Forms.ColumnHeader();
-            this.colPhoneNameCht = new Gizmox.WebGUI.Forms.ColumnHeader();
+            this.colPhoneId = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colLN = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colPhoneCode = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colPhoneName = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colPhoneNameAlt1 = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colPhoneNameAlt2 = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
             this.txtPriority = new Gizmox.WebGUI.Forms.TextBox();
             this.lblPriority = new Gizmox.WebGUI.Forms.Label();
             this.tbWizardAction = new Gizmox.WebGUI.Forms.ToolBar();
-            this.txtPhoneNameCht = new Gizmox.WebGUI.Forms.TextBox();
-            this.txtPhoneNameChs = new Gizmox.WebGUI.Forms.TextBox();
+            this.txtPhoneNameAlt2 = new Gizmox.WebGUI.Forms.TextBox();
+            this.txtPhoneNameAlt1 = new Gizmox.WebGUI.Forms.TextBox();
             this.txtPhoneName = new Gizmox.WebGUI.Forms.TextBox();
-            this.lblPhoneNameCht = new Gizmox.WebGUI.Forms.Label();
-            this.lblPhoneNameChs = new Gizmox.WebGUI.Forms.Label();
+            this.lblPhoneNameAlt2 = new Gizmox.WebGUI.Forms.Label();
+            this.lblPhoneNameAlt1 = new Gizmox.WebGUI.Forms.Label();
             this.lblPhoneName = new Gizmox.WebGUI.Forms.Label();
             this.txtPhoneCode = new Gizmox.WebGUI.Forms.TextBox();
             this.lblPhoneCode = new Gizmox.WebGUI.Forms.Label();
-            this.errorProvider = new Gizmox.WebGUI.Forms.ErrorProvider();
+            this.errorProvider = new Gizmox.WebGUI.Forms.ErrorProvider(this.components);
+            this.colPriority = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
             this.SuspendLayout();
             // 
             // splitContainer
             // 
-            this.splitContainer.Anchor = Gizmox.WebGUI.Forms.AnchorStyles.None;
+            this.splitContainer.AutoValidate = Gizmox.WebGUI.Forms.AutoValidate.EnablePreventFocusChange;
             this.splitContainer.BorderStyle = Gizmox.WebGUI.Forms.BorderStyle.Clear;
             this.splitContainer.Dock = Gizmox.WebGUI.Forms.DockStyle.Fill;
-            this.splitContainer.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
             this.splitContainer.FixedPanel = Gizmox.WebGUI.Forms.FixedPanel.Panel1;
             this.splitContainer.Location = new System.Drawing.Point(0, 0);
             this.splitContainer.Name = "splitContainer";
-            this.splitContainer.Orientation = Gizmox.WebGUI.Forms.Orientation.Vertical;
             // 
             // splitContainer.Panel1
             // 
             this.splitContainer.Panel1.Controls.Add(this.lvPhoneList);
-            this.splitContainer.Panel1.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
             // 
             // splitContainer.Panel2
             // 
             this.splitContainer.Panel2.Controls.Add(this.txtPriority);
             this.splitContainer.Panel2.Controls.Add(this.lblPriority);
             this.splitContainer.Panel2.Controls.Add(this.tbWizardAction);
-            this.splitContainer.Panel2.Controls.Add(this.txtPhoneNameCht);
-            this.splitContainer.Panel2.Controls.Add(this.txtPhoneNameChs);
+            this.splitContainer.Panel2.Controls.Add(this.txtPhoneNameAlt2);
+            this.splitContainer.Panel2.Controls.Add(this.txtPhoneNameAlt1);
             this.splitContainer.Panel2.Controls.Add(this.txtPhoneName);
-            this.splitContainer.Panel2.Controls.Add(this.lblPhoneNameCht);
-            this.splitContainer.Panel2.Controls.Add(this.lblPhoneNameChs);
+            this.splitContainer.Panel2.Controls.Add(this.lblPhoneNameAlt2);
+            this.splitContainer.Panel2.Controls.Add(this.lblPhoneNameAlt1);
             this.splitContainer.Panel2.Controls.Add(this.lblPhoneName);
             this.splitContainer.Panel2.Controls.Add(this.txtPhoneCode);
             this.splitContainer.Panel2.Controls.Add(this.lblPhoneCode);
-            this.splitContainer.Panel2.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
             this.splitContainer.Size = new System.Drawing.Size(806, 506);
             this.splitContainer.SplitterDistance = 500;
             this.splitContainer.TabIndex = 0;
             // 
             // lvPhoneList
             // 
-            this.lvPhoneList.Anchor = Gizmox.WebGUI.Forms.AnchorStyles.None;
             this.lvPhoneList.Columns.AddRange(new Gizmox.WebGUI.Forms.ColumnHeader[] {
             this.colPhoneId,
             this.colLN,
             this.colPhoneCode,
             this.colPhoneName,
-            this.colPhoneNameChs,
-            this.colPhoneNameCht});
+            this.colPhoneNameAlt1,
+            this.colPhoneNameAlt2,
+            this.colPriority});
             this.lvPhoneList.DataMember = null;
             this.lvPhoneList.Dock = Gizmox.WebGUI.Forms.DockStyle.Fill;
-            this.lvPhoneList.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.lvPhoneList.ItemsPerPage = 20;
             this.lvPhoneList.Location = new System.Drawing.Point(0, 0);
             this.lvPhoneList.Name = "lvPhoneList";
             this.lvPhoneList.Size = new System.Drawing.Size(499, 506);
@@ -107,155 +103,132 @@ namespace RT2020.Settings
             // 
             // colPhoneId
             // 
-            this.colPhoneId.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.colPhoneId.Image = null;
             this.colPhoneId.Text = "PhoneId";
             this.colPhoneId.Visible = false;
             this.colPhoneId.Width = 150;
             // 
             // colLN
             // 
-            this.colLN.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.colLN.Image = null;
             this.colLN.Text = "LN";
             this.colLN.Width = 30;
             // 
             // colPhoneCode
             // 
-            this.colPhoneCode.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.colPhoneCode.Image = null;
             this.colPhoneCode.Text = "Phone Code";
             this.colPhoneCode.Width = 80;
             // 
             // colPhoneName
             // 
-            this.colPhoneName.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.colPhoneName.Image = null;
             this.colPhoneName.Text = "Phone Name";
             this.colPhoneName.Width = 120;
             // 
-            // colPhoneNameChs
+            // colPhoneNameAlt1
             // 
-            this.colPhoneNameChs.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.colPhoneNameChs.Image = null;
-            this.colPhoneNameChs.Text = "Phone Name Chs";
-            this.colPhoneNameChs.Width = 120;
+            this.colPhoneNameAlt1.Text = "Phone Name Chs";
+            this.colPhoneNameAlt1.Width = 120;
             // 
-            // colPhoneNameCht
+            // colPhoneNameAlt2
             // 
-            this.colPhoneNameCht.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.colPhoneNameCht.Image = null;
-            this.colPhoneNameCht.Text = "Phone Name Cht";
-            this.colPhoneNameCht.Width = 120;
+            this.colPhoneNameAlt2.Text = "Phone Name Cht";
+            this.colPhoneNameAlt2.Width = 120;
             // 
             // txtPriority
             // 
-            this.txtPriority.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.txtPriority.Location = new System.Drawing.Point(122, 129);
+            this.txtPriority.Location = new System.Drawing.Point(159, 129);
             this.txtPriority.Name = "txtPriority";
-            this.txtPriority.Size = new System.Drawing.Size(142, 20);
+            this.txtPriority.Size = new System.Drawing.Size(131, 20);
             this.txtPriority.TabIndex = 5;
             // 
             // lblPriority
             // 
-            this.lblPriority.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
             this.lblPriority.Location = new System.Drawing.Point(16, 132);
             this.lblPriority.Name = "lblPriority";
-            this.lblPriority.Size = new System.Drawing.Size(100, 23);
+            this.lblPriority.Size = new System.Drawing.Size(140, 23);
             this.lblPriority.TabIndex = 9;
             this.lblPriority.Text = "Priority:";
             // 
             // tbWizardAction
             // 
-            this.tbWizardAction.Anchor = Gizmox.WebGUI.Forms.AnchorStyles.None;
-            this.tbWizardAction.Appearance = Gizmox.WebGUI.Forms.ToolBarAppearance.Normal;
-            this.tbWizardAction.Dock = Gizmox.WebGUI.Forms.DockStyle.Top;
+            this.tbWizardAction.ButtonSize = new System.Drawing.Size(20, 20);
             this.tbWizardAction.DragHandle = true;
-            this.tbWizardAction.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.tbWizardAction.DropDownArrows = false;
-            this.tbWizardAction.ImageList = null;
+            this.tbWizardAction.DropDownArrows = true;
+            this.tbWizardAction.ImageSize = new System.Drawing.Size(16, 16);
             this.tbWizardAction.Location = new System.Drawing.Point(0, 0);
             this.tbWizardAction.MenuHandle = true;
             this.tbWizardAction.Name = "tbWizardAction";
-            //this.tbWizardAction.RightToLeft = false;
             this.tbWizardAction.ShowToolTips = true;
+            this.tbWizardAction.Size = new System.Drawing.Size(302, 26);
             this.tbWizardAction.TabIndex = 8;
             // 
-            // txtPhoneNameCht
+            // txtPhoneNameAlt2
             // 
-            this.txtPhoneNameCht.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.txtPhoneNameCht.Location = new System.Drawing.Point(122, 106);
-            this.txtPhoneNameCht.Name = "txtPhoneNameCht";
-            this.txtPhoneNameCht.Size = new System.Drawing.Size(142, 20);
-            this.txtPhoneNameCht.TabIndex = 4;
+            this.txtPhoneNameAlt2.Location = new System.Drawing.Point(159, 106);
+            this.txtPhoneNameAlt2.Name = "txtPhoneNameAlt2";
+            this.txtPhoneNameAlt2.Size = new System.Drawing.Size(131, 20);
+            this.txtPhoneNameAlt2.TabIndex = 4;
             // 
-            // txtPhoneNameChs
+            // txtPhoneNameAlt1
             // 
-            this.txtPhoneNameChs.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.txtPhoneNameChs.Location = new System.Drawing.Point(122, 83);
-            this.txtPhoneNameChs.Name = "txtPhoneNameChs";
-            this.txtPhoneNameChs.Size = new System.Drawing.Size(142, 20);
-            this.txtPhoneNameChs.TabIndex = 3;
+            this.txtPhoneNameAlt1.Location = new System.Drawing.Point(159, 83);
+            this.txtPhoneNameAlt1.Name = "txtPhoneNameAlt1";
+            this.txtPhoneNameAlt1.Size = new System.Drawing.Size(131, 20);
+            this.txtPhoneNameAlt1.TabIndex = 3;
             // 
             // txtPhoneName
             // 
-            this.txtPhoneName.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.txtPhoneName.Location = new System.Drawing.Point(122, 60);
+            this.txtPhoneName.Location = new System.Drawing.Point(159, 60);
             this.txtPhoneName.Name = "txtPhoneName";
-            this.txtPhoneName.Size = new System.Drawing.Size(142, 20);
+            this.txtPhoneName.Size = new System.Drawing.Size(131, 20);
             this.txtPhoneName.TabIndex = 2;
             // 
-            // lblPhoneNameCht
+            // lblPhoneNameAlt2
             // 
-            this.lblPhoneNameCht.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.lblPhoneNameCht.Location = new System.Drawing.Point(16, 109);
-            this.lblPhoneNameCht.Name = "lblPhoneNameCht";
-            this.lblPhoneNameCht.Size = new System.Drawing.Size(100, 23);
-            this.lblPhoneNameCht.TabIndex = 4;
-            this.lblPhoneNameCht.Text = "Phone Name Cht";
+            this.lblPhoneNameAlt2.Location = new System.Drawing.Point(28, 109);
+            this.lblPhoneNameAlt2.Name = "lblPhoneNameAlt2";
+            this.lblPhoneNameAlt2.Size = new System.Drawing.Size(128, 23);
+            this.lblPhoneNameAlt2.TabIndex = 4;
+            this.lblPhoneNameAlt2.Text = "Phone Name Cht";
             // 
-            // lblPhoneNameChs
+            // lblPhoneNameAlt1
             // 
-            this.lblPhoneNameChs.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.lblPhoneNameChs.Location = new System.Drawing.Point(16, 86);
-            this.lblPhoneNameChs.Name = "lblPhoneNameChs";
-            this.lblPhoneNameChs.Size = new System.Drawing.Size(100, 23);
-            this.lblPhoneNameChs.TabIndex = 3;
-            this.lblPhoneNameChs.Text = "Phone Name Chs:";
+            this.lblPhoneNameAlt1.Location = new System.Drawing.Point(28, 86);
+            this.lblPhoneNameAlt1.Name = "lblPhoneNameAlt1";
+            this.lblPhoneNameAlt1.Size = new System.Drawing.Size(128, 23);
+            this.lblPhoneNameAlt1.TabIndex = 3;
+            this.lblPhoneNameAlt1.Text = "Phone Name Chs:";
             // 
             // lblPhoneName
             // 
-            this.lblPhoneName.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
             this.lblPhoneName.Location = new System.Drawing.Point(16, 63);
             this.lblPhoneName.Name = "lblPhoneName";
-            this.lblPhoneName.Size = new System.Drawing.Size(100, 23);
+            this.lblPhoneName.Size = new System.Drawing.Size(140, 23);
             this.lblPhoneName.TabIndex = 2;
             this.lblPhoneName.Text = "Phone Name:";
             // 
             // txtPhoneCode
             // 
-            this.txtPhoneCode.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.txtPhoneCode.Location = new System.Drawing.Point(122, 37);
+            this.txtPhoneCode.Location = new System.Drawing.Point(159, 37);
             this.txtPhoneCode.MaxLength = 10;
             this.txtPhoneCode.Name = "txtPhoneCode";
-            this.txtPhoneCode.Size = new System.Drawing.Size(142, 20);
+            this.txtPhoneCode.Size = new System.Drawing.Size(131, 20);
             this.txtPhoneCode.TabIndex = 1;
             // 
             // lblPhoneCode
             // 
-            this.lblPhoneCode.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
             this.lblPhoneCode.Location = new System.Drawing.Point(16, 40);
             this.lblPhoneCode.Name = "lblPhoneCode";
-            this.lblPhoneCode.Size = new System.Drawing.Size(100, 23);
+            this.lblPhoneCode.Size = new System.Drawing.Size(140, 23);
             this.lblPhoneCode.TabIndex = 0;
             this.lblPhoneCode.Text = "Phone Code:";
             // 
             // errorProvider
             // 
             this.errorProvider.BlinkRate = 3;
-            this.errorProvider.BlinkStyle = Gizmox.WebGUI.Forms.ErrorBlinkStyle.BlinkIfDifferentError;
-            this.errorProvider.DataMember = "";
-            this.errorProvider.DataSource = "";
+            // 
+            // colPriority
+            // 
+            this.colPriority.Text = "Priority";
+            this.colPriority.Width = 60;
             // 
             // PhoneTagWizard
             // 
@@ -265,6 +238,7 @@ namespace RT2020.Settings
             this.Size = new System.Drawing.Size(806, 506);
             this.StartPosition = Gizmox.WebGUI.Forms.FormStartPosition.CenterParent;
             this.Text = "MemberPhone Wizard";
+            this.Load += new System.EventHandler(this.PhoneTagWizard_Load);
             this.ResumeLayout(false);
 
         }
@@ -277,13 +251,13 @@ namespace RT2020.Settings
         private Gizmox.WebGUI.Forms.ColumnHeader colLN;
         private Gizmox.WebGUI.Forms.ColumnHeader colPhoneCode;
         private Gizmox.WebGUI.Forms.ColumnHeader colPhoneName;
-        private Gizmox.WebGUI.Forms.ColumnHeader colPhoneNameChs;
-        private Gizmox.WebGUI.Forms.ColumnHeader colPhoneNameCht;
-        private Gizmox.WebGUI.Forms.TextBox txtPhoneNameCht;
-        private Gizmox.WebGUI.Forms.TextBox txtPhoneNameChs;
+        private Gizmox.WebGUI.Forms.ColumnHeader colPhoneNameAlt1;
+        private Gizmox.WebGUI.Forms.ColumnHeader colPhoneNameAlt2;
+        private Gizmox.WebGUI.Forms.TextBox txtPhoneNameAlt2;
+        private Gizmox.WebGUI.Forms.TextBox txtPhoneNameAlt1;
         private Gizmox.WebGUI.Forms.TextBox txtPhoneName;
-        private Gizmox.WebGUI.Forms.Label lblPhoneNameCht;
-        private Gizmox.WebGUI.Forms.Label lblPhoneNameChs;
+        private Gizmox.WebGUI.Forms.Label lblPhoneNameAlt2;
+        private Gizmox.WebGUI.Forms.Label lblPhoneNameAlt1;
         private Gizmox.WebGUI.Forms.Label lblPhoneName;
         private Gizmox.WebGUI.Forms.TextBox txtPhoneCode;
         private Gizmox.WebGUI.Forms.Label lblPhoneCode;
@@ -291,7 +265,6 @@ namespace RT2020.Settings
         private Gizmox.WebGUI.Forms.ErrorProvider errorProvider;
         private Gizmox.WebGUI.Forms.Label lblPriority;
         private Gizmox.WebGUI.Forms.TextBox txtPriority;
-
-
+        private Gizmox.WebGUI.Forms.ColumnHeader colPriority;
     }
 }

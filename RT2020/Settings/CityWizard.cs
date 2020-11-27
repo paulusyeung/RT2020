@@ -450,7 +450,7 @@ namespace RT2020.Settings
 
         private bool IsValid()
         {
-            bool result = false;
+            bool result = true;
 
             #region CityCode 唔可以吉
             errorProvider.SetError(txtCityCode, string.Empty);

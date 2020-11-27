@@ -221,7 +221,7 @@ namespace RT2020.Settings
 
         private bool IsValid()
         {
-            bool result = false;
+            bool result = true;
 
             #region CountryCode 唔可以吉
             errorProvider.SetError(txtCountryCode, string.Empty);

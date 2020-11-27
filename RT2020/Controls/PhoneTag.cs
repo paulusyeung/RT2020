@@ -10,6 +10,8 @@ using System.Text;
 using Gizmox.WebGUI.Common;
 using Gizmox.WebGUI.Forms;
 using RT2020.DAL;
+using System.Linq;
+using System.Data.Entity;
 
 #endregion
 
@@ -29,11 +31,15 @@ namespace RT2020.Controls
         {
             int iCount = 1;
             string[] orderBy = new string[] { "Priority" };
-            PhoneTagCollection phoneTagList = RT2020.DAL.PhoneTag.LoadCollection(orderBy, true);
-            foreach (RT2020.DAL.PhoneTag oTag in phoneTagList)
+
+            using (var ctx = new EF6.RT2020Entities())
             {
-                SetPhoneTagLabel(string.Format(key, iCount.ToString()), oTag.PhoneTagId, oTag.PhoneName, oTag.PhoneName_Chs, oTag.PhoneName_Cht);
-                iCount++;
+                var list = ctx.PhoneTag.OrderBy(x => x.Priority).AsNoTracking().ToList();
+                foreach (var item in list)
+                {
+                    SetPhoneTagLabel(string.Format(key, iCount.ToString()), item.PhoneTagId, item.PhoneName, item.PhoneName_Chs, item.PhoneName_Cht);
+                    iCount++;
+                }
             }
         }
 

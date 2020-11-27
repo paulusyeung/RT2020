@@ -152,7 +152,6 @@
     <Compile Include="MemberVipData.cs" />
     <Compile Include="MemberVipLineOfOperation.cs" />
     <Compile Include="MemberVipSupplement.cs" />
-    <Compile Include="PhoneTag.cs" />
     <Compile Include="PosAnalysisCode.cs" />
     <Compile Include="PosLedgerAnalysis.cs" />
     <Compile Include="PosLedgerDetails.cs" />

@@ -258,19 +258,6 @@ namespace RT2020.Member.Import
             return result;
         }
 
-        private Guid GetPhoneTagId(string priority)
-        {
-            System.Guid result = System.Guid.Empty;
-            string sql = "Priority = '" + priority + "'";
-            RT2020.DAL.PhoneTag oTag = RT2020.DAL.PhoneTag.LoadWhere(sql);
-            if (oTag != null)
-            {
-                result = oTag.PhoneTagId;
-            }
-
-            return result;
-        }
-
         private Guid GetCityId(string cityName)
         {
             var result = Guid.Empty;
@@ -539,13 +526,13 @@ namespace RT2020.Member.Import
             oAddress.CityId = GetCityId(member.ADDRESS3);
             oAddress.District = string.Empty;
             oAddress.Mailing = true;
-            oAddress.PhoneTag1 = GetPhoneTagId("1");
+            oAddress.PhoneTag1 = ModelEx.PhoneTagEx.GetPhoneTagIdByPriority(1);
             oAddress.PhoneTag1Value = member.TELW;
-            oAddress.PhoneTag2 = GetPhoneTagId("2");
+            oAddress.PhoneTag2 = ModelEx.PhoneTagEx.GetPhoneTagIdByPriority(2);
             oAddress.PhoneTag2Value = member.TELH;
-            oAddress.PhoneTag3 = GetPhoneTagId("3");
+            oAddress.PhoneTag3 = ModelEx.PhoneTagEx.GetPhoneTagIdByPriority(3);
             oAddress.PhoneTag3Value = member.FAX;
-            oAddress.PhoneTag4 = GetPhoneTagId("4");
+            oAddress.PhoneTag4 = ModelEx.PhoneTagEx.GetPhoneTagIdByPriority(4);
             oAddress.PhoneTag4Value = member.TELOTHER;
 
             oAddress.Save();

@@ -246,7 +246,7 @@ namespace RT2020.Settings
 
         private bool IsValid()
         {
-            bool result = false;
+            bool result = true;
 
             #region Group Code 唔可以吉
             errorProvider.SetError(txtLineOfOperationCode, string.Empty);

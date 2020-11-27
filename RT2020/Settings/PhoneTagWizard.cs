@@ -1,4 +1,4 @@
-#region Using
+﻿#region Using
 
 using System;
 using System.Collections.Generic;
@@ -13,6 +13,9 @@ using Gizmox.WebGUI.Common.Resources;
 using RT2020.DAL;
 using System.Data.SqlClient;
 using System.Configuration;
+using RT2020.Helper;
+using System.Linq;
+using System.Data.Entity;
 
 #endregion
 
@@ -23,10 +26,73 @@ namespace RT2020.Settings
         public PhoneTagWizard()
         {
             InitializeComponent();
+        }
+
+        private void PhoneTagWizard_Load(object sender, EventArgs e)
+        {
+            SetCaptions();
+            SetAttributes();
+
             SetCtrlEditable();
             SetToolBar();
             BindPhoneList();
         }
+
+        #region SetCaptions SetAttributes
+
+        private void SetCaptions()
+        {
+            this.Text = WestwindHelper.GetWord("phoneTag.setup", "Model");
+
+            colLN.Text = WestwindHelper.GetWord("listview.line", "Tools");
+
+            colPhoneCode.Text = WestwindHelper.GetWord("phoneTag.code", "Model");
+            colPhoneName.Text = WestwindHelper.GetWord("phoneTag.name", "Model");
+            colPhoneNameAlt1.Text = WestwindHelper.GetWord(String.Format("language.{0}", LanguageHelper.AlternateLanguage1.Key.ToLower()), "Menu");
+            colPhoneNameAlt2.Text = WestwindHelper.GetWord(String.Format("language.{0}", LanguageHelper.AlternateLanguage2.Key.ToLower()), "Menu");
+            colPriority.Text = WestwindHelper.GetWord("phoneTag.priority", "Model");
+
+            lblPhoneCode.Text = WestwindHelper.GetWordWithColon("phoneTag.code", "Model");
+            lblPhoneName.Text = WestwindHelper.GetWordWithColon("phoneTag.name", "Model");
+            lblPhoneNameAlt1.Text = WestwindHelper.GetWordWithColon(String.Format("language.{0}", LanguageHelper.AlternateLanguage1.Key.ToLower()), "Menu");
+            lblPhoneNameAlt2.Text = WestwindHelper.GetWordWithColon(String.Format("language.{0}", LanguageHelper.AlternateLanguage2.Key.ToLower()), "Menu");
+
+            lblPriority.Text = WestwindHelper.GetWord("phoneTag.priority", "Model");
+        }
+
+        private void SetAttributes()
+        {
+            colLN.TextAlign = HorizontalAlignment.Center;
+            colPhoneCode.TextAlign = HorizontalAlignment.Left;
+            colPhoneCode.ContentAlign = ExtendedHorizontalAlignment.Center;
+            colPhoneName.TextAlign = HorizontalAlignment.Left;
+            colPhoneName.ContentAlign = ExtendedHorizontalAlignment.Center;
+            colPhoneNameAlt1.TextAlign = HorizontalAlignment.Left;
+            colPhoneNameAlt1.ContentAlign = ExtendedHorizontalAlignment.Center;
+            colPhoneNameAlt2.TextAlign = HorizontalAlignment.Left;
+            colPhoneNameAlt2.ContentAlign = ExtendedHorizontalAlignment.Center;
+            colPriority.TextAlign = HorizontalAlignment.Center;
+
+            switch (LanguageHelper.AlternateLanguagesUsed)
+            {
+                case 1:
+                    // hide alt2
+                    lblPhoneNameAlt2.Visible = txtPhoneNameAlt2.Visible = false;
+                    colPhoneNameAlt2.Visible = false;
+                    break;
+                case 2:
+                    // do nothing
+                    break;
+                case 0:
+                default:
+                    // hide alt1 & alt2
+                    lblPhoneNameAlt1.Visible = lblPhoneNameAlt2.Visible = txtPhoneNameAlt1.Visible = txtPhoneNameAlt2.Visible = false;
+                    colPhoneNameAlt1.Visible = colPhoneNameAlt2.Visible = false;
+                    break;
+            }
+        }
+
+        #endregion
 
         #region ToolBar
         private void SetToolBar()
@@ -92,8 +158,9 @@ namespace RT2020.Settings
                         SetCtrlEditable();
                         break;
                     case "save":
-                        if (Save())
+                        if (IsValid())
                         {
+                            Save();
                             Clear();
                             BindPhoneList();
                             this.Update();
@@ -134,26 +201,19 @@ namespace RT2020.Settings
             this.lvPhoneList.Items.Clear();
 
             int iCount = 1;
-            StringBuilder sql = new StringBuilder();
-            sql.Append("SELECT PhoneTagId,  ROW_NUMBER() OVER (ORDER BY PhoneCode) AS rownum, ");
-            sql.Append(" PhoneCode, PhoneName, PhoneName_Chs, PhoneName_Cht ");
-            sql.Append(" FROM PhoneTag ");
-            
-            SqlCommand cmd = new SqlCommand();
-            cmd.CommandText = sql.ToString();
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
-            cmd.CommandType= CommandType.Text;
 
-            using (SqlDataReader reader = SqlHelper.Default.ExecuteReader(cmd))
+            using (var ctx = new EF6.RT2020Entities())
             {
-                while (reader.Read())
+                var list = ctx.PhoneTag.OrderBy(x => x.PhoneCode).AsNoTracking().ToList();
+                foreach (var item in list)
                 {
-                    ListViewItem objItem = this.lvPhoneList.Items.Add(reader.GetGuid(0).ToString()); // PhoneId
-                    objItem.SubItems.Add(iCount.ToString()); // Line Number
-                    objItem.SubItems.Add(reader.GetString(2)); // PhoneCode
-                    objItem.SubItems.Add(reader.GetString(3)); // PhoneTag Name
-                    objItem.SubItems.Add(reader.GetString(4)); // PhoneTag Name Chs
-                    objItem.SubItems.Add(reader.GetString(5)); // PhoneTag Name Cht
+                    var objItem = this.lvPhoneList.Items.Add(item.PhoneTagId.ToString());
+                    objItem.SubItems.Add(iCount.ToString());
+                    objItem.SubItems.Add(item.PhoneCode);
+                    objItem.SubItems.Add(item.PhoneName);
+                    objItem.SubItems.Add(item.PhoneName_Chs);
+                    objItem.SubItems.Add(item.PhoneName_Cht);
+                    objItem.SubItems.Add(item.Priority.ToString("#"));
 
                     iCount++;
                 }
@@ -162,66 +222,58 @@ namespace RT2020.Settings
         #endregion
 
         #region Save
-        private bool CodeExists()
-        {
-            string sql = "PhoneCode = '" + txtPhoneCode.Text.Trim() + "'";
-            PhoneTagCollection tagList = PhoneTag.LoadCollection(sql);
-            if (tagList.Count > 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
 
-        private bool Save()
+        private bool IsValid()
         {
+            bool result = true;
+
+            #region CountryCode 唔可以吉
+            errorProvider.SetError(txtPhoneCode, string.Empty);
             if (txtPhoneCode.Text.Length == 0)
             {
                 errorProvider.SetError(txtPhoneCode, "Cannot be blank!");
                 return false;
             }
-            else if (txtPriority.Text.Length == 0)
-            {
-                errorProvider.SetError(txtPriority, "Cannot be blank!");
-                return false;
-            }
-            else if (!Common.Utility.IsNumeric(txtPriority.Text))
-            {
-                errorProvider.SetError(txtPriority, Resources.Common.DigitalNeeded);
-                return false;
-            }
-            else
-            {
-                errorProvider.SetError(txtPhoneCode, string.Empty);
-                errorProvider.SetError(txtPriority, string.Empty);
+            #endregion
 
-                PhoneTag oPhone = PhoneTag.Load(this.PhoneId);
-                if (oPhone == null)
+            #region 新增，要 check TagCode 係咪 in use
+            errorProvider.SetError(txtPhoneCode, string.Empty);
+            if (this.PhoneId == Guid.Empty && ModelEx.PhoneTagEx.IsPhoneTagCodeInUse(txtPhoneCode.Text.Trim()))
+            {
+                errorProvider.SetError(txtPhoneCode, "Tag Code in use");
+                return false;
+            }
+            #endregion
+
+            return result;
+        }
+
+        private bool Save()
+        {
+            bool result = false;
+
+            using (var ctx = new EF6.RT2020Entities())
+            {
+                var tag = ctx.PhoneTag.Find(this.PhoneId);
+
+                if (tag == null)
                 {
-                    oPhone = new PhoneTag();
+                    tag = new EF6.PhoneTag();
+                    tag.PhoneTagId = new Guid();
 
-                    if (CodeExists())
-                    {
-                        errorProvider.SetError(txtPhoneCode, string.Format(Resources.Common.DuplicatedCode, "Phone Tag Code"));
-                        return false;
-                    }
-                    else
-                    {
-                        oPhone.PhoneCode = txtPhoneCode.Text;
-                        errorProvider.SetError(txtPhoneCode, string.Empty);
-                    }
+                    ctx.PhoneTag.Add(tag);
+                    tag.PhoneCode = txtPhoneCode.Text;
                 }
-                oPhone.PhoneName = txtPhoneName.Text;
-                oPhone.PhoneName_Chs = txtPhoneNameChs.Text;
-                oPhone.PhoneName_Cht = txtPhoneNameCht.Text;
-                oPhone.Priority = Convert.ToInt32(txtPriority.Text);
+                tag.PhoneName = txtPhoneName.Text;
+                tag.PhoneName_Chs = txtPhoneNameAlt1.Text;
+                tag.PhoneName_Cht = txtPhoneNameAlt2.Text;
+                tag.Priority = Convert.ToInt32(txtPriority.Text);
 
-                oPhone.Save();
-                return true;
+                ctx.SaveChanges();
+                result = true;
             }
+
+            return result;
         }
 
         private void Clear()
@@ -250,16 +302,20 @@ namespace RT2020.Settings
 
         private void Delete()
         {
-            PhoneTag oPhone = PhoneTag.Load(this.PhoneId);
-            if (oPhone != null)
+            using (var ctx = new EF6.RT2020Entities())
             {
                 try
                 {
-                    oPhone.Delete();
+                    var tag = ctx.PhoneTag.Find(this.PhoneId);
+                    if (tag != null)
+                    {
+                        ctx.PhoneTag.Remove(tag);
+                        ctx.SaveChanges();
+                    }
                 }
                 catch
                 {
-                    MessageBox.Show("Cannot delete the record being used by other record!", "Delete Warning");
+                    MessageBox.Show("Cannot delete the record...Might be in use by other record!", "Delete Warning");
                 }
             }
         }
@@ -268,21 +324,24 @@ namespace RT2020.Settings
         {
             if (lvPhoneList.SelectedItem != null)
             {
-                if (Common.Utility.IsGUID(lvPhoneList.SelectedItem.Text))
+                var id = Guid.NewGuid();
+                if (Guid.TryParse(lvPhoneList.SelectedItem.Text, out id))
                 {
-                    PhoneTag oPhone = PhoneTag.Load(new System.Guid(lvPhoneList.SelectedItem.Text));
-                    if (oPhone != null)
+                    this.PhoneId = id;
+                    using (var ctx = new EF6.RT2020Entities())
                     {
-                        txtPhoneCode.Text = oPhone.PhoneCode;
-                        txtPhoneName.Text = oPhone.PhoneName;
-                        txtPhoneNameChs.Text = oPhone.PhoneName_Chs;
-                        txtPhoneNameCht.Text = oPhone.PhoneName_Cht;
-                        txtPriority.Text = oPhone.Priority.ToString();
+                        var tag = ctx.PhoneTag.Find(this.PhoneId);
+                        if (tag != null)
+                        {
+                            txtPhoneCode.Text = tag.PhoneCode;
+                            txtPhoneName.Text = tag.PhoneName;
+                            txtPhoneNameAlt1.Text = tag.PhoneName_Chs;
+                            txtPhoneNameAlt2.Text = tag.PhoneName_Cht;
+                            txtPriority.Text = tag.Priority.ToString();
 
-                        this.PhoneId = oPhone.PhoneTagId;
-
-                        SetCtrlEditable();
-                        SetToolBar();
+                            SetCtrlEditable();
+                            SetToolBar();
+                        }
                     }
                 }
             }
