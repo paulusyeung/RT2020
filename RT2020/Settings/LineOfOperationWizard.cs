@@ -43,6 +43,8 @@ namespace RT2020.Settings
 
         private void SetCaptions()
         {
+            this.Text = WestwindHelper.GetWord("lineOfOperation.setup", "Model");
+
             this.Text = WestwindHelper.GetWord("lineOfOperation", "Model");
 
             colLN.Text = WestwindHelper.GetWord("listview.line", "Tools");

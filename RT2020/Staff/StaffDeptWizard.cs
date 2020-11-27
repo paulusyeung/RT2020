@@ -39,6 +39,8 @@ namespace RT2020.Staff
 
         private void SetCaptions()
         {
+            this.Text = WestwindHelper.GetWord("department.setup", "Model");
+
             colLN.Text = WestwindHelper.GetWord("tools.listview.line", "Tools");
 
             colParentDept.Text = WestwindHelper.GetWord("department.parent", "Model");

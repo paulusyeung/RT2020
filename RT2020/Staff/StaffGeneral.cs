@@ -83,7 +83,7 @@ namespace RT2020.Staff
         private void FillPosition()
         {
             cmbPosition.Items.Clear();
-            StaffJobTitle.LoadCombo(ref cmbPosition, "JobTitleName", false, true, String.Empty, String.Empty);
+            ModelEx.StaffJobTitleEx.LoadCombo(ref cmbPosition, "JobTitleName", false, true, String.Empty, String.Empty);
             cmbPosition.SelectedIndex = 0;
         }
         #endregion

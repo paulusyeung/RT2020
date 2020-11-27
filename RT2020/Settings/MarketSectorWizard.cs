@@ -43,6 +43,8 @@ namespace RT2020.Settings
 
         private void SetCaptions()
         {
+            this.Text = WestwindHelper.GetWord("marketSector.setup", "Model");
+
             colLN.Text = WestwindHelper.GetWord("listview.line", "Tools");
 
             colMarketSectorCode.Text = WestwindHelper.GetWord("marketSector.code", "Model");

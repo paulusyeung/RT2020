@@ -1,4 +1,4 @@
-#region Using
+﻿#region Using
 
 using System;
 using System.Collections.Generic;
@@ -13,6 +13,9 @@ using Gizmox.WebGUI.Common.Resources;
 using RT2020.DAL;
 using System.Data.SqlClient;
 using System.Configuration;
+using RT2020.Helper;
+using System.Linq;
+using System.Data.Entity;
 
 #endregion
 
@@ -23,10 +26,69 @@ namespace RT2020.Staff
         public StaffJobTitleWizard()
         {
             InitializeComponent();
+        }
+
+        private void StaffJobTitleWizard_Load(object sender, EventArgs e)
+        {
+            SetCaptions();
+            SetAttributes();
+
             SetToolBar();
             BindJobTitleList();
             SetCtrlEditable();
         }
+
+        #region SetCaptions SetAttributes
+
+        private void SetCaptions()
+        {
+            this.Text = WestwindHelper.GetWord("jobTitle.setup", "Model");
+
+            colLN.Text = WestwindHelper.GetWord("listview.line", "Tools");
+
+            colJobTitleCode.Text = WestwindHelper.GetWord("jobTitle.code", "Model");
+            colJobTitleName.Text = WestwindHelper.GetWord("jobTitle.name", "Model");
+            colJobTitleNameAlt1.Text = WestwindHelper.GetWord(String.Format("language.{0}", LanguageHelper.AlternateLanguage1.Key.ToLower()), "Menu");
+            colJobTitleNameAlt2.Text = WestwindHelper.GetWord(String.Format("language.{0}", LanguageHelper.AlternateLanguage2.Key.ToLower()), "Menu");
+
+            lblJobTitleCode.Text = WestwindHelper.GetWordWithColon("jobTitle.code", "Model");
+            lblJobTitleName.Text = WestwindHelper.GetWordWithColon("jobTitle.name", "Model");
+            lblJobTitleNameAlt1.Text = WestwindHelper.GetWordWithColon(String.Format("language.{0}", LanguageHelper.AlternateLanguage1.Key.ToLower()), "Menu");
+            lblJobTitleNameAlt2.Text = WestwindHelper.GetWordWithColon(String.Format("language.{0}", LanguageHelper.AlternateLanguage2.Key.ToLower()), "Menu");
+        }
+
+        private void SetAttributes()
+        {
+            colLN.TextAlign = HorizontalAlignment.Center;
+            colJobTitleCode.TextAlign = HorizontalAlignment.Left;
+            colJobTitleCode.ContentAlign = ExtendedHorizontalAlignment.Center;
+            colJobTitleName.TextAlign = HorizontalAlignment.Left;
+            colJobTitleName.ContentAlign = ExtendedHorizontalAlignment.Center;
+            colJobTitleNameAlt1.TextAlign = HorizontalAlignment.Left;
+            colJobTitleNameAlt1.ContentAlign = ExtendedHorizontalAlignment.Center;
+            colJobTitleNameAlt2.TextAlign = HorizontalAlignment.Left;
+            colJobTitleNameAlt2.ContentAlign = ExtendedHorizontalAlignment.Center;
+
+            switch (LanguageHelper.AlternateLanguagesUsed)
+            {
+                case 1:
+                    // hide alt2
+                    lblJobTitleNameAlt2.Visible = txtJobTitleNameAlt2.Visible = false;
+                    colJobTitleNameAlt2.Visible = false;
+                    break;
+                case 2:
+                    // do nothing
+                    break;
+                case 0:
+                default:
+                    // hide alt1 & alt2
+                    lblJobTitleNameAlt1.Visible = lblJobTitleNameAlt2.Visible = txtJobTitleNameAlt1.Visible = txtJobTitleNameAlt2.Visible = false;
+                    colJobTitleNameAlt1.Visible = colJobTitleNameAlt2.Visible = false;
+                    break;
+            }
+        }
+
+        #endregion
 
         #region ToolBar
         private void SetToolBar()
@@ -41,21 +103,21 @@ namespace RT2020.Staff
             sep.Style = ToolBarButtonStyle.Separator;
 
             // cmdSave
-            ToolBarButton cmdNew = new ToolBarButton("New", "New");
+            ToolBarButton cmdNew = new ToolBarButton("New", WestwindHelper.GetWord("edit.new", "General"));
             cmdNew.Tag = "New";
             cmdNew.Image = new IconResourceHandle("16x16.ico_16_3.gif");
 
             this.tbWizardAction.Buttons.Add(cmdNew);
 
             // cmdSave
-            ToolBarButton cmdSave = new ToolBarButton("Save", "Save");
+            ToolBarButton cmdSave = new ToolBarButton("Save", WestwindHelper.GetWord("edit.save", "General"));
             cmdSave.Tag = "Save";
             cmdSave.Image = new IconResourceHandle("16x16.16_L_save.gif");
 
             this.tbWizardAction.Buttons.Add(cmdSave);
 
             // cmdSaveNew
-            ToolBarButton cmdRefresh = new ToolBarButton("Refresh", "Refresh");
+            ToolBarButton cmdRefresh = new ToolBarButton("Refresh", WestwindHelper.GetWord("edit.refresh", "General"));
             cmdRefresh.Tag = "refresh";
             cmdRefresh.Image = new IconResourceHandle("16x16.16_L_refresh.gif");
 
@@ -63,7 +125,7 @@ namespace RT2020.Staff
             this.tbWizardAction.Buttons.Add(sep);
 
             // cmdDelete
-            ToolBarButton cmdDelete = new ToolBarButton("Delete", "Delete");
+            ToolBarButton cmdDelete = new ToolBarButton("Delete", WestwindHelper.GetWord("edit.delete", "General"));
             cmdDelete.Tag = "Delete";
             cmdDelete.Image = new IconResourceHandle("16x16.16_L_remove.gif");
 
@@ -92,8 +154,9 @@ namespace RT2020.Staff
                         SetCtrlEditable();
                         break;
                     case "save":
-                        if (Save())
+                        if (IsValid())
                         {
+                            Save();
                             Clear();
                             BindJobTitleList();
                             this.Update();
@@ -133,26 +196,18 @@ namespace RT2020.Staff
             this.lvJobTitleList.Items.Clear();
 
             int iCount = 1;
-            StringBuilder sql = new StringBuilder();
-            sql.Append("SELECT JobTitleId,  ROW_NUMBER() OVER (ORDER BY JobTitleCode) AS rownum, ");
-            sql.Append(" JobTitleCode, JobTitleName, JobTitleName_Chs, JobTitleName_Cht ");
-            sql.Append(" FROM StaffJobTitle ");
-            
-            SqlCommand cmd = new SqlCommand();
-            cmd.CommandText = sql.ToString();
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
-            cmd.CommandType= CommandType.Text;
 
-            using (SqlDataReader reader = SqlHelper.Default.ExecuteReader(cmd))
+            using (var ctx = new EF6.RT2020Entities())
             {
-                while (reader.Read())
+                var list = ctx.StaffJobTitle.OrderBy(x => x.JobTitleCode).AsNoTracking().ToList();
+                foreach (var item in list)
                 {
-                    ListViewItem objItem = this.lvJobTitleList.Items.Add(reader.GetGuid(0).ToString()); // JobTitleId
-                    objItem.SubItems.Add(iCount.ToString()); // Line Number
-                    objItem.SubItems.Add(reader.GetString(2)); // JobTitleCode
-                    objItem.SubItems.Add(reader.GetString(3)); // StaffJobTitle Name
-                    objItem.SubItems.Add(reader.GetString(4)); // StaffJobTitle Name Chs
-                    objItem.SubItems.Add(reader.GetString(5)); // StaffJobTitle Name Cht
+                    var objItem = this.lvJobTitleList.Items.Add(item.JobTitleId.ToString());
+                    objItem.SubItems.Add(iCount.ToString());
+                    objItem.SubItems.Add(item.JobTitleCode);
+                    objItem.SubItems.Add(item.JobTitleName);
+                    objItem.SubItems.Add(item.JobTitleName_Chs);
+                    objItem.SubItems.Add(item.JobTitleName_Cht);
 
                     iCount++;
                 }
@@ -161,54 +216,57 @@ namespace RT2020.Staff
         #endregion
 
         #region Save
-        private bool CodeExists()
+
+        private bool IsValid()
         {
-            string sql = "JobTitleCode = '" + txtJobTitleCode.Text.Trim() + "'";
-            StaffJobTitleCollection jtList = StaffJobTitle.LoadCollection(sql);
-            if (jtList.Count > 0)
+            bool result = false;
+
+            #region StaffJobTitleCode 唔可以吉
+            errorProvider.SetError(txtJobTitleCode, string.Empty);
+            if (txtJobTitleCode.Text.Length == 0)
             {
-                return true;
+                errorProvider.SetError(txtJobTitleCode, "Cannot be blank!");
+                result = false;
             }
-            else
+            #endregion
+
+            #region 新增，要 check CountryCode 係咪 in use
+            errorProvider.SetError(txtJobTitleCode, string.Empty);
+            if (this.JobTitleId == System.Guid.Empty && ModelEx.StaffJobTitleEx.IsJobTitleCodeInUse(txtJobTitleCode.Text.Trim()))
             {
-                return false;
+                errorProvider.SetError(txtJobTitleCode, "Job Title Code in use");
+                result = false;
             }
+            #endregion
+
+            return result;
         }
 
         private bool Save()
         {
-            if (txtJobTitleCode.Text.Length == 0)
-            {
-                errorProvider.SetError(txtJobTitleCode, "Cannot be blank!");
-                return false;
-            }
-            else
-            {
-                errorProvider.SetError(txtJobTitleCode, string.Empty);
+            bool result = false;
 
-                StaffJobTitle oJobTitle = StaffJobTitle.Load(this.JobTitleId);
-                if (oJobTitle == null)
+            using (var ctx = new EF6.RT2020Entities())
+            {
+                var jt = ctx.StaffJobTitle.Find(this.JobTitleId);
+
+                if (jt == null)
                 {
-                    oJobTitle = new StaffJobTitle();
+                    jt = new EF6.StaffJobTitle();
+                    jt.JobTitleId = new Guid();
 
-                    if (CodeExists())
-                    {
-                        errorProvider.SetError(txtJobTitleCode, string.Format(Resources.Common.DuplicatedCode, "Job Title Code"));
-                        return false;
-                    }
-                    else
-                    {
-                        oJobTitle.JobTitleCode = txtJobTitleCode.Text;
-                        errorProvider.SetError(txtJobTitleCode, string.Empty);
-                    }
+                    ctx.StaffJobTitle.Add(jt);
+                    jt.JobTitleCode = txtJobTitleCode.Text;
                 }
-                oJobTitle.JobTitleName = txtJobTitleName.Text;
-                oJobTitle.JobTitleName_Chs = txtJobTitleNameChs.Text;
-                oJobTitle.JobTitleName_Cht = txtJobTitleNameCht.Text;
+                jt.JobTitleName = txtJobTitleName.Text;
+                jt.JobTitleName_Chs = txtJobTitleNameAlt1.Text;
+                jt.JobTitleName_Cht = txtJobTitleNameAlt2.Text;
 
-                oJobTitle.Save();
-                return true;
+                ctx.SaveChanges();
+                result = true;
             }
+
+            return result;
         }
 
         private void Clear()
@@ -234,40 +292,53 @@ namespace RT2020.Staff
         }
         #endregion
 
-        private void Delete()
+        private bool Delete()
         {
-            StaffJobTitle oStaffJobTitle = StaffJobTitle.Load(this.JobTitleId);
-            if (oStaffJobTitle != null)
+            bool result = false;
+
+            using (var ctx = new EF6.RT2020Entities())
             {
                 try
                 {
-                    oStaffJobTitle.Delete();
+                    var jt = ctx.StaffJobTitle.Find(this.JobTitleId);
+                    if (jt != null)
+                    {
+                        ctx.StaffJobTitle.Remove(jt);
+                        ctx.SaveChanges();
+
+                        result = true;
+                    }
                 }
                 catch
                 {
-                    MessageBox.Show("Cannot delete the record being used by other record!", "Delete Warning");
+                    MessageBox.Show("Cannot delete the record...Might be in use by other record!", "Delete Warning");
                 }
             }
+
+            return result;
         }
 
         private void lvJobTitleList_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (lvJobTitleList.SelectedItem != null)
             {
-                if (Common.Utility.IsGUID(lvJobTitleList.SelectedItem.Text))
+                var id = Guid.NewGuid();
+                if (Guid.TryParse(lvJobTitleList.SelectedItem.Text, out id))
                 {
-                    StaffJobTitle oJobTitle = StaffJobTitle.Load(new System.Guid(lvJobTitleList.SelectedItem.Text));
-                    if (oJobTitle != null)
+                    this.JobTitleId = id;
+                    using (var ctx = new EF6.RT2020Entities())
                     {
-                        txtJobTitleCode.Text = oJobTitle.JobTitleCode;
-                        txtJobTitleName.Text = oJobTitle.JobTitleName;
-                        txtJobTitleNameChs.Text = oJobTitle.JobTitleName_Chs;
-                        txtJobTitleNameCht.Text = oJobTitle.JobTitleName_Cht;
+                        var jt = ctx.StaffJobTitle.Find(this.JobTitleId);
+                        if (jt != null)
+                        {
+                            txtJobTitleCode.Text = jt.JobTitleCode;
+                            txtJobTitleName.Text = jt.JobTitleName;
+                            txtJobTitleNameAlt1.Text = jt.JobTitleName_Chs;
+                            txtJobTitleNameAlt2.Text = jt.JobTitleName_Cht;
 
-                        this.JobTitleId = oJobTitle.JobTitleId;
-
-                        SetCtrlEditable();
-                        SetToolBar();
+                            SetCtrlEditable();
+                            SetToolBar();
+                        }
                     }
                 }
             }

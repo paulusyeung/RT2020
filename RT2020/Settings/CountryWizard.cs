@@ -42,6 +42,8 @@ namespace RT2020.Settings
 
         private void SetCaptions()
         {
+            this.Text = WestwindHelper.GetWord("country.setup", "Model");
+
             colLN.Text = WestwindHelper.GetWord("listview.line", "Tools");
 
             colCountryCode.Text = WestwindHelper.GetWord("country.code", "Model");

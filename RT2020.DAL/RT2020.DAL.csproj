@@ -211,7 +211,6 @@
     <Compile Include="StaffGroup.cs" />
     <Compile Include="StaffHR.cs" />
     <Compile Include="StaffInternetTag.cs" />
-    <Compile Include="StaffJobTitle.cs" />
     <Compile Include="StaffPreference.cs" />
     <Compile Include="StaffSecurity.cs" />
     <Compile Include="StaffSmartTag.cs" />

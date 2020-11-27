@@ -42,6 +42,8 @@ namespace RT2020.Settings
 
         private void SetCaptions()
         {
+            this.Text = WestwindHelper.GetWord("internetTag.setup", "Model");
+
             colLN.Text = WestwindHelper.GetWord("listview.line", "Tools");
 
             colInternetTagCode.Text = WestwindHelper.GetWord("internetTag.code", "Model");

@@ -26,11 +26,72 @@ namespace RT2020.Settings
         public JobTitleWizard()
         {
             InitializeComponent();
+        }
+
+        private void JobTitleWizard_Load(object sender, EventArgs e)
+        {
+            SetCaptions();
+            SetAttributes();
+
             SetToolBar();
             BindJobTitleList();
             SetCtrlEditable();
             FillParentJobTitleList();
         }
+
+        #region SetCaptions SetAttributes
+
+        private void SetCaptions()
+        {
+            this.Text = WestwindHelper.GetWord("jobTitle.setup", "Model");
+
+            colLN.Text = WestwindHelper.GetWord("listview.line", "Tools");
+
+            colJobTitleCode.Text = WestwindHelper.GetWord("jobTitle.code", "Model");
+            colJobTitleName.Text = WestwindHelper.GetWord("jobTitle.name", "Model");
+            colJobTitleNameAlt1.Text = WestwindHelper.GetWord(String.Format("language.{0}", LanguageHelper.AlternateLanguage1.Key.ToLower()), "Menu");
+            colJobTitleNameAlt2.Text = WestwindHelper.GetWord(String.Format("language.{0}", LanguageHelper.AlternateLanguage2.Key.ToLower()), "Menu");
+
+            lblJobTitleCode.Text = WestwindHelper.GetWordWithColon("jobTitle.code", "Model");
+            lblJobTitleName.Text = WestwindHelper.GetWordWithColon("jobTitle.name", "Model");
+            lblJobTitleNameAlt1.Text = WestwindHelper.GetWordWithColon(String.Format("language.{0}", LanguageHelper.AlternateLanguage1.Key.ToLower()), "Menu");
+            lblJobTitleNameAlt2.Text = WestwindHelper.GetWordWithColon(String.Format("language.{0}", LanguageHelper.AlternateLanguage2.Key.ToLower()), "Menu");
+
+            lblParentJobTitle.Text = WestwindHelper.GetWord("jobTitle.parent", "Model");
+        }
+
+        private void SetAttributes()
+        {
+            colLN.TextAlign = HorizontalAlignment.Center;
+            colJobTitleCode.TextAlign = HorizontalAlignment.Left;
+            colJobTitleCode.ContentAlign = ExtendedHorizontalAlignment.Center;
+            colJobTitleName.TextAlign = HorizontalAlignment.Left;
+            colJobTitleName.ContentAlign = ExtendedHorizontalAlignment.Center;
+            colJobTitleNameAlt1.TextAlign = HorizontalAlignment.Left;
+            colJobTitleNameAlt1.ContentAlign = ExtendedHorizontalAlignment.Center;
+            colJobTitleNameAlt2.TextAlign = HorizontalAlignment.Left;
+            colJobTitleNameAlt2.ContentAlign = ExtendedHorizontalAlignment.Center;
+
+            switch (LanguageHelper.AlternateLanguagesUsed)
+            {
+                case 1:
+                    // hide alt2
+                    lblJobTitleNameAlt2.Visible = txtJobTitleNameAlt2.Visible = false;
+                    colJobTitleNameAlt2.Visible = false;
+                    break;
+                case 2:
+                    // do nothing
+                    break;
+                case 0:
+                default:
+                    // hide alt1 & alt2
+                    lblJobTitleNameAlt1.Visible = lblJobTitleNameAlt2.Visible = txtJobTitleNameAlt1.Visible = txtJobTitleNameAlt2.Visible = false;
+                    colJobTitleNameAlt1.Visible = colJobTitleNameAlt2.Visible = false;
+                    break;
+            }
+        }
+
+        #endregion
 
         #region ToolBar
         private void SetToolBar()
@@ -209,8 +270,8 @@ namespace RT2020.Settings
                     jt.JobTitleCode = txtJobTitleCode.Text;
                 }
                 jt.JobTitleName = txtJobTitleName.Text;
-                jt.JobTitleName_Chs = txtJobTitleNameChs.Text;
-                jt.JobTitleName_Cht = txtJobTitleNameCht.Text;
+                jt.JobTitleName_Chs = txtJobTitleNameAlt1.Text;
+                jt.JobTitleName_Cht = txtJobTitleNameAlt2.Text;
                 jt.ParentJobTitle = (cboParentJobTitle.SelectedValue == null) ? Guid.Empty : new Guid(cboParentJobTitle.SelectedValue.ToString());
 
                 ctx.SaveChanges();
@@ -287,8 +348,8 @@ namespace RT2020.Settings
 
                             txtJobTitleCode.Text = jt.JobTitleCode;
                             txtJobTitleName.Text = jt.JobTitleName;
-                            txtJobTitleNameChs.Text = jt.JobTitleName_Chs;
-                            txtJobTitleNameCht.Text = jt.JobTitleName_Cht;
+                            txtJobTitleNameAlt1.Text = jt.JobTitleName_Chs;
+                            txtJobTitleNameAlt2.Text = jt.JobTitleName_Cht;
 
                             cboParentJobTitle.SelectedValue = jt.ParentJobTitle;
 
