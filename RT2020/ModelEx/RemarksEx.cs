@@ -60,22 +60,23 @@ namespace RT2020.ModelEx
 
         public static void LoadCombo(ref ComboBox ddList, string TextField, bool SwitchLocale, bool BlankLine, string BlankLineText, string ParentFilter, string WhereClause, string[] OrderBy)
         {
-            string[] textField = { TextField };
-            LoadCombo(ref ddList, textField, "{0}", SwitchLocale, BlankLine, BlankLineText, ParentFilter, WhereClause, OrderBy);
-        }
+        //    string[] textField = { TextField };
+        //    LoadCombo(ref ddList, textField, "{0}", SwitchLocale, BlankLine, BlankLineText, ParentFilter, WhereClause, OrderBy);
+        //}
 
-        public static void LoadCombo(ref ComboBox ddList, string[] TextField, string TextFormatString, bool SwitchLocale, bool BlankLine, string BlankLineText, string WhereClause, string[] OrderBy)
-        {
-            LoadCombo(ref ddList, TextField, TextFormatString, SwitchLocale, BlankLine, BlankLineText, string.Empty, WhereClause, OrderBy);
-        }
+        //public static void LoadCombo(ref ComboBox ddList, string[] TextField, string TextFormatString, bool SwitchLocale, bool BlankLine, string BlankLineText, string WhereClause, string[] OrderBy)
+        //{
+        //    LoadCombo(ref ddList, TextField, TextFormatString, SwitchLocale, BlankLine, BlankLineText, string.Empty, WhereClause, OrderBy);
+        //}
 
-        public static void LoadCombo(ref ComboBox ddList, string[] TextField, string TextFormatString, bool SwitchLocale, bool BlankLine, string BlankLineText, string ParentFilter, string WhereClause, string[] OrderBy)
-        {
+        //public static void LoadCombo(ref ComboBox ddList, string[] TextField, string TextFormatString, bool SwitchLocale, bool BlankLine, string BlankLineText, string ParentFilter, string WhereClause, string[] OrderBy)
+        //{
             ddList.DataSource = null;
             ddList.Items.Clear();
 
             #region 轉換 orderby：方便 SQL Server 做 sorting，中文字排序可參考：https://dotblogs.com.tw/jamesfu/2013/06/04/collation
-            if (SwitchLocale && TextField[0] == OrderBy[0] && OrderBy.Length == 1)
+            //if (SwitchLocale && TextField[0] == OrderBy[0] && OrderBy.Length == 1)
+            if (SwitchLocale && TextField == OrderBy[0] && OrderBy.Length == 1)
             {
                 OrderBy[0] = CookieHelper.CurrentLocaleId == LanguageHelper.AlternateLanguage2.Key ?
                     "Remarks3" :
@@ -113,7 +114,7 @@ namespace RT2020.ModelEx
 
                 ddList.DataSource = list;
                 ddList.ValueMember = "RemarkId";
-                ddList.DisplayMember = !SwitchLocale ? "Remarks1" :
+                ddList.DisplayMember = !SwitchLocale ? TextField :
                     CookieHelper.CurrentLocaleId == LanguageHelper.AlternateLanguage2.Key ?
                     "Remarks3" : CookieHelper.CurrentLocaleId == LanguageHelper.AlternateLanguage1.Key ?
                     "Remarks2" :

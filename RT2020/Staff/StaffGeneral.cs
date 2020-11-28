@@ -74,7 +74,7 @@ namespace RT2020.Staff
         private void FillDept()
         {
             cboDeptCode.Items.Clear();
-            ModelEx.StaffDeptEx.LoadCombo(ref cboDeptCode, new string[] { "DeptCode", "DeptName" }, "{0} - {1}", false, true, String.Empty, String.Empty, null);
+            ModelEx.StaffDeptEx.LoadCombo(ref cboDeptCode, "DeptCode", false, true, String.Empty, String.Empty, null);
             cboDeptCode.SelectedIndex = 0;  
         }
         #endregion
