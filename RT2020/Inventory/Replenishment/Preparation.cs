@@ -37,32 +37,14 @@ namespace RT2020.Inventory.Replenishment
 
         private void FillFromList()
         {
-            //cboFromWorkplace.Items.Clear();
-
-            //WorkplaceCollection wpList = GetWorkplaceList("2"); // Workplace Nature Code (2) presents Warehouse
-            //wpList.Add(new RT2020.DAL.Workplace());
-            //cboFromWorkplace.DataSource = wpList;
-            //cboFromWorkplace.DisplayMember = "WorkplaceCode";
-            //cboFromWorkplace.ValueMember = "WorkplaceId";
-            //cboFromWorkplace.SelectedIndex = wpList.Count - 1;
-
-            string sql = "NatureId = '" + GetNatureId("2").ToString() + "'";
+            string sql = "NatureId = '" + ModelEx.WorkplaceNatureEx.GetNatureIdeByCode("2").ToString() + "'";
 
             RT2020.DAL.Workplace.LoadCombo(ref cboFromWorkplace, "WorkplaceCode", false, false, string.Empty, sql);
         }
 
         private void FillToList()
         {
-            //    cboToWorkplace.Items.Clear();
-
-            //    WorkplaceCollection wpList = GetWorkplaceList("2"); // Workplace Nature Code (2) presents Warehouse
-            //    wpList.Add(new RT2020.DAL.Workplace());
-            //    cboToWorkplace.DataSource = wpList;
-            //    cboToWorkplace.DisplayMember = "WorkplaceCode";
-            //    cboToWorkplace.ValueMember = "WorkplaceId";
-            //    cboToWorkplace.SelectedIndex = wpList.Count - 1;
-
-            string sql = "NatureId = '" + GetNatureId("2").ToString() + "'";
+            string sql = "NatureId = '" + ModelEx.WorkplaceNatureEx.GetNatureIdeByCode("2").ToString() + "'";
 
             RT2020.DAL.Workplace.LoadCombo(ref cboToWorkplace, "WorkplaceCode", false, false, string.Empty, sql);
             cboToWorkplace.SelectedIndex = cboToWorkplace.Items.Count - 1;
@@ -87,25 +69,11 @@ namespace RT2020.Inventory.Replenishment
 
         private WorkplaceCollection GetWorkplaceList(string natureCode)
         {
-            string sql = "NatureId = '" + GetNatureId(natureCode).ToString() + "'";
+            string sql = "NatureId = '" + ModelEx.WorkplaceNatureEx.GetNatureIdeByCode(natureCode).ToString() + "'";
             string[] orderBy = new string[] { "WorkplaceCode" };
             WorkplaceCollection wpList = RT2020.DAL.Workplace.LoadCollection(sql, orderBy, true);
 
             return wpList;
-        }
-
-        private Guid GetNatureId(string natureCode)
-        {
-            string sql = "NatureCode = '" + natureCode + "'";
-            WorkplaceNature nature = WorkplaceNature.LoadWhere(sql);
-            if (nature != null)
-            {
-                return nature.NatureId;
-            }
-            else
-            {
-                return System.Guid.Empty;
-            }
         }
 
         private string GetWorkplaceName(string whereClause)

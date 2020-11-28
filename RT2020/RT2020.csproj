@@ -1627,6 +1627,7 @@
     <Compile Include="ModelEx\WorkplaceSmartTagEx.cs" />
     <Compile Include="ModelEx\RemarksEx.cs" />
     <Compile Include="ModelEx\PhoneTagEx.cs" />
+    <Compile Include="ModelEx\WorkplaceNatureEx.cs" />
     <Compile Include="ModelEx\WorkplaceZoneEx.cs" />
     <Compile Include="ModelEx\StaffJobTitleEx.cs" />
     <Compile Include="ModelEx\LineOfOperationEx.cs" />

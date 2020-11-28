@@ -1237,9 +1237,7 @@ WHERE [UserId] = '" + user.UserId.ToString() + @"'
         public static void LoadComboBox_Shops(ref ComboBox target)
         {
             String shop = "3";
-            String sql = String.Format("NatureCode = '{0}'", shop);
-            DAL.WorkplaceNature oWkplNature = DAL.WorkplaceNature.LoadWhere(sql);
-            if (oWkplNature != null)
+            if (ModelEx.WorkplaceNatureEx.IsNatureCodeInUse("3"))
             {
                 DAL.Workplace.LoadCombo(ref target, "WorkplaceCode", false, true, String.Empty, String.Empty);
             }

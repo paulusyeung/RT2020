@@ -231,7 +231,6 @@
     <Compile Include="UserProfile.cs" />
     <Compile Include="Workplace.cs" />
     <Compile Include="WorkplaceAddress.cs" />
-    <Compile Include="WorkplaceNature.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
@@ -253,7 +252,7 @@
   -->
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties Reset="1" AssemblyVersion="1" AssemblyFileVersion="1" StartDate="20080107" />
+      <UserProperties StartDate="20080107" AssemblyFileVersion="1" AssemblyVersion="1" Reset="1" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

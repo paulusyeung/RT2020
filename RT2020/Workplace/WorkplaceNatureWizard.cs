@@ -1,4 +1,4 @@
-#region Using
+﻿#region Using
 
 using System;
 using System.Collections.Generic;
@@ -93,8 +93,9 @@ namespace RT2020.Workplace
                         SetCtrlEditable();
                         break;
                     case "save":
-                        if (Save())
+                        if (IsValid())
                         {
+                            Save();
                             Clear();
                             BindWorkplaceNatureList();
                             this.Update();
@@ -130,18 +131,9 @@ namespace RT2020.Workplace
         #region Fill Combo List
         private void FillParentNatureList()
         {
-            cboParentNature.DataSource = null;
-            cboParentNature.Items.Clear();
-
             string sql = "NatureId NOT IN ('" + this.WorkplaceNatureId.ToString() + "')";
             string[] orderBy = new string[] { "NatureCode" };
-            WorkplaceNatureCollection oWorkplaceNatureList = WorkplaceNature.LoadCollection(sql, orderBy, true);
-            oWorkplaceNatureList.Add(new WorkplaceNature());
-            cboParentNature.DataSource = oWorkplaceNatureList;
-            cboParentNature.DisplayMember = "NatureCode";
-            cboParentNature.ValueMember = "NatureId";
-
-            cboParentNature.SelectedIndex = cboParentNature.Items.Count - 1;
+            ModelEx.WorkplaceNatureEx.LoadCombo(ref cboParentNature, "NatureCode", false, false, "", sql, orderBy);
         }
         #endregion
 
@@ -180,55 +172,58 @@ namespace RT2020.Workplace
         #endregion
 
         #region Save
-        private bool CodeExists()
-        {
-            string sql = "NatureCode = '" + txtWorkplaceNatureCode.Text.Trim() + "'";
-            WorkplaceNatureCollection natureList = WorkplaceNature.LoadCollection(sql);
-            if (natureList.Count > 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
 
-        private bool Save()
+        private bool IsValid()
         {
+            bool result = true;
+
+            #region CountryCode 唔可以吉
+            errorProvider.SetError(txtWorkplaceNatureCode, string.Empty);
             if (txtWorkplaceNatureCode.Text.Length == 0)
             {
                 errorProvider.SetError(txtWorkplaceNatureCode, "Cannot be blank!");
                 return false;
             }
-            else
+            #endregion
+
+            #region 新增，要 check CountryCode 係咪 in use
+            errorProvider.SetError(txtWorkplaceNatureCode, string.Empty);
+            if (this.WorkplaceNatureId == System.Guid.Empty && ModelEx.WorkplaceNatureEx.IsNatureCodeInUse(txtWorkplaceNatureCode.Text.Trim()))
             {
-                errorProvider.SetError(txtWorkplaceNatureCode, string.Empty);
-
-                WorkplaceNature oWorkplaceNature = WorkplaceNature.Load(this.WorkplaceNatureId);
-                if (oWorkplaceNature == null)
-                {
-                    oWorkplaceNature = new WorkplaceNature();
-
-                    if (CodeExists())
-                    {
-                        errorProvider.SetError(txtWorkplaceNatureCode, string.Format(Resources.Common.DuplicatedCode, "Workplace Nature Code"));
-                        return false;
-                    }
-                    else
-                    {
-                        oWorkplaceNature.NatureCode = txtWorkplaceNatureCode.Text;
-                        errorProvider.SetError(txtWorkplaceNatureCode, string.Empty);
-                    }
-                }
-                oWorkplaceNature.NatureName = txtWorkplaceNatureName.Text;
-                oWorkplaceNature.NatureName_Chs = txtWorkplaceNatureNameChs.Text;
-                oWorkplaceNature.NatureName_Cht = txtWorkplaceNatureNameCht.Text;
-                oWorkplaceNature.ParentNature = (cboParentNature.SelectedValue == null)? System.Guid.Empty:new System.Guid(cboParentNature.SelectedValue.ToString());
-
-                oWorkplaceNature.Save();
-                return true;
+                errorProvider.SetError(txtWorkplaceNatureCode, "Nature Code in use");
+                return false;
             }
+            #endregion
+
+            return result;
+        }
+
+        private bool Save()
+        {
+            bool result = false;
+
+            using (var ctx = new EF6.RT2020Entities())
+            {
+                var wn = ctx.WorkplaceNature.Find(this.WorkplaceNatureId);
+
+                if (wn == null)
+                {
+                    wn = new EF6.WorkplaceNature();
+                    wn.NatureId = new Guid();
+
+                    ctx.WorkplaceNature.Add(wn);
+                    wn.NatureCode = txtWorkplaceNatureCode.Text;
+                }
+                wn.NatureName = txtWorkplaceNatureName.Text;
+                wn.NatureName_Chs = txtWorkplaceNatureNameChs.Text;
+                wn.NatureName_Cht = txtWorkplaceNatureNameCht.Text;
+                wn.ParentNature = (cboParentNature.SelectedValue == null) ? Guid.Empty : new Guid(cboParentNature.SelectedValue.ToString());
+
+                ctx.SaveChanges();
+                result = true;
+            }
+
+            return result;
         }
 
         private void Clear()
@@ -257,16 +252,20 @@ namespace RT2020.Workplace
 
         private void Delete()
         {
-            WorkplaceNature oNature = WorkplaceNature.Load(this.WorkplaceNatureId);
-            if (oNature != null)
+            using (var ctx = new EF6.RT2020Entities())
             {
                 try
                 {
-                    oNature.Delete();
+                    var m = ctx.WorkplaceNature.Find(this.WorkplaceNatureId);
+                    if (m != null)
+                    {
+                        ctx.WorkplaceNature.Remove(m);
+                        ctx.SaveChanges();
+                    }
                 }
                 catch
                 {
-                    MessageBox.Show("Cannot delete the record being used by other record!", "Delete Warning");
+                    MessageBox.Show("Cannot delete the record...Might be in use by other record!", "Delete Warning");
                 }
             }
         }
@@ -275,23 +274,26 @@ namespace RT2020.Workplace
         {
             if (lvWorkplaceNatureList.SelectedItem != null)
             {
-                if (Common.Utility.IsGUID(lvWorkplaceNatureList.SelectedItem.Text))
+                var id = Guid.NewGuid();
+                if (Guid.TryParse(lvWorkplaceNatureList.SelectedItem.Text, out id))
                 {
-                    WorkplaceNature oWorkplaceNature = WorkplaceNature.Load(new System.Guid(lvWorkplaceNatureList.SelectedItem.Text));
-                    if (oWorkplaceNature != null)
+                    this.WorkplaceNatureId = id;
+                    using (var ctx = new EF6.RT2020Entities())
                     {
-                        this.WorkplaceNatureId = oWorkplaceNature.NatureId;
+                        var w = ctx.WorkplaceNature.Find(this.WorkplaceNatureId);
+                        if (w != null)
+                        {
+                            FillParentNatureList();
 
-                        FillParentNatureList();
+                            txtWorkplaceNatureCode.Text = w.NatureCode;
+                            txtWorkplaceNatureName.Text = w.NatureName;
+                            txtWorkplaceNatureNameChs.Text = w.NatureName_Chs;
+                            txtWorkplaceNatureNameCht.Text = w.NatureName_Cht;
+                            cboParentNature.SelectedValue = w.ParentNature;
 
-                        txtWorkplaceNatureCode.Text = oWorkplaceNature.NatureCode;
-                        txtWorkplaceNatureName.Text = oWorkplaceNature.NatureName;
-                        txtWorkplaceNatureNameChs.Text = oWorkplaceNature.NatureName_Chs;
-                        txtWorkplaceNatureNameCht.Text = oWorkplaceNature.NatureName_Cht;
-                        cboParentNature.SelectedValue = oWorkplaceNature.ParentNature;
-
-                        SetCtrlEditable();
-                        SetToolBar();
+                            SetCtrlEditable();
+                            SetToolBar();
+                        }
                     }
                 }
             }
