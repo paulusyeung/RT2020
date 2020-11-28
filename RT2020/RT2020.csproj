@@ -1624,6 +1624,7 @@
     <Compile Include="MenuStrip\SettingsAms.cs" />
     <Compile Include="MenuStrip\ToolsAms.cs" />
     <Compile Include="MenuStrip\ViewAms.cs" />
+    <Compile Include="ModelEx\WorkplaceAddressEx.cs" />
     <Compile Include="ModelEx\WorkplaceSmartTagEx.cs" />
     <Compile Include="ModelEx\RemarksEx.cs" />
     <Compile Include="ModelEx\PhoneTagEx.cs" />
