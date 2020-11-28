@@ -247,7 +247,7 @@ namespace RT2020.Settings
         {
             string sql = "ZoneId NOT IN ('" + this.ZoneId.ToString() + "')";
             string[] orderBy = new string[] { "ZoneCode" };
-            ModelEx.WorkplaceZoneEx.LoadCombo(ref cboParent, "ZoneCode", true, false, "", sql, orderBy);
+            ModelEx.WorkplaceZoneEx.LoadCombo(ref cboParent, "ZoneCode", true, true, "", sql, orderBy);
         }
         #endregion
 
@@ -300,7 +300,8 @@ namespace RT2020.Settings
                 zone.ZoneName_Cht = txtZoneNameAlt2.Text;
                 zone.CurrencyCode = cboCurrency.Text;
                 zone.PromaryZone = chkPrimaryZone.Checked;
-                zone.ParentZone = (cboParent.SelectedValue == null) ? Guid.Empty : new Guid(cboParent.SelectedValue.ToString());
+                if ((Guid)cboParent.SelectedValue != Guid.Empty)
+                    zone.ParentZone = (Guid)cboParent.SelectedValue;
                 zone.Notes = txtRemarks.Text;
 
                 ctx.SaveChanges();
