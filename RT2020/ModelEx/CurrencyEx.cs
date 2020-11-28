@@ -91,10 +91,10 @@ namespace RT2020.ModelEx
             if (SwitchLocale && TextField[0] == OrderBy[0] && OrderBy.Length == 1)
             {
                 OrderBy[0] = CookieHelper.CurrentLocaleId == LanguageHelper.AlternateLanguage2.Key ?
-                    "CountryName" :
+                    "CurrencyName" :
                     CookieHelper.CurrentLocaleId == LanguageHelper.AlternateLanguage1.Key ?
-                    "CountryName" :
-                    "CountryName";
+                    "CurrencyName" :
+                    "CurrencyName";
             }
             var orderby = String.Join(",", OrderBy.Select(x => "[" + x + "]"));
             #endregion
@@ -126,7 +126,7 @@ namespace RT2020.ModelEx
 
                 ddList.DataSource = list;
                 ddList.ValueMember = "CurrencyId";
-                ddList.DisplayMember = !SwitchLocale ? "CurrencyName" :
+                ddList.DisplayMember = !SwitchLocale ? TextField[0] :
                     CookieHelper.CurrentLocaleId == LanguageHelper.AlternateLanguage2.Key ?
                     "CurrencyName" : CookieHelper.CurrentLocaleId == LanguageHelper.AlternateLanguage1.Key ?
                     "CurrencyName" :

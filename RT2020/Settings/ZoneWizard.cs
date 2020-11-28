@@ -14,6 +14,8 @@ using RT2020.DAL;
 using System.Data.SqlClient;
 using System.Configuration;
 using RT2020.Helper;
+using System.Linq;
+using System.Data.Entity;
 
 #endregion
 
@@ -41,22 +43,25 @@ namespace RT2020.Settings
 
         private void SetCaptions()
         {
-            this.Text = WestwindHelper.GetWord("department.setup", "Model");
+            this.Text = WestwindHelper.GetWord("workplaceZone.setup", "Model");
 
-            colLN.Text = WestwindHelper.GetWord("tools.listview.line", "Tools");
+            colLN.Text = WestwindHelper.GetWord("listview.line", "Tools");
 
-            colParent.Text = WestwindHelper.GetWord("department.parent", "Model");
-            colZoneCode.Text = WestwindHelper.GetWord("department.code", "Model");
-            colZoneName.Text = WestwindHelper.GetWord("department.name", "Model");
+            colParent.Text = WestwindHelper.GetWord("workplaceZone.parent", "Model");
+            colZoneCode.Text = WestwindHelper.GetWord("workplaceZone.code", "Model");
+            colZoneName.Text = WestwindHelper.GetWord("workplaceZone.name", "Model");
             colZoneNameAlt1.Text = WestwindHelper.GetWord(String.Format("language.{0}", LanguageHelper.AlternateLanguage1.Key.ToLower()), "Menu");
             colZoneNameAlt2.Text = WestwindHelper.GetWord(String.Format("language.{0}", LanguageHelper.AlternateLanguage2.Key.ToLower()), "Menu");
 
-            lblZoneCode.Text = WestwindHelper.GetWordWithColon("department.code", "Model");
-            lblZoneName.Text = WestwindHelper.GetWordWithColon("department.name", "Model");
+            lblZoneCode.Text = WestwindHelper.GetWordWithColon("workplaceZone.code", "Model");
+            lblZoneInitial.Text = WestwindHelper.GetWordWithColon("workplaceZone.alias", "Model");
+            lblZoneName.Text = WestwindHelper.GetWordWithColon("workplaceZone.name", "Model");
             lblZoneNameAlt1.Text = WestwindHelper.GetWordWithColon(String.Format("language.{0}", LanguageHelper.AlternateLanguage1.Key.ToLower()), "Menu");
             lblZoneNameAtl2.Text = WestwindHelper.GetWordWithColon(String.Format("language.{0}", LanguageHelper.AlternateLanguage2.Key.ToLower()), "Menu");
-            lblPrimaryZone.Text = WestwindHelper.GetWordWithColon("department.parent", "Model");
-            lblParentZone.Text = WestwindHelper.GetWordWithColon("department.parent", "Model");
+            lblCurrency.Text = WestwindHelper.GetWordWithColon("currency.code", "Model");
+            lblPrimaryZone.Text = WestwindHelper.GetWordWithColon("workplaceZone.primary", "Model");
+            lblParentZone.Text = WestwindHelper.GetWordWithColon("workplaceZone.parent", "Model");
+            lblRemarks.Text = WestwindHelper.GetWordWithColon("workplaceZone.remarks", "Model");
         }
 
         private void SetAttributes()
@@ -205,26 +210,20 @@ namespace RT2020.Settings
             this.lvZoneList.Items.Clear();
 
             int iCount = 1;
-            StringBuilder sql = new StringBuilder();
-            sql.Append("SELECT ZoneId,  ROW_NUMBER() OVER (ORDER BY ZoneCode) AS rownum, ");
-            sql.Append(" ZoneCode, ZoneName, ZoneName_Chs, ZoneName_Cht ");
-            sql.Append(" FROM WorkplaceZone ");
-            
-            SqlCommand cmd = new SqlCommand();
-            cmd.CommandText = sql.ToString();
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
-            cmd.CommandType= CommandType.Text;
 
-            using (SqlDataReader reader = SqlHelper.Default.ExecuteReader(cmd))
+            using (var ctx = new EF6.RT2020Entities())
             {
-                while (reader.Read())
+                var list = ctx.WorkplaceZone.OrderBy(x => x.ZoneCode).AsNoTracking().ToList();
+                foreach (var item in list)
                 {
-                    ListViewItem objItem = this.lvZoneList.Items.Add(reader.GetGuid(0).ToString()); // ZoneId
-                    objItem.SubItems.Add(iCount.ToString()); // Line Number
-                    objItem.SubItems.Add(reader.GetString(2)); // ZoneCode
-                    objItem.SubItems.Add(reader.GetString(3)); // WorkplaceZone Name
-                    objItem.SubItems.Add(reader.GetString(4)); // WorkplaceZone Name Chs
-                    objItem.SubItems.Add(reader.GetString(5)); // WorkplaceZone Name Cht
+                    var objItem = this.lvZoneList.Items.Add(item.ZoneId.ToString());
+                    objItem.SubItems.Add(iCount.ToString());
+                    objItem.SubItems.Add(item.ParentZone.HasValue ?
+                        ModelEx.WorkplaceZoneEx.GetZoneNameById(item.ParentZone.Value) : "");
+                    objItem.SubItems.Add(item.ZoneCode);
+                    objItem.SubItems.Add(item.ZoneName);
+                    objItem.SubItems.Add(item.ZoneName_Chs);
+                    objItem.SubItems.Add(item.ZoneName_Cht);
 
                     iCount++;
                 }
@@ -377,7 +376,7 @@ namespace RT2020.Settings
                             txtZoneNameAlt2.Text = zone.ZoneName_Cht;
                             cboCurrency.Text = zone.CurrencyCode;
                             chkPrimaryZone.Checked = zone.PromaryZone;
-                            cboParent.SelectedValue = zone.ParentZone;
+                            cboParent.SelectedValue = zone.ParentZone.HasValue ? zone.ParentZone : Guid.Empty;
                             txtRemarks.Text = zone.Notes;
 
                             SetCtrlEditable();

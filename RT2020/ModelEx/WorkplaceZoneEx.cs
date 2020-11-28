@@ -23,6 +23,22 @@ namespace RT2020.ModelEx
             return result;
         }
 
+        public static string GetZoneNameById(Guid id)
+        {
+            string result = "";
+
+            using (var ctx = new EF6.RT2020Entities())
+            {
+                var z = ctx.WorkplaceZone.Where(x => x.ZoneId == id).FirstOrDefault();
+                if (z != null) result = CookieHelper.CurrentLocaleId == LanguageHelper.AlternateLanguage2.Key ?
+                    z.ZoneName_Cht : CookieHelper.CurrentLocaleId == LanguageHelper.AlternateLanguage1.Key ?
+                    z.ZoneName_Chs :
+                    z.ZoneName;
+            }
+
+            return result;
+        }
+
         #region LoadCombo
 
         public static void LoadCombo(ref ComboBox ddList, string TextField, bool SwitchLocale)

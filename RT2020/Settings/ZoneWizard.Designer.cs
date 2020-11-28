@@ -33,6 +33,7 @@ namespace RT2020.Settings
             this.lvZoneList = new Gizmox.WebGUI.Forms.ListView();
             this.colZoneId = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
             this.colLN = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colParent = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
             this.colZoneCode = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
             this.colZoneName = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
             this.colZoneNameAlt1 = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
@@ -57,7 +58,6 @@ namespace RT2020.Settings
             this.txtZoneCode = new Gizmox.WebGUI.Forms.TextBox();
             this.lblZoneCode = new Gizmox.WebGUI.Forms.Label();
             this.errorProvider = new Gizmox.WebGUI.Forms.ErrorProvider(this.components);
-            this.colParent = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
             this.SuspendLayout();
             // 
             // splitContainer
@@ -128,6 +128,11 @@ namespace RT2020.Settings
             this.colLN.Text = "LN";
             this.colLN.Width = 30;
             // 
+            // colParent
+            // 
+            this.colParent.Text = "Parent";
+            this.colParent.Width = 80;
+            // 
             // colZoneCode
             // 
             this.colZoneCode.Text = "Zone Code";
@@ -150,10 +155,10 @@ namespace RT2020.Settings
             // 
             // txtRemarks
             // 
-            this.txtRemarks.Location = new System.Drawing.Point(19, 241);
+            this.txtRemarks.Location = new System.Drawing.Point(16, 241);
             this.txtRemarks.Multiline = true;
             this.txtRemarks.Name = "txtRemarks";
-            this.txtRemarks.Size = new System.Drawing.Size(271, 82);
+            this.txtRemarks.Size = new System.Drawing.Size(274, 57);
             this.txtRemarks.TabIndex = 9;
             // 
             // lblRemarks
@@ -208,7 +213,7 @@ namespace RT2020.Settings
             // 
             // chkPrimaryZone
             // 
-            this.chkPrimaryZone.Location = new System.Drawing.Point(159, 177);
+            this.chkPrimaryZone.Location = new System.Drawing.Point(159, 174);
             this.chkPrimaryZone.Name = "chkPrimaryZone";
             this.chkPrimaryZone.Size = new System.Drawing.Size(131, 24);
             this.chkPrimaryZone.TabIndex = 7;
@@ -307,11 +312,6 @@ namespace RT2020.Settings
             // errorProvider
             // 
             this.errorProvider.BlinkRate = 3;
-            // 
-            // colParent
-            // 
-            this.colParent.Text = "Parent";
-            this.colParent.Width = 80;
             // 
             // ZoneWizard
             // 
