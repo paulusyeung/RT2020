@@ -1,4 +1,4 @@
-#region Using
+﻿#region Using
 
 using System;
 using System.Collections.Generic;
@@ -13,6 +13,7 @@ using Gizmox.WebGUI.Common.Resources;
 using RT2020.DAL;
 using System.Data.SqlClient;
 using System.Configuration;
+using RT2020.Helper;
 
 #endregion
 
@@ -23,11 +24,81 @@ namespace RT2020.Settings
         public ZoneWizard()
         {
             InitializeComponent();
+        }
+
+        private void ZoneWizard_Load(object sender, EventArgs e)
+        {
+            SetCaptions();
+            SetAttributes();
+
             SetToolBar();
             FillComboList();
             BindZoneList();
             SetCtrlEditable();
         }
+
+        #region SetCaptions SetAttributes
+
+        private void SetCaptions()
+        {
+            this.Text = WestwindHelper.GetWord("department.setup", "Model");
+
+            colLN.Text = WestwindHelper.GetWord("tools.listview.line", "Tools");
+
+            colParent.Text = WestwindHelper.GetWord("department.parent", "Model");
+            colZoneCode.Text = WestwindHelper.GetWord("department.code", "Model");
+            colZoneName.Text = WestwindHelper.GetWord("department.name", "Model");
+            colZoneNameAlt1.Text = WestwindHelper.GetWord(String.Format("language.{0}", LanguageHelper.AlternateLanguage1.Key.ToLower()), "Menu");
+            colZoneNameAlt2.Text = WestwindHelper.GetWord(String.Format("language.{0}", LanguageHelper.AlternateLanguage2.Key.ToLower()), "Menu");
+
+            lblZoneCode.Text = WestwindHelper.GetWordWithColon("department.code", "Model");
+            lblZoneName.Text = WestwindHelper.GetWordWithColon("department.name", "Model");
+            lblZoneNameAlt1.Text = WestwindHelper.GetWordWithColon(String.Format("language.{0}", LanguageHelper.AlternateLanguage1.Key.ToLower()), "Menu");
+            lblZoneNameAtl2.Text = WestwindHelper.GetWordWithColon(String.Format("language.{0}", LanguageHelper.AlternateLanguage2.Key.ToLower()), "Menu");
+            lblPrimaryZone.Text = WestwindHelper.GetWordWithColon("department.parent", "Model");
+            lblParentZone.Text = WestwindHelper.GetWordWithColon("department.parent", "Model");
+        }
+
+        private void SetAttributes()
+        {
+            colLN.TextAlign = HorizontalAlignment.Center;
+            colParent.TextAlign = HorizontalAlignment.Left;
+            colParent.ContentAlign = ExtendedHorizontalAlignment.Center;
+            colZoneCode.TextAlign = HorizontalAlignment.Left;
+            colZoneCode.ContentAlign = ExtendedHorizontalAlignment.Center;
+            colZoneName.TextAlign = HorizontalAlignment.Left;
+            colZoneName.ContentAlign = ExtendedHorizontalAlignment.Center;
+            colZoneNameAlt1.TextAlign = HorizontalAlignment.Left;
+            colZoneNameAlt1.ContentAlign = ExtendedHorizontalAlignment.Center;
+            colZoneNameAlt2.TextAlign = HorizontalAlignment.Left;
+            colZoneNameAlt2.ContentAlign = ExtendedHorizontalAlignment.Center;
+
+            switch (LanguageHelper.AlternateLanguagesUsed)
+            {
+                case 1:
+                    // hide alt2
+                    lblZoneNameAtl2.Visible = txtZoneNameAlt2.Visible = false;
+                    colZoneNameAlt2.Visible = false;
+                    // push parent dept. up
+                    lblParentZone.Location = new Point(lblParentZone.Location.X, lblZoneNameAtl2.Location.Y);
+                    cboParent.Location = new Point(cboParent.Location.X, txtZoneNameAlt2.Location.Y);
+                    break;
+                case 2:
+                    // do nothing
+                    break;
+                case 0:
+                default:
+                    // hide alt1 & alt2
+                    lblZoneNameAlt1.Visible = lblZoneNameAtl2.Visible = txtZoneNameAlt1.Visible = txtZoneNameAlt2.Visible = false;
+                    colZoneNameAlt1.Visible = colZoneNameAlt2.Visible = false;
+                    // push parent dept up
+                    lblParentZone.Location = new Point(lblParentZone.Location.X, lblZoneNameAlt1.Location.Y);
+                    cboParent.Location = new Point(cboParent.Location.X, txtZoneNameAlt1.Location.Y);
+                    break;
+            }
+        }
+
+        #endregion
 
         #region ToolBar
         private void SetToolBar()
@@ -42,21 +113,21 @@ namespace RT2020.Settings
             sep.Style = ToolBarButtonStyle.Separator;
 
             // cmdSave
-            ToolBarButton cmdNew = new ToolBarButton("New", "New");
+            ToolBarButton cmdNew = new ToolBarButton("New", WestwindHelper.GetWord("edit.new", "General"));
             cmdNew.Tag = "New";
             cmdNew.Image = new IconResourceHandle("16x16.ico_16_3.gif");
 
             this.tbWizardAction.Buttons.Add(cmdNew);
 
             // cmdSave
-            ToolBarButton cmdSave = new ToolBarButton("Save", "Save");
+            ToolBarButton cmdSave = new ToolBarButton("Save", WestwindHelper.GetWord("edit.save", "General"));
             cmdSave.Tag = "Save";
             cmdSave.Image = new IconResourceHandle("16x16.16_L_save.gif");
 
             this.tbWizardAction.Buttons.Add(cmdSave);
 
             // cmdSaveNew
-            ToolBarButton cmdRefresh = new ToolBarButton("Refresh", "Refresh");
+            ToolBarButton cmdRefresh = new ToolBarButton("Refresh", WestwindHelper.GetWord("edit.refresh", "General"));
             cmdRefresh.Tag = "refresh";
             cmdRefresh.Image = new IconResourceHandle("16x16.16_L_refresh.gif");
 
@@ -64,7 +135,7 @@ namespace RT2020.Settings
             this.tbWizardAction.Buttons.Add(sep);
 
             // cmdDelete
-            ToolBarButton cmdDelete = new ToolBarButton("Delete", "Delete");
+            ToolBarButton cmdDelete = new ToolBarButton("Delete", WestwindHelper.GetWord("edit.delete", "General"));
             cmdDelete.Tag = "Delete";
             cmdDelete.Image = new IconResourceHandle("16x16.16_L_remove.gif");
 
@@ -175,75 +246,69 @@ namespace RT2020.Settings
 
         private void FillParentLineList()
         {
-            chkParentZone.DataSource = null;
-            chkParentZone.Items.Clear();
-
             string sql = "ZoneId NOT IN ('" + this.ZoneId.ToString() + "')";
             string[] orderBy = new string[] { "ZoneCode" };
-            WorkplaceZoneCollection oLOOList = WorkplaceZone.LoadCollection(sql, orderBy, true);
-            oLOOList.Add(new WorkplaceZone());
-            chkParentZone.DataSource = oLOOList;
-            chkParentZone.DisplayMember = "ZoneCode";
-            chkParentZone.ValueMember = "ZoneId";
-
-            chkParentZone.SelectedIndex = chkParentZone.Items.Count - 1;
+            ModelEx.WorkplaceZoneEx.LoadCombo(ref cboParent, "ZoneCode", true, false, "", sql, orderBy);
         }
         #endregion
 
         #region Save
-        private bool CodeExists()
-        {
-            string sql = "ZoneCode = '" + txtZoneCode.Text.Trim() + "'";
-            WorkplaceZoneCollection zoneList = WorkplaceZone.LoadCollection(sql);
-            if (zoneList.Count > 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
 
-        private bool Save()
+        private bool IsValid()
         {
+            bool result = true;
+
+            #region ZoneCode 唔可以吉
+            errorProvider.SetError(txtZoneCode, string.Empty);
             if (txtZoneCode.Text.Length == 0)
             {
                 errorProvider.SetError(txtZoneCode, "Cannot be blank!");
                 return false;
             }
-            else
+            #endregion
+
+            #region 新增，要 check ZoneCode 係咪 in use
+            errorProvider.SetError(txtZoneCode, string.Empty);
+            if (ModelEx.WorkplaceZoneEx.IsZoneCodeInUse(txtZoneCode.Text.Trim()))
             {
-                errorProvider.SetError(txtZoneCode, string.Empty);
-
-                WorkplaceZone oZone = WorkplaceZone.Load(this.ZoneId);
-                if (oZone == null)
-                {
-                    oZone = new WorkplaceZone();
-
-                    if (CodeExists())
-                    {
-                        errorProvider.SetError(txtZoneCode, string.Format(Resources.Common.DuplicatedCode, "Zone Code"));
-                        return false;
-                    }
-                    else
-                    {
-                        oZone.ZoneCode = txtZoneCode.Text;
-                        errorProvider.SetError(txtZoneCode, string.Empty);
-                    }
-                }
-                oZone.ZoneInitial = txtZoneInitial.Text;
-                oZone.ZoneName = txtZoneName.Text;
-                oZone.ZoneName_Chs = txtZoneNameChs.Text;
-                oZone.ZoneName_Cht = txtZoneNameCht.Text;
-                oZone.CurrencyCode = cboCurrency.Text;
-                oZone.PromaryZone = chkPrimaryZone.Checked;
-                oZone.ParentZone = (chkParentZone.SelectedValue == null) ? System.Guid.Empty : new System.Guid(chkParentZone.SelectedValue.ToString());
-                oZone.Notes = txtRemarks.Text;
-
-                oZone.Save();
-                return true;
+                errorProvider.SetError(txtZoneCode, "Zone Code in use");
+                return false;
             }
+            #endregion
+
+            return result;
+        }
+
+        private bool Save()
+        {
+            bool result = false;
+
+            using (var ctx = new EF6.RT2020Entities())
+            {
+                var zone = ctx.WorkplaceZone.Find(this.ZoneId);
+
+                if (zone == null)
+                {
+                    zone = new EF6.WorkplaceZone();
+                    zone.ZoneId = new Guid();
+
+                    ctx.WorkplaceZone.Add(zone);
+                    zone.ZoneCode = txtZoneCode.Text;
+                }
+                zone.ZoneInitial = txtZoneInitial.Text;
+                zone.ZoneName = txtZoneName.Text;
+                zone.ZoneName_Chs = txtZoneNameAlt1.Text;
+                zone.ZoneName_Cht = txtZoneNameAlt2.Text;
+                zone.CurrencyCode = cboCurrency.Text;
+                zone.PromaryZone = chkPrimaryZone.Checked;
+                zone.ParentZone = (cboParent.SelectedValue == null) ? Guid.Empty : new Guid(cboParent.SelectedValue.ToString());
+                zone.Notes = txtRemarks.Text;
+
+                ctx.SaveChanges();
+                result = true;
+            }
+
+            return result;
         }
 
         private void Clear()
@@ -272,16 +337,20 @@ namespace RT2020.Settings
 
         private void Delete()
         {
-            WorkplaceZone oWorkplaceZone = WorkplaceZone.Load(this.ZoneId);
-            if (oWorkplaceZone != null)
+            using (var ctx = new EF6.RT2020Entities())
             {
                 try
                 {
-                    oWorkplaceZone.Delete();
+                    var zone = ctx.WorkplaceZone.Find(this.ZoneId);
+                    if (zone != null)
+                    {
+                        ctx.WorkplaceZone.Remove(zone);
+                        ctx.SaveChanges();
+                    }
                 }
                 catch
                 {
-                    MessageBox.Show("Cannot delete the record being used by other record!", "Delete Warning");
+                    MessageBox.Show("Cannot delete the record...Might be in use by other record!", "Delete Warning");
                 }
             }
         }
@@ -290,27 +359,30 @@ namespace RT2020.Settings
         {
             if (lvZoneList.SelectedItem != null)
             {
-                if (Common.Utility.IsGUID(lvZoneList.SelectedItem.Text))
+                var id = Guid.NewGuid();
+                if (Guid.TryParse(lvZoneList.SelectedItem.Text, out id))
                 {
-                    WorkplaceZone oZone = WorkplaceZone.Load(new System.Guid(lvZoneList.SelectedItem.Text));
-                    if (oZone != null)
+                    this.ZoneId = id;
+                    using (var ctx = new EF6.RT2020Entities())
                     {
-                        this.ZoneId = oZone.ZoneId;
+                        var zone = ctx.WorkplaceZone.Find(this.ZoneId);
+                        if (zone != null)
+                        {
+                            FillComboList();
 
-                        FillComboList();
+                            txtZoneCode.Text = zone.ZoneCode;
+                            txtZoneInitial.Text = zone.ZoneInitial;
+                            txtZoneName.Text = zone.ZoneName;
+                            txtZoneNameAlt1.Text = zone.ZoneName_Chs;
+                            txtZoneNameAlt2.Text = zone.ZoneName_Cht;
+                            cboCurrency.Text = zone.CurrencyCode;
+                            chkPrimaryZone.Checked = zone.PromaryZone;
+                            cboParent.SelectedValue = zone.ParentZone;
+                            txtRemarks.Text = zone.Notes;
 
-                        txtZoneCode.Text = oZone.ZoneCode;
-                        txtZoneInitial.Text = oZone.ZoneInitial;
-                        txtZoneName.Text = oZone.ZoneName;
-                        txtZoneNameChs.Text = oZone.ZoneName_Chs;
-                        txtZoneNameCht.Text = oZone.ZoneName_Cht;
-                        cboCurrency.Text = oZone.CurrencyCode;
-                        chkPrimaryZone.Checked = oZone.PromaryZone;
-                        chkParentZone.SelectedValue = oZone.ParentZone;
-                        txtRemarks.Text = oZone.Notes;
-
-                        SetCtrlEditable();
-                        SetToolBar();
+                            SetCtrlEditable();
+                            SetToolBar();
+                        }
                     }
                 }
             }

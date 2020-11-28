@@ -77,16 +77,10 @@ namespace RT2020.Public
         /// </summary>
         public void FillZoneList()
         {
-            cboZone.Items.Clear();
+            ModelEx.WorkplaceZoneEx.LoadCombo(ref cboZone, "ZoneName", true);
 
-            WorkplaceZone.LoadCombo(ref cboZone, "ZoneName", false, false, string.Empty, "ZoneId = '" + SystemInfo.CurrentInfo.Default.SysInfo.ZoneId.ToString() + "'");
-
-            if (Common.Config.CurrentZoneId != System.Guid.Empty)
-            {
+            if (Common.Config.CurrentZoneId != Guid.Empty)
                 cboZone.SelectedValue = Common.Config.CurrentZoneId;
-            }
-            else
-                cboZone.SelectedIndex = 0;
         }
 
         /// <summary>

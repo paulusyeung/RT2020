@@ -1626,6 +1626,7 @@
     <Compile Include="MenuStrip\ViewAms.cs" />
     <Compile Include="ModelEx\RemarksEx.cs" />
     <Compile Include="ModelEx\PhoneTagEx.cs" />
+    <Compile Include="ModelEx\WorkplaceZoneEx.cs" />
     <Compile Include="ModelEx\StaffJobTitleEx.cs" />
     <Compile Include="ModelEx\LineOfOperationEx.cs" />
     <Compile Include="ModelEx\MarketSectorEx.cs" />

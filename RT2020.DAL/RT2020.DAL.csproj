@@ -233,7 +233,6 @@
     <Compile Include="WorkplaceAddress.cs" />
     <Compile Include="WorkplaceNature.cs" />
     <Compile Include="WorkplaceSmartTag.cs" />
-    <Compile Include="WorkplaceZone.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
