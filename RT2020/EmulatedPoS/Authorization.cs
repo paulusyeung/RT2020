@@ -575,7 +575,7 @@ namespace RT2020.EmulatedPoS
                 // Create Ledger for TxType 'CAP'
                 string txNumber_Ledger = oBatchHeader.TxNumber;
                 System.Guid ledgerHeaderId = CreatePosLedgerHeader(oBatchHeader, subLedgerHeaderId);
-                CreatePosLedgerDetails(txNumber_Ledger, subLedgerHeaderId, ledgerHeaderId, this.GetWorkplaceCode(oBatchHeader.WorkplaceId), this.GetStaffCode(oBatchHeader.StaffId));
+                CreatePosLedgerDetails(txNumber_Ledger, subLedgerHeaderId, ledgerHeaderId, ModelEx.WorkplaceEx.GetWorkplaceCodeById(oBatchHeader.WorkplaceId), this.GetStaffCode(oBatchHeader.StaffId));
                 CreatePosLedgerTender(txNumber_Ledger, subLedgerHeaderId, ledgerHeaderId);
 
                 // Update Batch Header Info
@@ -854,24 +854,6 @@ namespace RT2020.EmulatedPoS
                 oLedgerTender.InLocalCurrency = oSTender.InLocalCurrency;
 
                 oLedgerTender.Save();
-            }
-        }
-
-        /// <summary>
-        /// Gets the workplace code.
-        /// </summary>
-        /// <param name="workplaceId">The workplace id.</param>
-        /// <returns></returns>
-        private string GetWorkplaceCode(Guid workplaceId)
-        {
-            RT2020.DAL.Workplace oWp = RT2020.DAL.Workplace.Load(workplaceId);
-            if (oWp != null)
-            {
-                return oWp.WorkplaceCode;
-            }
-            else
-            {
-                return string.Empty;
             }
         }
 

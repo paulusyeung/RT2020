@@ -32,20 +32,9 @@ namespace RT2020.Workplace.Reports
         #region FillComboBox
         private void FillComboBox()
         {
-            
-            WorkplaceCollection collection = RT2020.DAL.Workplace.LoadCollection( new  string[] {"WorkplaceCode"},true);
-            if (collection.Count > 0)
-            {
-                foreach (RT2020.DAL.Workplace oWorkplace in collection)
-                {
-                    System.Web.UI.WebControls.ListItem item = new System.Web.UI.WebControls.ListItem(oWorkplace.WorkplaceCode, oWorkplace.WorkplaceId.ToString());
-                    cmbFrom.Items.Add(item);
-                    cmbTo.Items.Add(item);
-                }
-                cmbFrom.SelectedIndex = 0;
-
-                cmbTo.SelectedIndex = collection.Count - 1;
-            }
+            ModelEx.WorkplaceEx.LoadCombo(ref cmbFrom, "WorkplaceCode", false);
+            ModelEx.WorkplaceEx.LoadCombo(ref cmbTo, "WorkplaceCode", false);
+            cmbTo.SelectedIndex = cmbTo.Items.Count - 1;
         }
 
         #endregion

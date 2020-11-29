@@ -443,7 +443,7 @@ namespace RT2020.Inventory.StockTake
                 // Create Ledger for TxType 'STK'
                 string txNumber_Ledger = SystemInfo.Settings.QueuingTxNumber(Common.Enums.TxType.ADJ);
                 System.Guid ledgerHeaderId = CreateLedgerHeader(txNumber_Ledger, oBatchHeader);
-                CreateLedgerDetails(txNumber_Ledger, ledgerHeaderId, oBatchHeader.HeaderId, GetStaffCode(Common.Config.CurrentUserId), GetWorkplaceCode(oBatchHeader.WorkplaceId));
+                CreateLedgerDetails(txNumber_Ledger, ledgerHeaderId, oBatchHeader.HeaderId, GetStaffCode(Common.Config.CurrentUserId), ModelEx.WorkplaceEx.GetWorkplaceCodeById(oBatchHeader.WorkplaceId));
 
                 oBatchHeader.ADJNUM = txNumber_Ledger;
                 oBatchHeader.Save();
@@ -516,19 +516,6 @@ namespace RT2020.Inventory.StockTake
                 oLedgerDetail.Save();
 
                 iCount++;
-            }
-        }
-
-        private string GetWorkplaceCode(Guid workplaceId)
-        {
-            RT2020.DAL.Workplace oWp = RT2020.DAL.Workplace.Load(workplaceId);
-            if (oWp != null)
-            {
-                return oWp.WorkplaceCode;
-            }
-            else
-            {
-                return string.Empty;
             }
         }
 

@@ -760,7 +760,7 @@ namespace RT2020.Purchasing.Wizard
                 {
                     System.Guid detailId = RT2020.Purchasing.PurchasingUtils.Convert.ToGuid(listItem.Text.Trim());
                     PurchaseOrderDetails objDetail = PurchaseOrderDetails.Load(detailId);
-                    Workplace workplace = Workplace.Load(header.WorkplaceId);
+                    var wpCode = ModelEx.WorkplaceEx.GetWorkplaceCodeById(header.WorkplaceId);
                     if (objDetail == null)
                     {
                         objDetail = new PurchaseOrderDetails();
@@ -772,7 +772,7 @@ namespace RT2020.Purchasing.Wizard
                     objDetail.ProductId = RT2020.Purchasing.PurchasingUtils.Convert.ToGuid(listItem.SubItems[8].Text.Trim());
                     for (int i = 9; i <= 18; i++)
                     {
-                        if (workplace.WorkplaceCode == this.lvDetailsList.Columns[i].Text && listItem.SubItems[i].Text != "0")
+                        if (wpCode == this.lvDetailsList.Columns[i].Text && listItem.SubItems[i].Text != "0")
                         {
                             objDetail.OrderedQty = RT2020.Purchasing.PurchasingUtils.Convert.ToDecimal(listItem.SubItems[i].Text.Length == 0 ? "0" : listItem.SubItems[i].Text);
                             result = true;

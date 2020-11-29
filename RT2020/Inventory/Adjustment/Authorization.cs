@@ -618,7 +618,7 @@ namespace RT2020.Inventory.Adjustment
                 oLedgerDetail.Amount = oLedgerDetail.Qty * oLedgerDetail.AverageCost;
                 oLedgerDetail.Notes = string.Empty;
                 oLedgerDetail.SerialNumber = string.Empty;
-                oLedgerDetail.SHOP = this.GetWorkplaceCode(oBatchHeader.WorkplaceId);
+                oLedgerDetail.SHOP = ModelEx.WorkplaceEx.GetWorkplaceCodeById(oBatchHeader.WorkplaceId);
                 oLedgerDetail.OPERATOR = this.GetStaffCode(oBatchHeader.StaffId);
 
                 // Product Info
@@ -666,19 +666,6 @@ namespace RT2020.Inventory.Adjustment
                 oType.Save();
             }
             return oType.PriceTypeId;
-        }
-
-        private string GetWorkplaceCode(Guid workplaceId)
-        {
-            RT2020.DAL.Workplace oWp = RT2020.DAL.Workplace.Load(workplaceId);
-            if (oWp != null)
-            {
-                return oWp.WorkplaceCode;
-            }
-            else
-            {
-                return string.Empty;
-            }
         }
 
         private string GetStaffCode(Guid staffId)

@@ -13,6 +13,8 @@ using RT2020.DAL;
 using System.Data.SqlClient;
 using System.Collections;
 using System.Configuration;
+using System.Linq;
+using System.Data.Entity;
 #endregion
 
 namespace RT2020.Purchasing.Reports.Receiving
@@ -107,15 +109,18 @@ namespace RT2020.Purchasing.Reports.Receiving
         {
             int iCount = 1;
 
-            WorkplaceCollection wpList = RT2020.DAL.Workplace.LoadCollection(new string[] { "WorkplaceCode" }, true);
-            foreach (RT2020.DAL.Workplace wp in wpList)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                ListViewItem listItem = lvLocationList.Items.Add(wp.WorkplaceId.ToString());
-                listItem.SubItems.Add(string.Empty);
-                listItem.SubItems.Add(wp.WorkplaceCode);
-                listItem.SubItems.Add(wp.WorkplaceInitial);
+                var wpList = ctx.Workplace.OrderBy(x => x.WorkplaceCode).AsNoTracking().ToList();
+                foreach (var wp in wpList)
+                {
+                    ListViewItem listItem = lvLocationList.Items.Add(wp.WorkplaceId.ToString());
+                    listItem.SubItems.Add(string.Empty);
+                    listItem.SubItems.Add(wp.WorkplaceCode);
+                    listItem.SubItems.Add(wp.WorkplaceInitial);
 
-                iCount++;
+                    iCount++;
+                }
             }
         }
         #endregion

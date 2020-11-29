@@ -45,24 +45,12 @@ namespace RT2020.Inventory.Replenishment.Reports
 
         private void FillLocation()
         {
-            this.cboLocation.Items.Clear();
-
-            string[] orderBy = new string[] { "WorkplaceCode" };
-            WorkplaceCollection oWorkplaceList = RT2020.DAL.Workplace.LoadCollection(orderBy, true);
-            this.cboLocation.DataSource = oWorkplaceList;
-            this.cboLocation.DisplayMember = "WorkplaceCode";
-            this.cboLocation.ValueMember = "WorkplaceId";
+            ModelEx.WorkplaceEx.LoadCombo(ref cboLocation, "WorkplaceCode", false);
         }
 
         private void FillVsLocation()
         {
-            this.cboVsLocation.Items.Clear();
-
-            string[] orderBy = new string[] { "WorkplaceCode" };
-            WorkplaceCollection oWorkplaceList = RT2020.DAL.Workplace.LoadCollection(orderBy, true);
-            this.cboVsLocation.DataSource = oWorkplaceList;
-            this.cboVsLocation.DisplayMember = "WorkplaceCode";
-            this.cboVsLocation.ValueMember = "WorkplaceId";
+            ModelEx.WorkplaceEx.LoadCombo(ref cboVsLocation, "WorkplaceCode", false);
         }
 
         private void FillRemarks()

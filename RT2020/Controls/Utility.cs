@@ -17,6 +17,8 @@ using Gizmox.WebGUI.Server;
 using System.Xml.Serialization;
 
 using RT2020.DAL;
+using System.Linq;
+using System.Data.Entity;
 
 #endregion Using
 
@@ -94,21 +96,24 @@ namespace RT2020.Controls
             string result = "'{0}'", temp = Guid.Empty.ToString();
             temp = string.Format(result, temp);
 
-            string sql = "ZoneId = '" + zoneId.ToString() + "'";
-            WorkplaceCollection wpList = RT2020.DAL.Workplace.LoadCollection(sql);
-            foreach (RT2020.DAL.Workplace wp in wpList)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                if (iCount > 0)
-                {
-                    temp += ", ";
-                    temp += string.Format(result, wp.WorkplaceId.ToString());
-                }
-                else
-                {
-                    temp = string.Format(result, wp.WorkplaceId.ToString());
-                }
+                var list = ctx.Workplace.Where(x => x.ZoneId == zoneId).OrderBy(x => x.WorkplaceCode).AsNoTracking().ToList();
 
-                iCount++;
+                foreach (var wp in list)
+                {
+                    if (iCount > 0)
+                    {
+                        temp += ", ";
+                        temp += string.Format(result, wp.WorkplaceId.ToString());
+                    }
+                    else
+                    {
+                        temp = string.Format(result, wp.WorkplaceId.ToString());
+                    }
+
+                    iCount++;
+                }
             }
 
             return temp;
@@ -134,11 +139,13 @@ namespace RT2020.Controls
         {
             decimal result = 0;
 
-            string sql = "ZoneId = '" + zoneId.ToString() + "'";
-            WorkplaceCollection wpList = RT2020.DAL.Workplace.LoadCollection(sql);
-            foreach (RT2020.DAL.Workplace wp in wpList)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                result += GetOnHandQtyByWorkplaceId(productId, wp.WorkplaceId.ToString());
+                var wpList = ctx.Workplace.Where(x => x.ZoneId == zoneId).AsNoTracking().ToList();
+                foreach (var wp in wpList)
+                {
+                    result += GetOnHandQtyByWorkplaceId(productId, wp.WorkplaceId.ToString());
+                }
             }
 
             return result;
@@ -1239,7 +1246,7 @@ WHERE [UserId] = '" + user.UserId.ToString() + @"'
             String shop = "3";
             if (ModelEx.WorkplaceNatureEx.IsNatureCodeInUse("3"))
             {
-                DAL.Workplace.LoadCombo(ref target, "WorkplaceCode", false, true, String.Empty, String.Empty);
+                ModelEx.WorkplaceEx.LoadCombo(ref target, "WorkplaceCode", false, true, String.Empty, String.Empty);
             }
         }
     }

@@ -11,6 +11,8 @@ using Gizmox.WebGUI.Common;
 using Gizmox.WebGUI.Forms;
 
 using RT2020.DAL;
+using System.Linq;
+using System.Data.Entity;
 #endregion
 
 namespace RT2020.Workplace
@@ -52,45 +54,56 @@ namespace RT2020.Workplace
 
         private void btnFind_Click(object sender, EventArgs e)
         {
-            string whereClause = string.Empty; 
-            if (!txtLoc.Text.Trim().Equals("*"))
+            using (var ctx = new EF6.RT2020Entities())
             {
-                whereClause = " WorkplaceCode = '" + txtLoc.Text.Trim() + "'";
-            }
+                List<EF6.Workplace> list = null;
 
-            if (!txtInitial.Text.Trim().Equals("*"))
-            {
-                if (whereClause == string.Empty)
+                list = ctx.Workplace.OrderBy(x => x.WorkplaceCode).AsNoTracking().ToList();
+
+                string whereClause = string.Empty;
+                if (!txtLoc.Text.Trim().Equals("*"))
                 {
-                    whereClause = " WorkplaceInitial = '" + txtInitial.Text.Trim() + "'";
+                    //whereClause = " WorkplaceCode = '" + txtLoc.Text.Trim() + "'";
+                    list = ctx.Workplace
+                        .Where(x => x.WorkplaceCode == txtLoc.Text.Trim())
+                        .OrderBy(x => x.WorkplaceCode).AsNoTracking().ToList();
                 }
-                else
+
+                if (!txtInitial.Text.Trim().Equals("*"))
                 {
-                    whereClause = whereClause + " AND WorkplaceInitial = '" + txtInitial.Text.Trim() + "'";
+                    if (whereClause == string.Empty)
+                    {
+                        //whereClause = " WorkplaceInitial = '" + txtInitial.Text.Trim() + "'";
+                        list = ctx.Workplace
+                            .Where(x => x.WorkplaceInitial == txtInitial.Text.Trim())
+                            .OrderBy(x => x.WorkplaceCode).AsNoTracking().ToList();
+                    }
+                    else
+                    {
+                        //whereClause = whereClause + " AND WorkplaceInitial = '" + txtInitial.Text.Trim() + "'";
+                        list = ctx.Workplace
+                        .Where(x => x.WorkplaceCode == txtLoc.Text.Trim() && x.WorkplaceInitial == txtInitial.Text.Trim())
+                        .OrderBy(x => x.WorkplaceCode).AsNoTracking().ToList();
+                    }
                 }
-            }
 
-            RT2020.DAL.WorkplaceCollection WorkplaceCol;
-            if (whereClause != string.Empty)
-            {
-                WorkplaceCol = RT2020.DAL.Workplace.LoadCollection(whereClause);
-            }
-            else
-            {
-                WorkplaceCol = RT2020.DAL.Workplace.LoadCollection();   
-            }
-
-            if (WorkplaceCol.Count > 0)
-            {
-                int iCount = 1;
-                foreach (RT2020.DAL.Workplace workplace in WorkplaceCol)
+                if (txtLoc.Text.Trim().Equals("*") && txtInitial.Text.Trim().Equals("*"))
                 {
-                    ListViewItem objItem = this.lvWorkplaceList.Items.Add(workplace.WorkplaceId.ToString()); 
-                    objItem.SubItems.Add(iCount.ToString()); // Line Number
-                    objItem.SubItems.Add(workplace.WorkplaceCode); 
-                    objItem.SubItems.Add(workplace.WorkplaceInitial); 
+                    list = ctx.Workplace.OrderBy(x => x.WorkplaceCode).AsNoTracking().ToList();
+                }
 
-                    iCount++;
+                if (list.Count > 0)
+                {
+                    int iCount = 1;
+                    foreach (var workplace in list)
+                    {
+                        ListViewItem objItem = this.lvWorkplaceList.Items.Add(workplace.WorkplaceId.ToString());
+                        objItem.SubItems.Add(iCount.ToString()); // Line Number
+                        objItem.SubItems.Add(workplace.WorkplaceCode);
+                        objItem.SubItems.Add(workplace.WorkplaceInitial);
+
+                        iCount++;
+                    }
                 }
             }
         }

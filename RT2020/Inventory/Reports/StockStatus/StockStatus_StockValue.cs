@@ -13,6 +13,8 @@ using RT2020.DAL;
 using System.Data.SqlClient;
 using System.Configuration;
 using System.Collections;
+using System.Linq;
+using System.Data.Entity;
 
 #endregion
 
@@ -128,15 +130,17 @@ namespace RT2020.Inventory.Reports.StockStatus
 
         private void FillLocationList()
         {
-            RT2020.DAL.WorkplaceCollection collection = RT2020.DAL.Workplace.LoadCollection(new string[] { "WorkplaceCode" }, true);
-
-            foreach (RT2020.DAL.Workplace oWorkplace in collection)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                System.Web.UI.WebControls.ListItem item = new System.Web.UI.WebControls.ListItem(oWorkplace.WorkplaceCode, oWorkplace.WorkplaceId.ToString());
-                cboLocation.Items.Add(item);
-            }
+                var list = ctx.Workplace.OrderBy(x => x.WorkplaceCode).AsNoTracking().ToList();
+                foreach (var oWorkplace in list)
+                {
+                    System.Web.UI.WebControls.ListItem item = new System.Web.UI.WebControls.ListItem(oWorkplace.WorkplaceCode, oWorkplace.WorkplaceId.ToString());
+                    cboLocation.Items.Add(item);
+                }
 
-            cboLocation.SelectedIndex = 0;
+                cboLocation.SelectedIndex = 0;
+            }
         }
 
         #endregion

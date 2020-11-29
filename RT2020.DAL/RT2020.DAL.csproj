@@ -229,7 +229,6 @@
     <Compile Include="TransferReason.cs" />
     <Compile Include="UserPreference.cs" />
     <Compile Include="UserProfile.cs" />
-    <Compile Include="Workplace.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">

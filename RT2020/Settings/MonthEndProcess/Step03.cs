@@ -44,7 +44,7 @@ namespace RT2020.Settings.MonthEndProcess
                     if (oDetail != null)
                     {
                         oDetail.TxDate = oHeader.TxDate;
-                        oDetail.SHOP = GetWorkplaceCode(oHeader.WorkplaceId);
+                        oDetail.SHOP = ModelEx.WorkplaceEx.GetWorkplaceCodeById(oHeader.WorkplaceId);
 
                         oDetail.Save();
 
@@ -66,19 +66,6 @@ namespace RT2020.Settings.MonthEndProcess
                 oProdWp.Save();
             }
 
-        }
-
-        private string GetWorkplaceCode(Guid workplaceId)
-        {
-            RT2020.DAL.Workplace oWp = RT2020.DAL.Workplace.Load(workplaceId);
-            if (oWp != null)
-            {
-                return oWp.WorkplaceCode;
-            }
-            else
-            {
-                return string.Empty;
-            }
         }
     }
 }

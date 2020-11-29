@@ -599,8 +599,8 @@ namespace RT2020.Inventory.Replenishment
 
             oHeader.Status = (int)Common.Enums.Status.Active;
 
-            oHeader.FromLocation = GetWorkplaceId(oBatchHeader.FromLocation);
-            oHeader.ToLocation = GetWorkplaceId(oBatchHeader.ToLocation);
+            oHeader.FromLocation = ModelEx.WorkplaceEx.GetWorkplaceIdByCode(oBatchHeader.FromLocation);
+            oHeader.ToLocation = ModelEx.WorkplaceEx.GetWorkplaceIdByCode(oBatchHeader.ToLocation);
             oHeader.StaffId = oBatchHeader.StaffId;
             oHeader.TxDate = oBatchHeader.TxDate;
             oHeader.TransferredOn = oBatchHeader.TXFOn;
@@ -647,17 +647,6 @@ namespace RT2020.Inventory.Replenishment
 
                 iCount++;
             }
-        }
-
-        private Guid GetWorkplaceId(string workplaceCode)
-        {
-            RT2020.DAL.Workplace wp = RT2020.DAL.Workplace.LoadWhere("WorkplaceCode = '" + workplaceCode + "'");
-            if (wp != null)
-            {
-                return wp.WorkplaceId;
-            }
-
-            return System.Guid.Empty;
         }
 
         #endregion
@@ -915,8 +904,8 @@ namespace RT2020.Inventory.Replenishment
 
         private Guid ConsolidatedTXFBatchHeader(string txNumber, string fromLoc, string toLoc, string consolidatedTxNumber)
         {
-            System.Guid fromLocation = GetWorkplaceId(fromLoc);
-            System.Guid toLocation = GetWorkplaceId(toLoc);
+            System.Guid fromLocation = ModelEx.WorkplaceEx.GetWorkplaceIdByCode(fromLoc);
+            System.Guid toLocation = ModelEx.WorkplaceEx.GetWorkplaceIdByCode(toLoc);
 
             if (Common.Utility.IsGUID(cboStaff.SelectedValue.ToString()) && fromLocation != System.Guid.Empty && toLocation != System.Guid.Empty)
             {

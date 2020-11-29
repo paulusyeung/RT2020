@@ -12,6 +12,8 @@ using Gizmox.WebGUI.Forms;
 using RT2020.DAL;
 using System.Data.SqlClient;
 using System.Configuration;
+using System.Linq;
+using System.Data.Entity;
 
 #endregion
 
@@ -39,53 +41,42 @@ namespace RT2020.Inventory.Replenishment
         {
             string sql = "NatureId = '" + ModelEx.WorkplaceNatureEx.GetNatureIdeByCode("2").ToString() + "'";
 
-            RT2020.DAL.Workplace.LoadCombo(ref cboFromWorkplace, "WorkplaceCode", false, false, string.Empty, sql);
+            ModelEx.WorkplaceEx.LoadCombo(ref cboFromWorkplace, "WorkplaceCode", false, false, string.Empty, sql);
         }
 
         private void FillToList()
         {
             string sql = "NatureId = '" + ModelEx.WorkplaceNatureEx.GetNatureIdeByCode("2").ToString() + "'";
 
-            RT2020.DAL.Workplace.LoadCombo(ref cboToWorkplace, "WorkplaceCode", false, false, string.Empty, sql);
+            ModelEx.WorkplaceEx.LoadCombo(ref cboToWorkplace, "WorkplaceCode", false, false, string.Empty, sql);
             cboToWorkplace.SelectedIndex = cboToWorkplace.Items.Count - 1;
         }
 
         private void FillListView()
         {
-            int iCount = 1;
-
-            WorkplaceCollection wpList = GetWorkplaceList("3"); // Workplace Nature Code (2) presents Shop
-            foreach (RT2020.DAL.Workplace wp in wpList)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                ListViewItem listItem = lvToWorkplaceList.Items.Add(wp.WorkplaceId.ToString());
-                listItem.SubItems.Add(iCount.ToString());
-                listItem.SubItems.Add(wp.WorkplaceCode);
-                listItem.SubItems.Add(wp.WorkplaceName);
-                listItem.SubItems.Add(string.Empty);
+                int iCount = 1;
 
-                iCount++;
+                var natureId = ModelEx.WorkplaceNatureEx.GetNatureIdeByCode("3");   // Workplace Nature Code (2) presents Shop
+                var list = ctx.Workplace
+                    .Where(x => x.NatureId == natureId)
+                    .OrderBy(x => x.WorkplaceCode)
+                    .AsNoTracking()
+                    .ToList();
+                foreach (var wp in list)
+                {
+                    var listItem = lvToWorkplaceList.Items.Add(wp.WorkplaceId.ToString());
+                    listItem.SubItems.Add(iCount.ToString());
+                    listItem.SubItems.Add(wp.WorkplaceCode);
+                    listItem.SubItems.Add(wp.WorkplaceName);
+                    listItem.SubItems.Add(string.Empty);
+
+                    iCount++;
+                }
             }
         }
 
-        private WorkplaceCollection GetWorkplaceList(string natureCode)
-        {
-            string sql = "NatureId = '" + ModelEx.WorkplaceNatureEx.GetNatureIdeByCode(natureCode).ToString() + "'";
-            string[] orderBy = new string[] { "WorkplaceCode" };
-            WorkplaceCollection wpList = RT2020.DAL.Workplace.LoadCollection(sql, orderBy, true);
-
-            return wpList;
-        }
-
-        private string GetWorkplaceName(string whereClause)
-        {
-            string result = string.Empty;
-            RT2020.DAL.Workplace wp = RT2020.DAL.Workplace.LoadWhere(whereClause);
-            if (wp != null)
-            {
-                result = wp.WorkplaceName;
-            }
-            return result;
-        }
         #endregion
 
         #region Preparation
@@ -609,7 +600,7 @@ namespace RT2020.Inventory.Replenishment
         {
             if (Common.Utility.IsGUID(cboFromWorkplace.SelectedValue.ToString()))
             {
-                txtSelectedFromWorkplace.Text = GetWorkplaceName("WorkplaceId = '" + cboFromWorkplace.SelectedValue.ToString() + "'");
+                txtSelectedFromWorkplace.Text = ModelEx.WorkplaceEx.GetWorkplaceNameById((Guid)cboFromWorkplace.SelectedValue);
             }
         }
 
@@ -617,7 +608,7 @@ namespace RT2020.Inventory.Replenishment
         {
             if (Common.Utility.IsGUID(cboToWorkplace.SelectedValue.ToString()))
             {
-                txtSelectedToWorkplace.Text = GetWorkplaceName("WorkplaceId = '" + cboToWorkplace.SelectedValue.ToString() + "'");
+                txtSelectedToWorkplace.Text = ModelEx.WorkplaceEx.GetWorkplaceNameById((Guid)cboToWorkplace.SelectedValue);
             }
         }
     }

@@ -255,7 +255,7 @@ namespace RT2020.Settings.MonthEndProcess
                         objDetail.TxNumber = detail.TxNumber;
                         objDetail.LineNumber = 0;
                         objDetail.ProductId = detail.ProductId;
-                        objDetail.SHOP = GetShopCode(workplaceId);
+                        objDetail.SHOP = ModelEx.WorkplaceEx.GetWorkplaceCodeById(workplaceId);
                         objDetail.TxDate = txDate;
                         objDetail.OPERATOR = GetStaffNumber(Common.Config.CurrentUserId);
                         objDetail.Qty = detail.Qty;
@@ -325,24 +325,6 @@ namespace RT2020.Settings.MonthEndProcess
             if (currSum != null)
             {
                 result = currSum.AverageCost;
-            }
-
-            return result;
-        }
-
-        /// <summary>
-        /// Gets the shop code.
-        /// </summary>
-        /// <param name="workplaceId">The workplace id.</param>
-        /// <returns></returns>
-        private string GetShopCode(Guid workplaceId)
-        {
-            string result = string.Empty;
-
-            RT2020.DAL.Workplace shop = RT2020.DAL.Workplace.Load(workplaceId);
-            if (shop != null)
-            {
-                result = shop.WorkplaceCode;
             }
 
             return result;

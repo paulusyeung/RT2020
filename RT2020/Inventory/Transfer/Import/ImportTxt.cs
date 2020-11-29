@@ -168,20 +168,6 @@ namespace RT2020.Inventory.Transfer.Import
             }
         }
 
-        private Guid GetWorkplaceId(string locationCode)
-        {
-            string sql = "WorkplaceCode = '" + locationCode + "'";
-            RT2020.DAL.Workplace oWorkplace = RT2020.DAL.Workplace.LoadWhere(sql);
-            if (oWorkplace != null)
-            {
-                return oWorkplace.WorkplaceId;
-            }
-            else
-            {
-                return System.Guid.Empty;
-            }
-        }
-
         private Guid GetProductId(TxferTxtIEDetails detail)
         {
             string sql = "STKCODE = '" + detail.StockCode +"' AND APPENDIX1 = '" + detail.Appendix1 + "' AND APPENDIX2 = '" + detail.Appendix2 + "' AND APPENDIX3 = '" + detail.Appendix3 + "'";
@@ -228,8 +214,8 @@ namespace RT2020.Inventory.Transfer.Import
             oHeader.TxDate = master.TxDate;
             oHeader.TransferredOn = master.TxferDate;
             oHeader.CompletedOn = master.CompletionDate;
-            oHeader.FromLocation = GetWorkplaceId(master.FromLocation);
-            oHeader.ToLocation = GetWorkplaceId(master.ToLocation);
+            oHeader.FromLocation = ModelEx.WorkplaceEx.GetWorkplaceIdByCode(master.FromLocation);
+            oHeader.ToLocation = ModelEx.WorkplaceEx.GetWorkplaceIdByCode(master.ToLocation);
             oHeader.StaffId = GetStaffId(master.Operator);
             oHeader.Status = Convert.ToInt32(Common.Enums.Status.Draft.ToString("d"));
             oHeader.Reference = master.RefNumber;

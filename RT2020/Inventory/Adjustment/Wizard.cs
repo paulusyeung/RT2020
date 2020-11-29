@@ -327,7 +327,7 @@ namespace RT2020.Inventory.Adjustment
 
         private void FillLocationList()
         {
-            RT2020.DAL.Workplace.LoadCombo(ref cboWorkplace, new string[] { "WorkplaceCode", "WorkplaceInitial" }, "{0} - {1}", false, false, string.Empty, string.Empty, null);
+            ModelEx.WorkplaceEx.LoadCombo(ref cboWorkplace, "WorkplaceCode", false);
         }
 
         private void FillStaffList()
@@ -941,8 +941,7 @@ namespace RT2020.Inventory.Adjustment
                 string wpCode = cboWorkplace.Text.Trim();
                 if (wpCode.Length >= 4)
                 {
-                    RT2020.DAL.Workplace wp = RT2020.DAL.Workplace.LoadWhere("WorkplaceCode = '" + wpCode.Substring(0, 4) + "'");
-                    if (wp == null)
+                    if (!ModelEx.WorkplaceEx.IsWorkplaceCodeInUse(wpCode.Substring(0, 4)))
                     {
                         errorProvider.SetError(cboWorkplace, "Location code does exist!");
                     }

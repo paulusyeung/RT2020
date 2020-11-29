@@ -13,6 +13,8 @@ using System.Data.SqlClient;
 using System.Configuration;
 using RT2020.DAL;
 using System.Collections;
+using System.Linq;
+using System.Data.Entity;
 
 #endregion
 
@@ -119,12 +121,15 @@ namespace RT2020.Inventory.Reports.History
         #region Fill ListView Location
         private void FillLocationList()
         {
-            RT2020.DAL.WorkplaceCollection wpList = RT2020.DAL.Workplace.LoadCollection(new string[] { "WorkplaceCode" }, true);
-            foreach (RT2020.DAL.Workplace wk in wpList)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                ListViewItem listItem = lvLocationList.Items.Add(wk.WorkplaceId.ToString());
-                listItem.SubItems.Add(string.Empty);
-                listItem.SubItems.Add(wk.WorkplaceCode + " - " + wk.WorkplaceInitial);
+                var list = ctx.Workplace.OrderBy(x => x.WorkplaceCode).AsNoTracking().ToList();
+                foreach (var wk in list)
+                {
+                    ListViewItem listItem = lvLocationList.Items.Add(wk.WorkplaceId.ToString());
+                    listItem.SubItems.Add(string.Empty);
+                    listItem.SubItems.Add(wk.WorkplaceCode + " - " + wk.WorkplaceInitial);
+                }
             }
         }
         #endregion

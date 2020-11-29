@@ -308,14 +308,7 @@ FROM        vwPaymentFactorList";
 
         private void FillWorkplaceList()
         {
-            cboWorkplace.DataSource = null;
-            cboWorkplace.Items.Clear();
-
-            string[] orderBy = new string[] { "WorkplaceCode" };
-            WorkplaceCollection workplaceList = RT2020.DAL.Workplace.LoadCollection(orderBy, true);
-            cboWorkplace.DataSource = workplaceList;
-            cboWorkplace.DisplayMember = "WorkplaceCode";
-            cboWorkplace.ValueMember = "WorkplaceId";
+            ModelEx.WorkplaceEx.LoadCombo(ref cboWorkplace, "WorkplaceCode", false);
         }
 
         private void FillCurrencyList()

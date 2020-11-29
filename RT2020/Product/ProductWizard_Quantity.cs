@@ -12,6 +12,8 @@ using RT2020.DAL;
 using System.Data.SqlClient;
 using System.Collections;
 using System.Configuration;
+using System.Linq;
+using System.Data.Entity;
 
 namespace RT2020.Product
 {
@@ -192,12 +194,15 @@ namespace RT2020.Product
 
             string[] qtyList = new string[] { "BFQty", "CDQty", "FEPQTY", "RECQTY", "INVQTY", "POQTY", "SOQTY", "REJQTY", "EPQTY" };
 
-            RT2020.DAL.WorkplaceCollection wList = RT2020.DAL.Workplace.LoadCollection(new string[] { "WorkplaceCode" }, true);
-            foreach (RT2020.DAL.Workplace w in wList)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                oTable.Columns.Add(w.WorkplaceCode, typeof(decimal));
+                var wList = ctx.Workplace.OrderBy(x => x.WorkplaceCode).AsNoTracking().ToList();
+                foreach (var w in wList)
+                {
+                    oTable.Columns.Add(w.WorkplaceCode, typeof(decimal));
 
-                wpList.Add(w.WorkplaceCode);
+                    wpList.Add(w.WorkplaceCode);
+                }
             }
 
             for (int i = 0; i < qtyList.Length; i++)

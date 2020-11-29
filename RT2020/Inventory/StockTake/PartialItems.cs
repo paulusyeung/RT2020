@@ -12,6 +12,8 @@ using Gizmox.WebGUI.Forms;
 using RT2020.DAL;
 using System.Data.SqlClient;
 using System.Configuration;
+using System.Linq;
+using System.Data.Entity;
 
 #endregion
 
@@ -37,15 +39,18 @@ namespace RT2020.Inventory.StockTake
         private void FillListView()
         {
             lvLocationList.Items.Clear();
-            string[] orderBy = new string[] { "WorkplaceCode" };
-            RT2020.DAL.WorkplaceCollection wpList = RT2020.DAL.Workplace.LoadCollection(orderBy, true);
-            foreach (RT2020.DAL.Workplace wp in wpList)
+
+            using (var ctx = new EF6.RT2020Entities())
             {
-                string locInfo = wp.WorkplaceCode + " - " + wp.WorkplaceInitial;
-                ListViewItem lvItem = lvLocationList.Items.Add(wp.WorkplaceId.ToString());
-                lvItem.SubItems.Add(locInfo);
-                lvItem.SubItems.Add(":");
-                lvItem.SubItems.Add(GetTxInfo(wp.WorkplaceId));
+                var list = ctx.Workplace.OrderBy(x => x.WorkplaceCode).AsNoTracking().ToList();
+                foreach (var wp in list)
+                {
+                    string locInfo = wp.WorkplaceCode + " - " + wp.WorkplaceInitial;
+                    ListViewItem lvItem = lvLocationList.Items.Add(wp.WorkplaceId.ToString());
+                    lvItem.SubItems.Add(locInfo);
+                    lvItem.SubItems.Add(":");
+                    lvItem.SubItems.Add(GetTxInfo(wp.WorkplaceId));
+                }
             }
         }
 
@@ -469,19 +474,6 @@ namespace RT2020.Inventory.StockTake
             return 0;
         }
 
-        private Guid GetWorkplaceId(string locNum)
-        {
-            string sql = "WorkplaceCode = '" + locNum + "'";
-            RT2020.DAL.Workplace wp = RT2020.DAL.Workplace.LoadWhere(sql);
-            if (wp != null)
-            {
-                return wp.WorkplaceId;
-            }
-            else
-            {
-                return System.Guid.Empty;
-            }
-        }
         #endregion
 
         private void btnCreate_Click(object sender, EventArgs e)

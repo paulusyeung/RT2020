@@ -57,7 +57,7 @@ namespace RT2020.EmulatedPoS
         /// </summary>
         private void FillLocationList()
         {
-            RT2020.DAL.Workplace.LoadCombo(ref cboWorkplace, new string[] { "WorkplaceCode", "WorkplaceInitial" }, "{0} - {1}", false, false, string.Empty, string.Empty, null);
+            ModelEx.WorkplaceEx.LoadCombo(ref cboWorkplace, "WorkplaceCode", false);
         }
 
         /// <summary>

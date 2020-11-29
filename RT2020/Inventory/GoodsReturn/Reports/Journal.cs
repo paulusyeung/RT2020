@@ -46,12 +46,12 @@ namespace RT2020.Inventory.GoodsReturn.Reports
 
         private void FillLocation()
         {
-            RT2020.DAL.Workplace.LoadCombo(ref cboLocation, new string[] { "WorkplaceCode", "WorkplaceInitial" }, "{0} - {1}", false, false, string.Empty, string.Empty, null);
+            ModelEx.WorkplaceEx.LoadCombo(ref cboLocation, "WorkplaceCode", false);
         }
 
         private void FillVsLocation()
         {
-            RT2020.DAL.Workplace.LoadCombo(ref cboVsLocation, new string[] { "WorkplaceCode", "WorkplaceInitial" }, "{0} - {1}", false, false, string.Empty, string.Empty, null);
+            ModelEx.WorkplaceEx.LoadCombo(ref cboVsLocation, "WorkplaceCode", false);
         }
 
         private void FillRemarks()

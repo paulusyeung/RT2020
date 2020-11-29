@@ -269,7 +269,7 @@ namespace RT2020.Inventory.StockTake.Import
                 DateTime uploadOn = DateTime.Now;
                 string shop = PacketDataList[0].Shop;
                 string hht = PacketDataList[0].HHT.Length == 0 ? "POS_ADV1" : PacketDataList[0].HHT;
-                System.Guid workplaceId = GetWorkplaceId(shop);
+                System.Guid workplaceId = ModelEx.WorkplaceEx.GetWorkplaceIdByCode(shop);
 
                 if (workplaceId != System.Guid.Empty)
                 {
@@ -292,19 +292,6 @@ namespace RT2020.Inventory.StockTake.Import
                     Result.Add("Shop does not exist!");
                     Result.Add(hht);
                 }
-            }
-        }
-
-        private Guid GetWorkplaceId(string shop)
-        {
-            RT2020.DAL.Workplace wp = RT2020.DAL.Workplace.LoadWhere("WorkplaceCode = '" + shop + "'");
-            if (wp != null)
-            {
-                return wp.WorkplaceId;
-            }
-            else
-            {
-                return System.Guid.Empty;
             }
         }
 

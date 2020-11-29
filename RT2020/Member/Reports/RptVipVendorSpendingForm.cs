@@ -10,6 +10,7 @@ using System.Text;
 using Gizmox.WebGUI.Common;
 using Gizmox.WebGUI.Forms;
 using RT2020.DAL;
+using System.Linq;
 
 #endregion
 
@@ -99,13 +100,21 @@ namespace RT2020.Member.Reports
 
         private void FillShopList()
         {
-            string sql = "NatureId  IN (SELECT NatureId FROM WorkplaceNature WHERE NatureCode='3')";
-            WorkplaceCollection wpList = RT2020.DAL.Workplace.LoadCollection(sql,new string[] { "WorkplaceCode" }, true);
-            foreach (RT2020.DAL.Workplace wp in wpList)
+            using (var ctx = new RT2020.EF6.RT2020Entities())
             {
-                ListViewItem listItem = this.lvShopList.Items.Add(wp.WorkplaceId.ToString());
-                listItem.SubItems.Add(wp.WorkplaceCode);
-                listItem.SubItems.Add(string.Empty);
+                var list = ctx.Workplace
+                    .SqlQuery("Select * from Workplace Where NatureId IN (SELECT NatureId FROM WorkplaceNature WHERE NatureCode='3') Order By WorkplaceCode")
+                    .AsNoTracking()
+                    .ToList();
+
+                //string sql = "NatureId  IN (SELECT NatureId FROM WorkplaceNature WHERE NatureCode='3')";
+                //WorkplaceCollection wpList = RT2020.DAL.Workplace.LoadCollection(sql, new string[] { "WorkplaceCode" }, true);
+                foreach (var wp in list)
+                {
+                    ListViewItem listItem = this.lvShopList.Items.Add(wp.WorkplaceId.ToString());
+                    listItem.SubItems.Add(wp.WorkplaceCode);
+                    listItem.SubItems.Add(string.Empty);
+                }
             }
         }
 

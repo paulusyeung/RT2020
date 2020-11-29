@@ -211,12 +211,12 @@ namespace RT2020.Inventory.Transfer
 
         private void FillFromLocationList()
         {
-            RT2020.DAL.Workplace.LoadCombo(ref cboFromLocation, new string[] { "WorkplaceCode", "WorkplaceInitial" }, "{0} - {1}", false, false, string.Empty, string.Empty, null);
+            ModelEx.WorkplaceEx.LoadCombo(ref cboFromLocation, "WorkplaceCode", false);
         }
 
         private void FillToLocationList()
         {
-            RT2020.DAL.Workplace.LoadCombo(ref cboToLocation, new string[] { "WorkplaceCode", "WorkplaceInitial" }, "{0} - {1}", false, false, string.Empty, string.Empty, null);
+            ModelEx.WorkplaceEx.LoadCombo(ref cboToLocation, "WorkplaceCode", false);
             cboToLocation.SelectedIndex = cboToLocation.Items.Count - 1;
         }
         #endregion
@@ -489,8 +489,8 @@ namespace RT2020.Inventory.Transfer
                 txtTxNumber.Text = oHeader.TxNumber;
                 txtTxType.Text = oHeader.TxType;
 
-                cboFromLocation.SelectedValue = GetWorkplaceId(oHeader.SHOP);
-                cboToLocation.SelectedValue = GetWorkplaceId(oHeader.FTSHOP);
+                cboFromLocation.SelectedValue = ModelEx.WorkplaceEx.GetWorkplaceIdByCode(oHeader.SHOP);
+                cboToLocation.SelectedValue = ModelEx.WorkplaceEx.GetWorkplaceIdByCode(oHeader.FTSHOP);
                 dtpTxDate.Value = oHeader.TxDate;
 
                 txtLatestConfirmedOn.Text = RT2020.SystemInfo.Settings.DateTimeToString(oHeader.CONFIRM_TRF_LASTUPDATE, false);
@@ -498,17 +498,6 @@ namespace RT2020.Inventory.Transfer
 
                 txtRecordStatus.Text = string.Format(txtRecordStatus.Text, oHeader.TxType);
             }
-        }
-
-        private Guid GetWorkplaceId(string wpcode)
-        {
-            RT2020.DAL.Workplace wp = RT2020.DAL.Workplace.LoadWhere("WorkplaceCode = '" + wpcode + "'");
-            if (wp != null)
-            {
-                return wp.WorkplaceId;
-            }
-
-            return System.Guid.Empty;
         }
 
         private string GetStaffNumber(Guid staffId)

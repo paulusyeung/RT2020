@@ -76,7 +76,7 @@ namespace RT2020.Inventory.StockTake.Import
 
         private void LoadWorkplaceList()
         {
-            RT2020.DAL.Workplace.LoadCombo(ref cboWorkplace, "WorkplaceCode", false, false, string.Empty, string.Empty);
+            ModelEx.WorkplaceEx.LoadCombo(ref cboWorkplace, "WorkplaceCode", false);
         }
 
         private void btnExit_Click(object sender, EventArgs e)

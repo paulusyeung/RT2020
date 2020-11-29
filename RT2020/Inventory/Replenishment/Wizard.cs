@@ -365,25 +365,13 @@ namespace RT2020.Inventory.Replenishment
 
         private void FillFromLocationList()
         {
-            cboFromLocation.Items.Clear();
-
-            string[] orderBy = new string[] { "WorkplaceCode" };
-            WorkplaceCollection oWorkplaceList = RT2020.DAL.Workplace.LoadCollection(orderBy, true);
-            cboFromLocation.DataSource = oWorkplaceList;
-            cboFromLocation.DisplayMember = "WorkplaceCode";
-            cboFromLocation.ValueMember = "WorkplaceId";
+            ModelEx.WorkplaceEx.LoadCombo(ref cboFromLocation, "WorkplaceCode", false);
         }
 
         private void FillToLocationList()
         {
-            cboToLocation.Items.Clear();
-
-            string[] orderBy = new string[] { "WorkplaceCode" };
-            WorkplaceCollection oWorkplaceList = RT2020.DAL.Workplace.LoadCollection(orderBy, true);
-            cboToLocation.DataSource = oWorkplaceList;
-            cboToLocation.DisplayMember = "WorkplaceCode";
-            cboToLocation.ValueMember = "WorkplaceId";
-            cboToLocation.SelectedIndex = oWorkplaceList.Count - 1;
+            ModelEx.WorkplaceEx.LoadCombo(ref cboToLocation, "WorkplaceCode", false);
+            cboToLocation.SelectedIndex = cboToLocation.Items.Count - 1;
         }
 
         private void FillStaffList()

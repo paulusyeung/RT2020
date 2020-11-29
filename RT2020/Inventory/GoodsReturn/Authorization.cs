@@ -309,7 +309,7 @@ namespace RT2020.Inventory.GoodsReturn
                         isPostable = isPostable & false;
                     }
 
-                    Workplace wp = Workplace.Load(oBatchHeader.WorkplaceId);
+                    var wp = ModelEx.WorkplaceEx.GetWorkplaceById(oBatchHeader.WorkplaceId);
                     if (wp != null)
                     {
                         if (wp.Retired)
@@ -506,7 +506,7 @@ namespace RT2020.Inventory.GoodsReturn
                 // Create Ledger for TxType 'REJ'
                 string txNumber_Ledger = oBatchHeader.TxNumber;
                 System.Guid ledgerHeaderId = CreateLedgerHeader(oBatchHeader, subLedgerHeaderId);
-                CreateLedgerDetails(txNumber_Ledger, subLedgerHeaderId, ledgerHeaderId, oBatchHeader.TxDate, this.GetWorkplaceCode(oBatchHeader.WorkplaceId), this.GetStaffCode(oBatchHeader.StaffId));
+                CreateLedgerDetails(txNumber_Ledger, subLedgerHeaderId, ledgerHeaderId, oBatchHeader.TxDate, ModelEx.WorkplaceEx.GetWorkplaceCodeById(oBatchHeader.WorkplaceId), this.GetStaffCode(oBatchHeader.StaffId));
 
                 // Update Batch Header Info
                 oBatchHeader.ReadOnly = true;
@@ -681,19 +681,6 @@ namespace RT2020.Inventory.GoodsReturn
 
                     oLedgerHeader.Save();
                 }
-            }
-        }
-
-        private string GetWorkplaceCode(Guid workplaceId)
-        {
-            RT2020.DAL.Workplace oWp = RT2020.DAL.Workplace.Load(workplaceId);
-            if (oWp != null)
-            {
-                return oWp.WorkplaceCode;
-            }
-            else
-            {
-                return string.Empty;
             }
         }
 

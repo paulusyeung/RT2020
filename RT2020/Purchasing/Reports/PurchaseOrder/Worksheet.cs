@@ -129,15 +129,9 @@ namespace RT2020.Purchasing.Reports.PurchaseOrder
         /// </summary>
         private void FillLocFromList()
         {
-            cboFrom.Items.Clear();
-
             string[] orderBy = { "WorkplaceCode" };
             string sql = " Retired = 0";
-
-            WorkplaceCollection workplaceList = RT2020.DAL.Workplace.LoadCollection(sql, orderBy, true);
-            cboLocFrom.DataSource = workplaceList;
-            cboLocFrom.DisplayMember = "WorkplaceCode";
-            cboLocFrom.ValueMember = "WorkplaceId";
+            ModelEx.WorkplaceEx.LoadCombo(ref cboLocFrom, "WorkplaceCode", false, false, "", sql, orderBy);
         }
 
         /// <summary>
@@ -145,17 +139,10 @@ namespace RT2020.Purchasing.Reports.PurchaseOrder
         /// </summary>
         private void FillLocToList()
         {
-            cboTo.Items.Clear();
-
             string[] orderBy = { "WorkplaceCode" };
             string sql = " Retired = 0";
-
-            WorkplaceCollection workplaceList = RT2020.DAL.Workplace.LoadCollection(sql, orderBy, true);
-            cboLocTo.DataSource = workplaceList;
-            cboLocTo.DisplayMember = "WorkplaceCode";
-            cboLocTo.ValueMember = "WorkplaceId";
-
-            cboLocTo.SelectedIndex = workplaceList.Count - 1;
+            ModelEx.WorkplaceEx.LoadCombo(ref cboLocTo, "WorkplaceCode", false, false, "", sql, orderBy);
+            cboLocTo.SelectedIndex = cboLocTo.Items.Count - 1;
         }
         #endregion        
 

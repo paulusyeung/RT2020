@@ -485,7 +485,7 @@ namespace RT2020.Inventory.GoodsReceive
                 // Create Ledger for TxType 'CAP'
                 string txNumber_Ledger = oBatchHeader.TxNumber;
                 System.Guid ledgerHeaderId = CreateLedgerHeader(oBatchHeader, subLedgerHeaderId);
-                CreateLedgerDetails(txNumber_Ledger, subLedgerHeaderId, ledgerHeaderId, oBatchHeader.TxDate, this.GetWorkplaceCode(oBatchHeader.WorkplaceId), this.GetStaffCode(oBatchHeader.StaffId));
+                CreateLedgerDetails(txNumber_Ledger, subLedgerHeaderId, ledgerHeaderId, oBatchHeader.TxDate, ModelEx.WorkplaceEx.GetWorkplaceCodeById(oBatchHeader.WorkplaceId), this.GetStaffCode(oBatchHeader.StaffId));
 
                 // Update Batch Header Info
                 oBatchHeader.ReadOnly = true;
@@ -675,19 +675,6 @@ namespace RT2020.Inventory.GoodsReceive
                 oType.Save();
             }
             return oType.PriceTypeId;
-        }
-
-        private string GetWorkplaceCode(Guid workplaceId)
-        {
-            RT2020.DAL.Workplace oWp = RT2020.DAL.Workplace.Load(workplaceId);
-            if (oWp != null)
-            {
-                return oWp.WorkplaceCode;
-            }
-            else
-            {
-                return string.Empty;
-            }
         }
 
         private string GetStaffCode(Guid staffId)

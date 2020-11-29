@@ -12,6 +12,7 @@ using Gizmox.WebGUI.Forms;
 using RT2020.DAL;
 using DevExpress.Web;
 using Gizmox.WebGUI.Common.Resources;
+using System.Linq;
 
 #endregion
 
@@ -48,7 +49,7 @@ namespace RT2020.Inventory.Transfer
 
         private void FillFromLocationList()
         {
-            RT2020.DAL.Workplace.LoadCombo(ref cboFromLocation, new string[] { "WorkplaceCode", "WorkplaceInitial" }, "{0} - {1}", false, false, string.Empty, string.Empty, null);
+            ModelEx.WorkplaceEx.LoadCombo(ref cboFromLocation, "WorkplaceCode", false);
         }
 
         private void FillStaffList()
@@ -73,13 +74,21 @@ namespace RT2020.Inventory.Transfer
 
         private void FillWorkplaceList(Guid workplaceId)
         {
-            string sql = "WorkplaceId NOT IN ('" + workplaceId.ToString() + "')";
-            string[] orderBy = new string[] { "WorkplaceCode" };
-            WorkplaceCollection oWpList = RT2020.DAL.Workplace.LoadCollection(sql, orderBy, true);
-            for (int i = 0; i < oWpList.Count; i++)
+            using (var ctx = new RT2020.EF6.RT2020Entities())
             {
-                WorkplaceRec wkpl = new WorkplaceRec(oWpList[i].WorkplaceId, i + 1, oWpList[i].WorkplaceCode, _NotSelected, 1, "");
-                wpList.Add(wkpl);
+                var list = ctx.Workplace
+                    .SqlQuery(String.Format("Select * from Workplace Where WorkplaceId NOT IN ('{0}') Order By WorkplaceCode", workplaceId.ToString()))
+                    .AsNoTracking()
+                    .ToList();
+
+                //string sql = "WorkplaceId NOT IN ('" + workplaceId.ToString() + "')";
+                //string[] orderBy = new string[] { "WorkplaceCode" };
+                //WorkplaceCollection oWpList = RT2020.DAL.Workplace.LoadCollection(sql, orderBy, true);
+                for (int i = 0; i < list.Count; i++)
+                {
+                    WorkplaceRec wkpl = new WorkplaceRec(list[i].WorkplaceId, i + 1, list[i].WorkplaceCode, _NotSelected, 1, "");
+                    wpList.Add(wkpl);
+                }
             }
         }
 
@@ -374,8 +383,7 @@ namespace RT2020.Inventory.Transfer
                 string wpCode = cboFromLocation.Text.Trim();
                 if (wpCode.Length >= 4)
                 {
-                    RT2020.DAL.Workplace wp = RT2020.DAL.Workplace.LoadWhere("WorkplaceCode = '" + wpCode.Substring(0, 4) + "'");
-                    if (wp == null)
+                    if (ModelEx.WorkplaceEx.IsWorkplaceCodeInUse(wpCode.Substring(0, 4)))
                     {
                         errorProvider.SetError(cboFromLocation, "Location code does exist!");
                     }

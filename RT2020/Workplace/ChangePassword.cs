@@ -30,10 +30,10 @@ namespace RT2020.Workplace
             workplaceID = WorkplaceID;
             if (WorkplaceID != System.Guid.Empty)
             {
-                RT2020.DAL.Workplace workplace = RT2020.DAL.Workplace.Load(WorkplaceID);
-                if (workplace != null)
+                var password = ModelEx.WorkplaceEx.GetWorkplacePasswordById(WorkplaceID);
+                if (password != "")
                 {
-                    this.Password = workplace.Password;
+                    this.Password = password;
                     txtOldPwd.Focus();
                 }
             }

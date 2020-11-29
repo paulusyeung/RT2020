@@ -63,7 +63,7 @@ namespace RT2020.Inventory.StockTake
                 if (hhtHeader != null)
                 {
                     txtTxNumber.Text = hhtHeader.TxNumber;
-                    txtWorkplace.Text = GetWorkplaceCode(hhtHeader.WorkplaceId);
+                    txtWorkplace.Text = ModelEx.WorkplaceEx.GetWorkplaceCodeById(hhtHeader.WorkplaceId);
                     txtHHTId.Text = hhtHeader.HHTId;
                     txtUploadedOn.Text = hhtHeader.UploadedOn.ToString("dd MMM yyyy HH:mm:ss");
                     txtCreatedOn.Text = hhtHeader.CreatedOn.ToString("dd MMM yyyy HH:mm:ss");
@@ -102,17 +102,6 @@ namespace RT2020.Inventory.StockTake
                 lvItem.SubItems[2].BackColor = Color.WhiteSmoke;
 
             }
-        }
-
-        private string GetWorkplaceCode(Guid wpId)
-        {
-            RT2020.DAL.Workplace wp = RT2020.DAL.Workplace.Load(wpId);
-            if (wp != null)
-            {
-                return wp.WorkplaceCode;
-            }
-
-            return string.Empty;
         }
 
         private string GetStaffNumber(Guid staffId)

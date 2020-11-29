@@ -15,6 +15,7 @@ using System.Text.RegularExpressions;
 using RT2020.Controls;
 using RT2020.DAL;
 using FileHelpers;
+using System.Data.Entity;
 
 #endregion
 
@@ -349,24 +350,27 @@ namespace RT2020.Inventory.StockTake.Import
                     Utility.WriteLog("=> Checking Loc# ", logFile);
 
                     // Check Workplace (Loc#)
-                    RT2020.DAL.Workplace wp = RT2020.DAL.Workplace.LoadWhere("WorkplaceCode = '" + lvItem.Text + "'");
-                    if (wp != null)
+                    using (var ctx = new EF6.RT2020Entities())
                     {
-                        if (wp.Retired)
+                        var wp = ctx.Workplace.Where(x => x.WorkplaceCode == lvItem.Text).AsNoTracking().FirstOrDefault();
+                        if (wp != null)
                         {
-                            Utility.WriteLog("	[ERROR] Loc# was retired ", logFile);
-                            isValid = isValid & false;
+                            if (wp.Retired)
+                            {
+                                Utility.WriteLog("	[ERROR] Loc# was retired ", logFile);
+                                isValid = isValid & false;
+                            }
+                            else
+                            {
+                                Utility.WriteLog("	[OK] ", logFile);
+                                workplaceId = wp.WorkplaceId;
+                            }
                         }
                         else
                         {
-                            Utility.WriteLog("	[OK] ", logFile);
-                            workplaceId = wp.WorkplaceId;
+                            Utility.WriteLog("	[ERROR] Loc# Not Found", logFile);
+                            isValid = isValid & false;
                         }
-                    }
-                    else
-                    {
-                        Utility.WriteLog("	[ERROR] Loc# Not Found", logFile);
-                        isValid = isValid & false;
                     }
 
                     Utility.WriteLog("	RESULT : COMPLETED", logFile);
@@ -393,7 +397,7 @@ namespace RT2020.Inventory.StockTake.Import
                             Utility.WriteLog("	[ERROR] The Stock Take Number was posted, cannot be used anymore. ", logFile);
                             isValid = isValid & false;
                         }
-                        else if (!GetWorkplaceCode(stktkHeader.WorkplaceId).Equals(lvItem.Text.Trim()))
+                        else if (!ModelEx.WorkplaceEx.GetWorkplaceCodeById(stktkHeader.WorkplaceId).Equals(lvItem.Text.Trim()))
                         {
                             Utility.WriteLog("	[ERROR] The loc# in Stock Take Header must be as same as the selected one. ", logFile);
                             isValid = isValid & false;
@@ -698,19 +702,6 @@ namespace RT2020.Inventory.StockTake.Import
             else
             {
                 return System.Guid.Empty;
-            }
-        }
-
-        private string GetWorkplaceCode(Guid wpId)
-        {
-            RT2020.DAL.Workplace wp = RT2020.DAL.Workplace.Load(wpId);
-            if (wp != null)
-            {
-                return wp.WorkplaceCode;
-            }
-            else
-            {
-                return string.Empty;
             }
         }
 

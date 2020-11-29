@@ -12,6 +12,7 @@ using DevExpress.Web.ASPxPivotGrid;
 using System.IO;
 using DevExpress.Utils;
 using System.Collections;
+using System.Data.Entity;
 
 #endregion
 
@@ -63,11 +64,14 @@ namespace RT2020.Inventory.Olap
         /// </summary>
         private void GetShopCode()
         {
-            RT2020.DAL.WorkplaceCollection oShopList = RT2020.DAL.Workplace.LoadCollection(new string[] { "WorkplaceCode" }, true);
-            if (oShopList.Count > 0)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                this.txtFromShop.Text = oShopList[0].WorkplaceCode;
-                this.txtToShop.Text = oShopList[oShopList.Count - 1].WorkplaceCode;
+                var oShopList = ctx.Workplace.OrderBy(x => x.WorkplaceCode).AsNoTracking().ToList();
+                if (oShopList.Count > 0)
+                {
+                    this.txtFromShop.Text = oShopList[0].WorkplaceCode;
+                    this.txtToShop.Text = oShopList[oShopList.Count - 1].WorkplaceCode;
+                }
             }
         }
 

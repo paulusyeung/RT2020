@@ -36,21 +36,8 @@ namespace RT2020.Inventory.StockTake
                 StringBuilder stk = new StringBuilder();
                 stk.Append(stkHeader.TxNumber);
                 stk.Append(" - ");
-                stk.Append(GetWorkplaceCode(stkHeader.WorkplaceId));
+                stk.Append(ModelEx.WorkplaceEx.GetWorkplaceCodeById(stkHeader.WorkplaceId));
                 lbStockTakeList.Items.Add(stk.ToString());
-            }
-        }
-
-        private string GetWorkplaceCode(Guid wpId)
-        {
-            RT2020.DAL.Workplace wp = RT2020.DAL.Workplace.Load(wpId);
-            if (wp != null)
-            {
-                return wp.WorkplaceCode;
-            }
-            else
-            {
-                return string.Empty;
             }
         }
         #endregion
