@@ -843,11 +843,10 @@ namespace RT2020.Controls
         public static void Save(ListView lvwList)
         {
             // 把每個 ColumnHeader 的資料保存在 MetadataXml 中
-            String sql = String.Format("UserSid = '{0}'", Common.Config.CurrentUserId.ToString());
-            RT2020.DAL.UserProfile user = RT2020.DAL.UserProfile.LoadWhere(sql);
+            var user = ModelEx.UserProfileEx.GetByUserSid(DAL.Common.Config.CurrentUserId);
             if (user != null)
             {
-                sql = String.Format("UserId = '{0}' AND PreferenceObjectId = '{1}'", user.UserId.ToString(), ((Guid)lvwList.Tag).ToString());
+                var sql = String.Format("UserId = '{0}' AND PreferenceObjectId = '{1}'", user.UserId.ToString(), ((Guid)lvwList.Tag).ToString());
 
                 UserPreference userPref = UserPreference.LoadWhere(sql);
 
@@ -885,11 +884,10 @@ namespace RT2020.Controls
 
         public static void Delete(ListView lvwList)
         {
-            String sql = String.Format("UserSid = '{0}'", Common.Config.CurrentUserId.ToString());
-            RT2020.DAL.UserProfile user = RT2020.DAL.UserProfile.LoadWhere(sql);
-            if (user != null)
+            var userId = ModelEx.UserProfileEx.GetUserIdBySid(Common.Config.CurrentUserId);
+            if (userId != Guid.Empty)
             {
-                sql = String.Format("UserId = '{0}' AND PreferenceObjectId = '{1}'", user.UserId.ToString(), ((Guid)lvwList.Tag).ToString());
+                var sql = String.Format("UserId = '{0}' AND PreferenceObjectId = '{1}'", userId.ToString(), ((Guid)lvwList.Tag).ToString());
 
                 UserPreference userPref = UserPreference.LoadWhere(sql);
 
@@ -902,17 +900,16 @@ namespace RT2020.Controls
 
         public static void Load(ref ListView lvwList)
         {
-            String sql = String.Format("UserSid = '{0}'", Common.Config.CurrentUserId.ToString());
-            RT2020.DAL.UserProfile user = RT2020.DAL.UserProfile.LoadWhere(sql);
-            if (user != null)
+            var userId = ModelEx.UserProfileEx.GetUserIdBySid(Common.Config.CurrentUserId);
+            if (userId != Guid.Empty)
             {
                 // 2012.04.18 paulus:
                 // 首先用 SuperUser 個 Id 試下，搵唔到才用自己個 Id，於是 SuperUser 可以設定 ListView 的 Layout 給所有用戶
-                sql = String.Format("UserId = '{0}' AND PreferenceObjectId = '{1}'", RT2020.Controls.UserProfile.GetSuperUserId().ToString(), ((Guid)lvwList.Tag).ToString());
+                var sql = String.Format("UserId = '{0}' AND PreferenceObjectId = '{1}'", RT2020.Controls.UserProfile.GetSuperUserId().ToString(), ((Guid)lvwList.Tag).ToString());
                 UserPreference userPref = UserPreference.LoadWhere(sql);
                 if (userPref == null)
                 {
-                    sql = String.Format("UserId = '{0}' AND PreferenceObjectId = '{1}'", user.UserId.ToString(), ((Guid)lvwList.Tag).ToString());
+                    sql = String.Format("UserId = '{0}' AND PreferenceObjectId = '{1}'", userId.ToString(), ((Guid)lvwList.Tag).ToString());
                     userPref = UserPreference.LoadWhere(sql);
                 }
 
@@ -1061,32 +1058,29 @@ namespace RT2020.Controls
     {
         public static bool SaveRec(Guid userSid, int userType, String loginName, String loginPassword, String alias)
         {
-            bool result = true;
+            bool result = false;
 
-            String sql = String.Format("UserSid = '{0}'", userSid.ToString());
-            RT2020.DAL.UserProfile user = RT2020.DAL.UserProfile.LoadWhere(sql);
-
-            if (user != null)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                user.UserType = userType;
-                user.LoginName = loginName;
-                user.LoginPassword = loginPassword;
-                user.Alias = alias;
-                user.Save();
+                try
+                {
+                    var user = ctx.UserProfile.Where(x => x.UserSid == userSid).FirstOrDefault();
+                    if (user == null)
+                    {
+                        user = new EF6.UserProfile();
+                        user.UserId = Guid.NewGuid();
+                        user.UserSid = userSid;
+                        ctx.UserProfile.Add(user);
+                    }
+                    user.UserType = userType;
+                    user.LoginName = loginName;
+                    user.LoginPassword = loginPassword;
+                    user.Alias = alias;
 
-                result = true;
-            }
-            else
-            {
-                user = new RT2020.DAL.UserProfile();
-                user.UserSid = userSid;
-                user.UserType = userType;
-                user.LoginName = loginName;
-                user.LoginPassword = loginPassword;
-                user.Alias = alias;
-                user.Save();
-
-                result = true;
+                    ctx.SaveChanges();
+                    result = true;
+                }
+                catch { }
             }
 
             return result;
@@ -1096,20 +1090,20 @@ namespace RT2020.Controls
         {
             bool result = false;
 
-            String sql = String.Format("UserSid = '{0}'", userSid.ToString());
-            RT2020.DAL.UserProfile user = RT2020.DAL.UserProfile.LoadWhere(sql);
-
-            if (user != null)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                string cmd = @"
-DELETE
-FROM [dbo].[UserPreference]
-WHERE [UserId] = '" + user.UserId.ToString() + @"'
-";
-                SqlDataReader reader = SqlHelper.Default.ExecuteReader(CommandType.Text, cmd);
+                try
+                {
+                    var user = ctx.UserProfile.Where(x => x.UserSid == userSid).FirstOrDefault();
 
-                user.Delete();
-                result = true;
+                    if (user != null)
+                    {
+                        ctx.UserProfile.Remove(user);
+                        ctx.SaveChanges();
+                        result = true;
+                    }
+                }
+                catch { }
             }
 
             return result;
@@ -1117,14 +1111,7 @@ WHERE [UserId] = '" + user.UserId.ToString() + @"'
 
         public static Guid GetSuperUserId()
         {
-            Guid result = Guid.Empty;
-
-            String sql = String.Format("UserSid = '{0}'", Staff.GetSuperStaffId().ToString());
-            RT2020.DAL.UserProfile user = RT2020.DAL.UserProfile.LoadWhere(sql);
-            if (user != null)
-                result = user.UserId;
-
-            return result;
+            return ModelEx.UserProfileEx.GetUserIdBySid(Staff.GetSuperStaffId());
         }
     }
 

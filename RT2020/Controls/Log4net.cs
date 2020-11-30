@@ -38,8 +38,7 @@ namespace RT2020.Controls
         }
         public static void LogInfo(LogAction action, String message)
         {
-            String sql = String.Format("UserSid = '{0}'", RT2020.DAL.Common.Config.CurrentUserId.ToString());
-            RT2020.DAL.UserProfile user = RT2020.DAL.UserProfile.LoadWhere(sql);
+            var user = ModelEx.UserProfileEx.GetByUserSid(DAL.Common.Config.CurrentUserId);
             if (user != null)
                 LogInfo(String.Format("[{0}] [{1}] {2}", user.Alias, action.ToString("g").ToUpper().PadRight(7), message));
         }

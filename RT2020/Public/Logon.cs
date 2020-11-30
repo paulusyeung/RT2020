@@ -130,8 +130,7 @@ namespace RT2020.Public
         {
             if (Verify())
             {
-                string sql = "LoginName = N'" + txtStaffNumber.Text.Trim().Replace("'", "") + "' AND LoginPassword = N'" + txtPassword.Text.Trim().Replace("'", "") + "'";
-                RT2020.DAL.UserProfile oUser = RT2020.DAL.UserProfile.LoadWhere(sql);
+                var oUser = ModelEx.UserProfileEx.GetLoginUser(txtStaffNumber.Text.Trim().Replace("'", ""), txtPassword.Text.Trim().Replace("'", ""));
                 if (oUser != null)
                 {
                     RT2020.DAL.Staff oStaff = RT2020.DAL.Staff.Load(oUser.UserSid);
@@ -145,7 +144,7 @@ namespace RT2020.Public
 
                                 Common.Config.CurrentUserId = oStaff.StaffId;
                                 Common.Config.CurrentZoneId = new Guid(cboZone.SelectedValue.ToString());
-                                Common.Config.CurrentUserType = oUser.UserType;
+                                Common.Config.CurrentUserType = oUser.UserType.Value;
 
                                 // The below code will logout the loggedin user when idle for the time specified
                                 if (ConfigurationManager.AppSettings["sessionTimeout"] != null)

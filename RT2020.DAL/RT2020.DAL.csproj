@@ -228,7 +228,6 @@
     <Compile Include="SystemQueue.cs" />
     <Compile Include="TransferReason.cs" />
     <Compile Include="UserPreference.cs" />
-    <Compile Include="UserProfile.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
