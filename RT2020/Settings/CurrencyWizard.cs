@@ -325,6 +325,26 @@ namespace RT2020.Settings
             }
         }
 
+        /// <summary>
+        /// refer: https://www.xe.com/symbols.php
+        /// dbo.Currency.UnicodeDecimal 設計錯誤，應該係 int delimited array 先啱
+        /// </summary>
+        private void ShowSymbol()
+        {
+            int[] list = { 350, 290, 10 };
+
+            Encoding encoding = Encoding.Unicode;
+
+            var result = list.Select(i => encoding.GetString(BitConverter.GetBytes(i))).ToList();
+
+            int source = 0;
+            if (int.TryParse(txtUnicodeDecimal.Text.Trim(), out source))
+            {
+                lblSymbol.Text = encoding.GetString(BitConverter.GetBytes(source));
+            }
+        }
+
+
         private void lnkCountryName_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             CountryWizard countryWizard = new CountryWizard();
@@ -351,7 +371,7 @@ namespace RT2020.Settings
                             cboCountryName.Text = currency.CountryName;
                             txtUnicodeDecimal.Text = currency.UnicodeDecimal.ToString();
                             txtExchangeRate.Text = currency.ExchangeRate == null ? "" : currency.ExchangeRate?.ToString("n4");
-
+                            ShowSymbol();
                             SetCtrlEditable();
                             SetToolBar();
                         }
@@ -370,6 +390,16 @@ namespace RT2020.Settings
                 Clear();
                 SetCtrlEditable();
             }
+        }
+
+        private void txtUnicodeDecimal_Leave(object sender, EventArgs e)
+        {
+            ShowSymbol();
+        }
+
+        private void txtUnicodeDecimal_EnterKeyDown(object objSender, KeyEventArgs objArgs)
+        {
+            ShowSymbol();
         }
     }
 }

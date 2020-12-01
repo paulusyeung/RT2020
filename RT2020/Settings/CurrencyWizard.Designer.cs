@@ -51,6 +51,7 @@ namespace RT2020.Settings
             this.colExchangeRate = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
             this.colCreatedOn = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
             this.colModifiedOn = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.lblSymbol = new Gizmox.WebGUI.Forms.Label();
             this.SuspendLayout();
             // 
             // lblCurrencyCode
@@ -101,6 +102,8 @@ namespace RT2020.Settings
             this.txtUnicodeDecimal.Name = "txtUnicodeDecimal";
             this.txtUnicodeDecimal.Size = new System.Drawing.Size(121, 20);
             this.txtUnicodeDecimal.TabIndex = 4;
+            this.txtUnicodeDecimal.EnterKeyDown += new Gizmox.WebGUI.Forms.KeyEventHandler(this.txtUnicodeDecimal_EnterKeyDown);
+            this.txtUnicodeDecimal.Leave += new System.EventHandler(this.txtUnicodeDecimal_Leave);
             // 
             // cboCountryName
             // 
@@ -115,7 +118,7 @@ namespace RT2020.Settings
             // 
             this.lblUnicodeDecimal.Location = new System.Drawing.Point(16, 116);
             this.lblUnicodeDecimal.Name = "lblUnicodeDecimal";
-            this.lblUnicodeDecimal.Size = new System.Drawing.Size(134, 23);
+            this.lblUnicodeDecimal.Size = new System.Drawing.Size(106, 23);
             this.lblUnicodeDecimal.TabIndex = 7;
             this.lblUnicodeDecimal.Text = "Unicode Decimal:";
             // 
@@ -165,6 +168,7 @@ namespace RT2020.Settings
             // 
             // splitContainer.Panel2
             // 
+            this.splitContainer.Panel2.Controls.Add(this.lblSymbol);
             this.splitContainer.Panel2.Controls.Add(this.lblExchangeRate);
             this.splitContainer.Panel2.Controls.Add(this.tbWizardAction);
             this.splitContainer.Panel2.Controls.Add(this.txtExchangeRate);
@@ -248,6 +252,15 @@ namespace RT2020.Settings
             this.colModifiedOn.Visible = false;
             this.colModifiedOn.Width = 120;
             // 
+            // lblSymbol
+            // 
+            this.lblSymbol.Location = new System.Drawing.Point(122, 116);
+            this.lblSymbol.Name = "lblSymbol";
+            this.lblSymbol.Size = new System.Drawing.Size(28, 23);
+            this.lblSymbol.TabIndex = 7;
+            this.lblSymbol.Text = "$";
+            this.lblSymbol.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
             // CurrencyWizard
             // 
             this.Controls.Add(this.splitContainer);
@@ -285,7 +298,6 @@ namespace RT2020.Settings
         private Gizmox.WebGUI.Forms.ColumnHeader colExchangeRate;
         private Gizmox.WebGUI.Forms.ColumnHeader colCreatedOn;
         private Gizmox.WebGUI.Forms.ColumnHeader colModifiedOn;
-
-
+        private Gizmox.WebGUI.Forms.Label lblSymbol;
     }
 }
