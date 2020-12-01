@@ -49,7 +49,7 @@ namespace RT2020.AtsPane
             // Inventory
             // 
             this.Controls.Add(this.atsPurchase);
-            this.Size = new System.Drawing.Size(391, 306);
+            this.Size = new System.Drawing.Size(391, 24);
             this.Text = "Inventory";
             this.ResumeLayout(false);
 

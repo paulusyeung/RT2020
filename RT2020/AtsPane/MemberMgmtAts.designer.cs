@@ -50,7 +50,7 @@ namespace RT2020.AtsPane
             // 
             this.Controls.Add(this.atsMemberMgmt);
             this.Name = "MemberMgmt";
-            this.Size = new System.Drawing.Size(391, 306);
+            this.Size = new System.Drawing.Size(391, 24);
             this.Text = "Member Mgmt";
             this.ResumeLayout(false);
 

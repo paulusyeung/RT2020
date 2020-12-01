@@ -846,10 +846,11 @@ namespace RT2020.Controls
             var user = ModelEx.UserProfileEx.GetByUserSid(DAL.Common.Config.CurrentUserId);
             if (user != null)
             {
+                /**
                 var sql = String.Format("UserId = '{0}' AND PreferenceObjectId = '{1}'", user.UserId.ToString(), ((Guid)lvwList.Tag).ToString());
 
                 UserPreference userPref = UserPreference.LoadWhere(sql);
-
+                
                 if (userPref == null)
                 {
                     userPref = new UserPreference();
@@ -879,6 +880,8 @@ namespace RT2020.Controls
                 }
 
                 userPref.Save();
+                */
+                ModelEx.UserPreferenceEx.Save(user.UserId, ref lvwList);
             }
         }
 
@@ -887,79 +890,79 @@ namespace RT2020.Controls
             var userId = ModelEx.UserProfileEx.GetUserIdBySid(Common.Config.CurrentUserId);
             if (userId != Guid.Empty)
             {
-                var sql = String.Format("UserId = '{0}' AND PreferenceObjectId = '{1}'", userId.ToString(), ((Guid)lvwList.Tag).ToString());
-
-                UserPreference userPref = UserPreference.LoadWhere(sql);
-
-                if (userPref != null)
-                {
-                    userPref.Delete();
-                }
+                ModelEx.UserPreferenceEx.Delete(userId, (Guid)lvwList.Tag);
             }
         }
 
         public static void Load(ref ListView lvwList)
         {
-            var userId = ModelEx.UserProfileEx.GetUserIdBySid(Common.Config.CurrentUserId);
-            if (userId != Guid.Empty)
+            var user = ModelEx.UserProfileEx.GetByUserSid(DAL.Common.Config.CurrentUserId);
+            if (user != null)
             {
-                // 2012.04.18 paulus:
-                // 首先用 SuperUser 個 Id 試下，搵唔到才用自己個 Id，於是 SuperUser 可以設定 ListView 的 Layout 給所有用戶
-                var sql = String.Format("UserId = '{0}' AND PreferenceObjectId = '{1}'", RT2020.Controls.UserProfile.GetSuperUserId().ToString(), ((Guid)lvwList.Tag).ToString());
-                UserPreference userPref = UserPreference.LoadWhere(sql);
-                if (userPref == null)
+                /**
+                var userId = ModelEx.UserProfileEx.GetUserIdBySid(Common.Config.CurrentUserId);
+                if (userId != Guid.Empty)
                 {
-                    sql = String.Format("UserId = '{0}' AND PreferenceObjectId = '{1}'", userId.ToString(), ((Guid)lvwList.Tag).ToString());
-                    userPref = UserPreference.LoadWhere(sql);
-                }
-
-                #region 搵到就根據 UserPreference 的資料更改 ColumnHeader
-                if (userPref != null)
-                {
-                    Dictionary<string, RT2020.DAL.UserPreference.MetadataAttributes> metadata = userPref.MetadataXml;
-                    foreach (KeyValuePair<string, RT2020.DAL.UserPreference.MetadataAttributes> col in metadata)
+                    // 2012.04.18 paulus:
+                    // 首先用 SuperUser 個 Id 試下，搵唔到才用自己個 Id，於是 SuperUser 可以設定 ListView 的 Layout 給所有用戶
+                    var sql = String.Format("UserId = '{0}' AND PreferenceObjectId = '{1}'", RT2020.Controls.UserProfile.GetSuperUserId().ToString(), ((Guid)lvwList.Tag).ToString());
+                    UserPreference userPref = UserPreference.LoadWhere(sql);
+                    if (userPref == null)
                     {
-                        int colIndex = int.Parse(col.Key);      // col.Key 等於 ColumnHeader.Index
+                        sql = String.Format("UserId = '{0}' AND PreferenceObjectId = '{1}'", userId.ToString(), ((Guid)lvwList.Tag).ToString());
+                        userPref = UserPreference.LoadWhere(sql);
+                    }
 
-                        foreach (RT2020.DAL.UserPreference.MetadataAttribute item in col.Value)
+                    #region 搵到就根據 UserPreference 的資料更改 ColumnHeader
+                    if (userPref != null)
+                    {
+                        Dictionary<string, RT2020.DAL.UserPreference.MetadataAttributes> metadata = userPref.MetadataXml;
+                        foreach (KeyValuePair<string, RT2020.DAL.UserPreference.MetadataAttributes> col in metadata)
                         {
-                            int position = 0, sortPosition = 0, width = 0;
-                            bool visible = false;
+                            int colIndex = int.Parse(col.Key);      // col.Key 等於 ColumnHeader.Index
 
-                            switch (item.Key)
+                            foreach (RT2020.DAL.UserPreference.MetadataAttribute item in col.Value)
                             {
-                                case "Name":
-                                    lvwList.Columns[colIndex].Name = item.Value;
-                                    break;
-                                case "Position":
-                                    int.TryParse(item.Value, out position);
-                                    //lvwList.Columns[colIndex]..Position = position;
-                                    break;
-                                case "SortOrder":
-                                    if (item.Value == Gizmox.WebGUI.Forms.SortOrder.Ascending.ToString("g"))
-                                        lvwList.Columns[colIndex].SortOrder = Gizmox.WebGUI.Forms.SortOrder.Ascending;
-                                    else if (item.Value == Gizmox.WebGUI.Forms.SortOrder.Descending.ToString("g"))
-                                        lvwList.Columns[colIndex].SortOrder = Gizmox.WebGUI.Forms.SortOrder.Descending;
-                                    else if (item.Value == Gizmox.WebGUI.Forms.SortOrder.None.ToString("g"))
-                                        lvwList.Columns[colIndex].SortOrder = Gizmox.WebGUI.Forms.SortOrder.None;
-                                    break;
-                                case "SortPosition":
-                                    int.TryParse(item.Value, out sortPosition);
-                                    lvwList.Columns[colIndex].SortPosition = sortPosition;
-                                    break;
-                                case "Visible":
-                                    bool.TryParse(item.Value, out visible);
-                                    lvwList.Columns[colIndex].Visible = visible;
-                                    break;
-                                case "Width":
-                                    int.TryParse(item.Value, out width);
-                                    lvwList.Columns[colIndex].Width = width;
-                                    break;
+                                int position = 0, sortPosition = 0, width = 0;
+                                bool visible = false;
+
+                                switch (item.Key)
+                                {
+                                    case "Name":
+                                        lvwList.Columns[colIndex].Name = item.Value;
+                                        break;
+                                    case "Position":
+                                        int.TryParse(item.Value, out position);
+                                        //lvwList.Columns[colIndex]..Position = position;
+                                        break;
+                                    case "SortOrder":
+                                        if (item.Value == Gizmox.WebGUI.Forms.SortOrder.Ascending.ToString("g"))
+                                            lvwList.Columns[colIndex].SortOrder = Gizmox.WebGUI.Forms.SortOrder.Ascending;
+                                        else if (item.Value == Gizmox.WebGUI.Forms.SortOrder.Descending.ToString("g"))
+                                            lvwList.Columns[colIndex].SortOrder = Gizmox.WebGUI.Forms.SortOrder.Descending;
+                                        else if (item.Value == Gizmox.WebGUI.Forms.SortOrder.None.ToString("g"))
+                                            lvwList.Columns[colIndex].SortOrder = Gizmox.WebGUI.Forms.SortOrder.None;
+                                        break;
+                                    case "SortPosition":
+                                        int.TryParse(item.Value, out sortPosition);
+                                        lvwList.Columns[colIndex].SortPosition = sortPosition;
+                                        break;
+                                    case "Visible":
+                                        bool.TryParse(item.Value, out visible);
+                                        lvwList.Columns[colIndex].Visible = visible;
+                                        break;
+                                    case "Width":
+                                        int.TryParse(item.Value, out width);
+                                        lvwList.Columns[colIndex].Width = width;
+                                        break;
+                                }
                             }
                         }
                     }
+                    #endregion
                 }
-                #endregion
+                */
+                ModelEx.UserPreferenceEx.Load(user.UserId, ref lvwList);
             }
         }
     }

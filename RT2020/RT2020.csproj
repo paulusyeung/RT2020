@@ -855,6 +855,7 @@
     <Compile Include="Helper\GenData\MacaoData.cs" />
     <Compile Include="Helper\GenData\HongKongData.cs" />
     <Compile Include="Helper\LanguageHelper.cs" />
+    <Compile Include="Helper\ListViewHelper.cs" />
     <Compile Include="Helper\NetSqlAzManHelper.cs" />
     <Compile Include="Helper\ThemeHelper.cs" />
     <Compile Include="Helper\WebConfigHelper.cs" />
@@ -1624,6 +1625,8 @@
     <Compile Include="MenuStrip\SettingsAms.cs" />
     <Compile Include="MenuStrip\ToolsAms.cs" />
     <Compile Include="MenuStrip\ViewAms.cs" />
+    <Compile Include="ModelEx\MetadataXml.cs" />
+    <Compile Include="ModelEx\UserPreferenceEx.cs" />
     <Compile Include="ModelEx\UserProfileEx.cs" />
     <Compile Include="ModelEx\WorkplaceEx.cs" />
     <Compile Include="ModelEx\WorkplaceAddressEx.cs" />

@@ -28,7 +28,7 @@ namespace RT2020.ModelEx
             using (var ctx = new EF6.RT2020Entities())
             {
                 var item = ctx.UserProfile.Where(x => x.UserSid == sid).AsNoTracking().FirstOrDefault();
-                result = item.UserId;
+                if (item != null) result = item.UserId;
             }
 
             return result;

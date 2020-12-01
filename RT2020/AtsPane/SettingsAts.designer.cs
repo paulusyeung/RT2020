@@ -49,7 +49,7 @@ namespace RT2020.AtsPane
             // Settings
             // 
             this.Controls.Add(this.atsSettings);
-            this.Size = new System.Drawing.Size(391, 306);
+            this.Size = new System.Drawing.Size(391, 24);
             this.Text = "Settings";
             this.ResumeLayout(false);
 
