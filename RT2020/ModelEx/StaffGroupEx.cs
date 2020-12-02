@@ -10,6 +10,19 @@ namespace RT2020.ModelEx
 {
     public class StaffGroupEx
     {
+        public static EF6.StaffGroup GetById(Guid id)
+        {
+            EF6.StaffGroup result = null;
+
+            using (var ctx = new EF6.RT2020Entities())
+            {
+                var sg = ctx.StaffGroup.Where(x => x.GroupId == id).FirstOrDefault();
+                if (sg != null) result = sg;
+            }
+
+            return result;
+        }
+
         public static string GetGradeCodeById(Guid id)
         {
             string result = "";

@@ -220,7 +220,6 @@
     <Compile Include="SystemInfo.cs" />
     <Compile Include="SystemLabel.cs" />
     <Compile Include="SystemQueue.cs" />
-    <Compile Include="TransferReason.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">

@@ -514,14 +514,10 @@ namespace RT2020.Controls
         {
             string result = "1"; // Guest
 
-            RT2020.DAL.Staff user = RT2020.DAL.Staff.Load(Common.Config.CurrentUserId);
+            var user = ModelEx.StaffEx.GetByStaffId(Common.Config.CurrentUserId);
             if (user != null)
             {
-                StaffGroup group = StaffGroup.Load(user.GroupId);
-                if (group != null)
-                {
-                    result = group.GradeCode;
-                }
+                result = ModelEx.StaffGroupEx.GetGradeCodeById(user.GroupId.Value);
             }
 
             return result;
@@ -552,16 +548,16 @@ namespace RT2020.Controls
             }
             else
             {
-                RT2020.DAL.Staff oStaff = RT2020.DAL.Staff.Load(Common.Config.CurrentUserId);
+                var oStaff = ModelEx.StaffEx.GetByStaffId(Common.Config.CurrentUserId);
                 if (oStaff != null)
                 {
-                    StaffGroup oGroup = StaffGroup.Load(oStaff.GroupId);
+                    var oGroup = ModelEx.StaffGroupEx.GetById(oStaff.GroupId.Value);
                     if (oGroup != null)
                     {
-                        canRead = oGroup.CanRead;
-                        canWrite = oGroup.CanWrite;
-                        canDelete = oGroup.CanDelete;
-                        canPost = oGroup.CanPost;
+                        canRead = oGroup.CanRead.Value;
+                        canWrite = oGroup.CanWrite.Value;
+                        canDelete = oGroup.CanDelete.Value;
+                        canPost = oGroup.CanPost.Value;
                     }
                 }
             }
@@ -605,50 +601,32 @@ namespace RT2020.Controls
         {
             bool result = false;
 
-            RT2020.DAL.Staff user = RT2020.DAL.Staff.Load(userId);
-            if (user != null)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                // cannot delete primary user (primary user means CreatedBy = Guid.Empty)
-                if (user.CreatedBy != Guid.Empty)
+                var user = ctx.Staff.Find(userId);
+                if (user != null)
                 {
-                    switch ((int)user.Status)
+                    // cannot delete primary user (primary user means CreatedBy = Guid.Empty)
+                    if (user.CreatedBy != Guid.Empty)
                     {
-                        case (int)Common.Enums.Status.Active:
-                            user.Status = Convert.ToInt32(Common.Enums.Status.Inactive.ToString("d"));
-                            user.Retired = true;
-                            user.RetiredOn = DateTime.Now;
-                            user.RetiredBy = Common.Config.CurrentUserId;
-                            user.Save();
+                        switch ((int)user.Status)
+                        {
+                            case (int)Common.Enums.Status.Active:
+                                user.Status = Convert.ToInt32(Common.Enums.Status.Inactive.ToString("d"));
+                                user.Retired = true;
+                                user.RetiredOn = DateTime.Now;
+                                user.RetiredBy = Common.Config.CurrentUserId;
 
-                            result = true;
-                            break;
+                                ctx.SaveChanges();
+                                result = true;
+                                break;
 
-                        case (int)Common.Enums.Status.Draft:
-                            StaffAddressCollection addresses = StaffAddress.LoadCollection(String.Format("StaffId = '{0}'", userId.ToString()));
-                            if (addresses.Count > 0)
-                            {
-                                foreach (StaffAddress address in addresses)
-                                {
-                                    address.Delete();
-                                }
-                            }
-                            user.Delete();
-
-                            result = true;
-                            break;
+                            case (int)Common.Enums.Status.Draft:
+                                result = ModelEx.StaffAddressEx.Delete(userId);
+                                break;
+                        }
                     }
                 }
-            }
-            return result;
-        }
-
-        public static string GetAlias(Guid userId)
-        {
-            string result = String.Empty;
-            RT2020.DAL.Staff user = RT2020.DAL.Staff.Load(userId);
-            if (user != null)
-            {
-                result = user.StaffCode;
             }
             return result;
         }
@@ -656,12 +634,11 @@ namespace RT2020.Controls
         public static String SecurityLevel()
         {
             String result = String.Empty;
-            DAL.Staff staff = DAL.Staff.Load(Common.Config.CurrentUserId);
-            DAL.StaffGroup staffgroup = DAL.StaffGroup.Load(staff.GroupId);
+            var staff = ModelEx.StaffEx.GetByStaffId(Common.Config.CurrentUserId);
 
-            if (staffgroup != null)
+            if (staff != null)
             {
-                result = staffgroup.GradeCode;
+                result = ModelEx.StaffGroupEx.GetGradeCodeById(staff.GroupId.Value);
             }
 
             return result;
@@ -973,56 +950,38 @@ namespace RT2020.Controls
         {
             bool result = false;
 
-            RT2020.DAL.Staff staff = RT2020.DAL.Staff.Load(userId);
-            if (staff != null)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                // cannot delete primary user (primary user means CreatedBy = Guid.Empty)
-                if (staff.CreatedBy != Guid.Empty)
+                var staff = ctx.Staff.Find(userId);
+                if (staff != null)
                 {
-                    switch ((int)staff.Status)
+                    // cannot delete primary user (primary user means CreatedBy = Guid.Empty)
+                    if (staff.CreatedBy != Guid.Empty)
                     {
-                        case (int)Common.Enums.Status.Active:
-                            staff.Status = Convert.ToInt32(Common.Enums.Status.Inactive.ToString("d"));
-                            staff.Retired = true;
-                            staff.RetiredOn = DateTime.Now;
-                            staff.RetiredBy = Common.Config.CurrentUserId;
-                            staff.Save();
+                        switch ((int)staff.Status)
+                        {
+                            case (int)Common.Enums.Status.Active:
+                                staff.Status = Convert.ToInt32(Common.Enums.Status.Inactive.ToString("d"));
+                                staff.Retired = true;
+                                staff.RetiredOn = DateTime.Now;
+                                staff.RetiredBy = Common.Config.CurrentUserId;
 
-                            result = true;
-                            break;
+                                ctx.SaveChanges();
+                                result = true;
+                                break;
 
-                        case (int)Common.Enums.Status.Draft:
-                            RT2020.DAL.StaffAddressCollection addresses = RT2020.DAL.StaffAddress.LoadCollection(String.Format("StaffId = '{0}'", userId.ToString()));
-                            if (addresses.Count > 0)
-                            {
-                                foreach (RT2020.DAL.StaffAddress address in addresses)
-                                {
-                                    address.Delete();
-                                }
-                            }
-                            staff.Delete();
+                            case (int)Common.Enums.Status.Draft:
+                                result = ModelEx.StaffAddressEx.Delete(userId);
+                                break;
+                        }
 
-                            result = true;
-                            break;
+                        // 2012.04.04 paulus: 把 login 的資料一並刪除
+                        UserProfile.DelRec(staff.StaffId);
                     }
 
-                    // 2012.04.04 paulus: 把 login 的資料一並刪除
-                    UserProfile.DelRec(staff.StaffId);
+                    // log activity
+                    RT2020.Controls.Log4net.LogInfo(RT2020.Controls.Log4net.LogAction.Delete, staff.ToString());
                 }
-
-                // log activity
-                RT2020.Controls.Log4net.LogInfo(RT2020.Controls.Log4net.LogAction.Delete, staff.ToString());
-            }
-            return result;
-        }
-
-        public static string GetAlias(Guid userId)
-        {
-            string result = String.Empty;
-            RT2020.DAL.Staff user = RT2020.DAL.Staff.Load(userId);
-            if (user != null)
-            {
-                result = user.StaffCode;    //.Alias;
             }
             return result;
         }
@@ -1031,7 +990,7 @@ namespace RT2020.Controls
         {
             bool result = false;
 
-            RT2020.DAL.Staff staff = RT2020.DAL.Staff.Load(userId);
+            var staff = ModelEx.StaffEx.GetByStaffId(userId);
             if (staff != null)
             {
                 if (staff.CreatedBy == Guid.Empty)
@@ -1047,11 +1006,14 @@ namespace RT2020.Controls
         {
             Guid result = Guid.Empty;
 
-            String sql = String.Format("CreatedBy = '{0}'", Guid.Empty.ToString());
-            RT2020.DAL.Staff staff = RT2020.DAL.Staff.LoadWhere(sql);
-            if (staff != null)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                result = staff.StaffId;
+                String sql = String.Format("CreatedBy = '{0}'", Guid.Empty.ToString());
+                var staff = ctx.Staff.Where(x => x.CreatedBy == Guid.Empty).AsNoTracking().FirstOrDefault();
+                if (staff != null)
+                {
+                    result = staff.StaffId;
+                }
             }
             return result;
         }
