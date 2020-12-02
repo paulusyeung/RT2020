@@ -205,7 +205,6 @@
     <Compile Include="SmartTag4Workplace.cs" />
     <Compile Include="SqlHelper.cs" />
     <Compile Include="Staff.cs" />
-    <Compile Include="StaffAddress.cs" />
     <Compile Include="StaffSecurity.cs" />
     <Compile Include="StaffSmartTag.cs" />
     <Compile Include="StockTakeDetails.cs" />
