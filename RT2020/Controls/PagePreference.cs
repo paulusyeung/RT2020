@@ -113,44 +113,5 @@ namespace RT2020.Controls
         }
 
         #endregion
-
-        #region Preference
-     
-        /// <summary>
-        /// Sets the preference.
-        /// </summary>
-        /// <returns></returns>
-        public void SetPreference()
-        {
-            StaffPreference staffPreference = StaffPreference.LoadWhere(this.sql);
-            if (staffPreference == null)
-            {
-                staffPreference = new StaffPreference();
-                staffPreference.StaffId = Common.Config.CurrentUserId;
-                staffPreference.PageId = this.PageId;
-            }
-
-            staffPreference.SetMetadata("PreferredLayout", this.PreferredLayout);
-            staffPreference.SetMetadata("StaffForSearch", this.StaffForSearch);
-            staffPreference.SetMetadata("PreferredView", this.PreferredView);
-
-            staffPreference.Save();
-        }
-   
-        /// <summary>
-        /// Gets the preference.
-        /// </summary>
-        public void GetPreference()
-        {
-            StaffPreference staffPreference = StaffPreference.LoadWhere(this.sql);
-            if (staffPreference != null)
-            {
-                this.PreferredLayout = staffPreference.GetMetadata("PreferredLayout");
-                this.StaffForSearch = staffPreference.GetMetadata("StaffForSearch");
-                this.PreferredView = staffPreference.GetMetadata("PreferredView");
-            }
-        }
-
-        #endregion
     }
 }

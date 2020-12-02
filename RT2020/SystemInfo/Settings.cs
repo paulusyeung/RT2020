@@ -207,29 +207,6 @@ namespace RT2020.SystemInfo
             return result;
         }
 
-        #region Preference
-        /// <summary>
-        /// Determines whether the specified page has preference.
-        /// </summary>
-        /// <param name="pageId">The page id.</param>
-        /// <returns>
-        /// 	<c>true</c> if the specified page has preference; otherwise, <c>false</c>.
-        /// </returns>
-        public static bool HasPreference(Guid pageId)
-        {
-            string sql = "StaffId = '" + Common.Config.CurrentUserId.ToString() + "' AND PageId = '" + pageId.ToString() + "'";
-            StaffPreference staffPreference = StaffPreference.LoadWhere(sql);
-            if (staffPreference != null)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-        #endregion
-
         #region Refresh Main List View Panel
 
         /// <summary>

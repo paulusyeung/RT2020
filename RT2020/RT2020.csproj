@@ -1626,6 +1626,7 @@
     <Compile Include="MenuStrip\ToolsAms.cs" />
     <Compile Include="MenuStrip\ViewAms.cs" />
     <Compile Include="ModelEx\MetadataXml.cs" />
+    <Compile Include="ModelEx\StaffPreferenceEx.cs" />
     <Compile Include="ModelEx\UserPreferenceEx.cs" />
     <Compile Include="ModelEx\UserProfileEx.cs" />
     <Compile Include="ModelEx\WorkplaceEx.cs" />
