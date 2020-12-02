@@ -57,18 +57,28 @@ namespace RT2020.SystemInfo
 
             long queuedTxNumber = 1;
 
-            SystemQueue oQueue = SystemQueue.LoadWhere(query);
-            if (oQueue == null)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                oQueue = new SystemQueue();
-                oQueue.QueuingType = queuingType;
-                oQueue.LastNumber = "000000000000";
+                var oQueue = ctx.SystemQueue.SqlQuery(
+                    String.Format(
+                        "Select * from SystemQueue Where {0}",
+                        String.IsNullOrEmpty(query) ? "1 = 1" : query
+                    ))
+                    .FirstOrDefault();
+                if (oQueue == null)
+                {
+                    oQueue = new EF6.SystemQueue();
+                    oQueue.QueueId = Guid.NewGuid();
+                    oQueue.QueuingType = queuingType;
+                    oQueue.LastNumber = "000000000000";
+                    ctx.SystemQueue.Add(oQueue);
+                }
+
+                queuedTxNumber = Convert.ToInt64(oQueue.LastNumber) + 1;
+
+                oQueue.LastNumber = queuedTxNumber.ToString();
+                ctx.SaveChanges();
             }
-
-            queuedTxNumber = Convert.ToInt64(oQueue.LastNumber) + 1;
-
-            oQueue.LastNumber = queuedTxNumber.ToString();
-            oQueue.Save();
 
             return queuedTxNumber.ToString().PadLeft(12, '0');
         }

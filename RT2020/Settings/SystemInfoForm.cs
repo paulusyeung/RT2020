@@ -14,6 +14,7 @@ using System.IO;
 using RT2020.Controls;
 using RT2020.DAL;
 using RT2020.Helper;
+using System.Linq;
 
 #endregion
 
@@ -400,25 +401,27 @@ namespace RT2020.Settings
         /// </summary>
         private void LoadLastTxNumber()
         {
-            SystemQueueCollection queueList = SystemQueue.LoadCollection();
-            for (int i = 0; i < queueList.Count; i++)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                SystemQueue queue = queueList[i];
-                string key = "txt" + queue.QueuingType;
-
-                Control[] ctrlList = lastTxNumberPane.Controls.Find(key, true);
-                if (ctrlList.Length > 0)
+                var queueList = ctx.SystemQueue.ToList();
+                foreach (var queue in queueList)
                 {
-                    if (ctrlList[0] is TextBox)
-                    {
-                        TextBox txtCtrl = ctrlList[0] as TextBox;
-                        if (txtCtrl != null)
-                        {
-                            txtCtrl.Text = queue.LastNumber.ToString().PadLeft(12, '0');
+                    string key = "txt" + queue.QueuingType;
 
-                            if (txtCtrl.Name == "txtPMS")
+                    Control[] ctrlList = lastTxNumberPane.Controls.Find(key, true);
+                    if (ctrlList.Length > 0)
+                    {
+                        if (ctrlList[0] is TextBox)
+                        {
+                            TextBox txtCtrl = ctrlList[0] as TextBox;
+                            if (txtCtrl != null)
                             {
-                                txtPricePromotion.Text = txtCtrl.Text;
+                                txtCtrl.Text = queue.LastNumber.ToString().PadLeft(12, '0');
+
+                                if (txtCtrl.Name == "txtPMS")
+                                {
+                                    txtPricePromotion.Text = txtCtrl.Text;
+                                }
                             }
                         }
                     }
@@ -516,21 +519,25 @@ namespace RT2020.Settings
 
                         if (queueType.Length == 3)
                         {
-                            string sql = "QueuingType = '" + queueType + "'";
-                            SystemQueue queue = SystemQueue.LoadWhere(sql);
-                            if (queue == null)
+                            using (var ctx = new EF6.RT2020Entities())
                             {
-                                queue = new SystemQueue();
-                                queue.QueuingType = queueType;
-                                queue.LastNumber = "0".PadLeft(12, '0');
-                            }
+                                var queue = ctx.SystemQueue.Where(x => x.QueuingType == queueType).FirstOrDefault();
+                                if (queue == null)
+                                {
+                                    queue = new EF6.SystemQueue();
+                                    queue.QueueId = Guid.NewGuid();
+                                    queue.QueuingType = queueType;
+                                    queue.LastNumber = "0".PadLeft(12, '0');
+                                    ctx.SystemQueue.Add(queue);
+                                }
 
-                            if (Common.Utility.IsNumeric(txtCtrl.Text))
-                            {
-                                queue.LastNumber = txtCtrl.Text.ToString();
-                            }
+                                if (Common.Utility.IsNumeric(txtCtrl.Text))
+                                {
+                                    queue.LastNumber = txtCtrl.Text.ToString();
+                                }
 
-                            queue.Save();
+                                ctx.SaveChanges();
+                            }
                         }
                     }
                 }
