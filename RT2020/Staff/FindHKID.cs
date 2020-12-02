@@ -9,6 +9,7 @@ using System.Text;
 
 using Gizmox.WebGUI.Common;
 using Gizmox.WebGUI.Forms;
+using System.Linq;
 
 #endregion
 
@@ -104,30 +105,39 @@ namespace RT2020.Staff
                 }
             }
 
-            RT2020.DAL.StaffSmartTagCollection oStaffSmartTag = RT2020.DAL.StaffSmartTag.LoadCollection(whereClause);
-
-            if (oStaffSmartTag.Count > 0)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                int iCount = 1;
-                foreach (RT2020.DAL.StaffSmartTag staffSmartTag in oStaffSmartTag)
+                var list = ctx.StaffSmartTag.SqlQuery(
+                    String.Format(
+                        "Select * from StaffSmartTag Where {0}",
+                        String.IsNullOrEmpty(whereClause) ? "1 = 1" : whereClause
+                    ))
+                    .AsNoTracking()
+                    .ToList();
+
+                if (list.Count > 0)
                 {
-                    ListViewItem objItem = this.lvStaffList.Items.Add(iCount.ToString());
-                    if (staff == null)
+                    int iCount = 1;
+                    foreach (var item in list)
                     {
-                        var sta = ModelEx.StaffEx.GetByStaffId(staffSmartTag.StaffId);
-                        if (sta != null)
+                        ListViewItem objItem = this.lvStaffList.Items.Add(iCount.ToString());
+                        if (staff == null)
                         {
-                            objItem.SubItems.Add(sta.StaffNumber);
+                            var sta = ModelEx.StaffEx.GetByStaffId(item.StaffId);
+                            if (sta != null)
+                            {
+                                objItem.SubItems.Add(sta.StaffNumber);
+                            }
                         }
-                    }
-                    else
-                    {
-                        objItem.SubItems.Add(txtStaff.Text.Trim());
-                    }
+                        else
+                        {
+                            objItem.SubItems.Add(txtStaff.Text.Trim());
+                        }
 
-                    objItem.SubItems.Add(staffSmartTag.SmartTagValue);
+                        objItem.SubItems.Add(item.SmartTagValue);
 
-                    iCount++;
+                        iCount++;
+                    }
                 }
             }
         }

@@ -204,7 +204,6 @@
     <Compile Include="SmartTag4Supplier.cs" />
     <Compile Include="SmartTag4Workplace.cs" />
     <Compile Include="SqlHelper.cs" />
-    <Compile Include="StaffSmartTag.cs" />
     <Compile Include="StockTakeDetails.cs" />
     <Compile Include="StockTakeDetails_HHT.cs" />
     <Compile Include="StockTakeHeader.cs" />
