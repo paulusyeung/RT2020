@@ -537,14 +537,14 @@ namespace RT2020.Controls
             bool canRead = true, canWrite = false, canDelete = false, canPost = false;
             Common.Enums.Permission allowedPermission = Common.Enums.Permission.Read;
 
-            string query = "StaffId = '" + Common.Config.CurrentUserId.ToString() + "' AND GradeCode = '" + PermissionLevel() + "'";
-            StaffSecurity oSecurity = StaffSecurity.LoadWhere(query);
+            //string query = "StaffId = '" + Common.Config.CurrentUserId.ToString() + "' AND GradeCode = '" + PermissionLevel() + "'";
+            var oSecurity = ModelEx.StaffSecurityEx.GetByStaffId(Common.Config.CurrentUserId, PermissionLevel());
             if (oSecurity != null)
             {
-                canRead = oSecurity.CanRead;
-                canWrite = oSecurity.CanWrite;
-                canDelete = oSecurity.CanDelete;
-                canPost = oSecurity.CanPost;
+                canRead = oSecurity.CanRead.Value;
+                canWrite = oSecurity.CanWrite.Value;
+                canDelete = oSecurity.CanDelete.Value;
+                canPost = oSecurity.CanPost.Value;
             }
             else
             {

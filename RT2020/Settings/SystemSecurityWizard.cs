@@ -62,13 +62,13 @@ namespace RT2020.Settings
                 cboGrade.SelectedValue = oStaff.GroupId;
             }
 
-            StaffSecurity oSecurity = StaffSecurity.Load(_SecurityId);
+            var oSecurity = ModelEx.StaffSecurityEx.GetById(_SecurityId);
             if (oSecurity != null)
             {
-                chkCanRead.Checked = oSecurity.CanRead;
-                chkCanWrite.Checked = oSecurity.CanWrite;
-                chkCanPost.Checked = oSecurity.CanPost;
-                chkCanDelete.Checked = oSecurity.CanDelete;
+                chkCanRead.Checked = oSecurity.CanRead.Value;
+                chkCanWrite.Checked = oSecurity.CanWrite.Value;
+                chkCanPost.Checked = oSecurity.CanPost.Value;
+                chkCanDelete.Checked = oSecurity.CanDelete.Value;
             }
         }
         #endregion
@@ -139,32 +139,34 @@ namespace RT2020.Settings
 
         private void Save()
         {
-            StaffSecurity oSecurity = StaffSecurity.Load(_SecurityId);
-            if (oSecurity == null)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                oSecurity = new StaffSecurity();
+                var oSecurity = ctx.StaffSecurity.Find(_SecurityId);
+                if (oSecurity == null)
+                {
+                    oSecurity = new EF6.StaffSecurity();
+                    oSecurity.SecurityId = Guid.NewGuid();
+                    oSecurity.StaffId = _StaffId;
+                    ctx.StaffSecurity.Add(oSecurity);
+                }
 
-                oSecurity.StaffId = _StaffId;
-            }
+                string gradeCode = ModelEx.StaffGroupEx.GetGradeCodeById((Guid)cboGrade.SelectedValue);
+                if (gradeCode.Length > 0)
+                {
+                    oSecurity.GradeCode = gradeCode;
+                }
 
-            string gradeCode = ModelEx.StaffGroupEx.GetGradeCodeById((Guid)cboGrade.SelectedValue);
-            if (gradeCode.Length > 0)
-            {
-                oSecurity.GradeCode = gradeCode;
-            }
+                oSecurity.Module = "*";
+                oSecurity.Functions = "*";
+                oSecurity.CanRead = chkCanRead.Checked;
+                oSecurity.CanWrite = chkCanWrite.Checked;
+                oSecurity.CanPost = chkCanPost.Checked;
+                oSecurity.CanDelete = chkCanDelete.Checked;
 
-            oSecurity.Module = "*";
-            oSecurity.Functions = "*";
-            oSecurity.CanRead = chkCanRead.Checked;
-            oSecurity.CanWrite = chkCanWrite.Checked;
-            oSecurity.CanPost = chkCanPost.Checked;
-            oSecurity.CanDelete = chkCanDelete.Checked;
-            oSecurity.Save();
+                ctx.SaveChanges();
 
-            var id = Guid.Empty;
-            if (Guid.TryParse(cboGrade.SelectedValue.ToString(), out id))
-            {
-                using (var ctx = new EF6.RT2020Entities())
+                var id = Guid.Empty;
+                if (Guid.TryParse(cboGrade.SelectedValue.ToString(), out id))
                 {
                     var oStaff = ctx.Staff.Find(_StaffId);
                     if (oStaff != null)

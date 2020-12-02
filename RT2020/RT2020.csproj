@@ -1632,6 +1632,7 @@
     <Compile Include="ModelEx\StaffInternetTagEx.cs" />
     <Compile Include="ModelEx\MetadataXml.cs" />
     <Compile Include="ModelEx\StaffPreferenceEx.cs" />
+    <Compile Include="ModelEx\StaffSecurityEx.cs" />
     <Compile Include="ModelEx\UserPreferenceEx.cs" />
     <Compile Include="ModelEx\UserProfileEx.cs" />
     <Compile Include="ModelEx\WorkplaceEx.cs" />
