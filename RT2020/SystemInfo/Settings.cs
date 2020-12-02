@@ -107,11 +107,8 @@ namespace RT2020.SystemInfo
         public static string GetSystemLabelByKey(string key)
         {
             string result = key;
-            //string sql = "LanguageCode = '" + VWGContext.Current.CurrentUICulture.ToString() + "'";
-            //string sql = "LanguageCode = '" + (string)System.Web.HttpContext.Current.Session["UserLanguage"] + "'";
-            string sql = "LanguageCode = '" + Common.Config.CurrentLanguageCode + "'";
 
-            SystemLabel oLabel = SystemLabel.LoadWhere(sql);
+            var oLabel = ModelEx.SystemLabelEx.GetByLanguageCode(Common.Config.CurrentLanguageCode);
             if (oLabel != null)
             {
                 PropertyInfo pi = oLabel.GetType().GetProperty(key.Trim().ToUpper());
@@ -120,13 +117,6 @@ namespace RT2020.SystemInfo
                     result = pi.GetValue(oLabel, null).ToString();
                 }
             }
-
-            //throw new Exception(string.Format("Key: {0}; Result: {1}; Language: {2}", key, result, sql));
-            
-            //if (result.CompareTo(key) == 0)
-            //{
-            //    result = RT2020.Controls.Utility.Dictionary.GetWord(key);
-            //}
 
             return result;
         }

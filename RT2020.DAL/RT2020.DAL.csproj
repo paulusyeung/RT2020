@@ -216,7 +216,6 @@
     <Compile Include="SupplierTerms.cs" />
     <Compile Include="SystemHHTLog.cs" />
     <Compile Include="SystemInfo.cs" />
-    <Compile Include="SystemLabel.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">

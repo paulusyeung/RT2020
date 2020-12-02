@@ -1634,6 +1634,7 @@
     <Compile Include="ModelEx\StaffPreferenceEx.cs" />
     <Compile Include="ModelEx\StaffSecurityEx.cs" />
     <Compile Include="ModelEx\StaffSmartTagEx.cs" />
+    <Compile Include="ModelEx\SystemLabelEx.cs" />
     <Compile Include="ModelEx\UserPreferenceEx.cs" />
     <Compile Include="ModelEx\UserProfileEx.cs" />
     <Compile Include="ModelEx\WorkplaceEx.cs" />

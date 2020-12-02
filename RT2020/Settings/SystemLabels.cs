@@ -12,6 +12,7 @@ using Gizmox.WebGUI.Forms;
 
 using RT2020.DAL;
 using RT2020.NavPane;
+using System.Linq;
 
 #endregion
 
@@ -35,9 +36,7 @@ namespace RT2020.Settings
         // Default, English
         private void LoadLabel()
         {
-            string sql = "LanguageCode = 'en-US'";
-
-            SystemLabel oLabel = SystemLabel.LoadWhere(sql);
+            var oLabel = ModelEx.SystemLabelEx.GetByLanguageCode("en-US");
             if (oLabel != null)
             {
                 this.txtStockCode.Text = oLabel.STKCODE;
@@ -65,9 +64,7 @@ namespace RT2020.Settings
 
         private void LoadLabel_Chs()
         {
-            string sql = "LanguageCode = 'zh-CHS'";
-
-            SystemLabel oLabel = SystemLabel.LoadWhere(sql);
+            var oLabel = ModelEx.SystemLabelEx.GetByLanguageCode("zh-CHS");
             if (oLabel != null)
             {
                 this.txtStockCode_Chs.Text = oLabel.STKCODE;
@@ -95,9 +92,7 @@ namespace RT2020.Settings
 
         private void LoadLabel_Cht()
         {
-            string sql = "LanguageCode = 'zh-CHT'";
-
-            SystemLabel oLabel = SystemLabel.LoadWhere(sql);
+            var oLabel = ModelEx.SystemLabelEx.GetByLanguageCode("zh-CHT");
             if (oLabel != null)
             {
                 this.txtStockCode_Cht.Text = oLabel.STKCODE;
@@ -130,138 +125,147 @@ namespace RT2020.Settings
         {
             bool isNew = false;
 
-            string sql = "LanguageCode = 'en-US'";
-
-            SystemLabel oLabel = SystemLabel.LoadWhere(sql);
-            if (oLabel == null)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                oLabel = new SystemLabel();
-                oLabel.LanguageCode = "en-US";
+                var oLabel = ctx.SystemLabel.Where(x => x.LanguageCode == "en-US").FirstOrDefault();
+                if (oLabel == null)
+                {
+                    oLabel = new EF6.SystemLabel();
+                    oLabel.LabelId = Guid.NewGuid();
+                    oLabel.LanguageCode = "en-US";
 
-                isNew = true;
-            }
-            oLabel.STKCODE = this.txtStockCode.Text.Trim();
-            oLabel.APPENDIX1 = this.txtAppendix1.Text.Trim();
-            oLabel.APPENDIX2 = this.txtAppendix2.Text.Trim();
-            oLabel.APPENDIX3 = this.txtAppendix3.Text.Trim();
-            oLabel.CLASS1 = this.txtClass1.Text.Trim();
-            oLabel.CLASS2 = this.txtClass2.Text.Trim();
-            oLabel.CLASS3 = this.txtClass3.Text.Trim();
-            oLabel.CLASS4 = this.txtClass4.Text.Trim();
-            oLabel.CLASS5 = this.txtClass5.Text.Trim();
-            oLabel.CLASS6 = this.txtClass6.Text.Trim();
-            oLabel.SERIALNO = this.txtSerialNumber.Text.Trim();
-            oLabel.VITEMNO = this.txtVITEMNO.Text.Trim();
-            oLabel.COUPONNO = this.txtCouponNumber.Text.Trim();
-            oLabel.REMARK1 = this.txtRemarks1.Text.Trim();
-            oLabel.REMARK2 = this.txtRemarks2.Text.Trim();
-            oLabel.REMARK3 = this.txtRemarks3.Text.Trim();
-            oLabel.REMARK4 = this.txtRemarks4.Text.Trim();
-            oLabel.REMARK5 = this.txtRemarks5.Text.Trim();
-            oLabel.REMARK6 = this.txtRemarks6.Text.Trim();
+                    ctx.SystemLabel.Add(oLabel);
+                    isNew = true;
+                }
+                oLabel.STKCODE = this.txtStockCode.Text.Trim();
+                oLabel.APPENDIX1 = this.txtAppendix1.Text.Trim();
+                oLabel.APPENDIX2 = this.txtAppendix2.Text.Trim();
+                oLabel.APPENDIX3 = this.txtAppendix3.Text.Trim();
+                oLabel.CLASS1 = this.txtClass1.Text.Trim();
+                oLabel.CLASS2 = this.txtClass2.Text.Trim();
+                oLabel.CLASS3 = this.txtClass3.Text.Trim();
+                oLabel.CLASS4 = this.txtClass4.Text.Trim();
+                oLabel.CLASS5 = this.txtClass5.Text.Trim();
+                oLabel.CLASS6 = this.txtClass6.Text.Trim();
+                oLabel.SERIALNO = this.txtSerialNumber.Text.Trim();
+                oLabel.VITEMNO = this.txtVITEMNO.Text.Trim();
+                oLabel.COUPONNO = this.txtCouponNumber.Text.Trim();
+                oLabel.REMARK1 = this.txtRemarks1.Text.Trim();
+                oLabel.REMARK2 = this.txtRemarks2.Text.Trim();
+                oLabel.REMARK3 = this.txtRemarks3.Text.Trim();
+                oLabel.REMARK4 = this.txtRemarks4.Text.Trim();
+                oLabel.REMARK5 = this.txtRemarks5.Text.Trim();
+                oLabel.REMARK6 = this.txtRemarks6.Text.Trim();
 
-            if (isNew)
-            {
-                oLabel.DLFLAG = "A";
-            }
-            else
-            {
-                oLabel.DLFLAG = "M";
-            }
+                if (isNew)
+                {
+                    oLabel.DLFLAG = "A";
+                }
+                else
+                {
+                    oLabel.DLFLAG = "M";
+                }
 
-            oLabel.Save();
+                ctx.SaveChanges();
+            }
         }
 
         private void SaveLabel_Chs()
         {
             bool isNew = false;
 
-            string sql = "LanguageCode = 'zh-CHS'";
-
-            SystemLabel oLabel = SystemLabel.LoadWhere(sql);
-            if (oLabel == null)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                oLabel = new SystemLabel();
-                oLabel.LanguageCode = "zh-CHS";
+                var oLabel = ctx.SystemLabel.Where(x => x.LanguageCode == "zh-CHS").FirstOrDefault();
+                if (oLabel == null)
+                {
+                    oLabel = new EF6.SystemLabel();
+                    oLabel.LabelId = Guid.NewGuid();
+                    oLabel.LanguageCode = "zh-CHS";
 
-                isNew = true;
-            }
-            oLabel.STKCODE = this.txtStockCode_Chs.Text.Trim();
-            oLabel.APPENDIX1 = this.txtAppendix1_Chs.Text.Trim();
-            oLabel.APPENDIX2 = this.txtAppendix2_Chs.Text.Trim();
-            oLabel.APPENDIX3 = this.txtAppendix3_Chs.Text.Trim();
-            oLabel.CLASS1 = this.txtClass1_Chs.Text.Trim();
-            oLabel.CLASS2 = this.txtClass2_Chs.Text.Trim();
-            oLabel.CLASS3 = this.txtClass3_Chs.Text.Trim();
-            oLabel.CLASS4 = this.txtClass4_Chs.Text.Trim();
-            oLabel.CLASS5 = this.txtClass5_Chs.Text.Trim();
-            oLabel.CLASS6 = this.txtClass6_Chs.Text.Trim();
-            oLabel.SERIALNO = this.txtSerialNumber_Chs.Text.Trim();
-            oLabel.VITEMNO = this.txtVITEMNO_Chs.Text.Trim();
-            oLabel.COUPONNO = this.txtCouponNumber_Chs.Text.Trim();
-            oLabel.REMARK1 = this.txtRemarks1_Chs.Text.Trim();
-            oLabel.REMARK2 = this.txtRemarks2_Chs.Text.Trim();
-            oLabel.REMARK3 = this.txtRemarks3_Chs.Text.Trim();
-            oLabel.REMARK4 = this.txtRemarks4_Chs.Text.Trim();
-            oLabel.REMARK5 = this.txtRemarks5_Chs.Text.Trim();
-            oLabel.REMARK6 = this.txtRemarks6_Chs.Text.Trim();
+                    ctx.SystemLabel.Add(oLabel);
+                    isNew = true;
+                }
+                oLabel.STKCODE = this.txtStockCode_Chs.Text.Trim();
+                oLabel.APPENDIX1 = this.txtAppendix1_Chs.Text.Trim();
+                oLabel.APPENDIX2 = this.txtAppendix2_Chs.Text.Trim();
+                oLabel.APPENDIX3 = this.txtAppendix3_Chs.Text.Trim();
+                oLabel.CLASS1 = this.txtClass1_Chs.Text.Trim();
+                oLabel.CLASS2 = this.txtClass2_Chs.Text.Trim();
+                oLabel.CLASS3 = this.txtClass3_Chs.Text.Trim();
+                oLabel.CLASS4 = this.txtClass4_Chs.Text.Trim();
+                oLabel.CLASS5 = this.txtClass5_Chs.Text.Trim();
+                oLabel.CLASS6 = this.txtClass6_Chs.Text.Trim();
+                oLabel.SERIALNO = this.txtSerialNumber_Chs.Text.Trim();
+                oLabel.VITEMNO = this.txtVITEMNO_Chs.Text.Trim();
+                oLabel.COUPONNO = this.txtCouponNumber_Chs.Text.Trim();
+                oLabel.REMARK1 = this.txtRemarks1_Chs.Text.Trim();
+                oLabel.REMARK2 = this.txtRemarks2_Chs.Text.Trim();
+                oLabel.REMARK3 = this.txtRemarks3_Chs.Text.Trim();
+                oLabel.REMARK4 = this.txtRemarks4_Chs.Text.Trim();
+                oLabel.REMARK5 = this.txtRemarks5_Chs.Text.Trim();
+                oLabel.REMARK6 = this.txtRemarks6_Chs.Text.Trim();
 
-            if (isNew)
-            {
-                oLabel.DLFLAG = "A";
-            }
-            else
-            {
-                oLabel.DLFLAG = "M";
-            }
+                if (isNew)
+                {
+                    oLabel.DLFLAG = "A";
+                }
+                else
+                {
+                    oLabel.DLFLAG = "M";
+                }
 
-            oLabel.Save();
+                ctx.SaveChanges();
+            }
         }
 
         private void SaveLabel_Cht()
         {
             bool isNew = false;
 
-            string sql = "LanguageCode = 'zh-CHT'";
-
-            SystemLabel oLabel = SystemLabel.LoadWhere(sql);
-            if (oLabel == null)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                oLabel = new SystemLabel();
-                oLabel.LanguageCode = "zh-CHT";
+                var oLabel = ctx.SystemLabel.Where(x => x.LanguageCode == "zh-CHT").FirstOrDefault();
+                if (oLabel == null)
+                {
+                    oLabel = new EF6.SystemLabel();
+                    oLabel.LabelId = Guid.NewGuid();
+                    oLabel.LanguageCode = "zh-CHT";
 
-                isNew = true;
-            }
-            oLabel.STKCODE = this.txtStockCode_Cht.Text.Trim();
-            oLabel.APPENDIX1 = this.txtAppendix1_Cht.Text.Trim();
-            oLabel.APPENDIX2 = this.txtAppendix2_Cht.Text.Trim();
-            oLabel.APPENDIX3 = this.txtAppendix3_Cht.Text.Trim();
-            oLabel.CLASS1 = this.txtClass1_Cht.Text.Trim();
-            oLabel.CLASS2 = this.txtClass2_Cht.Text.Trim();
-            oLabel.CLASS3 = this.txtClass3_Cht.Text.Trim();
-            oLabel.CLASS4 = this.txtClass4_Cht.Text.Trim();
-            oLabel.CLASS5 = this.txtClass5_Cht.Text.Trim();
-            oLabel.CLASS6 = this.txtClass6_Cht.Text.Trim();
-            oLabel.SERIALNO = this.txtSerialNumber_Cht.Text.Trim();
-            oLabel.VITEMNO = this.txtVITEMNO_Cht.Text.Trim();
-            oLabel.COUPONNO = this.txtCouponNumber_Cht.Text.Trim();
-            oLabel.REMARK1 = this.txtRemarks1_Cht.Text.Trim();
-            oLabel.REMARK2 = this.txtRemarks2_Cht.Text.Trim();
-            oLabel.REMARK3 = this.txtRemarks3_Cht.Text.Trim();
-            oLabel.REMARK4 = this.txtRemarks4_Cht.Text.Trim();
-            oLabel.REMARK5 = this.txtRemarks5_Cht.Text.Trim();
-            oLabel.REMARK6 = this.txtRemarks6_Cht.Text.Trim();
+                    ctx.SystemLabel.Add(oLabel);
+                    isNew = true;
+                }
+                oLabel.STKCODE = this.txtStockCode_Cht.Text.Trim();
+                oLabel.APPENDIX1 = this.txtAppendix1_Cht.Text.Trim();
+                oLabel.APPENDIX2 = this.txtAppendix2_Cht.Text.Trim();
+                oLabel.APPENDIX3 = this.txtAppendix3_Cht.Text.Trim();
+                oLabel.CLASS1 = this.txtClass1_Cht.Text.Trim();
+                oLabel.CLASS2 = this.txtClass2_Cht.Text.Trim();
+                oLabel.CLASS3 = this.txtClass3_Cht.Text.Trim();
+                oLabel.CLASS4 = this.txtClass4_Cht.Text.Trim();
+                oLabel.CLASS5 = this.txtClass5_Cht.Text.Trim();
+                oLabel.CLASS6 = this.txtClass6_Cht.Text.Trim();
+                oLabel.SERIALNO = this.txtSerialNumber_Cht.Text.Trim();
+                oLabel.VITEMNO = this.txtVITEMNO_Cht.Text.Trim();
+                oLabel.COUPONNO = this.txtCouponNumber_Cht.Text.Trim();
+                oLabel.REMARK1 = this.txtRemarks1_Cht.Text.Trim();
+                oLabel.REMARK2 = this.txtRemarks2_Cht.Text.Trim();
+                oLabel.REMARK3 = this.txtRemarks3_Cht.Text.Trim();
+                oLabel.REMARK4 = this.txtRemarks4_Cht.Text.Trim();
+                oLabel.REMARK5 = this.txtRemarks5_Cht.Text.Trim();
+                oLabel.REMARK6 = this.txtRemarks6_Cht.Text.Trim();
 
-            if (isNew)
-            {
-                oLabel.DLFLAG = "A";
-            }
-            else
-            {
-                oLabel.DLFLAG = "M";
-            }
+                if (isNew)
+                {
+                    oLabel.DLFLAG = "A";
+                }
+                else
+                {
+                    oLabel.DLFLAG = "M";
+                }
 
-            oLabel.Save();
+                ctx.SaveChanges();
+            }
         }
         #endregion
 
