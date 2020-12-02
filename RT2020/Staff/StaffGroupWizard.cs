@@ -1,4 +1,4 @@
-#region Using
+﻿#region Using
 
 using System;
 using System.Collections.Generic;
@@ -13,6 +13,8 @@ using Gizmox.WebGUI.Common.Resources;
 using RT2020.DAL;
 using System.Data.SqlClient;
 using System.Configuration;
+using System.Linq;
+using System.Data.Entity;
 
 #endregion
 
@@ -93,8 +95,9 @@ namespace RT2020.Staff
                         SetCtrlEditable();
                         break;
                     case "save":
-                        if (Save())
+                        if (IsValid())
                         {
+                            Save();
                             Clear();
                             BindStaffGroupList();
                             this.Update();
@@ -130,18 +133,9 @@ namespace RT2020.Staff
         #region Fill Combo List
         private void FillParentGradeList()
         {
-            cboParentGrade.DataSource = null;
-            cboParentGrade.Items.Clear();
-
             string sql = "GroupId NOT IN ('" + this.StaffGroupId.ToString() + "')";
             string[] orderBy = new string[] { "GradeCode" };
-            StaffGroupCollection oStaffGroupList = StaffGroup.LoadCollection(sql, orderBy, true);
-            oStaffGroupList.Add(new StaffGroup());
-            cboParentGrade.DataSource = oStaffGroupList;
-            cboParentGrade.DisplayMember = "GradeCode";
-            cboParentGrade.ValueMember = "GroupId";
-
-            cboParentGrade.SelectedIndex = cboParentGrade.Items.Count - 1;
+            ModelEx.StaffGroupEx.LoadCombo(ref cboParentGrade, "GroupCode", false, false, "", sql, orderBy);
         }
         #endregion
 
@@ -180,60 +174,63 @@ namespace RT2020.Staff
         #endregion
 
         #region Save
-        private bool CodeExists()
-        {
-            string sql = "GradeCode = '" + txtStaffGroupCode.Text.Trim() + "'";
-            StaffGroupCollection groupList = StaffGroup.LoadCollection(sql);
-            if (groupList.Count > 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
 
-        private bool Save()
+        private bool IsValid()
         {
+            bool result = true;
+
+            #region DeptCode 唔可以吉
+            errorProvider.SetError(txtStaffGroupCode, string.Empty);
             if (txtStaffGroupCode.Text.Length == 0)
             {
                 errorProvider.SetError(txtStaffGroupCode, "Cannot be blank!");
                 return false;
             }
-            else
+            #endregion
+
+            #region 新增，要 check CityCode 係咪 in use
+            errorProvider.SetError(txtStaffGroupCode, string.Empty);
+            if (ModelEx.StaffDeptEx.IsDeptCodeInUse(txtStaffGroupCode.Text.Trim()))
             {
-                errorProvider.SetError(txtStaffGroupCode, string.Empty);
-
-                StaffGroup oStaffGroup = StaffGroup.Load(this.StaffGroupId);
-                if (oStaffGroup == null)
-                {
-                    oStaffGroup = new StaffGroup();
-
-                    if (CodeExists())
-                    {
-                        errorProvider.SetError(txtStaffGroupCode, string.Format(Resources.Common.DuplicatedCode, "Group Code"));
-                        return false;
-                    }
-                    else
-                    {
-                        oStaffGroup.GradeCode = txtStaffGroupCode.Text;
-                        errorProvider.SetError(txtStaffGroupCode, string.Empty);
-                    }
-                }
-                oStaffGroup.GradeName = txtStaffGroupName.Text;
-                oStaffGroup.GradeName_Chs = txtStaffGroupNameChs.Text;
-                oStaffGroup.GradeName_Cht = txtStaffGroupNameCht.Text;
-                oStaffGroup.ParentGrade = (cboParentGrade.SelectedValue == null)? System.Guid.Empty:new System.Guid(cboParentGrade.SelectedValue.ToString());
-
-                oStaffGroup.CanRead = chkCanRead.Checked;
-                oStaffGroup.CanWrite = chkCanWrite.Checked;
-                oStaffGroup.CanDelete = chkCanDelete.Checked;
-                oStaffGroup.CanPost = chkCanPost.Checked;
-
-                oStaffGroup.Save();
-                return true;
+                errorProvider.SetError(txtStaffGroupCode, "Grade Code in use");
+                return false;
             }
+            #endregion
+
+            return result;
+        }
+
+        private bool Save()
+        {
+            bool result = false;
+
+            using (var ctx = new EF6.RT2020Entities())
+            {
+                var sg = ctx.StaffGroup.Find(this.StaffGroupId);
+
+                if (sg == null)
+                {
+                    sg = new EF6.StaffGroup();
+                    sg.GroupId = new Guid();
+                    sg.GradeCode = txtStaffGroupCode.Text;
+
+                    ctx.StaffGroup.Add(sg);
+                }
+                sg.GradeName = txtStaffGroupName.Text;
+                sg.GradeName_Chs = txtStaffGroupNameChs.Text;
+                sg.GradeName_Cht = txtStaffGroupNameCht.Text;
+                sg.ParentGrade = ((Guid)cboParentGrade.SelectedValue == Guid.Empty) ? Guid.Empty : (Guid)cboParentGrade.SelectedValue;
+
+                sg.CanRead = chkCanRead.Checked;
+                sg.CanWrite = chkCanWrite.Checked;
+                sg.CanDelete = chkCanDelete.Checked;
+                sg.CanPost = chkCanPost.Checked;
+
+                ctx.SaveChanges();
+                result = true;
+            }
+
+            return result;
         }
 
         private void Clear()
@@ -262,17 +259,9 @@ namespace RT2020.Staff
 
         private void Delete()
         {
-            StaffGroup oStaffGroup = StaffGroup.Load(this.StaffGroupId);
-            if (oStaffGroup != null)
+            if (!ModelEx.StaffGroupEx.Delete(this.StaffGroupId))
             {
-                try
-                {
-                    oStaffGroup.Delete();
-                }
-                catch
-                {
-                    MessageBox.Show("Cannot delete the record being used by other record!", "Delete Warning");
-                }
+                MessageBox.Show("Cannot delete the record being used by other record!", "Delete Warning");
             }
         }
 
@@ -280,28 +269,32 @@ namespace RT2020.Staff
         {
             if (lvStaffGroupList.SelectedItem != null)
             {
-                if (Common.Utility.IsGUID(lvStaffGroupList.SelectedItem.Text))
+                Guid id = Guid.Empty;
+                if (Guid.TryParse(lvStaffGroupList.SelectedItem.Text, out id))
                 {
-                    StaffGroup oStaffGroup = StaffGroup.Load(new System.Guid(lvStaffGroupList.SelectedItem.Text));
-                    if (oStaffGroup != null)
+                    using (var ctx = new EF6.RT2020Entities())
                     {
-                        this.StaffGroupId = oStaffGroup.GroupId;
+                        var sg = ctx.StaffGroup.Where(x => x.GroupId == id).AsNoTracking().FirstOrDefault();
+                        if (sg != null)
+                        {
+                            this.StaffGroupId = sg.GroupId;
 
-                        FillParentGradeList();
+                            FillParentGradeList();
 
-                        txtStaffGroupCode.Text = oStaffGroup.GradeCode;
-                        txtStaffGroupName.Text = oStaffGroup.GradeName;
-                        txtStaffGroupNameChs.Text = oStaffGroup.GradeName_Chs;
-                        txtStaffGroupNameCht.Text = oStaffGroup.GradeName_Cht;
-                        cboParentGrade.SelectedValue = oStaffGroup.ParentGrade;
+                            txtStaffGroupCode.Text = sg.GradeCode;
+                            txtStaffGroupName.Text = sg.GradeName;
+                            txtStaffGroupNameChs.Text = sg.GradeName_Chs;
+                            txtStaffGroupNameCht.Text = sg.GradeName_Cht;
+                            cboParentGrade.SelectedValue = sg.ParentGrade;
 
-                        chkCanRead.Checked = oStaffGroup.CanRead;
-                        chkCanWrite.Checked = oStaffGroup.CanWrite;
-                        chkCanDelete.Checked = oStaffGroup.CanDelete;
-                        chkCanPost.Checked = oStaffGroup.CanPost;
+                            chkCanRead.Checked = sg.CanRead.Value;
+                            chkCanWrite.Checked = sg.CanWrite.Value;
+                            chkCanDelete.Checked = sg.CanDelete.Value;
+                            chkCanPost.Checked = sg.CanPost.Value;
 
-                        SetCtrlEditable();
-                        SetToolBar();
+                            SetCtrlEditable();
+                            SetToolBar();
+                        }
                     }
                 }
             }

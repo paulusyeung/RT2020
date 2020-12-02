@@ -49,7 +49,7 @@ namespace RT2020.Settings
 
         private void FillGradeList()
         {
-            StaffGroup.LoadCombo(ref cboGrade, new string[] { "GradeCode", "GradeName" }, "{0} - {1}", false, false, string.Empty, string.Empty, string.Empty, null);
+            ModelEx.StaffGroupEx.LoadCombo(ref cboGrade, "GradeCode", false);
         }
 
         private void LoadDetail()
@@ -157,7 +157,7 @@ namespace RT2020.Settings
                     oSecurity.StaffId = new Guid(StaffId);
                 }
 
-                string gradeCode = GetGradeCode(cboGrade.SelectedValue.ToString());
+                string gradeCode = ModelEx.StaffGroupEx.GetGradeCodeById((Guid)cboGrade.SelectedValue);
                 if (gradeCode.Length > 0)
                 {
                     oSecurity.GradeCode = gradeCode;
@@ -188,35 +188,23 @@ namespace RT2020.Settings
             }
         }
 
-        private string GetGradeCode(string groupId)
-        {
-            string gradeCode = string.Empty;
-
-            if (Common.Utility.IsGUID(groupId))
-            {
-                StaffGroup oGroup = StaffGroup.Load(new Guid(groupId));
-                if (oGroup != null)
-                {
-                    gradeCode = oGroup.GradeCode;
-                }
-            }
-
-            return gradeCode;
-        }
-
         #endregion
 
         private void cboGrade_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (Common.Utility.IsGUID(cboGrade.SelectedValue.ToString()))
+            Guid id = Guid.Empty;
+            if (Guid.TryParse(cboGrade.SelectedValue.ToString(), out id))
             {
-                StaffGroup oGroup = StaffGroup.Load(new Guid(cboGrade.SelectedValue.ToString()));
-                if (oGroup != null)
+                using (var ctx = new EF6.RT2020Entities())
                 {
-                    chkCanRead.Checked = oGroup.CanRead;
-                    chkCanWrite.Checked = oGroup.CanWrite;
-                    chkCanDelete.Checked = oGroup.CanDelete;
-                    chkCanPost.Checked = oGroup.CanPost;
+                    var sg = ctx.StaffGroup.Where(x => x.GroupId == id).FirstOrDefault();
+                    if (sg != null)
+                    {
+                        chkCanRead.Checked = sg.CanRead.Value;
+                        chkCanWrite.Checked = sg.CanWrite.Value;
+                        chkCanDelete.Checked = sg.CanDelete.Value;
+                        chkCanPost.Checked = sg.CanPost.Value;
+                    }
                 }
             }
         }

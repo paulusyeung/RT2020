@@ -206,7 +206,6 @@
     <Compile Include="SqlHelper.cs" />
     <Compile Include="Staff.cs" />
     <Compile Include="StaffAddress.cs" />
-    <Compile Include="StaffGroup.cs" />
     <Compile Include="StaffSecurity.cs" />
     <Compile Include="StaffSmartTag.cs" />
     <Compile Include="StockTakeDetails.cs" />

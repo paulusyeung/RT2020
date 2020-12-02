@@ -65,7 +65,7 @@ namespace RT2020.Staff
         private void FillGroup()
         {
             cmbStaffGrade.Items.Clear();
-            StaffGroup.LoadCombo(ref cmbStaffGrade, new string[] { "GradeCode", "GradeName" }, "{0} - {1}", false, false, String.Empty, String.Empty, null);
+            ModelEx.StaffGroupEx.LoadCombo(ref cmbStaffGrade, "GradeCode", false, false, String.Empty, String.Empty);
             cmbStaffGrade.SelectedIndex = 0;
         }
         #endregion
