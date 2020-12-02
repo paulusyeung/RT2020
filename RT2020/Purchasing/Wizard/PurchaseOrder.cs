@@ -157,7 +157,7 @@ namespace RT2020.Purchasing.Wizard
                 this.cboPartialShipment.SelectedIndex = objHeader.PartialShipment ? 0 : 1;
                 this.cboShipmentMethod.Text = objHeader.ShipmentMethod;
                 this.txtShipmentRemark.Text = objHeader.ShipmentRemarks;
-                this.txtLastUser.Text = this.GetStaffName(objHeader.ModifiedBy);
+                this.txtLastUser.Text = ModelEx.StaffEx.GetStaffNumberById(objHeader.ModifiedBy);
                 this.txtFreightCharge.Text = objHeader.FreightChargePcn.ToString("n2");
                 this.txtHandlingCharge.Text = objHeader.HandlingChargePcn.ToString("n2");
                 this.txtInsuranceCharge.Text = objHeader.InsuranceChargePcn.ToString("n2");
@@ -208,24 +208,6 @@ namespace RT2020.Purchasing.Wizard
             result = ((totalCost * disc1 * disc2 * disc3) - freightAmt - handAmt - insuranceAmt - otherAmt) * chargeCoefficient;
 
             this.txtNetCost.Text = result.ToString("n2");
-        }
-
-        /// <summary>
-        /// Gets the name of the staff.
-        /// </summary>
-        /// <param name="staffId">The staff id.</param>
-        /// <returns>The staff Name.</returns>
-        private string GetStaffName(Guid staffId)
-        {
-            string result = string.Empty;
-
-            RT2020.DAL.Staff objStaff = RT2020.DAL.Staff.Load(staffId);
-            if (objStaff != null)
-            {
-                result = objStaff.StaffNumber;
-            }
-
-            return result;
         }
 
         /// <summary>
@@ -308,7 +290,7 @@ namespace RT2020.Purchasing.Wizard
         /// </summary>
         private void LoadLastName()
         {
-            Staff objStaff = Staff.Load(Common.Config.CurrentUserId);
+            var objStaff = ModelEx.StaffEx.GetByStaffId(Common.Config.CurrentUserId);
             if (objStaff != null)
             {
                 this.txtLastUser.Text = objStaff.StaffNumber;
@@ -611,7 +593,7 @@ namespace RT2020.Purchasing.Wizard
         /// </summary>
         private void FillOperationList()
         {
-            RT2020.DAL.Staff.LoadCombo(ref this.cboOperatorCode, new string[] { "StaffNumber", "FullName" }, "{0} - {1}", false, false, string.Empty, string.Empty, null);
+            ModelEx.StaffEx.LoadCombo(ref this.cboOperatorCode, "StaffNumber", false);
         }
 
         /// <summary>

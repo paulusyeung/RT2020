@@ -24,9 +24,9 @@ namespace RT2020.Settings
             InitializeComponent();
         }
 
-        public string SecurityId { get; set; }
+        public Guid _SecurityId { get; set; }
 
-        public string StaffId { get; set; }
+        public Guid _StaffId { get; set; }
 
         protected override void OnLoad(EventArgs e)
         {
@@ -54,31 +54,23 @@ namespace RT2020.Settings
 
         private void LoadDetail()
         {
-            if (Common.Utility.IsGUID(StaffId))
+            var oStaff = ModelEx.StaffEx.GetByStaffId(_StaffId);
+            if (oStaff != null)
             {
-                RT2020.DAL.Staff oStaff = RT2020.DAL.Staff.Load(new Guid(StaffId));
-                if (oStaff != null)
-                {
-                    StaffId = oStaff.StaffId.ToString();
-                    txtStaffNumber.Text = oStaff.StaffNumber;
-                    txtFullName.Text = oStaff.FullName;
-                    cboGrade.SelectedValue = oStaff.GroupId;
-                }
+                txtStaffNumber.Text = oStaff.StaffNumber;
+                txtFullName.Text = oStaff.FullName;
+                cboGrade.SelectedValue = oStaff.GroupId;
+            }
 
-                if (Common.Utility.IsGUID(SecurityId))
-                {
-                    StaffSecurity oSecurity = StaffSecurity.Load(new Guid(SecurityId));
-                    if (oSecurity != null)
-                    {
-                        chkCanRead.Checked = oSecurity.CanRead;
-                        chkCanWrite.Checked = oSecurity.CanWrite;
-                        chkCanPost.Checked = oSecurity.CanPost;
-                        chkCanDelete.Checked = oSecurity.CanDelete;
-                    }
-                }
+            StaffSecurity oSecurity = StaffSecurity.Load(_SecurityId);
+            if (oSecurity != null)
+            {
+                chkCanRead.Checked = oSecurity.CanRead;
+                chkCanWrite.Checked = oSecurity.CanWrite;
+                chkCanPost.Checked = oSecurity.CanPost;
+                chkCanDelete.Checked = oSecurity.CanDelete;
             }
         }
-
         #endregion
 
         #region ToolBar
@@ -147,33 +139,34 @@ namespace RT2020.Settings
 
         private void Save()
         {
-            if (Common.Utility.IsGUID(SecurityId) && Common.Utility.IsGUID(StaffId))
+            StaffSecurity oSecurity = StaffSecurity.Load(_SecurityId);
+            if (oSecurity == null)
             {
-                StaffSecurity oSecurity = StaffSecurity.Load(new Guid(SecurityId));
-                if (oSecurity == null)
+                oSecurity = new StaffSecurity();
+
+                oSecurity.StaffId = _StaffId;
+            }
+
+            string gradeCode = ModelEx.StaffGroupEx.GetGradeCodeById((Guid)cboGrade.SelectedValue);
+            if (gradeCode.Length > 0)
+            {
+                oSecurity.GradeCode = gradeCode;
+            }
+
+            oSecurity.Module = "*";
+            oSecurity.Functions = "*";
+            oSecurity.CanRead = chkCanRead.Checked;
+            oSecurity.CanWrite = chkCanWrite.Checked;
+            oSecurity.CanPost = chkCanPost.Checked;
+            oSecurity.CanDelete = chkCanDelete.Checked;
+            oSecurity.Save();
+
+            var id = Guid.Empty;
+            if (Guid.TryParse(cboGrade.SelectedValue.ToString(), out id))
+            {
+                using (var ctx = new EF6.RT2020Entities())
                 {
-                    oSecurity = new StaffSecurity();
-
-                    oSecurity.StaffId = new Guid(StaffId);
-                }
-
-                string gradeCode = ModelEx.StaffGroupEx.GetGradeCodeById((Guid)cboGrade.SelectedValue);
-                if (gradeCode.Length > 0)
-                {
-                    oSecurity.GradeCode = gradeCode;
-                }
-
-                oSecurity.Module = "*";
-                oSecurity.Functions = "*";
-                oSecurity.CanRead = chkCanRead.Checked;
-                oSecurity.CanWrite = chkCanWrite.Checked;
-                oSecurity.CanPost = chkCanPost.Checked;
-                oSecurity.CanDelete = chkCanDelete.Checked;
-                oSecurity.Save();
-
-                if (Common.Utility.IsGUID(cboGrade.SelectedValue.ToString()))
-                {
-                    RT2020.DAL.Staff oStaff = RT2020.DAL.Staff.Load(new Guid(StaffId));
+                    var oStaff = ctx.Staff.Find(_StaffId);
                     if (oStaff != null)
                     {
                         if (oStaff.GroupId != new Guid(cboGrade.SelectedValue.ToString()))
@@ -181,13 +174,13 @@ namespace RT2020.Settings
                             oStaff.GroupId = new Guid(cboGrade.SelectedValue.ToString());
                             oStaff.ModifiedBy = Common.Config.CurrentUserId;
                             oStaff.ModifiedOn = DateTime.Now;
-                            oStaff.Save();
+
+                            ctx.SaveChanges();
                         }
                     }
                 }
             }
         }
-
         #endregion
 
         private void cboGrade_SelectedIndexChanged(object sender, EventArgs e)

@@ -54,7 +54,7 @@ namespace RT2020.Inventory.Transfer
 
         private void FillStaffList()
         {
-            RT2020.DAL.Staff.LoadCombo(ref cboOperatorCode, new string[] { "StaffNumber", "FullName" }, "{0} - {1}", false, false, string.Empty, string.Empty, null);
+            ModelEx.StaffEx.LoadCombo(ref cboOperatorCode, "StaffNumber", false);
 
             cboOperatorCode.SelectedValue = Common.Config.CurrentUserId;
         }
@@ -406,7 +406,7 @@ namespace RT2020.Inventory.Transfer
                 string staffNumber = cboOperatorCode.Text.Trim();
                 if (staffNumber.Length >= 4)
                 {
-                    RT2020.DAL.Staff staff = RT2020.DAL.Staff.LoadWhere("StaffNumber = '" + staffNumber.Substring(0, 4) + "'");
+                    var staff = ModelEx.StaffEx.GetByStaffNumber(staffNumber.Substring(0, 4));
                     if (staff == null)
                     {
                         errorProvider.SetError(cboOperatorCode, "Operator code does exist!");

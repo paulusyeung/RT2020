@@ -154,20 +154,6 @@ namespace RT2020.Inventory.Transfer.Import
 
         #region IDs
 
-        private Guid GetStaffId(string staffCode)
-        {
-            string sql = "StaffNumber = '" + staffCode + "'";
-            RT2020.DAL.Staff oStaff = RT2020.DAL.Staff.LoadWhere(sql);
-            if (oStaff != null)
-            {
-                return oStaff.StaffId;
-            }
-            else
-            {
-                return System.Guid.Empty;
-            }
-        }
-
         private Guid GetProductId(TxferTxtIEDetails detail)
         {
             string sql = "STKCODE = '" + detail.StockCode +"' AND APPENDIX1 = '" + detail.Appendix1 + "' AND APPENDIX2 = '" + detail.Appendix2 + "' AND APPENDIX3 = '" + detail.Appendix3 + "'";
@@ -216,7 +202,7 @@ namespace RT2020.Inventory.Transfer.Import
             oHeader.CompletedOn = master.CompletionDate;
             oHeader.FromLocation = ModelEx.WorkplaceEx.GetWorkplaceIdByCode(master.FromLocation);
             oHeader.ToLocation = ModelEx.WorkplaceEx.GetWorkplaceIdByCode(master.ToLocation);
-            oHeader.StaffId = GetStaffId(master.Operator);
+            oHeader.StaffId = ModelEx.StaffEx.GetStaffIdByStaffNumber(master.Operator);
             oHeader.Status = Convert.ToInt32(Common.Enums.Status.Draft.ToString("d"));
             oHeader.Reference = master.RefNumber;
             oHeader.Remarks = master.Remarks;

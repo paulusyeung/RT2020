@@ -361,7 +361,7 @@ namespace RT2020.Inventory.GoodsReceive
                         }
                     }
 
-                    RT2020.DAL.Staff oStaff = RT2020.DAL.Staff.Load(oBatchHeader.StaffId);
+                    var oStaff = ModelEx.StaffEx.GetByStaffId(oBatchHeader.StaffId);
                     if (oStaff != null)
                     {
                         if (oStaff.Retired)
@@ -485,7 +485,7 @@ namespace RT2020.Inventory.GoodsReceive
                 // Create Ledger for TxType 'CAP'
                 string txNumber_Ledger = oBatchHeader.TxNumber;
                 System.Guid ledgerHeaderId = CreateLedgerHeader(oBatchHeader, subLedgerHeaderId);
-                CreateLedgerDetails(txNumber_Ledger, subLedgerHeaderId, ledgerHeaderId, oBatchHeader.TxDate, ModelEx.WorkplaceEx.GetWorkplaceCodeById(oBatchHeader.WorkplaceId), this.GetStaffCode(oBatchHeader.StaffId));
+                CreateLedgerDetails(txNumber_Ledger, subLedgerHeaderId, ledgerHeaderId, oBatchHeader.TxDate, ModelEx.WorkplaceEx.GetWorkplaceCodeById(oBatchHeader.WorkplaceId), ModelEx.StaffEx.GetStaffNumberById(oBatchHeader.StaffId));
 
                 // Update Batch Header Info
                 oBatchHeader.ReadOnly = true;
@@ -675,17 +675,6 @@ namespace RT2020.Inventory.GoodsReceive
                 oType.Save();
             }
             return oType.PriceTypeId;
-        }
-
-        private string GetStaffCode(Guid staffId)
-        {
-            RT2020.DAL.Staff oStaff = RT2020.DAL.Staff.Load(staffId);
-            if (oStaff != null)
-            {
-                return oStaff.StaffNumber;
-            }
-
-            return string.Empty;
         }
 
         private decimal GetAverageCost(Guid productId)

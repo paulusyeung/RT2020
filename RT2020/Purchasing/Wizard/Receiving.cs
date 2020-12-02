@@ -842,7 +842,7 @@ WHERE ReceiveHeaderId = '" + this.ReceivingHeaderId.ToString() + "'";
 
                 this.txtPoType.Text = strPoType;
                 this.txtSupplierCode.Text = this.GetSupplierCode(pohHeader.SupplierId);
-                this.txtOperatorCode.Text = this.GetOperatorCode(objHeader.StaffId);
+                this.txtOperatorCode.Text = ModelEx.StaffEx.GetStaffNumberById(objHeader.StaffId);
                 this.txtOrderDate.Text = pohHeader.OrderOn.ToShortDateString();
                 this.txtDeliveryDate.Text = pohHeader.DeliverOn.ToShortDateString();
                 this.txtCancellationDate.Text = pohHeader.CancellationOn.ToShortDateString();
@@ -861,7 +861,7 @@ WHERE ReceiveHeaderId = '" + this.ReceivingHeaderId.ToString() + "'";
                 this.txtPartialShipment.Text = pohHeader.PartialShipment ? "YES" : "NO";
                 this.txtShipmentMethod.Text = pohHeader.ShipmentMethod;
                 this.txtShipmentRemark.Text = pohHeader.ShipmentRemarks;
-                this.txtLastUser.Text = this.GetStaffName(objHeader.ModifiedBy);
+                this.txtLastUser.Text = ModelEx.StaffEx.GetStaffNumberById(objHeader.ModifiedBy);
 
                 string statusName = string.Empty;
                 switch (objHeader.Status)
@@ -952,7 +952,7 @@ WHERE ReceiveHeaderId = '" + this.ReceivingHeaderId.ToString() + "'";
 
             this.txtPoType.Text = strPoType;
             this.txtSupplierCode.Text = this.GetSupplierCode(objHeader.SupplierId);
-            this.txtOperatorCode.Text = this.GetOperatorCode(objHeader.StaffId);
+            this.txtOperatorCode.Text = ModelEx.StaffEx.GetStaffNumberById(objHeader.StaffId);
             this.txtOrderDate.Text = objHeader.OrderOn.ToShortDateString();
             this.txtDeliveryDate.Text = objHeader.DeliverOn.ToShortDateString();
             this.txtCancellationDate.Text = objHeader.CancellationOn.ToShortDateString();
@@ -971,7 +971,7 @@ WHERE ReceiveHeaderId = '" + this.ReceivingHeaderId.ToString() + "'";
             this.txtPartialShipment.Text = objHeader.PartialShipment ? "YES" : "NO";
             this.txtShipmentMethod.Text = objHeader.ShipmentMethod;
             this.txtShipmentRemark.Text = objHeader.ShipmentRemarks;
-            this.txtLastUser.Text = this.GetStaffName(objHeader.ModifiedBy);
+            this.txtLastUser.Text = ModelEx.StaffEx.GetStaffNumberById(objHeader.ModifiedBy);
             
             this.cboStatus.SelectedIndex = objHeader.Status;
             this.txtFreightCharge.Text = objHeader.FreightChargePcn.ToString("n2");
@@ -1149,24 +1149,6 @@ WHERE ReceiveHeaderId = '" + this.ReceivingHeaderId.ToString() + "'";
         }
 
         /// <summary>
-        /// Gets the name of the staff.
-        /// </summary>
-        /// <param name="staffId">The staff id.</param>
-        /// <returns>The staff Name.</returns>
-        private string GetStaffName(Guid staffId)
-        {
-            string result = string.Empty;
-
-            RT2020.DAL.Staff objStaff = RT2020.DAL.Staff.Load(staffId);
-            if (objStaff != null)
-            {
-                result = objStaff.StaffNumber;
-            }
-
-            return result;
-        }
-
-        /// <summary>
         /// Gets the supplier code.
         /// </summary>
         /// <param name="supplierId">The supplier id.</param>
@@ -1179,24 +1161,6 @@ WHERE ReceiveHeaderId = '" + this.ReceivingHeaderId.ToString() + "'";
             if (objSupplier != null)
             {
                 result = objSupplier.SupplierCode;
-            }
-
-            return result;
-        }
-
-        /// <summary>
-        /// Gets the operator code.
-        /// </summary>
-        /// <param name="operatorId">The operator id.</param>
-        /// <returns>the operator code.</returns>
-        private string GetOperatorCode(Guid operatorId)
-        {
-            string result = string.Empty;
-
-            Staff objStaff = Staff.Load(operatorId);
-            if (objStaff != null)
-            {
-                result = objStaff.StaffNumber;
             }
 
             return result;

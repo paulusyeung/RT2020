@@ -328,14 +328,13 @@ namespace RT2020.Inventory.Replenishment
 
         private void btnPreview_Click()
         {
-            RT2020.DAL.Staff curUser = RT2020.DAL.Staff.Load(Common.Config.CurrentUserId);
             string[,] param = {
                 { "FromTxNumber", this.txtTxNumber.Text.Trim() },
                 { "ToTxNumber", this.txtTxNumber.Text.Trim() },
                 { "FromTxDate", this.dtpTxDate.Value.ToString(RT2020.SystemInfo.Settings.GetDateFormat()) },
                 { "ToTxDate", this.dtpTxDate.Value.ToString(RT2020.SystemInfo.Settings.GetDateFormat()) },
                 { "PrintedOn", DateTime.Now.ToString(RT2020.SystemInfo.Settings.GetDateTimeFormat()) },
-                { "PrintedBy", curUser.FullName },
+                { "PrintedBy", ModelEx.StaffEx.GetStaffNameById(Common.Config.CurrentUserId) },
                 { "DateFormat", RT2020.SystemInfo.Settings.GetDateFormat() },
                 { "CompanyName", RT2020.SystemInfo.CurrentInfo.Default.CompanyName},
                 { "StockCode", RT2020.SystemInfo.Settings.GetSystemLabelByKey("STKCODE") },
@@ -376,13 +375,7 @@ namespace RT2020.Inventory.Replenishment
 
         private void FillStaffList()
         {
-            cboOperatorCode.Items.Clear();
-
-            string[] orderBy = new string[] { "StaffCode" };
-            StaffCollection oStaffList = RT2020.DAL.Staff.LoadCollection(orderBy, true);
-            cboOperatorCode.DataSource = oStaffList;
-            cboOperatorCode.DisplayMember = "StaffNumber";
-            cboOperatorCode.ValueMember = "StaffId";
+            ModelEx.StaffEx.LoadCombo(ref cboOperatorCode, "StaffNumber", false);
         }
         #endregion
 
@@ -460,10 +453,10 @@ namespace RT2020.Inventory.Replenishment
                 txtRemarks.Text = oHeader.Remarks;
 
                 txtLastUpdateOn.Text = RT2020.SystemInfo.Settings.DateTimeToString(oHeader.ModifiedOn, false);
-                txtLastUpdateBy.Text = GetStaffName(oHeader.ModifiedBy);
+                txtLastUpdateBy.Text = ModelEx.StaffEx.GetStaffNumberById(oHeader.ModifiedBy);
 
                 txtTxConfirmed.Text = oHeader.Confirmed ? "Y" : "N";
-                txtConfirmedBy.Text = GetStaffName(oHeader.ConfirmedBy);
+                txtConfirmedBy.Text = ModelEx.StaffEx.GetStaffNumberById(oHeader.ConfirmedBy);
                 txtConfirmedOn.Text = RT2020.SystemInfo.Settings.DateTimeToString(oHeader.ConfirmedOn, false);
                 txtSpecialRequest.Text = oHeader.SpecialRequest ? "Y" : "N";
 
@@ -472,19 +465,6 @@ namespace RT2020.Inventory.Replenishment
                 this.tbWizardAction.Buttons[4].Enabled = !oHeader.Confirmed;
 
                 BindRplDetailsInfo();
-            }
-        }
-
-        private string GetStaffName(Guid staffId)
-        {
-            RT2020.DAL.Staff oStaff = RT2020.DAL.Staff.Load(staffId);
-            if (oStaff != null)
-            {
-                return oStaff.StaffNumber;
-            }
-            else
-            {
-                return string.Empty;
             }
         }
         #endregion

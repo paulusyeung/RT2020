@@ -216,14 +216,13 @@ namespace RT2020.Inventory.GoodsReturn.Reports
         {
             if (IsSelValid())
             {
-                RT2020.DAL.Staff curUser = RT2020.DAL.Staff.Load(Common.Config.CurrentUserId);
                 string[,] param = {
                 { "FromTxNumber", this.txtTxNumberFrom.Text.Trim() },
                 { "ToTxNumber", this.txtTxNumberTo.Text.Trim() },
                 { "FromTxDate", this.dtpTxDateFrom.Value.ToString(RT2020.SystemInfo.Settings.GetDateFormat()) },
                 { "ToTxDate", this.dtpTxDateTo.Value.ToString(RT2020.SystemInfo.Settings.GetDateFormat()) },
                 { "PrintedOn", DateTime.Now.ToString(RT2020.SystemInfo.Settings.GetDateTimeFormat()) },
-                { "PrintedBy", curUser.FullName },
+                { "PrintedBy", ModelEx.StaffEx.GetStaffNameById(Common.Config.CurrentUserId) },
                 { "StockCode", RT2020.SystemInfo.Settings.GetSystemLabelByKey("STKCODE") },
                 { "Appendix1", RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX1") },
                 { "Appendix2", RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX2") },

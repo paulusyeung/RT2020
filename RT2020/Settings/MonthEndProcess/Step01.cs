@@ -257,7 +257,7 @@ namespace RT2020.Settings.MonthEndProcess
                         objDetail.ProductId = detail.ProductId;
                         objDetail.SHOP = ModelEx.WorkplaceEx.GetWorkplaceCodeById(workplaceId);
                         objDetail.TxDate = txDate;
-                        objDetail.OPERATOR = GetStaffNumber(Common.Config.CurrentUserId);
+                        objDetail.OPERATOR = ModelEx.StaffEx.GetStaffNumberById(Common.Config.CurrentUserId);
                         objDetail.Qty = detail.Qty;
                         objDetail.AverageCost = detail.AverageCost;
                         objDetail.UnitAmount = detail.AverageCost;
@@ -325,24 +325,6 @@ namespace RT2020.Settings.MonthEndProcess
             if (currSum != null)
             {
                 result = currSum.AverageCost;
-            }
-
-            return result;
-        }
-
-        /// <summary>
-        /// Gets the staff number.
-        /// </summary>
-        /// <param name="staffId">The staff id.</param>
-        /// <returns></returns>
-        private string GetStaffNumber(Guid staffId)
-        {
-            string result = string.Empty;
-
-            RT2020.DAL.Staff staff = RT2020.DAL.Staff.Load(staffId);
-            if (staff != null)
-            {
-                result = staff.StaffNumber;
             }
 
             return result;

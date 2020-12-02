@@ -109,11 +109,7 @@ namespace RT2020.Purchasing.Wizard
         /// </summary>
         private void LoadLastName()
         {
-            Staff objStaff = Staff.Load(Common.Config.CurrentUserId);
-            if (objStaff != null)
-            {
-                this.txtLastUser.Text = objStaff.StaffNumber;
-            }
+            this.txtLastUser.Text = ModelEx.StaffEx.GetStaffNumberById(Common.Config.CurrentUserId);
         }
 
         /// <summary>
@@ -203,7 +199,7 @@ namespace RT2020.Purchasing.Wizard
         /// </summary>
         private void FillOperationList()
         {
-            RT2020.DAL.Staff.LoadCombo(ref this.cboOperatorCode, new string[] { "StaffNumber", "FullName" }, "{0} - {1}", false, false, string.Empty, string.Empty, null);
+            ModelEx.StaffEx.LoadCombo(ref this.cboOperatorCode, "StaffNumber", false);
         }
 
         /// <summary>
@@ -529,7 +525,7 @@ namespace RT2020.Purchasing.Wizard
                 this.cboPartialShipment.SelectedItem = objHeader.PartialShipment ? "YES" : "NO";
                 this.cboShipmentMethod.Text = objHeader.ShipmentMethod;
                 this.txtShipmentRemark.Text = objHeader.ShipmentRemarks;
-                this.txtLastUser.Text = this.GetStaffName(objHeader.ModifiedBy);
+                this.txtLastUser.Text = ModelEx.StaffEx.GetStaffNumberById(objHeader.ModifiedBy);
 
                 this.cboStatus.SelectedItem = (objHeader.Status == 0) ? "HOLD" : "POST";
                 this.txtXRate.Text = objHeader.ExchangeRate.ToString("n6");
@@ -552,24 +548,6 @@ namespace RT2020.Purchasing.Wizard
                 this.LoadPODetailInfo();
                 this.CalReceivingQty();
             }
-        }
-
-        /// <summary>
-        /// Gets the name of the staff.
-        /// </summary>
-        /// <param name="staffId">The staff id.</param>
-        /// <returns>The staff Name.</returns>
-        private string GetStaffName(Guid staffId)
-        {
-            string result = string.Empty;
-
-            RT2020.DAL.Staff objStaff = RT2020.DAL.Staff.Load(staffId);
-            if (objStaff != null)
-            {
-                result = objStaff.StaffNumber;
-            }
-
-            return result;
         }
 
         /// <summary>

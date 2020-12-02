@@ -67,7 +67,7 @@ namespace RT2020.Inventory.StockTake
                     txtHHTId.Text = hhtHeader.HHTId;
                     txtUploadedOn.Text = hhtHeader.UploadedOn.ToString("dd MMM yyyy HH:mm:ss");
                     txtCreatedOn.Text = hhtHeader.CreatedOn.ToString("dd MMM yyyy HH:mm:ss");
-                    txtCreatedBy.Text = GetStaffNumber(hhtHeader.CreatedBy);
+                    txtCreatedBy.Text = ModelEx.StaffEx.GetStaffNumberById(hhtHeader.CreatedBy);
 
                     txtTotalLine_HHTData.Text = hhtHeader.TotalRows.ToString("n0");
                     txtTotalLine_StockTake.Text = hhtHeader.TotalRows.ToString("n0");
@@ -102,17 +102,6 @@ namespace RT2020.Inventory.StockTake
                 lvItem.SubItems[2].BackColor = Color.WhiteSmoke;
 
             }
-        }
-
-        private string GetStaffNumber(Guid staffId)
-        {
-            RT2020.DAL.Staff staff = RT2020.DAL.Staff.Load(staffId);
-            if (staff != null)
-            {
-                return staff.StaffNumber;
-            }
-
-            return string.Empty;
         }
 
         private string[] GetProductCode(Guid productId)

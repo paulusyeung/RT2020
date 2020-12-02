@@ -37,16 +37,6 @@ namespace RT2020.Inventory.Replenishment
         #endregion
 
         #region Bind Methods
-        private string StaffNumber(Guid staffId)
-        {
-            string result = string.Empty;
-            RT2020.DAL.Staff oStaff = RT2020.DAL.Staff.Load(staffId);
-            if (oStaff != null)
-            {
-                result = oStaff.StaffNumber;
-            }
-            return result;
-        }
 
         private void BindingHoldingList()
         {
@@ -73,7 +63,7 @@ namespace RT2020.Inventory.Replenishment
                     objItem.SubItems.Add(string.Empty); // CompletedDate
                     objItem.SubItems.Add(reader.GetString(4)); // From Location
                     objItem.SubItems.Add(reader.GetString(5)); // To Location
-                    objItem.SubItems.Add(RT2020.SystemInfo.Settings.DateTimeToString(reader.GetDateTime(13), false) + " " + StaffNumber(reader.GetGuid(14))); // Last Update
+                    objItem.SubItems.Add(RT2020.SystemInfo.Settings.DateTimeToString(reader.GetDateTime(13), false) + " " + ModelEx.StaffEx.GetStaffNumberById(reader.GetGuid(14))); // Last Update
 
                     iCount++;
                 }

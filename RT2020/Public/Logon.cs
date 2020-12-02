@@ -133,7 +133,7 @@ namespace RT2020.Public
                 var oUser = ModelEx.UserProfileEx.GetLoginUser(txtStaffNumber.Text.Trim().Replace("'", ""), txtPassword.Text.Trim().Replace("'", ""));
                 if (oUser != null)
                 {
-                    RT2020.DAL.Staff oStaff = RT2020.DAL.Staff.Load(oUser.UserSid);
+                    var oStaff = ModelEx.StaffEx.GetByStaffId(oUser.UserSid);
                     if (oStaff != null)
                     {
                         if (oStaff.Status > Convert.ToInt32(Common.Enums.Status.Inactive.ToString("d")))

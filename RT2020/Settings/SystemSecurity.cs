@@ -150,8 +150,8 @@ FROM (
             if (lvStaffSecurity.SelectedItem != null)
             {
                 SystemSecurityWizard wizSystemSecurity = new SystemSecurityWizard();
-                wizSystemSecurity.SecurityId = lvStaffSecurity.SelectedItem.SubItems[0].Text;
-                wizSystemSecurity.StaffId = lvStaffSecurity.SelectedItem.SubItems[1].Text;
+                wizSystemSecurity._SecurityId = Guid.Parse(lvStaffSecurity.SelectedItem.SubItems[0].Text);
+                wizSystemSecurity._StaffId = Guid.Parse(lvStaffSecurity.SelectedItem.SubItems[1].Text);
                 wizSystemSecurity.Closed += new EventHandler(wizSystemSecurity_Closed);
                 wizSystemSecurity.ShowDialog();
             }

@@ -318,27 +318,9 @@ AND CONVERT(NVARCHAR(10),EffectDate,126) BETWEEN '" + this.dtpEffectiveDate.Valu
                 txtRemarks.Text = oHeader.Remarks;
 
                 txtModifiedOn.Text = RT2020.SystemInfo.Settings.DateTimeToString(oHeader.ModifiedOn, true);
-                txtModifiedBy.Text = GetStaffNumber(oHeader.ModifiedBy);
+                txtModifiedBy.Text = ModelEx.StaffEx.GetStaffNumberById(oHeader.ModifiedBy);
                 txtCreatedOn.Text = RT2020.SystemInfo.Settings.DateTimeToString(oHeader.CreatedOn, true);
 
-            }
-        }
-
-        /// <summary>
-        /// Gets the staff number.
-        /// </summary>
-        /// <param name="staffId">The staff id.</param>
-        /// <returns></returns>
-        private string GetStaffNumber(Guid staffId)
-        {
-            RT2020.DAL.Staff oStaff = RT2020.DAL.Staff.Load(staffId);
-            if (oStaff != null)
-            {
-                return oStaff.StaffNumber;
-            }
-            else
-            {
-                return string.Empty;
             }
         }
 

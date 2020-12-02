@@ -162,7 +162,6 @@ namespace RT2020.Inventory.Transfer.Reports
         {
             if (IsSelValid())
             {
-                RT2020.DAL.Staff curUser = RT2020.DAL.Staff.Load(Common.Config.CurrentUserId);
                 RT2020.Controls.Reporting.Viewer viewer = new RT2020.Controls.Reporting.Viewer();
 
                 string[,] param = {
@@ -170,7 +169,7 @@ namespace RT2020.Inventory.Transfer.Reports
                     {"ToTxNumber",this.cboTo.Text.Trim()},
                     {"FromTxDate",this.dtpTxDateFrom.Value.ToString(RT2020.SystemInfo.Settings.GetDateFormat())},
                     {"ToTxDate",this.dtpTxDateTo.Value.ToString(RT2020.SystemInfo.Settings.GetDateFormat())},
-                    {"PrintedBy",curUser.FullName},
+                    {"PrintedBy",ModelEx.StaffEx.GetStaffNameById(Common.Config.CurrentUserId) },
                     {"PrintedOn",DateTime.Now.ToString(RT2020.SystemInfo.Settings.GetDateFormat())},
                     {"DateFormat",RT2020.SystemInfo.Settings.GetDateFormat()},
                     {"CompanyName",RT2020.SystemInfo.CurrentInfo.Default.CompanyName},

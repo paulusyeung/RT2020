@@ -326,7 +326,7 @@ namespace RT2020.Inventory.Transfer
 
                 oLedgerHeader.CONFIRM_TRF = this.IsConfirmedTransaction;
                 oLedgerHeader.CONFIRM_TRF_LASTUPDATE = DateTime.Now;
-                oLedgerHeader.CONFIRM_TRF_LASTUSER = GetStaffNumber(Common.Config.CurrentUserId);
+                oLedgerHeader.CONFIRM_TRF_LASTUSER = ModelEx.StaffEx.GetStaffNumberById(Common.Config.CurrentUserId);
 
                 oLedgerHeader.ModifiedBy = Common.Config.CurrentUserId;
                 oLedgerHeader.ModifiedOn = DateTime.Now;
@@ -366,7 +366,7 @@ namespace RT2020.Inventory.Transfer
 
                 oFepHeader.CONFIRM_TRF = this.IsConfirmedTransaction;
                 oFepHeader.CONFIRM_TRF_LASTUPDATE = DateTime.Now;
-                oFepHeader.CONFIRM_TRF_LASTUSER = GetStaffNumber(Common.Config.CurrentUserId);
+                oFepHeader.CONFIRM_TRF_LASTUSER = ModelEx.StaffEx.GetStaffNumberById(Common.Config.CurrentUserId);
 
                 oFepHeader.ModifiedBy = Common.Config.CurrentUserId;
                 oFepHeader.ModifiedOn = DateTime.Now;
@@ -446,7 +446,7 @@ namespace RT2020.Inventory.Transfer
                 dtpTxDate.Value = oHeader.TxDate;
 
                 txtLatestConfirmedOn.Text = RT2020.SystemInfo.Settings.DateTimeToString(oHeader.CONFIRM_TRF_LASTUPDATE, false);
-                txtLatestConfirmedBy.Text = GetStaffNumber(oHeader.CONFIRM_TRF_LASTUSER);
+                txtLatestConfirmedBy.Text = ModelEx.StaffEx.GetStaffNumberById(oHeader.CONFIRM_TRF_LASTUSER);
 
                 txtRecordStatus.Text = string.Format(txtRecordStatus.Text, oHeader.TxType);
 
@@ -497,19 +497,6 @@ namespace RT2020.Inventory.Transfer
                 txtLatestConfirmedBy.Text = oHeader.CONFIRM_TRF_LASTUSER;
 
                 txtRecordStatus.Text = string.Format(txtRecordStatus.Text, oHeader.TxType);
-            }
-        }
-
-        private string GetStaffNumber(Guid staffId)
-        {
-            RT2020.DAL.Staff oStaff = RT2020.DAL.Staff.Load(staffId);
-            if (oStaff != null)
-            {
-                return oStaff.StaffNumber;
-            }
-            else
-            {
-                return string.Empty;
             }
         }
 

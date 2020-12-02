@@ -46,33 +46,12 @@ namespace RT2020.Inventory.Replenishment
 
         private void FillComboBox()
         {
-            cboStaff.Items.Clear();
-
-            string[] orderBy = new string[] { "StaffNumber" };
-            RT2020.DAL.StaffCollection staffList = RT2020.DAL.Staff.LoadCollection(orderBy, true);
-            staffList.Add(new RT2020.DAL.Staff());
-            cboStaff.DataSource = staffList;
-            cboStaff.DisplayMember = "StaffNumber";
-            cboStaff.ValueMember = "StaffId";
-
-            cboStaff.SelectedIndex = staffList.Count - 1;
-
+            ModelEx.StaffEx.LoadCombo(ref cboStaff, "StaffNumber", false);
             cboStaff.SelectedValue = Common.Config.CurrentUserId;
         }
         #endregion
 
         #region Bind Methods
-        private string StaffNumber(Guid staffId)
-        {
-            string result = string.Empty;
-            RT2020.DAL.Staff oStaff = RT2020.DAL.Staff.Load(staffId);
-            if (oStaff != null)
-            {
-                result = oStaff.StaffNumber;
-            }
-            return result;
-        }
-
         private void BindingPostingList()
         {
             lvPostTxList.Items.Clear();
@@ -96,7 +75,7 @@ namespace RT2020.Inventory.Replenishment
                     objItem.SubItems.Add(reader.GetString(4)); // From Location
                     objItem.SubItems.Add(reader.GetString(5)); // To Location
                     objItem.SubItems.Add(RT2020.SystemInfo.Settings.DateTimeToString(reader.GetDateTime(2), false)); // TxDate
-                    objItem.SubItems.Add(RT2020.SystemInfo.Settings.DateTimeToString(reader.GetDateTime(10), false) + " " + StaffNumber(reader.GetGuid(11))); // Last Update
+                    objItem.SubItems.Add(RT2020.SystemInfo.Settings.DateTimeToString(reader.GetDateTime(10), false) + " " + ModelEx.StaffEx.GetStaffNumberById(reader.GetGuid(11))); // Last Update
                     objItem.BackColor = CheckTxDate(reader.GetDateTime(2)) ? Color.Transparent : RT2020.SystemInfo.ControlBackColor.DisabledBox;
 
                     iCount++;
@@ -761,7 +740,7 @@ namespace RT2020.Inventory.Replenishment
                 }
                 else
                 {
-                    RT2020.DAL.Staff staff = RT2020.DAL.Staff.Load(new Guid(cboStaff.SelectedValue.ToString()));
+                    var staff = ModelEx.StaffEx.GetByStaffId((Guid)cboStaff.SelectedValue);
                     if (staff != null)
                     {
                         if (staff.Retired)

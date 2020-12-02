@@ -321,7 +321,7 @@ namespace RT2020.EmulatedPoS
         /// </summary>
         private void FillStaff1List()
         {
-            RT2020.DAL.Staff.LoadCombo(ref cboStaff1, new string[] { "StaffNumber", "FullName" }, "{0} - {1}", false, false, string.Empty, string.Empty, null);
+            ModelEx.StaffEx.LoadCombo(ref cboStaff1,"StaffNumber", false);
 
             cboStaff1.SelectedValue = Common.Config.CurrentUserId;
         }
@@ -331,7 +331,7 @@ namespace RT2020.EmulatedPoS
         /// </summary>
         private void FillStaff2List()
         {
-            RT2020.DAL.Staff.LoadCombo(ref cboStaff2, new string[] { "StaffNumber", "FullName" }, "{0} - {1}", false, false, string.Empty, string.Empty, null);
+            ModelEx.StaffEx.LoadCombo(ref cboStaff2, "StaffNumber", false);
         }
 
         /// <summary>
@@ -430,26 +430,8 @@ namespace RT2020.EmulatedPoS
             txtTxType.Text = this.SalesType.ToString();
 
             txtLastUpdateOn.Text = DateTime.Now.ToString(RT2020.SystemInfo.Settings.GetDateTimeFormat());
-            txtLastUpdateBy.Text =  GetStaffName(Common.Config.CurrentUserId);
+            txtLastUpdateBy.Text =  ModelEx.StaffEx.GetStaffNumberById(Common.Config.CurrentUserId);
             txtCreateDate.Text = DateTime.Now.ToString(RT2020.SystemInfo.Settings.GetDateTimeFormat());
-        }
-
-        /// <summary>
-        /// Gets the name of the staff.
-        /// </summary>
-        /// <param name="staffId">The staff id.</param>
-        /// <returns></returns>
-        private string GetStaffName(Guid staffId)
-        {
-            RT2020.DAL.Staff oStaff = RT2020.DAL.Staff.Load(staffId);
-            if (oStaff != null)
-            {
-                return oStaff.StaffNumber;
-            }
-            else
-            {
-                return string.Empty;
-            }
         }
 
         /// <summary>
@@ -595,7 +577,7 @@ namespace RT2020.EmulatedPoS
                 oAnalysisCode.SetAnalysisCode(oHeader.ANALYSIS_CODE10, "10");
                 
                 txtLastUpdateOn.Text = RT2020.SystemInfo.Settings.DateTimeToString(oHeader.ModifiedOn, false);
-                txtLastUpdateBy.Text = GetStaffName(oHeader.ModifiedBy);
+                txtLastUpdateBy.Text = ModelEx.StaffEx.GetStaffNumberById(oHeader.ModifiedBy);
                 txtCreateDate.Text = RT2020.SystemInfo.Settings.DateTimeToString(oHeader.CreatedOn, false);
 
                 txtTotalQty.Text = GetTotalRequiredQty().ToString("n0");

@@ -730,7 +730,7 @@ namespace RT2020.Product
             oBatch.DATEPOST = new DateTime(1900, 1, 1);
             oBatch.DATECREATE = DateTime.Now;
             oBatch.DATELCHG = DateTime.Now;
-            oBatch.USERLCHG = GetStaffName(Common.Config.CurrentUserId);
+            oBatch.USERLCHG = ModelEx.StaffEx.GetStaffNumberById(Common.Config.CurrentUserId);
             oBatch.RETAILITEM = general.chkRetailItem.Checked.ToString();
             oBatch.BINX = general.txtBin_X.Text;
             oBatch.BINY = general.txtBin_Y.Text;
@@ -746,18 +746,6 @@ namespace RT2020.Product
             this.ProductBatchId = oBatch.BatchId;
         }
 
-        private string GetStaffName(Guid staffId)
-        {
-            RT2020.DAL.Staff oStaff = RT2020.DAL.Staff.Load(staffId);
-            if (oStaff != null)
-            {
-                return oStaff.StaffNumber;
-            }
-            else
-            {
-                return string.Empty;
-            }
-        }
         #endregion
 
         #region Load Product Batch

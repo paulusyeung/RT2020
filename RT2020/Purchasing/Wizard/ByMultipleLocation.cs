@@ -539,7 +539,7 @@ namespace RT2020.Purchasing.Wizard
         /// </summary>
         private void FillOperationList()
         {
-            RT2020.DAL.Staff.LoadCombo(ref this.cboOperatorCode, new string[] { "StaffNumber", "FullName" }, "{0} - {1}", false, false, string.Empty, string.Empty, null);
+            ModelEx.StaffEx.LoadCombo(ref this.cboOperatorCode, "StaffNumber", false);
         }
 
         /// <summary>

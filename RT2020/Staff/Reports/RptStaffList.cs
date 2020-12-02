@@ -30,9 +30,9 @@ namespace RT2020.Staff.Reports
         #region FillComboBox
         private void FillComboBox()
         {
-            RT2020.DAL.Staff.LoadCombo(ref cmbFrmStaffCode, new string[] { "StaffNumber", "FullName" }, "{0} - {1}", false, false, string.Empty, string.Empty, null);
+            ModelEx.StaffEx.LoadCombo(ref cmbFrmStaffCode, "StaffNumber", false);
 
-            RT2020.DAL.Staff.LoadCombo(ref cmbToStaffCode, new string[] { "StaffNumber", "FullName" }, "{0} - {1}", false, false, string.Empty, string.Empty, null);
+            ModelEx.StaffEx.LoadCombo(ref cmbToStaffCode, "StaffNumber", false);
 
             cmbToStaffCode.SelectedIndex = cmbToStaffCode.Items.Count - 1;
         }
@@ -60,75 +60,6 @@ namespace RT2020.Staff.Reports
 
         }
         #endregion
-
-        //#region IGatewayControl Members
-
-        //public IGatewayHandler GetGatewayHandler(IContext objContext, string strAction)
-        //{
-        //    // Create a report instance.
-        //    if (rbnPDF.Checked == true)
-        //    {
-        //        RT2020.Staff.Reports.StaffListRpt_Pdf report = new StaffListRpt_Pdf();
-        //        report.DataSource = BindData();
-        //        report.FrmCode = cmbFrmStaffCode.Text.Remove(cmbFrmStaffCode.Text.IndexOf('-')).Trim();
-        //        report.toCode = cmbToStaffCode.Text.Remove(cmbToStaffCode.Text.IndexOf('-')).Trim();
-        //        HttpResponse objResponse = this.Context.HttpContext.Response;
-
-        //        System.IO.MemoryStream memStream = new System.IO.MemoryStream();
-
-        //        objResponse.Clear();
-        //        objResponse.ClearHeaders();
-        //        report.ExportToPdf(memStream);
-        //        objResponse.ContentType = "application/pdf";
-        //        objResponse.AddHeader("content-disposition", "attachment; filename=Staff List.pdf");
-        //        objResponse.BinaryWrite(memStream.ToArray());
-        //        objResponse.Flush();
-        //        objResponse.End();
-
-        //        return null;
-        //    }
-        //    else if (rbnXLS.Checked)
-        //    {
-        //        RT2020.Staff.Reports.StaffListRpt_Xls reportc = new StaffListRpt_Xls();
-        //        reportc.DataSource = BindData();
-        //        reportc.FrmCode = cmbFrmStaffCode.Text.Trim();
-        //        reportc.toCode = cmbToStaffCode.Text.Trim();
-        //        HttpResponse objResponse = this.Context.HttpContext.Response;
-
-        //        System.IO.MemoryStream memStream = new System.IO.MemoryStream();
-
-        //        objResponse.Clear();
-        //        objResponse.ClearHeaders();
-        //        reportc.ExportToXls(memStream);
-        //        objResponse.ContentType = "application/xls";
-        //        objResponse.AddHeader("content-disposition", "attachment; filename=Staff List.xls");
-        //        objResponse.BinaryWrite(memStream.ToArray());
-        //        objResponse.Flush();
-        //        objResponse.End();
-
-        //        return null;
-        //    }
-        //    else
-        //    {
-        //        RT2020.Staff.Reports.StaffListRpt_Pdf rpt = new StaffListRpt_Pdf();
-        //        try
-        //        {
-        //            rpt.DataSource = BindData();
-        //            rpt.FrmCode = cmbFrmStaffCode.Text.Trim();
-        //            rpt.toCode = cmbToStaffCode.Text.Trim();
-        //            rpt.PrintDialog();
-        //            rpt.Print();
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            MessageBox.Show(ex.Message);
-        //        }
-
-        //        return null;
-        //    }
-        //}
-
-        //#endregion
 
         private void btnExit_Click(object sender, EventArgs e)
         {

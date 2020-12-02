@@ -291,14 +291,13 @@ namespace RT2020.Inventory.Adjustment
 
         private void cmdPreview_Click()
         {
-            RT2020.DAL.Staff curUser = RT2020.DAL.Staff.Load(Common.Config.CurrentUserId);
             string[,] param = {
                 { "FromTxNumber", this.txtTxNumber.Text.Trim() },
                 { "ToTxNumber", this.txtTxNumber.Text.Trim() },
                 { "FromTxDate", this.dtpTxDate.Value.ToString(RT2020.SystemInfo.Settings.GetDateFormat()) },
                 { "ToTxDate", this.dtpTxDate.Value.ToString(RT2020.SystemInfo.Settings.GetDateFormat()) },
                 { "PrintedOn", DateTime.Now.ToString(RT2020.SystemInfo.Settings.GetDateTimeFormat()) },
-                { "PrintedBy", curUser.FullName },
+                { "PrintedBy", ModelEx.StaffEx.GetStaffNameById(Common.Config.CurrentUserId) },
                 { "DateFormat", RT2020.SystemInfo.Settings.GetDateFormat() },
                 { "CompanyName", RT2020.SystemInfo.CurrentInfo.Default.CompanyName},
                 { "StockCode", RT2020.SystemInfo.Settings.GetSystemLabelByKey("STKCODE") },
@@ -332,7 +331,7 @@ namespace RT2020.Inventory.Adjustment
 
         private void FillStaffList()
         {
-            RT2020.DAL.Staff.LoadCombo(ref cboOperatorCode, new string[] { "StaffNumber", "FullName" }, "{0} - {1}", false, false, string.Empty, string.Empty, null);
+            ModelEx.StaffEx.LoadCombo(ref cboOperatorCode, "StaffNumber", false);
 
             cboOperatorCode.SelectedValue = Common.Config.CurrentUserId;
         }
@@ -423,7 +422,7 @@ namespace RT2020.Inventory.Adjustment
                 txtRefNumber.Text = oHeader.Reference;
 
                 txtLastUpdateOn.Text = RT2020.SystemInfo.Settings.DateTimeToString(oHeader.ModifiedOn, false);
-                txtLastUpdateBy.Text = GetStaffName(oHeader.ModifiedBy);
+                txtLastUpdateBy.Text = ModelEx.StaffEx.GetStaffNumberById(oHeader.ModifiedBy);
 
                 txtTotalQty.Text = GetTotalRequiredQty().ToString("n0");
                 txtTotalAmount.Text = GetTotalAmount().ToString("n2");
@@ -431,19 +430,6 @@ namespace RT2020.Inventory.Adjustment
                 _WorkplaceId = oHeader.WorkplaceId;
 
                 BindADJDetailsInfo();
-            }
-        }
-
-        private string GetStaffName(Guid staffId)
-        {
-            RT2020.DAL.Staff oStaff = RT2020.DAL.Staff.Load(staffId);
-            if (oStaff != null)
-            {
-                return oStaff.StaffNumber;
-            }
-            else
-            {
-                return string.Empty;
             }
         }
 
@@ -964,8 +950,7 @@ namespace RT2020.Inventory.Adjustment
                 string staffNumber = cboOperatorCode.Text.Trim();
                 if (staffNumber.Length >= 4)
                 {
-                    RT2020.DAL.Staff staff = RT2020.DAL.Staff.LoadWhere("StaffNumber = '" + staffNumber.Substring(0, 4) + "'");
-                    if (staff == null)
+                    if (!ModelEx.StaffEx.IsStaffNumberInUse(staffNumber.Substring(0, 4)))
                     {
                         errorProvider.SetError(cboOperatorCode, "Operator code does exist!");
                     }

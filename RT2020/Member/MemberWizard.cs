@@ -648,7 +648,7 @@ namespace RT2020.Member
                 main.txtRemarks.Text = oMember.Remarks;
                 others.txtNormalItemDiscount.Text = oMember.NormalDiscount.ToString("n2");
 
-                main.txtLastUpdatedBy.Text = GetStaffName(oMember.ModifiedBy);
+                main.txtLastUpdatedBy.Text = ModelEx.StaffEx.GetStaffNumberById(oMember.ModifiedBy);
                 main.txtLastUpdatedOn.Text = RT2020.SystemInfo.Settings.DateTimeToString(oMember.ModifiedOn, false);
                 main.txtCreatedOn.Text = RT2020.SystemInfo.Settings.DateTimeToString(oMember.CreatedOn, false);
                 main.txtStatus.Text = Enum.GetName(typeof(Common.Enums.Status), oMember.Status);
@@ -744,19 +744,6 @@ namespace RT2020.Member
                     this.tbWizardAction.Visible = false;
                     this.tbWizardAction.Enabled = false;
                 }
-            }
-        }
-
-        private string GetStaffName(Guid staffId)
-        {
-            RT2020.DAL.Staff oStaff = RT2020.DAL.Staff.Load(staffId);
-            if (oStaff != null)
-            {
-                return oStaff.StaffNumber;
-            }
-            else
-            {
-                return string.Empty;
             }
         }
 

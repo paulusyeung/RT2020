@@ -475,19 +475,6 @@ namespace RT2020.Product
 
         #region Load
 
-        private string GetStaffName(Guid staffId)
-        {
-            RT2020.DAL.Staff oStaff = RT2020.DAL.Staff.Load(staffId);
-            if (oStaff != null)
-            {
-                return oStaff.StaffNumber;
-            }
-            else
-            {
-                return string.Empty;
-            }
-        }
-
         private void LoadAppendix()
         {
             LoadAppendix1();
@@ -513,7 +500,7 @@ namespace RT2020.Product
 
                 txtLastUpdatedOn.Text = RT2020.SystemInfo.Settings.DateTimeToString(this.Appendix1.ModifiedOn, false);
                 txtCreatedOn.Text = RT2020.SystemInfo.Settings.DateTimeToString(this.Appendix1.CreatedOn, false);
-                txtLastUpdatedBy.Text = GetStaffName(this.Appendix1.ModifiedBy);
+                txtLastUpdatedBy.Text = ModelEx.StaffEx.GetStaffNumberById(this.Appendix1.ModifiedBy);
 
                 SetCtrlEditable();
             }
@@ -537,7 +524,7 @@ namespace RT2020.Product
 
                 txtLastUpdatedOn.Text = RT2020.SystemInfo.Settings.DateTimeToString(this.Appendix2.ModifiedOn, false);
                 txtCreatedOn.Text = RT2020.SystemInfo.Settings.DateTimeToString(this.Appendix2.CreatedOn, false);
-                txtLastUpdatedBy.Text = GetStaffName(this.Appendix2.ModifiedBy);
+                txtLastUpdatedBy.Text = ModelEx.StaffEx.GetStaffNumberById(this.Appendix2.ModifiedBy);
 
                 SetCtrlEditable();
             }
@@ -561,7 +548,7 @@ namespace RT2020.Product
 
                 txtLastUpdatedOn.Text = RT2020.SystemInfo.Settings.DateTimeToString(this.Appendix3.ModifiedOn, false);
                 txtCreatedOn.Text = RT2020.SystemInfo.Settings.DateTimeToString(this.Appendix3.CreatedOn, false);
-                txtLastUpdatedBy.Text = GetStaffName(this.Appendix3.ModifiedBy);
+                txtLastUpdatedBy.Text = ModelEx.StaffEx.GetStaffNumberById(this.Appendix3.ModifiedBy);
 
                 SetCtrlEditable();
             }

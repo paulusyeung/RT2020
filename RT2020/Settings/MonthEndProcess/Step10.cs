@@ -40,25 +40,12 @@ namespace RT2020.Settings.MonthEndProcess
             log.Append("COMPANY: ").Append(SystemInfo.CurrentInfo.Default.CompanyName).AppendLine();
             log.Append("MONTH: ").Append(SystemInfo.CurrentInfo.Default.CurrentSystemDate.ToString("MMMM yyyy")).AppendLine();
             log.Append("Reset Service Item's CDQty = 0: ").Append(ResetSerivceItemsCDQty ? "YES" : "NO").AppendLine();
-            log.Append("USER: ").Append(GetStaffNumber()).AppendLine();
+            log.Append("USER: ").Append(ModelEx.StaffEx.GetStaffNumberById(Common.Config.CurrentUserId)).AppendLine();
             log.Append("START TIME: ").Append(StartOn.ToString("dd/MM/yyyy HH:mm:ss")).AppendLine();
             log.Append("STOP TIME: ").Append(EndOn.ToString("dd/MM/yyyy HH:mm:ss")).AppendLine();
             log.Append("RESULT: ").Append(PostedErrorMsg).AppendLine();
 
             return log.ToString();
-        }
-
-        private string GetStaffNumber()
-        {
-            string result = string.Empty;
-
-            RT2020.DAL.Staff oStaff = RT2020.DAL.Staff.Load(Common.Config.CurrentUserId);
-            if (oStaff != null)
-            {
-                result = oStaff.StaffNumber;
-            }
-
-            return result;
         }
     }
 }

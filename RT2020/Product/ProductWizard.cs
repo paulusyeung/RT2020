@@ -733,7 +733,7 @@ namespace RT2020.Product
                 general.txtStatus_Office.Text = "";
                 general.txtCreatedOn.Text = RT2020.SystemInfo.Settings.DateTimeToString(oItem.CreatedOn, false);
                 general.txtModifiedOn.Text = RT2020.SystemInfo.Settings.DateTimeToString(oItem.ModifiedOn, false);
-                general.txtModifiedBy.Text = GetStaffName(oItem.ModifiedBy);
+                general.txtModifiedBy.Text = ModelEx.StaffEx.GetStaffNumberById(oItem.ModifiedBy);
 
                 // Quantity Info
                 quantity.txtMaxOLNQty.Text = oItem.MaxOnLoanQty.ToString("n0");
@@ -747,19 +747,6 @@ namespace RT2020.Product
                 LoadProductPrice();
 
                 general.txtCurrentRetailPrice.Text = oItem.RetailPrice.ToString("n2");
-            }
-        }
-
-        private string GetStaffName(Guid staffId)
-        {
-            RT2020.DAL.Staff oStaff = RT2020.DAL.Staff.Load(staffId);
-            if (oStaff != null)
-            {
-                return oStaff.StaffNumber;
-            }
-            else
-            {
-                return string.Empty;
             }
         }
 

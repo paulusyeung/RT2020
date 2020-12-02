@@ -67,11 +67,10 @@ namespace RT2020.Staff
         private void btnFind_Click(object sender, EventArgs e)
         {
             string whereClause = string.Empty;
-            RT2020.DAL.Staff staff = null;
+            EF6.Staff staff = null;
             if (!txtStaff.Text.Trim().Equals("*"))
             {
-                string whereStr = " StaffNumber = '" + txtStaff.Text.Trim() + "'";
-                staff = RT2020.DAL.Staff.LoadWhere(whereStr);
+                staff = ModelEx.StaffEx.GetByStaffNumber(txtStaff.Text.Trim());
             }
 
             RT2020.DAL.SmartTag4Staff smartTag4Staff = RT2020.DAL.SmartTag4Staff.LoadWhere(" TagCode = 'HKID'");
@@ -115,7 +114,7 @@ namespace RT2020.Staff
                     ListViewItem objItem = this.lvStaffList.Items.Add(iCount.ToString());
                     if (staff == null)
                     {
-                        RT2020.DAL.Staff sta = RT2020.DAL.Staff.Load(staffSmartTag.StaffId);
+                        var sta = ModelEx.StaffEx.GetByStaffId(staffSmartTag.StaffId);
                         if (sta != null)
                         {
                             objItem.SubItems.Add(sta.StaffNumber);

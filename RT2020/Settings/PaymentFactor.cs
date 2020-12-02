@@ -475,23 +475,11 @@ FROM        vwPaymentFactorList";
                 dtpEndDate.Value = oFactor.EndOn;
 
                 txtCreatedOn.Text = RT2020.SystemInfo.Settings.DateTimeToString(oFactor.CreatedOn, false);
-                txtLastUpdatedBy.Text = GetStaffName(oFactor.ModifiedBy);
+                txtLastUpdatedBy.Text = ModelEx.StaffEx.GetStaffNumberById(oFactor.ModifiedBy);
                 txtLastUpdatedOn.Text = RT2020.SystemInfo.Settings.DateTimeToString(oFactor.ModifiedOn, false);
             }
         }
 
-        private string GetStaffName(Guid staffId)
-        {
-            RT2020.DAL.Staff oStaff = RT2020.DAL.Staff.Load(staffId);
-            if (oStaff != null)
-            {
-                return oStaff.StaffNumber;
-            }
-            else
-            {
-                return string.Empty;
-            }
-        }
         #endregion
 
         private void DeleteConfirmationHandler(object sender, EventArgs e)

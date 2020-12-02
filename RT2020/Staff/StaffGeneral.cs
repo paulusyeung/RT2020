@@ -102,10 +102,10 @@ namespace RT2020.Staff
 
         private void FillAssistants()
         {
-            RT2020.DAL.Staff.LoadCombo(ref cboSmartTag6, new string[] { "StaffNumber", "FullName" }, "{0} - {1}", false, true, String.Empty, "StaffId NOT IN ('" + this.StaffId.ToString() + "')", null);
+            ModelEx.StaffEx.LoadCombo(ref cboSmartTag6, "StaffNumber", false, true, String.Empty, "StaffId NOT IN ('" + this.StaffId.ToString() + "')");
             if (cboSmartTag6.Items.Count > 0) cboSmartTag6.SelectedIndex = 0;
 
-            RT2020.DAL.Staff.LoadCombo(ref cboSmartTag7, new string[] { "StaffNumber", "FullName" }, "{0} - {1}", false, true, String.Empty, "StaffId NOT IN ('" + this.StaffId.ToString() + "')", null);
+            ModelEx.StaffEx.LoadCombo(ref cboSmartTag7, "StaffNumber", false, true, String.Empty, "StaffId NOT IN ('" + this.StaffId.ToString() + "')");
             if (cboSmartTag7.Items.Count > 0) cboSmartTag7.SelectedIndex = 0;  
         }
 

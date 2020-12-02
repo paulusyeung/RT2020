@@ -358,7 +358,7 @@ namespace RT2020.Inventory.Adjustment
                         }
                     }
 
-                    RT2020.DAL.Staff oStaff = RT2020.DAL.Staff.Load(oBatchHeader.StaffId);
+                    var oStaff = ModelEx.StaffEx.GetByStaffId(oBatchHeader.StaffId);
                     if (oStaff != null)
                     {
                         if (oStaff.Retired)
@@ -619,7 +619,7 @@ namespace RT2020.Inventory.Adjustment
                 oLedgerDetail.Notes = string.Empty;
                 oLedgerDetail.SerialNumber = string.Empty;
                 oLedgerDetail.SHOP = ModelEx.WorkplaceEx.GetWorkplaceCodeById(oBatchHeader.WorkplaceId);
-                oLedgerDetail.OPERATOR = this.GetStaffCode(oBatchHeader.StaffId);
+                oLedgerDetail.OPERATOR = ModelEx.StaffEx.GetStaffNumberById(oBatchHeader.StaffId);
 
                 // Product Info
                 RT2020.DAL.Product oItem = RT2020.DAL.Product.Load(oSDetail.ProductId);
@@ -666,17 +666,6 @@ namespace RT2020.Inventory.Adjustment
                 oType.Save();
             }
             return oType.PriceTypeId;
-        }
-
-        private string GetStaffCode(Guid staffId)
-        {
-            RT2020.DAL.Staff oStaff = RT2020.DAL.Staff.Load(staffId);
-            if (oStaff != null)
-            {
-                return oStaff.StaffNumber;
-            }
-
-            return string.Empty;
         }
 
         private decimal GetAverageCost(Guid productId)

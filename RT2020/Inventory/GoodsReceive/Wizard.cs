@@ -415,15 +415,13 @@ namespace RT2020.Inventory.GoodsReceive
 
         private void cmdPreview_Click()
         {
-
-            RT2020.DAL.Staff curUser = RT2020.DAL.Staff.Load(Common.Config.CurrentUserId);
             string[,] param = {
                 { "FromTxNumber", this.txtTxNumber.Text.Trim() },
                 { "ToTxNumber", this.txtTxNumber.Text.Trim() },
                 { "FromTxDate", this.dtpRecvDate.Value.ToString(RT2020.SystemInfo.Settings.GetDateFormat()) },
                 { "ToTxDate", this.dtpRecvDate.Value.ToString(RT2020.SystemInfo.Settings.GetDateFormat()) },
                 { "PrintedOn", DateTime.Now.ToString(RT2020.SystemInfo.Settings.GetDateTimeFormat()) },
-                { "PrintedBy", curUser.FullName },
+                { "PrintedBy", ModelEx.StaffEx.GetStaffNameById(Common.Config.CurrentUserId) },
                 { "StockCode", RT2020.SystemInfo.Settings.GetSystemLabelByKey("STKCODE") },
                 { "Appendix1", RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX1") },
                 { "Appendix2", RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX2") },
@@ -460,7 +458,7 @@ namespace RT2020.Inventory.GoodsReceive
 
         private void FillStaffList()
         {
-            RT2020.DAL.Staff.LoadCombo(ref cboOperatorCode, new string[] { "StaffNumber", "FullName" }, "{0} - {1}", false, false, string.Empty, string.Empty, null);
+            ModelEx.StaffEx.LoadCombo(ref cboOperatorCode, "StaffNumber", false);
 
             cboOperatorCode.SelectedValue = Common.Config.CurrentUserId;
         }
@@ -580,7 +578,7 @@ namespace RT2020.Inventory.GoodsReceive
                 InitCurrency(oHeader.CurrencyCode);
 
                 txtLastUpdateOn.Text = RT2020.SystemInfo.Settings.DateTimeToString(oHeader.ModifiedOn, false);
-                txtLastUpdateBy.Text = GetStaffName(oHeader.ModifiedBy);
+                txtLastUpdateBy.Text = ModelEx.StaffEx.GetStaffNumberById(oHeader.ModifiedBy);
 
                 txtAmendmentRetrict.Text = oHeader.ReadOnly ? "Y" : "N";
                 chkAPLink.Checked = oHeader.LinkToAP;
@@ -591,19 +589,6 @@ namespace RT2020.Inventory.GoodsReceive
                 this.Text += oHeader.ReadOnly ? " (ReadOnly)" : "";
 
                 BindCAPDetailsInfo();
-            }
-        }
-
-        private string GetStaffName(Guid staffId)
-        {
-            RT2020.DAL.Staff oStaff = RT2020.DAL.Staff.Load(staffId);
-            if (oStaff != null)
-            {
-                return oStaff.StaffNumber;
-            }
-            else
-            {
-                return string.Empty;
             }
         }
 

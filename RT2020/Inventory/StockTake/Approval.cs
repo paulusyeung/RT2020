@@ -40,16 +40,6 @@ namespace RT2020.Inventory.StockTake
         #endregion
 
         #region Bind Methods
-        private string StaffNumber(Guid staffId)
-        {
-            string result = string.Empty;
-            RT2020.DAL.Staff oStaff = RT2020.DAL.Staff.Load(staffId);
-            if (oStaff != null)
-            {
-                result = oStaff.StaffNumber;
-            }
-            return result;
-        }
 
         private void BindingList()
         {
@@ -73,7 +63,7 @@ namespace RT2020.Inventory.StockTake
                     objItem.SubItems.Add(reader.GetString(1)); // TxNumber
                     objItem.SubItems.Add(reader.GetString(3)); // Location
                     objItem.SubItems.Add(RT2020.SystemInfo.Settings.DateTimeToString(reader.GetDateTime(2), false)); // TxDate
-                    objItem.SubItems.Add(RT2020.SystemInfo.Settings.DateTimeToString(reader.GetDateTime(6), false) + " " + StaffNumber(reader.GetGuid(7))); // Last Update
+                    objItem.SubItems.Add(RT2020.SystemInfo.Settings.DateTimeToString(reader.GetDateTime(6), false) + " " + ModelEx.StaffEx.GetStaffNumberById(reader.GetGuid(7))); // Last Update
                     objItem.SubItems.Add(string.Empty);
 
                     iCount++;

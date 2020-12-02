@@ -28,7 +28,7 @@ namespace RT2020.Staff
             staffID = StaffID;
             if (staffID != System.Guid.Empty)
             {
-                RT2020.DAL.Staff Staff = RT2020.DAL.Staff.Load(staffID);
+                var Staff = ModelEx.StaffEx.GetByStaffId(staffID);
                 if (Staff != null)
                 {
                     this.Password = Staff.Password;
