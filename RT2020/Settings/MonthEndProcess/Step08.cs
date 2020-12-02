@@ -28,14 +28,14 @@ namespace RT2020.Settings.MonthEndProcess
         private void CopyMonthEndData()
         {
             UpdatedProgress(this, new ProgressUpdateEventArgs("Step08 - Update Current System Month.", 90, 100));
-            SystemInfoCollection oSysInfoList = RT2020.DAL.SystemInfo.LoadCollection();
-            if (oSysInfoList.Count > 0)
+
+            using (var ctx = new EF6.RT2020Entities())
             {
-                RT2020.DAL.SystemInfo oSysInfo = oSysInfoList[0];
+                var oSysInfo = ctx.SystemInfo.FirstOrDefault();
                 if (oSysInfo != null)
                 {
                     oSysInfo.LastMonthEnd = Convert.ToInt32(SystemInfo.CurrentInfo.Default.CurrentSystemDate.ToString("yyyyMM"));
-                    oSysInfo.Save();
+                    ctx.SaveChanges();
                 }
             }
         }

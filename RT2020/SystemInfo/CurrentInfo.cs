@@ -41,7 +41,7 @@ namespace RT2020.SystemInfo
         private string lastMonthEnd = DateTime.Now.ToString("yyyyMM");
         private string lastYearEnd = DateTime.Now.ToString("yyyyMM");
         private DateTime currentSystemDate = DateTime.Now;
-        private RT2020.DAL.SystemInfo sysInfo;
+        private EF6.SystemInfo sysInfo;
 
         #endregion
 
@@ -179,7 +179,7 @@ namespace RT2020.SystemInfo
         /// Gets the system info.
         /// </summary>
         /// <value>The system info.</value>
-        public RT2020.DAL.SystemInfo SysInfo
+        public EF6.SystemInfo SysInfo
         {
             get
             {
@@ -194,10 +194,9 @@ namespace RT2020.SystemInfo
         /// </summary>
         private void GetCurrentSystemInfo()
         {
-            SystemInfoCollection oSysInfoList = RT2020.DAL.SystemInfo.LoadCollection();
-            if (oSysInfoList.Count > 0)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                RT2020.DAL.SystemInfo oSysInfo = oSysInfoList[0];
+                var oSysInfo = ctx.SystemInfo.AsNoTracking().FirstOrDefault();
                 if (oSysInfo != null)
                 {
                     string lastYear = oSysInfo.LastMonthEnd.ToString().Substring(0, 4);
@@ -220,7 +219,6 @@ namespace RT2020.SystemInfo
                     this.sysInfo = oSysInfo;
                 }
             }
-
         }
     }
 }
