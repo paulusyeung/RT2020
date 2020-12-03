@@ -209,22 +209,26 @@ namespace RT2020.Inventory.StockTake
         private int ApproveTx()
         {
             int iCount = 0;
-            foreach (ListViewItem objItem in this.lvPostTxList.Items)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                if (objItem.Checked && Common.Utility.IsGUID(objItem.Text))
+                foreach (ListViewItem objItem in this.lvPostTxList.Items)
                 {
-                    StockTakeHeader oHeader = StockTakeHeader.Load(new Guid(objItem.Text));
-                    if (oHeader != null)
+                    Guid id = Guid.Empty;
+                    if (objItem.Checked && Guid.TryParse(objItem.Text, out id))
                     {
-                        oHeader.Status = Convert.ToInt32(Common.Enums.Status.Active.ToString("d"));
+                        var oHeader = ctx.StockTakeHeader.Find(id);
+                        if (oHeader != null)
+                        {
+                            oHeader.Status = Convert.ToInt32(Common.Enums.Status.Active.ToString("d"));
 
-                        oHeader.ModifiedBy = Common.Config.CurrentUserId;
-                        oHeader.ModifiedOn = DateTime.Now;
-                        oHeader.Save();
+                            oHeader.ModifiedBy = Common.Config.CurrentUserId;
+                            oHeader.ModifiedOn = DateTime.Now;
 
-                        iCount++;
+                            ctx.SaveChanges();
+                            iCount++;
 
-                        objItem.SubItems[1].Text = "OK";
+                            objItem.SubItems[1].Text = "OK";
+                        }
                     }
                 }
             }

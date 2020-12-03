@@ -39,14 +39,14 @@ namespace RT2020.Inventory.StockTake.Reports
         {
             cboFrom.Items.Clear();
 
-            StockTakeHeader.LoadCombo(ref cboFrom, "TxNumber", false, false, string.Empty, "YEAR(PostedOn) = 1900");
+            ModelEx.StockTakeHeaderEx.LoadCombo(ref cboFrom, "TxNumber", false, false, string.Empty, "YEAR(PostedOn) = 1900");
         }
 
         private void FillToList()
         {
             cboTo.Items.Clear();
 
-            StockTakeHeader.LoadCombo(ref cboTo, "TxNumber", false, false, string.Empty, "YEAR(PostedOn) = 1900");
+            ModelEx.StockTakeHeaderEx.LoadCombo(ref cboTo, "TxNumber", false, false, string.Empty, "YEAR(PostedOn) = 1900");
 
             cboTo.SelectedIndex = cboTo.Items.Count - 1;
         }

@@ -10,6 +10,8 @@ using System.Text;
 using Gizmox.WebGUI.Common;
 using Gizmox.WebGUI.Forms;
 using RT2020.DAL;
+using System.Linq;
+using System.Data.Entity;
 
 #endregion
 
@@ -28,16 +30,19 @@ namespace RT2020.Inventory.StockTake
         {
             lbStockTakeList.Items.Clear();
 
-            string[] orderBy = new string[] { "TxNumber" };
-            string sql = " YEAR(PostedOn) = 1900 AND LEN(ADJNUM) = 0 ";
-            StockTakeHeaderCollection stkHeaderList = StockTakeHeader.LoadCollection(sql, orderBy, true);
-            foreach (StockTakeHeader stkHeader in stkHeaderList)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                StringBuilder stk = new StringBuilder();
-                stk.Append(stkHeader.TxNumber);
-                stk.Append(" - ");
-                stk.Append(ModelEx.WorkplaceEx.GetWorkplaceCodeById(stkHeader.WorkplaceId));
-                lbStockTakeList.Items.Add(stk.ToString());
+                string[] orderBy = new string[] { "TxNumber" };
+                string sql = " YEAR(PostedOn) = 1900 AND LEN(ADJNUM) = 0 ";
+                var stkHeaderList = ctx.StockTakeHeader.Where(x => x.PostedOn.Value.Year == 1900 && x.ADJNUM.Length == 0).OrderBy(x => x.TxNumber).AsNoTracking().ToList();
+                foreach (var stkHeader in stkHeaderList)
+                {
+                    StringBuilder stk = new StringBuilder();
+                    stk.Append(stkHeader.TxNumber);
+                    stk.Append(" - ");
+                    stk.Append(ModelEx.WorkplaceEx.GetWorkplaceCodeById(stkHeader.WorkplaceId.Value));
+                    lbStockTakeList.Items.Add(stk.ToString());
+                }
             }
         }
         #endregion
@@ -69,9 +74,9 @@ namespace RT2020.Inventory.StockTake
 
         private Guid RecaptureSTK(string txNumber)
         {
-            System.Guid stkHeaderId = System.Guid.Empty;
-            string sql = "TxNumber = '" + txNumber + "'";
-            StockTakeHeader stkHeader = StockTakeHeader.LoadWhere(sql);
+            Guid stkHeaderId = Guid.Empty;
+
+            var stkHeader = ModelEx.StockTakeHeaderEx.GetByTxNumber(txNumber);
             if (stkHeader != null)
             {
                 stkHeaderId = stkHeader.HeaderId;
@@ -117,17 +122,21 @@ namespace RT2020.Inventory.StockTake
                 totalAmt += tempQty * stkDetail.AverageCost;
             }
 
-            StockTakeHeader stkHeader = StockTakeHeader.Load(stkheaderId);
-            if (stkHeader != null)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                stkHeader.CapturedOn = DateTime.Now;
-                stkHeader.CapturedAmount = amount;
-                stkHeader.CapturedQty = qty;
-                stkHeader.TotalQty = totalQty;
-                stkHeader.TotalAmount = totalAmt;
-                stkHeader.ModifiedBy = Common.Config.CurrentUserId;
-                stkHeader.ModifiedOn = DateTime.Now;
-                stkHeader.Save();
+                var stkHeader = ctx.StockTakeHeader.Find(stkheaderId);
+                if (stkHeader != null)
+                {
+                    stkHeader.CapturedOn = DateTime.Now;
+                    stkHeader.CapturedAmount = amount;
+                    stkHeader.CapturedQty = qty;
+                    stkHeader.TotalQty = totalQty;
+                    stkHeader.TotalAmount = totalAmt;
+                    stkHeader.ModifiedBy = Common.Config.CurrentUserId;
+                    stkHeader.ModifiedOn = DateTime.Now;
+
+                    ctx.SaveChanges();
+                }
             }
         }
 

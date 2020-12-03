@@ -15,6 +15,7 @@ using RT2020.Controls;
 using System.Web.Configuration;
 using FileHelpers.DataLink;
 using RT2020.DAL;
+using System.Data.Entity;
 
 #endregion
 
@@ -222,14 +223,20 @@ namespace RT2020.Inventory.StockTake.Import
 
         private bool CheckExistedTransaction(string txNumber, string hhtId)
         {
-            if (hhtId.Trim().Length == 0)
+            var result = false;
+
+            using (var ctx = new EF6.RT2020Entities())
             {
-                hhtId = "POS_ADV1";
+                if (hhtId.Trim().Length == 0)
+                {
+                    hhtId = "POS_ADV1";
+                }
+
+                var hhtHeader = ctx.StocktakeHeader_HHT.Where(x => x.TxNumber == txNumber && x.HHTId == hhtId).AsNoTracking().FirstOrDefault();
+                if (hhtHeader != null) result = true;
             }
 
-            string sql = "TxNumber = '" + txNumber + "' AND HHTId ='" + hhtId + "'";
-            StocktakeHeader_HHT hhtHeader = StocktakeHeader_HHT.LoadWhere(sql);
-            return (hhtHeader != null);
+            return result;
         }
 
         private void Import()
@@ -297,37 +304,44 @@ namespace RT2020.Inventory.StockTake.Import
 
         private Guid CreateStockTakeHHTHeader(string txNumber, string hhtId, Guid workplaceId, DateTime uploadOn, bool overwrite)
         {
-            StocktakeHeader_HHT hhtHeader;
+            Guid result = Guid.Empty;
 
-            if (overwrite)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                string sql = "TxNumber = '" + txNumber + "' AND HHTId ='" + hhtId + "'";
-                hhtHeader = StocktakeHeader_HHT.LoadWhere(sql);
+                EF6.StocktakeHeader_HHT hhtHeader;
+
+                if (overwrite)
+                {
+                    string sql = "TxNumber = '" + txNumber + "' AND HHTId ='" + hhtId + "'";
+                    hhtHeader = ctx.StocktakeHeader_HHT.Where(x => x.TxNumber == txNumber && x.HHTId == hhtId).FirstOrDefault();
+                }
+                else
+                {
+                    hhtHeader = new EF6.StocktakeHeader_HHT();
+                    hhtHeader.HeaderId = Guid.NewGuid();
+                    hhtHeader.CreatedBy = Common.Config.CurrentUserId;
+                    hhtHeader.CreatedOn = DateTime.Now;
+
+                    ctx.StocktakeHeader_HHT.Add(hhtHeader);
+                }
+
+                hhtHeader.TxNumber = txNumber;
+                hhtHeader.HHTId = hhtId;
+                hhtHeader.UploadedOn = uploadOn;
+                hhtHeader.WorkplaceId = workplaceId;
+                hhtHeader.TotalRows = 0;
+                hhtHeader.TOTALQTY = 0;
+                hhtHeader.MissingQty = 0;
+                hhtHeader.MissingRows = 0;
+                hhtHeader.Remarks = this.Remarks;
+                hhtHeader.Status = (int)Common.Enums.Status.Draft;
+                hhtHeader.ModifiedBy = Common.Config.CurrentUserId;
+                hhtHeader.ModifiedOn = DateTime.Now;
+
+                ctx.SaveChanges();
+                result = hhtHeader.HeaderId;
             }
-            else
-            {
-                hhtHeader = new StocktakeHeader_HHT();
-
-                hhtHeader.CreatedBy = Common.Config.CurrentUserId;
-                hhtHeader.CreatedOn = DateTime.Now;
-            }
-
-            hhtHeader.TxNumber = txNumber;
-            hhtHeader.HHTId = hhtId;
-            hhtHeader.UploadedOn = uploadOn;
-            hhtHeader.WorkplaceId = workplaceId;
-            hhtHeader.TotalRows = 0;
-            hhtHeader.TOTALQTY = 0;
-            hhtHeader.MissingQty = 0;
-            hhtHeader.MissingRows = 0;
-            hhtHeader.Remarks = this.Remarks;
-            hhtHeader.Status = (int)Common.Enums.Status.Draft;
-            hhtHeader.ModifiedBy = Common.Config.CurrentUserId;
-            hhtHeader.ModifiedOn = DateTime.Now;
-
-            hhtHeader.Save();
-
-            return hhtHeader.HeaderId;
+            return result;
         }
 
         private void CreateStockTakeHHTDetails(Guid headerId, DateTime uploadOn, bool overwrite)
@@ -387,15 +401,18 @@ namespace RT2020.Inventory.StockTake.Import
 
         private void UpdateHHtHeader(Guid headerId, int totalLine, int missingLine, decimal totalQty, decimal missingQty)
         {
-            StocktakeHeader_HHT hhtHeader = StocktakeHeader_HHT.Load(headerId);
-            if (hhtHeader != null)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                hhtHeader.TOTALQTY = totalQty;
-                hhtHeader.TotalRows = totalLine;
-                hhtHeader.MissingRows = missingLine;
-                hhtHeader.MissingQty = missingQty;
+                var hhtHeader = ctx.StocktakeHeader_HHT.Find(headerId);
+                if (hhtHeader != null)
+                {
+                    hhtHeader.TOTALQTY = totalQty;
+                    hhtHeader.TotalRows = totalLine;
+                    hhtHeader.MissingRows = missingLine;
+                    hhtHeader.MissingQty = missingQty;
 
-                hhtHeader.Save();
+                    ctx.SaveChanges(); 
+                }
             }
         }
 

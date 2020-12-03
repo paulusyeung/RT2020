@@ -132,25 +132,28 @@ namespace RT2020.Inventory.StockTake
 
         private void PostHHTRecord(Guid headerId)
         {
-            StocktakeHeader_HHT hhtHeader = StocktakeHeader_HHT.Load(headerId);
-            if (hhtHeader != null)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                string sql = "TxNumber = '" + hhtHeader.TxNumber + "'";
-                StockTakeHeader stkHeader = StockTakeHeader.LoadWhere(sql);
-                if (stkHeader != null)
+                var hhtHeader = ctx.StocktakeHeader_HHT.Find(headerId);
+                if (hhtHeader != null)
                 {
-                    if (!string.IsNullOrEmpty(stkHeader.ADJNUM) && stkHeader.PostedOn.Year > 1900)
+                    //string sql = "TxNumber = '" + hhtHeader.TxNumber + "'";
+                    var stkHeader = ModelEx.StockTakeHeaderEx.GetByTxNumber(hhtHeader.TxNumber);
+                    if (stkHeader != null)
                     {
-                        MessageBox.Show("Stock Take# [" + hhtHeader.TxNumber + "] had been posted!", "ATTENTION");
+                        if (!string.IsNullOrEmpty(stkHeader.ADJNUM) && stkHeader.PostedOn.Value.Year > 1900)
+                        {
+                            MessageBox.Show("Stock Take# [" + hhtHeader.TxNumber + "] had been posted!", "ATTENTION");
+                        }
+                        else
+                        {
+                            Posting(hhtHeader.HeaderId, stkHeader.HeaderId);
+                        }
                     }
                     else
                     {
-                        Posting(hhtHeader.HeaderId, stkHeader.HeaderId);
+                        MessageBox.Show("Stock Take# [" + hhtHeader.TxNumber + "] worksheet does not exist! Create new one?", "ATTENTION", MessageBoxButtons.OKCancel, MessageBoxIcon.Question, new EventHandler(CreateNewWorksheet));
                     }
-                }
-                else
-                {
-                    MessageBox.Show("Stock Take# [" + hhtHeader.TxNumber + "] worksheet does not exist! Create new one?", "ATTENTION", MessageBoxButtons.OKCancel, MessageBoxIcon.Question, new EventHandler(CreateNewWorksheet));
                 }
             }
         }
@@ -166,22 +169,32 @@ namespace RT2020.Inventory.StockTake
                     if (index >= 0)
                     {
                         string txNumber = message.Substring(index + 1, 12);
-                        string sql = "TxNumber = '" + txNumber + "'";
-                        StocktakeHeader_HHT hhtHeader = StocktakeHeader_HHT.LoadWhere(sql);
-                        if (hhtHeader != null)
-                        {
-                            StockTakeHeader stkHeader = new StockTakeHeader();
-                            stkHeader.TxNumber = hhtHeader.TxNumber;
-                            stkHeader.TxDate = DateTime.Now;
-                            stkHeader.WorkplaceId = hhtHeader.WorkplaceId;
-                            stkHeader.Status = (int)Common.Enums.Status.Draft;
-                            stkHeader.CreatedBy = Common.Config.CurrentUserId;
-                            stkHeader.CreatedOn = DateTime.Now;
-                            stkHeader.ModifiedBy = Common.Config.CurrentUserId;
-                            stkHeader.ModifiedOn = DateTime.Now;
-                            stkHeader.Save();
+                        //string sql = "TxNumber = '" + txNumber + "'";
 
-                            Posting(hhtHeader.HeaderId, stkHeader.HeaderId);
+                        using (var ctx = new EF6.RT2020Entities())
+                        {
+                            var hhtHeader = ctx.StocktakeHeader_HHT
+                                .Where(x => x.TxNumber == txNumber)
+                                .FirstOrDefault();
+                            if (hhtHeader != null)
+                            {
+                                var stkHeader = new EF6.StockTakeHeader();
+
+                                stkHeader.HeaderId = Guid.NewGuid();
+                                stkHeader.TxNumber = hhtHeader.TxNumber;
+                                stkHeader.TxDate = DateTime.Now;
+                                stkHeader.WorkplaceId = hhtHeader.WorkplaceId.Value;
+                                stkHeader.Status = (int)Common.Enums.Status.Draft;
+                                stkHeader.CreatedBy = Common.Config.CurrentUserId;
+                                stkHeader.CreatedOn = DateTime.Now;
+                                stkHeader.ModifiedBy = Common.Config.CurrentUserId;
+                                stkHeader.ModifiedOn = DateTime.Now;
+
+                                ctx.StockTakeHeader.Add(stkHeader);
+                                ctx.SaveChanges();
+
+                                Posting(hhtHeader.HeaderId, stkHeader.HeaderId);
+                            }
                         }
                     }
                 }
@@ -192,34 +205,38 @@ namespace RT2020.Inventory.StockTake
         {
             if (hhtHeaderId != System.Guid.Empty && stkHeaderId != System.Guid.Empty)
             {
-                StocktakeHeader_HHT hhtHeader = StocktakeHeader_HHT.Load(hhtHeaderId);
-                if (hhtHeader != null)
+
+                using (var ctx = new EF6.RT2020Entities())
                 {
-                    hhtHeader.PostedOn = DateTime.Now;
-                    hhtHeader.Status = (int)Common.Enums.Status.Active;
-                    hhtHeader.Save();
-
-                    CheckDetails(hhtHeaderId, stkHeaderId, hhtHeader.WorkplaceId);
-
-                    StockTakeHeader stkHeader = StockTakeHeader.Load(stkHeaderId);
-                    if (stkHeader != null)
+                    var hhtHeader = ctx.StocktakeHeader_HHT.Find(hhtHeaderId);
+                    if (hhtHeader != null)
                     {
-                        decimal totalCurQty = 0, totalStkQty = 0, totalCurAmt = 0, totalStkAmt = 0;
-                        string sql = "HeaderId = '" + stkHeaderId + "'";
-                        StockTakeDetailsCollection stkDetailList = StockTakeDetails.LoadCollection(sql);
-                        foreach (StockTakeDetails stkDetail in stkDetailList)
-                        {
-                            totalCurQty += stkDetail.CapturedQty;
-                            totalCurAmt += stkDetail.CapturedQty * stkDetail.AverageCost;
-                            totalStkQty += stkDetail.HHTQty + stkDetail.Book1Qty + stkDetail.Book2Qty + stkDetail.Book3Qty + stkDetail.Book4Qty + stkDetail.Book5Qty;
-                            totalStkAmt += (stkDetail.HHTQty + stkDetail.Book1Qty + stkDetail.Book2Qty + stkDetail.Book3Qty + stkDetail.Book4Qty + stkDetail.Book5Qty) * stkDetail.AverageCost;
-                        }
+                        hhtHeader.PostedOn = DateTime.Now;
+                        hhtHeader.Status = (int)Common.Enums.Status.Active;
+                        ctx.SaveChanges();
 
-                        stkHeader.TotalQty = totalStkQty;
-                        stkHeader.TotalAmount = totalStkAmt;
-                        stkHeader.CapturedQty = totalCurQty;
-                        stkHeader.CapturedAmount = totalCurAmt;
-                        stkHeader.Save();
+                        CheckDetails(hhtHeaderId, stkHeaderId, hhtHeader.WorkplaceId.Value);
+
+                        var stkHeader = ctx.StockTakeHeader.Find(stkHeaderId);
+                        if (stkHeader != null)
+                        {
+                            decimal totalCurQty = 0, totalStkQty = 0, totalCurAmt = 0, totalStkAmt = 0;
+
+                            var stkDetailList = ctx.StockTakeDetails.Where(x => x.HeaderId == stkHeaderId);
+                            foreach (var stkDetail in stkDetailList)
+                            {
+                                totalCurQty += stkDetail.CapturedQty.Value;
+                                totalCurAmt += stkDetail.CapturedQty.Value * stkDetail.AverageCost.Value;
+                                totalStkQty += stkDetail.HHTQty.Value + stkDetail.Book1Qty.Value + stkDetail.Book2Qty.Value + stkDetail.Book3Qty.Value + stkDetail.Book4Qty.Value + stkDetail.Book5Qty.Value;
+                                totalStkAmt += (stkDetail.HHTQty.Value + stkDetail.Book1Qty.Value + stkDetail.Book2Qty.Value + stkDetail.Book3Qty.Value + stkDetail.Book4Qty.Value + stkDetail.Book5Qty.Value) * stkDetail.AverageCost.Value;
+                            }
+
+                            stkHeader.TotalQty = totalStkQty;
+                            stkHeader.TotalAmount = totalStkAmt;
+                            stkHeader.CapturedQty = totalCurQty;
+                            stkHeader.CapturedAmount = totalCurAmt;
+                            ctx.SaveChanges();
+                        }
                     }
                 }
             }
@@ -227,25 +244,29 @@ namespace RT2020.Inventory.StockTake
 
         private void CheckDetails(Guid hhtHeaderId, Guid stkHeaderId, Guid workplaceId)
         {
-            string sql = "HeaderId = '" + hhtHeaderId + "'";
-            StockTakeDetails_HHTCollection hhtDetailList = StockTakeDetails_HHT.LoadCollection(sql, new string[] { "LineNumber" }, true);
-            foreach (StockTakeDetails_HHT hhtDetail in hhtDetailList)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                sql = "HeaderId = '" + stkHeaderId + "' AND ProductId = '" + hhtDetail.ProductId.ToString() + "'";
-                StockTakeDetails stkDetail = StockTakeDetails.LoadWhere(sql);
-                if (stkDetail == null)
+                var hhtDetailList = ctx.StockTakeDetails_HHT.Where(x => x.HeaderId == hhtHeaderId).OrderBy(x => x.LineNumber);
+                foreach (var hhtDetail in hhtDetailList)
                 {
-                    stkDetail = new StockTakeDetails();
-                    stkDetail.HeaderId = stkHeaderId;
-                    stkDetail.ProductId = hhtDetail.ProductId;
-                    stkDetail.TxNumber = hhtDetail.TxNumber;
-                    stkDetail.WorkplaceId = workplaceId;
+                    //sql = "HeaderId = '" + stkHeaderId + "' AND ProductId = '" + hhtDetail.ProductId.ToString() + "'";
+                    var stkDetail = ctx.StockTakeDetails.Where(x => x.HeaderId == stkHeaderId && x.ProductId == hhtDetail.ProductId).FirstOrDefault();
+                    //StockTakeDetails stkDetail = StockTakeDetails.LoadWhere(sql);
+                    if (stkDetail == null)
+                    {
+                        stkDetail = new EF6.StockTakeDetails();
+                        stkDetail.DetailsId = Guid.NewGuid();
+                        stkDetail.HeaderId = stkHeaderId;
+                        stkDetail.ProductId = hhtDetail.ProductId;
+                        stkDetail.TxNumber = hhtDetail.TxNumber;
+                        stkDetail.WorkplaceId = workplaceId;
 
-                    stkDetail.HHTQty = hhtDetail.Qty;
+                        stkDetail.HHTQty = hhtDetail.Qty;
+                    }
+                    stkDetail.AverageCost = GetAverageCost(stkDetail.ProductId.Value);
+                    stkDetail.HHTQty = (stkDetail.HHTQty == null ? 0 : stkDetail.HHTQty) + hhtDetail.Qty;
+                    ctx.SaveChanges();
                 }
-                stkDetail.AverageCost = GetAverageCost(stkDetail.ProductId);
-                stkDetail.HHTQty = (stkDetail.HHTQty == null ? 0 : stkDetail.HHTQty) + hhtDetail.Qty;
-                stkDetail.Save();
             }
         }
 
@@ -267,16 +288,20 @@ namespace RT2020.Inventory.StockTake
 
         private void DeleteHHTRecord(Guid headerId)
         {
-            StocktakeHeader_HHT hhtHeader = StocktakeHeader_HHT.Load(headerId);
-            if (hhtHeader != null)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                hhtHeader.PostedOn = DateTime.Now;
-                hhtHeader.Status = (int)Common.Enums.Status.Draft;
-                hhtHeader.Retired = true;
-                hhtHeader.RetiredBy = Common.Config.CurrentUserId;
-                hhtHeader.RetiredOn = DateTime.Now;
+                var hhtHeader = ctx.StocktakeHeader_HHT.Find(headerId);
+                //StocktakeHeader_HHT hhtHeader = StocktakeHeader_HHT.Load(headerId);
+                if (hhtHeader != null)
+                {
+                    hhtHeader.PostedOn = DateTime.Now;
+                    hhtHeader.Status = (int)Common.Enums.Status.Draft;
+                    hhtHeader.Retired = true;
+                    hhtHeader.RetiredBy = Common.Config.CurrentUserId;
+                    hhtHeader.RetiredOn = DateTime.Now;
 
-                hhtHeader.Save();
+                    ctx.SaveChanges();
+                }
             }
         }
 

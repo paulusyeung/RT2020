@@ -32,7 +32,14 @@ namespace RT2020.Inventory.StockTake.Reports
 
         private void BindComboList()
         {
-            StocktakeHeader_HHT.LoadCombo(ref cboTxNumber, new string[] { "TxNumber", "HHTId", "UploadedOn" }, "{0}\t{1}\t{2}", false, false, string.Empty, "YEAR(PostedOn) = 1900 AND Retired = 0", null);
+            ModelEx.StocktakeHeader_HHTEx.LoadCombo(
+                ref cboTxNumber,
+                new string[] { "TxNumber", "HHTId", "UploadedOn" },
+                "{0}\t{1}\t{2}",
+                false, false, string.Empty,
+                "YEAR(PostedOn) = 1900 AND Retired = 0",
+                new string[] { "TxNumber", "HHTId", "UploadedOn" }
+                );
         }
 
         private void btnExit_Click(object sender, EventArgs e)

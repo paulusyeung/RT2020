@@ -11,6 +11,7 @@ using System.Text;
 using Gizmox.WebGUI.Common;
 using Gizmox.WebGUI.Forms;
 using RT2020.DAL;
+using System.Data.Entity;
 
 #endregion
 
@@ -59,25 +60,28 @@ namespace RT2020.Inventory.StockTake
         {
             if (this.HHTHeaderId != null)
             {
-                StocktakeHeader_HHT hhtHeader = StocktakeHeader_HHT.Load(this.HHTHeaderId);
-                if (hhtHeader != null)
+                using (var ctx = new EF6.RT2020Entities())
                 {
-                    txtTxNumber.Text = hhtHeader.TxNumber;
-                    txtWorkplace.Text = ModelEx.WorkplaceEx.GetWorkplaceCodeById(hhtHeader.WorkplaceId);
-                    txtHHTId.Text = hhtHeader.HHTId;
-                    txtUploadedOn.Text = hhtHeader.UploadedOn.ToString("dd MMM yyyy HH:mm:ss");
-                    txtCreatedOn.Text = hhtHeader.CreatedOn.ToString("dd MMM yyyy HH:mm:ss");
-                    txtCreatedBy.Text = ModelEx.StaffEx.GetStaffNumberById(hhtHeader.CreatedBy);
+                    var hhtHeader = ctx.StocktakeHeader_HHT.Where(x => x.HeaderId == this.HHTHeaderId).AsNoTracking().FirstOrDefault();
+                    if (hhtHeader != null)
+                    {
+                        txtTxNumber.Text = hhtHeader.TxNumber;
+                        txtWorkplace.Text = ModelEx.WorkplaceEx.GetWorkplaceCodeById(hhtHeader.WorkplaceId.Value);
+                        txtHHTId.Text = hhtHeader.HHTId;
+                        txtUploadedOn.Text = hhtHeader.UploadedOn.Value.ToString("dd MMM yyyy HH:mm:ss");
+                        txtCreatedOn.Text = hhtHeader.CreatedOn.ToString("dd MMM yyyy HH:mm:ss");
+                        txtCreatedBy.Text = ModelEx.StaffEx.GetStaffNumberById(hhtHeader.CreatedBy);
 
-                    txtTotalLine_HHTData.Text = hhtHeader.TotalRows.ToString("n0");
-                    txtTotalLine_StockTake.Text = hhtHeader.TotalRows.ToString("n0");
-                    txtTotalLine_MissingBarcode.Text = hhtHeader.MissingRows.ToString("n0");
+                        txtTotalLine_HHTData.Text = hhtHeader.TotalRows.Value.ToString("n0");
+                        txtTotalLine_StockTake.Text = hhtHeader.TotalRows.Value.ToString("n0");
+                        txtTotalLine_MissingBarcode.Text = hhtHeader.MissingRows.Value.ToString("n0");
 
-                    txtTotalQty_HHTData.Text = hhtHeader.TOTALQTY.ToString("n0");
-                    txtTotalQty_StockTake.Text = hhtHeader.TOTALQTY.ToString("n0");
-                    txtTotalQty_MissingBarcode.Text = hhtHeader.MissingQty.ToString("n0");
+                        txtTotalQty_HHTData.Text = hhtHeader.TOTALQTY.Value.ToString("n0");
+                        txtTotalQty_StockTake.Text = hhtHeader.TOTALQTY.Value.ToString("n0");
+                        txtTotalQty_MissingBarcode.Text = hhtHeader.MissingQty.Value.ToString("n0");
 
-                    LoadDetailsInfo(hhtHeader.HeaderId);
+                        LoadDetailsInfo(hhtHeader.HeaderId);
+                    }
                 }
             }
         }

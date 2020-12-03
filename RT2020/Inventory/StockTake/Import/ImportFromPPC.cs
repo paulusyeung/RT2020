@@ -323,19 +323,20 @@ namespace RT2020.Inventory.StockTake.Import
         {
             int iCount = 1;
             bool isValid = true;
+
             foreach (ListViewItem lvItem in lvPPCPacketList.Items)
             {
                 if (lvItem.Checked)
                 {
                     string stktkNumber = string.Empty;
-                    System.Guid workplaceId = System.Guid.Empty;
+                    Guid workplaceId = Guid.Empty;
                     DateTime uploadedOn = DateTime.Now;
                     List<ImportDetailsInfo> detailAllList = new List<ImportDetailsInfo>();
                     decimal totalLine = 0, totalQty = 0, missingLine = 0, missingQty = 0;
 
                     this.CheckHHTLog(lvItem.SubItems[4].Text);
 
-                    // Load Header's detail info
+                    #region Load Header's detail info
                     FileHelperEngine<ImportHeaderInfo> headerInfoEngine = new FileHelperEngine<ImportHeaderInfo>();
 
                     headerInfoEngine.ErrorManager.ErrorMode = ErrorMode.SaveAndContinue;
@@ -344,6 +345,7 @@ namespace RT2020.Inventory.StockTake.Import
 
                     if (headerInfoEngine.ErrorManager.ErrorCount > 0)
                         headerInfoEngine.ErrorManager.SaveErrors(logFile);
+                    #endregion
 
                     Utility.WriteLog("Date Create	 : " + uploadedOn.ToString("dd/MM/yyyy HH:mm:ss"), logFile);
                     Utility.WriteLog("Session ID	 : " + uploadedOn.ToString("yyyyMMdd-HHmmss") + "-" + iCount.ToString().PadLeft(3, '0'), logFile);
@@ -355,7 +357,7 @@ namespace RT2020.Inventory.StockTake.Import
                     Utility.WriteLog("Message :- ", logFile);
                     Utility.WriteLog("=> Checking Loc# ", logFile);
 
-                    // Check Workplace (Loc#)
+                    #region Check Workplace (Loc#)
                     using (var ctx = new EF6.RT2020Entities())
                     {
                         var wp = ctx.Workplace.Where(x => x.WorkplaceCode == lvItem.Text).AsNoTracking().FirstOrDefault();
@@ -378,68 +380,77 @@ namespace RT2020.Inventory.StockTake.Import
                             isValid = isValid & false;
                         }
                     }
+                    #endregion
 
                     Utility.WriteLog("	RESULT : COMPLETED", logFile);
                     Utility.WriteLog("=> Import Packet File ", logFile);
 
-                    // Load details files
+                    #region Load details files
                     string[] packetFiles = Directory.GetFiles(tempDirectory, "DT_" + lvItem.SubItems[2].Text + "*", SearchOption.TopDirectoryOnly);
                     for (int i = 0; i < packetFiles.Length; i++)
                     {
                         Utility.WriteLog(@"	" + (i + 1).ToString() + @") Packet => " + Path.GetFileNameWithoutExtension(packetFiles[i]) + " [" + packetFiles[i] + "] ", logFile);
                     }
+                    #endregion
 
                     Utility.WriteLog("	RESULT : COMPLETED", logFile);
                     Utility.WriteLog("=> Checking (Header) ", logFile);
 
                     stktkNumber = lvItem.SubItems[1].Text.Trim();
 
-                    // checking Header info
-                    StockTakeHeader stktkHeader = StockTakeHeader.LoadWhere("TxNumber = '" + lvItem.SubItems[1].Text.Trim() + "'");
-                    if (stktkHeader != null)
+                    #region checking Header info
+                    using (var ctx = new EF6.RT2020Entities())
                     {
-                        if (!string.IsNullOrEmpty(stktkHeader.ADJNUM))
+                        var stktkHeader = ctx.StockTakeHeader.Where(x => x.TxNumber == lvItem.SubItems[1].Text.Trim()).FirstOrDefault();
+                        if (stktkHeader != null)
                         {
-                            Utility.WriteLog("	[ERROR] The Stock Take Number was posted, cannot be used anymore. ", logFile);
-                            isValid = isValid & false;
-                        }
-                        else if (!ModelEx.WorkplaceEx.GetWorkplaceCodeById(stktkHeader.WorkplaceId).Equals(lvItem.Text.Trim()))
-                        {
-                            Utility.WriteLog("	[ERROR] The loc# in Stock Take Header must be as same as the selected one. ", logFile);
-                            isValid = isValid & false;
-                        }
-                        else
-                        {
-                            string sql = "TxNumber = '" + lvItem.SubItems[1].Text.Trim() + "' AND HHTId = '" + lvItem.SubItems[4].Text + "' AND CONVERT(NVARCHAR(20), UploadedOn, 120) = '" + uploadedOn.ToString("yyyy-MM-dd HH:mm:ss") + "'";
-                            StocktakeHeader_HHT hhtHeader = StocktakeHeader_HHT.LoadWhere(sql);
-                            if (hhtHeader != null)
+                            if (!string.IsNullOrEmpty(stktkHeader.ADJNUM))
                             {
-                                if (hhtHeader.PostedOn.Year > 1900)
-                                {
-                                    Utility.WriteLog("	[ERROR] The Stock Take (HHT) Number was posted, cannot be used anymore. ", logFile);
-                                    isValid = isValid & false;
-                                }
-                                else
-                                {
-                                    Utility.WriteLog("	[ERROR] The Stock Take (HHT) Number existed. ", logFile);
-                                    isValid = isValid & false;
-                                }
+                                Utility.WriteLog("	[ERROR] The Stock Take Number was posted, cannot be used anymore. ", logFile);
+                                isValid = isValid & false;
+                            }
+                            else if (!ModelEx.WorkplaceEx.GetWorkplaceCodeById(stktkHeader.WorkplaceId.Value).Equals(lvItem.Text.Trim()))
+                            {
+                                Utility.WriteLog("	[ERROR] The loc# in Stock Take Header must be as same as the selected one. ", logFile);
+                                isValid = isValid & false;
                             }
                             else
                             {
-                                Utility.WriteLog("	[OK]  ", logFile);
+                                //? Why compare the UploadedOn down to "seconds"
+                                //string sql = "TxNumber = '" + lvItem.SubItems[1].Text.Trim() + "' AND HHTId = '" + lvItem.SubItems[4].Text + "' AND CONVERT(NVARCHAR(20), UploadedOn, 120) = '" + uploadedOn.ToString("yyyy-MM-dd HH:mm:ss") + "'";
+                                var txNumber = lvItem.SubItems[1].Text.Trim();
+                                var hhtId = lvItem.SubItems[4].Text;
+                                var hhtHeader = ctx.StocktakeHeader_HHT.Where(x => x.TxNumber == txNumber && x.HHTId == hhtId && x.UploadedOn.Value.ToString("yyyy-MM-dd HH:mm:ss") == uploadedOn.ToString("yyyy-MM-dd HH:mm:ss")).FirstOrDefault();
+                                if (hhtHeader != null)
+                                {
+                                    if (hhtHeader.PostedOn.Value.Year > 1900)
+                                    {
+                                        Utility.WriteLog("	[ERROR] The Stock Take (HHT) Number was posted, cannot be used anymore. ", logFile);
+                                        isValid = isValid & false;
+                                    }
+                                    else
+                                    {
+                                        Utility.WriteLog("	[ERROR] The Stock Take (HHT) Number existed. ", logFile);
+                                        isValid = isValid & false;
+                                    }
+                                }
+                                else
+                                {
+                                    Utility.WriteLog("	[OK]  ", logFile);
+                                }
                             }
                         }
+                        else
+                        {
+                            Utility.WriteLog("	[OK]  ", logFile);
+                        }
                     }
-                    else
-                    {
-                        Utility.WriteLog("	[OK]  ", logFile);
-                    }
+                    #endregion
 
                     Utility.WriteLog("=> Checking (Detail) ", logFile);
                     int iCountBarcode = 0;
 
-                    // checking details info
+                    #region checking details info
                     for (int iHeader = 0; iHeader < headerInfoList.Length; iHeader++)
                     {
                         ImportHeaderInfo headerInfo = headerInfoList[iHeader];
@@ -508,10 +519,12 @@ namespace RT2020.Inventory.StockTake.Import
                             Utility.WriteLog("	[OK] Details of Shelf (" + headerInfo.ShelfId + " - " + headerInfo.ShelfName + ") has 0 empty barcode.", logFile);
                         }
                     }
+                    #endregion
 
                     Utility.WriteLog("	RESULT : COMPLETED", logFile);
                     Utility.WriteLog("=> Save Packet", logFile);
 
+                    #region isValid: wrapping up
                     if (isValid)
                     {
                         if (stktkNumber.Trim().Length == 0)
@@ -567,6 +580,7 @@ namespace RT2020.Inventory.StockTake.Import
                             Utility.WriteLog("=> Backup Data	RESULT : COMPLETED", logFile);
                         }
                     }
+                    #endregion
 
                     iCount++;
                 }
@@ -577,28 +591,38 @@ namespace RT2020.Inventory.StockTake.Import
 
         private Guid CreateStockTakeHeader(string txNumber, Guid workplaceId)
         {
-            string sql = "TxNumber = '" + txNumber.Trim() + "'";
+            Guid result = Guid.Empty;
 
-            StockTakeHeader stktkHeader = StockTakeHeader.LoadWhere(sql);
-            if (stktkHeader == null)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                stktkHeader = new StockTakeHeader();
-                stktkHeader.TxNumber = txNumber;
-                stktkHeader.TxDate = DateTime.Now;
+                string sql = "TxNumber = '" + txNumber.Trim() + "'";
 
-                stktkHeader.CreatedBy = Common.Config.CurrentUserId;
-                stktkHeader.CreatedOn = DateTime.Now;
+                var stktkHeader = ctx.StockTakeHeader.Where(x => x.TxNumber == txNumber).FirstOrDefault();
+                if (stktkHeader == null)
+                {
+                    stktkHeader = new EF6.StockTakeHeader();
+
+                    stktkHeader.HeaderId = Guid.NewGuid();
+                    stktkHeader.TxNumber = txNumber;
+                    stktkHeader.TxDate = DateTime.Now;
+
+                    stktkHeader.CreatedBy = Common.Config.CurrentUserId;
+                    stktkHeader.CreatedOn = DateTime.Now;
+
+                    ctx.StockTakeHeader.Add(stktkHeader);
+                }
+
+                stktkHeader.WorkplaceId = workplaceId;
+
+                stktkHeader.ModifiedBy = Common.Config.CurrentUserId;
+                stktkHeader.ModifiedOn = DateTime.Now;
+                stktkHeader.Status = (int)Common.Enums.Status.Draft;
+
+                ctx.SaveChanges();
+                result = stktkHeader.HeaderId;
             }
 
-            stktkHeader.WorkplaceId = workplaceId;
-
-            stktkHeader.ModifiedBy = Common.Config.CurrentUserId;
-            stktkHeader.ModifiedOn = DateTime.Now;
-            stktkHeader.Status = (int)Common.Enums.Status.Draft;
-
-            stktkHeader.Save();
-
-            return stktkHeader.HeaderId;
+            return result;
         }
 
         private void CreatedStockTakeDetail(Guid stktkHeaderId, string txNumber, List<ImportDetailsInfo> detailList, Guid workplaceId, DateTime uploadedOn)
@@ -635,34 +659,42 @@ namespace RT2020.Inventory.StockTake.Import
         private Guid CreateStockTakeHHTHeader(string txNumber, string hhtId, DateTime uploadedOn, Guid workplaceId, string hhtTxNumber,
             decimal totalLine, decimal totalQty, decimal missingLine, decimal missingQty)
         {
-            string sql = "TxNumber = '" + txNumber + "'";
-            StocktakeHeader_HHT hhtHeader = StocktakeHeader_HHT.LoadWhere(sql);
-            if (hhtHeader == null)
+            Guid result = Guid.Empty;
+
+            using (var ctx = new EF6.RT2020Entities())
             {
-                hhtHeader = new StocktakeHeader_HHT();
-                hhtHeader.TxNumber = txNumber;
+                string sql = "TxNumber = '" + txNumber + "'";
+                var hhtHeader = ctx.StocktakeHeader_HHT.Where(x => x.TxNumber == txNumber).FirstOrDefault();
+                if (hhtHeader == null)
+                {
+                    hhtHeader = new EF6.StocktakeHeader_HHT();
+                    hhtHeader.HeaderId = Guid.NewGuid();
+                    hhtHeader.TxNumber = txNumber;
 
-                hhtHeader.Status = (int)Common.Enums.Status.Draft;
+                    hhtHeader.Status = (int)Common.Enums.Status.Draft;
+                    hhtHeader.CreatedBy = Common.Config.CurrentUserId;
+                    hhtHeader.CreatedOn = DateTime.Now;
 
-                hhtHeader.CreatedBy = Common.Config.CurrentUserId;
-                hhtHeader.CreatedOn = DateTime.Now;
+                    ctx.StocktakeHeader_HHT.Add(hhtHeader);
+                }
+
+                hhtHeader.HHTId = hhtId;
+                hhtHeader.UploadedOn = uploadedOn;
+                hhtHeader.WorkplaceId = workplaceId;
+                hhtHeader.Remarks = hhtTxNumber;
+                hhtHeader.TotalRows = (int)totalLine;
+                hhtHeader.TOTALQTY = totalQty;
+                hhtHeader.MissingRows = (int)missingLine;
+                hhtHeader.MissingQty = missingQty;
+
+                hhtHeader.ModifiedBy = Common.Config.CurrentUserId;
+                hhtHeader.ModifiedOn = DateTime.Now;
+
+                ctx.SaveChanges();
+                result = hhtHeader.HeaderId;
             }
 
-            hhtHeader.HHTId = hhtId;
-            hhtHeader.UploadedOn = uploadedOn;
-            hhtHeader.WorkplaceId = workplaceId;
-            hhtHeader.Remarks = hhtTxNumber;
-            hhtHeader.TotalRows = (int)totalLine;
-            hhtHeader.TOTALQTY = totalQty;
-            hhtHeader.MissingRows = (int)missingLine;
-            hhtHeader.MissingQty = missingQty;
-
-            hhtHeader.ModifiedBy = Common.Config.CurrentUserId;
-            hhtHeader.ModifiedOn = DateTime.Now;
-
-            hhtHeader.Save();
-
-            return hhtHeader.HeaderId;
+            return result;
         }
 
         private void CreateStockTakeHHTDetails(Guid hhtHeaderId, string txNumber, string hhtId, DateTime uploadedOn, List<ImportDetailsInfo> detailList, string hhtTxNumber)

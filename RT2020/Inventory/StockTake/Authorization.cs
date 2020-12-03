@@ -14,6 +14,8 @@ using System.Text.RegularExpressions;
 using RT2020.DAL;
 using Gizmox.WebGUI.Common.Resources;
 using System.Configuration;
+using System.Linq;
+using System.Data.Entity;
 
 #endregion
 
@@ -262,12 +264,14 @@ namespace RT2020.Inventory.StockTake
         {
             bool isPostable = true;
 
-            if (Common.Utility.IsGUID(headerId))
+            Guid id = Guid.Empty;
+            if (Guid.TryParse(headerId, out id))
             {
-                StockTakeHeader oBatchHeader = StockTakeHeader.Load(new Guid(headerId));
+                
+                var oBatchHeader = ModelEx.StockTakeHeaderEx.Get(id);
                 if (oBatchHeader != null)
                 {
-                    if (!CheckTxDate(oBatchHeader.TxDate))
+                    if (!CheckTxDate(oBatchHeader.TxDate.Value))
                     {
                         DataRow row = errorTable.NewRow();
                         row["HeaderId"] = oBatchHeader.HeaderId.ToString();
@@ -284,7 +288,7 @@ namespace RT2020.Inventory.StockTake
                         isPostable = isPostable & false;
                     }
 
-                    if (oBatchHeader.PostedOn.Year > 1900)
+                    if (oBatchHeader.PostedOn.Value.Year > 1900)
                     {
                         DataRow row = errorTable.NewRow();
                         row["HeaderId"] = oBatchHeader.HeaderId.ToString();
@@ -432,44 +436,59 @@ namespace RT2020.Inventory.StockTake
 
         private void CreateADJTx(Guid headerId)
         {
-            StockTakeHeader oBatchHeader = StockTakeHeader.Load(headerId);
-            if (oBatchHeader != null)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                oBatchHeader.PostedOn = DateTime.Now;
-                oBatchHeader.Save();
+                var oBatchHeader = ctx.StockTakeHeader.Find(headerId);
+                if (oBatchHeader != null)
+                {
+                    oBatchHeader.PostedOn = DateTime.Now;
+                    ctx.SaveChanges();
 
-                this.UpdateProduct(oBatchHeader.HeaderId, oBatchHeader.WorkplaceId);
+                    this.UpdateProduct(oBatchHeader.HeaderId, oBatchHeader.WorkplaceId.Value);
 
-                // Create Ledger for TxType 'STK'
-                string txNumber_Ledger = SystemInfo.Settings.QueuingTxNumber(Common.Enums.TxType.ADJ);
-                System.Guid ledgerHeaderId = CreateLedgerHeader(txNumber_Ledger, oBatchHeader);
-                CreateLedgerDetails(txNumber_Ledger, ledgerHeaderId, oBatchHeader.HeaderId, ModelEx.StaffEx.GetStaffNumberById(Common.Config.CurrentUserId), ModelEx.WorkplaceEx.GetWorkplaceCodeById(oBatchHeader.WorkplaceId));
+                    // Create Ledger for TxType 'STK'
+                    string txNumber_Ledger = SystemInfo.Settings.QueuingTxNumber(Common.Enums.TxType.ADJ);
+                    Guid ledgerHeaderId = CreateLedgerHeader(txNumber_Ledger, oBatchHeader);
+                    CreateLedgerDetails(
+                        txNumber_Ledger, ledgerHeaderId, oBatchHeader.HeaderId,
+                        ModelEx.StaffEx.GetStaffNumberById(Common.Config.CurrentUserId),
+                        ModelEx.WorkplaceEx.GetWorkplaceCodeById(oBatchHeader.WorkplaceId.Value)
+                        );
 
-                oBatchHeader.ADJNUM = txNumber_Ledger;
-                oBatchHeader.Save();
+                    oBatchHeader.ADJNUM = txNumber_Ledger;
+                    ctx.SaveChanges();
+                }
             }
         }
 
         #region Ledger
-        private Guid CreateLedgerHeader(string txNumber, StockTakeHeader oBatchHeader)
+        private Guid CreateLedgerHeader(string txNumber, EF6.StockTakeHeader oBatchHeader)
         {
-            InvtLedgerHeader oLedgerHeader = new InvtLedgerHeader();
-            oLedgerHeader.TxNumber = txNumber;
-            oLedgerHeader.TxType = Common.Enums.TxType.ADJ.ToString();
-            oLedgerHeader.TxDate = DateTime.Now;
-            oLedgerHeader.SubLedgerHeaderId = oBatchHeader.HeaderId;
-            oLedgerHeader.WorkplaceId = oBatchHeader.WorkplaceId;
-            oLedgerHeader.StaffId = Common.Config.CurrentUserId;
-            oLedgerHeader.Reference = oBatchHeader.TxNumber;
-            oLedgerHeader.Remarks = "Stock Take #: " + oBatchHeader.TxNumber;
-            oLedgerHeader.Status = Convert.ToInt32(Common.Enums.Status.Draft.ToString("d"));
-            oLedgerHeader.CreatedBy = Common.Config.CurrentUserId;
-            oLedgerHeader.CreatedOn = DateTime.Now;
-            oLedgerHeader.ModifiedBy = Common.Config.CurrentUserId;
-            oLedgerHeader.ModifiedOn = DateTime.Now;
-            oLedgerHeader.Save();
+            Guid result = Guid.Empty;
 
-            return oLedgerHeader.HeaderId;
+            using (var ctx = new EF6.RT2020Entities())
+            {
+                var oLedgerHeader = new EF6.InvtLedgerHeader();
+                oLedgerHeader.HeaderId = Guid.NewGuid();
+                oLedgerHeader.TxNumber = txNumber;
+                oLedgerHeader.TxType = Common.Enums.TxType.ADJ.ToString();
+                oLedgerHeader.TxDate = DateTime.Now;
+                oLedgerHeader.SubLedgerHeaderId = oBatchHeader.HeaderId;
+                oLedgerHeader.WorkplaceId = oBatchHeader.WorkplaceId.Value;
+                oLedgerHeader.StaffId = Common.Config.CurrentUserId;
+                oLedgerHeader.Reference = oBatchHeader.TxNumber;
+                oLedgerHeader.Remarks = "Stock Take #: " + oBatchHeader.TxNumber;
+                oLedgerHeader.Status = Convert.ToInt32(Common.Enums.Status.Draft.ToString("d"));
+                oLedgerHeader.CreatedBy = Common.Config.CurrentUserId;
+                oLedgerHeader.CreatedOn = DateTime.Now;
+                oLedgerHeader.ModifiedBy = Common.Config.CurrentUserId;
+                oLedgerHeader.ModifiedOn = DateTime.Now;
+                ctx.InvtLedgerHeader.Add(oLedgerHeader);
+                ctx.SaveChanges();
+                result= oLedgerHeader.HeaderId;
+            }
+
+            return result;
         }
 
         private void CreateLedgerDetails(string txnumber, Guid ledgerHeaderId, Guid stkHeaderId, string staff, string workplace)
@@ -589,26 +608,29 @@ namespace RT2020.Inventory.StockTake
             errorProvider.SetError(txtTxNumber, string.Empty);
             if (txtTxNumber.Text.Trim().Length > 0)
             {
-                string sql = "TxNumber LIKE '%" + txtTxNumber.Text.Trim() + "%'";
-                StockTakeHeader oHeader = StockTakeHeader.LoadWhere(sql);
-                if (oHeader != null)
+                using (var ctx = new EF6.RT2020Entities())
                 {
-                    Common.Enums.Status oStatus = (Common.Enums.Status)Enum.Parse(typeof(Common.Enums.Status), oHeader.Status.ToString());
-                    switch (oStatus)
+                    //string sql = "TxNumber LIKE '%" + txtTxNumber.Text.Trim() + "%'";
+                    var oHeader = ctx.StockTakeHeader.Where(x => x.TxNumber.Contains(txtTxNumber.Text.Trim())).AsNoTracking().FirstOrDefault();
+                    if (oHeader != null)
                     {
-                        case Common.Enums.Status.Draft: // Holding
-                            tabSTKAuthorization.SelectedIndex = 1;
-                            BindingHoldingList();
-                            break;
-                        case Common.Enums.Status.Active: // Posting
-                            tabSTKAuthorization.SelectedIndex = 0;
-                            BindingPostingList();
-                            break;
+                        Common.Enums.Status oStatus = (Common.Enums.Status)Enum.Parse(typeof(Common.Enums.Status), oHeader.Status.ToString());
+                        switch (oStatus)
+                        {
+                            case Common.Enums.Status.Draft: // Holding
+                                tabSTKAuthorization.SelectedIndex = 1;
+                                BindingHoldingList();
+                                break;
+                            case Common.Enums.Status.Active: // Posting
+                                tabSTKAuthorization.SelectedIndex = 0;
+                                BindingPostingList();
+                                break;
+                        }
                     }
-                }
-                else
-                {
-                    errorProvider.SetError(txtTxNumber, "StockTake Number field does not exist!");
+                    else
+                    {
+                        errorProvider.SetError(txtTxNumber, "StockTake Number field does not exist!");
+                    }
                 }
             }
             else

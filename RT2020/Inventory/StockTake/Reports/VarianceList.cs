@@ -85,14 +85,14 @@ namespace RT2020.Inventory.StockTake.Reports
         {
             cboFromTxNumber.Items.Clear();
 
-            StockTakeHeader.LoadCombo(ref cboFromTxNumber, "TxNumber", false, false, string.Empty, whereClause);
+            ModelEx.StockTakeHeaderEx.LoadCombo(ref cboFromTxNumber, "TxNumber", false);
         }
 
         private void FillToList(string whereClause)
         {
             cboToTxNumber.Items.Clear();
 
-            StockTakeHeader.LoadCombo(ref cboToTxNumber, "TxNumber", false, false, string.Empty, whereClause);
+            ModelEx.StockTakeHeaderEx.LoadCombo(ref cboToTxNumber, "TxNumber", false, false, string.Empty, whereClause);
 
             cboToTxNumber.SelectedIndex = cboToTxNumber.Items.Count - 1;
         }
