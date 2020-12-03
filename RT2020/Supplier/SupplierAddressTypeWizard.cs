@@ -1,4 +1,4 @@
-#region Using
+﻿#region Using
 
 using System;
 using System.Collections.Generic;
@@ -164,66 +164,58 @@ namespace RT2020.Supplier
         #endregion
 
         #region Save
-        private bool CodeExists()
-        {
-            string sql = "AddressTypeCode = '" + txtAddressTypeCode.Text.Trim() + "'";
-            SupplierAddressTypeCollection typeList = SupplierAddressType.LoadCollection(sql);
-            if (typeList.Count > 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
 
-        private bool Save()
+        private bool IsValid()
         {
+            bool result = true;
+
+            #region Type Code 唔可以吉
+            errorProvider.SetError(txtAddressTypeCode, string.Empty);
             if (txtAddressTypeCode.Text.Length == 0)
             {
                 errorProvider.SetError(txtAddressTypeCode, "Cannot be blank!");
                 return false;
             }
-            else if (txtPriority.Text.Length == 0)
-            {
-                errorProvider.SetError(txtPriority, "Cannot be blank!");
-                return false;
-            }
-            else if (!Common.Utility.IsNumeric(txtPriority.Text))
-            {
-                errorProvider.SetError(txtPriority, Resources.Common.DigitalNeeded);
-                return false;
-            }
-            else
-            {
-                errorProvider.SetError(txtAddressTypeCode, string.Empty);
-                errorProvider.SetError(txtPriority, string.Empty);
+            #endregion
 
-                SupplierAddressType oAddressType = SupplierAddressType.Load(this.AddressTypeId);
-                if (oAddressType == null)
+            #region 新增，要 check Type Code 係咪 in use
+            errorProvider.SetError(txtAddressTypeCode, string.Empty);
+            if (ModelEx.SupplierAddressTypeEx.IsCodeInUse(txtAddressTypeCode.Text.Trim()))
+            {
+                errorProvider.SetError(txtAddressTypeCode, "Type Code in use");
+                return false;
+            }
+            #endregion
+
+            return result;
+        }
+
+        private bool Save()
+        {
+            bool result = false;
+
+            using (var ctx = new EF6.RT2020Entities())
+            {
+                var item = ctx.SupplierAddressType.Find(this.AddressTypeId);
+
+                if (item == null)
                 {
-                    oAddressType = new SupplierAddressType();
+                    item = new EF6.SupplierAddressType();
+                    item.AddressTypeId = new Guid();
+                    item.AddressTypeCode = txtAddressTypeCode.Text;
 
-                    if (CodeExists())
-                    {
-                        errorProvider.SetError(txtAddressTypeCode, string.Format(Resources.Common.DuplicatedCode, "Supplier Address Type Code"));
-                        return false;
-                    }
-                    else
-                    {
-                        oAddressType.AddressTypeCode = txtAddressTypeCode.Text;
-                        errorProvider.SetError(txtAddressTypeCode, string.Empty);
-                    }
+                    ctx.SupplierAddressType.Add(item);
                 }
-                oAddressType.AddressTypeName = txtAddressTypeName.Text;
-                oAddressType.AddressTypeName_Chs = txtAddressTypeNameChs.Text;
-                oAddressType.AddressTypeName_Cht = txtAddressTypeNameCht.Text;
-                oAddressType.Priority = Convert.ToInt32(txtPriority.Text);
+                item.AddressTypeName = txtAddressTypeName.Text;
+                item.AddressTypeName_Chs = txtAddressTypeNameChs.Text;
+                item.AddressTypeName_Cht = txtAddressTypeNameCht.Text;
+                item.Priority = Convert.ToInt32(txtPriority.Text);
 
-                oAddressType.Save();
-                return true;
+                ctx.SaveChanges();
+                result = true;
             }
+
+            return result;
         }
 
         private void Clear()
@@ -252,16 +244,20 @@ namespace RT2020.Supplier
 
         private void Delete()
         {
-            SupplierAddressType oAddressType = SupplierAddressType.Load(this.AddressTypeId);
-            if (oAddressType != null)
+            using (var ctx = new EF6.RT2020Entities())
             {
                 try
                 {
-                    oAddressType.Delete();
+                    var item = ctx.SupplierAddressType.Find(this.AddressTypeId);
+                    if (item != null)
+                    {
+                        ctx.SupplierAddressType.Remove(item);
+                        ctx.SaveChanges();
+                    }
                 }
                 catch
                 {
-                    MessageBox.Show("Cannot delete the record being used by other record!", "Delete Warning");
+                    MessageBox.Show("Cannot delete the record...Might be in use by other record!", "Delete Warning");
                 }
             }
         }
@@ -270,21 +266,24 @@ namespace RT2020.Supplier
         {
             if (lvAddressTypeList.SelectedItem != null)
             {
-                if (Common.Utility.IsGUID(lvAddressTypeList.SelectedItem.Text))
+                var id = Guid.NewGuid();
+                if (Guid.TryParse(lvAddressTypeList.SelectedItem.Text, out id))
                 {
-                    SupplierAddressType oAddressType = SupplierAddressType.Load(new System.Guid(lvAddressTypeList.SelectedItem.Text));
-                    if (oAddressType != null)
+                    this.AddressTypeId = id;
+                    using (var ctx = new EF6.RT2020Entities())
                     {
-                        txtAddressTypeCode.Text = oAddressType.AddressTypeCode;
-                        txtAddressTypeName.Text = oAddressType.AddressTypeName;
-                        txtAddressTypeNameChs.Text = oAddressType.AddressTypeName_Chs;
-                        txtAddressTypeNameCht.Text = oAddressType.AddressTypeName_Cht;
-                        txtPriority.Text = oAddressType.Priority.ToString();
+                        var item = ctx.SupplierAddressType.Find(id);
+                        if (item != null)
+                        {
+                            txtAddressTypeCode.Text = item.AddressTypeCode;
+                            txtAddressTypeName.Text = item.AddressTypeName;
+                            txtAddressTypeNameChs.Text = item.AddressTypeName_Chs;
+                            txtAddressTypeNameCht.Text = item.AddressTypeName_Cht;
+                            txtPriority.Text = item.Priority.ToString();
 
-                        this.AddressTypeId = oAddressType.AddressTypeId;
-
-                        SetCtrlEditable();
-                        SetToolBar();
+                            SetCtrlEditable();
+                            SetToolBar();
+                        }
                     }
                 }
             }

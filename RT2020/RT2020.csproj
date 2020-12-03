@@ -1641,6 +1641,7 @@
     <Compile Include="ModelEx\UserProfileEx.cs" />
     <Compile Include="ModelEx\WorkplaceEx.cs" />
     <Compile Include="ModelEx\WorkplaceAddressEx.cs" />
+    <Compile Include="ModelEx\SupplierAddressTypeEx.cs" />
     <Compile Include="ModelEx\WorkplaceSmartTagEx.cs" />
     <Compile Include="ModelEx\RemarksEx.cs" />
     <Compile Include="ModelEx\PhoneTagEx.cs" />
