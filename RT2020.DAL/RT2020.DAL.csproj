@@ -209,7 +209,6 @@
     <Compile Include="StockTakeHeader.cs" />
     <Compile Include="StocktakeHeader_HHT.cs" />
     <Compile Include="Supplier.cs" />
-    <Compile Include="SupplierAddress.cs" />
     <Compile Include="SupplierContact.cs" />
   </ItemGroup>
   <ItemGroup>
