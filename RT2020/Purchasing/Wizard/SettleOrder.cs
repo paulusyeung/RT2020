@@ -191,7 +191,7 @@ namespace RT2020.Purchasing.Wizard
         /// </summary>
         private void FillSupplierList()
         {
-            RT2020.DAL.Supplier.LoadCombo(ref this.cboSupplierCode, new string[] { "SupplierCode", "SupplierInitial" }, "{0} - {1}", false, false, string.Empty, string.Empty, null);
+            ModelEx.SupplierEx.LoadCombo(ref this.cboSupplierCode, "SupplierCode", false);
         }
 
         /// <summary>

@@ -33,20 +33,9 @@ namespace RT2020.Supplier.Reports
         #region FillComboBox
         private void FillComboBox()
         {
-
-            SupplierCollection collection = RT2020.DAL.Supplier.LoadCollection(new string[] { "SupplierCode" }, true);
-            if (collection.Count > 0)
-            {
-                foreach (RT2020.DAL.Supplier oSupplier in collection)
-                {
-                    System.Web.UI.WebControls.ListItem item = new System.Web.UI.WebControls.ListItem(oSupplier.SupplierCode, oSupplier.SupplierId.ToString());
-                    cmbFrom.Items.Add(item);
-                    cmbTo.Items.Add(item);
-                }
-                cmbFrom.SelectedIndex = 0;
-
-                cmbTo.SelectedIndex = collection.Count - 1;
-            }
+            ModelEx.SupplierEx.LoadCombo(ref cmbFrom, "SupplierCode", false);
+            ModelEx.SupplierEx.LoadCombo(ref cmbTo, "SupplierCode", false);
+            cmbTo.SelectedIndex = cmbTo.Items.Count - 1;
         }
 
         #endregion
@@ -73,78 +62,6 @@ namespace RT2020.Supplier.Reports
 
         }
         #endregion
-
-        //#region IGatewayControl Members
-
-        //public IGatewayHandler GetGatewayHandler(IContext objContext, string strAction)
-        //{
-
-        //    // Create a report instance.
-        //    if (rbnPDF.Checked == true)
-        //    {
-        //        RT2020.Supplier.Reports.SupplierListRpt_Pdf report = new RT2020.Supplier.Reports.SupplierListRpt_Pdf();
-
-        //        report.DataSource = BindData();
-        //        report.FrmCode = cmbFrom.Text.Trim();
-        //        report.toCode = cmbTo.Text.Trim();
-        //        HttpResponse objResponse = this.Context.HttpContext.Response;
-
-        //        System.IO.MemoryStream memStream = new System.IO.MemoryStream();
-
-        //        objResponse.Clear();
-        //        objResponse.ClearHeaders();
-        //        report.ExportToPdf(memStream);
-        //        objResponse.ContentType = "application/pdf";
-        //        objResponse.AddHeader("content-disposition", "attachment; filename=Supplier List.pdf");
-        //        objResponse.BinaryWrite(memStream.ToArray());
-        //        objResponse.Flush();
-        //        objResponse.End();
-
-        //        return null;
-        //    }
-        //    else if (rbnXLS.Checked)
-        //    {
-        //        RT2020.Supplier.Reports.SupplierListRpt_Xls reportc = new RT2020.Supplier.Reports.SupplierListRpt_Xls();
-
-        //        reportc.DataSource = BindData();
-        //        reportc.FrmCode = cmbFrom.Text.Trim();
-        //        reportc.toCode = cmbTo.Text.Trim();
-        //        HttpResponse objResponse = this.Context.HttpContext.Response;
-
-        //        System.IO.MemoryStream memStream = new System.IO.MemoryStream();
-
-        //        objResponse.Clear();
-        //        objResponse.ClearHeaders();
-        //        reportc.ExportToXls(memStream);
-        //        objResponse.ContentType = "application/xls";
-        //        objResponse.AddHeader("content-disposition", "attachment; filename=Supplier List.xls");
-        //        objResponse.BinaryWrite(memStream.ToArray());
-        //        objResponse.Flush();
-        //        objResponse.End();
-
-        //        return null;
-        //    }
-        //    else
-        //    {
-        //        RT2020.Supplier.Reports.SupplierListRpt_Pdf rpt = new SupplierListRpt_Pdf();
-        //        try
-        //        {
-        //            rpt.DataSource = BindData();
-        //            rpt.FrmCode = cmbFrom.Text.Trim();
-        //            rpt.toCode = cmbTo.Text.Trim();
-        //            rpt.PrintDialog();
-        //            rpt.Print();
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            MessageBox.Show(ex.Message);
-        //        }
-
-        //        return null;
-        //    }
-        //}
-
-        //#endregion
 
         private void btnExit_Click(object sender, EventArgs e)
         {

@@ -95,15 +95,9 @@ namespace RT2020.Purchasing.Reports.PurchaseOrder
         /// </summary>
         private void FillSuppFromList()
         {
-            cboFrom.Items.Clear();
-
             string[] orderBy = { "SupplierCode" };
             string sql = " Retired = 0";
-
-            SupplierCollection supplierList = RT2020.DAL.Supplier.LoadCollection(sql, orderBy, true);
-            cboSuppFrom.DataSource = supplierList;
-            cboSuppFrom.DisplayMember = "SupplierCode";
-            cboSuppFrom.ValueMember = "SupplierId";
+            ModelEx.SupplierEx.LoadCombo(ref cboSuppFrom, "SupplierCode", false, false, "", sql, orderBy);
         }
 
         /// <summary>
@@ -111,17 +105,11 @@ namespace RT2020.Purchasing.Reports.PurchaseOrder
         /// </summary>
         private void FillSuppToList()
         {
-            cboTo.Items.Clear();
-
             string[] orderBy = { "SupplierCode" };
             string sql = " Retired = 0";
+            ModelEx.SupplierEx.LoadCombo(ref cboSuppTo, "SupplierCode", false, false, "", sql, orderBy);
 
-            SupplierCollection supplierList = RT2020.DAL.Supplier.LoadCollection(sql, orderBy, true);
-            cboSuppTo.DataSource = supplierList;
-            cboSuppTo.DisplayMember = "SupplierCode";
-            cboSuppTo.ValueMember = "SupplierId";
-
-            cboSuppTo.SelectedIndex = supplierList.Count - 1;
+            cboSuppTo.SelectedIndex = cboSuppTo.Items.Count - 1;
         }
 
         /// <summary>

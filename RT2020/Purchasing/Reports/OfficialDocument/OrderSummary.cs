@@ -52,14 +52,9 @@ namespace RT2020.Purchasing.Reports.OfficialDocument
         /// </summary>
         private void FillFromList()
         {
-            cboFrom.Items.Clear();
-
             string[] orderBy = { "SupplierCode" };
             string sql = " Retired = 0 ";
-            SupplierCollection supplierCol = Supplier.LoadCollection(sql, orderBy, true);
-            cboFrom.DataSource = supplierCol;
-            cboFrom.DisplayMember = "SupplierCode";
-            cboFrom.ValueMember = "SupplierId";
+            ModelEx.SupplierEx.LoadCombo(ref cboFrom, "SupplierCode", false, false, "", sql, orderBy);
         }
 
         /// <summary>
@@ -67,15 +62,10 @@ namespace RT2020.Purchasing.Reports.OfficialDocument
         /// </summary>
         private void FillToList()
         {
-            cboTo.Items.Clear();
-
             string[] orderBy = { "SupplierCode" };
             string sql = " Retired = 0 ";
-            SupplierCollection supplierCol = Supplier.LoadCollection(sql, orderBy, true);
-            cboTo.DataSource = supplierCol;
-            cboTo.DisplayMember = "SupplierCode";
-            cboTo.ValueMember = "SupplierId";
-            cboTo.SelectedIndex = supplierCol.Count - 1;
+            ModelEx.SupplierEx.LoadCombo(ref cboTo, "SupplierCode", false, false, "", sql, orderBy);
+            cboTo.SelectedIndex = cboTo.Items.Count - 1;
         }
 
         #endregion

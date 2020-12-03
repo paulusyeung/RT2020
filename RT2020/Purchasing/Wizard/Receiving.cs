@@ -841,7 +841,7 @@ WHERE ReceiveHeaderId = '" + this.ReceivingHeaderId.ToString() + "'";
                 this.txtType.Text = objHeader.TxType;
 
                 this.txtPoType.Text = strPoType;
-                this.txtSupplierCode.Text = this.GetSupplierCode(pohHeader.SupplierId);
+                this.txtSupplierCode.Text =ModelEx.SupplierEx.GetSupplierCodeById(pohHeader.SupplierId);
                 this.txtOperatorCode.Text = ModelEx.StaffEx.GetStaffNumberById(objHeader.StaffId);
                 this.txtOrderDate.Text = pohHeader.OrderOn.ToShortDateString();
                 this.txtDeliveryDate.Text = pohHeader.DeliverOn.ToShortDateString();
@@ -951,7 +951,7 @@ WHERE ReceiveHeaderId = '" + this.ReceivingHeaderId.ToString() + "'";
             }
 
             this.txtPoType.Text = strPoType;
-            this.txtSupplierCode.Text = this.GetSupplierCode(objHeader.SupplierId);
+            this.txtSupplierCode.Text = ModelEx.SupplierEx.GetSupplierCodeById(objHeader.SupplierId);
             this.txtOperatorCode.Text = ModelEx.StaffEx.GetStaffNumberById(objHeader.StaffId);
             this.txtOrderDate.Text = objHeader.OrderOn.ToShortDateString();
             this.txtDeliveryDate.Text = objHeader.DeliverOn.ToShortDateString();
@@ -1146,24 +1146,6 @@ WHERE ReceiveHeaderId = '" + this.ReceivingHeaderId.ToString() + "'";
             result = ((totalCost * disc1 * disc2 * disc3) - freightAmt - handAmt - insuranceAmt - otherAmt) * chargeCoefficient;
 
             this.txtNetCost.Text = result.ToString("n2");
-        }
-
-        /// <summary>
-        /// Gets the supplier code.
-        /// </summary>
-        /// <param name="supplierId">The supplier id.</param>
-        /// <returns>the supplier code.</returns>
-        private string GetSupplierCode(Guid supplierId)
-        {
-            string result = string.Empty;
-
-            Supplier objSupplier = Supplier.Load(supplierId);
-            if (objSupplier != null)
-            {
-                result = objSupplier.SupplierCode;
-            }
-
-            return result;
         }
 
         #endregion

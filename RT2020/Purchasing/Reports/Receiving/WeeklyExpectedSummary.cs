@@ -44,7 +44,7 @@ namespace RT2020.Purchasing.Reports.Receiving
         /// </summary>
         private void FillSuppFromList()
         {
-            RT2020.DAL.Supplier.LoadCombo(ref cboSupplierFrom, "SupplierCode", false, false, string.Empty, " Retired = 0");
+            ModelEx.SupplierEx.LoadCombo(ref cboSupplierFrom, "SupplierCode", false, false, string.Empty, " Retired = 0");
         }
 
         /// <summary>
@@ -52,7 +52,7 @@ namespace RT2020.Purchasing.Reports.Receiving
         /// </summary>
         private void FillSuppToList()
         {
-            RT2020.DAL.Supplier.LoadCombo(ref cboSupplierTo, "SupplierCode", false, false, string.Empty, " Retired = 0");
+            ModelEx.SupplierEx.LoadCombo(ref cboSupplierTo, "SupplierCode", false, false, string.Empty, " Retired = 0");
 
             if (cboSupplierTo.Items.Count > 0)
             {
