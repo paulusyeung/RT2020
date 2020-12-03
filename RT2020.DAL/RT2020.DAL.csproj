@@ -209,7 +209,6 @@
     <Compile Include="StockTakeHeader.cs" />
     <Compile Include="StocktakeHeader_HHT.cs" />
     <Compile Include="Supplier.cs" />
-    <Compile Include="SupplierContact.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
