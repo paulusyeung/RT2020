@@ -231,7 +231,7 @@ namespace RT2020.Purchasing.Wizard
         /// </summary>
         private void FillSupplierTermsList()
         {
-            RT2020.DAL.SupplierTerms.LoadCombo(ref this.cboPaymentMethod, new string[] { "TermsCode", "TermsName" }, "{0} - {1}", false, false, string.Empty, string.Empty, null);
+            ModelEx.SupplierTermsEx.LoadCombo(ref this.cboPaymentMethod, "TermsCode", false);
         }
         #endregion
 

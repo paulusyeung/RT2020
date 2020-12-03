@@ -846,7 +846,7 @@ WHERE ReceiveHeaderId = '" + this.ReceivingHeaderId.ToString() + "'";
                 this.txtOrderDate.Text = pohHeader.OrderOn.ToShortDateString();
                 this.txtDeliveryDate.Text = pohHeader.DeliverOn.ToShortDateString();
                 this.txtCancellationDate.Text = pohHeader.CancellationOn.ToShortDateString();
-                this.txtPaymentMethod.Text = this.GetTermsCode(pohHeader.TermsId);
+                this.txtPaymentMethod.Text = ModelEx.SupplierTermsEx.GetTermsCode(pohHeader.TermsId);
                 this.txtPaymentTerm.Text = pohHeader.CreditDays.ToString();
                 this.txtDeposit.Text = pohHeader.DepositPercentage.ToString("n2");
                 this.txtPaymentRemark.Text = pohHeader.PaymentRemarks;
@@ -956,7 +956,7 @@ WHERE ReceiveHeaderId = '" + this.ReceivingHeaderId.ToString() + "'";
             this.txtOrderDate.Text = objHeader.OrderOn.ToShortDateString();
             this.txtDeliveryDate.Text = objHeader.DeliverOn.ToShortDateString();
             this.txtCancellationDate.Text = objHeader.CancellationOn.ToShortDateString();
-            this.txtPaymentMethod.Text = this.GetTermsCode(objHeader.TermsId);
+            this.txtPaymentMethod.Text = ModelEx.SupplierTermsEx.GetTermsCode(objHeader.TermsId);
             this.txtPaymentTerm.Text = objHeader.CreditDays.ToString();
             this.txtDeposit.Text = objHeader.DepositPercentage.ToString("n2");
             this.txtPaymentRemark.Text = objHeader.PaymentRemarks;
@@ -1161,24 +1161,6 @@ WHERE ReceiveHeaderId = '" + this.ReceivingHeaderId.ToString() + "'";
             if (objSupplier != null)
             {
                 result = objSupplier.SupplierCode;
-            }
-
-            return result;
-        }
-
-        /// <summary>
-        /// Gets the terms code.
-        /// </summary>
-        /// <param name="termsId">The terms id.</param>
-        /// <returns>the terms code.</returns>
-        private string GetTermsCode(Guid termsId)
-        {
-            string result = string.Empty;
-
-            SupplierTerms objTerms = SupplierTerms.Load(termsId);
-            if (objTerms != null)
-            {
-                result = objTerms.TermsCode;
             }
 
             return result;

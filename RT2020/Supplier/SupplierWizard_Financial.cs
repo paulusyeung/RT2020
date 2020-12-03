@@ -49,7 +49,7 @@ namespace RT2020.Supplier
         {
             cboTerms.Items.Clear();
 
-            SupplierTerms.LoadCombo(ref cboTerms, "TermsCode", false, true, String.Empty, String.Empty);
+            ModelEx.SupplierTermsEx.LoadCombo(ref cboTerms, "TermsCode", false, true, String.Empty, String.Empty);
             cboTerms.SelectedIndex = 0;
         }
 

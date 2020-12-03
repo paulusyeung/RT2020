@@ -1,4 +1,4 @@
-#region Using
+﻿#region Using
 
 using System;
 using System.Collections.Generic;
@@ -132,18 +132,9 @@ namespace RT2020.Supplier
         #region Fill Combo List
         private void FillParentTermsList()
         {
-            cboParentTerms.DataSource = null;
-            cboParentTerms.Items.Clear();
-
             string sql = "TermsId NOT IN ('" + this.SupplierTermsId.ToString() + "')";
             string[] orderBy = new string[] { "TermsCode" };
-            SupplierTermsCollection oSupplierTermsList = SupplierTerms.LoadCollection(sql, orderBy, true);
-            oSupplierTermsList.Add(new SupplierTerms());
-            cboParentTerms.DataSource = oSupplierTermsList;
-            cboParentTerms.DisplayMember = "TermsCode";
-            cboParentTerms.ValueMember = "TermsId";
-
-            cboParentTerms.SelectedIndex = cboParentTerms.Items.Count - 1;
+            ModelEx.SupplierTermsEx.LoadCombo(ref cboParentTerms, "TermsCode", true, true, "", sql, orderBy);
         }
         #endregion
 
@@ -182,55 +173,58 @@ namespace RT2020.Supplier
         #endregion
 
         #region Save
-        private bool CodeExists()
-        {
-            string sql = "TermsCode = '" + txtSupplierTermsCode.Text.Trim() + "'";
-            SupplierTermsCollection termsList = SupplierTerms.LoadCollection(sql);
-            if (termsList.Count > 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
 
-        private bool Save()
+        private bool IsValid()
         {
+            bool result = true;
+
+            #region Terms Code 唔可以吉
+            errorProvider.SetError(txtSupplierTermsCode, string.Empty);
             if (txtSupplierTermsCode.Text.Length == 0)
             {
                 errorProvider.SetError(txtSupplierTermsCode, "Cannot be blank!");
                 return false;
             }
-            else
+            #endregion
+
+            #region 新增，要 check Terms Code 係咪 in use
+            errorProvider.SetError(txtSupplierTermsCode, string.Empty);
+            if (ModelEx.SupplierTermsEx.IsTermsCodeInUse(txtSupplierTermsCode.Text.Trim()))
             {
-                errorProvider.SetError(txtSupplierTermsCode, string.Empty);
-
-                SupplierTerms oSupplierTerms = SupplierTerms.Load(this.SupplierTermsId);
-                if (oSupplierTerms == null)
-                {
-                    oSupplierTerms = new SupplierTerms();
-
-                    if (CodeExists())
-                    {
-                        errorProvider.SetError(txtSupplierTermsCode, string.Format(Resources.Common.DuplicatedCode, "Terms Code"));
-                        return false;
-                    }
-                    else
-                    {
-                        oSupplierTerms.TermsCode = txtSupplierTermsCode.Text;
-                        errorProvider.SetError(txtSupplierTermsCode, string.Empty);
-                    }
-                }
-                oSupplierTerms.TermsName = txtSupplierTermsName.Text;
-                oSupplierTerms.TermsName_Chs = txtSupplierTermsNameChs.Text;
-                oSupplierTerms.TermsName_Cht = txtSupplierTermsNameCht.Text;
-                oSupplierTerms.ParentTerms = (cboParentTerms.SelectedValue == null) ? System.Guid.Empty : new System.Guid(cboParentTerms.SelectedValue.ToString());
-
-                oSupplierTerms.Save();
-                return true;
+                errorProvider.SetError(txtSupplierTermsCode, "Terms Code in use");
+                return false;
             }
+            #endregion
+
+            return result;
+        }
+
+        private bool Save()
+        {
+            bool result = false;
+
+            using (var ctx = new EF6.RT2020Entities())
+            {
+                var item = ctx.SupplierTerms.Find(this.SupplierTermsId);
+
+                if (item == null)
+                {
+                    item = new EF6.SupplierTerms();
+                    item.TermsId = new Guid();
+                    item.TermsCode = txtSupplierTermsCode.Text;
+
+                    ctx.SupplierTerms.Add(item);
+                }
+                item.TermsName = txtSupplierTermsName.Text;
+                item.TermsName_Chs = txtSupplierTermsNameChs.Text;
+                item.TermsName_Cht = txtSupplierTermsNameCht.Text;
+                if ((Guid)cboParentTerms.SelectedValue != Guid.Empty) item.ParentTerms = (Guid)cboParentTerms.SelectedValue;
+
+                ctx.SaveChanges();
+                result = true;
+            }
+
+            return result;
         }
 
         private void Clear()
@@ -260,27 +254,14 @@ namespace RT2020.Supplier
         private bool Delete()
         {
             bool result = true;
-            string sql = "TermsId = '" + this.SupplierTermsId.ToString() + "'";
-            RT2020.DAL.Supplier oSupplier = RT2020.DAL.Supplier.LoadWhere(sql);
-            if (oSupplier != null)
+
+            result = ModelEx.SupplierTermsEx.Delete(this.SupplierTermsId);
+
+            if (!result)
             {
-                result = false;
+                MessageBox.Show("Cannot delete...the record might be in use!", "Delete Warning");
             }
-            else
-            {
-                SupplierTerms oTerms = SupplierTerms.Load(this.SupplierTermsId);
-                if (oTerms != null)
-                {
-                    try
-                    {
-                        oTerms.Delete();
-                    }
-                    catch
-                    {
-                        MessageBox.Show("Cannot delete the record being used by other record!", "Delete Warning");
-                    }
-                }
-            }
+
             return result;
         }
 
@@ -288,9 +269,11 @@ namespace RT2020.Supplier
         {
             if (lvSupplierTermsList.SelectedItem != null)
             {
-                if (Common.Utility.IsGUID(lvSupplierTermsList.SelectedItem.Text))
+                Guid id = Guid.Empty;
+
+                if (Guid.TryParse(lvSupplierTermsList.SelectedItem.Text, out id))
                 {
-                    SupplierTerms oSupplierTerms = SupplierTerms.Load(new System.Guid(lvSupplierTermsList.SelectedItem.Text));
+                    var oSupplierTerms = ModelEx.SupplierTermsEx.Get(id);
                     if (oSupplierTerms != null)
                     {
                         this.SupplierTermsId = oSupplierTerms.TermsId;
