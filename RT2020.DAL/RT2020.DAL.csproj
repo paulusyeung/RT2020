@@ -212,7 +212,6 @@
     <Compile Include="SupplierAddress.cs" />
     <Compile Include="SupplierAddressType.cs" />
     <Compile Include="SupplierContact.cs" />
-    <Compile Include="SupplierSmartTag.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
