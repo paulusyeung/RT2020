@@ -110,21 +110,27 @@ namespace RT2020.Inventory.StockTake.Import
 
         private void CheckHHTLog(string HHTID)
         {
-            string sql = "HHTID = '" + HHTID + "'";
-            SystemHHTLog hhtLog = SystemHHTLog.LoadWhere(sql);
-            if (hhtLog == null)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                hhtLog = new SystemHHTLog();
-                hhtLog.HHTID = HHTID;
-                hhtLog.Module = "RWS_STK3 [Stock Take]";
-                hhtLog.Form = "STK1300M_PPC " + this.Text;
-                hhtLog.CreatedBy = Common.Config.CurrentUserId;
-                hhtLog.CreatedOn = DateTime.Now;
-            }
+                var hhtLog = ctx.SystemHHTLog.Where(x => x.HHTID == HHTID).FirstOrDefault();
+                if (hhtLog == null)
+                {
+                    hhtLog = new EF6.SystemHHTLog();
+                    hhtLog.LogId = Guid.NewGuid();
+                    hhtLog.HHTID = HHTID;
+                    hhtLog.Module = "RWS_STK3 [Stock Take]";
+                    hhtLog.Form = "STK1300M_PPC " + this.Text;
+                    hhtLog.CreatedBy = Common.Config.CurrentUserId;
+                    hhtLog.CreatedOn = DateTime.Now;
 
-            hhtLog.ModifiedBy = Common.Config.CurrentUserId;
-            hhtLog.ModifiedOn = DateTime.Now;
-            hhtLog.Save();
+                    ctx.SystemHHTLog.Add(hhtLog);
+                }
+
+                hhtLog.ModifiedBy = Common.Config.CurrentUserId;
+                hhtLog.ModifiedOn = DateTime.Now;
+
+                ctx.SaveChanges();
+            }
         }
 
         #endregion

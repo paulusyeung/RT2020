@@ -214,7 +214,6 @@
     <Compile Include="SupplierContact.cs" />
     <Compile Include="SupplierSmartTag.cs" />
     <Compile Include="SupplierTerms.cs" />
-    <Compile Include="SystemHHTLog.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
