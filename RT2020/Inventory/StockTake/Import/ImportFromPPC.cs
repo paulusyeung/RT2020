@@ -627,27 +627,44 @@ namespace RT2020.Inventory.StockTake.Import
 
         private void CreatedStockTakeDetail(Guid stktkHeaderId, string txNumber, List<ImportDetailsInfo> detailList, Guid workplaceId, DateTime uploadedOn)
         {
-            foreach (ImportDetailsInfo detail in detailList)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                Guid productId = GetProductId(detail.Barcode);
-
-                if (!string.IsNullOrEmpty(detail.Barcode.Trim()) && productId != System.Guid.Empty)
+                using (var scope = ctx.Database.BeginTransaction())
                 {
-                    string sql = "HeaderId = '" + stktkHeaderId.ToString() + "' AND TxNumber = '" + txNumber + "' AND ProductId = '" + productId.ToString() + "' AND WorkplaceId = '" + workplaceId.ToString() + "'";
-                    StockTakeDetails stktkDetail = StockTakeDetails.LoadWhere(sql);
-                    if (stktkDetail == null)
+                    try
                     {
-                        stktkDetail = new StockTakeDetails();
-                        stktkDetail.HeaderId = stktkHeaderId;
-                        stktkDetail.TxNumber = txNumber;
-                        stktkDetail.ProductId = productId;
-                        stktkDetail.WorkplaceId = workplaceId;
+                        foreach (ImportDetailsInfo detail in detailList)
+                        {
+                            Guid productId = GetProductId(detail.Barcode);
 
-                        stktkDetail.ModifiedOn = uploadedOn;
-                        stktkDetail.ModifiedBy = Common.Config.CurrentUserId;
+                            if (!string.IsNullOrEmpty(detail.Barcode.Trim()) && productId != Guid.Empty)
+                            {
+                                //string sql = "HeaderId = '" + stktkHeaderId.ToString() + "' AND TxNumber = '" + txNumber + "' AND ProductId = '" + productId.ToString() + "' AND WorkplaceId = '" + workplaceId.ToString() + "'";
+                                var item = ctx.StockTakeDetails.Where(x => x.HeaderId == stktkHeaderId && x.TxNumber == txNumber && x.ProductId == productId && x.WorkplaceId == workplaceId).FirstOrDefault();
+                                if (item == null)
+                                {
+                                    item = new EF6.StockTakeDetails();
+                                    item.DetailsId = Guid.NewGuid();
+                                    item.HeaderId = stktkHeaderId;
+                                    item.TxNumber = txNumber;
+                                    item.ProductId = productId;
+                                    item.WorkplaceId = workplaceId;
+
+                                    item.ModifiedOn = uploadedOn;
+                                    item.ModifiedBy = Common.Config.CurrentUserId;
+
+                                    ctx.StockTakeDetails.Add(item);
+                                }
+
+                                ctx.SaveChanges();
+                            }
+                        }
+                        scope.Commit();
                     }
-
-                    stktkDetail.Save();
+                    catch (Exception ex)
+                    {
+                        scope.Rollback();
+                    }
                 }
             }
         }

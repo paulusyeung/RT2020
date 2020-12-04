@@ -141,40 +141,57 @@ namespace RT2020.Inventory.StockTake
         {
             decimal amount = 0, qty = 0;
 
-            string sql = "WorkplaceId = '" + workplaceId.ToString() + "' ";
-            if (rbtnNonZeroQtyItems.Checked)
-            {
-                sql += " AND CDQTY > 0";
-            }
-
-            ProductWorkplaceCollection wpItemList = ProductWorkplace.LoadCollection(sql);
-            foreach (ProductWorkplace wpItem in wpItemList)
-            {
-                decimal avgCost = GetAverageCost(wpItem.ProductId);
-                StockTakeDetails stkDetail = new StockTakeDetails();
-                stkDetail.TxNumber = txNumber;
-                stkDetail.HeaderId = headerId;
-                stkDetail.WorkplaceId = workplaceId;
-                stkDetail.ProductId = wpItem.ProductId;
-                stkDetail.CapturedQty = wpItem.CDQTY;
-                stkDetail.AverageCost = avgCost;
-
-                stkDetail.ModifiedBy = Common.Config.CurrentUserId;
-                stkDetail.ModifiedOn = DateTime.Now;
-                stkDetail.Save();
-
-                qty += wpItem.CDQTY;
-                amount += wpItem.CDQTY * avgCost;
-            }
-
             using (var ctx = new EF6.RT2020Entities())
             {
-                var oHeader = ctx.StockTakeHeader.Find(headerId);
-                if (oHeader != null)
+                using (var scope = ctx.Database.BeginTransaction())
                 {
-                    oHeader.CapturedQty = qty;
-                    oHeader.CapturedAmount = amount;
-                    ctx.SaveChanges();
+                    try
+                    {
+                        /**
+                        string sql = "WorkplaceId = '" + workplaceId.ToString() + "' ";
+                        if (rbtnNonZeroQtyItems.Checked)
+                        {
+                            sql += " AND CDQTY > 0";
+                        }
+                        */
+                        var wpItemList = ctx.ProductWorkplace
+                            .Where(x => x.WorkplaceId == workplaceId && (rbtnNonZeroQtyItems.Checked ? x.CDQTY > 0 : true));
+                        foreach (var wpItem in wpItemList)
+                        {
+                            decimal avgCost = GetAverageCost(wpItem.ProductId);
+                            var stkDetail = new EF6.StockTakeDetails();
+
+                            stkDetail.DetailsId = Guid.NewGuid();
+                            stkDetail.TxNumber = txNumber;
+                            stkDetail.HeaderId = headerId;
+                            stkDetail.WorkplaceId = workplaceId;
+                            stkDetail.ProductId = wpItem.ProductId;
+                            stkDetail.CapturedQty = wpItem.CDQTY;
+                            stkDetail.AverageCost = avgCost;
+
+                            stkDetail.ModifiedBy = Common.Config.CurrentUserId;
+                            stkDetail.ModifiedOn = DateTime.Now;
+
+                            ctx.StockTakeDetails.Add(stkDetail);
+                            ctx.SaveChanges();
+
+                            qty += wpItem.CDQTY;
+                            amount += wpItem.CDQTY * avgCost;
+                        }
+
+                        var oHeader = ctx.StockTakeHeader.Find(headerId);
+                        if (oHeader != null)
+                        {
+                            oHeader.CapturedQty = qty;
+                            oHeader.CapturedAmount = amount;
+                            ctx.SaveChanges();
+                        }
+                        scope.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        scope.Rollback();
+                    }
                 }
             }
         }

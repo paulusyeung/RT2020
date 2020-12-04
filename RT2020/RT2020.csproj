@@ -1625,6 +1625,7 @@
     <Compile Include="MenuStrip\SettingsAms.cs" />
     <Compile Include="MenuStrip\ToolsAms.cs" />
     <Compile Include="MenuStrip\ViewAms.cs" />
+    <Compile Include="ModelEx\StockTakeDetailsEx.cs" />
     <Compile Include="ModelEx\StockTakeHeaderEx.cs" />
     <Compile Include="ModelEx\StocktakeHeader_HHTEx.cs" />
     <Compile Include="ModelEx\SupplierEx.cs" />

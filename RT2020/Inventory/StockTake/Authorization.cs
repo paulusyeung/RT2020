@@ -305,13 +305,13 @@ namespace RT2020.Inventory.StockTake
                         isPostable = isPostable & false;
                     }
 
-                    StockTakeDetailsCollection detailList = StockTakeDetails.LoadCollection("HeaderId = '" + oBatchHeader.HeaderId.ToString() + "'");
-                    foreach (StockTakeDetails detail in detailList)
+                    var detailList = ModelEx.StockTakeDetailsEx.GetByHeaderIdr(oBatchHeader.HeaderId);
+                    foreach (var detail in detailList)
                     {
                         bool retired = false;
                         string stk = string.Empty, a1 = string.Empty, a2 = string.Empty, a3 = string.Empty;
 
-                        RT2020.DAL.Product oProduct = RT2020.DAL.Product.Load(detail.ProductId);
+                        RT2020.DAL.Product oProduct = RT2020.DAL.Product.Load(detail.ProductId.Value);
                         if (oProduct != null)
                         {
                             stk = oProduct.STKCODE;
@@ -340,7 +340,7 @@ namespace RT2020.Inventory.StockTake
 
                         if (chkCheckVeQty.Checked && chkCheckVeQty.Visible)
                         {
-                            decimal stkTtlQty = (detail.Book1Qty + detail.Book2Qty + detail.Book3Qty + detail.Book4Qty + detail.Book5Qty + detail.HHTQty) - detail.CapturedQty;
+                            decimal stkTtlQty = (detail.Book1Qty.Value + detail.Book2Qty.Value + detail.Book3Qty.Value + detail.Book4Qty.Value + detail.Book5Qty.Value + detail.HHTQty.Value) - detail.CapturedQty.Value;
 
                             string sql = "ProductId = '" + detail.ProductId + "' AND WorkplaceId = '" + oBatchHeader.WorkplaceId.ToString() + "'";
                             ProductWorkplace pw = ProductWorkplace.LoadWhere(sql);
@@ -494,47 +494,64 @@ namespace RT2020.Inventory.StockTake
         private void CreateLedgerDetails(string txnumber, Guid ledgerHeaderId, Guid stkHeaderId, string staff, string workplace)
         {
             int iCount = 1;
-            string sql = "HeaderId = '" + stkHeaderId.ToString() + "'";
-            // 2009-08-03 David: StockTakeDetails does not have a field "LineNumber".
-            //string[] orderBy = new string[] { "LineNumber" };
-            //StockTakeDetailsCollection stkDetailsList = StockTakeDetails.LoadCollection(sql, orderBy, true);
-            StockTakeDetailsCollection stkDetailsList = StockTakeDetails.LoadCollection(sql);
-            foreach (StockTakeDetails stkDetail in stkDetailsList)
+
+            using (var ctx = new EF6.RT2020Entities())
             {
-                InvtLedgerDetails oLedgerDetail = new InvtLedgerDetails();
-                oLedgerDetail.HeaderId = ledgerHeaderId;
-                oLedgerDetail.SubLedgerDetailsId = stkDetail.DetailsId;
-                oLedgerDetail.LineNumber = iCount;
-                oLedgerDetail.ProductId = stkDetail.ProductId;
-                oLedgerDetail.Qty = (stkDetail.Book1Qty + stkDetail.Book2Qty + stkDetail.Book3Qty + stkDetail.Book4Qty + stkDetail.Book5Qty + stkDetail.HHTQty) - stkDetail.CapturedQty;
-                oLedgerDetail.TxNumber = txnumber;
-                oLedgerDetail.TxType = Common.Enums.TxType.ADJ.ToString();
-                oLedgerDetail.TxDate = DateTime.Now;
-                oLedgerDetail.Amount = 0;
-                oLedgerDetail.UnitAmount = 0;
-                oLedgerDetail.AverageCost = stkDetail.AverageCost;
-                oLedgerDetail.Notes = string.Empty;
-                oLedgerDetail.SerialNumber = string.Empty;
-                oLedgerDetail.OPERATOR = staff;
-                oLedgerDetail.SHOP = workplace;
-
-                // Product Info
-                RT2020.DAL.Product oItem = RT2020.DAL.Product.Load(stkDetail.ProductId);
-                if (oItem != null)
+                using (var scope = ctx.Database.BeginTransaction())
                 {
-                    oLedgerDetail.BasicPrice = oItem.RetailPrice;
-
-                    sql = "ProductId = '" + stkDetail.ProductId.ToString() + "' AND PriceTypeId = '" + GetPriceType(Common.Enums.ProductPriceType.VPRC.ToString()).ToString() + "'";
-                    ProductPrice oPrice = ProductPrice.LoadWhere(sql);
-                    if (oPrice != null)
+                    try
                     {
-                        oLedgerDetail.VendorRef = oPrice.CurrencyCode;
+                        var stkDetailsList = ctx.StockTakeDetails.Where(x => x.HeaderId == stkHeaderId);
+                        foreach (var stkDetail in stkDetailsList)
+                        {
+                            var oLedgerDetail = new EF6.InvtLedgerDetails();
+                            oLedgerDetail.DetailsId = Guid.NewGuid();
+                            oLedgerDetail.HeaderId = ledgerHeaderId;
+                            oLedgerDetail.SubLedgerDetailsId = stkDetail.DetailsId;
+                            oLedgerDetail.LineNumber = iCount;
+                            oLedgerDetail.ProductId = stkDetail.ProductId.Value;
+                            oLedgerDetail.Qty = (stkDetail.Book1Qty + stkDetail.Book2Qty + stkDetail.Book3Qty + stkDetail.Book4Qty + stkDetail.Book5Qty + stkDetail.HHTQty) - stkDetail.CapturedQty;
+                            oLedgerDetail.TxNumber = txnumber;
+                            oLedgerDetail.TxType = Common.Enums.TxType.ADJ.ToString();
+                            oLedgerDetail.TxDate = DateTime.Now;
+                            oLedgerDetail.Amount = 0;
+                            oLedgerDetail.UnitAmount = 0;
+                            oLedgerDetail.AverageCost = stkDetail.AverageCost.Value;
+                            oLedgerDetail.Notes = string.Empty;
+                            oLedgerDetail.SerialNumber = string.Empty;
+                            oLedgerDetail.OPERATOR = staff;
+                            oLedgerDetail.SHOP = workplace;
+
+                            #region lookup & fill BasicPrice & VedorRef
+                            var oItem = ctx.Product.Find(stkDetail.ProductId.Value);
+                            if (oItem != null)
+                            {
+                                oLedgerDetail.BasicPrice = oItem.RetailPrice;
+
+                                var priceTypeId = GetPriceType(Common.Enums.ProductPriceType.VPRC.ToString());
+                                var oPrice = ctx.ProductPrice
+                                        .Where(x => x.ProductId == stkDetail.ProductId && x.PriceTypeId == priceTypeId)
+                                        .AsNoTracking()
+                                        .FirstOrDefault();
+                                if (oPrice != null)
+                                {
+                                    oLedgerDetail.VendorRef = oPrice.CurrencyCode;
+                                }
+                            }
+                            #endregion
+
+                            ctx.InvtLedgerDetails.Add(oLedgerDetail);
+                            ctx.SaveChanges();
+
+                            iCount++;
+                        }
+                        scope.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        scope.Rollback();
                     }
                 }
-
-                oLedgerDetail.Save();
-
-                iCount++;
             }
         }
 
@@ -560,15 +577,18 @@ namespace RT2020.Inventory.StockTake
         #region Product
         private void UpdateProduct(Guid txHeaderId, Guid workplaceId)
         {
-            string sql = "HeaderId = '" + txHeaderId.ToString() + "'";
-            StockTakeDetailsCollection detailsList = StockTakeDetails.LoadCollection(sql);
-            for (int i = 0; i < detailsList.Count; i++)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                StockTakeDetails detail = detailsList[i];
-                decimal stkTtlQty = (detail.Book1Qty + detail.Book2Qty + detail.Book3Qty + detail.Book4Qty + detail.Book5Qty + detail.HHTQty) - detail.CapturedQty;
+                //string sql = "HeaderId = '" + txHeaderId.ToString() + "'";
+                var detailsList = ctx.StockTakeDetails.Where(x => x.HeaderId == txHeaderId).AsNoTracking().ToList();
+                foreach (var detail in detailsList)
+                {
+                    //StockTakeDetails detail = detailsList[i];
+                    decimal stkTtlQty = (detail.Book1Qty.Value + detail.Book2Qty.Value + detail.Book3Qty.Value + detail.Book4Qty.Value + detail.Book5Qty.Value + detail.HHTQty.Value) - detail.CapturedQty.Value;
 
-                UpdateProductCurrentSummary(detail.ProductId, stkTtlQty);
-                UpdateProductQty(detail.ProductId, workplaceId, stkTtlQty);
+                    UpdateProductCurrentSummary(detail.ProductId.Value, stkTtlQty);
+                    UpdateProductQty(detail.ProductId.Value, workplaceId, stkTtlQty);
+                }
             }
         }
 

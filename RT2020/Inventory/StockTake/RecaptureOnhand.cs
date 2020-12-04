@@ -1,4 +1,4 @@
-#region Using
+﻿#region Using
 
 using System;
 using System.Collections.Generic;
@@ -88,54 +88,69 @@ namespace RT2020.Inventory.StockTake
         private void RecaptureStkDetails(System.Guid stkheaderId)
         {
             decimal qty = 0, amount = 0, totalQty = 0, totalAmt = 0;
-            string sql = "HeaderId = '" + stkheaderId.ToString() + "'";
-            StockTakeDetailsCollection stkDetailsList = StockTakeDetails.LoadCollection(sql);
-            foreach (StockTakeDetails stkDetail in stkDetailsList)
-            {
-                sql = "ProductId = '" + stkDetail.ProductId.ToString() + "'";
-                ProductCurrentSummary currSum = ProductCurrentSummary.LoadWhere(sql);
-                if (currSum != null)
-                {
-                    stkDetail.AverageCost = currSum.AverageCost;
-                }
-
-                sql += " AND WorkplaceId = '" + stkDetail.WorkplaceId.ToString() + "'";
-                ProductWorkplace wpProd = ProductWorkplace.LoadWhere(sql);
-                if (wpProd != null)
-                {
-                    stkDetail.CapturedQty = wpProd.CDQTY;
-                }
-                else
-                {
-                    stkDetail.CapturedQty = 0;
-                }
-
-                stkDetail.ModifiedBy = Common.Config.CurrentUserId;
-                stkDetail.ModifiedOn = DateTime.Now;
-                stkDetail.Save();
-
-                qty += stkDetail.CapturedQty;
-                amount += stkDetail.CapturedQty * stkDetail.AverageCost;
-
-                decimal tempQty = stkDetail.HHTQty + stkDetail.Book1Qty + stkDetail.Book2Qty + stkDetail.Book3Qty + stkDetail.Book4Qty + stkDetail.Book5Qty;
-                totalQty += tempQty;
-                totalAmt += tempQty * stkDetail.AverageCost;
-            }
 
             using (var ctx = new EF6.RT2020Entities())
             {
-                var stkHeader = ctx.StockTakeHeader.Find(stkheaderId);
-                if (stkHeader != null)
+                using (var scope = ctx.Database.BeginTransaction())
                 {
-                    stkHeader.CapturedOn = DateTime.Now;
-                    stkHeader.CapturedAmount = amount;
-                    stkHeader.CapturedQty = qty;
-                    stkHeader.TotalQty = totalQty;
-                    stkHeader.TotalAmount = totalAmt;
-                    stkHeader.ModifiedBy = Common.Config.CurrentUserId;
-                    stkHeader.ModifiedOn = DateTime.Now;
+                    try
+                    {
+                        //string sql = "HeaderId = '" + stkheaderId.ToString() + "'";
+                        var stkDetailsList = ctx.StockTakeDetails.Where(x => x.HeaderId == stkheaderId);
+                        foreach (var stkDetail in stkDetailsList)
+                        {
+                            //sql = "ProductId = '" + stkDetail.ProductId.ToString() + "'";
+                            var currSum = ctx.ProductCurrentSummary.Where(x => x.ProductId == stkDetail.ProductId).FirstOrDefault();
+                            if (currSum != null)
+                            {
+                                stkDetail.AverageCost = currSum.AverageCost;
+                            }
 
-                    ctx.SaveChanges();
+                            //sql += " AND WorkplaceId = '" + stkDetail.WorkplaceId.ToString() + "'";
+                            var wpProd = ctx.ProductWorkplace.Where(x => x.ProductId == stkDetail.ProductId && x.WorkplaceId == stkDetail.WorkplaceId).FirstOrDefault();
+                            if (wpProd != null)
+                            {
+                                stkDetail.CapturedQty = wpProd.CDQTY;
+                            }
+                            else
+                            {
+                                stkDetail.CapturedQty = 0;
+                            }
+
+                            stkDetail.ModifiedBy = Common.Config.CurrentUserId;
+                            stkDetail.ModifiedOn = DateTime.Now;
+
+                            ctx.SaveChanges();
+
+                            #region 累計 Qty Amount TotalQty TotalAmt
+                            qty += stkDetail.CapturedQty.Value;
+                            amount += stkDetail.CapturedQty.Value * stkDetail.AverageCost.Value;
+
+                            decimal tempQty = stkDetail.HHTQty.Value + stkDetail.Book1Qty.Value + stkDetail.Book2Qty.Value + stkDetail.Book3Qty.Value + stkDetail.Book4Qty.Value + stkDetail.Book5Qty.Value;
+                            totalQty += tempQty;
+                            totalAmt += tempQty * stkDetail.AverageCost.Value;
+                            #endregion
+                        }
+
+                        var stkHeader = ctx.StockTakeHeader.Find(stkheaderId);
+                        if (stkHeader != null)
+                        {
+                            stkHeader.CapturedOn = DateTime.Now;
+                            stkHeader.CapturedAmount = amount;
+                            stkHeader.CapturedQty = qty;
+                            stkHeader.TotalQty = totalQty;
+                            stkHeader.TotalAmount = totalAmt;
+                            stkHeader.ModifiedBy = Common.Config.CurrentUserId;
+                            stkHeader.ModifiedOn = DateTime.Now;
+
+                            ctx.SaveChanges();
+                        }
+                        scope.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        scope.Rollback();
+                    }
                 }
             }
         }

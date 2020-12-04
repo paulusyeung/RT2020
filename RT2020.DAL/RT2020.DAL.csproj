@@ -204,7 +204,6 @@
     <Compile Include="SmartTag4Supplier.cs" />
     <Compile Include="SmartTag4Workplace.cs" />
     <Compile Include="SqlHelper.cs" />
-    <Compile Include="StockTakeDetails.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
