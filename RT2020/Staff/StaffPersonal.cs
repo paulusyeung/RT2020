@@ -29,7 +29,7 @@ namespace RT2020.Staff
         private void InitialSmartTags()
         {
             string[] orderBy = new string[] { "Priority" };
-            SmartTag4StaffCollection smartTagList = SmartTag4Staff.LoadCollection(orderBy, true);
+            var smartTagList = ModelEx.SmartTag4StaffEx.GetListOrderBy(orderBy, true);
 
             SmartTag oTag = new SmartTag(this.gbPersonal);
             oTag.StaffSmartTagList = smartTagList;

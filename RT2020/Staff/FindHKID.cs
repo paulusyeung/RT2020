@@ -74,7 +74,7 @@ namespace RT2020.Staff
                 staff = ModelEx.StaffEx.GetByStaffNumber(txtStaff.Text.Trim());
             }
 
-            RT2020.DAL.SmartTag4Staff smartTag4Staff = RT2020.DAL.SmartTag4Staff.LoadWhere(" TagCode = 'HKID'");
+            var smartTag4Staff = ModelEx.SmartTag4StaffEx.GetByTagCode("HKID");
 
             if (!txtHKID.Text.Trim().Equals("*"))
             {

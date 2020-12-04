@@ -247,15 +247,7 @@ namespace RT2020.Member.Import
 
         private Guid GetSmartTagId(string priority)
         {
-            System.Guid result = System.Guid.Empty;
-            string sql = "Priority = '" + priority + "'";
-            SmartTag4Member oTag = SmartTag4Member.LoadWhere(sql);
-            if (oTag != null)
-            {
-                result = oTag.TagId;
-            }
-
-            return result;
+            return ModelEx.SmartTag4MemberEx.GetIdByPriority(int.Parse(priority));
         }
 
         private Guid GetCityId(string cityName)

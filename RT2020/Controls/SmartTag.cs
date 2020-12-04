@@ -26,10 +26,10 @@ namespace RT2020.Controls
 
         #region SmartTags
 
-        public SmartTag4MemberCollection MemberSmartTagList = null;
-        public SmartTag4StaffCollection StaffSmartTagList = null;
-        public SmartTag4SupplierCollection SupplierSmartTagList = null;
-        public SmartTag4WorkplaceCollection WorkplaceSmartTagList = null;
+        public List<EF6.SmartTag4Member> MemberSmartTagList = null;
+        public List<EF6.SmartTag4Staff> StaffSmartTagList = null;
+        public List<EF6.SmartTag4Supplier> SupplierSmartTagList = null;
+        public List<EF6.SmartTag4Workplace> WorkplaceSmartTagList = null;
 
         #endregion
 
@@ -62,7 +62,7 @@ namespace RT2020.Controls
         private void SetMemberSmartTag()
         {
             int iCount = 1;
-            foreach (SmartTag4Member oTag in MemberSmartTagList)
+            foreach (var oTag in MemberSmartTagList)
             {
                 SetSmartTag(string.Format(key, iCount.ToString()), oTag.TagId, oTag.TagName, oTag.TagName_Chs, oTag.TagName_Cht);
                 iCount++;
@@ -72,7 +72,7 @@ namespace RT2020.Controls
         private void SetStaffSmartTag()
         {
             int iCount = 1;
-            foreach (SmartTag4Staff oTag in StaffSmartTagList)
+            foreach (var oTag in StaffSmartTagList)
             {
                 SetSmartTag(string.Format(key, iCount.ToString()), oTag.TagId, oTag.TagName, oTag.TagName_Chs, oTag.TagName_Cht);
                 iCount++;
@@ -82,7 +82,7 @@ namespace RT2020.Controls
         private void SetSupplierSmartTag()
         {
             int iCount = 1;
-            foreach (SmartTag4Supplier oTag in SupplierSmartTagList)
+            foreach (var oTag in SupplierSmartTagList)
             {
                 SetSmartTag(string.Format(key, iCount.ToString()), oTag.TagId, oTag.TagName, oTag.TagName_Chs, oTag.TagName_Cht);
                 iCount++;
@@ -92,7 +92,7 @@ namespace RT2020.Controls
         private void SetWorkplaceSmartTag()
         {
             int iCount = 1;
-            foreach (SmartTag4Workplace oTag in WorkplaceSmartTagList)
+            foreach (var oTag in WorkplaceSmartTagList)
             {
                 SetSmartTag(string.Format(key, iCount.ToString()), oTag.TagId, oTag.TagName, oTag.TagName_Chs, oTag.TagName_Cht);
                 iCount++;

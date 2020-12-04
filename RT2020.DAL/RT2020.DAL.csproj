@@ -199,10 +199,6 @@
     <Compile Include="PurchaseOrderReceiveHeader.cs" />
     <Compile Include="Salutation.cs" />
     <Compile Include="ShipmentMethod.cs" />
-    <Compile Include="SmartTag4Member.cs" />
-    <Compile Include="SmartTag4Staff.cs" />
-    <Compile Include="SmartTag4Supplier.cs" />
-    <Compile Include="SmartTag4Workplace.cs" />
     <Compile Include="SqlHelper.cs" />
   </ItemGroup>
   <ItemGroup>

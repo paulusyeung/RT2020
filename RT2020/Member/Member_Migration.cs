@@ -382,16 +382,7 @@ namespace RT2020.Member
         /// <returns></returns>
         private Guid GetSmartTagId(string tagCode, int priority)
         {
-            string query = "TagCode = '" + tagCode + "' AND Priority = '" + priority.ToString() + "'";
-            SmartTag4Member oTag = SmartTag4Member.LoadWhere(query);
-            if (oTag != null)
-            {
-                return oTag.TagId;
-            }
-            else
-            {
-                return System.Guid.Empty;
-            }
+            return ModelEx.SmartTag4MemberEx.GetIdByTagCodeAndPriority(tagCode, priority);
         }
 
         #endregion

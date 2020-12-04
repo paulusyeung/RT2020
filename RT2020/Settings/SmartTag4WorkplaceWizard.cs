@@ -1,4 +1,4 @@
-#region Using
+﻿#region Using
 
 using System;
 using System.Collections.Generic;
@@ -92,8 +92,9 @@ namespace RT2020.Settings
                         SetCtrlEditable();
                         break;
                     case "save":
-                        if (Save())
+                        if (IsValid())
                         {
+                            Save();
                             Clear();
                             BindTagList();
                             this.Update();
@@ -162,66 +163,58 @@ namespace RT2020.Settings
         #endregion
 
         #region Save
-        private bool CodeExists()
-        {
-            string sql = "TagCode = '" + txtTagCode.Text.Trim() + "'";
-            SmartTag4WorkplaceCollection tagList = SmartTag4Workplace.LoadCollection(sql);
-            if (tagList.Count > 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
 
-        private bool Save()
+        private bool IsValid()
         {
+            bool result = true;
+
+            #region Tag Code 唔可以吉
+            errorProvider.SetError(txtTagCode, string.Empty);
             if (txtTagCode.Text.Length == 0)
             {
                 errorProvider.SetError(txtTagCode, "Cannot be blank!");
                 return false;
             }
-            else if (txtPriority.Text.Length == 0)
-            {
-                errorProvider.SetError(txtPriority, "Cannot be blank!");
-                return false;
-            }
-            else if (!Common.Utility.IsNumeric(txtPriority.Text))
-            {
-                errorProvider.SetError(txtPriority, Resources.Common.DigitalNeeded);
-                return false;
-            }
-            else
-            {
-                errorProvider.SetError(txtTagCode, string.Empty);
-                errorProvider.SetError(txtPriority, string.Empty);
+            #endregion
 
-                SmartTag4Workplace oTag = SmartTag4Workplace.Load(this.TagId);
-                if (oTag == null)
+            #region 新增，要 check Tag Code 係咪 in use
+            errorProvider.SetError(txtTagCode, string.Empty);
+            if (this.TagId == Guid.Empty && ModelEx.SmartTag4WorkplaceEx.IsTagCodeInUse(txtTagCode.Text.Trim()))
+            {
+                errorProvider.SetError(txtTagCode, "Tag Code in use");
+                return false;
+            }
+            #endregion
+
+            return result;
+        }
+
+        private bool Save()
+        {
+            bool result = false;
+
+            using (var ctx = new EF6.RT2020Entities())
+            {
+                var item = ctx.SmartTag4Workplace.Find(this.TagId);
+
+                if (item == null)
                 {
-                    oTag = new SmartTag4Workplace();
+                    item = new EF6.SmartTag4Workplace();
+                    item.TagId = Guid.NewGuid();
+                    item.TagCode = txtTagCode.Text;
 
-                    if (CodeExists())
-                    {
-                        errorProvider.SetError(txtTagCode, string.Format(Resources.Common.DuplicatedCode, "SmartTag Code for Workplace"));
-                        return false;
-                    }
-                    else
-                    {
-                        oTag.TagCode = txtTagCode.Text;
-                        errorProvider.SetError(txtTagCode, string.Empty);
-                    }
+                    ctx.SmartTag4Workplace.Add(item);
                 }
-                oTag.TagName = txtTagName.Text;
-                oTag.TagName_Chs = txtTagNameChs.Text;
-                oTag.TagName_Cht = txtTagNameCht.Text;
-                oTag.Priority = Convert.ToInt32(txtPriority.Text);
+                item.TagName = txtTagName.Text;
+                item.TagName_Chs = txtTagNameChs.Text;
+                item.TagName_Cht = txtTagNameCht.Text;
+                item.Priority = Convert.ToInt32(txtPriority.Text);
 
-                oTag.Save();
-                return true;
+                ctx.SaveChanges();
+                result = true;
             }
+
+            return result;
         }
 
         private void Clear()
@@ -250,16 +243,20 @@ namespace RT2020.Settings
 
         private void Delete()
         {
-            SmartTag4Workplace oTag = SmartTag4Workplace.Load(this.TagId);
-            if (oTag != null)
+            using (var ctx = new EF6.RT2020Entities())
             {
                 try
                 {
-                    oTag.Delete();
+                    var item = ctx.SmartTag4Workplace.Find(this.TagId);
+                    if (item != null)
+                    {
+                        ctx.SmartTag4Workplace.Remove(item);
+                        ctx.SaveChanges();
+                    }
                 }
                 catch
                 {
-                    MessageBox.Show("Cannot delete the record being used by other record!", "Delete Warning");
+                    MessageBox.Show("Cannot delete the record...Might be in use by other record!", "Delete Warning");
                 }
             }
         }
@@ -268,21 +265,24 @@ namespace RT2020.Settings
         {
             if (lvTagList.SelectedItem != null)
             {
-                if (Common.Utility.IsGUID(lvTagList.SelectedItem.Text))
+                var id = Guid.NewGuid();
+                if (Guid.TryParse(lvTagList.SelectedItem.Text, out id))
                 {
-                    SmartTag4Workplace oTag = SmartTag4Workplace.Load(new System.Guid(lvTagList.SelectedItem.Text));
-                    if (oTag != null)
+                    this.TagId = id;
+                    using (var ctx = new EF6.RT2020Entities())
                     {
-                        txtTagCode.Text = oTag.TagCode;
-                        txtTagName.Text = oTag.TagName;
-                        txtTagNameChs.Text = oTag.TagName_Chs;
-                        txtTagNameCht.Text = oTag.TagName_Cht;
-                        txtPriority.Text = oTag.Priority.ToString();
+                        var oTag = ctx.SmartTag4Workplace.Find(id);
+                        if (oTag != null)
+                        {
+                            txtTagCode.Text = oTag.TagCode;
+                            txtTagName.Text = oTag.TagName;
+                            txtTagNameChs.Text = oTag.TagName_Chs;
+                            txtTagNameCht.Text = oTag.TagName_Cht;
+                            txtPriority.Text = oTag.Priority.ToString();
 
-                        this.TagId = oTag.TagId;
-
-                        SetCtrlEditable();
-                        SetToolBar();
+                            SetCtrlEditable();
+                            SetToolBar();
+                        }
                     }
                 }
             }
