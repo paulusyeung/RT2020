@@ -198,7 +198,6 @@
     <Compile Include="PurchaseOrderReceiveDetails.cs" />
     <Compile Include="PurchaseOrderReceiveHeader.cs" />
     <Compile Include="Salutation.cs" />
-    <Compile Include="ShipmentMethod.cs" />
     <Compile Include="SqlHelper.cs" />
   </ItemGroup>
   <ItemGroup>

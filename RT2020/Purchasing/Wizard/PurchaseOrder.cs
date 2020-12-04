@@ -617,7 +617,7 @@ namespace RT2020.Purchasing.Wizard
         /// </summary>
         private void FillShipmentMethodList()
         {
-            RT2020.DAL.ShipmentMethod.LoadCombo(ref this.cboShipmentMethod, "MethodCode", false);
+            ModelEx.ShipmentMethodEx.LoadCombo(ref this.cboShipmentMethod, "MethodCode", false);
         }
 
         /// <summary>
