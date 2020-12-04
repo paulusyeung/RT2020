@@ -11,6 +11,7 @@ using Gizmox.WebGUI.Common;
 using Gizmox.WebGUI.Forms;
 using RT2020.DAL;
 using System.Linq;
+using System.Data.Entity;
 
 #endregion
 
@@ -76,12 +77,15 @@ namespace RT2020.Member.Reports
 
         private void FillSalutationList()
         {
-            SalutationCollection SalList = RT2020.DAL.Salutation.LoadCollection(new string[] { "SalutationName" }, true);
-            foreach (RT2020.DAL.Salutation Sal in SalList)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                ListViewItem listItem = this.lvSalutationList.Items.Add(Sal.SalutationId.ToString());
-                listItem.SubItems.Add(Sal.SalutationName);
-                listItem.SubItems.Add(string.Empty);
+                var SalList = ctx.Salutation.OrderBy(x => x.SalutationName).AsNoTracking().ToList();
+                foreach (var Sal in SalList)
+                {
+                    ListViewItem listItem = this.lvSalutationList.Items.Add(Sal.SalutationId.ToString());
+                    listItem.SubItems.Add(Sal.SalutationName);
+                    listItem.SubItems.Add(string.Empty);
+                }
             }
         }
 

@@ -1,4 +1,4 @@
-#region Using
+﻿#region Using
 
 using System;
 using System.Collections.Generic;
@@ -93,8 +93,9 @@ namespace RT2020.Settings
                         SetCtrlEditable();
                         break;
                     case "save":
-                        if (Save())
+                        if (IsValid())
                         {
+                            Save();
                             Clear();
                             BindSalutationList();
                             this.Update();
@@ -130,18 +131,9 @@ namespace RT2020.Settings
         #region Fill Combo List
         private void FillParentSalutationList()
         {
-            cboParentSalutation.DataSource = null;
-            cboParentSalutation.Items.Clear();
-
             string sql = "SalutationId NOT IN ('" + this.SalutationId.ToString() + "')";
             string[] orderBy = new string[] { "SalutationCode" };
-            SalutationCollection oSalutationList = Salutation.LoadCollection(sql, orderBy, true);
-            oSalutationList.Add(new Salutation(System.Guid.Empty, System.Guid.Empty, string.Empty, string.Empty, string.Empty, string.Empty));
-            cboParentSalutation.DataSource = oSalutationList;
-            cboParentSalutation.DisplayMember = "SalutationCode";
-            cboParentSalutation.ValueMember = "SalutationId";
-
-            cboParentSalutation.SelectedIndex = cboParentSalutation.Items.Count - 1;
+            ModelEx.SalutationEx.LoadCombo(ref cboParentSalutation, "SalutationCode", false, true, "", sql, orderBy);
         }
         #endregion
 
@@ -180,55 +172,58 @@ namespace RT2020.Settings
         #endregion
 
         #region Save
-        private bool CodeExists()
-        {
-            string sql = "SalutationCode = '" + txtSalutationCode.Text.Trim() + "'";
-            SalutationCollection salutationList = Salutation.LoadCollection(sql);
-            if (salutationList.Count > 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
 
-        private bool Save()
+        private bool IsValid()
         {
+            bool result = true;
+
+            #region Salutation Code 唔可以吉
+            errorProvider.SetError(txtSalutationCode, string.Empty);
             if (txtSalutationCode.Text.Length == 0)
             {
                 errorProvider.SetError(txtSalutationCode, "Cannot be blank!");
                 return false;
             }
-            else
+            #endregion
+
+            #region 新增，要 check Salutation Code 係咪 in use
+            errorProvider.SetError(txtSalutationCode, string.Empty);
+            if (this.SalutationId == Guid.Empty && ModelEx.SalutationEx.IsSalutationCodeInUse(txtSalutationCode.Text.Trim()))
             {
-                errorProvider.SetError(txtSalutationCode, string.Empty);
-
-                Salutation oSalutation = Salutation.Load(this.SalutationId);
-                if (oSalutation == null)
-                {
-                    oSalutation = new Salutation();
-
-                    if (CodeExists())
-                    {
-                        errorProvider.SetError(txtSalutationCode, string.Format(Resources.Common.DuplicatedCode, "Salutatoin Code"));
-                        return false;
-                    }
-                    else
-                    {
-                        oSalutation.SalutationCode = txtSalutationCode.Text;
-                        errorProvider.SetError(txtSalutationCode, string.Empty);
-                    }
-                }
-                oSalutation.SalutationName = txtSalutationName.Text;
-                oSalutation.SalutationName_Chs = txtSalutationNameChs.Text;
-                oSalutation.SalutationName_Cht = txtSalutationNameCht.Text;
-                oSalutation.ParentSalutation = (cboParentSalutation.SelectedValue == null) ? System.Guid.Empty : new System.Guid(cboParentSalutation.SelectedValue.ToString());
-
-                oSalutation.Save();
-                return true;
+                errorProvider.SetError(txtSalutationCode, "Salutation Code in use");
+                return false;
             }
+            #endregion
+
+            return result;
+        }
+
+        private bool Save()
+        {
+            bool result = false;
+
+            using (var ctx = new EF6.RT2020Entities())
+            {
+                var item = ctx.Salutation.Find(this.SalutationId);
+
+                if (item == null)
+                {
+                    item = new EF6.Salutation();
+                    item.SalutationId = new Guid();
+                    item.SalutationCode = txtSalutationCode.Text;
+
+                    ctx.Salutation.Add(item);
+                }
+                item.SalutationName = txtSalutationName.Text;
+                item.SalutationName_Chs = txtSalutationNameChs.Text;
+                item.SalutationName_Cht = txtSalutationNameCht.Text;
+                if ((Guid)cboParentSalutation.SelectedValue == Guid.Empty) item.ParentSalutation = (Guid)cboParentSalutation.SelectedValue;
+
+                ctx.SaveChanges();
+                result = true;
+            }
+
+            return result; ;
         }
 
         private void Clear()
@@ -257,16 +252,20 @@ namespace RT2020.Settings
 
         private void Delete()
         {
-            Salutation oSalutation = Salutation.Load(this.SalutationId);
-            if (oSalutation != null)
+            using (var ctx = new EF6.RT2020Entities())
             {
                 try
                 {
-                    oSalutation.Delete();
+                    var item = ctx.Salutation.Find(this.SalutationId);
+                    if (item != null)
+                    {
+                        ctx.Salutation.Remove(item);
+                        ctx.SaveChanges();
+                    }
                 }
                 catch
                 {
-                    MessageBox.Show("Cannot delete the record being used by other record!", "Delete Warning");
+                    MessageBox.Show("Cannot delete the record...Might be in use by other record!", "Delete Warning");
                 }
             }
         }
@@ -275,23 +274,26 @@ namespace RT2020.Settings
         {
             if (lvSalutationList.SelectedItem != null)
             {
-                if (Common.Utility.IsGUID(lvSalutationList.SelectedItem.Text))
+                var id = Guid.NewGuid();
+                if (Guid.TryParse(lvSalutationList.SelectedItem.Text, out id))
                 {
-                    Salutation oSalutation = Salutation.Load(new System.Guid(lvSalutationList.SelectedItem.Text));
-                    if (oSalutation != null)
+                    this.SalutationId = id;
+                    using (var ctx = new EF6.RT2020Entities())
                     {
-                        this.SalutationId = oSalutation.SalutationId;
+                        var item = ctx.Salutation.Find(this.SalutationId);
+                        if (item != null)
+                        {
+                            FillParentSalutationList();
 
-                        FillParentSalutationList();
+                            txtSalutationCode.Text = item.SalutationCode;
+                            txtSalutationName.Text = item.SalutationName;
+                            txtSalutationNameChs.Text = item.SalutationName_Chs;
+                            txtSalutationNameCht.Text = item.SalutationName_Cht;
+                            cboParentSalutation.SelectedValue = item.ParentSalutation;
 
-                        txtSalutationCode.Text = oSalutation.SalutationCode;
-                        txtSalutationName.Text = oSalutation.SalutationName;
-                        txtSalutationNameChs.Text = oSalutation.SalutationName_Chs;
-                        txtSalutationNameCht.Text = oSalutation.SalutationName_Cht;
-                        cboParentSalutation.SelectedValue = oSalutation.ParentSalutation;
-
-                        SetCtrlEditable();
-                        SetToolBar();
+                            SetCtrlEditable();
+                            SetToolBar();
+                        }
                     }
                 }
             }

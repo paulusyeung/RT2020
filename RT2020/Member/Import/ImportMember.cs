@@ -232,19 +232,6 @@ namespace RT2020.Member.Import
             return result;
         }
 
-        private Guid GetSalutationId(string saluteCode)
-        {
-            System.Guid result = System.Guid.Empty;
-            string sql = "SalutationCode = '" + saluteCode + "'";
-            Salutation oSalutation = Salutation.LoadWhere(sql);
-            if (oSalutation != null)
-            {
-                result = oSalutation.SalutationId;
-            }
-
-            return result;
-        }
-
         private Guid GetSmartTagId(string priority)
         {
             return ModelEx.SmartTag4MemberEx.GetIdByPriority(int.Parse(priority));
@@ -306,7 +293,7 @@ namespace RT2020.Member.Import
             oMember.ClassId = GetClassId(member.PHONEBOOK);
             oMember.GroupId = GetGroupId(member.GROUP);
             oMember.MemberInitial = member.NNAME;
-            oMember.SalutationId = GetSalutationId(member.SALUTE);
+            oMember.SalutationId = ModelEx.SalutationEx.GetIdByCode(member.SALUTE);
             oMember.FirstName = member.FNAME;
             oMember.LastName = member.LNAME;
             oMember.FullName = member.LNAME + ", " + member.FNAME;

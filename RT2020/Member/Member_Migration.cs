@@ -10,6 +10,7 @@ using System.Text;
 using Gizmox.WebGUI.Common;
 using Gizmox.WebGUI.Forms;
 using RT2020.DAL;
+using System.Linq;
 
 #endregion
 
@@ -334,25 +335,33 @@ namespace RT2020.Member
         /// <returns></returns>
         private Guid GetSaluteId(string saluteCode)
         {
-            string query = "SalutationCode = '" + saluteCode + "'";
-            SalutationCollection objSalutationList = Salutation.LoadCollection(query);
-            if (objSalutationList.Count == 0)
-            {
-                Salutation objSalutation = new Salutation();
-                objSalutation.SalutationId = System.Guid.NewGuid();
-                objSalutation.SalutationCode = saluteCode;
-                objSalutation.SalutationName = saluteCode;
-                objSalutation.SalutationName_Chs = saluteCode;
-                objSalutation.SalutationName_Cht = saluteCode;
+            Guid result = Guid.Empty;
 
-                objSalutation.Save();
-
-                return objSalutation.SalutationId;
-            }
-            else
+            using (var ctx = new EF6.RT2020Entities())
             {
-                return objSalutationList[0].SalutationId;
+                var objSalutationList = ctx.Salutation.Where(x => x.SalutationCode == saluteCode).FirstOrDefault();
+                if (objSalutationList == null)
+                {
+                    var item = new EF6.Salutation();
+
+                    item.SalutationId = Guid.NewGuid();
+                    item.SalutationCode = saluteCode;
+                    item.SalutationName = saluteCode;
+                    item.SalutationName_Chs = saluteCode;
+                    item.SalutationName_Cht = saluteCode;
+
+                    ctx.Salutation.Add(item);
+                    ctx.SaveChanges();
+
+                    result = item.SalutationId;
+                }
+                else
+                {
+                    result = objSalutationList.SalutationId;
+                }
             }
+
+            return result;
         }
 
         /// <summary>
