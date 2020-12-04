@@ -196,7 +196,6 @@
     <Compile Include="PurchaseOrderHHTDetails.cs" />
     <Compile Include="PurchaseOrderHHTHeader.cs" />
     <Compile Include="PurchaseOrderReceiveDetails.cs" />
-    <Compile Include="PurchaseOrderReceiveHeader.cs" />
     <Compile Include="SqlHelper.cs" />
   </ItemGroup>
   <ItemGroup>

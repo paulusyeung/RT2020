@@ -125,10 +125,13 @@ namespace RT2020.Purchasing.Wizard
         /// </summary>
         private void LoadOrderHeaderId()
         {
-            PurchaseOrderReceiveHeader objReceiveHeader = PurchaseOrderReceiveHeader.Load(this.ReceivingHeaderId);
-            if (objReceiveHeader != null)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                this.OrderHeaderId = objReceiveHeader.OrderHeaderId;
+                var objReceiveHeader = ctx.PurchaseOrderReceiveHeader.Find(this.ReceivingHeaderId);
+                if (objReceiveHeader != null)
+                {
+                    this.OrderHeaderId = objReceiveHeader.OrderHeaderId.Value;
+                }
             }
         }
         #endregion

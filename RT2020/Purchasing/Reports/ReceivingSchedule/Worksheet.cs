@@ -17,6 +17,8 @@ namespace RT2020.Purchasing.Reports.ReceivingSchedule
     using Gizmox.WebGUI.Forms;
 
     using RT2020.DAL;
+    using System.Linq;
+    using System.Data.Entity;
 
     /// <summary>
     /// Worksheet class
@@ -49,22 +51,26 @@ namespace RT2020.Purchasing.Reports.ReceivingSchedule
         {
             cboFrom.Items.Clear();
 
-            string[] orderBy = { "TxNumber" };
-            string sql = " Retired = 0 ";
+            //string[] orderBy = { "TxNumber" };
+            //string sql = " Retired = 0 ";
 
-            PurchaseOrderReceiveHeaderCollection purchaseReceiveOrderList = PurchaseOrderReceiveHeader.LoadCollection(sql, orderBy, true);
-            if (purchaseReceiveOrderList.Count > 0)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                cboFrom.DataSource = purchaseReceiveOrderList;
-                cboFrom.DisplayMember = "TxNumber";
-                cboFrom.ValueMember = "OrderHeaderId";
-            }
-            else
-            {
-                cboFrom.Text = "** No Record **";
-                cmdExcel.Enabled = false;
-                cmdPDF.Enabled = false;
-                cmdPreview.Enabled = false;
+                var purchaseReceiveOrderList = ctx.PurchaseOrderReceiveHeader.Where(x => !x.Retired).OrderBy(x => x.TxNumber).AsNoTracking().ToList();
+                //PurchaseOrderReceiveHeaderCollection purchaseReceiveOrderList = PurchaseOrderReceiveHeader.LoadCollection(sql, orderBy, true);
+                if (purchaseReceiveOrderList.Count > 0)
+                {
+                    cboFrom.DataSource = purchaseReceiveOrderList;
+                    cboFrom.DisplayMember = "TxNumber";
+                    cboFrom.ValueMember = "OrderHeaderId";
+                }
+                else
+                {
+                    cboFrom.Text = "** No Record **";
+                    cmdExcel.Enabled = false;
+                    cmdPDF.Enabled = false;
+                    cmdPreview.Enabled = false;
+                }
             }
         }
 
@@ -75,24 +81,28 @@ namespace RT2020.Purchasing.Reports.ReceivingSchedule
         {
             cboTo.Items.Clear();
 
-            string[] orderBy = { "TxNumber" };
-            string sql = " Retired = 0 ";
+            //string[] orderBy = { "TxNumber" };
+            //string sql = " Retired = 0 ";
 
-            PurchaseOrderReceiveHeaderCollection purchaseReceiveOrderList = PurchaseOrderReceiveHeader.LoadCollection(sql, orderBy, true);
-            if (purchaseReceiveOrderList.Count > 0)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                cboTo.DataSource = purchaseReceiveOrderList;
-                cboTo.DisplayMember = "TxNumber";
-                cboTo.ValueMember = "OrderHeaderId";
+                var purchaseReceiveOrderList = ctx.PurchaseOrderReceiveHeader.Where(x => !x.Retired).OrderBy(x => x.TxNumber).AsNoTracking().ToList();
+                //PurchaseOrderReceiveHeaderCollection purchaseReceiveOrderList = PurchaseOrderReceiveHeader.LoadCollection(sql, orderBy, true);
+                if (purchaseReceiveOrderList.Count > 0)
+                {
+                    cboTo.DataSource = purchaseReceiveOrderList;
+                    cboTo.DisplayMember = "TxNumber";
+                    cboTo.ValueMember = "OrderHeaderId";
 
-                cboTo.SelectedIndex = purchaseReceiveOrderList.Count - 1;
-            }
-            else
-            {
-                cboTo.Text = "** No Record **";
-                cmdExcel.Enabled = false;
-                cmdPDF.Enabled = false;
-                cmdPreview.Enabled = false;
+                    cboTo.SelectedIndex = purchaseReceiveOrderList.Count - 1;
+                }
+                else
+                {
+                    cboTo.Text = "** No Record **";
+                    cmdExcel.Enabled = false;
+                    cmdPDF.Enabled = false;
+                    cmdPreview.Enabled = false;
+                }
             }
         }
 

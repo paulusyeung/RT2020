@@ -432,19 +432,24 @@ namespace RT2020.Purchasing.Wizard
         /// <param name="iCount">The i count.</param>
         private void CreateReceiving(ListViewItem listItem, ref int iCount)
         {
-            if (Common.Utility.IsGUID(listItem.Text) && listItem.SubItems[1].Text == "*")
+            Guid id = Guid.Empty;
+            if (Guid.TryParse(listItem.Text, out id) && listItem.SubItems[1].Text == "*")
             {
-                PurchaseOrderReceiveHeader objHeader = PurchaseOrderReceiveHeader.Load(new Guid(listItem.Text));
-                if (objHeader != null)
+                using (var ctx = new EF6.RT2020Entities())
                 {
-                    objHeader.PostedOn = DateTime.Now;
-                    objHeader.PostedBy = Common.Config.CurrentUserId;
+                    var objHeader = ctx.PurchaseOrderReceiveHeader.Find(id);
+                    if (objHeader != null)
+                    {
+                        objHeader.PostedOn = DateTime.Now;
+                        objHeader.PostedBy = Common.Config.CurrentUserId;
 
-                    objHeader.ModifiedBy = Common.Config.CurrentUserId;
-                    objHeader.ModifiedOn = DateTime.Now;
-                    objHeader.Save();
+                        objHeader.ModifiedBy = Common.Config.CurrentUserId;
+                        objHeader.ModifiedOn = DateTime.Now;
 
-                    iCount++;
+                        ctx.SaveChanges();
+
+                        iCount++;
+                    }
                 }
             }
         }
