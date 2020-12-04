@@ -349,50 +349,69 @@ namespace RT2020.Inventory.StockTake.Import
             int totalLine = PacketDataList.Length, missingLine = 0;
             decimal totalQty = 0, missingQty = 0;
 
-            for (int i = 0; i < PacketDataList.Length; i++)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                StockTakeDetails_HHT hhtDetail;
-                ImportPOSData posData = PacketDataList[i];
-                totalQty += posData.Qty;
-
-                // Calc missing line & qty
-                System.Guid productId = GetProductId(posData.STKCODE, posData.APPENDIX1, posData.APPENDIX2, posData.APPENDIX3);
-                if (productId == System.Guid.Empty)
+                using (var scope = ctx.Database.BeginTransaction())
                 {
-                    missingLine++;
-                    missingQty += posData.Qty;
-                }
-                else
-                {
-                    ProductBarcode pb = ProductBarcode.LoadWhere("ProductId = '" + productId.ToString() + "'");
-                    if (pb == null)
+                    try
                     {
-                        missingLine++;
-                        missingQty += posData.Qty;
+                        for (int i = 0; i < PacketDataList.Length; i++)
+                        {
+                            EF6.StockTakeDetails_HHT hhtDetail;
+                            ImportPOSData posData = PacketDataList[i];
+                            totalQty += posData.Qty;
+
+                            // Calc missing line & qty
+                            Guid productId = GetProductId(posData.STKCODE, posData.APPENDIX1, posData.APPENDIX2, posData.APPENDIX3);
+                            if (productId == System.Guid.Empty)
+                            {
+                                missingLine++;
+                                missingQty += posData.Qty;
+                            }
+                            else
+                            {
+                                ProductBarcode pb = ProductBarcode.LoadWhere("ProductId = '" + productId.ToString() + "'");
+                                if (pb == null)
+                                {
+                                    missingLine++;
+                                    missingQty += posData.Qty;
+                                }
+
+                                string hhtId = posData.HHT.Trim().Length == 0 ? "POS_ADV1" : posData.HHT.Trim();
+
+                                if (overwrite)
+                                {
+                                    //string sql = "TxNumber = '" + posData.ExportNum + "' AND HHTId ='" + hhtId + "'";
+                                    hhtDetail = ctx.StockTakeDetails_HHT
+                                        .Where(x => x.TxNumber == posData.ExportNum && x.HHTId == hhtId)
+                                        .FirstOrDefault();
+                                }
+                                else
+                                {
+                                    hhtDetail = new EF6.StockTakeDetails_HHT();
+                                    hhtDetail.DetailsId = Guid.NewGuid();
+
+                                    ctx.StockTakeDetails_HHT.Add(hhtDetail);
+                                }
+
+                                hhtDetail.TxNumber = posData.ExportNum;
+                                hhtDetail.HHTId = hhtId;
+                                hhtDetail.UploadedOn = uploadOn;
+                                hhtDetail.Barcode = posData.Barcode;
+                                hhtDetail.Qty = posData.Qty;
+                                hhtDetail.LineNumber = posData.SeqNum;
+                                hhtDetail.ProductId = productId;
+                                hhtDetail.Remarks = posData.Shelf;
+
+                                ctx.SaveChanges();
+                            }
+                        }
+                        scope.Commit();
                     }
-
-                    string hhtId = posData.HHT.Trim().Length == 0 ? "POS_ADV1" : posData.HHT.Trim();
-
-                    if (overwrite)
+                    catch (Exception ex)
                     {
-                        string sql = "TxNumber = '" + posData.ExportNum + "' AND HHTId ='" + hhtId + "'";
-                        hhtDetail = StockTakeDetails_HHT.LoadWhere(sql);
+                        scope.Rollback();
                     }
-                    else
-                    {
-                        hhtDetail = new StockTakeDetails_HHT();
-                    }
-
-                    hhtDetail.TxNumber = posData.ExportNum;
-                    hhtDetail.HHTId = hhtId;
-                    hhtDetail.UploadedOn = uploadOn;
-                    hhtDetail.Barcode = posData.Barcode;
-                    hhtDetail.Qty = posData.Qty;
-                    hhtDetail.LineNumber = posData.SeqNum;
-                    hhtDetail.ProductId = productId;
-                    hhtDetail.Remarks = posData.Shelf;
-
-                    hhtDetail.Save();
                 }
             }
 

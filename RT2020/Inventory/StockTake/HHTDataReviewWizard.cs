@@ -88,23 +88,29 @@ namespace RT2020.Inventory.StockTake
 
         private void LoadDetailsInfo(Guid headerId)
         {
-            StockTakeDetails_HHTCollection hhtDetailList = StockTakeDetails_HHT.LoadCollection("HeaderId = '" + headerId.ToString() + "'", new string[] { "LineNumber" }, true);
-            foreach (StockTakeDetails_HHT hhtDetail in hhtDetailList)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                ListViewItem lvItem = lvDetailsList.Items.Add(hhtDetail.DetailsId.ToString());
-                lvItem.SubItems.Add(hhtDetail.Barcode);
-                lvItem.SubItems.Add(hhtDetail.Qty.ToString("n0"));
+                var hhtDetailList = ctx.StockTakeDetails_HHT
+                    .Where(x => x.HeaderId == headerId).OrderBy(x => x.LineNumber)
+                    .AsNoTracking()
+                    .ToList();
+                foreach (var hhtDetail in hhtDetailList)
+                {
+                    ListViewItem lvItem = lvDetailsList.Items.Add(hhtDetail.DetailsId.ToString());
+                    lvItem.SubItems.Add(hhtDetail.Barcode);
+                    lvItem.SubItems.Add(hhtDetail.Qty.Value.ToString("n0"));
 
-                string[] productCode = GetProductCode(hhtDetail.ProductId);
-                lvItem.SubItems.Add(productCode[0]);
-                lvItem.SubItems.Add(productCode[1]);
-                lvItem.SubItems.Add(productCode[2]);
-                lvItem.SubItems.Add(productCode[3]);
+                    string[] productCode = GetProductCode(hhtDetail.ProductId.Value);
+                    lvItem.SubItems.Add(productCode[0]);
+                    lvItem.SubItems.Add(productCode[1]);
+                    lvItem.SubItems.Add(productCode[2]);
+                    lvItem.SubItems.Add(productCode[3]);
 
-                lvItem.UseItemStyleForSubItems = false;
-                lvItem.SubItems[1].BackColor = Color.WhiteSmoke;
-                lvItem.SubItems[2].BackColor = Color.WhiteSmoke;
+                    lvItem.UseItemStyleForSubItems = false;
+                    lvItem.SubItems[1].BackColor = Color.WhiteSmoke;
+                    lvItem.SubItems[2].BackColor = Color.WhiteSmoke;
 
+                }
             }
         }
 

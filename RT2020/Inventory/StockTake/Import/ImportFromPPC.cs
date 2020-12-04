@@ -700,29 +700,51 @@ namespace RT2020.Inventory.StockTake.Import
         private void CreateStockTakeHHTDetails(Guid hhtHeaderId, string txNumber, string hhtId, DateTime uploadedOn, List<ImportDetailsInfo> detailList, string hhtTxNumber)
         {
             int iCount = 0;
-            foreach (ImportDetailsInfo detail in detailList)
+
+            using (var ctx = new EF6.RT2020Entities())
             {
-                Guid productId = GetProductId(detail.Barcode);
-
-                if (!string.IsNullOrEmpty(detail.Barcode.Trim()) && productId != System.Guid.Empty)
+                using (var scope = ctx.Database.BeginTransaction())
                 {
-                    string sql = "HeaderId = '" + hhtHeaderId.ToString() + "' AND TxNumber = '" + txNumber + "' AND ProductId = '" + productId.ToString() + "'";
-                    StockTakeDetails_HHT hhtDetail = StockTakeDetails_HHT.LoadWhere(sql);
-                    if (hhtDetail == null)
+                    try
                     {
-                        hhtDetail = new StockTakeDetails_HHT();
-                        hhtDetail.HeaderId = hhtHeaderId;
-                        hhtDetail.TxNumber = txNumber;
-                        hhtDetail.LineNumber = iCount++;
-                        hhtDetail.UploadedOn = uploadedOn;
-                        hhtDetail.ProductId = productId;
-                        hhtDetail.Barcode = detail.Barcode;
+                        foreach (ImportDetailsInfo detail in detailList)
+                        {
+                            Guid productId = GetProductId(detail.Barcode);
+
+                            if (!string.IsNullOrEmpty(detail.Barcode.Trim()) && productId != System.Guid.Empty)
+                            {
+                                #region update dbo.StockTakeDetails_HHT
+                                //string sql = "HeaderId = '" + hhtHeaderId.ToString() + "' AND TxNumber = '" + txNumber + "' AND ProductId = '" + productId.ToString() + "'";
+                                var hhtDetail = ctx.StockTakeDetails_HHT
+                                    .Where(x => x.HeaderId == hhtHeaderId && x.TxNumber == txNumber && x.ProductId == productId)
+                                    .FirstOrDefault();
+                                if (hhtDetail == null)
+                                {
+                                    hhtDetail = new EF6.StockTakeDetails_HHT();
+                                    hhtDetail.DetailsId = Guid.NewGuid();
+                                    hhtDetail.HeaderId = hhtHeaderId;
+                                    hhtDetail.TxNumber = txNumber;
+                                    hhtDetail.LineNumber = iCount++;
+                                    hhtDetail.UploadedOn = uploadedOn;
+                                    hhtDetail.ProductId = productId;
+                                    hhtDetail.Barcode = detail.Barcode;
+
+                                    ctx.StockTakeDetails_HHT.Add(hhtDetail);
+                                }
+
+                                hhtDetail.Qty = detail.Qty;
+                                hhtDetail.Remarks = hhtTxNumber;
+
+                                ctx.SaveChanges();
+                                #endregion
+                            }
+                        }
+                        scope.Commit();
                     }
-
-                    hhtDetail.Qty = detail.Qty;
-                    hhtDetail.Remarks = hhtTxNumber;
-
-                    hhtDetail.Save();
+                    catch (Exception ex)
+                    {
+                        scope.Rollback();
+                    }
                 }
             }
         }
