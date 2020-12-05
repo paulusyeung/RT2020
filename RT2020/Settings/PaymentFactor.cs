@@ -1,4 +1,4 @@
-#region Using
+﻿#region Using
 
 using System;
 using System.Collections.Generic;
@@ -357,8 +357,8 @@ FROM        vwPaymentFactorList";
                 duplicatedMsg = string.Format(duplicatedMsg, "Workplace + Event Code + Data Range");
             }
 
-            PromotionPaymentFactorCollection factorList = PromotionPaymentFactor.LoadCollection(sql);
-            if (factorList.Count > 0)
+            var factorListCount = ModelEx.PromotionPaymentFactorEx.Counts(sql);
+            if (factorListCount > 0)
             {
                 errorProvider.SetError(cboWorkplace, duplicatedMsg);
                 errorProvider.SetError(cboCurrency, duplicatedMsg);
@@ -408,75 +408,93 @@ FROM        vwPaymentFactorList";
 
         private bool Save()
         {
-            if (Verify())
-            {
-                PromotionPaymentFactor oFactor = PromotionPaymentFactor.Load(this.PaymentFactorId);
-                if (oFactor == null)
-                {
-                    oFactor = new PromotionPaymentFactor();
-                    oFactor.CreatedBy = Common.Config.CurrentUserId;
-                    oFactor.CreatedOn = DateTime.Now;
+            bool result = false;
 
-                    if (IsDuplicated())
+            if (Verify() && !IsDuplicated())
+            {
+                using (var ctx = new EF6.RT2020Entities())
+                {
+                    try
                     {
-                        return false;
+                        var oFactor = ctx.PromotionPaymentFactor.Find(this.PaymentFactorId);
+                        if (oFactor == null)
+                        {
+                            oFactor = new EF6.PromotionPaymentFactor();
+                            oFactor.PaymentFactorId = Guid.NewGuid();
+                            oFactor.CreatedBy = Common.Config.CurrentUserId;
+                            oFactor.CreatedOn = DateTime.Now;
+
+                            /** 改為 Verify() && IsDuplicated()
+                            if (IsDuplicated())
+                            {
+                                return false;   // 點解唔預先喺 Verify check 埋呢?
+                            }
+                            */
+
+                            ctx.PromotionPaymentFactor.Add(oFactor);
+                        }
+                        oFactor.WorkplaceId = (cboWorkplace.SelectedValue == null) ? Guid.Empty : new Guid(cboWorkplace.SelectedValue.ToString());
+
+                        if (this.PaymentFactorType == FactorType.Currency)
+                        {
+                            oFactor.CurrencyCode = cboCurrency.Text;
+                        }
+
+                        if (this.PaymentFactorType == FactorType.EventCode)
+                        {
+                            oFactor.EventCode = cboEventCode.Text;
+                        }
+
+                        oFactor.FactorRate = (txtFactorRate.Text.Length == 0) ? 0 : Convert.ToDecimal(txtFactorRate.Text);
+                        oFactor.StartOn = dtpStartDate.Value;
+                        oFactor.EndOn = dtpEndDate.Value;
+
+                        oFactor.ModifiedBy = Common.Config.CurrentUserId;
+                        oFactor.ModifiedOn = DateTime.Now;
+                        oFactor.Retired = false;
+
+                        ctx.SaveChanges();
+                    }
+                    catch (Exception ex)
+                    {
+                        throw ex;
                     }
                 }
-                oFactor.WorkplaceId = (cboWorkplace.SelectedValue == null) ? System.Guid.Empty : new System.Guid(cboWorkplace.SelectedValue.ToString());
-
-                if (this.PaymentFactorType == FactorType.Currency)
-                {
-                    oFactor.CurrencyCode = cboCurrency.Text;
-                }
-
-                if (this.PaymentFactorType == FactorType.EventCode)
-                {
-                    oFactor.EventCode = cboEventCode.Text;
-                }
-
-                oFactor.FactorRate = (txtFactorRate.Text.Length == 0) ? 0 : Convert.ToDecimal(txtFactorRate.Text);
-                oFactor.StartOn = dtpStartDate.Value;
-                oFactor.EndOn = dtpEndDate.Value;
-
-                oFactor.ModifiedBy = Common.Config.CurrentUserId;
-                oFactor.ModifiedOn = DateTime.Now;
-                oFactor.Retired = false;
-
-                oFactor.Save();
-                return true;
+                result = true;
             }
-            else
-            {
-                return false;
-            }
+
+            return result;
         }
         #endregion
 
         #region Load Methods
         private void LoadPaymentFactor()
         {
-            PromotionPaymentFactor oFactor = PromotionPaymentFactor.Load(this.PaymentFactorId);
-            if (oFactor != null)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                cboWorkplace.SelectedValue = oFactor.WorkplaceId;
-
-                if (this.PaymentFactorType == FactorType.Currency)
+                var oFactor = ctx.PromotionPaymentFactor.Find(this.PaymentFactorId);
+                if (oFactor != null)
                 {
-                    cboCurrency.Text = oFactor.CurrencyCode;
+                    cboWorkplace.SelectedValue = oFactor.WorkplaceId;
+
+                    if (this.PaymentFactorType == FactorType.Currency)
+                    {
+                        cboCurrency.Text = oFactor.CurrencyCode;
+                    }
+
+                    if (this.PaymentFactorType == FactorType.EventCode)
+                    {
+                        cboEventCode.Text = oFactor.EventCode;
+                    }
+
+                    txtFactorRate.Text = oFactor.FactorRate.ToString("n2");
+                    dtpStartDate.Value = oFactor.StartOn.Value;
+                    dtpEndDate.Value = oFactor.EndOn.Value;
+
+                    txtCreatedOn.Text = RT2020.SystemInfo.Settings.DateTimeToString(oFactor.CreatedOn, false);
+                    txtLastUpdatedBy.Text = ModelEx.StaffEx.GetStaffNumberById(oFactor.ModifiedBy);
+                    txtLastUpdatedOn.Text = RT2020.SystemInfo.Settings.DateTimeToString(oFactor.ModifiedOn, false);
                 }
-
-                if (this.PaymentFactorType == FactorType.EventCode)
-                {
-                    cboEventCode.Text = oFactor.EventCode;
-                }
-
-                txtFactorRate.Text = oFactor.FactorRate.ToString("n2");
-                dtpStartDate.Value = oFactor.StartOn;
-                dtpEndDate.Value = oFactor.EndOn;
-
-                txtCreatedOn.Text = RT2020.SystemInfo.Settings.DateTimeToString(oFactor.CreatedOn, false);
-                txtLastUpdatedBy.Text = ModelEx.StaffEx.GetStaffNumberById(oFactor.ModifiedBy);
-                txtLastUpdatedOn.Text = RT2020.SystemInfo.Settings.DateTimeToString(oFactor.ModifiedOn, false);
             }
         }
 
@@ -484,17 +502,26 @@ FROM        vwPaymentFactorList";
 
         private void DeleteConfirmationHandler(object sender, EventArgs e)
         {
-            PromotionPaymentFactor factor = PromotionPaymentFactor.Load(this.PaymentFactorId);
-            if (factor != null)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                factor.Retired = true;
-                factor.RetiredBy = Common.Config.CurrentUserId;
-                factor.RetiredOn = DateTime.Now;
+                try
+                {
+                    var item = ctx.PromotionPaymentFactor.Find(this.PaymentFactorId);
+                    if (item != null)
+                    {
+                        item.Retired = true;
+                        item.RetiredBy = Common.Config.CurrentUserId;
+                        item.RetiredOn = DateTime.Now;
+                        ctx.SaveChanges();
 
-                factor.Save();
-
-                MessageBox.Show("Delete Successfully!", "Delete Result");
-                Clear();
+                        MessageBox.Show("Delete Successfully!", "Delete Result");
+                        Clear();
+                    }
+                }
+                catch
+                {
+                    MessageBox.Show("Cannot delete the record...Might be in use by other record!", "Delete Warning");
+                }
             }
         }
 
@@ -513,10 +540,15 @@ FROM        vwPaymentFactorList";
         {
             if (lvPaymentFactor.SelectedItem != null)
             {
-                ListViewItem listItem = lvPaymentFactor.SelectedItem;
-                this.PaymentFactorId = Common.Utility.IsGUID(listItem.Text) ? new Guid(listItem.Text.Trim()) : System.Guid.Empty;
-                LoadPaymentFactor();
-                SetToolBar();
+                var id = Guid.NewGuid();
+                if (Guid.TryParse(lvPaymentFactor.SelectedItem.Text, out id))
+                {
+                    //ListViewItem listItem = lvPaymentFactor.SelectedItem;
+                    //this.PaymentFactorId = Common.Utility.IsGUID(listItem.Text) ? new Guid(listItem.Text.Trim()) : System.Guid.Empty;
+                    this.PaymentFactorId = id;
+                    LoadPaymentFactor();
+                    SetToolBar();
+                }
             }
         }
     }

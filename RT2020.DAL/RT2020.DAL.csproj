@@ -189,7 +189,6 @@
     <Compile Include="ProductSupplement.cs" />
     <Compile Include="ProductWorkplace.cs" />
     <Compile Include="ProductWorkplacePeriodicSummary.cs" />
-    <Compile Include="PromotionPaymentFactor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SqlHelper.cs" />
   </ItemGroup>

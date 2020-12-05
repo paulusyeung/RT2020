@@ -1625,6 +1625,7 @@
     <Compile Include="MenuStrip\SettingsAms.cs" />
     <Compile Include="MenuStrip\ToolsAms.cs" />
     <Compile Include="MenuStrip\ViewAms.cs" />
+    <Compile Include="ModelEx\PromotionPaymentFactorEx.cs" />
     <Compile Include="ModelEx\PurchaseOrderDetailsEx.cs" />
     <Compile Include="ModelEx\PurchaseOrderHeaderEx.cs" />
     <Compile Include="ModelEx\SalutationEx.cs" />

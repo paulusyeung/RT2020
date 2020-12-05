@@ -339,7 +339,7 @@ namespace RT2020.EmulatedPoS
         /// </summary>
         private void FillEventCodeList()
         {
-            RT2020.DAL.PromotionPaymentFactor.LoadCombo(ref cboEvtCode, "EventCode", false);
+            ModelEx.PromotionPaymentFactorEx.LoadCombo(ref cboEvtCode, "EventCode", false);
         }
 
         /// <summary>
