@@ -15,6 +15,7 @@ namespace RT2020.Purchasing.Wizard
 
     using RT2020.DAL;
     using System.Linq;
+    using System.Data.Entity;
 
     /// <summary>
     ///  Documentation for the second part of SettleOrder.
@@ -463,19 +464,22 @@ namespace RT2020.Purchasing.Wizard
         /// </summary>
         private void Save()
         {
-            // David [2008-10-27] : It should use the OrderHeaderId, but not ReceivingHeaderId.
-            PurchaseOrderHeader objHeader = PurchaseOrderHeader.Load(this.OrderHeaderId);
-
-            // David [2008-10-27] : It should check whether the objHeader is null or not.
-            if (objHeader != null)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                objHeader.Settled = this.cboSettled.SelectedItem.ToString() == "YES" ? true : false;
-                objHeader.SettledOn = DateTime.Now;
+                // David [2008-10-27] : It should use the OrderHeaderId, but not ReceivingHeaderId.
+                var objHeader = ctx.PurchaseOrderHeader.Find(this.OrderHeaderId);
 
-                objHeader.ModifiedBy = Common.Config.CurrentUserId;
-                objHeader.ModifiedOn = DateTime.Now;
+                // David [2008-10-27] : It should check whether the objHeader is null or not.
+                if (objHeader != null)
+                {
+                    objHeader.Settled = this.cboSettled.SelectedItem.ToString() == "YES" ? true : false;
+                    objHeader.SettledOn = DateTime.Now;
 
-                objHeader.Save();
+                    objHeader.ModifiedBy = Common.Config.CurrentUserId;
+                    objHeader.ModifiedOn = DateTime.Now;
+
+                    ctx.SaveChanges();
+                }
             }
         }
         #endregion
@@ -486,70 +490,141 @@ namespace RT2020.Purchasing.Wizard
         /// </summary>
         private void LoadPOHeaderInfo()
         {
-            PurchaseOrderHeader objHeader = PurchaseOrderHeader.Load(this.OrderHeaderId);
-            
-            if (objHeader != null)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                string strType = string.Empty;
-                switch (objHeader.OrderType)
+                var objHeader = ctx.PurchaseOrderHeader.Where(x => x.OrderHeaderId == this.OrderHeaderId).AsNoTracking().FirstOrDefault();
+
+                if (objHeader != null)
                 {
-                    case 1:
-                        strType = Common.Enums.POType.LPO.ToString();
-                        break;
-                    case 2:
-                        strType = Common.Enums.POType.OPO.ToString();
-                        break;
-                    case 0:
-                    default:
-                        strType = Common.Enums.POType.FPO.ToString();
-                        break;
+                    #region strType
+                    string strType = string.Empty;
+                    switch (objHeader.OrderType)
+                    {
+                        case 1:
+                            strType = Common.Enums.POType.LPO.ToString();
+                            break;
+                        case 2:
+                            strType = Common.Enums.POType.OPO.ToString();
+                            break;
+                        case 0:
+                        default:
+                            strType = Common.Enums.POType.FPO.ToString();
+                            break;
+                    }
+                    #endregion
+
+                    #region load Header
+                    this.txtType.Text = strType;
+                    this.txtPurchaseOrderNo.Text = objHeader.OrderNumber;
+                    this.txtPOOrderedQty.Text = objHeader.TotalQty.ToString("n0");
+                    this.txtOrderAmount.Text = objHeader.TotalCost.ToString("n2");
+                    this.cboSupplierCode.SelectedValue = objHeader.SupplierId;
+                    this.cboOperatorCode.SelectedValue = objHeader.StaffId;
+                    this.dtpOrderDate.Value = objHeader.OrderOn.Value;
+                    this.dtpDeliveryDate.Value = objHeader.DeliverOn.Value;
+                    this.dtpCancelDate.Value = objHeader.CancellationOn.Value;
+                    this.cboPaymentMethod.SelectedValue = objHeader.TermsId;
+                    this.txtPaymentTerm.Text = objHeader.CreditDays.ToString("n0");
+                    this.txtDeposit.Text = objHeader.DepositPercentage.ToString("n2");
+                    this.txtPaymentRemark.Text = objHeader.PaymentRemarks;
+
+                    this.cboLocation.SelectedValue = objHeader.WorkplaceId;
+                    this.cboCurrency.Text = objHeader.CurrencyCode;
+                    this.txtGroupDiscount1.Text = objHeader.GroupDiscount1.ToString("n2");
+                    this.txtGroupDiscount2.Text = objHeader.GroupDiscount2.ToString("n2");
+                    this.txtGroupDiscount3.Text = objHeader.GroupDiscount3.ToString("n2");
+                    this.txtTypeDetail.Text = objHeader.TYPEDTL;
+                    this.cboPartialShipment.SelectedItem = objHeader.PartialShipment ? "YES" : "NO";
+                    this.cboShipmentMethod.Text = objHeader.ShipmentMethod;
+                    this.txtShipmentRemark.Text = objHeader.ShipmentRemarks;
+                    this.txtLastUser.Text = ModelEx.StaffEx.GetStaffNumberById(objHeader.ModifiedBy);
+
+                    this.cboStatus.SelectedItem = (objHeader.Status == 0) ? "HOLD" : "POST";
+                    this.txtXRate.Text = objHeader.ExchangeRate.Value.ToString("n6");
+                    this.txtFreightCharge.Text = objHeader.FreightChargePcn.ToString("n2");
+                    this.txtHandlingCharge.Text = objHeader.HandlingChargePcn.ToString("n2");
+                    this.txtInsuranceCharge.Text = objHeader.InsuranceChargePcn.ToString("n2");
+                    this.txtOtherCharge.Text = objHeader.OtherChargesPcn.ToString("n2");
+                    this.txtTotalQty.Text = objHeader.TotalQty.ToString("n0");
+                    this.txtNetCost.Text = (objHeader.TotalCost - objHeader.GroupDiscount1 - objHeader.GroupDiscount2 - objHeader.GroupDiscount3 - objHeader.FreightChargeAmt - objHeader.HandlingChargeAmt - objHeader.InsuranceChargeAmt - objHeader.OtherChargesAmt).ToString("n2");
+                    this.txtCoeffcient.Text = objHeader.ChargeCoefficient.ToString("n6");
+                    this.txtLastUpdate.Text = objHeader.ModifiedOn.ToShortDateString();
+
+                    this.txtDeliveryAddress.Text = objHeader.DeliveryAddress;
+                    this.txtContactPerson.Text = objHeader.ContactPerson;
+                    this.txtContactTel.Text = objHeader.ContactPhone;
+                    this.txtPoRemark1.Text = objHeader.Remarks1;
+                    this.txtPoRemark2.Text = objHeader.Remarks2;
+                    this.txtPoRemark3.Text = objHeader.Remarks3;
+                    #endregion
+
+                    #region load Details
+                    int iCount = 0;
+
+                    StringBuilder sql = new StringBuilder();
+                    sql.Append("SELECT  DetailsId, LineNumber, STKCODE, APPENDIX1, APPENDIX2, APPENDIX3, ProductName, ");
+                    sql.Append(" OrderedQty, UnitCost, DiscountPcn, Notes, ProductId ");
+                    sql.Append(" FROM vwPurchaseOrderDetailsList ");
+                    sql.Append(" WHERE HeaderId = '").Append(this.OrderHeaderId.ToString()).Append("'");
+
+                    SqlCommand cmd = new SqlCommand();
+                    cmd.CommandText = sql.ToString();
+                    cmd.CommandTimeout = Common.Config.CommandTimeout;
+                    cmd.CommandType = CommandType.Text;
+
+                    using (SqlDataReader reader = SqlHelper.Default.ExecuteReader(cmd))
+                    {
+                        while (reader.Read())
+                        {
+                            ListViewItem listItem = this.lvDetailsList.Items.Add(reader.GetGuid(0).ToString()); //// DetailsId
+                            listItem.SubItems.Add((iCount + 1).ToString());                   //// LN
+                            listItem.SubItems.Add(string.Empty);                        //// Status
+                            listItem.SubItems.Add(reader.GetString(2));                 //// PLU
+                            listItem.SubItems.Add(reader.GetString(3));                 ////SERSON
+                            listItem.SubItems.Add(reader.GetString(4));                 ////COLOR
+                            listItem.SubItems.Add(reader.GetString(5));                 ////SIZE
+                            listItem.SubItems.Add(reader.GetString(6));                 ////Description
+                            listItem.SubItems.Add(reader.GetDecimal(7).ToString("n0"));     //// OrderedQty
+                            listItem.SubItems.Add(reader.GetDecimal(8).ToString("n2"));     //// UnitCost
+                            listItem.SubItems.Add(reader.GetDecimal(9).ToString("n2"));     //// DiscountPcn
+                            listItem.SubItems.Add((reader.GetDecimal(7) * reader.GetDecimal(8)).ToString("n2")); //// Sub Total
+                            listItem.SubItems.Add(reader.GetString(10));                //// Notes
+                            listItem.SubItems.Add(reader.GetGuid(11).ToString());       //// ProductId
+
+                            iCount++;
+                        }
+                    }
+
+                    this.lblLineCount.Text = iCount.ToString();
+                    #endregion
+
+                    #region load Receiving Qty
+                    decimal totalReceivingQty = 0;
+
+                    StringBuilder sql2 = new StringBuilder();
+                    sql2.Append("SELECT  ReceiveDetailsId, ReceivedQty ");
+                    sql2.Append(" FROM PurchaseOrderReceiveDetails a,PurchaseOrderReceiveHeader b ");
+                    sql2.Append(" WHERE a.ReceiveHeaderId = b.ReceiveHeaderId and OrderHeaderId = '").Append(this.OrderHeaderId.ToString()).Append("'");
+
+                    SqlCommand cmd2 = new SqlCommand();
+                    cmd2.CommandText = sql2.ToString();
+                    cmd2.CommandTimeout = Common.Config.CommandTimeout;
+                    cmd2.CommandType = CommandType.Text;
+
+                    using (SqlDataReader reader = SqlHelper.Default.ExecuteReader(cmd2))
+                    {
+                        while (reader.Read())
+                        {
+                            totalReceivingQty += reader.GetDecimal(1);
+                        }
+                    }
+
+                    this.txtPOReceivingQty.Text = totalReceivingQty.ToString("n0");
+                    #endregion
+
+                    //this.LoadPODetailInfo();
+                    //this.CalReceivingQty();
                 }
-
-                this.txtType.Text = strType;
-                this.txtPurchaseOrderNo.Text = objHeader.OrderNumber;
-                this.txtPOOrderedQty.Text = objHeader.TotalQty.ToString("n0");
-                this.txtOrderAmount.Text = objHeader.TotalCost.ToString("n2");
-                this.cboSupplierCode.SelectedValue = objHeader.SupplierId;
-                this.cboOperatorCode.SelectedValue = objHeader.StaffId;
-                this.dtpOrderDate.Value = objHeader.OrderOn;
-                this.dtpDeliveryDate.Value = objHeader.DeliverOn;
-                this.dtpCancelDate.Value = objHeader.CancellationOn;
-                this.cboPaymentMethod.SelectedValue = objHeader.TermsId;
-                this.txtPaymentTerm.Text = objHeader.CreditDays.ToString("n0");
-                this.txtDeposit.Text = objHeader.DepositPercentage.ToString("n2");
-                this.txtPaymentRemark.Text = objHeader.PaymentRemarks;
-
-                this.cboLocation.SelectedValue = objHeader.WorkplaceId;
-                this.cboCurrency.Text = objHeader.CurrencyCode;
-                this.txtGroupDiscount1.Text = objHeader.GroupDiscount1.ToString("n2");
-                this.txtGroupDiscount2.Text = objHeader.GroupDiscount2.ToString("n2");
-                this.txtGroupDiscount3.Text = objHeader.GroupDiscount3.ToString("n2");
-                this.txtTypeDetail.Text = objHeader.TYPEDTL;
-                this.cboPartialShipment.SelectedItem = objHeader.PartialShipment ? "YES" : "NO";
-                this.cboShipmentMethod.Text = objHeader.ShipmentMethod;
-                this.txtShipmentRemark.Text = objHeader.ShipmentRemarks;
-                this.txtLastUser.Text = ModelEx.StaffEx.GetStaffNumberById(objHeader.ModifiedBy);
-
-                this.cboStatus.SelectedItem = (objHeader.Status == 0) ? "HOLD" : "POST";
-                this.txtXRate.Text = objHeader.ExchangeRate.ToString("n6");
-                this.txtFreightCharge.Text = objHeader.FreightChargePcn.ToString("n2");
-                this.txtHandlingCharge.Text = objHeader.HandlingChargePcn.ToString("n2");
-                this.txtInsuranceCharge.Text = objHeader.InsuranceChargePcn.ToString("n2");
-                this.txtOtherCharge.Text = objHeader.OtherChargesPcn.ToString("n2");
-                this.txtTotalQty.Text = objHeader.TotalQty.ToString("n0");
-                this.txtNetCost.Text = (objHeader.TotalCost - objHeader.GroupDiscount1 - objHeader.GroupDiscount2 - objHeader.GroupDiscount3 - objHeader.FreightChargeAmt - objHeader.HandlingChargeAmt - objHeader.InsuranceChargeAmt - objHeader.OtherChargesAmt).ToString("n2");
-                this.txtCoeffcient.Text = objHeader.ChargeCoefficient.ToString("n6");
-                this.txtLastUpdate.Text = objHeader.ModifiedOn.ToShortDateString();
-
-                this.txtDeliveryAddress.Text = objHeader.DeliveryAddress;
-                this.txtContactPerson.Text = objHeader.ContactPerson;
-                this.txtContactTel.Text = objHeader.ContactPhone;
-                this.txtPoRemark1.Text = objHeader.Remarks1;
-                this.txtPoRemark2.Text = objHeader.Remarks2;
-                this.txtPoRemark3.Text = objHeader.Remarks3;
-
-                this.LoadPODetailInfo();
-                this.CalReceivingQty();
             }
         }
 

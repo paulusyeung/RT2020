@@ -64,10 +64,7 @@ namespace RT2020.Purchasing.Reports.PurchaseOrder
             string[] orderBy = { "OrderNumber" };
             string sql = " Retired = 0 ";
 
-            PurchaseOrderHeaderCollection purchaseOrderList = PurchaseOrderHeader.LoadCollection(sql, orderBy, true);
-            cboFrom.DataSource = purchaseOrderList;
-            cboFrom.DisplayMember = "OrderNumber";
-            cboFrom.ValueMember = "OrderHeaderId";
+            ModelEx.PurchaseOrderHeaderEx.LoadCombo(ref cboFrom, "OrderNumber", false, false, "", sql, orderBy);
         }
 
         /// <summary>
@@ -80,12 +77,9 @@ namespace RT2020.Purchasing.Reports.PurchaseOrder
             string[] orderBy = { "OrderNumber" };
             string sql = " Retired = 0 ";
 
-            PurchaseOrderHeaderCollection purchaseOrderList = PurchaseOrderHeader.LoadCollection(sql, orderBy, true);
-            cboTo.DataSource = purchaseOrderList;
-            cboTo.DisplayMember = "OrderNumber";
-            cboTo.ValueMember = "OrderHeaderId";
+            ModelEx.PurchaseOrderHeaderEx.LoadCombo(ref cboFrom, "OrderNumber", false, false, "", sql, orderBy);
 
-            cboTo.SelectedIndex = purchaseOrderList.Count - 1;
+            cboTo.SelectedIndex = cboTo.Items.Count - 1;
         }
 
         /// <summary>

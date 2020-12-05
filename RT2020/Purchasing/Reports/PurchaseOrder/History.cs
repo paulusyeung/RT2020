@@ -52,16 +52,10 @@ namespace RT2020.Purchasing.Reports.PurchaseOrder
             string[] orderBy = { "OrderNumber" };
             string sql = " Retired = 0 AND Status = 1 AND PostedOn != '1900-01-01' ";
 
-            PurchaseOrderHeaderCollection purchaseOrderList = PurchaseOrderHeader.LoadCollection(sql, orderBy, true);
-            if (purchaseOrderList.Count > 0)
+            ModelEx.PurchaseOrderHeaderEx.LoadCombo(ref cboFrom, "OrderNumber", false, true, "", sql, orderBy);
+            if (cboFrom.Items.Count == 1)
             {
-                cboFrom.DataSource = purchaseOrderList;
-                cboFrom.DisplayMember = "OrderNumber";
-                cboFrom.ValueMember = "OrderHeaderId";
-            }
-            else
-            {
-                cboFrom.Text = "** No Record **";
+                //cboFrom.Text = "** No Record **";
                 cmdExcel.Enabled = false;
                 cmdPDF.Enabled = false;
                 cmdPreview.Enabled = false;
@@ -78,18 +72,14 @@ namespace RT2020.Purchasing.Reports.PurchaseOrder
             string[] orderBy = { "OrderNumber" };
             string sql = " Retired = 0 AND Status = 1 AND PostedOn != '1900-01-01' ";
 
-            PurchaseOrderHeaderCollection purchaseOrderList = PurchaseOrderHeader.LoadCollection(sql, orderBy, true);
-            if (purchaseOrderList.Count > 0)
+            ModelEx.PurchaseOrderHeaderEx.LoadCombo(ref cboTo, "OrderNumber", false, true, "", sql, orderBy);
+            if (cboTo.Items.Count > 1)
             {
-                cboTo.DataSource = purchaseOrderList;
-                cboTo.DisplayMember = "OrderNumber";
-                cboTo.ValueMember = "OrderHeaderId";
-
-                cboTo.SelectedIndex = purchaseOrderList.Count - 1;
+                cboTo.SelectedIndex = cboTo.Items.Count - 1;
             }
             else
             {
-                cboTo.Text = "** No Record **";
+                //cboTo.Text = "** No Record **";
                 cmdExcel.Enabled = false;
                 cmdPDF.Enabled = false;
                 cmdPreview.Enabled = false;

@@ -692,56 +692,125 @@ namespace RT2020.Purchasing.Wizard
                 return;
             }
 
-            foreach (ListViewItem objItem in this.lvLocationsList.Items)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                if (objItem.SubItems[1].Text.Contains("*"))
+                using (var scope = ctx.Database.BeginTransaction())
                 {
-                    PurchaseOrderHeader objHeader = new PurchaseOrderHeader();
-
-                    objHeader.CreatedBy = Common.Config.CurrentUserId;
-                    objHeader.CreatedOn = DateTime.Now;
-
-                    int type = 0;
-                    string orderNumber = string.Empty;
-                    switch (this.cboType.SelectedItem.ToString().ToUpper())
+                    try
                     {
-                        case "FPO":
-                            orderNumber = RT2020.SystemInfo.Settings.QueuingTxNumber(Common.Enums.POType.FPO);
-                            type = Convert.ToInt32(Common.Enums.POType.FPO);
-                            break;
-                        case "LPO":
-                            orderNumber = RT2020.SystemInfo.Settings.QueuingTxNumber(Common.Enums.POType.LPO);
-                            type = Convert.ToInt32(Common.Enums.POType.LPO);
-                            break;
-                        case "OPO":
-                            orderNumber = RT2020.SystemInfo.Settings.QueuingTxNumber(Common.Enums.POType.OPO);
-                            type = Convert.ToInt32(Common.Enums.POType.OPO);
-                            break;
+                        foreach (ListViewItem objItem in this.lvLocationsList.Items)
+                        {
+                            if (objItem.SubItems[1].Text.Contains("*"))
+                            {
+                                var objHeader = new EF6.PurchaseOrderHeader();
+
+                                objHeader.OrderHeaderId = Guid.NewGuid();
+                                objHeader.CreatedBy = Common.Config.CurrentUserId;
+                                objHeader.CreatedOn = DateTime.Now;
+
+                                #region type
+                                int type = 0;
+                                string orderNumber = string.Empty;
+                                switch (this.cboType.SelectedItem.ToString().ToUpper())
+                                {
+                                    case "FPO":
+                                        orderNumber = RT2020.SystemInfo.Settings.QueuingTxNumber(Common.Enums.POType.FPO);
+                                        type = Convert.ToInt32(Common.Enums.POType.FPO);
+                                        break;
+                                    case "LPO":
+                                        orderNumber = RT2020.SystemInfo.Settings.QueuingTxNumber(Common.Enums.POType.LPO);
+                                        type = Convert.ToInt32(Common.Enums.POType.LPO);
+                                        break;
+                                    case "OPO":
+                                        orderNumber = RT2020.SystemInfo.Settings.QueuingTxNumber(Common.Enums.POType.OPO);
+                                        type = Convert.ToInt32(Common.Enums.POType.OPO);
+                                        break;
+                                }
+                                #endregion
+
+                                objHeader.OrderNumber = orderNumber;
+                                objHeader.OrderType = type;
+                                objHeader.SupplierId = this.cboSupplierCode.SelectedIndex == -1 ? System.Guid.Empty : RT2020.Purchasing.PurchasingUtils.Convert.ToGuid(this.cboSupplierCode.SelectedValue.ToString());
+                                objHeader.StaffId = RT2020.Purchasing.PurchasingUtils.Convert.ToGuid(this.cboOperatorCode.SelectedValue.ToString());
+                                objHeader.OrderOn = this.dtpOrderDate.Value;
+                                objHeader.DeliverOn = this.dtpDeliveryDate.Value;
+                                objHeader.CancellationOn = this.dtpCancelDate.Value;
+                                objHeader.WorkplaceId = RT2020.Purchasing.PurchasingUtils.Convert.ToGuid(objItem.SubItems[0].Text);
+                                objHeader.CurrencyCode = this.cboCurrency.Text;
+                                objHeader.Status = RT2020.Purchasing.PurchasingUtils.Convert.ToInt32(this.cboStatus.Text == "HOLD" ? Common.Enums.Status.Draft.ToString("d") : Common.Enums.Status.Active.ToString("d"));
+
+                                objHeader.ExchangeRate = this.InitCurrency(objHeader.CurrencyCode);
+                                objHeader.ChargeCoefficient = this.InitCurrency(objHeader.CurrencyCode);
+                                ////objHeader.TotalCost = RT2020.Purchasing.PurchasingUtils.Convert.ToDecimal(this.txtTotalAmount.Text);
+                                ////objHeader.TotalQty = RT2020.Purchasing.PurchasingUtils.Convert.ToDecimal(this.txtTotalQty.Text);
+
+                                objHeader.ModifiedBy = Common.Config.CurrentUserId;
+                                objHeader.ModifiedOn = DateTime.Now;
+
+                                ctx.PurchaseOrderHeader.Add(objHeader);
+                                ctx.SaveChanges();
+
+                                #region original: this.SaveOrderDetail(objHeader);
+                                foreach (ListViewItem listItem in this.lvDetailsList.Items)
+                                {
+                                    bool result = true;
+                                    Guid detailId = Guid.Empty, productId = Guid.Empty;
+
+                                    if (Guid.TryParse(listItem.Text.Trim(), out detailId) && Guid.TryParse(listItem.SubItems[8].Text.Trim(), out productId))
+                                    {
+                                        //System.Guid detailId = RT2020.Purchasing.PurchasingUtils.Convert.ToGuid(listItem.Text.Trim());
+                                        var objDetail = ctx.PurchaseOrderDetails.Find(detailId);
+                                        var wpCode = ModelEx.WorkplaceEx.GetWorkplaceCodeById(objHeader.WorkplaceId.Value);
+                                        if (objDetail == null)
+                                        {
+                                            objDetail = new EF6.PurchaseOrderDetails();
+
+                                            objDetail.OrderDetailsId = Guid.NewGuid();
+                                            objDetail.OrderHeaderId = objHeader.OrderHeaderId;
+                                            this.orderHeaderId = objHeader.OrderHeaderId;
+                                            objDetail.LineNumber = RT2020.Purchasing.PurchasingUtils.Convert.ToInt32(listItem.SubItems[1].Text.Length == 0 ? "1" : listItem.SubItems[1].Text);
+
+                                            ctx.PurchaseOrderDetails.Add(objDetail);
+                                        }
+
+                                        objDetail.ProductId = RT2020.Purchasing.PurchasingUtils.Convert.ToGuid(listItem.SubItems[8].Text.Trim());
+                                        for (int i = 9; i <= 18; i++)
+                                        {
+                                            if (wpCode == this.lvDetailsList.Columns[i].Text && listItem.SubItems[i].Text != "0")
+                                            {
+                                                objDetail.OrderedQty = RT2020.Purchasing.PurchasingUtils.Convert.ToDecimal(listItem.SubItems[i].Text.Length == 0 ? "0" : listItem.SubItems[i].Text);
+                                                result = true;
+                                                break;
+                                            }
+                                            else
+                                            {
+                                                result = false;
+                                            }
+                                        }
+
+                                        objDetail.UnitCost = RT2020.Purchasing.PurchasingUtils.Convert.ToDecimal(listItem.SubItems[7].Text.Length == 0 ? "0" : listItem.SubItems[7].Text);
+                                        objDetail.TotalQtyReceived = objDetail.OrderedQty * objDetail.UnitCost;
+
+                                        if (result)
+                                        {
+                                            if (listItem.SubItems[2].Text.Trim().ToUpper() == "REMOVED" && detailId != System.Guid.Empty)
+                                            {
+                                                ctx.PurchaseOrderDetails.Remove(objDetail);
+                                            }
+                                        }
+                                        ctx.SaveChanges();
+                                    }
+                                }
+                                #endregion
+                            }
+                        }
+                        scope.Commit();
                     }
-
-                    objHeader.OrderNumber = orderNumber;
-                    objHeader.OrderType = type;
-                    objHeader.SupplierId = this.cboSupplierCode.SelectedIndex == -1 ? System.Guid.Empty : RT2020.Purchasing.PurchasingUtils.Convert.ToGuid(this.cboSupplierCode.SelectedValue.ToString());
-                    objHeader.StaffId = RT2020.Purchasing.PurchasingUtils.Convert.ToGuid(this.cboOperatorCode.SelectedValue.ToString());
-                    objHeader.OrderOn = this.dtpOrderDate.Value;
-                    objHeader.DeliverOn = this.dtpDeliveryDate.Value;
-                    objHeader.CancellationOn = this.dtpCancelDate.Value;
-                    objHeader.WorkplaceId = RT2020.Purchasing.PurchasingUtils.Convert.ToGuid(objItem.SubItems[0].Text);
-                    objHeader.CurrencyCode = this.cboCurrency.Text;
-                    objHeader.Status = RT2020.Purchasing.PurchasingUtils.Convert.ToInt32(this.cboStatus.Text == "HOLD" ? Common.Enums.Status.Draft.ToString("d") : Common.Enums.Status.Active.ToString("d"));
-
-                    objHeader.ExchangeRate = this.InitCurrency(objHeader.CurrencyCode);
-                    objHeader.ChargeCoefficient = this.InitCurrency(objHeader.CurrencyCode);
-                    ////objHeader.TotalCost = RT2020.Purchasing.PurchasingUtils.Convert.ToDecimal(this.txtTotalAmount.Text);
-                    ////objHeader.TotalQty = RT2020.Purchasing.PurchasingUtils.Convert.ToDecimal(this.txtTotalQty.Text);
-
-                    objHeader.ModifiedBy = Common.Config.CurrentUserId;
-                    objHeader.ModifiedOn = DateTime.Now;
-
-                    objHeader.Save();
-            
-                    this.SaveOrderDetail(objHeader);
-                }
+                    catch (Exception ex)
+                    {
+                        scope.Rollback();
+                    }
+                 }
             }
         }
 
@@ -749,7 +818,7 @@ namespace RT2020.Purchasing.Wizard
         /// Saves the order detail.
         /// </summary>
         /// <param name="header">The header.</param>
-        private void SaveOrderDetail(PurchaseOrderHeader header)
+        private void SaveOrderDetail(EF6.PurchaseOrderHeader header)
         {
             foreach (ListViewItem listItem in this.lvDetailsList.Items)
             {
@@ -760,7 +829,7 @@ namespace RT2020.Purchasing.Wizard
                 {
                     System.Guid detailId = RT2020.Purchasing.PurchasingUtils.Convert.ToGuid(listItem.Text.Trim());
                     PurchaseOrderDetails objDetail = PurchaseOrderDetails.Load(detailId);
-                    var wpCode = ModelEx.WorkplaceEx.GetWorkplaceCodeById(header.WorkplaceId);
+                    var wpCode = ModelEx.WorkplaceEx.GetWorkplaceCodeById(header.WorkplaceId.Value);
                     if (objDetail == null)
                     {
                         objDetail = new PurchaseOrderDetails();

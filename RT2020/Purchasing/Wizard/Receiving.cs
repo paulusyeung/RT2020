@@ -16,6 +16,7 @@ namespace RT2020.Purchasing.Wizard
 
     using RT2020.DAL;
     using System.Linq;
+    using System.Data.Entity;
 
     /// <summary>
     /// Documentation for the second part of Receiving.
@@ -968,63 +969,72 @@ WHERE ReceiveHeaderId = '" + this.ReceivingHeaderId.ToString() + "'";
         /// Loads the PO header info.
         /// </summary>
         /// <param name="objHeader">The obj header.</param>
-        public void BindPOHeaderInfo(PurchaseOrderHeader objHeader)
+        public void BindPOHeaderInfo(Guid orederHeaderId)
         {
-            this.OrderHeaderId = objHeader.OrderHeaderId;
-
-            string strPoType = string.Empty;
-            switch (objHeader.OrderType)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                case 1:
-                    strPoType = Common.Enums.POType.LPO.ToString();
-                    break;
-                case 2:
-                    strPoType = Common.Enums.POType.OPO.ToString();
-                    break;
-                case 0:
-                default:
-                    strPoType = Common.Enums.POType.FPO.ToString();
-                    break;
+                var objHeader = ctx.PurchaseOrderHeader.Where(x => x.OrderHeaderId == orderHeaderId).AsNoTracking().FirstOrDefault();
+                if (objHeader != null)
+                {
+                    this.OrderHeaderId = objHeader.OrderHeaderId;
+
+                    #region strPoType
+                    string strPoType = string.Empty;
+                    switch (objHeader.OrderType)
+                    {
+                        case 1:
+                            strPoType = Common.Enums.POType.LPO.ToString();
+                            break;
+                        case 2:
+                            strPoType = Common.Enums.POType.OPO.ToString();
+                            break;
+                        case 0:
+                        default:
+                            strPoType = Common.Enums.POType.FPO.ToString();
+                            break;
+                    }
+                    #endregion
+
+                    this.txtPoType.Text = strPoType;
+                    this.txtSupplierCode.Text = ModelEx.SupplierEx.GetSupplierCodeById(objHeader.SupplierId.Value);
+                    this.txtOperatorCode.Text = ModelEx.StaffEx.GetStaffNumberById(objHeader.StaffId.Value);
+                    this.txtOrderDate.Text = objHeader.OrderOn.Value.ToShortDateString();
+                    this.txtDeliveryDate.Text = objHeader.DeliverOn.Value.ToShortDateString();
+                    this.txtCancellationDate.Text = objHeader.CancellationOn.Value.ToShortDateString();
+                    this.txtPaymentMethod.Text = ModelEx.SupplierTermsEx.GetTermsCode(objHeader.TermsId.Value);
+                    this.txtPaymentTerm.Text = objHeader.CreditDays.ToString();
+                    this.txtDeposit.Text = objHeader.DepositPercentage.ToString("n2");
+                    this.txtPaymentRemark.Text = objHeader.PaymentRemarks;
+
+                    this.txtPoNo.Text = objHeader.OrderNumber;
+                    this.cboLocation.SelectedValue = objHeader.WorkplaceId;
+                    this.txtCurrency.Text = objHeader.CurrencyCode;
+                    this.txtXRate.Text = objHeader.ExchangeRate.Value.ToString("n6");
+                    this.txtGroupDiscount1.Text = objHeader.GroupDiscount1.ToString("n2");
+                    this.txtGroupDiscount2.Text = objHeader.GroupDiscount2.ToString("n2");
+                    this.txtGroupDiscount3.Text = objHeader.GroupDiscount3.ToString("n2");
+                    this.txtPartialShipment.Text = objHeader.PartialShipment ? "YES" : "NO";
+                    this.txtShipmentMethod.Text = objHeader.ShipmentMethod;
+                    this.txtShipmentRemark.Text = objHeader.ShipmentRemarks;
+                    this.txtLastUser.Text = ModelEx.StaffEx.GetStaffNumberById(objHeader.ModifiedBy);
+
+                    this.cboStatus.SelectedIndex = objHeader.Status;
+                    this.txtFreightCharge.Text = objHeader.FreightChargePcn.ToString("n2");
+                    this.txtHandlingCharge.Text = objHeader.HandlingChargePcn.ToString("n2");
+                    this.txtInsuranceCharge.Text = objHeader.InsuranceChargePcn.ToString("n2");
+                    this.txtOtherCharge.Text = objHeader.OtherChargesPcn.ToString("n2");
+                    this.txtTotalQty.Text = objHeader.TotalQty.ToString("n0");
+
+                    this.ShowNetCost(objHeader.TotalCost, objHeader.GroupDiscount1, objHeader.GroupDiscount2, objHeader.GroupDiscount3, objHeader.FreightChargeAmt, objHeader.HandlingChargeAmt, objHeader.InsuranceChargeAmt, objHeader.OtherChargesAmt, objHeader.ChargeCoefficient);
+
+                    this.txtCoeffcient.Text = objHeader.ExchangeRate.Value.ToString("n6");
+                    this.txtLastUpdate.Text = objHeader.ModifiedOn.ToShortDateString();
+
+                    this.txtPoRemark1.Text = objHeader.Remarks1;
+                    this.txtPoRemark2.Text = objHeader.Remarks2;
+                    this.txtPoRemark3.Text = objHeader.Remarks3;
+                }
             }
-
-            this.txtPoType.Text = strPoType;
-            this.txtSupplierCode.Text = ModelEx.SupplierEx.GetSupplierCodeById(objHeader.SupplierId);
-            this.txtOperatorCode.Text = ModelEx.StaffEx.GetStaffNumberById(objHeader.StaffId);
-            this.txtOrderDate.Text = objHeader.OrderOn.ToShortDateString();
-            this.txtDeliveryDate.Text = objHeader.DeliverOn.ToShortDateString();
-            this.txtCancellationDate.Text = objHeader.CancellationOn.ToShortDateString();
-            this.txtPaymentMethod.Text = ModelEx.SupplierTermsEx.GetTermsCode(objHeader.TermsId);
-            this.txtPaymentTerm.Text = objHeader.CreditDays.ToString();
-            this.txtDeposit.Text = objHeader.DepositPercentage.ToString("n2");
-            this.txtPaymentRemark.Text = objHeader.PaymentRemarks;
-
-            this.txtPoNo.Text = objHeader.OrderNumber;
-            this.cboLocation.SelectedValue = objHeader.WorkplaceId;
-            this.txtCurrency.Text = objHeader.CurrencyCode;
-            this.txtXRate.Text = objHeader.ExchangeRate.ToString("n6");
-            this.txtGroupDiscount1.Text = objHeader.GroupDiscount1.ToString("n2");
-            this.txtGroupDiscount2.Text = objHeader.GroupDiscount2.ToString("n2");
-            this.txtGroupDiscount3.Text = objHeader.GroupDiscount3.ToString("n2");
-            this.txtPartialShipment.Text = objHeader.PartialShipment ? "YES" : "NO";
-            this.txtShipmentMethod.Text = objHeader.ShipmentMethod;
-            this.txtShipmentRemark.Text = objHeader.ShipmentRemarks;
-            this.txtLastUser.Text = ModelEx.StaffEx.GetStaffNumberById(objHeader.ModifiedBy);
-            
-            this.cboStatus.SelectedIndex = objHeader.Status;
-            this.txtFreightCharge.Text = objHeader.FreightChargePcn.ToString("n2");
-            this.txtHandlingCharge.Text = objHeader.HandlingChargePcn.ToString("n2");
-            this.txtInsuranceCharge.Text = objHeader.InsuranceChargePcn.ToString("n2");
-            this.txtOtherCharge.Text = objHeader.OtherChargesPcn.ToString("n2");
-            this.txtTotalQty.Text = objHeader.TotalQty.ToString("n0");
-
-            this.ShowNetCost(objHeader.TotalCost, objHeader.GroupDiscount1, objHeader.GroupDiscount2, objHeader.GroupDiscount3, objHeader.FreightChargeAmt, objHeader.HandlingChargeAmt, objHeader.InsuranceChargeAmt, objHeader.OtherChargesAmt, objHeader.ChargeCoefficient);
-
-            this.txtCoeffcient.Text = objHeader.ExchangeRate.ToString("n6");
-            this.txtLastUpdate.Text = objHeader.ModifiedOn.ToShortDateString();
-
-            this.txtPoRemark1.Text = objHeader.Remarks1;
-            this.txtPoRemark2.Text = objHeader.Remarks2;
-            this.txtPoRemark3.Text = objHeader.Remarks3;
 
             this.BindPODetailsInfo();
         }

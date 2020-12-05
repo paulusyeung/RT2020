@@ -14,6 +14,8 @@ namespace RT2020.Purchasing.Wizard
     using Gizmox.WebGUI.Forms;
 
     using RT2020.DAL;
+    using System.Linq;
+    using System.Data.Entity;
 
     /// <summary>
     /// Documentation for the second part of AuthPurchaseOrder.
@@ -219,19 +221,24 @@ namespace RT2020.Purchasing.Wizard
         /// <param name="iCount">The i count.</param>
         private void CreatePurchaseOrder(ListViewItem listItem, ref int iCount)
         {
-            if (Common.Utility.IsGUID(listItem.Text) && listItem.SubItems[1].Text == "*")
+            using (var ctx = new EF6.RT2020Entities())
             {
-                PurchaseOrderHeader objHeader = PurchaseOrderHeader.Load(new Guid(listItem.Text));
-                if (objHeader != null)
+                Guid headerId = Guid.Empty;
+
+                if (Guid.TryParse(listItem.Text, out headerId) && listItem.SubItems[1].Text == "*")
                 {
-                    objHeader.PostedOn = DateTime.Now;
-                    objHeader.PostedBy = Common.Config.CurrentUserId;
+                    var objHeader = ctx.PurchaseOrderHeader.Find(headerId);
+                    if (objHeader != null)
+                    {
+                        objHeader.PostedOn = DateTime.Now;
+                        objHeader.PostedBy = Common.Config.CurrentUserId;
 
-                    objHeader.ModifiedBy = Common.Config.CurrentUserId;
-                    objHeader.ModifiedOn = DateTime.Now;
-                    objHeader.Save();
+                        objHeader.ModifiedBy = Common.Config.CurrentUserId;
+                        objHeader.ModifiedOn = DateTime.Now;
+                        ctx.SaveChanges();
 
-                    iCount++;
+                        iCount++;
+                    }
                 }
             }
         }
@@ -249,26 +256,28 @@ namespace RT2020.Purchasing.Wizard
             this.errorProvider.SetError(this.txtOrderNumber, string.Empty);
             if (this.txtOrderNumber.Text.Trim().Length > 0)
             {
-                string sql = "OrderNumber LIKE '%" + this.txtOrderNumber.Text.Trim() + "%'";
-                PurchaseOrderHeader objHeader = PurchaseOrderHeader.LoadWhere(sql);
-                if (objHeader != null)
+                using (var ctx = new EF6.RT2020Entities())
                 {
-                    Common.Enums.Status objStatus = (Common.Enums.Status)Enum.Parse(typeof(Common.Enums.Status), objHeader.Status.ToString());
-                    switch (objStatus)
+                    var objHeader = ctx.PurchaseOrderHeader.Where(x => x.OrderNumber.Contains(this.txtOrderNumber.Text.Trim())).AsNoTracking().FirstOrDefault();
+                    if (objHeader != null)
                     {
-                        case Common.Enums.Status.Draft: // Holding
-                            this.tabREJAuthorization.SelectedIndex = 1;
-                            break;
-                        case Common.Enums.Status.Active: // Posting
-                            this.tabREJAuthorization.SelectedIndex = 0;
-                            break;
-                    }
+                        Common.Enums.Status objStatus = (Common.Enums.Status)Enum.Parse(typeof(Common.Enums.Status), objHeader.Status.ToString());
+                        switch (objStatus)
+                        {
+                            case Common.Enums.Status.Draft: // Holding
+                                this.tabREJAuthorization.SelectedIndex = 1;
+                                break;
+                            case Common.Enums.Status.Active: // Posting
+                                this.tabREJAuthorization.SelectedIndex = 0;
+                                break;
+                        }
 
-                    this.BindingList(objStatus);
-                }
-                else
-                {
-                    this.errorProvider.SetError(this.txtOrderNumber, "Cash Purchase Number field does not exist!");
+                        this.BindingList(objStatus);
+                    }
+                    else
+                    {
+                        this.errorProvider.SetError(this.txtOrderNumber, "Cash Purchase Number field does not exist!");
+                    }
                 }
             }
             else

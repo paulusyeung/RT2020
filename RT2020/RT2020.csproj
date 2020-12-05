@@ -1625,6 +1625,7 @@
     <Compile Include="MenuStrip\SettingsAms.cs" />
     <Compile Include="MenuStrip\ToolsAms.cs" />
     <Compile Include="MenuStrip\ViewAms.cs" />
+    <Compile Include="ModelEx\PurchaseOrderHeaderEx.cs" />
     <Compile Include="ModelEx\SalutationEx.cs" />
     <Compile Include="ModelEx\SmartTag4MemberEx.cs" />
     <Compile Include="ModelEx\SmartTag4StaffEx.cs" />

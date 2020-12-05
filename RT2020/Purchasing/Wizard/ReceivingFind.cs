@@ -14,6 +14,7 @@ namespace RT2020.Purchasing.Wizard
     using Gizmox.WebGUI.Forms;
 
     using RT2020.DAL;
+    using System.Linq;
 
     /// <summary>
     /// Documentation for the second part of ReceivingFind.
@@ -26,6 +27,11 @@ namespace RT2020.Purchasing.Wizard
         public ReceivingFind()
         {
             this.InitializeComponent();
+        }
+
+        private void ReceivingFind_Load(object sender, EventArgs e)
+        {
+            
         }
 
         /// <summary>
@@ -50,31 +56,39 @@ namespace RT2020.Purchasing.Wizard
             string objPOnumber = (this.txtPONumber.Text.Trim() == "*") ? string.Empty : PurchasingUtils.GenSafeChars(this.txtPONumber.Text.Trim());
             string objType = (this.txtType.Text.Trim() == "*") ? string.Empty : PurchasingUtils.GenSafeChars(this.txtType.Text.Trim());
 
-            string sql = "Status = 1 AND PostedBy <> '" + System.Guid.Empty + "' AND OrderNumber LIKE '%" + objPOnumber + "%' AND OrderType LIKE '%" + objType + "%'";
-            string[] objOrderBy = { "OrderNumber" };
-            PurchaseOrderHeaderCollection objHeaders = PurchaseOrderHeader.LoadCollection(sql, objOrderBy, true);
-            foreach (PurchaseOrderHeader objHeader in objHeaders)
+            string sql = "Status = 1 AND PostedBy <> '" + Guid.Empty + "' AND OrderNumber LIKE '%" + objPOnumber + "%' AND OrderType LIKE '%" + objType + "%'";
+            string orderBy = "OrderNumber";
+
+            using (var ctx = new EF6.RT2020Entities())
             {
-                string orderType = string.Empty;
-                switch (objHeader.OrderType)
+                var objHeaders = ctx.PurchaseOrderHeader.SqlQuery(
+                    string.Format("Select * from PurchaseOrderHeader Where {0} Order By {1}", sql, orderBy))
+                    .AsNoTracking()
+                    .ToList();
+
+                foreach (var objHeader in objHeaders)
                 {
-                    case 0:
-                        orderType = Common.Enums.POType.FPO.ToString();
-                        break;
-                    case 1:
-                        orderType = Common.Enums.POType.LPO.ToString();
-                        break;
-                    case 2:
-                        orderType = Common.Enums.POType.OPO.ToString();
-                        break;
+                    string orderType = string.Empty;
+                    switch (objHeader.OrderType)
+                    {
+                        case 0:
+                            orderType = Common.Enums.POType.FPO.ToString();
+                            break;
+                        case 1:
+                            orderType = Common.Enums.POType.LPO.ToString();
+                            break;
+                        case 2:
+                            orderType = Common.Enums.POType.OPO.ToString();
+                            break;
+                    }
+
+                    ListViewItem objItem = this.lisReceivingFindList.Items.Add(objHeader.OrderHeaderId.ToString()); //// OrderHeaderId
+                    objItem.SubItems.Add(iCount.ToString());    //// Line Number
+                    objItem.SubItems.Add(objHeader.OrderNumber);
+                    objItem.SubItems.Add(orderType);
+
+                    iCount++;
                 }
-
-                ListViewItem objItem = this.lisReceivingFindList.Items.Add(objHeader.OrderHeaderId.ToString()); //// OrderHeaderId
-                objItem.SubItems.Add(iCount.ToString());    //// Line Number
-                objItem.SubItems.Add(objHeader.OrderNumber);
-                objItem.SubItems.Add(orderType);
-
-                iCount++;
             }
         }
         #endregion
@@ -92,8 +106,7 @@ namespace RT2020.Purchasing.Wizard
                 Receiving objReceiving = new Receiving();
                 objReceiving.OrderHeaderId = PurchasingUtils.Convert.ToGuid(this.lisReceivingFindList.SelectedItem.Text);
                 objReceiving.ShowDialog();
-                PurchaseOrderHeader objHeader = PurchaseOrderHeader.Load(objReceiving.OrderHeaderId);
-                objReceiving.BindPOHeaderInfo(objHeader);
+                objReceiving.BindPOHeaderInfo(objReceiving.OrderHeaderId);
             }
             else
             {
