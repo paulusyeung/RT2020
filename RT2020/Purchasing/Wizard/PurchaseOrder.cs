@@ -137,7 +137,7 @@ namespace RT2020.Purchasing.Wizard
 
                     this.cboType.Text = orderType;
 
-                    this.txtOrderAmount.Text = this.GetTotalAmount().ToString("n2");
+                    this.txtOrderAmount.Text = ModelEx.PurchaseOrderDetailsEx.GetTotalAmount(this.OrderHeaderId).ToString("n2");
 
                     this.cboSupplierCode.SelectedValue = objHeader.SupplierId;
                     this.cboOperatorCode.SelectedValue = objHeader.StaffId;
@@ -166,7 +166,7 @@ namespace RT2020.Purchasing.Wizard
                     this.txtInsuranceCharge.Text = objHeader.InsuranceChargePcn.ToString("n2");
                     this.txtOtherCharge.Text = objHeader.OtherChargesPcn.ToString("n2");
 
-                    this.txtTotalQty.Text = this.GetTotalQty().ToString("n0");
+                    this.txtTotalQty.Text = ModelEx.PurchaseOrderDetailsEx.GetTotalOrderQty(this.OrderHeaderId).ToString("n0");
 
                     this.GetNetCost(objHeader.TotalCost, objHeader.GroupDiscount1, objHeader.GroupDiscount2, objHeader.GroupDiscount3, objHeader.FreightChargeAmt, objHeader.HandlingChargeAmt, objHeader.InsuranceChargeAmt, objHeader.OtherChargesAmt, objHeader.ChargeCoefficient);
 
@@ -212,43 +212,6 @@ namespace RT2020.Purchasing.Wizard
             result = ((totalCost * disc1 * disc2 * disc3) - freightAmt - handAmt - insuranceAmt - otherAmt) * chargeCoefficient;
 
             this.txtNetCost.Text = result.ToString("n2");
-        }
-
-        /// <summary>
-        /// Gets the total qty.
-        /// </summary>
-        /// <returns>The total qty</returns>
-        private decimal GetTotalQty()
-        {
-            decimal result = 0;
-
-            string sql = "OrderHeaderId = '" + this.OrderHeaderId.ToString() + "'";
-            PurchaseOrderDetailsCollection objDetails = PurchaseOrderDetails.LoadCollection(sql);
-            foreach (PurchaseOrderDetails objDetail in objDetails)
-            {
-                result += objDetail.OrderedQty;
-            }
-
-            return result;
-        }
-
-        /// <summary>
-        /// Gets the total amount.
-        /// </summary>
-        /// <returns>The total amount.</returns>
-        private decimal GetTotalAmount()
-        {
-            decimal result = 0;
-
-            string sql = "OrderHeaderId = '" + this.OrderHeaderId.ToString() + "'";
-            PurchaseOrderDetailsCollection objDetails = PurchaseOrderDetails.LoadCollection(sql);
-            foreach (PurchaseOrderDetails objDetail in objDetails)
-            {
-                decimal disc = (100 - objDetail.DiscountPcn) / 100;
-                result += objDetail.OrderedQty * objDetail.UnitCost * disc;
-            }
-
-            return result;
         }
 
         #endregion
@@ -1086,19 +1049,6 @@ namespace RT2020.Purchasing.Wizard
 
                     ctx.SaveChanges();
                 }
-            }
-        }
-
-        /// <summary>
-        /// Dels the details.
-        /// </summary>
-        /// <param name="objSql">The obj SQL.</param>
-        private void DelDetails(string objSql)
-        {
-            PurchaseOrderDetailsCollection objDetailList = PurchaseOrderDetails.LoadCollection(objSql);
-            foreach (PurchaseOrderDetails objDetail in objDetailList)
-            {
-                objDetail.Delete();
             }
         }
         #endregion

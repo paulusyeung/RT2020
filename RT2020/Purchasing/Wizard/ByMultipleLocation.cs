@@ -820,52 +820,67 @@ namespace RT2020.Purchasing.Wizard
         /// <param name="header">The header.</param>
         private void SaveOrderDetail(EF6.PurchaseOrderHeader header)
         {
-            foreach (ListViewItem listItem in this.lvDetailsList.Items)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                bool result = true;
-
-                //// 判断detailid 和 productid 是否为空，不为空才执行 保存/删除 操作
-                if (Common.Utility.IsGUID(listItem.Text.Trim()) && Common.Utility.IsGUID(listItem.SubItems[8].Text.Trim()))
+                using (var scope = ctx.Database.BeginTransaction())
                 {
-                    System.Guid detailId = RT2020.Purchasing.PurchasingUtils.Convert.ToGuid(listItem.Text.Trim());
-                    PurchaseOrderDetails objDetail = PurchaseOrderDetails.Load(detailId);
-                    var wpCode = ModelEx.WorkplaceEx.GetWorkplaceCodeById(header.WorkplaceId.Value);
-                    if (objDetail == null)
+                    try
                     {
-                        objDetail = new PurchaseOrderDetails();
-                        objDetail.OrderHeaderId = header.OrderHeaderId;
-                        this.orderHeaderId = header.OrderHeaderId;
-                        objDetail.LineNumber = RT2020.Purchasing.PurchasingUtils.Convert.ToInt32(listItem.SubItems[1].Text.Length == 0 ? "1" : listItem.SubItems[1].Text);
+                        foreach (ListViewItem listItem in this.lvDetailsList.Items)
+                        {
+                            bool result = true;
+
+                            Guid detailId = Guid.Empty, productId = Guid.Empty;
+                            if (Guid.TryParse(listItem.Text.Trim(), out detailId) && Guid.TryParse(listItem.SubItems[8].Text.Trim(), out productId))
+                            {
+                                //System.Guid detailId = RT2020.Purchasing.PurchasingUtils.Convert.ToGuid(listItem.Text.Trim());
+                                var objDetail = ctx.PurchaseOrderDetails.Find(detailId);
+                                var wpCode = ModelEx.WorkplaceEx.GetWorkplaceCodeById(header.WorkplaceId.Value);
+                                if (objDetail == null)
+                                {
+                                    objDetail = new EF6.PurchaseOrderDetails();
+                                    objDetail.OrderDetailsId = Guid.NewGuid();
+                                    objDetail.OrderHeaderId = header.OrderHeaderId;
+                                    this.orderHeaderId = header.OrderHeaderId;
+                                    objDetail.LineNumber = RT2020.Purchasing.PurchasingUtils.Convert.ToInt32(listItem.SubItems[1].Text.Length == 0 ? "1" : listItem.SubItems[1].Text);
+
+                                    ctx.PurchaseOrderDetails.Add(objDetail);
+                                }
+
+                                //objDetail.ProductId = RT2020.Purchasing.PurchasingUtils.Convert.ToGuid(listItem.SubItems[8].Text.Trim());
+                                objDetail.ProductId = productId;
+                                for (int i = 9; i <= 18; i++)
+                                {
+                                    if (wpCode == this.lvDetailsList.Columns[i].Text && listItem.SubItems[i].Text != "0")
+                                    {
+                                        objDetail.OrderedQty = RT2020.Purchasing.PurchasingUtils.Convert.ToDecimal(listItem.SubItems[i].Text.Length == 0 ? "0" : listItem.SubItems[i].Text);
+                                        result = true;
+                                        break;
+                                    }
+                                    else
+                                    {
+                                        result = false;
+                                    }
+                                }
+
+                                objDetail.UnitCost = RT2020.Purchasing.PurchasingUtils.Convert.ToDecimal(listItem.SubItems[7].Text.Length == 0 ? "0" : listItem.SubItems[7].Text);
+                                objDetail.TotalQtyReceived = objDetail.OrderedQty * objDetail.UnitCost;
+
+                                if (result)
+                                {
+                                    if (listItem.SubItems[2].Text.Trim().ToUpper() == "REMOVED" && detailId != System.Guid.Empty)
+                                    {
+                                        ctx.PurchaseOrderDetails.Remove(objDetail);
+                                    }
+                                }
+                                ctx.SaveChanges();
+                            }
+                        }
+                        scope.Commit();
                     }
-
-                    objDetail.ProductId = RT2020.Purchasing.PurchasingUtils.Convert.ToGuid(listItem.SubItems[8].Text.Trim());
-                    for (int i = 9; i <= 18; i++)
+                    catch (Exception ex)
                     {
-                        if (wpCode == this.lvDetailsList.Columns[i].Text && listItem.SubItems[i].Text != "0")
-                        {
-                            objDetail.OrderedQty = RT2020.Purchasing.PurchasingUtils.Convert.ToDecimal(listItem.SubItems[i].Text.Length == 0 ? "0" : listItem.SubItems[i].Text);
-                            result = true;
-                            break;
-                        }
-                        else
-                        {
-                            result = false;
-                        }
-                    }
-
-                    objDetail.UnitCost = RT2020.Purchasing.PurchasingUtils.Convert.ToDecimal(listItem.SubItems[7].Text.Length == 0 ? "0" : listItem.SubItems[7].Text);
-                    objDetail.TotalQtyReceived = objDetail.OrderedQty * objDetail.UnitCost;
-
-                    if (result)
-                    {
-                        if (listItem.SubItems[2].Text.Trim().ToUpper() == "REMOVED" && detailId != System.Guid.Empty)
-                        {
-                            objDetail.Delete();
-                        }
-                        else
-                        {
-                            objDetail.Save();
-                        }
+                        scope.Rollback();
                     }
                 }
             }
