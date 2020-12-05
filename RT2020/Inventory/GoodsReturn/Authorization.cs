@@ -16,6 +16,8 @@ namespace RT2020.Inventory.GoodsReturn
     using RT2020.DAL;
     using Gizmox.WebGUI.Common.Resources;
     using System.Configuration;
+    using Helper;
+    using System.Linq;
 
     #endregion
 
@@ -367,7 +369,7 @@ namespace RT2020.Inventory.GoodsReturn
 
                         if (!(!CheckServiceItem(detail.ProductId) && chkIgnoreServiceItemQtyChecking.Checked))
                         {
-                            decimal cdQty = GetCDQty(detail.ProductId, oBatchHeader.WorkplaceId);
+                            decimal cdQty = ProductHelper.GetOnHandQtyByWorkplaceId(detail.ProductId, oBatchHeader.WorkplaceId);
                             if (detail.Qty > cdQty)
                             {
                                 WriteLog(ref errorTable, oBatchHeader.HeaderId.ToString(), oBatchHeader.TxNumber,
@@ -394,18 +396,6 @@ namespace RT2020.Inventory.GoodsReturn
             }
 
             return isPostable;
-        }
-
-        private decimal GetCDQty(Guid productId, Guid workplaceId)
-        {
-            decimal cdQty = 0;
-            string sql = "ProductId = '" + productId.ToString() + "' AND WorkplaceId = '" + workplaceId.ToString() + "'";
-            ProductWorkplace wpProd = ProductWorkplace.LoadWhere(sql);
-            if (wpProd != null)
-            {
-                cdQty = wpProd.CDQTY;
-            }
-            return cdQty;
         }
 
         private bool CheckTxDate(DateTime txDate)
@@ -476,7 +466,8 @@ namespace RT2020.Inventory.GoodsReturn
             {
                 foreach (ListViewItem oItem in lvPostTxList.CheckedItems)
                 {
-                    if (Common.Utility.IsGUID(oItem.Text) && oItem.Checked)
+                    Guid id = Guid.Empty;
+                    if (Guid.TryParse(oItem.Text, out id) && oItem.Checked)
                     {
                         if (!HasError(oItem.Text))
                         {
@@ -743,16 +734,21 @@ namespace RT2020.Inventory.GoodsReturn
 
         private void UpdateProductQty(Guid productId, Guid workplaceId, decimal qty)
         {
-            string sql = "ProductId = '" + productId.ToString() + "' AND WorkplaceId = '" + workplaceId.ToString() + "'";
-            ProductWorkplace wpProd = ProductWorkplace.LoadWhere(sql);
-            if (wpProd == null)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                wpProd = new ProductWorkplace();
-                wpProd.ProductId = productId;
-                wpProd.WorkplaceId = workplaceId;
+                //string sql = "ProductId = '" + productId.ToString() + "' AND WorkplaceId = '" + workplaceId.ToString() + "'";
+                var item = ctx.ProductWorkplace.Where(x => x.ProductId == productId && x.WorkplaceId == workplaceId).FirstOrDefault();
+                if (item == null)
+                {
+                    item = new EF6.ProductWorkplace();
+                    item.ProductWorkplaceId = Guid.NewGuid();
+                    item.ProductId = productId;
+                    item.WorkplaceId = workplaceId;
+                    ctx.ProductWorkplace.Add(item);
+                }
+                item.CDQTY -= qty;
+                ctx.SaveChanges();
             }
-            wpProd.CDQTY -= qty;
-            wpProd.Save();
         }
         #endregion
 

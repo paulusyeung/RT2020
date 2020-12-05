@@ -380,18 +380,6 @@ namespace RT2020.Inventory.Replenishment
             return isPostable;
         }
 
-        private decimal GetCDQty(Guid productId, Guid workplaceId)
-        {
-            decimal cdQty = 0;
-            string sql = "ProductId = '" + productId.ToString() + "' AND WorkplaceId = '" + workplaceId.ToString() + "'";
-            ProductWorkplace wpProd = ProductWorkplace.LoadWhere(sql);
-            if (wpProd != null)
-            {
-                cdQty = wpProd.CDQTY;
-            }
-            return cdQty;
-        }
-
         private bool CheckTxDate(DateTime txDate)
         {
             bool isChecked = false;

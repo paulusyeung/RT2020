@@ -29,43 +29,52 @@ namespace RT2020.Settings.MonthEndProcess
 
         private void UpdateLedgerDetails()
         {
-            DateTime currMonth = SystemInfo.CurrentInfo.Default.CurrentSystemDate;
-            string whereClause = "TxDate >= CAST('" + currMonth.AddMonths(-1).ToString("yyyy-MM-dd 00:00:00") + "' AS DATETIME) AND TxDate < CAST('" + currMonth.ToString("yyyy-MM-dd 00:00:00") +"' AS DATETIME)";
-
-            InvtLedgerHeaderCollection oHeaderList = InvtLedgerHeader.LoadCollection(whereClause);
-            foreach (InvtLedgerHeader oHeader in oHeaderList)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                whereClause = "HeaderId = '" + oHeader.HeaderId.ToString() + "'";
-
-                InvtLedgerDetailsCollection oDetailList = InvtLedgerDetails.LoadCollection(whereClause);
-                for (int i = 0; i < oDetailList.Count; i++)
+                using (var scope = ctx.Database.BeginTransaction())
                 {
-                    InvtLedgerDetails oDetail = oDetailList[i];
-                    if (oDetail != null)
+                    try
                     {
-                        oDetail.TxDate = oHeader.TxDate;
-                        oDetail.SHOP = ModelEx.WorkplaceEx.GetWorkplaceCodeById(oHeader.WorkplaceId);
+                        DateTime currMonth = SystemInfo.CurrentInfo.Default.CurrentSystemDate;
+                        string whereClause = "TxDate >= CAST('" + currMonth.AddMonths(-1).ToString("yyyy-MM-dd 00:00:00") + "' AS DATETIME) AND TxDate < CAST('" + currMonth.ToString("yyyy-MM-dd 00:00:00") + "' AS DATETIME)";
 
-                        oDetail.Save();
+                        var oHeaderList = ctx.InvtLedgerHeader.SqlQuery(
+                            string.Format("Select * from InvtLedgerHeader Where{0} ", whereClause)
+                            );
+                        foreach (var oHeader in oHeaderList)
+                        {
+                            var oDetailList = ctx.InvtLedgerDetails.Where(x => x.HeaderId == oHeader.HeaderId);
+                            foreach (var oDetail in oDetailList)
+                            {
+                                if (oDetail != null)
+                                {
+                                    oDetail.TxDate = oHeader.TxDate;
+                                    oDetail.SHOP = ModelEx.WorkplaceEx.GetWorkplaceCodeById(oHeader.WorkplaceId);
 
-                        this.AppendMissingProductWorkplace(oDetail.ProductId, oHeader.WorkplaceId);
+                                    #region this.AppendMissingProductWorkplace(oDetail.ProductId, oHeader.WorkplaceId);
+                                    var oProdWp = ctx.ProductWorkplace.Where(x => x.ProductId == oDetail.ProductId && x.WorkplaceId == oHeader.WorkplaceId).FirstOrDefault();
+                                    if (oProdWp == null)
+                                    {
+                                        oProdWp = new EF6.ProductWorkplace();
+                                        oProdWp.ProductWorkplaceId = Guid.NewGuid();
+                                        oProdWp.ProductId = oDetail.ProductId.Value;
+                                        oProdWp.WorkplaceId = oHeader.WorkplaceId;
+
+                                        ctx.ProductWorkplace.Add(oProdWp);
+                                    }
+                                    #endregion
+                                }
+                            }
+                            ctx.SaveChanges();
+                        }
+                        scope.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        scope.Rollback();
                     }
                 }
             }
-        }
-
-        private void AppendMissingProductWorkplace(Guid productId, Guid workplaceId)
-        {
-            string whereClause = "ProductId = '" + productId.ToString() + "' AND WorkplaceId = '" + workplaceId.ToString() + "'";
-            ProductWorkplace oProdWp = ProductWorkplace.LoadWhere(whereClause);
-            if (oProdWp == null)
-            {
-                oProdWp = new ProductWorkplace();
-                oProdWp.ProductId = productId;
-                oProdWp.WorkplaceId = workplaceId;
-                oProdWp.Save();
-            }
-
         }
     }
 }

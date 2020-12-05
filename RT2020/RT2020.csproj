@@ -857,6 +857,7 @@
     <Compile Include="Helper\LanguageHelper.cs" />
     <Compile Include="Helper\ListViewHelper.cs" />
     <Compile Include="Helper\NetSqlAzManHelper.cs" />
+    <Compile Include="Helper\ProductHelper.cs" />
     <Compile Include="Helper\ThemeHelper.cs" />
     <Compile Include="Helper\WebConfigHelper.cs" />
     <Compile Include="Helper\WestwindHelper.cs" />
@@ -1625,6 +1626,7 @@
     <Compile Include="MenuStrip\SettingsAms.cs" />
     <Compile Include="MenuStrip\ToolsAms.cs" />
     <Compile Include="MenuStrip\ViewAms.cs" />
+    <Compile Include="ModelEx\ProductWorkplaceEx.cs" />
     <Compile Include="ModelEx\PromotionPaymentFactorEx.cs" />
     <Compile Include="ModelEx\PurchaseOrderDetailsEx.cs" />
     <Compile Include="ModelEx\PurchaseOrderHeaderEx.cs" />

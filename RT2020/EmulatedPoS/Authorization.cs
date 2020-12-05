@@ -16,6 +16,7 @@ using Gizmox.WebGUI.Common.Resources;
 
 using RT2020.DAL;
 using System.Configuration;
+using RT2020.Helper;
 
 #endregion
 
@@ -942,23 +943,27 @@ namespace RT2020.EmulatedPoS
         /// <param name="txType">Type of the tx.</param>
         private void UpdateProductQty(Guid productId, Guid workplaceId, decimal qty, string txType)
         {
-            string sql = "ProductId = '" + productId.ToString() + "' AND WorkplaceId = '" + workplaceId.ToString() + "'";
-            ProductWorkplace wpProd = ProductWorkplace.LoadWhere(sql);
-            if (wpProd == null)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                wpProd = new ProductWorkplace();
-                wpProd.ProductId = productId;
-                wpProd.WorkplaceId = workplaceId;
+                var item = ctx.ProductWorkplace.Where(x => x.ProductId == productId && x.WorkplaceId == workplaceId).FirstOrDefault();
+                if (item == null)
+                {
+                    item = new EF6.ProductWorkplace();
+                    item.ProductWorkplaceId = Guid.NewGuid();
+                    item.ProductId = productId;
+                    item.WorkplaceId = workplaceId;
+                    ctx.ProductWorkplace.Add(item);
+                }
+                if (txType == "CAS")
+                {
+                    item.CDQTY -= qty;
+                }
+                else
+                {
+                    item.CDQTY += qty;
+                }
+                ctx.SaveChanges();
             }
-            if (txType == "CAS")
-            {
-                wpProd.CDQTY -= qty;
-            }
-            else
-            {
-                wpProd.CDQTY += qty;
-            }
-            wpProd.Save();
         }
         #endregion
 
@@ -1235,10 +1240,11 @@ namespace RT2020.EmulatedPoS
         /// <returns></returns>
         private bool CheckByProductWorkplace(Guid productId, Guid workplaceId, decimal qty)
         {
-            string sql = "ProductId = '" + productId.ToString() + "' AND WorkplaceId = '" + workplaceId.ToString() + "'";
-            ProductWorkplace wpProd = ProductWorkplace.LoadWhere(sql);
+            //string sql = "ProductId = '" + productId.ToString() + "' AND WorkplaceId = '" + workplaceId.ToString() + "'";
+            //ProductWorkplace wpProd = ProductWorkplace.LoadWhere(sql);
+            //if (qty > wpProd.CDQTY)
 
-            if (qty > wpProd.CDQTY)
+            if (qty > ProductHelper.GetOnHandQtyByWorkplaceId(productId, workplaceId))
             {
                 return false;
             }

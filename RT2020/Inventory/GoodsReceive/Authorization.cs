@@ -16,6 +16,7 @@ namespace RT2020.Inventory.GoodsReceive
     using RT2020.DAL;
     using Gizmox.WebGUI.Common.Resources;
     using System.Configuration;
+    using System.Linq;
 
     #endregion
 
@@ -409,18 +410,6 @@ namespace RT2020.Inventory.GoodsReceive
             return isPostable;
         }
 
-        private decimal GetCDQty(Guid productId, Guid workplaceId)
-        {
-            decimal cdQty = 0;
-            string sql = "ProductId = '" + productId.ToString() + "' AND WorkplaceId = '" + workplaceId.ToString() + "'";
-            ProductWorkplace wpProd = ProductWorkplace.LoadWhere(sql);
-            if (wpProd != null)
-            {
-                cdQty = wpProd.CDQTY;
-            }
-            return cdQty;
-        }
-
         private bool CheckTxDate(DateTime txDate)
         {
             bool isChecked = false;
@@ -693,54 +682,71 @@ namespace RT2020.Inventory.GoodsReceive
         #region Product
         private void UpdateProduct(Guid txHeaderId, Guid workplaceId)
         {
-            string sql = "HeaderId = '" + txHeaderId.ToString() + "'";
-            InvtBatchCAP_DetailsCollection detailsList = InvtBatchCAP_Details.LoadCollection(sql);
-            for (int i = 0; i < detailsList.Count; i++)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                InvtBatchCAP_Details detail = detailsList[i];
-                UpdateProductQty(detail.ProductId, workplaceId, detail.Qty);
-                UpdateProductSummary(detail.ProductId, detail.Qty, detail.UnitAmount);
-            }
-        }
+                using (var scope = ctx.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        string sql = "HeaderId = '" + txHeaderId.ToString() + "'";
 
-        private void UpdateProductSummary(Guid productId, decimal qty, decimal unitAmount)
-        {
-            string sql = "ProductId = '" + productId.ToString() + "'";
-            ProductCurrentSummary oSummary = ProductCurrentSummary.LoadWhere(sql);
-            if (oSummary == null)
-            {
-                oSummary = new ProductCurrentSummary();
-                oSummary.ProductId = productId;
-                oSummary.AverageCost = unitAmount;
-            }
+                        var detailsList = ctx.InvtBatchCAP_Details.Where(x => x.HeaderId == txHeaderId);
+                        foreach (var detail in detailsList)
+                        {
+                            Guid productId = detail.ProductId;
+                            decimal qty = detail.Qty.Value, unitAmount = detail.UnitAmount.Value;
 
-            if ((oSummary.CDQTY + qty) > 0)
-            {
-                oSummary.AverageCost = (oSummary.AverageCost * oSummary.CDQTY + unitAmount * qty) / (oSummary.CDQTY + qty);
-            }
-            else
-            {
-                oSummary.AverageCost = oSummary.LastCost;
-            }
+                            #region UpdateProductQty(detail.ProductId, workplaceId, detail.Qty);
+                            var wpProd = ctx.ProductWorkplace.Where(x => x.ProductId == productId && x.WorkplaceId == workplaceId).FirstOrDefault();
+                            if (wpProd == null)
+                            {
+                                wpProd = new EF6.ProductWorkplace();
+                                wpProd.ProductWorkplaceId = Guid.NewGuid();
+                                wpProd.ProductId = productId;
+                                wpProd.WorkplaceId = workplaceId;
 
-            oSummary.LastCost = unitAmount;
+                                ctx.ProductWorkplace.Add(wpProd);
+                            }
+                            wpProd.CDQTY += qty;
+                            #endregion
 
-            oSummary.CDQTY += qty;
-            oSummary.Save();
-        }
+                            #region UpdateProductSummary(detail.ProductId, detail.Qty, detail.UnitAmount);
+                            var oSummary = ctx.ProductCurrentSummary.Where(x => x.ProductId == productId).FirstOrDefault();
+                            if (oSummary == null)
+                            {
+                                oSummary = new EF6.ProductCurrentSummary();
+                                oSummary.CurrentSummaryId = Guid.NewGuid();
+                                oSummary.ProductId = productId;
+                                oSummary.AverageCost = unitAmount;
 
-        private void UpdateProductQty(Guid productId, Guid workplaceId, decimal qty)
-        {
-            string sql = "ProductId = '" + productId.ToString() + "' AND WorkplaceId = '" + workplaceId.ToString() + "'";
-            ProductWorkplace wpProd = ProductWorkplace.LoadWhere(sql);
-            if (wpProd == null)
-            {
-                wpProd = new ProductWorkplace();
-                wpProd.ProductId = productId;
-                wpProd.WorkplaceId = workplaceId;
+                                ctx.ProductCurrentSummary.Add(oSummary);
+                            }
+
+                            if ((oSummary.CDQTY + qty) > 0)
+                            {
+                                oSummary.AverageCost = (oSummary.AverageCost * oSummary.CDQTY + unitAmount * qty) / (oSummary.CDQTY + qty);
+                            }
+                            else
+                            {
+                                oSummary.AverageCost = oSummary.LastCost;
+                            }
+
+                            oSummary.LastCost = unitAmount;
+
+                            oSummary.CDQTY += qty;
+                            #endregion
+
+                            ctx.SaveChanges();
+                        }
+
+                        scope.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        scope.Rollback();
+                    }
+                }
             }
-            wpProd.CDQTY += qty;
-            wpProd.Save();
         }
         #endregion
 

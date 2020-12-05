@@ -19,6 +19,7 @@ using System.Xml.Serialization;
 using RT2020.DAL;
 using System.Linq;
 using System.Data.Entity;
+using RT2020.Helper;
 
 #endregion Using
 
@@ -144,90 +145,11 @@ namespace RT2020.Controls
                 var wpList = ctx.Workplace.Where(x => x.ZoneId == zoneId).AsNoTracking().ToList();
                 foreach (var wp in wpList)
                 {
-                    result += GetOnHandQtyByWorkplaceId(productId, wp.WorkplaceId.ToString());
+                    result += ProductHelper.GetOnHandQtyByWorkplaceId(productId, wp.WorkplaceId);
                 }
             }
 
             return result;
-        }
-
-        /// <summary>
-        /// Gets the on hand qty by workplace id.
-        /// </summary>
-        /// <param name="productId">The product id.</param>
-        /// <param name="workplaceId">The workplace id.</param>
-        /// <returns></returns>
-        public static decimal GetOnHandQtyByWorkplaceId(Guid productId, string workplaceId)
-        {
-            decimal result = 0;
-            string sql = "ProductId = '" + productId.ToString() + "' AND WorkplaceId IN (" + ReformatString(workplaceId) + ")";
-            ProductWorkplaceCollection prodWpList = ProductWorkplace.LoadCollection(sql);
-            foreach (ProductWorkplace prodWp in prodWpList)
-            {
-                result += prodWp.CDQTY;
-            }
-            return result;
-        }
-
-        /// <summary>
-        /// Gets the on hand qty by workplace id.
-        /// </summary>
-        /// <param name="productId">The product id.</param>
-        /// <returns></returns>
-        public static decimal GetOnHandQty(Guid productId)
-        {
-            decimal result = 0;
-            string sql = "ProductId = '" + productId.ToString() + "'";
-            ProductWorkplaceCollection prodWpList = ProductWorkplace.LoadCollection(sql);
-            foreach (ProductWorkplace prodWp in prodWpList)
-            {
-                result += prodWp.CDQTY;
-            }
-            return result;
-        }
-
-        /// <summary>
-        /// Reformats the string.
-        /// </summary>
-        /// <param name="value">The value.</param>
-        /// <returns></returns>
-        private static string ReformatString(string value)
-        {
-            if (value.IndexOf("'") < 0)
-            {
-                if (value.IndexOf(",") > 0)
-                {
-                    StringBuilder tempString = new StringBuilder();
-                    int iCount = 0;
-
-                    foreach (char charStr in value)
-                    {
-                        if (iCount == 0 || iCount == value.Length)
-                        {
-                            tempString.Append("'");
-                        }
-
-                        if (charStr == ',')
-                        {
-                            tempString.Append("'").Append(charStr).Append("'");
-                        }
-                        else
-                        {
-                            tempString.Append(charStr);
-                        }
-
-                        iCount++;
-                    }
-
-                    value = tempString.ToString();
-                }
-                else
-                {
-                    value = string.Format("'{0}'", value);
-                }
-            }
-
-            return value;
         }
 
         /// <summary>

@@ -14,6 +14,7 @@ using Gizmox.WebGUI.Common.Interfaces;
 
 using RT2020.DAL;
 using RT2020.Controls;
+using RT2020.Helper;
 
 namespace RT2020.Inventory.Adjustment
 {
@@ -719,6 +720,7 @@ namespace RT2020.Inventory.Adjustment
 
         private decimal GetOnHandQty(Guid productId)
         {
+            /**
             decimal result = 0;
 
             String sql = String.Format("ProductId = '{0}' AND WorkplaceId = '{1}'", productId.ToString(), _WorkplaceId.ToString());
@@ -727,7 +729,11 @@ namespace RT2020.Inventory.Adjustment
             {
                 result = oItem.CDQTY;
             }
+
             return result;
+            */
+
+            return ProductHelper.GetOnHandQtyByWorkplaceId(productId, _WorkplaceId);
         }
 
         #endregion
@@ -805,7 +811,7 @@ namespace RT2020.Inventory.Adjustment
                     appendix2 = oProd.APPENDIX2;
                     appendix3 = oProd.APPENDIX3;
 
-                    txtOnHand.Text = Utility.GetOnHandQtyByWorkplaceId(oProd.ProductId, "'" + cboWorkplace.SelectedValue.ToString() + "'").ToString("n0");
+                    txtOnHand.Text = ProductHelper.GetOnHandQtyByWorkplaceId(oProd.ProductId, (Guid)cboWorkplace.SelectedValue).ToString("n0");
 
                     this.ProductId = oProd.ProductId;
                 }
@@ -891,7 +897,7 @@ namespace RT2020.Inventory.Adjustment
 
                 txtAvgCost.Text = e.AverageCost.ToString("n2");
                 txtDescription.Text = e.Description;
-                txtOnHand.Text = RT2020.Controls.Utility.GetOnHandQtyByWorkplaceId(e.ProductId, "'" + cboWorkplace.SelectedValue.ToString() + "'").ToString("n0");
+                txtOnHand.Text = ProductHelper.GetOnHandQtyByWorkplaceId(e.ProductId, (Guid)cboWorkplace.SelectedValue).ToString("n0");
 
                 foreach (ListViewItem lvItem in lvDetailsList.Items)
                 {

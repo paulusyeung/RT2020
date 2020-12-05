@@ -16,6 +16,7 @@ using Gizmox.WebGUI.Common.Resources;
 using System.Configuration;
 using System.Linq;
 using System.Data.Entity;
+using RT2020.Helper;
 
 #endregion
 
@@ -342,8 +343,8 @@ namespace RT2020.Inventory.StockTake
                         {
                             decimal stkTtlQty = (detail.Book1Qty.Value + detail.Book2Qty.Value + detail.Book3Qty.Value + detail.Book4Qty.Value + detail.Book5Qty.Value + detail.HHTQty.Value) - detail.CapturedQty.Value;
 
-                            string sql = "ProductId = '" + detail.ProductId + "' AND WorkplaceId = '" + oBatchHeader.WorkplaceId.ToString() + "'";
-                            ProductWorkplace pw = ProductWorkplace.LoadWhere(sql);
+                            //string sql = "ProductId = '" + detail.ProductId + "' AND WorkplaceId = '" + oBatchHeader.WorkplaceId.ToString() + "'";
+                            var pw = ModelEx.ProductWorkplaceEx.Get(detail.ProductId.Value, oBatchHeader.WorkplaceId.Value);
                             if (pw != null)
                             {
                                 if ((pw.CDQTY + stkTtlQty) < 0)
@@ -373,18 +374,6 @@ namespace RT2020.Inventory.StockTake
             }
 
             return isPostable;
-        }
-
-        private decimal GetCDQty(Guid productId, Guid workplaceId)
-        {
-            decimal cdQty = 0;
-            string sql = "ProductId = '" + productId.ToString() + "' AND WorkplaceId = '" + workplaceId.ToString() + "'";
-            ProductWorkplace wpProd = ProductWorkplace.LoadWhere(sql);
-            if (wpProd != null)
-            {
-                cdQty = wpProd.CDQTY;
-            }
-            return cdQty;
         }
 
         private bool CheckTxDate(DateTime txDate)
@@ -579,44 +568,56 @@ namespace RT2020.Inventory.StockTake
         {
             using (var ctx = new EF6.RT2020Entities())
             {
-                //string sql = "HeaderId = '" + txHeaderId.ToString() + "'";
-                var detailsList = ctx.StockTakeDetails.Where(x => x.HeaderId == txHeaderId).AsNoTracking().ToList();
-                foreach (var detail in detailsList)
+                using (var scope = ctx.Database.BeginTransaction())
                 {
-                    //StockTakeDetails detail = detailsList[i];
-                    decimal stkTtlQty = (detail.Book1Qty.Value + detail.Book2Qty.Value + detail.Book3Qty.Value + detail.Book4Qty.Value + detail.Book5Qty.Value + detail.HHTQty.Value) - detail.CapturedQty.Value;
+                    try
+                    {
+                        //string sql = "HeaderId = '" + txHeaderId.ToString() + "'";
+                        var detailsList = ctx.StockTakeDetails.Where(x => x.HeaderId == txHeaderId).AsNoTracking().ToList();
+                        foreach (var detail in detailsList)
+                        {
+                            //StockTakeDetails detail = detailsList[i];
+                            decimal stkTtlQty = (detail.Book1Qty.Value + detail.Book2Qty.Value + detail.Book3Qty.Value + detail.Book4Qty.Value + detail.Book5Qty.Value + detail.HHTQty.Value) - detail.CapturedQty.Value;
+                            Guid productId = detail.ProductId.Value;
+                            decimal qty = stkTtlQty;
 
-                    UpdateProductCurrentSummary(detail.ProductId.Value, stkTtlQty);
-                    UpdateProductQty(detail.ProductId.Value, workplaceId, stkTtlQty);
+                            #region UpdateProductCurrentSummary(detail.ProductId.Value, stkTtlQty);
+                            var currProd = ctx.ProductCurrentSummary.Where(x => x.ProductId == productId).FirstOrDefault();
+                            if (currProd == null)
+                            {
+                                currProd = new EF6.ProductCurrentSummary();
+                                currProd.CurrentSummaryId = Guid.NewGuid();
+                                currProd.ProductId = productId;
+
+                                ctx.ProductCurrentSummary.Add(currProd);
+                            }
+                            currProd.CDQTY += qty;
+                            #endregion
+
+                            #region UpdateProductQty(detail.ProductId.Value, workplaceId, stkTtlQty);
+                            var wpProd = ctx.ProductWorkplace.Where(x => x.ProductId == productId && x.WorkplaceId == workplaceId).FirstOrDefault();
+                            if (wpProd == null)
+                            {
+                                wpProd = new EF6.ProductWorkplace();
+                                wpProd.ProductWorkplaceId = Guid.NewGuid();
+                                wpProd.ProductId = productId;
+                                wpProd.WorkplaceId = workplaceId;
+
+                                ctx.ProductWorkplace.Add(wpProd);
+                            }
+                            wpProd.CDQTY += qty;
+                            #endregion
+
+                            ctx.SaveChanges();
+                        }
+                        scope.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        scope.Rollback();
+                    }
                 }
             }
-        }
-
-        private void UpdateProductCurrentSummary(Guid productId, decimal qty)
-        {
-            string sql = "ProductId = '" + productId.ToString() + "'";
-            ProductCurrentSummary currProd = ProductCurrentSummary.LoadWhere(sql);
-            if (currProd == null)
-            {
-                currProd = new ProductCurrentSummary();
-                currProd.ProductId = productId;
-            }
-            currProd.CDQTY += qty;
-            currProd.Save();
-        }
-
-        private void UpdateProductQty(Guid productId, Guid workplaceId, decimal qty)
-        {
-            string sql = "ProductId = '" + productId.ToString() + "' AND WorkplaceId = '" + workplaceId.ToString() + "'";
-            ProductWorkplace wpProd = ProductWorkplace.LoadWhere(sql);
-            if (wpProd == null)
-            {
-                wpProd = new ProductWorkplace();
-                wpProd.ProductId = productId;
-                wpProd.WorkplaceId = workplaceId;
-            }
-            wpProd.CDQTY += qty;
-            wpProd.Save();
         }
         #endregion
 

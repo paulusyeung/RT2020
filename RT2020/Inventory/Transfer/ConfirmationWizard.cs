@@ -13,6 +13,7 @@ using Gizmox.WebGUI.Common.Resources;
 using Gizmox.WebGUI.Common.Interfaces;
 
 using RT2020.DAL;
+using System.Linq;
 
 namespace RT2020.Inventory.Transfer
 {
@@ -413,20 +414,25 @@ namespace RT2020.Inventory.Transfer
 
         private void UpdateProductQty(Guid productId, Guid workplaceId, decimal qty)
         {
-            string sql = "ProductId = '" + productId.ToString() + "' AND WorkplaceId = '" + workplaceId.ToString() + "'";
-            ProductWorkplace wpProd = ProductWorkplace.LoadWhere(sql);
-            if (wpProd == null)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                wpProd = new ProductWorkplace();
-                wpProd.ProductId = productId;
-                wpProd.WorkplaceId = workplaceId;
+                //string sql = "ProductId = '" + productId.ToString() + "' AND WorkplaceId = '" + workplaceId.ToString() + "'";
+                var item = ctx.ProductWorkplace.Where(x => x.ProductId == productId && x.WorkplaceId == workplaceId).FirstOrDefault();
+                if (item == null)
+                {
+                    item = new EF6.ProductWorkplace();
+                    item.ProductWorkplaceId = Guid.NewGuid();
+                    item.ProductId = productId;
+                    item.WorkplaceId = workplaceId;
+                    ctx.ProductWorkplace.Add(item);
+                }
+                item.CDQTY += qty;
+                if (qty > 0)
+                {
+                    item.RECQTY += qty;
+                }
+                ctx.SaveChanges();
             }
-            wpProd.CDQTY += qty;
-            if (qty > 0)
-            {
-                wpProd.RECQTY += qty;
-            }
-            wpProd.Save();
         }
         #endregion
 

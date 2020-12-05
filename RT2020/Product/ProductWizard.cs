@@ -12,6 +12,7 @@ using Gizmox.WebGUI.Forms;
 using Gizmox.WebGUI.Common.Resources;
 using RT2020.DAL;
 using System.IO;
+using System.Linq;
 
 #endregion
 
@@ -873,90 +874,89 @@ namespace RT2020.Product
         #region Delete a product
         private void Delete()
         {
-            RT2020.DAL.Product oItem = RT2020.DAL.Product.Load(this.ProductId);
-            if (oItem != null)
-            {
-                string sql = "ProductId = '" + oItem.ProductId.ToString() + "'";
+            bool result = false;
 
-                DeleteRemarks(sql);
-                DeleteWorkplace(sql);
-                DeleteBarcode(sql);
-                DeleteLineOfOperation(sql);
-                DeleteSupplement(sql);
-                DeletePrice(sql);
-                DeleteProductCode(sql);
-
-                oItem.Delete();
-                // log activity
-                RT2020.Controls.Log4net.LogInfo(RT2020.Controls.Log4net.LogAction.Delete, oItem.ToString());
-            }
-            else
+            using (var ctx = new EF6.RT2020Entities())
             {
-                MessageBox.Show("Please sure the product info you want to delete is valid!");
-            }
-        }
+                using (var scope = ctx.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        var oProduct = ctx.Product.Find(this.ProductId);
+                        if (oProduct != null)
+                        {
+                            string sql = "ProductId = '" + oProduct.ProductId.ToString() + "'";
 
-        private void DeleteRemarks(string sql)
-        {
-            ProductRemarksCollection oRemarksList = ProductRemarks.LoadCollection(sql);
-            foreach (ProductRemarks oRemarks in oRemarksList)
-            {
-                oRemarks.Delete();
-               
-            }
-        }
+                            #region DeleteRemarks(sql);
+                            var oRemarksList = ctx.ProductRemarks.Where(x => x.ProductId == oProduct.ProductId);
+                            foreach (var oRemarks in oRemarksList)
+                            {
+                                ctx.ProductRemarks.Remove(oRemarks);
 
-        private void DeleteWorkplace(string sql)
-        {
-            ProductWorkplaceCollection oWorkplaceList = ProductWorkplace.LoadCollection(sql);
-            foreach (ProductWorkplace oWorkplace in oWorkplaceList)
-            {
-                oWorkplace.Delete();
-            }
-        }
+                            }
+                            #endregion
 
-        private void DeleteBarcode(string sql)
-        {
-            ProductBarcodeCollection oBarcodeList = ProductBarcode.LoadCollection(sql);
-            foreach (ProductBarcode oBarcode in oBarcodeList)
-            {
-                oBarcode.Delete();
-            }
-        }
+                            #region DeleteWorkplace(sql);
+                            var oWorkplaceList = ctx.ProductWorkplace.Where(x => x.ProductId == oProduct.ProductId);
+                            foreach (var oWorkplace in oWorkplaceList)
+                            {
+                                ctx.ProductWorkplace.Remove(oWorkplace);
+                            }
+                            #endregion
 
-        private void DeleteLineOfOperation(string sql)
-        {
-            ProductPrice_LineOfOperationCollection oPrice_LineOfOperationList = ProductPrice_LineOfOperation.LoadCollection(sql);
-            foreach (ProductPrice_LineOfOperation oPrice_LineOfOperation in oPrice_LineOfOperationList)
-            {
-                oPrice_LineOfOperation.Delete();
-            }
-        }
+                            #region DeleteBarcode(sql);
+                            var oBarcodeList = ctx.ProductBarcode.Where(x => x.ProductId == oProduct.ProductId);
+                            foreach (var oBarcode in oBarcodeList)
+                            {
+                                ctx.ProductBarcode.Remove(oBarcode);
+                            }
+                            #endregion
 
-        private void DeleteSupplement(string sql)
-        {
-            ProductSupplementCollection oSupplementList = ProductSupplement.LoadCollection(sql);
-            foreach (ProductSupplement oSupplement in oSupplementList)
-            {
-                oSupplement.Delete();
-            }
-        }
+                            #region DeleteLineOfOperation(sql);
+                            var oPrice_LineOfOperationList = ctx.ProductPrice_LineOfOperation.Where(x => x.ProductId == oProduct.ProductId);
+                            foreach (var oPrice_LineOfOperation in oPrice_LineOfOperationList)
+                            {
+                                ctx.ProductPrice_LineOfOperation.Remove(oPrice_LineOfOperation);
+                            }
+                            #endregion
 
-        private void DeletePrice(string sql)
-        {
-            ProductPriceCollection oPriceList = ProductPrice.LoadCollection(sql);
-            foreach (ProductPrice oPrice in oPriceList)
-            {
-                oPrice.Delete();
-            }
-        }
+                            #region DeleteSupplement(sql);
+                            var oSupplementList = ctx.ProductSupplement.Where(x => x.ProductId == oProduct.ProductId);
+                            foreach (var oSupplement in oSupplementList)
+                            {
+                                ctx.ProductSupplement.Remove(oSupplement);
+                            }
+                            #endregion
 
-        private void DeleteProductCode(string sql)
-        {
-            ProductCodeCollection oCodeList = ProductCode.LoadCollection(sql);
-            foreach (ProductCode oCode in oCodeList)
-            {
-                oCode.Delete();
+                            #region DeletePrice(sql);
+                            var oPriceList = ctx.ProductPrice.Where(x => x.ProductId == oProduct.ProductId);
+                            foreach (var oPrice in oPriceList)
+                            {
+                                ctx.ProductPrice.Remove(oPrice);
+                            }
+                            #endregion
+
+                            #region DeleteProductCode(sql);
+                            var oCodeList = ctx.ProductCode.Where(x => x.ProductId == oProduct.ProductId);
+                            foreach (var oCode in oCodeList)
+                            {
+                                ctx.ProductCode.Remove(oCode);
+                            }
+                            #endregion
+
+                            ctx.Product.Remove(oProduct);
+
+                            scope.Commit();
+
+                            // log activity
+                            RT2020.Controls.Log4net.LogInfo(RT2020.Controls.Log4net.LogAction.Delete, oProduct.ToString());
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        scope.Rollback();
+                    }
+                }
             }
         }
         #endregion

@@ -279,31 +279,43 @@ namespace RT2020.Settings.MonthEndProcess
         /// <param name="headerId">The header id. (Invt SubLedger)</param>
         private void ResetCDQty(Guid headerId)
         {
-            InvtSubLedgerADJ_Header objHeader = InvtSubLedgerADJ_Header.Load(headerId);
-            if (objHeader != null)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                string query = "HeaderId = '" + objHeader.HeaderId.ToString() + "'";
-                InvtSubLedgerADJ_DetailsCollection detailList = InvtSubLedgerADJ_Details.LoadCollection(query);
-                for (int i = 0; i < detailList.Count; i++)
+                using (var scope = ctx.Database.BeginTransaction())
                 {
-                    // Reset CDQty in Current summary
-                    query = "ProductId = '" + detailList[i].ProductId.ToString() + "'";
-                    ProductCurrentSummary currSummary = ProductCurrentSummary.LoadWhere(query);
-                    if (currSummary != null)
+                    try
                     {
-                        currSummary.CDQTY += detailList[i].Qty;
+                        var objHeader = ctx.InvtSubLedgerADJ_Header.Find(headerId);
+                        if (objHeader != null)
+                        {
+                            string query = "HeaderId = '" + objHeader.HeaderId.ToString() + "'";
+                            var detailList = ctx.InvtSubLedgerADJ_Details.Where(x => x.HeaderId == objHeader.HeaderId);
+                            foreach (var detail in detailList)
+                            //for (int i = 0; i < detailList.Count; i++)
+                            {
+                                // Reset CDQty in Current summary
+                                //query = "ProductId = '" + detail.ProductId.ToString() + "'";
+                                var currSummary = ctx.ProductCurrentSummary.Where(x => x.ProductId == detail.ProductId).FirstOrDefault();
+                                if (currSummary != null)
+                                {
+                                    currSummary.CDQTY += detail.Qty.Value;
+                                }
 
-                        currSummary.Save();
+                                // Reset CDQty in Current Workplace summary
+                                //query += " AND WorkplaceId = '" + objHeader.WorkplaceId.ToString() + "'";
+                                var currWorkplace = ctx.ProductWorkplace.Where(x => x.ProductId == detail.ProductId && x.WorkplaceId == objHeader.WorkplaceId).FirstOrDefault();
+                                if (currWorkplace != null)
+                                {
+                                    currWorkplace.CDQTY += detail.Qty.Value;
+                                }
+                            }
+                            ctx.SaveChanges();
+                        }
+                        scope.Commit();
                     }
-
-                    // Reset CDQty in Current Workplace summary
-                    query += " AND WorkplaceId = '" + objHeader.WorkplaceId.ToString() + "'";
-                    ProductWorkplace currWorkplace = ProductWorkplace.LoadWhere(query);
-                    if (currWorkplace != null)
+                    catch (Exception ex)
                     {
-                        currWorkplace.CDQTY += detailList[i].Qty;
-
-                        currWorkplace.Save();
+                        scope.Rollback();
                     }
                 }
             }
