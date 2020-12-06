@@ -130,16 +130,16 @@ namespace RT2020.Settings
             txtTransferHHTMode.BackColor = SystemInfo.ControlBackColor.DisabledBox;
             txtPacketType.BackColor = SystemInfo.ControlBackColor.DisabledBox;
 
-            txtTaxRate.Text = SystemInfo.CurrentInfo.Default.SysInfo.TaxRate.ToString("n2");
+            txtTaxRate.Text = SystemInfo.CurrentInfo.Default.SysInfo.TaxRate.Value.ToString("n2");
             txtTaxRegisterNumber.Text = SystemInfo.CurrentInfo.Default.SysInfo.TaxRegisterNumber;
-            chkPriceTagIncludeTax.Checked = SystemInfo.CurrentInfo.Default.SysInfo.PriceTag_TaxInclusive;
+            chkPriceTagIncludeTax.Checked = SystemInfo.CurrentInfo.Default.SysInfo.PriceTag_TaxInclusive.Value;
 
             txtDomesticCurrency.Text = SystemInfo.CurrentInfo.Default.SysInfo.BasicCurrency;
             txtOTBClassLevel.Text = SystemInfo.CurrentInfo.Default.SysInfo.OTBClassLevel;
             txtBarcodeLabelFormat.Text = SystemInfo.CurrentInfo.Default.SysInfo.BarcodeLabelFormat;
             txtTransferHHTMode.Text = string.IsNullOrEmpty(SystemInfo.CurrentInfo.Default.SysInfo.HotSyncMode_HHT) ? "F" : SystemInfo.CurrentInfo.Default.SysInfo.HotSyncMode_HHT;
             txtPacketType.Text = string.IsNullOrEmpty(SystemInfo.CurrentInfo.Default.SysInfo.PacketType) ? "UNICODE" : SystemInfo.CurrentInfo.Default.SysInfo.PacketType;
-            chkUseMultiplePricebook.Checked = SystemInfo.CurrentInfo.Default.SysInfo.AllowMultiplePricebook;
+            chkUseMultiplePricebook.Checked = SystemInfo.CurrentInfo.Default.SysInfo.AllowMultiplePricebook.Value;
 
             this.SetBackColor();
         }
@@ -305,13 +305,8 @@ namespace RT2020.Settings
                     {
                         File.Delete(picPath);
 
-                        RT2020.DAL.SystemInfo oSysInfo = RT2020.DAL.SystemInfo.Load(SystemInfo.CurrentInfo.Default.SysInfo.InfoId);
-                        if (oSysInfo != null)
+                        if (ModelEx.SystemInfoEx.ClearLogoInfo(SystemInfo.CurrentInfo.Default.SysInfo.InfoId))
                         {
-                            oSysInfo.LOGO = string.Empty;
-
-                            oSysInfo.Save();
-
                             MessageBox.Show("The picture '" + txtCompanyLogo.Text + "' is deleted.", "Deleted", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         }
                         else
@@ -346,13 +341,8 @@ namespace RT2020.Settings
                     {
                         File.Delete(picPath);
 
-                        RT2020.DAL.SystemInfo oSysInfo = RT2020.DAL.SystemInfo.Load(SystemInfo.CurrentInfo.Default.SysInfo.InfoId);
-                        if (oSysInfo != null)
+                        if (ModelEx.SystemInfoEx.ClearLogoInfo(SystemInfo.CurrentInfo.Default.SysInfo.InfoId))
                         {
-                            oSysInfo.LetterHead = string.Empty;
-
-                            oSysInfo.Save();
-
                             MessageBox.Show("The picture '" + txtLetterHead.Text + "' is deleted.", "Deleted", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         }
                         else
@@ -436,48 +426,51 @@ namespace RT2020.Settings
         /// </summary>
         private void Save()
         {
-            RT2020.DAL.SystemInfo oSysInfo = RT2020.DAL.SystemInfo.Load(SystemInfo.CurrentInfo.Default.SysInfo.InfoId);
-            if (oSysInfo != null)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                // Company Info.
-                oSysInfo.ShopNumber = txtOfficeNumber.Text;
-                oSysInfo.CompanyNameInitial = txtCompanyInitial.Text;
-                oSysInfo.TEL = txtPhoneNumber.Text;
-                oSysInfo.FAX = txtFaxNumber.Text;
-                oSysInfo.EMail = txtEmail.Text;
-                oSysInfo.URL = txtInternetUrl.Text;
+                var oSysInfo = ctx.SystemInfo.Find(SystemInfo.CurrentInfo.Default.SysInfo.InfoId);
+                if (oSysInfo != null)
+                {
+                    // Company Info.
+                    oSysInfo.ShopNumber = txtOfficeNumber.Text;
+                    oSysInfo.CompanyNameInitial = txtCompanyInitial.Text;
+                    oSysInfo.TEL = txtPhoneNumber.Text;
+                    oSysInfo.FAX = txtFaxNumber.Text;
+                    oSysInfo.EMail = txtEmail.Text;
+                    oSysInfo.URL = txtInternetUrl.Text;
 
-                // Address Info.
-                // English
-                oSysInfo.CompanyName = txtCompanyNameEn.Text;
-                oSysInfo.CompanyAddess = txtAddressEn.Text;
+                    // Address Info.
+                    // English
+                    oSysInfo.CompanyName = txtCompanyNameEn.Text;
+                    oSysInfo.CompanyAddess = txtAddressEn.Text;
 
-                // Chinese
-                oSysInfo.CompanyName_Chs = txtCompanyNameAlt1.Text;
-                oSysInfo.CompanyAddress_Chs = txtAddressAlt1.Text;
-                oSysInfo.CompanyName_Cht = txtCompanyNameAlt1.Text;
-                oSysInfo.CompanyAddress_Cht = txtAddressAlt1.Text;
+                    // Chinese
+                    oSysInfo.CompanyName_Chs = txtCompanyNameAlt1.Text;
+                    oSysInfo.CompanyAddress_Chs = txtAddressAlt1.Text;
+                    oSysInfo.CompanyName_Cht = txtCompanyNameAlt1.Text;
+                    oSysInfo.CompanyAddress_Cht = txtAddressAlt1.Text;
 
-                // Logo
-                oSysInfo.LOGO = txtCompanyLogo.Text;
+                    // Logo
+                    oSysInfo.LOGO = txtCompanyLogo.Text;
 
-                // Letter Head
-                oSysInfo.LetterHead = txtLetterHead.Text;
+                    // Letter Head
+                    oSysInfo.LetterHead = txtLetterHead.Text;
 
-                // Others
+                    // Others
 
-                oSysInfo.TaxRate = Common.Utility.IsNumeric(txtTaxRate.Text) ? Convert.ToDecimal(txtTaxRate.Text.Trim()) : 0;
-                oSysInfo.TaxRegisterNumber = txtTaxRegisterNumber.Text;
-                oSysInfo.PriceTag_TaxInclusive = chkPriceTagIncludeTax.Checked;
+                    oSysInfo.TaxRate = Common.Utility.IsNumeric(txtTaxRate.Text) ? Convert.ToDecimal(txtTaxRate.Text.Trim()) : 0;
+                    oSysInfo.TaxRegisterNumber = txtTaxRegisterNumber.Text;
+                    oSysInfo.PriceTag_TaxInclusive = chkPriceTagIncludeTax.Checked;
 
-                oSysInfo.BasicCurrency = txtDomesticCurrency.Text;
-                oSysInfo.OTBClassLevel = txtOTBClassLevel.Text;
-                oSysInfo.BarcodeLabelFormat = txtBarcodeLabelFormat.Text;
-                oSysInfo.HotSyncMode_HHT = txtTransferHHTMode.Text;
-                oSysInfo.PacketType = txtPacketType.Text;
-                oSysInfo.AllowMultiplePricebook = chkUseMultiplePricebook.Checked;
+                    oSysInfo.BasicCurrency = txtDomesticCurrency.Text;
+                    oSysInfo.OTBClassLevel = txtOTBClassLevel.Text;
+                    oSysInfo.BarcodeLabelFormat = txtBarcodeLabelFormat.Text;
+                    oSysInfo.HotSyncMode_HHT = txtTransferHHTMode.Text;
+                    oSysInfo.PacketType = txtPacketType.Text;
+                    oSysInfo.AllowMultiplePricebook = chkUseMultiplePricebook.Checked;
 
-                oSysInfo.Save();
+                    ctx.SaveChanges();
+                }
             }
         }
 

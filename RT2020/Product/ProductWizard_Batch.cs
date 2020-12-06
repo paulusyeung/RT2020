@@ -665,30 +665,35 @@ namespace RT2020.Product
 
         private void SaveProductRemarks(Guid productId)
         {
-            string sql = "ProductId = '" + productId.ToString() + "'";
-            ProductRemarks oRemarks = ProductRemarks.LoadWhere(sql);
-            if (oRemarks == null)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                oRemarks = new ProductRemarks();
+                //string sql = "ProductId = '" + productId.ToString() + "'";
+                var oRemarks = ctx.ProductRemarks.Where(x => x.ProductId == productId).FirstOrDefault();
+                if (oRemarks == null)
+                {
+                    oRemarks = new EF6.ProductRemarks();
+                    oRemarks.ProductRemarksId = Guid.NewGuid();
+                    oRemarks.ProductId = productId;
 
-                oRemarks.ProductId = productId;
+                    ctx.ProductRemarks.Add(oRemarks);
+                }
+                oRemarks.BinX = general.txtBin_X.Text;
+                oRemarks.BinY = general.txtBin_Y.Text;
+                oRemarks.BinZ = general.txtBin_Z.Text;
+
+                oRemarks.DownloadToShop = general.chkRetailItem.Checked;
+                oRemarks.OffDisplayItem = general.chkOffDisplayItem.Checked;
+                oRemarks.DownloadToCounter = general.chkCounterItem.Checked;
+
+                oRemarks.REMARK1 = general.txtRemarks1.Text;
+                oRemarks.REMARK2 = general.txtRemarks2.Text;
+                oRemarks.REMARK3 = general.txtRemarks3.Text;
+                oRemarks.REMARK4 = general.txtRemarks4.Text;
+                oRemarks.REMARK5 = general.txtRemarks5.Text;
+                oRemarks.REMARK6 = general.txtRemarks6.Text;
+
+                ctx.SaveChanges();
             }
-            oRemarks.BinX = general.txtBin_X.Text;
-            oRemarks.BinY = general.txtBin_Y.Text;
-            oRemarks.BinZ = general.txtBin_Z.Text;
-
-            oRemarks.DownloadToShop = general.chkRetailItem.Checked;
-            oRemarks.OffDisplayItem = general.chkOffDisplayItem.Checked;
-            oRemarks.DownloadToCounter = general.chkCounterItem.Checked;
-
-            oRemarks.REMARK1 = general.txtRemarks1.Text;
-            oRemarks.REMARK2 = general.txtRemarks2.Text;
-            oRemarks.REMARK3 = general.txtRemarks3.Text;
-            oRemarks.REMARK4 = general.txtRemarks4.Text;
-            oRemarks.REMARK5 = general.txtRemarks5.Text;
-            oRemarks.REMARK6 = general.txtRemarks6.Text;
-
-            oRemarks.Save();
         }
         #endregion
 

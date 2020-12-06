@@ -14,6 +14,7 @@ using System.Data.SqlClient;
 using System.IO;
 using RT2020.Controls;
 using System.Threading;
+using System.Linq;
 
 #endregion
 
@@ -82,25 +83,28 @@ namespace RT2020.Product
                     {
                         File.Delete(picPath);
 
-                        string sql = "ProductId = '" + productId.ToString() + "' AND Photo = '" + txtPicFileName.Text + "'";
-                        ProductRemarks oRemarks = ProductRemarks.LoadWhere(sql);
-                        if (oRemarks != null)
+                        using (var ctx = new EF6.RT2020Entities())
                         {
-                            oRemarks.Photo = oRemarks.Photo2;
-                            oRemarks.Photo2 = oRemarks.Photo3;
-                            oRemarks.Photo3 = oRemarks.Photo4;
-                            oRemarks.Photo4 = oRemarks.Photo5;
-                            oRemarks.Photo5 = string.Empty;
+                            //string sql = "ProductId = '" + productId.ToString() + "' AND Photo = '" + txtPicFileName.Text + "'";
+                            var oRemarks = ctx.ProductRemarks.Where(x => x.ProductId == productId && x.Photo == txtPicFileName.Text).FirstOrDefault();
+                            if (oRemarks != null)
+                            {
+                                oRemarks.Photo = oRemarks.Photo2;
+                                oRemarks.Photo2 = oRemarks.Photo3;
+                                oRemarks.Photo3 = oRemarks.Photo4;
+                                oRemarks.Photo4 = oRemarks.Photo5;
+                                oRemarks.Photo5 = string.Empty;
 
-                            oRemarks.Save();
+                                ctx.SaveChanges();
 
-                            imgProductPic.ImageName = Path.Combine("Product", oRemarks.Photo);
+                                imgProductPic.ImageName = Path.Combine("Product", oRemarks.Photo);
 
-                            MessageBox.Show("The picture '" + txtPicFileName.Text + "' is deleted.", "Deleted", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        }
-                        else
-                        {
-                            MessageBox.Show("The picture does not exist in database.", "Delete Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                MessageBox.Show("The picture '" + txtPicFileName.Text + "' is deleted.", "Deleted", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            }
+                            else
+                            {
+                                MessageBox.Show("The picture does not exist in database.", "Delete Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            }
                         }
                     }
                     catch (Exception exc)

@@ -712,32 +712,37 @@ namespace RT2020.Product
 
         private void SaveProductRemarks(ProductBatch oBatch, Guid productId)
         {
-            string sql = "ProductId = '" + productId.ToString() + "'";
-            ProductRemarks oRemarks = ProductRemarks.LoadWhere(sql);
-            if (oRemarks == null)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                oRemarks = new ProductRemarks();
+                //string sql = "ProductId = '" + productId.ToString() + "'";
+                var oRemarks = ctx.ProductRemarks.Where(x => x.ProductId == productId).FirstOrDefault();
+                if (oRemarks == null)
+                {
+                    oRemarks = new EF6.ProductRemarks();
+                    oRemarks.ProductRemarksId = Guid.NewGuid();
+                    oRemarks.ProductId = productId;
 
-                oRemarks.ProductId = productId;
+                    ctx.ProductRemarks.Add(oRemarks);
+                }
+                oRemarks.Photo = oBatch.PHOTO;
+
+                oRemarks.BinX = oBatch.BINX;
+                oRemarks.BinY = oBatch.BINY;
+                oRemarks.BinZ = oBatch.BINZ;
+
+                oRemarks.DownloadToShop = (oBatch.RETAILITEM == "F") ? false : true;
+                oRemarks.OffDisplayItem = (oBatch.OFF_DISPLAY_ITEM == "F") ? false : true;
+                oRemarks.DownloadToCounter = (oBatch.COUNTER_ITEM == "F") ? false : true;
+
+                oRemarks.REMARK1 = oBatch.REMARK1;
+                oRemarks.REMARK2 = oBatch.REMARK2;
+                oRemarks.REMARK3 = oBatch.REMARK3;
+                oRemarks.REMARK4 = oBatch.REMARK4;
+                oRemarks.REMARK5 = oBatch.REMARK5;
+                oRemarks.REMARK6 = oBatch.REMARK6;
+
+                ctx.SaveChanges();
             }
-            oRemarks.Photo = oBatch.PHOTO;
-
-            oRemarks.BinX = oBatch.BINX;
-            oRemarks.BinY = oBatch.BINY;
-            oRemarks.BinZ = oBatch.BINZ;
-
-            oRemarks.DownloadToShop = (oBatch.RETAILITEM == "F") ? false : true;
-            oRemarks.OffDisplayItem = (oBatch.OFF_DISPLAY_ITEM == "F") ? false : true;
-            oRemarks.DownloadToCounter = (oBatch.COUNTER_ITEM == "F") ? false : true;
-
-            oRemarks.REMARK1 = oBatch.REMARK1;
-            oRemarks.REMARK2 = oBatch.REMARK2;
-            oRemarks.REMARK3 = oBatch.REMARK3;
-            oRemarks.REMARK4 = oBatch.REMARK4;
-            oRemarks.REMARK5 = oBatch.REMARK5;
-            oRemarks.REMARK6 = oBatch.REMARK6;
-
-            oRemarks.Save();
         }
         #endregion
 

@@ -897,45 +897,50 @@ namespace RT2020.Product
 
         private void SaveProductRemarks(Guid productId)
         {
-            string sql = "ProductId = '" + productId.ToString() + "'";
-            ProductRemarks oRemarks = ProductRemarks.LoadWhere(sql);
-            if (oRemarks == null)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                oRemarks = new ProductRemarks();
+                //string sql = "ProductId = '" + productId.ToString() + "'";
+                var oRemarks = ctx.ProductRemarks.Where(x => x.ProductId == productId).FirstOrDefault();
+                if (oRemarks == null)
+                {
+                    oRemarks = new EF6.ProductRemarks();
+                    oRemarks.ProductRemarksId = Guid.NewGuid();
+                    oRemarks.ProductId = productId;
 
-                oRemarks.ProductId = productId;
+                    ctx.ProductRemarks.Add(oRemarks);
+                }
+                oRemarks.BinX = general.txtBin_X.Text;
+                oRemarks.BinY = general.txtBin_Y.Text;
+                oRemarks.BinZ = general.txtBin_Z.Text;
+
+                oRemarks.DownloadToShop = general.chkRetailItem.Checked;
+                oRemarks.OffDisplayItem = general.chkOffDisplayItem.Checked;
+                oRemarks.DownloadToCounter = general.chkCounterItem.Checked;
+
+                oRemarks.REMARK1 = general.txtRemarks1.Text;
+                oRemarks.REMARK2 = general.txtRemarks2.Text;
+                oRemarks.REMARK3 = general.txtRemarks3.Text;
+                oRemarks.REMARK4 = general.txtRemarks4.Text;
+                oRemarks.REMARK5 = general.txtRemarks5.Text;
+                oRemarks.REMARK6 = general.txtRemarks6.Text;
+
+                oRemarks.Notes = misc.txtMemo.Text;
+
+                if (string.IsNullOrEmpty(oRemarks.Photo))
+                {
+                    oRemarks.Photo = misc.txtPicFileName.Text;
+                }
+                else if (oRemarks.Photo != misc.txtPicFileName.Text)
+                {
+                    oRemarks.Photo5 = oRemarks.Photo4;
+                    oRemarks.Photo4 = oRemarks.Photo3;
+                    oRemarks.Photo3 = oRemarks.Photo2;
+                    oRemarks.Photo2 = oRemarks.Photo;
+                    oRemarks.Photo = misc.txtPicFileName.Text;
+                }
+
+                ctx.SaveChanges();
             }
-            oRemarks.BinX = general.txtBin_X.Text;
-            oRemarks.BinY = general.txtBin_Y.Text;
-            oRemarks.BinZ = general.txtBin_Z.Text;
-
-            oRemarks.DownloadToShop = general.chkRetailItem.Checked;
-            oRemarks.OffDisplayItem = general.chkOffDisplayItem.Checked;
-            oRemarks.DownloadToCounter = general.chkCounterItem.Checked;
-
-            oRemarks.REMARK1 = general.txtRemarks1.Text;
-            oRemarks.REMARK2 = general.txtRemarks2.Text;
-            oRemarks.REMARK3 = general.txtRemarks3.Text;
-            oRemarks.REMARK4 = general.txtRemarks4.Text;
-            oRemarks.REMARK5 = general.txtRemarks5.Text;
-            oRemarks.REMARK6 = general.txtRemarks6.Text;
-
-            oRemarks.Notes = misc.txtMemo.Text;
-
-            if (string.IsNullOrEmpty(oRemarks.Photo))
-            {
-                oRemarks.Photo = misc.txtPicFileName.Text;
-            }
-            else if (oRemarks.Photo != misc.txtPicFileName.Text)
-            {
-                oRemarks.Photo5 = oRemarks.Photo4;
-                oRemarks.Photo4 = oRemarks.Photo3;
-                oRemarks.Photo3 = oRemarks.Photo2;
-                oRemarks.Photo2 = oRemarks.Photo;
-                oRemarks.Photo = misc.txtPicFileName.Text;
-            }
-
-            oRemarks.Save();
         }
         #endregion
 
@@ -1071,48 +1076,51 @@ namespace RT2020.Product
         // Remarks
         private void LoadProductRemarks()
         {
-            string sql = "ProductId = '" + productId.ToString() + "'";
-            ProductRemarks oRemarks = ProductRemarks.LoadWhere(sql);
-            if (oRemarks != null)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                general.txtBin_X.Text = oRemarks.BinX;
-                general.txtBin_Y.Text = oRemarks.BinY;
-                general.txtBin_Z.Text = oRemarks.BinZ;
-
-                general.chkRetailItem.Checked = oRemarks.DownloadToShop;
-                general.chkOffDisplayItem.Checked = oRemarks.OffDisplayItem;
-                general.chkCounterItem.Checked = oRemarks.DownloadToCounter;
-
-                general.txtRemarks1.Text = oRemarks.REMARK1;
-                general.txtRemarks2.Text = oRemarks.REMARK2;
-                general.txtRemarks3.Text = oRemarks.REMARK3;
-                general.txtRemarks4.Text = oRemarks.REMARK4;
-                general.txtRemarks5.Text = oRemarks.REMARK5;
-                general.txtRemarks6.Text = oRemarks.REMARK6;
-
-                misc.txtMemo.Text = oRemarks.Notes;
-
-                // 2009.12.29 david: 如果为网络路径，则直接显示。
-                string photoPath = Path.Combine(Path.Combine(Context.Config.GetDirectory("RTImages"), "Product"), oRemarks.Photo);
-                try
+                string sql = "ProductId = '" + productId.ToString() + "'";
+                var oRemarks = ctx.ProductRemarks.Where(x => x.ProductId == productId).AsNoTracking().FirstOrDefault();
+                if (oRemarks != null)
                 {
-                    Uri uri = new Uri(oRemarks.Photo);
-                    if (uri.IsUnc)
+                    general.txtBin_X.Text = oRemarks.BinX;
+                    general.txtBin_Y.Text = oRemarks.BinY;
+                    general.txtBin_Z.Text = oRemarks.BinZ;
+
+                    general.chkRetailItem.Checked = oRemarks.DownloadToShop;
+                    general.chkOffDisplayItem.Checked = oRemarks.OffDisplayItem;
+                    general.chkCounterItem.Checked = oRemarks.DownloadToCounter;
+
+                    general.txtRemarks1.Text = oRemarks.REMARK1;
+                    general.txtRemarks2.Text = oRemarks.REMARK2;
+                    general.txtRemarks3.Text = oRemarks.REMARK3;
+                    general.txtRemarks4.Text = oRemarks.REMARK4;
+                    general.txtRemarks5.Text = oRemarks.REMARK5;
+                    general.txtRemarks6.Text = oRemarks.REMARK6;
+
+                    misc.txtMemo.Text = oRemarks.Notes;
+
+                    // 2009.12.29 david: 如果为网络路径，则直接显示。
+                    string photoPath = Path.Combine(Path.Combine(Context.Config.GetDirectory("RTImages"), "Product"), oRemarks.Photo);
+                    try
                     {
-                        misc.imgProductPic.ImageName = uri.LocalPath;
+                        Uri uri = new Uri(oRemarks.Photo);
+                        if (uri.IsUnc)
+                        {
+                            misc.imgProductPic.ImageName = uri.LocalPath;
+                        }
+                        else
+                        {
+                            misc.imgProductPic.ImageName = photoPath;
+                        }
                     }
-                    else
+                    catch { }
+                    finally
                     {
                         misc.imgProductPic.ImageName = photoPath;
                     }
-                }
-                catch { }
-                finally
-                {
-                    misc.imgProductPic.ImageName = photoPath;
-                }
 
-                misc.txtPicFileName.Text = oRemarks.Photo;
+                    misc.txtPicFileName.Text = oRemarks.Photo;
+                }
             }
         }
         #endregion
