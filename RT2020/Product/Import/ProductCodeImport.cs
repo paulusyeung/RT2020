@@ -17,6 +17,7 @@ using System.Web;
 using Gizmox.WebGUI.Common.Gateways;
 using RT2020.Controls;
 using System.Collections;
+using System.Linq;
 
 #endregion
 
@@ -784,76 +785,96 @@ namespace RT2020.Product.Import
 
         private void ImportProductSupplement(Guid productId, StockCodeRec oRec)
         {
-            string sql = "ProductId = '" + productId.ToString() + "' AND VendorCurrencyCode = '" + oRec.VCURR + "'";
-            ProductSupplement oProdSupp = ProductSupplement.LoadWhere(sql);
-            if (oProdSupp == null)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                oProdSupp = new ProductSupplement();
+                //string sql = "ProductId = '" + productId.ToString() + "' AND VendorCurrencyCode = '" + oRec.VCURR + "'";
+                var oProdSupp = ctx.ProductSupplement.Where(x => x.ProductId == productId && x.VendorCurrencyCode == oRec.VCURR).FirstOrDefault();
+                if (oProdSupp == null)
+                {
+                    oProdSupp = new EF6.ProductSupplement();
+                    oProdSupp.SupplementId = Guid.NewGuid();
+                    oProdSupp.ProductId = productId;
+                    oProdSupp.VendorCurrencyCode = oRec.VCURR;
+                    oProdSupp.VendorPrice = Convert.ToDecimal(oRec.VPRC);
 
-                oProdSupp.ProductId = productId;
-                oProdSupp.VendorCurrencyCode = oRec.VCURR;
-                oProdSupp.VendorPrice = Convert.ToDecimal(oRec.VPRC);
+                    ctx.ProductSupplement.Add(oProdSupp);
+                    ctx.SaveChanges();
+                }
             }
-            oProdSupp.Save();
         }
 
         private void ImportProductBarcode(Guid productId, StockCodeRec oRec)
         {
-            StringBuilder barcode = new StringBuilder();
-            barcode.Append(oRec.PLU); // STK_CODE
-            barcode.Append(oRec.Season); // Appendix1
-            barcode.Append(oRec.Color); // Appendix2
-            barcode.Append(oRec.Size); // Appendix3
-
-            string sql = "ProductId = '" + productId.ToString() + "' AND Barcode = '" + barcode.ToString() + "'";
-            ProductBarcode oBarcode = ProductBarcode.LoadWhere(sql);
-            if (oBarcode == null)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                oBarcode = new ProductBarcode();
+                StringBuilder barcode = new StringBuilder();
+                barcode.Append(oRec.PLU); // STK_CODE
+                barcode.Append(oRec.Season); // Appendix1
+                barcode.Append(oRec.Color); // Appendix2
+                barcode.Append(oRec.Size); // Appendix3
 
-                oBarcode.Barcode = barcode.ToString();
-                oBarcode.BarcodeType = "INTER";
-                oBarcode.PrimaryBarcode = true;
-                oBarcode.DownloadToPOS = chkSetRetailItem.Checked;
+                //string sql = "ProductId = '" + productId.ToString() + "' AND Barcode = '" + barcode.ToString() + "'";
+                var oBarcode = ctx.ProductBarcode.Where(x => x.ProductId == productId && x.Barcode == barcode.ToString()).FirstOrDefault();
+                if (oBarcode == null)
+                {
+                    oBarcode = new EF6.ProductBarcode();
+                    oBarcode.ProductBarcodeId = Guid.NewGuid();
+                    oBarcode.Barcode = barcode.ToString();
+                    oBarcode.BarcodeType = "INTER";
+                    oBarcode.PrimaryBarcode = true;
+                    oBarcode.DownloadToPOS = chkSetRetailItem.Checked;
+                    ctx.ProductBarcode.Add(oBarcode);
+                    ctx.SaveChanges();
+                }
             }
         }
 
         private void ImportProductCode(Guid productId, Guid a1Id, Guid a2Id, Guid a3Id, Guid c1Id, Guid c2Id, Guid c3Id, Guid c4Id, Guid c5Id, Guid c6Id)
         {
-            string sql = "ProductId = '" + productId.ToString() + "'";
-            ProductCode oCode = ProductCode.LoadWhere(sql);
-            if (oCode == null)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                oCode = new ProductCode();
+                string sql = "ProductId = '" + productId.ToString() + "'";
+                var oCode = ctx.ProductCode.Where(x => x.ProductId == productId).FirstOrDefault();
+                if (oCode == null)
+                {
+                    oCode = new EF6.ProductCode();
+                    oCode.CodeId = Guid.NewGuid();
+                    oCode.ProductId = productId;
+                    oCode.Appendix1Id = a1Id;
+                    oCode.Appendix2Id = a2Id;
+                    oCode.Appendix3Id = a3Id;
+                    oCode.Class1Id = c1Id;
+                    oCode.Class2Id = c2Id;
+                    oCode.Class3Id = c3Id;
+                    oCode.Class4Id = c4Id;
+                    oCode.Class5Id = c5Id;
+                    oCode.Class6Id = c6Id;
 
-                oCode.ProductId = productId;
-                oCode.Appendix1Id = a1Id;
-                oCode.Appendix2Id = a2Id;
-                oCode.Appendix3Id = a3Id;
-                oCode.Class1Id = c1Id;
-                oCode.Class2Id = c2Id;
-                oCode.Class3Id = c3Id;
-                oCode.Class4Id = c4Id;
-                oCode.Class5Id = c5Id;
-                oCode.Class6Id = c6Id;
+                    ctx.ProductCode.Add(oCode);
+                    ctx.SaveChanges();
+                }
             }
-            oCode.Save();
         }
 
         private void ImportProductRemarks(Guid productId, StockCodeRec oRec)
         {
-            string sql = "ProductId = '" + productId.ToString() + "'";
-            ProductRemarks oRemarks = ProductRemarks.LoadWhere(sql);
-            if (oRemarks == null)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                oRemarks = new ProductRemarks();
+                string sql = "ProductId = '" + productId.ToString() + "'";
+                var oRemarks = ctx.ProductRemarks.Where(x => x.ProductId == productId).FirstOrDefault();
+                if (oRemarks == null)
+                {
+                    oRemarks = new EF6.ProductRemarks();
+                    oRemarks.ProductRemarksId = Guid.NewGuid();
+                    oRemarks.ProductId = productId;
+                    oRemarks.Photo = oRec.PhotoPath;
+                    oRemarks.Notes = oRec.STK_MEMO;
+                    oRemarks.DownloadToShop = chkSetRetailItem.Checked;
 
-                oRemarks.ProductId = productId;
-                oRemarks.Photo = oRec.PhotoPath;
-                oRemarks.Notes = oRec.STK_MEMO;
-                oRemarks.DownloadToShop = chkSetRetailItem.Checked;
+                    ctx.ProductRemarks.Add(oRemarks);
+                    ctx.SaveChanges();
+                }
             }
-            oRemarks.Save();
         }
 
         private void ImportProductPrice(Guid productId, StockCodeRec oRec)
@@ -866,35 +887,47 @@ namespace RT2020.Product.Import
 
         private void ImportProductPrice(Guid productId, string priceType, string currencyCode, string price)
         {
-            string sql = "ProductId = '" + productId.ToString() + "'";
-            ProductPrice oPrice = ProductPrice.LoadWhere(sql);
-            if (oPrice == null)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                oPrice = new ProductPrice();
+                string sql = "ProductId = '" + productId.ToString() + "'";
+                var oPrice = ctx.ProductPrice.Where(x => x.ProductId == productId).FirstOrDefault();
+                if (oPrice == null)
+                {
+                    oPrice = new EF6.ProductPrice();
+                    oPrice.ProductPriceId = Guid.NewGuid();
+                    oPrice.ProductId = productId;
+                    oPrice.PriceTypeId = GetPriceType(priceType);
+                    oPrice.CurrencyCode = currencyCode;
+                    oPrice.Price = Convert.ToDecimal(price);
 
-                oPrice.ProductId = productId;
-                oPrice.PriceTypeId = GetPriceType(priceType);
-                oPrice.CurrencyCode = currencyCode;
-                oPrice.Price = Convert.ToDecimal(price);
+                    ctx.ProductPrice.Add(oPrice);
+                    ctx.SaveChanges();
+                }
             }
-            oPrice.Save();
         }
 
         private Guid GetPriceType(string priceType)
         {
-            string sql = "PriceType = '" + priceType + "'";
-            ProductPriceType oType = ProductPriceType.LoadWhere(sql);
-            if (oType == null)
+            Guid result = Guid.Empty;
+            using (var ctx = new EF6.RT2020Entities())
             {
-                oType = new ProductPriceType();
+                string sql = "PriceType = '" + priceType + "'";
+                var oType = ctx.ProductPriceType.Where(x => x.PriceType == priceType).FirstOrDefault();
+                if (oType == null)
+                {
+                    oType = new EF6.ProductPriceType();
+                    oType.PriceTypeId = Guid.NewGuid();
+                    oType.PriceType = priceType;
+                    oType.CurrencyCode = "HKD";
+                    oType.CoreSystemPrice = false;
 
-                oType.PriceType = priceType;
-                oType.CurrencyCode = "HKD";
-                oType.CoreSystemPrice = false;
+                    ctx.ProductPriceType.Add(oType);
+                    ctx.SaveChanges();
 
-                oType.Save();
+                    result = oType.PriceTypeId;
+                }
             }
-            return oType.PriceTypeId;
+            return result;
         }
         #endregion
 

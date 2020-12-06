@@ -15,6 +15,7 @@ using RT2020.Controls;
 using DevExpress.Web;
 using System.Data.SqlClient;
 using System.Configuration;
+using System.Linq;
 
 #endregion
 
@@ -327,30 +328,36 @@ namespace RT2020.Product
 
         public void AddBarcode()
         {
-            for (int i = 0; i < lvBarcodeList.Items.Count; i++)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                ListViewItem item = lvBarcodeList.Items[i];
-                if (Common.Utility.IsGUID(item.Text))
+                for (int i = 0; i < lvBarcodeList.Items.Count; i++)
                 {
-                    string sql = "ProductId = '" + this.ProductId.ToString() + "' AND ProductBarcodeId = '" + item.Text + "'";
-                    ProductBarcode oBarcode = ProductBarcode.LoadWhere(sql);
-                    if (item.SubItems[1].Text == "D" && oBarcode != null)
+                    Guid pbarcodeId = Guid.Empty;
+                    ListViewItem item = lvBarcodeList.Items[i];
+                    if (Guid.TryParse(item.Text, out barcodeId))
                     {
-                        oBarcode.Delete();
-                    }
-                    else
-                    {
-                        if (oBarcode == null)
+                        //string sql = "ProductId = '" + this.ProductId.ToString() + "' AND ProductBarcodeId = '" + item.Text + "'";
+                        var oBarcode = ctx.ProductBarcode.Where(x => x.ProductId == this.ProductId && x.ProductBarcodeId == barcodeId).FirstOrDefault();
+                        if (item.SubItems[1].Text == "D" && oBarcode != null)
                         {
-                            oBarcode = new ProductBarcode();
-                            oBarcode.ProductId = this.ProductId;
+                            ctx.ProductBarcode.Remove(oBarcode);
                         }
+                        else
+                        {
+                            if (oBarcode == null)
+                            {
+                                oBarcode = new EF6.ProductBarcode();
+                                oBarcode.ProductBarcodeId = Guid.NewGuid();
+                                oBarcode.ProductId = this.ProductId;
+                                ctx.ProductBarcode.Add(oBarcode);
+                            }
 
-                        // Save record
-                        oBarcode.Barcode = item.SubItems[3].Text;
-                        oBarcode.BarcodeType = item.SubItems[4].Text;
-                        oBarcode.PrimaryBarcode = (item.SubItems[5].Text.Length > 0);
-                        oBarcode.Save();
+                            // Save record
+                            oBarcode.Barcode = item.SubItems[3].Text;
+                            oBarcode.BarcodeType = item.SubItems[4].Text;
+                            oBarcode.PrimaryBarcode = (item.SubItems[5].Text.Length > 0);
+                            ctx.SaveChanges();
+                        }
                     }
                 }
             }

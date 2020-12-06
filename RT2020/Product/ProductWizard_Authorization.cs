@@ -15,6 +15,7 @@ using RT2020.DAL;
 using Gizmox.WebGUI.Common.Interfaces;
 using System.Web;
 using System.Configuration;
+using System.Linq;
 
 #endregion
 
@@ -596,61 +597,76 @@ namespace RT2020.Product
 
         private void SaveProductBarcode(ProductBatch oBatch, Guid productid, string barcode)
         {
-            string sql = "ProductId = '" + productid.ToString() + "' AND Barcode = '" + barcode + "'";
-            ProductBarcode oBarcode = ProductBarcode.LoadWhere(sql);
-            if (oBarcode == null)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                oBarcode = new ProductBarcode();
+                string sql = "ProductId = '" + productid.ToString() + "' AND Barcode = '" + barcode + "'";
+                var oBarcode = ctx.ProductBarcode.Where(x => x.ProductId == productid).FirstOrDefault();
+                if (oBarcode == null)
+                {
+                    oBarcode = new EF6.ProductBarcode();
+                    oBarcode.ProductBarcodeId = Guid.NewGuid();
+                    oBarcode.ProductId = productid;
+                    oBarcode.Barcode = barcode;
+                    oBarcode.BarcodeType = "INTER";
+                    oBarcode.PrimaryBarcode = true;
+                    oBarcode.DownloadToPOS = (oBatch.RETAILITEM == "F") ? false : true;
+                    oBarcode.DownloadToCounter = (oBatch.COUNTER_ITEM == "F") ? false : true;
 
-                oBarcode.ProductId = productid;
-                oBarcode.Barcode = barcode;
-                oBarcode.BarcodeType = "INTER";
-                oBarcode.PrimaryBarcode = true;
-                oBarcode.DownloadToPOS = (oBatch.RETAILITEM == "F") ? false : true;
-                oBarcode.DownloadToCounter = (oBatch.COUNTER_ITEM == "F") ? false : true;
-
-                oBarcode.Save();
+                    ctx.ProductBarcode.Add(oBarcode);
+                    ctx.SaveChanges();
+                }
             }
         }
 
         private void SaveProductCode(Guid productId, Guid a1Id, Guid a2Id, Guid a3Id, Guid c1Id, Guid c2Id, Guid c3Id, Guid c4Id, Guid c5Id, Guid c6Id)
         {
-            string sql = "ProductId = '" + productId.ToString() + "'";
-            ProductCode oCode = ProductCode.LoadWhere(sql);
-            if (oCode == null)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                oCode = new ProductCode();
+                string sql = "ProductId = '" + productId.ToString() + "'";
+                var oCode = ctx.ProductCode.Where(x => x.ProductId == productId).FirstOrDefault();
+                if (oCode == null)
+                {
+                    oCode = new EF6.ProductCode();
+                    oCode.CodeId = Guid.NewGuid();
+                    oCode.ProductId = productId;
+                    oCode.Appendix1Id = a1Id;
+                    oCode.Appendix2Id = a2Id;
+                    oCode.Appendix3Id = a3Id;
 
-                oCode.ProductId = productId;
-                oCode.Appendix1Id = a1Id;
-                oCode.Appendix2Id = a2Id;
-                oCode.Appendix3Id = a3Id;
+                    ctx.ProductCode.Add(oCode);
+                }
+                oCode.Class1Id = c1Id;
+                oCode.Class2Id = c2Id;
+                oCode.Class3Id = c3Id;
+                oCode.Class4Id = c4Id;
+                oCode.Class5Id = c5Id;
+                oCode.Class6Id = c6Id;
+
+                ctx.SaveChanges();
             }
-            oCode.Class1Id = c1Id;
-            oCode.Class2Id = c2Id;
-            oCode.Class3Id = c3Id;
-            oCode.Class4Id = c4Id;
-            oCode.Class5Id = c5Id;
-            oCode.Class6Id = c6Id;
-            oCode.Save();
         }
 
         private void SaveProductSupplement(ProductBatch oBatch, Guid productId)
         {
-            string sql = "ProductId = '" + productId.ToString() + "'";
-            ProductSupplement oProdSupp = ProductSupplement.LoadWhere(sql);
-            if (oProdSupp == null)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                oProdSupp = new ProductSupplement();
+                string sql = "ProductId = '" + productId.ToString() + "'";
+                var oProdSupp = ctx.ProductSupplement.Where(x => x.ProductId == productId).FirstOrDefault();
+                if (oProdSupp == null)
+                {
+                    oProdSupp = new EF6.ProductSupplement();
+                    oProdSupp.SupplementId = Guid.NewGuid();
+                    oProdSupp.ProductId = productId;
 
-                oProdSupp.ProductId = productId;
+                    ctx.ProductSupplement.Add(oProdSupp);
+                }
+                oProdSupp.VendorCurrencyCode = oBatch.VCURR;
+                oProdSupp.VendorPrice = oBatch.VPRC;
+                oProdSupp.ProductName_Memo = oBatch.DESC_MEMO;
+                oProdSupp.ProductName_Pole = oBatch.DESC_POLE;
+
+                ctx.SaveChanges();
             }
-            oProdSupp.VendorCurrencyCode = oBatch.VCURR;
-            oProdSupp.VendorPrice = oBatch.VPRC;
-            oProdSupp.ProductName_Memo = oBatch.DESC_MEMO;
-            oProdSupp.ProductName_Pole = oBatch.DESC_POLE;
-
-            oProdSupp.Save();
         }
 
         private void SaveProductPrice(ProductBatch oBatch, Guid productId)

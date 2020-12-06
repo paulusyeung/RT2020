@@ -11,6 +11,7 @@ using Gizmox.WebGUI.Common;
 using Gizmox.WebGUI.Forms;
 using Gizmox.WebGUI.Common.Resources;
 using RT2020.DAL;
+using System.Linq;
 
 #endregion
 
@@ -595,25 +596,30 @@ namespace RT2020.Product
 
         private void SaveProductSupplement(Guid productId)
         {
-            string sql = "ProductId = '" + productId.ToString() + "'";
-            ProductSupplement oProdSupp = ProductSupplement.LoadWhere(sql);
-            if (oProdSupp == null)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                oProdSupp = new ProductSupplement();
+                string sql = "ProductId = '" + productId.ToString() + "'";
+                var oProdSupp = ctx.ProductSupplement.Where(x => x.ProductId == productId).FirstOrDefault();
+                if (oProdSupp == null)
+                {
+                    oProdSupp = new EF6.ProductSupplement();
+                    oProdSupp.SupplementId = Guid.NewGuid();
+                    oProdSupp.ProductId = productId;
 
-                oProdSupp.ProductId = productId;
+                    ctx.ProductSupplement.Add(oProdSupp);
+                }
+                oProdSupp.VendorCurrencyCode = general.cboVendorCurrency.Text;
+                oProdSupp.VendorPrice = Convert.ToDecimal((general.txtVendorPrice.Text == string.Empty) ? "0" : general.txtVendorPrice.Text);
+                oProdSupp.ProductName_Memo = general.txtMemo.Text;
+                oProdSupp.ProductName_Pole = general.txtPole.Text;
+
+                //oProdSupp.VipDiscount_FixedItem = Convert.ToDecimal((txtDiscount1_FixPriceItem.Text == string.Empty) ? "0" : txtDiscount1_FixPriceItem.Text);
+                //oProdSupp.VipDiscount_DiscountItem = Convert.ToDecimal((txtDiscount2_DiscountItem.Text == string.Empty) ? "0" : txtDiscount2_DiscountItem.Text);
+                //oProdSupp.VipDiscount_NoDiscountItem = Convert.ToDecimal((txtDiscount3_NoDiscountItem.Text == string.Empty) ? "0" : txtDiscount3_NoDiscountItem.Text);
+                //oProdSupp.StaffDiscount = Convert.ToDecimal((txtStaffDiscount.Text == string.Empty) ? "0" : txtStaffDiscount.Text);
+
+                ctx.SaveChanges();
             }
-            oProdSupp.VendorCurrencyCode = general.cboVendorCurrency.Text;
-            oProdSupp.VendorPrice = Convert.ToDecimal((general.txtVendorPrice.Text == string.Empty) ? "0" : general.txtVendorPrice.Text);
-            oProdSupp.ProductName_Memo = general.txtMemo.Text;
-            oProdSupp.ProductName_Pole = general.txtPole.Text;
-
-            //oProdSupp.VipDiscount_FixedItem = Convert.ToDecimal((txtDiscount1_FixPriceItem.Text == string.Empty) ? "0" : txtDiscount1_FixPriceItem.Text);
-            //oProdSupp.VipDiscount_DiscountItem = Convert.ToDecimal((txtDiscount2_DiscountItem.Text == string.Empty) ? "0" : txtDiscount2_DiscountItem.Text);
-            //oProdSupp.VipDiscount_NoDiscountItem = Convert.ToDecimal((txtDiscount3_NoDiscountItem.Text == string.Empty) ? "0" : txtDiscount3_NoDiscountItem.Text);
-            //oProdSupp.StaffDiscount = Convert.ToDecimal((txtStaffDiscount.Text == string.Empty) ? "0" : txtStaffDiscount.Text);
-
-            oProdSupp.Save();
         }
 
         private void SaveProductPrice(Guid productId)

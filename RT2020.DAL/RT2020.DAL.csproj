@@ -186,7 +186,6 @@
     <Compile Include="ProductPriceType.cs" />
     <Compile Include="ProductPrice_LineOfOperation.cs" />
     <Compile Include="ProductRemarks.cs" />
-    <Compile Include="ProductSupplement.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SqlHelper.cs" />
   </ItemGroup>

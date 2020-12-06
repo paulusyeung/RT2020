@@ -11,6 +11,7 @@ using Gizmox.WebGUI.Common;
 using Gizmox.WebGUI.Forms;
 using Gizmox.WebGUI.Common.Resources;
 using RT2020.DAL;
+using System.Linq;
 
 #endregion
 
@@ -407,84 +408,90 @@ AND CONVERT(NVARCHAR(10),EffectDate,126) BETWEEN '" + this.dtpEffectiveDate.Valu
         /// </summary>
         private void UpdateDetails()
         {
-            for (int i = 0; i < details.lvItemList.Items.Count; i++)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                ListViewItem lvItem = details.lvItemList.Items[i];
-                int lineNumber = i + 1;
-
-                if (Common.Utility.IsGUID(lvItem.SubItems[27].Text))
+                using (var scope = ctx.Database.BeginTransaction())
                 {
-                    string query = "DetailId = '" + lvItem.Text + "'";
-                    PriceManagementBatchDetails oDetail = PriceManagementBatchDetails.LoadWhere(query);
-                    if (oDetail == null)
+                    try
                     {
-                        oDetail = new PriceManagementBatchDetails();
-                        oDetail.HeaderId = this.HeaderId;
-                        oDetail.LineNumber = lineNumber;
-                        oDetail.ProductId = new Guid(lvItem.SubItems[27].Text);
-                        oDetail.TxNumber = txtTxNumber.Text;
-                        oDetail.TxType = txtTxType.Text;
-                    }
-
-                    if (lvItem.SubItems[1].Text != "D")
-                    {
-                        decimal oldValue = 0, newValue = 0;
-
-                        if (this.ListType == PriceUtility.PriceMgmtType.Price)
+                        for (int i = 0; i < details.lvItemList.Items.Count; i++)
                         {
-                            decimal.TryParse(lvItem.SubItems[7].Text, out oldValue);
-                            decimal.TryParse(lvItem.SubItems[9].Text, out newValue);
-                        }
-                        else
-                        {
-                            decimal.TryParse(lvItem.SubItems[12].Text, out oldValue);
-                            decimal.TryParse(lvItem.SubItems[13].Text, out newValue);
-                        }
+                            ListViewItem lvItem = details.lvItemList.Items[i];
+                            int lineNumber = i + 1;
 
-                        oDetail.OLD_FIGURE = oldValue;
-                        oDetail.NEW_FIGURE = newValue;
-                        oDetail.Save();
+                            Guid productId = Guid.Empty, detailId = Guid.Empty;
+                            if (Guid.TryParse(lvItem.SubItems[27].Text, out productId) && Guid.TryParse(lvItem.Text, out detailId))
+                            {
+                                var oDetail = ctx.PriceManagementBatchDetails.Find(detailId);
+                                if (oDetail == null)
+                                {
+                                    #region new PriceManagementBatchDetails
+                                    oDetail = new EF6.PriceManagementBatchDetails();
+                                    oDetail.DetailId = Guid.NewGuid();
+                                    oDetail.HeaderId = this.HeaderId;
+                                    oDetail.LineNumber = lineNumber;
+                                    oDetail.ProductId = productId;
+                                    oDetail.TxNumber = txtTxNumber.Text;
+                                    oDetail.TxType = txtTxType.Text;
 
-                        this.UpdateProductVipDiscountInfo(ref lvItem);
+                                    ctx.PriceManagementBatchDetails.Add(oDetail);
+                                    #endregion
+                                }
+
+                                if (lvItem.SubItems[1].Text != "D")
+                                {
+                                    decimal oldValue = 0, newValue = 0;
+
+                                    if (this.ListType == PriceUtility.PriceMgmtType.Price)
+                                    {
+                                        decimal.TryParse(lvItem.SubItems[7].Text, out oldValue);
+                                        decimal.TryParse(lvItem.SubItems[9].Text, out newValue);
+                                    }
+                                    else
+                                    {
+                                        decimal.TryParse(lvItem.SubItems[12].Text, out oldValue);
+                                        decimal.TryParse(lvItem.SubItems[13].Text, out newValue);
+                                    }
+
+                                    oDetail.OLD_FIGURE = oldValue;
+                                    oDetail.NEW_FIGURE = newValue;
+
+                                    #region Update Vip Discount
+                                    if (lvItem.SubItems[21].Text == "Y") // Update Vip Discount
+                                    {
+                                        var objProduct = ctx.Product.Find(productId);
+                                        if (objProduct != null)
+                                        {
+                                            objProduct.FixedPriceItem = (lvItem.SubItems[22].Text == "Y"); // Fixed price item
+
+                                            string query = "ProductId = '" + objProduct.ProductId.ToString() + "'";
+                                            var oSupplement = ctx.ProductSupplement.Where(x => x.ProductId == objProduct.ProductId).FirstOrDefault();
+                                            if (oSupplement != null)
+                                            {
+                                                oSupplement.VipDiscount_FixedItem = Common.Utility.IsNumeric(lvItem.SubItems[23].Text) ? Convert.ToDecimal(lvItem.SubItems[23].Text.Trim()) : oSupplement.VipDiscount_FixedItem; // Discount For Fixed price Item
+                                                oSupplement.VipDiscount_DiscountItem = Common.Utility.IsNumeric(lvItem.SubItems[24].Text) ? Convert.ToDecimal(lvItem.SubItems[24].Text.Trim()) : oSupplement.VipDiscount_DiscountItem; // Discount for Discount Item
+                                                oSupplement.VipDiscount_NoDiscountItem = Common.Utility.IsNumeric(lvItem.SubItems[25].Text) ? Convert.ToDecimal(lvItem.SubItems[25].Text.Trim()) : oSupplement.VipDiscount_NoDiscountItem; // Disocunt for No Discount Item
+                                                oSupplement.StaffDiscount = Common.Utility.IsNumeric(lvItem.SubItems[26].Text) ? Convert.ToDecimal(lvItem.SubItems[26].Text.Trim()) : oSupplement.StaffDiscount; // Staff Discount
+                                            }
+
+                                            objProduct.ModifiedBy = Common.Config.CurrentUserId;
+                                            objProduct.ModifiedOn = DateTime.Now;
+                                        }
+                                    }
+                                    #endregion
+                                }
+                                else
+                                {
+                                    ctx.PriceManagementBatchDetails.Remove(oDetail);
+                                }
+                                ctx.SaveChanges();
+                            }
+                        }
+                        scope.Commit();
                     }
-                    else
+                    catch (Exception ex)
                     {
-                        oDetail.Delete();
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// Updates the product vip discount info.
-        /// </summary>
-        /// <param name="lvItem">The list view item.</param>
-        private void UpdateProductVipDiscountInfo(ref ListViewItem lvItem)
-        {
-            if (lvItem.SubItems[21].Text == "Y") // Update Vip Discount
-            {
-                if (Common.Utility.IsGUID(lvItem.SubItems[27].Text))
-                {
-                    RT2020.DAL.Product objProduct = RT2020.DAL.Product.Load(new Guid(lvItem.SubItems[27].Text));
-                    if (objProduct != null)
-                    {
-                        objProduct.FixedPriceItem = (lvItem.SubItems[22].Text == "Y"); // Fixed price item
-
-                        string query = "ProductId = '" + objProduct.ProductId.ToString() + "'";
-                        ProductSupplement oSupplement = ProductSupplement.LoadWhere(query);
-                        if (oSupplement != null)
-                        {
-                            oSupplement.VipDiscount_FixedItem = Common.Utility.IsNumeric(lvItem.SubItems[23].Text) ? Convert.ToDecimal(lvItem.SubItems[23].Text.Trim()) : oSupplement.VipDiscount_FixedItem; // Discount For Fixed price Item
-                            oSupplement.VipDiscount_DiscountItem = Common.Utility.IsNumeric(lvItem.SubItems[24].Text) ? Convert.ToDecimal(lvItem.SubItems[24].Text.Trim()) : oSupplement.VipDiscount_DiscountItem; // Discount for Discount Item
-                            oSupplement.VipDiscount_NoDiscountItem = Common.Utility.IsNumeric(lvItem.SubItems[25].Text) ? Convert.ToDecimal(lvItem.SubItems[25].Text.Trim()) : oSupplement.VipDiscount_NoDiscountItem; // Disocunt for No Discount Item
-                            oSupplement.StaffDiscount = Common.Utility.IsNumeric(lvItem.SubItems[26].Text) ? Convert.ToDecimal(lvItem.SubItems[26].Text.Trim()) : oSupplement.StaffDiscount; // Staff Discount
-
-                            oSupplement.Save();
-                        }
-
-                        objProduct.ModifiedBy = Common.Config.CurrentUserId;
-                        objProduct.ModifiedOn = DateTime.Now;
-                        objProduct.Save();
+                        scope.Rollback();
                     }
                 }
             }
