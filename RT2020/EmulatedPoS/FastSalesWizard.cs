@@ -362,7 +362,7 @@ namespace RT2020.EmulatedPoS
         /// </summary>
         private void FillPriceTypeList()
         {
-            RT2020.DAL.ProductPriceType.LoadCombo(ref cboPriceType, "PriceType", false);
+            ModelEx.ProductPriceTypeEx.LoadCombo(ref cboPriceType, "PriceType", false);
         }
 
         /// <summary>

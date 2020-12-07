@@ -621,7 +621,9 @@ namespace RT2020.Inventory.Adjustment
                     oLedgerDetail.Amount = oLedgerDetail.UnitAmount * oLedgerDetail.Qty;
                     oLedgerDetail.AverageCost = this.GetAverageCost(oItem.ProductId);
 
-                    sql = "ProductId = '" + oSDetail.ProductId.ToString() + "' AND PriceTypeId = '" + GetPriceType(Common.Enums.ProductPriceType.VPRC.ToString()).ToString() + "'";
+                    var priceTypeId = ModelEx.ProductPriceTypeEx.GetIdByPriceType(Common.Enums.ProductPriceType.VPRC.ToString());
+                    sql = "ProductId = '" + oSDetail.ProductId.ToString() + "' AND PriceTypeId = '" + priceTypeId.ToString() + "'";
+
                     ProductPrice oPrice = ProductPrice.LoadWhere(sql);
                     if (oPrice != null)
                     {
@@ -639,23 +641,6 @@ namespace RT2020.Inventory.Adjustment
                     oLedgerHeader.Save();
                 }
             }
-        }
-
-        private Guid GetPriceType(string priceType)
-        {
-            string sql = "PriceType = '" + priceType + "'";
-            ProductPriceType oType = ProductPriceType.LoadWhere(sql);
-            if (oType == null)
-            {
-                oType = new ProductPriceType();
-
-                oType.PriceType = priceType;
-                oType.CurrencyCode = "HKD";
-                oType.CoreSystemPrice = false;
-
-                oType.Save();
-            }
-            return oType.PriceTypeId;
         }
 
         private decimal GetAverageCost(Guid productId)

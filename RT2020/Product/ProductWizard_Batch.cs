@@ -632,35 +632,26 @@ namespace RT2020.Product
 
         private void SaveProductPrice(Guid productId, string priceType, string currencyCode, string price)
         {
-            string sql = "ProductId = '" + productId.ToString() + "' AND PriceTypeId = '" + GetPriceType(priceType).ToString() + "'";
-            ProductPrice oPrice = ProductPrice.LoadWhere(sql);
-            if (oPrice == null)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                oPrice = new ProductPrice();
+                var priceTypeId = ModelEx.ProductPriceTypeEx.GetIdByPriceType(priceType);
+                //string sql = "ProductId = '" + productId.ToString() + "' AND PriceTypeId = '" + GetPriceType(priceType).ToString() + "'";
 
-                oPrice.ProductId = productId;
+                var oPrice = ctx.ProductPrice.Where(x => x.ProductId == productId && x.PriceTypeId == priceTypeId).FirstOrDefault();
+                if (oPrice == null)
+                {
+                    oPrice = new EF6.ProductPrice();
+                    oPrice.ProductPriceId = Guid.NewGuid();
+                    oPrice.ProductId = productId;
+
+                    ctx.ProductPrice.Add(oPrice);
+                }
+                oPrice.PriceTypeId = priceTypeId;
+                oPrice.CurrencyCode = currencyCode;
+                oPrice.Price = Convert.ToDecimal((price == string.Empty) ? "0" : price);
+
+                ctx.SaveChanges();
             }
-            oPrice.PriceTypeId = GetPriceType(priceType);
-            oPrice.CurrencyCode = currencyCode;
-            oPrice.Price = Convert.ToDecimal((price == string.Empty) ? "0" : price);
-            oPrice.Save();
-        }
-
-        private Guid GetPriceType(string priceType)
-        {
-            string sql = "PriceType = '" + priceType + "'";
-            ProductPriceType oType = ProductPriceType.LoadWhere(sql);
-            if (oType == null)
-            {
-                oType = new ProductPriceType();
-
-                oType.PriceType = priceType;
-                oType.CurrencyCode = "HKD";
-                oType.CoreSystemPrice = false;
-
-                oType.Save();
-            }
-            return oType.PriceTypeId;
         }
 
         private void SaveProductRemarks(Guid productId)

@@ -183,7 +183,6 @@
     <Compile Include="ProductNature.cs" />
     <Compile Include="ProductPeriodicSummary.cs" />
     <Compile Include="ProductPrice.cs" />
-    <Compile Include="ProductPriceType.cs" />
     <Compile Include="ProductPrice_LineOfOperation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SqlHelper.cs" />

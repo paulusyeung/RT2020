@@ -517,7 +517,7 @@ namespace RT2020.Inventory.StockTake
                             {
                                 oLedgerDetail.BasicPrice = oItem.RetailPrice;
 
-                                var priceTypeId = GetPriceType(Common.Enums.ProductPriceType.VPRC.ToString());
+                                var priceTypeId = ModelEx.ProductPriceTypeEx.GetIdByPriceType(Common.Enums.ProductPriceType.VPRC.ToString());
                                 var oPrice = ctx.ProductPrice
                                         .Where(x => x.ProductId == stkDetail.ProductId && x.PriceTypeId == priceTypeId)
                                         .AsNoTracking()
@@ -542,24 +542,6 @@ namespace RT2020.Inventory.StockTake
                     }
                 }
             }
-        }
-
-        private Guid GetPriceType(string priceType)
-        {
-            string sql = "PriceType = '" + priceType + "'";
-            ProductPriceType oType = ProductPriceType.LoadWhere(sql);
-            if (oType == null)
-            {
-                oType = new ProductPriceType();
-
-                oType.PriceType = priceType;
-                oType.CurrencyCode = "HKD";
-                oType.CoreSystemPrice = false;
-
-                oType.Save();
-            }
-            return oType.PriceTypeId;
-
         }
         #endregion
 

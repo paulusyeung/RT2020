@@ -862,7 +862,7 @@ namespace RT2020.Product
             using (var ctx = new EF6.RT2020Entities())
             {
                 //string sql = "ProductId = '" + productId.ToString() + "' AND PriceTypeId = '" + GetPriceType(priceType).ToString() + "'";
-                var priceTypeId = GetPriceType(priceType);
+                var priceTypeId = ModelEx.ProductPriceTypeEx.GetIdByPriceType(priceType);
                 var oPrice = ctx.ProductPrice.Where(x => x.ProductId == productId && x.PriceTypeId == priceTypeId).FirstOrDefault();
                 if (oPrice == null)
                 {
@@ -871,28 +871,11 @@ namespace RT2020.Product
                     oPrice.ProductId = productId;
                     ctx.ProductPrice.Add(oPrice);
                 }
-                oPrice.PriceTypeId = GetPriceType(priceType);
+                oPrice.PriceTypeId = ModelEx.ProductPriceTypeEx.GetIdByPriceType(priceType);
                 oPrice.CurrencyCode = currencyCode;
                 oPrice.Price = Convert.ToDecimal((price == string.Empty) ? "0" : price);
                 ctx.SaveChanges();
             }
-        }
-
-        private Guid GetPriceType(string priceType)
-        {
-            string sql = "PriceType = '" + priceType + "'";
-            ProductPriceType oType = ProductPriceType.LoadWhere(sql);
-            if (oType == null)
-            {
-                oType = new ProductPriceType();
-
-                oType.PriceType = priceType;
-                oType.CurrencyCode = "HKD";
-                oType.CoreSystemPrice = false;
-
-                oType.Save();
-            }
-            return oType.PriceTypeId;
         }
 
         private void SaveProductRemarks(Guid productId)
@@ -1004,8 +987,8 @@ namespace RT2020.Product
                     // Product Price
                     #region LoadProductBasicPrice();
                     //string sql = "ProductId = '" + this.ProductId.ToString() + "' AND PriceTypeId = '" + GetPriceType(Common.Enums.ProductPriceType.BASPRC.ToString()) + "'";
-                    var priceType = GetPriceType(Common.Enums.ProductPriceType.BASPRC.ToString());
-                    var oBPrice = ctx.ProductPrice.Where(x => x.ProductId == this.ProductId && x.PriceTypeId == priceType).AsNoTracking().FirstOrDefault();
+                    var priceTypeId = ModelEx.ProductPriceTypeEx.GetIdByPriceType(Common.Enums.ProductPriceType.BASPRC.ToString());
+                    var oBPrice = ctx.ProductPrice.Where(x => x.ProductId == this.ProductId && x.PriceTypeId == priceTypeId).AsNoTracking().FirstOrDefault();
                     if (oBPrice != null)
                     {
                         general.txtCurrentRetailCurrency.Text = oBPrice.CurrencyCode;
@@ -1014,9 +997,9 @@ namespace RT2020.Product
                     #endregion
 
                     #region LoadProductOriginalPrice();
-                    string sql = "ProductId = '" + this.ProductId.ToString() + "' AND PriceTypeId = '" + GetPriceType(Common.Enums.ProductPriceType.ORIPRC.ToString()) + "'";
-                    priceType = GetPriceType(Common.Enums.ProductPriceType.ORIPRC.ToString());
-                    var oOPrice = ctx.ProductPrice.Where(x => x.ProductId == this.ProductId && x.PriceTypeId == priceType).AsNoTracking().FirstOrDefault();
+                    priceTypeId = ModelEx.ProductPriceTypeEx.GetIdByPriceType(Common.Enums.ProductPriceType.ORIPRC.ToString());
+                    //string sql = "ProductId = '" + this.ProductId.ToString() + "' AND PriceTypeId = '" + priceTypeId.ToString() + "'";
+                    var oOPrice = ctx.ProductPrice.Where(x => x.ProductId == this.ProductId && x.PriceTypeId == priceTypeId).AsNoTracking().FirstOrDefault();
                     if (oOPrice != null)
                     {
                         general.txtOriginalRetailCurrency.Text = oOPrice.CurrencyCode;
@@ -1026,8 +1009,8 @@ namespace RT2020.Product
 
                     #region LoadProductVendorPrice();
                     //string sql = "ProductId = '" + this.ProductId.ToString() + "' AND PriceTypeId = '" + GetPriceType(Common.Enums.ProductPriceType.VPRC.ToString()) + "'";
-                    priceType = GetPriceType(Common.Enums.ProductPriceType.VPRC.ToString());
-                    var oVPrice = ctx.ProductPrice.Where(x => x.ProductId == this.ProductId && x.PriceTypeId == priceType).AsNoTracking().FirstOrDefault();
+                    priceTypeId = ModelEx.ProductPriceTypeEx.GetIdByPriceType(Common.Enums.ProductPriceType.VPRC.ToString());
+                    var oVPrice = ctx.ProductPrice.Where(x => x.ProductId == this.ProductId && x.PriceTypeId == priceTypeId).AsNoTracking().FirstOrDefault();
                     if (oVPrice != null)
                     {
                         general.cboVendorCurrency.Text = oVPrice.CurrencyCode;
@@ -1037,8 +1020,8 @@ namespace RT2020.Product
 
                     #region LoadProductWholesalesPrice();
                     //string sql = "ProductId = '" + this.ProductId.ToString() + "' AND PriceTypeId = '" + GetPriceType(Common.Enums.ProductPriceType.WHLPRC.ToString()) + "'";
-                    priceType = GetPriceType(Common.Enums.ProductPriceType.WHLPRC.ToString());
-                    var oWPrice = ctx.ProductPrice.Where(x => x.ProductId == this.ProductId && x.PriceTypeId == priceType).AsNoTracking().FirstOrDefault();
+                    priceTypeId = ModelEx.ProductPriceTypeEx.GetIdByPriceType(Common.Enums.ProductPriceType.WHLPRC.ToString());
+                    var oWPrice = ctx.ProductPrice.Where(x => x.ProductId == this.ProductId && x.PriceTypeId == priceTypeId).AsNoTracking().FirstOrDefault();
                     if (oWPrice != null)
                     {
                         general.txtWholesalesCurrency.Text = oWPrice.CurrencyCode;
