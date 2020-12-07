@@ -580,24 +580,30 @@ namespace RT2020.Product
 
         private void SaveProductCode(Guid productId, Guid a1Id, Guid a2Id, Guid a3Id, Guid c1Id, Guid c2Id, Guid c3Id, Guid c4Id, Guid c5Id, Guid c6Id)
         {
-            string sql = "ProductId = '" + productId.ToString() + "'";
-            ProductCode oCode = ProductCode.LoadWhere(sql);
-            if (oCode == null)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                oCode = new ProductCode();
+                //string sql = "ProductId = '" + productId.ToString() + "'";
+                var oCode = ctx.ProductCode.Where(x => x.ProductId == productId).FirstOrDefault();
+                if (oCode == null)
+                {
+                    oCode = new EF6.ProductCode();
+                    oCode.CodeId = Guid.NewGuid();
+                    oCode.ProductId = productId;
+                    oCode.Appendix1Id = a1Id;
+                    oCode.Appendix2Id = a2Id;
+                    oCode.Appendix3Id = a3Id;
 
-                oCode.ProductId = productId;
-                oCode.Appendix1Id = a1Id;
-                oCode.Appendix2Id = a2Id;
-                oCode.Appendix3Id = a3Id;
+                    ctx.ProductCode.Add(oCode);
+                }
+                oCode.Class1Id = c1Id;
+                oCode.Class2Id = c2Id;
+                oCode.Class3Id = c3Id;
+                oCode.Class4Id = c4Id;
+                oCode.Class5Id = c5Id;
+                oCode.Class6Id = c6Id;
+
+                ctx.SaveChanges();
             }
-            oCode.Class1Id = c1Id;
-            oCode.Class2Id = c2Id;
-            oCode.Class3Id = c3Id;
-            oCode.Class4Id = c4Id;
-            oCode.Class5Id = c5Id;
-            oCode.Class6Id = c6Id;
-            oCode.Save();
         }
 
         private void SaveProductSupplement(Guid productId)
