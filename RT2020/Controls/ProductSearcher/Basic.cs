@@ -211,19 +211,6 @@ namespace RT2020.Controls.ProductSearcher
 
         #endregion
 
-        private decimal GetAverageCost(Guid productId)
-        {
-            decimal avgCost = 0;
-
-            ProductCurrentSummary oCurSum = ProductCurrentSummary.LoadWhere("ProductId = '" + productId.ToString() + "'");
-            if (oCurSum != null)
-            {
-                avgCost = oCurSum.AverageCost;
-            }
-
-            return avgCost;
-        }
-
         private void btnFind_Click(object sender, EventArgs e)
         {
             string scode = string.Empty, a1 = string.Empty, a2 = string.Empty, a3 = string.Empty;
@@ -337,7 +324,13 @@ namespace RT2020.Controls.ProductSearcher
                     this.SelectedItem = oProd.ProductId;
 
                     ProductSelectionEventArgs args = new ProductSelectionEventArgs(oProd.ProductId, oProd.STKCODE, oProd.APPENDIX1, oProd.APPENDIX2,
-                        oProd.APPENDIX3, oProd.ProductName, oProd.RetailPrice, Utility.GetOnHandQtyByCurrentZone(oProd.ProductId), oProd.OriginalRetailPrice, GetAverageCost(oProd.ProductId), oProd.NormalDiscount);
+                        oProd.APPENDIX3,
+                        oProd.ProductName,
+                        oProd.RetailPrice,
+                        Utility.GetOnHandQtyByCurrentZone(oProd.ProductId),
+                        oProd.OriginalRetailPrice,
+                        ModelEx.ProductCurrentSummaryEx.GetAverageCode(oProd.ProductId),
+                        oProd.NormalDiscount);
 
                     OnSelectionChanged(args);
                 }

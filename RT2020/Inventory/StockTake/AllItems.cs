@@ -158,7 +158,7 @@ namespace RT2020.Inventory.StockTake
                             .Where(x => x.WorkplaceId == workplaceId && (rbtnNonZeroQtyItems.Checked ? x.CDQTY > 0 : true));
                         foreach (var wpItem in wpItemList)
                         {
-                            decimal avgCost = GetAverageCost(wpItem.ProductId);
+                            decimal avgCost = ModelEx.ProductCurrentSummaryEx.GetAverageCode(wpItem.ProductId);
                             var stkDetail = new EF6.StockTakeDetails();
 
                             stkDetail.DetailsId = Guid.NewGuid();
@@ -203,17 +203,6 @@ namespace RT2020.Inventory.StockTake
             progressBar1.Text = message;
 
             progressBar1.Show();
-        }
-
-        private decimal GetAverageCost(Guid productId)
-        {
-            ProductCurrentSummary currSum = ProductCurrentSummary.LoadWhere("ProductId = '" + productId.ToString() + "'");
-            if (currSum != null)
-            {
-                return currSum.AverageCost;
-            }
-
-            return 0;
         }
 
         #endregion

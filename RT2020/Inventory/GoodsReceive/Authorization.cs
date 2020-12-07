@@ -636,7 +636,7 @@ namespace RT2020.Inventory.GoodsReceive
                             {
                                 oLedgerDetail.BasicPrice = oItem.RetailPrice;
                                 oLedgerDetail.Discount = oItem.NormalDiscount;
-                                oLedgerDetail.AverageCost = this.GetAverageCost(oItem.ProductId);
+                                oLedgerDetail.AverageCost = ModelEx.ProductCurrentSummaryEx.GetAverageCode(oItem.ProductId);
 
                                 var priceTypeId = ModelEx.ProductPriceTypeEx.GetIdByPriceType(Common.Enums.ProductPriceType.VPRC.ToString());
                                 //sql = "ProductId = '" + oSDetail.ProductId.ToString() + "' AND PriceTypeId = '" + priceTypeId.ToString() + "'";
@@ -669,18 +669,6 @@ namespace RT2020.Inventory.GoodsReceive
                     }
                 }
             }
-        }
-
-        private decimal GetAverageCost(Guid productId)
-        {
-            string sql = "ProductId = '" + productId.ToString() + "'";
-            ProductCurrentSummary oSummary = ProductCurrentSummary.LoadWhere(sql);
-            if (oSummary != null)
-            {
-                return oSummary.AverageCost;
-            }
-
-            return 0;
         }
         #endregion
 

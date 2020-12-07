@@ -1626,6 +1626,7 @@
     <Compile Include="MenuStrip\SettingsAms.cs" />
     <Compile Include="MenuStrip\ToolsAms.cs" />
     <Compile Include="MenuStrip\ViewAms.cs" />
+    <Compile Include="ModelEx\ProductCurrentSummaryEx.cs" />
     <Compile Include="ModelEx\ProductDimEx.cs" />
     <Compile Include="ModelEx\ProductDim_DetailsEx.cs" />
     <Compile Include="ModelEx\ProductNatureEx.cs" />

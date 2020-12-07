@@ -450,7 +450,7 @@ namespace RT2020.Inventory.StockTake
                                 .FirstOrDefault();
                             if (wpItem != null)
                             {
-                                decimal avgCost = GetAverageCost(prod.ProductId);
+                                decimal avgCost = ModelEx.ProductCurrentSummaryEx.GetAverageCode(prod.ProductId);
 
                                 #region 一隻跟一隻 save detail
                                 var stkDetail = new EF6.StockTakeDetails();
@@ -502,18 +502,6 @@ namespace RT2020.Inventory.StockTake
 
             progressBar1.Show();
         }
-
-        private decimal GetAverageCost(Guid productId)
-        {
-            ProductCurrentSummary currSum = ProductCurrentSummary.LoadWhere("ProductId = '" + productId.ToString() + "'");
-            if (currSum != null)
-            {
-                return currSum.AverageCost;
-            }
-
-            return 0;
-        }
-
         #endregion
 
         private void btnCreate_Click(object sender, EventArgs e)

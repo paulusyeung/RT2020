@@ -158,7 +158,7 @@ namespace RT2020.Settings.MonthEndProcess
             objDetail.TxType = RT2020.DAL.Common.Enums.TxType.ADJ.ToString();
             objDetail.ProductId = productId;
             objDetail.Qty = Math.Abs(cdQty) * (-1);
-            objDetail.AverageCost = GetAverageCost(productId);
+            objDetail.AverageCost = ModelEx.ProductCurrentSummaryEx.GetAverageCode(productId);
             objDetail.ReasonCode = string.Empty;
             objDetail.Remarks = string.Empty;
 
@@ -322,24 +322,5 @@ namespace RT2020.Settings.MonthEndProcess
         }
 
         #endregion
-
-        /// <summary>
-        /// Gets the average cost.
-        /// </summary>
-        /// <param name="productId">The product id.</param>
-        /// <returns></returns>
-        private decimal GetAverageCost(Guid productId)
-        {
-            decimal result = 0;
-
-            string sql = "ProductId = '" + productId.ToString() + "'";
-            ProductCurrentSummary currSum = ProductCurrentSummary.LoadWhere(sql);
-            if (currSum != null)
-            {
-                result = currSum.AverageCost;
-            }
-
-            return result;
-        }
     }
 }

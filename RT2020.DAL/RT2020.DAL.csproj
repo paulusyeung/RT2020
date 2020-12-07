@@ -177,7 +177,6 @@
     <Compile Include="ProductClass5.cs" />
     <Compile Include="ProductClass6.cs" />
     <Compile Include="ProductCode.cs" />
-    <Compile Include="ProductCurrentSummary.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SqlHelper.cs" />
   </ItemGroup>

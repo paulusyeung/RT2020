@@ -1074,7 +1074,7 @@ namespace RT2020.Inventory.GoodsReceive
         {
             decimal xchgrate = Convert.ToDecimal(Common.Utility.IsNumeric(txtCoefficient.Text.Trim()) ? txtCoefficient.Text.Trim() : "1");
 
-            ProductCurrentSummary oSummary = ProductCurrentSummary.LoadWhere("ProductId = '" + productId.ToString() + "'");
+            var oSummary = ModelEx.ProductCurrentSummaryEx.GetByProductCode(productId);
             if (oSummary != null)
             {
                 txtLastCost_1.Text = oSummary.LastCost.ToString("n2");

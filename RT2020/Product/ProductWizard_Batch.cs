@@ -541,15 +541,21 @@ namespace RT2020.Product
         {
             string where = "ProductId = '" + productId.ToString() + "'";
 
-            DAL.ProductCurrentSummary oCurrSummary = DAL.ProductCurrentSummary.LoadWhere(where);
-            if (oCurrSummary == null)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                oCurrSummary = new DAL.ProductCurrentSummary();
-                oCurrSummary.ProductId = productId;
-                oCurrSummary.CDQTY = 0;
-                oCurrSummary.LastPurchasedOn = new DateTime(1900, 1, 1);
-                oCurrSummary.LastSoldOn = new DateTime(1900, 1, 1);
-                oCurrSummary.Save();
+                var oCurrSummary = ctx.ProductCurrentSummary.Where(x => x.ProductId == productId).FirstOrDefault();
+                if (oCurrSummary == null)
+                {
+                    oCurrSummary = new EF6.ProductCurrentSummary();
+                    oCurrSummary.CurrentSummaryId = Guid.NewGuid();
+                    oCurrSummary.ProductId = productId;
+                    oCurrSummary.CDQTY = 0;
+                    oCurrSummary.LastPurchasedOn = new DateTime(1900, 1, 1);
+                    oCurrSummary.LastSoldOn = new DateTime(1900, 1, 1);
+
+                    ctx.ProductCurrentSummary.Add(oCurrSummary);
+                    ctx.SaveChanges();
+                }
             }
         }
 

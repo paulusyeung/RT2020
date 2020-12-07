@@ -104,7 +104,7 @@ namespace RT2020.Controls.ProductSearcher
             switch (this.TxType)
             {
                 case Common.Enums.TxType.ADJ:
-                    result = GetAverageCost(productId);
+                    result = ModelEx.ProductCurrentSummaryEx.GetAverageCode(productId);
                     break;
                 case Common.Enums.TxType.TXF:
                     DAL.Product product = DAL.Product.Load(productId);
@@ -116,19 +116,6 @@ namespace RT2020.Controls.ProductSearcher
             }
 
             return result;
-        }
-
-        private decimal GetAverageCost(Guid productId)
-        {
-            decimal avgCost = 0;
-
-            ProductCurrentSummary oCurSum = ProductCurrentSummary.LoadWhere("ProductId = '" + productId.ToString() + "'");
-            if (oCurSum != null)
-            {
-                avgCost = oCurSum.AverageCost;
-            }
-
-            return avgCost;
         }
 
         #region Bind Data

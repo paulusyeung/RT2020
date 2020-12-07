@@ -263,23 +263,11 @@ namespace RT2020.Inventory.StockTake
 
                         stkDetail.HHTQty = hhtDetail.Qty;
                     }
-                    stkDetail.AverageCost = GetAverageCost(stkDetail.ProductId.Value);
+                    stkDetail.AverageCost = ModelEx.ProductCurrentSummaryEx.GetAverageCode(stkDetail.ProductId.Value);
                     stkDetail.HHTQty = (stkDetail.HHTQty == null ? 0 : stkDetail.HHTQty) + hhtDetail.Qty;
                     ctx.SaveChanges();
                 }
             }
-        }
-
-        private decimal GetAverageCost(Guid productId)
-        {
-            string sql = "ProductId = '" + productId.ToString() + "'";
-            ProductCurrentSummary currSummary = ProductCurrentSummary.LoadWhere(sql);
-            if (currSummary != null)
-            {
-                return currSummary.AverageCost;
-            }
-
-            return 0;
         }
 
         #endregion

@@ -223,16 +223,15 @@ namespace RT2020.Product
 
         private void ShowCurrentSummaryInfo()
         {
-            string sql = "ProductId = '" + this.ProductId.ToString() + "'";
-            ProductCurrentSummary oCurrentSummary = ProductCurrentSummary.LoadWhere(sql);
+            var oCurrentSummary = ModelEx.ProductCurrentSummaryEx.GetByProductCode(this.ProductId);
             if (oCurrentSummary != null)
             {
                 this.txtOnHandQty.Text = oCurrentSummary.CDQTY.ToString("n0");
 
                 txtAverageCost.Text = oCurrentSummary.AverageCost.ToString("n2");
                 txtLastReceivingCost.Text = oCurrentSummary.LastCost.ToString("n2");
-                txtLastPurDate.Text = oCurrentSummary.LastPurchasedOn.ToString(RT2020.SystemInfo.Settings.GetDateFormat());
-                txtLastSoldDate.Text = oCurrentSummary.LastSoldOn.ToString(RT2020.SystemInfo.Settings.GetDateFormat());
+                txtLastPurDate.Text = oCurrentSummary.LastPurchasedOn.Value.ToString(RT2020.SystemInfo.Settings.GetDateFormat());
+                txtLastSoldDate.Text = oCurrentSummary.LastSoldOn.Value.ToString(RT2020.SystemInfo.Settings.GetDateFormat());
             }
         }
 

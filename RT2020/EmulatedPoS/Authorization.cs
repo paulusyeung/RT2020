@@ -822,7 +822,7 @@ namespace RT2020.EmulatedPoS
                 {
                     oLedgerDetail.BasicPrice = oItem.RetailPrice;
                     //oLedgerDetail.Discount = oItem.NormalDiscount;
-                    oLedgerDetail.AverageCost = this.GetAverageCost(oItem.ProductId);
+                    oLedgerDetail.AverageCost = ModelEx.ProductCurrentSummaryEx.GetAverageCode(oItem.ProductId);
                 }
 
                 oLedgerDetail.Save();
@@ -857,23 +857,6 @@ namespace RT2020.EmulatedPoS
                 oLedgerTender.Save();
             }
         }
-
-        /// <summary>
-        /// Gets the average cost.
-        /// </summary>
-        /// <param name="productId">The product id.</param>
-        /// <returns></returns>
-        private decimal GetAverageCost(Guid productId)
-        {
-            string sql = "ProductId = '" + productId.ToString() + "'";
-            ProductCurrentSummary oSummary = ProductCurrentSummary.LoadWhere(sql);
-            if (oSummary != null)
-            {
-                return oSummary.AverageCost;
-            }
-
-            return 0;
-        }
         #endregion
 
         #region Product
@@ -886,83 +869,82 @@ namespace RT2020.EmulatedPoS
         private void UpdateProduct(Guid txHeaderId, Guid workplaceId, string txType)
         {
             string sql = "HeaderId = '" + txHeaderId.ToString() + "'";
-            EPOSBatchDetailsCollection detailsList = EPOSBatchDetails.LoadCollection(sql);
-            for (int i = 0; i < detailsList.Count; i++)
-            {
-                EPOSBatchDetails detail = detailsList[i];
-                UpdateProductQty(detail.ProductId, workplaceId, detail.Qty,txType);
-                UpdateProductSummary(detail.ProductId, detail.Qty, detail.UnitAmount,txType);
-            }
-        }
-
-        /// <summary>
-        /// Updates the product summary.
-        /// </summary>
-        /// <param name="productId">The product id.</param>
-        /// <param name="qty">The qty.</param>
-        /// <param name="unitAmount">The unit amount.</param>
-        /// <param name="txType">Type of the tx.</param>
-        private void UpdateProductSummary(Guid productId, decimal qty, decimal unitAmount, string txType)
-        {
-            string sql = "ProductId = '" + productId.ToString() + "'";
-            ProductCurrentSummary oSummary = ProductCurrentSummary.LoadWhere(sql);
-            if (oSummary == null)
-            {
-                oSummary = new ProductCurrentSummary();
-                oSummary.ProductId = productId;
-                //oSummary.AverageCost = unitAmount;
-            }
-
-            //if ((oSummary.CDQTY + qty) > 0)
-            //{
-            //    oSummary.AverageCost = (oSummary.AverageCost * oSummary.CDQTY + unitAmount * qty) / (oSummary.CDQTY + qty);
-            //}
-            //else
-            //{
-            //    oSummary.AverageCost = oSummary.LastCost;
-            //}
-
-            //oSummary.LastCost = unitAmount;
-            if (txType == "CAS")
-            {
-                oSummary.CDQTY -= qty;
-            }
-            else
-            {
-                oSummary.CDQTY += qty;
-            }
-            oSummary.Save();
-        }
-
-        /// <summary>
-        /// Updates the product qty.
-        /// </summary>
-        /// <param name="productId">The product id.</param>
-        /// <param name="workplaceId">The workplace id.</param>
-        /// <param name="qty">The qty.</param>
-        /// <param name="txType">Type of the tx.</param>
-        private void UpdateProductQty(Guid productId, Guid workplaceId, decimal qty, string txType)
-        {
             using (var ctx = new EF6.RT2020Entities())
             {
-                var item = ctx.ProductWorkplace.Where(x => x.ProductId == productId && x.WorkplaceId == workplaceId).FirstOrDefault();
-                if (item == null)
+                using (var scope = ctx.Database.BeginTransaction())
                 {
-                    item = new EF6.ProductWorkplace();
-                    item.ProductWorkplaceId = Guid.NewGuid();
-                    item.ProductId = productId;
-                    item.WorkplaceId = workplaceId;
-                    ctx.ProductWorkplace.Add(item);
+                    try
+                    {
+                        var detailsList = ctx.EPOSBatchDetails.Where(x => x.HeaderId == txHeaderId);
+                        foreach (var detail in detailsList)
+                        {
+                            Guid productId = detail.ProductId;
+                            decimal qty = detail.Qty.Value;
+
+                            #region UpdateProductQty(detail.ProductId, workplaceId, detail.Qty, txType);
+                            var item = ctx.ProductWorkplace.Where(x => x.ProductId == productId && x.WorkplaceId == workplaceId).FirstOrDefault();
+                            if (item == null)
+                            {
+                                item = new EF6.ProductWorkplace();
+                                item.ProductWorkplaceId = Guid.NewGuid();
+                                item.ProductId = productId;
+                                item.WorkplaceId = workplaceId;
+                                ctx.ProductWorkplace.Add(item);
+                            }
+                            if (txType == "CAS")
+                            {
+                                item.CDQTY -= qty;
+                            }
+                            else
+                            {
+                                item.CDQTY += qty;
+                            }
+                            ctx.SaveChanges();
+                            #endregion
+
+                            #region UpdateProductSummary(detail.ProductId, detail.Qty, detail.UnitAmount, txType);
+                            var oSummary = ctx.ProductCurrentSummary.Where(x => x.ProductId == productId).FirstOrDefault();
+                            if (oSummary == null)
+                            {
+                                oSummary = new EF6.ProductCurrentSummary();
+                                oSummary.CurrentSummaryId = Guid.NewGuid();
+                                oSummary.ProductId = productId;
+                                //oSummary.AverageCost = unitAmount;
+
+                                ctx.ProductCurrentSummary.Add(oSummary);
+                            }
+
+                            /**
+                            if ((oSummary.CDQTY + qty) > 0)
+                            {
+                                oSummary.AverageCost = (oSummary.AverageCost * oSummary.CDQTY + unitAmount * qty) / (oSummary.CDQTY + qty);
+                            }
+                            else
+                            {
+                                oSummary.AverageCost = oSummary.LastCost;
+                            }
+
+                            oSummary.LastCost = unitAmount;
+                            */
+
+                            if (txType == "CAS")
+                            {
+                                oSummary.CDQTY -= qty;
+                            }
+                            else
+                            {
+                                oSummary.CDQTY += qty;
+                            }
+                            ctx.SaveChanges();
+                            #endregion
+                        }
+                        scope.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        scope.Rollback();
+                    }
                 }
-                if (txType == "CAS")
-                {
-                    item.CDQTY -= qty;
-                }
-                else
-                {
-                    item.CDQTY += qty;
-                }
-                ctx.SaveChanges();
             }
         }
         #endregion
