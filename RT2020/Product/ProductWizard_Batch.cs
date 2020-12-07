@@ -264,11 +264,11 @@ namespace RT2020.Product
 
         private void CombinA1(ref ListView oList)
         {
-            if (Common.Utility.IsGUID(cboAppendix1.SelectedValue.ToString()))
+            Guid id = Guid.Empty;
+            if (Guid.TryParse(cboAppendix1.SelectedValue.ToString(), out id))
             {
-                string sql = "DimensionId = '" + cboAppendix1.SelectedValue.ToString() + "'";
-                ProductDim_DetailsCollection detailList = ProductDim_Details.LoadCollection(sql);
-                foreach (ProductDim_Details detail in detailList)
+                var detailList = ModelEx.ProductDim_DetailsEx.GetListByDimensionId(id);
+                foreach (var detail in detailList)
                 {
                     if (!string.IsNullOrEmpty(detail.APPENDIX1))
                     {
@@ -280,11 +280,11 @@ namespace RT2020.Product
 
         private void CombinA2(ref ListView oList, string a1)
         {
-            if (Common.Utility.IsGUID(cboAppendix2.SelectedValue.ToString()))
+            Guid id = Guid.Empty;
+            if (Guid.TryParse(cboAppendix2.SelectedValue.ToString(), out id))
             {
-                string sql = "DimensionId = '" + cboAppendix2.SelectedValue.ToString() + "'";
-                ProductDim_DetailsCollection detailList = ProductDim_Details.LoadCollection(sql);
-                foreach (ProductDim_Details detail in detailList)
+                var detailList = ModelEx.ProductDim_DetailsEx.GetListByDimensionId(id);
+                foreach (var detail in detailList)
                 {
                     if (!string.IsNullOrEmpty(detail.APPENDIX2))
                     {
@@ -296,11 +296,11 @@ namespace RT2020.Product
 
         private void CombinA3(ref ListView oList, string a1, string a2)
         {
-            if (Common.Utility.IsGUID(cboAppendix3.SelectedValue.ToString()))
+            Guid id = Guid.Empty;
+            if (Guid.TryParse(cboAppendix3.SelectedValue.ToString(), out id))
             {
-                string sql = "DimensionId = '" + cboAppendix3.SelectedValue.ToString() + "'";
-                ProductDim_DetailsCollection detailList = ProductDim_Details.LoadCollection(sql);
-                foreach (ProductDim_Details detail in detailList)
+                var detailList = ModelEx.ProductDim_DetailsEx.GetListByDimensionId(id);
+                foreach (var detail in detailList)
                 {
                     if (!string.IsNullOrEmpty(detail.APPENDIX3))
                     {

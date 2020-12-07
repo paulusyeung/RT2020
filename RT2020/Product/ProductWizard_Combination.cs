@@ -207,9 +207,8 @@ namespace RT2020.Product
         #region Set Form Layout with type
         private void InitialFormWithType()
         {
-            string sql = "DimensionId = '" + this.CombinId.ToString() + "'";
-            ProductDim_DetailsCollection detailList = ProductDim_Details.LoadCollection(sql);
-            foreach (ProductDim_Details detail in detailList)
+            var detailList = ModelEx.ProductDim_DetailsEx.GetListByDimensionId(this.CombinId);
+            foreach (var detail in detailList)
             {
                 if (detail.APPENDIX1.Length > 0 && detail.APPENDIX2.Length == 0 && detail.APPENDIX3.Length == 0)
                 {
@@ -414,27 +413,33 @@ namespace RT2020.Product
 
         private void SaveDetails(Guid dimensionId)
         {
-            string sql = "DimensionId = '" + dimensionId.ToString() + "' AND DimDetailId = '{0}'";
+            //string sql = "DimensionId = '" + dimensionId.ToString() + "' AND DimDetailId = '{0}'";
             DataTable oTable = null;
             if (dgvCombinationList.DataSource != null)
             {
                 oTable = dgvCombinationList.DataSource as DataTable;
 
-                DeleteDetails(dimensionId);
+                ModelEx.ProductDim_DetailsEx.DeleteByDimensionId(dimensionId);
 
-                foreach (DataRow row in oTable.Rows)
+                using (var ctx = new EF6.RT2020Entities())
                 {
-                    ProductDim_Details oDetail = ProductDim_Details.LoadWhere(string.Format(sql, row["DimDetailId"].ToString()));
-                    if (oDetail == null)
+                    foreach (DataRow row in oTable.Rows)
                     {
-                        oDetail = new ProductDim_Details();
-                        oDetail.DimensionId = dimensionId;
-                    }
-                    oDetail.APPENDIX1 = row["Appendix1"].ToString();
-                    oDetail.APPENDIX2 = row["Appendix2"].ToString();
-                    oDetail.APPENDIX3 = row["Appendix3"].ToString();
+                        var oDetail = ctx.ProductDim_Details.Find(row["DimDetailId"]);
+                        if (oDetail == null)
+                        {
+                            oDetail = new EF6.ProductDim_Details();
+                            oDetail.DimDetailId = Guid.NewGuid();
+                            oDetail.DimensionId = dimensionId;
 
-                    oDetail.Save();
+                            ctx.ProductDim_Details.Add(oDetail);
+                        }
+                        oDetail.APPENDIX1 = row["Appendix1"].ToString();
+                        oDetail.APPENDIX2 = row["Appendix2"].ToString();
+                        oDetail.APPENDIX3 = row["Appendix3"].ToString();
+
+                        ctx.SaveChanges();
+                    }
                 }
             }
         }
@@ -591,18 +596,8 @@ Where   DimensionId = '" + this.CombinId.ToString() + "'";
             ProductDim oDim = ProductDim.Load(this.CombinId);
             if (oDim != null)
             {
-                DeleteDetails(oDim.DimensionId);
+                ModelEx.ProductDim_DetailsEx.DeleteByDimensionId(oDim.DimensionId);
                 oDim.Delete();
-            }
-        }
-
-        private void DeleteDetails(Guid dimensionId)
-        {
-            string sql = "DimensionId = '" + dimensionId.ToString() + "'";
-            ProductDim_DetailsCollection detailList = ProductDim_Details.LoadCollection(sql);
-            foreach (ProductDim_Details detail in detailList)
-            {
-                detail.Delete();
             }
         }
 

@@ -179,7 +179,6 @@
     <Compile Include="ProductCode.cs" />
     <Compile Include="ProductCurrentSummary.cs" />
     <Compile Include="ProductDim.cs" />
-    <Compile Include="ProductDim_Details.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SqlHelper.cs" />
   </ItemGroup>
