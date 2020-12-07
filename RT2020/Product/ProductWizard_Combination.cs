@@ -129,13 +129,16 @@ namespace RT2020.Product
                         this.Update();
                         break;
                     case "save":
-                        Save();
-                        LoadCombinationList();
-                        SetCtrlEditable();
-                        this.Update();
-                        if (this.CombinId != System.Guid.Empty)
+                        if (IsValid())
                         {
-                            MessageBox.Show("Save Successful");
+                            Save();
+                            LoadCombinationList();
+                            SetCtrlEditable();
+                            this.Update();
+                            if (this.CombinId != System.Guid.Empty)
+                            {
+                                MessageBox.Show("Save Successful");
+                            }
                         }
                         break;
                     case "refresh":
@@ -352,95 +355,108 @@ namespace RT2020.Product
         #endregion
 
         #region Save Methods
-        private void Verify()
+        private bool IsValid()
         {
+            bool result = true;
+
             if (txtCombinNumber.Text.Length == 0)
             {
                 errorProvider.SetError(txtCombinNumber, "Can not be blank!");
+                result = false;
             }
             else
             {
                 errorProvider.SetError(txtCombinNumber, string.Empty);
             }
+
+            return result;
         }
 
         private void Save()
         {
-            Verify();
-
-            if (string.IsNullOrEmpty(errorProvider.GetError(txtCombinNumber)))
+            using (var ctx = new EF6.RT2020Entities())
             {
-
-                ProductDim oDim = ProductDim.Load(this.CombinId);
-                if (oDim == null)
+                using (var scope = ctx.Database.BeginTransaction())
                 {
-                    oDim = new ProductDim();
-                    oDim.DimCode = txtCombinNumber.Text;
-
-                    switch (this.FormType)
+                    try
                     {
-                        case FormLayoutType.Appendix1:
-                            oDim.DimType = "A1";
-                            break;
-                        case FormLayoutType.Appendix2:
-                            oDim.DimType = "A2";
-                            break;
-                        case FormLayoutType.Appendix3:
-                            oDim.DimType = "A3";
-                            break;
-                        case FormLayoutType.All:
-                        default:
-                            oDim.DimType = "";
-                            break;
-                    }
-
-                    oDim.CreatedBy = Common.Config.CurrentUserId;
-                    oDim.CreatedOn = DateTime.Now;
-                }
-                oDim.ModifiedBy = Common.Config.CurrentUserId;
-                oDim.ModifiedOn = DateTime.Now;
-                oDim.Save();
-
-                this.CombinId = oDim.DimensionId;
-                SaveDetails(oDim.DimensionId);
-
-                if (this.CombinId != System.Guid.Empty)
-                {
-                    RT2020.SystemInfo.Settings.RefreshMainList<DefaultCombinList>();
-                }
-            }
-        }
-
-        private void SaveDetails(Guid dimensionId)
-        {
-            //string sql = "DimensionId = '" + dimensionId.ToString() + "' AND DimDetailId = '{0}'";
-            DataTable oTable = null;
-            if (dgvCombinationList.DataSource != null)
-            {
-                oTable = dgvCombinationList.DataSource as DataTable;
-
-                ModelEx.ProductDim_DetailsEx.DeleteByDimensionId(dimensionId);
-
-                using (var ctx = new EF6.RT2020Entities())
-                {
-                    foreach (DataRow row in oTable.Rows)
-                    {
-                        var oDetail = ctx.ProductDim_Details.Find(row["DimDetailId"]);
-                        if (oDetail == null)
+                        var oDim = ctx.ProductDim.Find(this.CombinId);
+                        if (oDim == null)
                         {
-                            oDetail = new EF6.ProductDim_Details();
-                            oDetail.DimDetailId = Guid.NewGuid();
-                            oDetail.DimensionId = dimensionId;
+                            #region new ProductDim
+                            oDim = new EF6.ProductDim();
+                            oDim.DimensionId = Guid.NewGuid();
+                            oDim.DimCode = txtCombinNumber.Text;
 
-                            ctx.ProductDim_Details.Add(oDetail);
+                            switch (this.FormType)
+                            {
+                                case FormLayoutType.Appendix1:
+                                    oDim.DimType = "A1";
+                                    break;
+                                case FormLayoutType.Appendix2:
+                                    oDim.DimType = "A2";
+                                    break;
+                                case FormLayoutType.Appendix3:
+                                    oDim.DimType = "A3";
+                                    break;
+                                case FormLayoutType.All:
+                                default:
+                                    oDim.DimType = "";
+                                    break;
+                            }
+
+                            oDim.CreatedBy = Common.Config.CurrentUserId;
+                            oDim.CreatedOn = DateTime.Now;
+
+                            ctx.ProductDim.Add(oDim);
+                            #endregion
                         }
-                        oDetail.APPENDIX1 = row["Appendix1"].ToString();
-                        oDetail.APPENDIX2 = row["Appendix2"].ToString();
-                        oDetail.APPENDIX3 = row["Appendix3"].ToString();
+                        oDim.ModifiedBy = Common.Config.CurrentUserId;
+                        oDim.ModifiedOn = DateTime.Now;
 
                         ctx.SaveChanges();
+                        this.CombinId = oDim.DimensionId;
+
+                        #region SaveDetails(oDim.DimensionId);
+                        var dimensionId = oDim.DimensionId;
+                        DataTable oTable = null;
+                        if (dgvCombinationList.DataSource != null)
+                        {
+                            oTable = dgvCombinationList.DataSource as DataTable;
+
+                            ModelEx.ProductDim_DetailsEx.DeleteByDimensionId(dimensionId);
+                            foreach (DataRow row in oTable.Rows)
+                            {
+                                var oDetail = ctx.ProductDim_Details.Find(row["DimDetailId"]);
+                                if (oDetail == null)
+                                {
+                                    oDetail = new EF6.ProductDim_Details();
+                                    oDetail.DimDetailId = Guid.NewGuid();
+                                    oDetail.DimensionId = dimensionId;
+
+                                    ctx.ProductDim_Details.Add(oDetail);
+                                }
+                                oDetail.APPENDIX1 = row["Appendix1"].ToString();
+                                oDetail.APPENDIX2 = row["Appendix2"].ToString();
+                                oDetail.APPENDIX3 = row["Appendix3"].ToString();
+
+                                ctx.SaveChanges();
+                            }
+                        }
+                        #endregion
+
+                        scope.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        scope.Rollback();
                     }
                 }
+            }
+
+            if (this.CombinId != Guid.Empty)
+            {
+                RT2020.SystemInfo.Settings.RefreshMainList<DefaultCombinList>();
             }
         }
 
@@ -456,12 +472,7 @@ namespace RT2020.Product
         #region Load Methods
         private void LoadCombinationList()
         {
-            ProductDim oDim = ProductDim.Load(this.CombinId);
-            if (oDim != null)
-            {
-                txtCombinNumber.Text = oDim.DimCode;
-            }
-
+            txtCombinNumber.Text = ModelEx.ProductDimEx.GetDimCode(this.CombinId);
             BindAppendixList();
         }
 
@@ -591,21 +602,12 @@ Where   DimensionId = '" + this.CombinId.ToString() + "'";
         #endregion
 
         #region Delete Methods
-        private void Delete()
-        {
-            ProductDim oDim = ProductDim.Load(this.CombinId);
-            if (oDim != null)
-            {
-                ModelEx.ProductDim_DetailsEx.DeleteByDimensionId(oDim.DimensionId);
-                oDim.Delete();
-            }
-        }
 
         private void DeleteConfirmationHandler(object sender, EventArgs e)
         {
             if (((Form)sender).DialogResult == DialogResult.Yes)
             {
-                Delete();
+                ModelEx.ProductDimEx.Delete(this.CombinId);
 
                 this.Close();
             }

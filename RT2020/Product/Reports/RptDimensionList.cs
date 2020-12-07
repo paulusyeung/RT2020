@@ -35,21 +35,10 @@ namespace RT2020.Product.Reports
             cmbTo.Items.Clear();
 
             string[] orderBy = new string[] { "DimCode" };
-            ProductDimCollection oDimList = ProductDim.LoadCollection(orderBy, true);
-            if (oDimList.Count > 0)
-            {
-                foreach (RT2020.DAL.ProductDim oProductDim in oDimList)
-                {
-                    System.Web.UI.WebControls.ListItem item = new System.Web.UI.WebControls.ListItem(oProductDim.DimCode, oProductDim.DimensionId.ToString());
-                    cmbFrom.Items.Add(item);
-                    cmbTo.Items.Add(item);
-                }
-                cmbFrom.SelectedIndex = 0;
-               // cmbFrom.DropDownStyle = ComboBoxStyle.DropDownList;
+            ModelEx.ProductDimEx.LoadCombo(ref cmbFrom, "DimCode", false);
+            ModelEx.ProductDimEx.LoadCombo(ref cmbTo, "DimCode", false);
 
-                cmbTo.SelectedIndex = oDimList.Count - 1;
-                //cmbTo.DropDownStyle = ComboBoxStyle.DropDownList;
-            }
+            if (cmbTo.Items.Count > 1) cmbTo.SelectedIndex = cmbTo.Items.Count - 1;
         }
 
         #endregion
@@ -76,77 +65,6 @@ namespace RT2020.Product.Reports
         }
 
         #endregion
-
-        //#region IGatewayControl Members
-
-        //public IGatewayHandler GetGatewayHandler(IContext objContext, string strAction)
-        //{
-        //    // Create a report instance.
-        //    if (rbnPDF.Checked == true)
-        //    {
-        //        RT2020.Product.Reports.DimensionListRpt_Pdf report = new DimensionListRpt_Pdf();
-
-        //        report.DataSource = BindData();
-        //        report.FromDimCode = cmbFrom.Text.Trim();
-        //        report.ToDimCode = cmbTo.Text.Trim();
-        //        HttpResponse objResponse = this.Context.HttpContext.Response;
-
-        //        System.IO.MemoryStream memStream = new System.IO.MemoryStream();
-
-        //        objResponse.Clear();
-        //        objResponse.ClearHeaders();
-        //            report.ExportToPdf(memStream);
-        //            objResponse.ContentType = "application/pdf";
-        //            objResponse.AddHeader("content-disposition", "attachment; filename=Dimension List.pdf");
-        //        objResponse.BinaryWrite(memStream.ToArray());
-        //        objResponse.Flush();
-        //        objResponse.End();
-
-        //        return null;
-        //    }
-        //    else if (rbnXLS.Checked)
-        //    {
-        //        RT2020.Product.Reports.DimensionListRpt_Xls reportc = new DimensionListRpt_Xls();
-
-        //        reportc.DataSource = BindData();
-        //        reportc.FromDimCode = cmbFrom.Text.Trim();
-        //        reportc.ToDimCode = cmbTo.Text.Trim();
-        //        HttpResponse objResponse = this.Context.HttpContext.Response;
-
-        //        System.IO.MemoryStream memStream = new System.IO.MemoryStream();
-
-        //        objResponse.Clear();
-        //        objResponse.ClearHeaders();
-        //            reportc.ExportToXls(memStream);
-        //            objResponse.ContentType = "application/xls";
-        //            objResponse.AddHeader("content-disposition", "attachment; filename=DimensionListc.xls");
-        //        objResponse.BinaryWrite(memStream.ToArray());
-        //        objResponse.Flush();
-        //        objResponse.End();
-
-        //        return null;
-        //    }
-        //    else
-        //    {
-        //        RT2020.Product.Reports.DimensionListRpt_Pdf rpt = new DimensionListRpt_Pdf();
-        //        try
-        //        {
-        //            rpt.DataSource = BindData();
-        //            rpt.FromDimCode = cmbFrom.Text.Trim();
-        //            rpt.ToDimCode = cmbTo.Text.Trim();
-        //            rpt.PrintDialog();
-        //            rpt.Print();
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            MessageBox.Show(ex.Message);
-        //        }
-
-        //        return null;
-        //    }
-        //}
-
-        //#endregion
 
         private void btnPrint_Click(object sender, EventArgs e)
         {

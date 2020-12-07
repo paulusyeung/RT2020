@@ -45,19 +45,12 @@ namespace RT2020.Product.Reports
         {
             string sql = "DimType = 'A3'";
 
-            ProductDimCollection collection = RT2020.DAL.ProductDim.LoadCollection(sql, new string[] { "DimCode" }, true);
-            if (collection.Count > 0)
-            {
-                foreach (RT2020.DAL.ProductDim oProductDim in collection)
-                {
-                    System.Web.UI.WebControls.ListItem item = new System.Web.UI.WebControls.ListItem(oProductDim.DimCode, oProductDim.DimensionId.ToString());
-                    cmbFrom.Items.Add(item);
-                    cmbTo.Items.Add(item);
-                }
-                cmbFrom.SelectedIndex = 0;
+            var orderBy = new string[] { "DimCode" };
 
-                cmbTo.SelectedIndex = collection.Count - 1;
-            }
+            ModelEx.ProductDimEx.LoadCombo(ref cmbFrom, "DimCode", false, false, "", sql, orderBy);
+            ModelEx.ProductDimEx.LoadCombo(ref cmbTo, "DimCode", false, false, "", sql, orderBy);
+
+            if (cmbTo.Items.Count > 1) cmbTo.SelectedIndex = cmbTo.Items.Count - 1;
         }
 
         #endregion
@@ -84,79 +77,6 @@ namespace RT2020.Product.Reports
 
         }
         #endregion
-
-        //#region IGatewayControl Members
-
-        //public IGatewayHandler GetGatewayHandler(IContext objContext, string strAction)
-        //{
-        //    string syslbl = RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX3");
-
-        //    // Create a report instance.
-        //    if (rbnPDF.Checked == true)
-        //    {
-        //        RT2020.Product.Reports.Appendix3CombinRpt_Pdf report = new Appendix3CombinRpt_Pdf();
-
-        //        report.DataSource = BindData();
-        //        report.FrmCode = cmbFrom.Text.Trim();
-        //        report.toCode = cmbTo.Text.Trim();
-        //        HttpResponse objResponse = this.Context.HttpContext.Response;
-
-        //        System.IO.MemoryStream memStream = new System.IO.MemoryStream();
-
-        //        objResponse.Clear();
-        //        objResponse.ClearHeaders();
-        //        report.ExportToPdf(memStream);
-        //        objResponse.ContentType = "application/pdf";
-        //        objResponse.AddHeader("content-disposition", "attachment; filename=" + syslbl + " Combin List.pdf");
-        //        objResponse.BinaryWrite(memStream.ToArray());
-        //        objResponse.Flush();
-        //        objResponse.End();
-
-        //        return null;
-        //    }
-        //    else if (rbnXLS.Checked)
-        //    {
-        //        RT2020.Product.Reports.Appendix3CombinRpt_Xls reportc = new Appendix3CombinRpt_Xls();
-
-        //        reportc.DataSource = BindData();
-        //        reportc.FrmCode = cmbFrom.Text.Trim();
-        //        reportc.toCode = cmbTo.Text.Trim();
-        //        HttpResponse objResponse = this.Context.HttpContext.Response;
-
-        //        System.IO.MemoryStream memStream = new System.IO.MemoryStream();
-
-        //        objResponse.Clear();
-        //        objResponse.ClearHeaders();
-        //        reportc.ExportToXls(memStream);
-        //        objResponse.ContentType = "application/xls";
-        //        objResponse.AddHeader("content-disposition", "attachment; filename=" + syslbl + " Combin List.xls");
-        //        objResponse.BinaryWrite(memStream.ToArray());
-        //        objResponse.Flush();
-        //        objResponse.End();
-
-        //        return null;
-        //    }
-        //    else
-        //    {
-        //        RT2020.Product.Reports.Appendix3CombinRpt_Pdf rpt = new Appendix3CombinRpt_Pdf();
-        //        try
-        //        {
-        //            rpt.DataSource = BindData();
-        //            rpt.FrmCode = cmbFrom.Text.Trim();
-        //            rpt.toCode = cmbTo.Text.Trim();
-        //            rpt.PrintDialog();
-        //            rpt.Print();
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            MessageBox.Show(ex.Message);
-        //        }
-
-        //        return null;
-        //    }
-        //}
-
-        //#endregion
 
         private void btnExit_Click(object sender, EventArgs e)
         {
