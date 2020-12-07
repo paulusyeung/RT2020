@@ -598,55 +598,75 @@ namespace RT2020.Inventory.GoodsReceive
 
         private void CreateLedgerDetails(string txnumber, Guid subledgerHeaderId, Guid ledgerHeaderId, DateTime txDate, string shop, string staffNumber)
         {
-            string sql = "HeaderId = '" + subledgerHeaderId.ToString() + "'";
-            string[] orderBy = new string[] { "LineNumber" };
-            InvtSubLedgerCAP_DetailsCollection oSubLedgerDetails = InvtSubLedgerCAP_Details.LoadCollection(sql, orderBy, true);
-            foreach (InvtSubLedgerCAP_Details oSDetail in oSubLedgerDetails)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                InvtLedgerDetails oLedgerDetail = new InvtLedgerDetails();
-                oLedgerDetail.HeaderId = ledgerHeaderId;
-                oLedgerDetail.SubLedgerDetailsId = oSDetail.DetailsId;
-                oLedgerDetail.LineNumber = oSDetail.LineNumber;
-                oLedgerDetail.ProductId = oSDetail.ProductId;
-                oLedgerDetail.Qty = oSDetail.Qty;
-                oLedgerDetail.TxNumber = txnumber;
-                oLedgerDetail.TxType = Common.Enums.TxType.CAP.ToString();
-                oLedgerDetail.TxDate = txDate;
-                oLedgerDetail.UnitAmount = oSDetail.UnitAmount;
-                oLedgerDetail.AverageCost = 0;
-                oLedgerDetail.Notes = string.Empty;
-                oLedgerDetail.SerialNumber = string.Empty;
-                oLedgerDetail.SHOP = shop;
-                oLedgerDetail.OPERATOR = staffNumber;
-
-                // Product Info
-                RT2020.DAL.Product oItem = RT2020.DAL.Product.Load(oSDetail.ProductId);
-                if (oItem != null)
+                using (var scope = ctx.Database.BeginTransaction())
                 {
-                    oLedgerDetail.BasicPrice = oItem.RetailPrice;
-                    oLedgerDetail.Discount = oItem.NormalDiscount;
-                    oLedgerDetail.AverageCost = this.GetAverageCost(oItem.ProductId);
-
-                    var priceTypeId = ModelEx.ProductPriceTypeEx.GetIdByPriceType(Common.Enums.ProductPriceType.VPRC.ToString());
-                    sql = "ProductId = '" + oSDetail.ProductId.ToString() + "' AND PriceTypeId = '" + priceTypeId.ToString() + "'";
-
-                    ProductPrice oPrice = ProductPrice.LoadWhere(sql);
-                    if (oPrice != null)
+                    try
                     {
-                        oLedgerDetail.VendorRef = oPrice.CurrencyCode;
+                        string sql = "HeaderId = '" + subledgerHeaderId.ToString() + "'";
+                        string[] orderBy = new string[] { "LineNumber" };
+                        var oSubLedgerDetails = ctx.InvtSubLedgerCAP_Details
+                            .Where(x => x.HeaderId == subledgerHeaderId)    //sql, orderBy, true);
+                            .OrderBy(x => x.LineNumber)
+                            .ToList();
+                        foreach (var oSDetail in oSubLedgerDetails)
+                        {
+                            var oLedgerDetail = new EF6.InvtLedgerDetails();
+
+                            oLedgerDetail.DetailsId = Guid.NewGuid();
+                            oLedgerDetail.HeaderId = ledgerHeaderId;
+                            oLedgerDetail.SubLedgerDetailsId = oSDetail.DetailsId;
+                            oLedgerDetail.LineNumber = oSDetail.LineNumber;
+                            oLedgerDetail.ProductId = oSDetail.ProductId;
+                            oLedgerDetail.Qty = oSDetail.Qty;
+                            oLedgerDetail.TxNumber = txnumber;
+                            oLedgerDetail.TxType = Common.Enums.TxType.CAP.ToString();
+                            oLedgerDetail.TxDate = txDate;
+                            oLedgerDetail.UnitAmount = oSDetail.UnitAmount;
+                            oLedgerDetail.AverageCost = 0;
+                            oLedgerDetail.Notes = string.Empty;
+                            oLedgerDetail.SerialNumber = string.Empty;
+                            oLedgerDetail.SHOP = shop;
+                            oLedgerDetail.OPERATOR = staffNumber;
+
+                            // Product Info
+                            var oItem = ctx.Product.Find(oSDetail.ProductId);
+                            if (oItem != null)
+                            {
+                                oLedgerDetail.BasicPrice = oItem.RetailPrice;
+                                oLedgerDetail.Discount = oItem.NormalDiscount;
+                                oLedgerDetail.AverageCost = this.GetAverageCost(oItem.ProductId);
+
+                                var priceTypeId = ModelEx.ProductPriceTypeEx.GetIdByPriceType(Common.Enums.ProductPriceType.VPRC.ToString());
+                                //sql = "ProductId = '" + oSDetail.ProductId.ToString() + "' AND PriceTypeId = '" + priceTypeId.ToString() + "'";
+
+                                var oPrice = ctx.ProductPrice.Where(x => x.ProductId == oSDetail.ProductId && x.PriceTypeId == priceTypeId).FirstOrDefault();
+                                if (oPrice != null)
+                                {
+                                    oLedgerDetail.VendorRef = oPrice.CurrencyCode;
+                                }
+                            }
+
+                            oLedgerDetail.Amount = oLedgerDetail.Qty * (oLedgerDetail.UnitAmount * ((100 - oLedgerDetail.Discount) * (decimal)0.01));
+
+                            ctx.InvtLedgerDetails.Add(oLedgerDetail);
+
+                            var oLedgerHeader = ctx.InvtLedgerHeader.Find(ledgerHeaderId);
+                            if (oLedgerHeader != null)
+                            {
+                                oLedgerHeader.TotalAmount += oLedgerDetail.Amount;
+
+                                //oLedgerHeader.Save();
+                            }
+                            ctx.SaveChanges();
+                        }
+                        scope.Commit();
                     }
-                }
-
-                oLedgerDetail.Amount = oLedgerDetail.Qty * (oLedgerDetail.UnitAmount * ((100 - oLedgerDetail.Discount) * (decimal)0.01));
-
-                oLedgerDetail.Save();
-
-                InvtLedgerHeader oLedgerHeader = InvtLedgerHeader.Load(ledgerHeaderId);
-                if (oLedgerHeader != null)
-                {
-                    oLedgerHeader.TotalAmount += oLedgerDetail.Amount;
-
-                    oLedgerHeader.Save();
+                    catch (Exception ex)
+                    {
+                        scope.Rollback();
+                    }
                 }
             }
         }

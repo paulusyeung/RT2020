@@ -1,4 +1,4 @@
-#region Using
+﻿#region Using
 
 using System;
 using System.Collections.Generic;
@@ -123,15 +123,17 @@ namespace RT2020.Product
         #region Fill Combo List
         private void FillParentNatureList()
         {
-            cboParentNature.Items.Clear();
+            //cboParentNature.Items.Clear();
 
             string sql = "NatureId NOT IN ('" + this.ProductNatureId.ToString() + "')";
             string[] orderBy = new string[] { "NatureCode" };
-            ProductNatureCollection oProductNatureList = ProductNature.LoadCollection(sql, orderBy, true);
-            oProductNatureList.Add(new ProductNature());
-            cboParentNature.DataSource = oProductNatureList;
-            cboParentNature.DisplayMember = "NatureCode";
-            cboParentNature.ValueMember = "NatureId";
+
+            ModelEx.ProductNatureEx.LoadCombo(ref cboParentNature, "NatureCode", true, true, "", sql, orderBy);
+            //ProductNatureCollection oProductNatureList = ProductNature.LoadCollection(sql, orderBy, true);
+            //oProductNatureList.Add(new ProductNature());
+            //cboParentNature.DataSource = oProductNatureList;
+            //cboParentNature.DisplayMember = "NatureCode";
+            //cboParentNature.ValueMember = "NatureId";
 
             cboParentNature.SelectedIndex = cboParentNature.Items.Count - 1;
         }
@@ -172,53 +174,58 @@ namespace RT2020.Product
         #endregion
 
         #region Save
-        private bool CodeExists()
+        private bool IsValid()
         {
-            string sql = "NatureCode = '" + txtProductNatureCode.Text.Trim() + "'";
-            ProductNatureCollection natureList = ProductNature.LoadCollection(sql);
-            if (natureList.Count > 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
+            bool result = true;
 
-        private bool Save()
-        {
+            #region Nature Code 唔可以吉
+            errorProvider.SetError(txtProductNatureCode, string.Empty);
             if (txtProductNatureCode.Text.Length == 0)
             {
                 errorProvider.SetError(txtProductNatureCode, "Cannot be blank!");
                 return false;
             }
-            else
+            #endregion
+
+            #region 新增，要 check Nature Code 係咪 in use
+            errorProvider.SetError(txtProductNatureCode, string.Empty);
+            if (this.ProductNatureId == System.Guid.Empty && ModelEx.ProductNatureEx.IsNatureCodeInUse(txtProductNatureCode.Text.Trim()))
             {
-                ProductNature oProductNature = ProductNature.Load(this.ProductNatureId);
-                if (oProductNature == null)
-                {
-                    oProductNature = new ProductNature();
-
-                    if (CodeExists())
-                    {
-                        errorProvider.SetError(txtProductNatureCode, string.Format(Resources.Common.DuplicatedCode, "Product Nature Code"));
-                        return false;
-                    }
-                    else
-                    {
-                        oProductNature.NatureCode = txtProductNatureCode.Text;
-                        errorProvider.SetError(txtProductNatureCode, string.Empty);
-                    }
-                }
-                oProductNature.NatureName = txtProductNatureName.Text;
-                oProductNature.NatureName_Chs = txtProductNatureNameChs.Text;
-                oProductNature.NatureName_Cht = txtProductNatureNameCht.Text;
-                oProductNature.ParentNature = (cboParentNature.SelectedValue == null)? System.Guid.Empty:new System.Guid(cboParentNature.SelectedValue.ToString());
-
-                oProductNature.Save();
-                return true;
+                errorProvider.SetError(txtProductNatureCode, "Nature Code in use");
+                return false;
             }
+            #endregion
+
+            return result;
+        }
+
+        private bool Save()
+        {
+            bool result = false;
+
+            using (var ctx = new EF6.RT2020Entities())
+            {
+                var item = ctx.ProductNature.Find(this.ProductNatureId);
+
+                if (item == null)
+                {
+                    item = new EF6.ProductNature();
+                    item.NatureId = new Guid();
+                    item.NatureCode = txtProductNatureCode.Text;
+
+                    ctx.ProductNature.Add(item);
+                }
+                item.NatureName = txtProductNatureName.Text;
+                item.NatureName_Chs = txtProductNatureNameChs.Text;
+                item.NatureName_Cht = txtProductNatureNameCht.Text;
+                if ((Guid)cboParentNature.SelectedValue != Guid.Empty) item.ParentNature = (Guid)cboParentNature.SelectedValue;
+
+
+                ctx.SaveChanges();
+                result = true;
+            }
+
+            return result; ;
         }
 
         private void Clear()
@@ -248,16 +255,20 @@ namespace RT2020.Product
         #region Delete
         private void Delete()
         {
-            ProductNature oNature = ProductNature.Load(this.ProductNatureId);
-            if (oNature != null)
+            using (var ctx = new EF6.RT2020Entities())
             {
                 try
                 {
-                    oNature.Delete();
+                    var item = ctx.ProductNature.Find(this.ProductNatureId);
+                    if (item != null)
+                    {
+                        ctx.ProductNature.Remove(item);
+                        ctx.SaveChanges();
+                    }
                 }
                 catch
                 {
-                    MessageBox.Show("Cannot delete the record being used by other record!", "Delete Warning");
+                    MessageBox.Show("Cannot delete the record...Might be in use by other record!", "Delete Warning");
                 }
             }
         }
@@ -276,22 +287,25 @@ namespace RT2020.Product
         {
             if (lvProductNatureList.SelectedItem != null)
             {
-                if (Common.Utility.IsGUID(lvProductNatureList.SelectedItem.Text))
+                var id = Guid.NewGuid();
+                if (Guid.TryParse(lvProductNatureList.SelectedItem.Text, out id))
                 {
-                    ProductNature oProductNature = ProductNature.Load(new System.Guid(lvProductNatureList.SelectedItem.Text));
-                    if (oProductNature != null)
+                    this.ProductNatureId = id;
+                    using (var ctx = new EF6.RT2020Entities())
                     {
-                        this.ProductNatureId = oProductNature.NatureId;
+                        var item = ctx.ProductNature.Find(this.ProductNatureId);
+                        if (item != null)
+                        {
+                            FillParentNatureList();
 
-                        FillParentNatureList();
+                            txtProductNatureCode.Text = item.NatureCode;
+                            txtProductNatureName.Text = item.NatureName;
+                            txtProductNatureNameChs.Text = item.NatureName_Chs;
+                            txtProductNatureNameCht.Text = item.NatureName_Cht;
+                            cboParentNature.SelectedValue = item.ParentNature;
 
-                        txtProductNatureCode.Text = oProductNature.NatureCode;
-                        txtProductNatureName.Text = oProductNature.NatureName;
-                        txtProductNatureNameChs.Text = oProductNature.NatureName_Chs;
-                        txtProductNatureNameCht.Text = oProductNature.NatureName_Cht;
-                        cboParentNature.SelectedValue = oProductNature.ParentNature;
-
-                        SetCtrlEditable();
+                            SetCtrlEditable();
+                        }
                     }
                 }
             }
