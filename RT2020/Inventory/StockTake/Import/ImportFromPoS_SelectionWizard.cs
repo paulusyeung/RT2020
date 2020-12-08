@@ -370,7 +370,7 @@ namespace RT2020.Inventory.StockTake.Import
                             }
                             else
                             {
-                                ProductBarcode pb = ProductBarcode.LoadWhere("ProductId = '" + productId.ToString() + "'");
+                                var pb = ctx.ProductBarcode.Where(x => x.ProductId == productId).FirstOrDefault();
                                 if (pb == null)
                                 {
                                     missingLine++;

@@ -460,9 +460,10 @@ namespace RT2020.Product.Import
             }
 
             // Barcode 
-            sql = "BARCODE = '" + Utility.VerifyQuotes(row[colSTKCode].ToString().Trim()) + Utility.VerifyQuotes(row[colAppendix1].ToString().Trim()) + Utility.VerifyQuotes(row[colAppendix2].ToString().Trim()) + Utility.VerifyQuotes(row[colAppendix3].ToString().Trim()) + "'";
-            ProductBarcode oBarcode = ProductBarcode.LoadWhere(sql);
-            if (oBarcode != null)
+            var barcode = Utility.VerifyQuotes(row[colSTKCode].ToString().Trim()) + Utility.VerifyQuotes(row[colAppendix1].ToString().Trim()) + Utility.VerifyQuotes(row[colAppendix2].ToString().Trim()) + Utility.VerifyQuotes(row[colAppendix3].ToString().Trim());
+            sql = "BARCODE = '" + barcode + "'";
+
+            if (ModelEx.ProductBarcodeEx.IsBarcodeInUse(barcode))
             {
                 returnResult.Append("Duplicated Barcode;");
             }

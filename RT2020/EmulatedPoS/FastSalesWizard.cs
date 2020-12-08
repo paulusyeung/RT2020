@@ -1075,12 +1075,15 @@ namespace RT2020.EmulatedPoS
         /// <param name="productId">The product id.</param>
         private void SearchProductBarcode(Guid productId)
         {
+            /**
             string sqlWhere = "ProductId = '" + productId.ToString() + "' AND PrimaryBarcode = 1";
             RT2020.DAL.ProductBarcode productBarcode = RT2020.DAL.ProductBarcode.LoadWhere(sqlWhere);
             if (productBarcode != null)
             {
                 txtBarcode.Tag = productBarcode.Barcode;
             }
+            */
+            txtBarcode.Tag = ModelEx.ProductBarcodeEx.GetBarcodeByProductId(productId);
         }
 
         #region Add/Edit/Remove Item
@@ -1542,15 +1545,19 @@ namespace RT2020.EmulatedPoS
         /// <param name="barcode">The barcode.</param>
         private void SearchProductByBarcode(string barcode)
         {
-            RT2020.DAL.ProductBarcode productBarcode = RT2020.DAL.ProductBarcode.LoadWhere("Barcode = '" + barcode + "'");
-
-            if (productBarcode != null)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                this.ProductId = productBarcode.ProductId;
-                RT2020.DAL.Product product = RT2020.DAL.Product.Load(this.ProductId);
-                txtDiscount.Text = product.NormalDiscount.ToString("n2");
-                txtUnitAmount.Text = product.RetailPrice.ToString("n2");
-                txtDescription.Text = product.ProductName;
+                var productBarcode = ctx.ProductBarcode.Where(x => x.Barcode == barcode).FirstOrDefault();
+
+                if (productBarcode != null)
+                {
+                    this.ProductId = productBarcode.ProductId;
+
+                    var product = ctx.Product.Find(this.ProductId);
+                    txtDiscount.Text = product.NormalDiscount.ToString("n2");
+                    txtUnitAmount.Text = product.RetailPrice.Value.ToString("n2");
+                    txtDescription.Text = product.ProductName;
+                }
             }
         }
 

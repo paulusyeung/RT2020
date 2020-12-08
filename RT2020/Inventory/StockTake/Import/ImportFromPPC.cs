@@ -479,7 +479,7 @@ namespace RT2020.Inventory.StockTake.Import
                             }
                             else
                             {
-                                Guid productId = GetProductId(detailInfo.Barcode);
+                                Guid productId = ModelEx.ProductBarcodeEx.GetProductIdByBarcode(detailInfo.Barcode);
 
                                 if (productId == System.Guid.Empty)
                                 {
@@ -635,7 +635,7 @@ namespace RT2020.Inventory.StockTake.Import
                     {
                         foreach (ImportDetailsInfo detail in detailList)
                         {
-                            Guid productId = GetProductId(detail.Barcode);
+                            Guid productId = ModelEx.ProductBarcodeEx.GetProductIdByBarcode(detail.Barcode);
 
                             if (!string.IsNullOrEmpty(detail.Barcode.Trim()) && productId != Guid.Empty)
                             {
@@ -726,7 +726,7 @@ namespace RT2020.Inventory.StockTake.Import
                     {
                         foreach (ImportDetailsInfo detail in detailList)
                         {
-                            Guid productId = GetProductId(detail.Barcode);
+                            Guid productId = ModelEx.ProductBarcodeEx.GetProductIdByBarcode(detail.Barcode);
 
                             if (!string.IsNullOrEmpty(detail.Barcode.Trim()) && productId != System.Guid.Empty)
                             {
@@ -767,20 +767,6 @@ namespace RT2020.Inventory.StockTake.Import
         }
 
         #endregion
-
-        private Guid GetProductId(string barcode)
-        {
-            string sql = "Barcode = '" + barcode.Trim() + "'";
-            RT2020.DAL.ProductBarcode product = RT2020.DAL.ProductBarcode.LoadWhere(sql);
-            if (product != null)
-            {
-                return product.ProductId;
-            }
-            else
-            {
-                return System.Guid.Empty;
-            }
-        }
 
         #endregion
 

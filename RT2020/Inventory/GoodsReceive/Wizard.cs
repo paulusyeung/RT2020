@@ -956,11 +956,12 @@ namespace RT2020.Inventory.GoodsReceive
         {
             if (rbtnBarcode.Checked)
             {
-                string sql = "Barcode = '" + txtBarcode.Text + "'";
-                ProductBarcode oBarcode = ProductBarcode.LoadWhere(sql);
-                if (oBarcode != null)
-                {
-                    RT2020.DAL.Product oProd = RT2020.DAL.Product.Load(oBarcode.ProductId);
+                //string sql = "Barcode = '" + txtBarcode.Text + "'";
+                //ProductBarcode oBarcode = ProductBarcode.LoadWhere(sql);
+                //if (oBarcode != null)
+                //{
+                    var productId = ModelEx.ProductBarcodeEx.GetProductIdByBarcode(txtBarcode.Text);
+                    var oProd = ModelEx.ProductEx.Get(productId);
                     if (oProd != null)
                     {
                         stkCode = oProd.STKCODE;
@@ -970,11 +971,11 @@ namespace RT2020.Inventory.GoodsReceive
 
                         this.ProductId = oProd.ProductId;
                     }
-                }
+                //}
             }
             if (rbtnStockCode_1.Checked)
             {
-                RT2020.DAL.Product oProd = RT2020.DAL.Product.Load(this.ProductId);
+                var oProd = ModelEx.ProductEx.Get(this.ProductId);
                 if (oProd != null)
                 {
                     stkCode = oProd.STKCODE;
@@ -989,7 +990,7 @@ namespace RT2020.Inventory.GoodsReceive
             {
                 if (basicProduct.SelectedItem != null)
                 {
-                    RT2020.DAL.Product oProd = RT2020.DAL.Product.Load(new Guid(basicProduct.SelectedItem.ToString()));
+                    var oProd = ModelEx.ProductEx.Get(new Guid(basicProduct.SelectedItem.ToString()));
                     if (oProd != null)
                     {
                         stkCode = oProd.STKCODE;
@@ -1105,16 +1106,16 @@ namespace RT2020.Inventory.GoodsReceive
 
         private void txtBarcode_TextChanged(object sender, EventArgs e)
         {
-            string sql = "Barcode = '" + txtBarcode.Text + "'";
-            ProductBarcode oBarcode = ProductBarcode.LoadWhere(sql);
-            if (oBarcode != null)
+            //string sql = "Barcode = '" + txtBarcode.Text + "'";
+            var productId = ModelEx.ProductBarcodeEx.GetProductIdByBarcode(txtBarcode.Text);
+            if (productId != Guid.Empty)
             {
-                RT2020.DAL.Product oProd = RT2020.DAL.Product.Load(oBarcode.ProductId);
+                var oProd = ModelEx.ProductEx.Get(productId);
                 if (oProd != null)
                 {
                     txtDescription.Text = oProd.ProductName;
-                    txtUnitPrice_1.Text = oProd.RetailPrice.ToString("n2");
-                    txtUnitPrice_2.Text = (oProd.RetailPrice * Convert.ToDecimal(txtCoefficient.Text.Length == 0 ? "1" : txtCoefficient.Text)).ToString("n2");
+                    txtUnitPrice_1.Text = oProd.RetailPrice.Value.ToString("n2");
+                    txtUnitPrice_2.Text = (oProd.RetailPrice.Value * Convert.ToDecimal(txtCoefficient.Text.Length == 0 ? "1" : txtCoefficient.Text)).ToString("n2");
 
                     GetSummaryCost(oProd.ProductId);
 

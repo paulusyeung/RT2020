@@ -1627,6 +1627,7 @@
     <Compile Include="MenuStrip\SettingsAms.cs" />
     <Compile Include="MenuStrip\ToolsAms.cs" />
     <Compile Include="MenuStrip\ViewAms.cs" />
+    <Compile Include="ModelEx\ProductBarcodeEx.cs" />
     <Compile Include="ModelEx\ProductClass5Ex.cs" />
     <Compile Include="ModelEx\ProductClass4Ex.cs" />
     <Compile Include="ModelEx\ProductClass3Ex.cs" />
@@ -1636,6 +1637,7 @@
     <Compile Include="ModelEx\ProductDimEx.cs" />
     <Compile Include="ModelEx\ProductDim_DetailsEx.cs" />
     <Compile Include="ModelEx\ProductClass6Ex.cs" />
+    <Compile Include="ModelEx\ProductEx.cs" />
     <Compile Include="ModelEx\ProductNatureEx.cs" />
     <Compile Include="ModelEx\ProductPriceEx.cs" />
     <Compile Include="ModelEx\ProductPriceTypeEx.cs" />

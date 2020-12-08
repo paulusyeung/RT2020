@@ -1665,12 +1665,15 @@ namespace RT2020.EmulatedPoS
         /// <param name="productId">The product id.</param>
         private void SearchProductBarcode(Guid productId)
         {
+            /**
             string sqlWhere = "ProductId = '" + productId.ToString() + "' AND PrimaryBarcode = 1";
             RT2020.DAL.ProductBarcode productBarcode = RT2020.DAL.ProductBarcode.LoadWhere(sqlWhere);
             if (productBarcode != null)
             {
                 txtBarcode.Text = productBarcode.Barcode;
             }
+            */
+            txtBarcode.Text = ModelEx.ProductBarcodeEx.GetBarcodeByProductId(productId);
         }
 
         #region Calculate

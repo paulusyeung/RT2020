@@ -564,20 +564,24 @@ namespace RT2020.Product
 
         private void SaveProductBarcode(Guid productid, string barcode)
         {
-            string sql = "ProductId = '" + productid.ToString() + "' AND Barcode = '" + barcode + "'";
-            ProductBarcode oBarcode = ProductBarcode.LoadWhere(sql);
-            if (oBarcode == null)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                oBarcode = new ProductBarcode();
+                //string sql = "ProductId = '" + productid.ToString() + "' AND Barcode = '" + barcode + "'";
+                var oBarcode = ctx.ProductBarcode.Where(x => x.ProductId == productid && x.Barcode == barcode).FirstOrDefault();
+                if (oBarcode == null)
+                {
+                    oBarcode = new EF6.ProductBarcode();
+                    oBarcode.ProductBarcodeId = Guid.NewGuid();
+                    oBarcode.ProductId = productid;
+                    oBarcode.Barcode = barcode;
+                    oBarcode.BarcodeType = "INTER";
+                    oBarcode.PrimaryBarcode = true;
+                    oBarcode.DownloadToPOS = general.chkRetailItem.Checked;
+                    oBarcode.DownloadToCounter = general.chkCounterItem.Checked;
 
-                oBarcode.ProductId = productid;
-                oBarcode.Barcode = barcode;
-                oBarcode.BarcodeType = "INTER";
-                oBarcode.PrimaryBarcode = true;
-                oBarcode.DownloadToPOS = general.chkRetailItem.Checked;
-                oBarcode.DownloadToCounter = general.chkCounterItem.Checked;
-
-                oBarcode.Save();
+                    ctx.ProductBarcode.Add(oBarcode);
+                    ctx.SaveChanges();
+                }
             }
         }
 

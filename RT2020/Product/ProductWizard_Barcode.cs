@@ -196,8 +196,8 @@ namespace RT2020.Product
             if (isValid)
             {
                 string sql = "ProductId = '" + this.ProductId.ToString() + "' AND Barcode = '" + txtBarcode.Text.Trim() + "'";
-                ProductBarcode oBarcode = ProductBarcode.LoadWhere(sql);
-                if (oBarcode != null)
+                //ProductBarcode oBarcode = ProductBarcode.LoadWhere(sql);
+                if (ModelEx.ProductBarcodeEx.IsBarcodeInUse(this.ProductId, txtBarcode.Text.Trim()))
                 {
                     errorProvider.SetError(txtBarcode, "Barcode Already Exists");
                 }
