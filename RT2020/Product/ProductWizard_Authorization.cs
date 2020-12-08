@@ -418,93 +418,215 @@ namespace RT2020.Product
 
         private void CreateProducts(ListViewItem listItem)
         {
-            // Check BatchId(listItem.SubItems[1].Text) and Stock Code(listItem.SubItems[2].Text)
-            if (IsValid() && Common.Utility.IsGUID(listItem.SubItems[1].Text) && listItem.SubItems[2].Text.Length > 0)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                ProductBatch oBatch = ProductBatch.Load(new System.Guid(listItem.SubItems[1].Text));
-                if (oBatch != null)
+                // Check BatchId(listItem.SubItems[1].Text) and Stock Code(listItem.SubItems[2].Text)
+                Guid batchId = Guid.Empty;
+                if (IsValid() && Guid.TryParse(listItem.SubItems[1].Text, out batchId) && listItem.SubItems[2].Text.Length > 0)
                 {
-                    string a1 = listItem.SubItems[3].Text;
-                    string a2 = listItem.SubItems[4].Text;
-                    string a3 = listItem.SubItems[5].Text;
-
-                    System.Guid a1Id = (Common.Utility.IsGUID(listItem.SubItems[6].Text)) ? new Guid(listItem.SubItems[6].Text) : System.Guid.Empty;
-                    System.Guid a2Id = (Common.Utility.IsGUID(listItem.SubItems[7].Text)) ? new Guid(listItem.SubItems[7].Text) : System.Guid.Empty;
-                    System.Guid a3Id = (Common.Utility.IsGUID(listItem.SubItems[8].Text)) ? new Guid(listItem.SubItems[8].Text) : System.Guid.Empty;
-
-                    string prodCode = listItem.SubItems[2].Text + a1 + a2 + a3;
-                    if (prodCode.Length <= 22)
+                    var oBatch = ctx.ProductBatch.Find(batchId);
+                    if (oBatch != null)
                     {
-                        StringBuilder sql = new StringBuilder();
-                        sql.Append(" STKCODE = '").Append(listItem.SubItems[2].Text.Trim()).Append("' ");
-                        sql.Append(" AND APPENDIX1 = '").Append(a1.Trim()).Append("' ");
-                        sql.Append(" AND APPENDIX2 = '").Append(a2.Trim()).Append("' ");
-                        sql.Append(" AND APPENDIX3 = '").Append(a3.Trim()).Append("' ");
+                        string a1 = listItem.SubItems[3].Text.Trim();
+                        string a2 = listItem.SubItems[4].Text.Trim();
+                        string a3 = listItem.SubItems[5].Text.Trim();
 
-                        RT2020.DAL.Product oItem = RT2020.DAL.Product.LoadWhere(sql.ToString());
-                        if (oItem == null)
+                        System.Guid a1Id = (Common.Utility.IsGUID(listItem.SubItems[6].Text)) ? new Guid(listItem.SubItems[6].Text) : System.Guid.Empty;
+                        System.Guid a2Id = (Common.Utility.IsGUID(listItem.SubItems[7].Text)) ? new Guid(listItem.SubItems[7].Text) : System.Guid.Empty;
+                        System.Guid a3Id = (Common.Utility.IsGUID(listItem.SubItems[8].Text)) ? new Guid(listItem.SubItems[8].Text) : System.Guid.Empty;
+
+                        string prodCode = listItem.SubItems[2].Text + a1 + a2 + a3;
+                        if (prodCode.Length <= 22)
                         {
-                            oItem = new RT2020.DAL.Product();
+                            var stkcode = listItem.SubItems[2].Text.Trim();
 
-                            oItem.STKCODE = listItem.SubItems[2].Text;
-                            oItem.APPENDIX1 = a1;
-                            oItem.APPENDIX2 = a2;
-                            oItem.APPENDIX3 = a3;
+                            StringBuilder sql = new StringBuilder();
+                            sql.Append(" STKCODE = '").Append(listItem.SubItems[2].Text.Trim()).Append("' ");
+                            sql.Append(" AND APPENDIX1 = '").Append(a1.Trim()).Append("' ");
+                            sql.Append(" AND APPENDIX2 = '").Append(a2.Trim()).Append("' ");
+                            sql.Append(" AND APPENDIX3 = '").Append(a3.Trim()).Append("' ");
 
-                            oItem.Status = Convert.ToInt32(Common.Enums.Status.Active.ToString("d"));
+                            var oItem = ctx.Product.Where(x => x.STKCODE == stkcode && x.APPENDIX1 == a1 && x.APPENDIX2 == a2 && x.APPENDIX3 == a3).FirstOrDefault();
+                            if (oItem == null)
+                            {
+                                #region add new Product
+                                oItem = new EF6.Product();
+                                oItem.ProductId = Guid.NewGuid();
+                                oItem.STKCODE = listItem.SubItems[2].Text;
+                                oItem.APPENDIX1 = a1;
+                                oItem.APPENDIX2 = a2;
+                                oItem.APPENDIX3 = a3;
 
-                            oItem.CLASS1 = oBatch.CLASS1;
-                            oItem.CLASS2 = oBatch.CLASS2;
-                            oItem.CLASS3 = oBatch.CLASS3;
-                            oItem.CLASS4 = oBatch.CLASS4;
-                            oItem.CLASS5 = oBatch.CLASS5;
-                            oItem.CLASS6 = oBatch.CLASS6;
+                                oItem.Status = Convert.ToInt32(Common.Enums.Status.Active.ToString("d"));
 
-                            oItem.ProductName = oBatch.Description;
-                            oItem.ProductName_Chs = oBatch.Description;
-                            oItem.ProductName_Cht = oBatch.Description;
-                            oItem.Remarks = oBatch.REMARKS;
+                                oItem.CLASS1 = oBatch.CLASS1;
+                                oItem.CLASS2 = oBatch.CLASS2;
+                                oItem.CLASS3 = oBatch.CLASS3;
+                                oItem.CLASS4 = oBatch.CLASS4;
+                                oItem.CLASS5 = oBatch.CLASS5;
+                                oItem.CLASS6 = oBatch.CLASS6;
 
-                            oItem.NormalDiscount = oBatch.NRDISC;
-                            oItem.UOM = oBatch.MAINUNIT;
-                            oItem.NatureId =  ModelEx.ProductNatureEx.GetIdByCode(oBatch.NATURE);
+                                oItem.ProductName = oBatch.Description;
+                                oItem.ProductName_Chs = oBatch.Description;
+                                oItem.ProductName_Cht = oBatch.Description;
+                                oItem.Remarks = oBatch.REMARKS;
 
-                            oItem.FixedPriceItem = false;
+                                oItem.NormalDiscount = oBatch.NRDISC.Value;
+                                oItem.UOM = oBatch.MAINUNIT;
+                                oItem.NatureId = ModelEx.ProductNatureEx.GetIdByCode(oBatch.NATURE);
 
-                            oItem.CreatedBy = Common.Config.CurrentUserId;
-                            oItem.CreatedOn = DateTime.Now;
-                            oItem.ModifiedBy = Common.Config.CurrentUserId;
-                            oItem.ModifiedOn = DateTime.Now;
+                                oItem.FixedPriceItem = false;
 
-                            oItem.Save();
+                                oItem.CreatedBy = Common.Config.CurrentUserId;
+                                oItem.CreatedOn = DateTime.Now;
+                                oItem.ModifiedBy = Common.Config.CurrentUserId;
+                                oItem.ModifiedOn = DateTime.Now;
 
-                            SaveProductBarcode(oBatch, oItem.ProductId, prodCode);
+                                ctx.Product.Add(oItem);
 
-                            // Appendix / Class
-                            System.Guid c1Id = ModelEx.ProductClass1Ex.GetClassIdByCode(oBatch.CLASS1);
-                            System.Guid c2Id = ModelEx.ProductClass2Ex.GetClassIdByCode(oBatch.CLASS2);
-                            System.Guid c3Id = ModelEx.ProductClass3Ex.GetClassIdByCode(oBatch.CLASS3);
-                            System.Guid c4Id = ModelEx.ProductClass4Ex.GetClassIdByCode(oBatch.CLASS4);
-                            System.Guid c5Id = ModelEx.ProductClass5Ex.GetClassIdByCode(oBatch.CLASS5);
-                            System.Guid c6Id = ModelEx.ProductClass6Ex.GetClassIdByCode(oBatch.CLASS6);
-                            SaveProductCode(oItem.ProductId, a1Id, a2Id, a3Id, c1Id, c2Id, c3Id, c4Id, c5Id, c6Id);
+                                var productId = oItem.ProductId;
+                                #endregion
 
-                            // Product Price
-                            SaveProductSupplement(oBatch, oItem.ProductId);
-                            SaveProductPrice(oBatch, oItem.ProductId);
+                                #region SaveProductBarcode(oBatch, productId, prodCode);
+                                var oBarcode = ctx.ProductBarcode.Where(x => x.ProductId == productId).FirstOrDefault();
+                                if (oBarcode == null)
+                                {
+                                    oBarcode = new EF6.ProductBarcode();
+                                    oBarcode.ProductBarcodeId = Guid.NewGuid();
+                                    oBarcode.ProductId = productId;
+                                    oBarcode.Barcode = prodCode;
+                                    oBarcode.BarcodeType = "INTER";
+                                    oBarcode.PrimaryBarcode = true;
+                                    oBarcode.DownloadToPOS = (oBatch.RETAILITEM == "F") ? false : true;
+                                    oBarcode.DownloadToCounter = (oBatch.COUNTER_ITEM == "F") ? false : true;
 
-                            // Remarks
-                            SaveProductRemarks(oBatch, oItem.ProductId);
+                                    ctx.ProductBarcode.Add(oBarcode);
+                                    ctx.SaveChanges();
+                                }
+                                #endregion
 
-                            oBatch.STATUS = "OK";
-                            oBatch.Save();
+                                #region Appendix / Class
+                                System.Guid c1Id = ModelEx.ProductClass1Ex.GetClassIdByCode(oBatch.CLASS1);
+                                System.Guid c2Id = ModelEx.ProductClass2Ex.GetClassIdByCode(oBatch.CLASS2);
+                                System.Guid c3Id = ModelEx.ProductClass3Ex.GetClassIdByCode(oBatch.CLASS3);
+                                System.Guid c4Id = ModelEx.ProductClass4Ex.GetClassIdByCode(oBatch.CLASS4);
+                                System.Guid c5Id = ModelEx.ProductClass5Ex.GetClassIdByCode(oBatch.CLASS5);
+                                System.Guid c6Id = ModelEx.ProductClass6Ex.GetClassIdByCode(oBatch.CLASS6);
+                                // SaveProductCode(productId, a1Id, a2Id, a3Id, c1Id, c2Id, c3Id, c4Id, c5Id, c6Id);
+                                var oCode = ctx.ProductCode.Where(x => x.ProductId == productId).FirstOrDefault();
+                                if (oCode == null)
+                                {
+                                    oCode = new EF6.ProductCode();
+                                    oCode.CodeId = Guid.NewGuid();
+                                    oCode.ProductId = productId;
+                                    oCode.Appendix1Id = a1Id;
+                                    oCode.Appendix2Id = a2Id;
+                                    oCode.Appendix3Id = a3Id;
+
+                                    ctx.ProductCode.Add(oCode);
+                                }
+                                oCode.Class1Id = c1Id;
+                                oCode.Class2Id = c2Id;
+                                oCode.Class3Id = c3Id;
+                                oCode.Class4Id = c4Id;
+                                oCode.Class5Id = c5Id;
+                                oCode.Class6Id = c6Id;
+
+                                ctx.SaveChanges();
+                                #endregion
+
+                                // Product Price
+                                #region SaveProductSupplement(oBatch, oItem.ProductId);
+                                //string sql = "ProductId = '" + productId.ToString() + "'";
+                                var oProdSupp = ctx.ProductSupplement.Where(x => x.ProductId == productId).FirstOrDefault();
+                                if (oProdSupp == null)
+                                {
+                                    oProdSupp = new EF6.ProductSupplement();
+                                    oProdSupp.SupplementId = Guid.NewGuid();
+                                    oProdSupp.ProductId = productId;
+
+                                    ctx.ProductSupplement.Add(oProdSupp);
+                                }
+                                oProdSupp.VendorCurrencyCode = oBatch.VCURR;
+                                oProdSupp.VendorPrice = oBatch.VPRC;
+                                oProdSupp.ProductName_Memo = oBatch.DESC_MEMO;
+                                oProdSupp.ProductName_Pole = oBatch.DESC_POLE;
+
+                                ctx.SaveChanges();
+                                #endregion
+
+                                #region SaveProductPrice(oBatch, oItem.ProductId);
+                                SaveProductPrice(productId, Common.Enums.ProductPriceType.BASPRC.ToString(), "HKD", oBatch.BASPRC.ToString());
+                                SaveProductPrice(productId, Common.Enums.ProductPriceType.ORIPRC.ToString(), "HKD", oBatch.ORIPRC.ToString());
+                                SaveProductPrice(productId, Common.Enums.ProductPriceType.VPRC.ToString(), oBatch.VCURR, oBatch.VPRC.ToString());
+                                SaveProductPrice(productId, Common.Enums.ProductPriceType.WHLPRC.ToString(), "HKD", oBatch.WHLPRC.ToString());
+                                #endregion
+
+                                // Remarks
+                                #region SaveProductRemarks(oBatch, oItem.ProductId);
+                                var oRemarks = ctx.ProductRemarks.Where(x => x.ProductId == productId).FirstOrDefault();
+                                if (oRemarks == null)
+                                {
+                                    oRemarks = new EF6.ProductRemarks();
+                                    oRemarks.ProductRemarksId = Guid.NewGuid();
+                                    oRemarks.ProductId = productId;
+
+                                    ctx.ProductRemarks.Add(oRemarks);
+                                }
+                                oRemarks.Photo = oBatch.PHOTO;
+
+                                oRemarks.BinX = oBatch.BINX;
+                                oRemarks.BinY = oBatch.BINY;
+                                oRemarks.BinZ = oBatch.BINZ;
+
+                                oRemarks.DownloadToShop = (oBatch.RETAILITEM == "F") ? false : true;
+                                oRemarks.OffDisplayItem = (oBatch.OFF_DISPLAY_ITEM == "F") ? false : true;
+                                oRemarks.DownloadToCounter = (oBatch.COUNTER_ITEM == "F") ? false : true;
+
+                                oRemarks.REMARK1 = oBatch.REMARK1;
+                                oRemarks.REMARK2 = oBatch.REMARK2;
+                                oRemarks.REMARK3 = oBatch.REMARK3;
+                                oRemarks.REMARK4 = oBatch.REMARK4;
+                                oRemarks.REMARK5 = oBatch.REMARK5;
+                                oRemarks.REMARK6 = oBatch.REMARK6;
+
+                                ctx.SaveChanges();
+                                #endregion
+
+                                oBatch.STATUS = "OK";
+                                ctx.SaveChanges();
+                            }
                         }
                     }
                 }
             }
         }
 
-        private void SaveProductBarcode(ProductBatch oBatch, Guid productid, string barcode)
+        private void SaveProductPrice(Guid productId, string priceType, string currencyCode, string price)
+        {
+            using (var ctx = new EF6.RT2020Entities())
+            {
+                var priceTypeId = ModelEx.ProductPriceTypeEx.GetIdByPriceType(priceType);
+                //string sql = "ProductId = '" + productId.ToString() + "' AND PriceTypeId = '" + priceTypeId.ToString() + "'";
+
+                var oPrice = ctx.ProductPrice.Where(x => x.ProductId == productId && x.ProductPriceId == priceTypeId).FirstOrDefault();
+                if (oPrice == null)
+                {
+                    oPrice = new EF6.ProductPrice();
+                    oPrice.ProductPriceId = Guid.NewGuid();
+                    oPrice.ProductId = productId;
+
+                    ctx.ProductPrice.Add(oPrice);
+                }
+                oPrice.PriceTypeId = ModelEx.ProductPriceTypeEx.GetIdByPriceType(priceType);
+                oPrice.CurrencyCode = currencyCode;
+                oPrice.Price = Convert.ToDecimal((price == string.Empty) ? "0" : price);
+
+                ctx.SaveChanges();
+            }
+        }
+
+        private void SaveProductBarcode(EF6.ProductBatch oBatch, Guid productid, string barcode)
         {
             using (var ctx = new EF6.RT2020Entities())
             {
@@ -526,7 +648,7 @@ namespace RT2020.Product
                 }
             }
         }
-
+        /**
         private void SaveProductCode(Guid productId, Guid a1Id, Guid a2Id, Guid a3Id, Guid c1Id, Guid c2Id, Guid c3Id, Guid c4Id, Guid c5Id, Guid c6Id)
         {
             using (var ctx = new EF6.RT2020Entities())
@@ -554,7 +676,7 @@ namespace RT2020.Product
                 ctx.SaveChanges();
             }
         }
-
+        
         private void SaveProductSupplement(ProductBatch oBatch, Guid productId)
         {
             using (var ctx = new EF6.RT2020Entities())
@@ -584,30 +706,6 @@ namespace RT2020.Product
             SaveProductPrice(productId, Common.Enums.ProductPriceType.ORIPRC.ToString(), "HKD", oBatch.ORIPRC.ToString());
             SaveProductPrice(productId, Common.Enums.ProductPriceType.VPRC.ToString(), oBatch.VCURR, oBatch.VPRC.ToString());
             SaveProductPrice(productId, Common.Enums.ProductPriceType.WHLPRC.ToString(), "HKD", oBatch.WHLPRC.ToString());
-        }
-
-        private void SaveProductPrice(Guid productId, string priceType, string currencyCode, string price)
-        {
-            using (var ctx = new EF6.RT2020Entities())
-            {
-                var priceTypeId = ModelEx.ProductPriceTypeEx.GetIdByPriceType(priceType);
-                //string sql = "ProductId = '" + productId.ToString() + "' AND PriceTypeId = '" + priceTypeId.ToString() + "'";
-
-                var oPrice = ctx.ProductPrice.Where(x => x.ProductId == productId && x.ProductPriceId == priceTypeId).FirstOrDefault();
-                if (oPrice == null)
-                {
-                    oPrice = new EF6.ProductPrice();
-                    oPrice.ProductPriceId = Guid.NewGuid();
-                    oPrice.ProductId = productId;
-
-                    ctx.ProductPrice.Add(oPrice);
-                }
-                oPrice.PriceTypeId = ModelEx.ProductPriceTypeEx.GetIdByPriceType(priceType);
-                oPrice.CurrencyCode = currencyCode;
-                oPrice.Price = Convert.ToDecimal((price == string.Empty) ? "0" : price);
-
-                ctx.SaveChanges();
-            }
         }
 
         private void SaveProductRemarks(ProductBatch oBatch, Guid productId)
@@ -644,6 +742,7 @@ namespace RT2020.Product
                 ctx.SaveChanges();
             }
         }
+        */
         #endregion
 
         private void btnExit_Click(object sender, EventArgs e)

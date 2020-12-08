@@ -374,23 +374,26 @@ namespace RT2020.Product
         {
             bool result = false;
 
-            string sql = "STKCODE = '" + txtStkCode.Text + "'";
-            RT2020.DAL.Product oProd = RT2020.DAL.Product.LoadWhere(sql);
-            if (oProd != null)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                result = true;
-            }
+                //string sql = "STKCODE = '" + txtStkCode.Text + "'";
+                var oProd = ctx.Product.Where(x => x.STKCODE == txtStkCode.Text).FirstOrDefault();
+                if (oProd != null)
+                {
+                    result = true;
+                }
 
-            sql += " AND APP1_COMBIN = '" + cboAppendix1.Text + "' AND APP2_COMBIN = '" + cboAppendix2.Text + "' AND APP3_COMBIN = '" + cboAppendix3.Text + "'";
-            RT2020.DAL.ProductBatch oProdB = RT2020.DAL.ProductBatch.LoadWhere(sql);
-            if (oProdB != null)
-            {
-                result = true;
-            }
+                //sql += " AND APP1_COMBIN = '" + cboAppendix1.Text + "' AND APP2_COMBIN = '" + cboAppendix2.Text + "' AND APP3_COMBIN = '" + cboAppendix3.Text + "'";
+                var oProdB = ctx.ProductBatch.Where(x => x.STKCODE == txtStkCode.Text && x.APP1_COMBIN == cboAppendix1.Text && x.APP2_COMBIN == cboAppendix2.Text && x.APP3_COMBIN == cboAppendix3.Text).FirstOrDefault();
+                if (oProdB != null)
+                {
+                    result = true;
+                }
 
-            if (this.ProductBatchId != System.Guid.Empty)
-            {
-                result = false;
+                if (this.ProductBatchId != System.Guid.Empty)
+                {
+                    result = false;
+                }
             }
 
             return result;
@@ -703,61 +706,66 @@ namespace RT2020.Product
         #region Save Product Batch
         private void SaveProductBatch()
         {
-            ProductBatch oBatch = ProductBatch.Load(this.ProductBatchId);
-            if (oBatch == null)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                oBatch = new ProductBatch();
+                var oBatch = ctx.ProductBatch.Find(this.ProductBatchId);
+                if (oBatch == null)
+                {
+                    oBatch = new EF6.ProductBatch();
+                    oBatch.BatchId = Guid.NewGuid();
+                    ctx.ProductBatch.Add(oBatch);
+                }
+                oBatch.STKCODE = txtStkCode.Text;
+                oBatch.APP1_COMBIN = cboAppendix1.Text;
+                oBatch.APP2_COMBIN = cboAppendix2.Text;
+                oBatch.APP3_COMBIN = cboAppendix3.Text;
+                oBatch.CLASS1 = general.cboClass1.Text;
+                oBatch.CLASS2 = general.cboClass2.Text;
+                oBatch.CLASS3 = general.cboClass3.Text;
+                oBatch.CLASS4 = general.cboClass4.Text;
+                oBatch.CLASS5 = general.cboClass5.Text;
+                oBatch.CLASS6 = general.cboClass6.Text;
+                oBatch.Description = general.txtProductName.Text;
+                oBatch.MAINUNIT = general.txtUnit.Text;
+                oBatch.ALTITEM = string.Empty;
+                oBatch.REMARKS = general.txtRemarks.Text;
+                oBatch.MARKUP = 0;
+                oBatch.BASPRC = (general.txtCurrentRetailPrice.Text.Length == 0) ? 0 : Convert.ToDecimal(general.txtCurrentRetailPrice.Text);
+                oBatch.WHLPRC = (general.txtWholesalesPrice.Text.Length == 0) ? 0 : Convert.ToDecimal(general.txtWholesalesPrice.Text);
+                oBatch.VCURR = general.cboVendorCurrency.Text;
+                oBatch.VPRC = (general.txtVendorPrice.Text.Length == 0) ? 0 : Convert.ToDecimal(general.txtVendorPrice.Text);
+                oBatch.NRDISC = 0;
+                oBatch.REORDLVL = (order.txtReorderLevel.Text.Length == 0) ? 0 : Convert.ToDecimal(order.txtReorderLevel.Text);
+                oBatch.REORDQTY = (order.txtReorderQuantity.Text.Length == 0) ? 0 : Convert.ToDecimal(order.txtReorderQuantity.Text);
+                oBatch.SERIALFLAG = false;
+                oBatch.NATURE = general.cboNature.Text;
+                oBatch.REMARK1 = general.txtRemarks1.Text;
+                oBatch.REMARK2 = general.txtRemarks2.Text;
+                oBatch.REMARK3 = general.txtRemarks3.Text;
+                oBatch.REMARK4 = general.txtRemarks4.Text;
+                oBatch.REMARK5 = general.txtRemarks5.Text;
+                oBatch.REMARK6 = general.txtRemarks6.Text;
+                oBatch.PHOTO = misc.txtPicFileName.Text;
+                oBatch.STK_MEMO = general.txtMemo.Text;
+                oBatch.STATUS = cboItemStatus.Text;
+                oBatch.DATEPOST = new DateTime(1900, 1, 1);
+                oBatch.DATECREATE = DateTime.Now;
+                oBatch.DATELCHG = DateTime.Now;
+                oBatch.USERLCHG = ModelEx.StaffEx.GetStaffNumberById(Common.Config.CurrentUserId);
+                oBatch.RETAILITEM = general.chkRetailItem.Checked.ToString();
+                oBatch.BINX = general.txtBin_X.Text;
+                oBatch.BINY = general.txtBin_Y.Text;
+                oBatch.BINZ = general.txtBin_Z.Text;
+                oBatch.DESC_MEMO = general.txtMemo.Text;
+                oBatch.DESC_POLE = general.txtPole.Text;
+                oBatch.OFF_DISPLAY_ITEM = general.chkOffDisplayItem.Checked.ToString();
+                oBatch.COUNTER_ITEM = general.chkCounterItem.Checked.ToString();
+                oBatch.ORIPRC = (general.txtOriginalRetailPrice.Text.Length == 0) ? 0 : Convert.ToDecimal(general.txtOriginalRetailPrice.Text);
+
+                ctx.SaveChanges();
+
+                this.ProductBatchId = oBatch.BatchId;
             }
-            oBatch.STKCODE = txtStkCode.Text;
-            oBatch.APP1_COMBIN = cboAppendix1.Text;
-            oBatch.APP2_COMBIN = cboAppendix2.Text;
-            oBatch.APP3_COMBIN = cboAppendix3.Text;
-            oBatch.CLASS1 = general.cboClass1.Text;
-            oBatch.CLASS2 = general.cboClass2.Text;
-            oBatch.CLASS3 = general.cboClass3.Text;
-            oBatch.CLASS4 = general.cboClass4.Text;
-            oBatch.CLASS5 = general.cboClass5.Text;
-            oBatch.CLASS6 = general.cboClass6.Text;
-            oBatch.Description = general.txtProductName.Text;
-            oBatch.MAINUNIT = general.txtUnit.Text;
-            oBatch.ALTITEM = string.Empty;
-            oBatch.REMARKS = general.txtRemarks.Text;
-            oBatch.MARKUP = 0;
-            oBatch.BASPRC = (general.txtCurrentRetailPrice.Text.Length == 0) ? 0 : Convert.ToDecimal(general.txtCurrentRetailPrice.Text);
-            oBatch.WHLPRC = (general.txtWholesalesPrice.Text.Length == 0) ? 0 : Convert.ToDecimal(general.txtWholesalesPrice.Text);
-            oBatch.VCURR = general.cboVendorCurrency.Text;
-            oBatch.VPRC = (general.txtVendorPrice.Text.Length == 0) ? 0 : Convert.ToDecimal(general.txtVendorPrice.Text);
-            oBatch.NRDISC = 0;
-            oBatch.REORDLVL = (order.txtReorderLevel.Text.Length == 0) ? 0 : Convert.ToDecimal(order.txtReorderLevel.Text);
-            oBatch.REORDQTY = (order.txtReorderQuantity.Text.Length == 0) ? 0 : Convert.ToDecimal(order.txtReorderQuantity.Text);
-            oBatch.SERIALFLAG = false;
-            oBatch.NATURE = general.cboNature.Text;
-            oBatch.REMARK1 = general.txtRemarks1.Text;
-            oBatch.REMARK2 = general.txtRemarks2.Text;
-            oBatch.REMARK3 = general.txtRemarks3.Text;
-            oBatch.REMARK4 = general.txtRemarks4.Text;
-            oBatch.REMARK5 = general.txtRemarks5.Text;
-            oBatch.REMARK6 = general.txtRemarks6.Text;
-            oBatch.PHOTO = misc.txtPicFileName.Text;
-            oBatch.STK_MEMO = general.txtMemo.Text;
-            oBatch.STATUS = cboItemStatus.Text;
-            oBatch.DATEPOST = new DateTime(1900, 1, 1);
-            oBatch.DATECREATE = DateTime.Now;
-            oBatch.DATELCHG = DateTime.Now;
-            oBatch.USERLCHG = ModelEx.StaffEx.GetStaffNumberById(Common.Config.CurrentUserId);
-            oBatch.RETAILITEM = general.chkRetailItem.Checked.ToString();
-            oBatch.BINX = general.txtBin_X.Text;
-            oBatch.BINY = general.txtBin_Y.Text;
-            oBatch.BINZ = general.txtBin_Z.Text;
-            oBatch.DESC_MEMO = general.txtMemo.Text;
-            oBatch.DESC_POLE = general.txtPole.Text;
-            oBatch.OFF_DISPLAY_ITEM = general.chkOffDisplayItem.Checked.ToString();
-            oBatch.COUNTER_ITEM = general.chkCounterItem.Checked.ToString();
-            oBatch.ORIPRC = (general.txtOriginalRetailPrice.Text.Length == 0) ? 0 : Convert.ToDecimal(general.txtOriginalRetailPrice.Text);
-
-            oBatch.Save();
-
-            this.ProductBatchId = oBatch.BatchId;
         }
 
         #endregion
@@ -765,46 +773,49 @@ namespace RT2020.Product
         #region Load Product Batch
         private void LoadProductBatch()
         {
-            ProductBatch oBatch = ProductBatch.Load(this.ProductBatchId);
-            if (oBatch != null)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                txtStkCode.Text = oBatch.STKCODE;
-                cboAppendix1.Text = oBatch.APP1_COMBIN;
-                cboAppendix2.Text = oBatch.APP2_COMBIN;
-                cboAppendix3.Text = oBatch.APP3_COMBIN;
-                general.cboClass1.Text = oBatch.CLASS1;
-                general.cboClass2.Text = oBatch.CLASS2;
-                general.cboClass3.Text = oBatch.CLASS3;
-                general.cboClass4.Text = oBatch.CLASS4;
-                general.cboClass5.Text = oBatch.CLASS5;
-                general.cboClass6.Text = oBatch.CLASS6;
-                general.txtProductName.Text = oBatch.Description;
-                general.txtUnit.Text = oBatch.MAINUNIT;
-                general.txtRemarks.Text = oBatch.REMARKS;
-                general.txtCurrentRetailPrice.Text = oBatch.BASPRC.ToString("n2");
-                general.txtWholesalesPrice.Text = oBatch.WHLPRC.ToString("n2");
-                general.cboVendorCurrency.Text = oBatch.VCURR;
-                general.txtVendorPrice.Text = oBatch.VPRC.ToString("n2");
-                order.txtReorderLevel.Text = oBatch.REORDLVL.ToString("n0");
-                order.txtReorderQuantity.Text = oBatch.REORDQTY.ToString("n0");
-                general.cboNature.Text = oBatch.NATURE;
-                general.txtRemarks1.Text = oBatch.REMARK1;
-                general.txtRemarks2.Text = oBatch.REMARK2;
-                general.txtRemarks3.Text = oBatch.REMARK3;
-                general.txtRemarks4.Text = oBatch.REMARK4;
-                general.txtRemarks5.Text = oBatch.REMARK5;
-                general.txtRemarks6.Text = oBatch.REMARK6;
-                misc.txtPicFileName.Text = oBatch.PHOTO;
-                cboItemStatus.Text = oBatch.STATUS;
-                general.chkRetailItem.Checked = (oBatch.RETAILITEM == "F") ? false : true;
-                general.txtBin_X.Text = oBatch.BINX;
-                general.txtBin_Y.Text = oBatch.BINY;
-                general.txtBin_Z.Text = oBatch.BINZ;
-                general.txtMemo.Text = oBatch.DESC_MEMO;
-                general.txtPole.Text = oBatch.DESC_POLE;
-                general.chkOffDisplayItem.Checked = (oBatch.OFF_DISPLAY_ITEM == "F") ? false : true;
-                general.chkCounterItem.Checked = (oBatch.COUNTER_ITEM == "F") ? false : true;
-                general.txtOriginalRetailPrice.Text = oBatch.ORIPRC.ToString("n2");
+                var oBatch = ctx.ProductBatch.Find(this.ProductBatchId);
+                if (oBatch != null)
+                {
+                    txtStkCode.Text = oBatch.STKCODE;
+                    cboAppendix1.Text = oBatch.APP1_COMBIN;
+                    cboAppendix2.Text = oBatch.APP2_COMBIN;
+                    cboAppendix3.Text = oBatch.APP3_COMBIN;
+                    general.cboClass1.Text = oBatch.CLASS1;
+                    general.cboClass2.Text = oBatch.CLASS2;
+                    general.cboClass3.Text = oBatch.CLASS3;
+                    general.cboClass4.Text = oBatch.CLASS4;
+                    general.cboClass5.Text = oBatch.CLASS5;
+                    general.cboClass6.Text = oBatch.CLASS6;
+                    general.txtProductName.Text = oBatch.Description;
+                    general.txtUnit.Text = oBatch.MAINUNIT;
+                    general.txtRemarks.Text = oBatch.REMARKS;
+                    general.txtCurrentRetailPrice.Text = oBatch.BASPRC.Value.ToString("n2");
+                    general.txtWholesalesPrice.Text = oBatch.WHLPRC.Value.ToString("n2");
+                    general.cboVendorCurrency.Text = oBatch.VCURR;
+                    general.txtVendorPrice.Text = oBatch.VPRC.Value.ToString("n2");
+                    order.txtReorderLevel.Text = oBatch.REORDLVL.Value.ToString("n0");
+                    order.txtReorderQuantity.Text = oBatch.REORDQTY.Value.ToString("n0");
+                    general.cboNature.Text = oBatch.NATURE;
+                    general.txtRemarks1.Text = oBatch.REMARK1;
+                    general.txtRemarks2.Text = oBatch.REMARK2;
+                    general.txtRemarks3.Text = oBatch.REMARK3;
+                    general.txtRemarks4.Text = oBatch.REMARK4;
+                    general.txtRemarks5.Text = oBatch.REMARK5;
+                    general.txtRemarks6.Text = oBatch.REMARK6;
+                    misc.txtPicFileName.Text = oBatch.PHOTO;
+                    cboItemStatus.Text = oBatch.STATUS;
+                    general.chkRetailItem.Checked = (oBatch.RETAILITEM == "F") ? false : true;
+                    general.txtBin_X.Text = oBatch.BINX;
+                    general.txtBin_Y.Text = oBatch.BINY;
+                    general.txtBin_Z.Text = oBatch.BINZ;
+                    general.txtMemo.Text = oBatch.DESC_MEMO;
+                    general.txtPole.Text = oBatch.DESC_POLE;
+                    general.chkOffDisplayItem.Checked = (oBatch.OFF_DISPLAY_ITEM == "F") ? false : true;
+                    general.chkCounterItem.Checked = (oBatch.COUNTER_ITEM == "F") ? false : true;
+                    general.txtOriginalRetailPrice.Text = oBatch.ORIPRC.Value.ToString("n2");
+                }
             }
         }
         #endregion
