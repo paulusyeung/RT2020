@@ -246,17 +246,20 @@ namespace RT2020.Product
 
         private void CombinA1(ListViewItem oItem, ref ListView oList)
         {
-            string sql = "DimCode = '" + oItem.SubItems[4].Text + "'";
-            ProductDim oDim = ProductDim.LoadWhere(sql);
-            if (oDim != null)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                sql = "DimensionId = '" + oDim.DimensionId.ToString() + "'";
-                ProductDim_DetailsCollection detailList = ProductDim_Details.LoadCollection(sql);
-                foreach (ProductDim_Details detail in detailList)
+                //string sql = "DimCode = '" + oItem.SubItems[4].Text + "'";
+                var oDim = ctx.ProductDim.Where(x => x.DimCode == oItem.SubItems[4].Text).FirstOrDefault();
+                if (oDim != null)
                 {
-                    if (!string.IsNullOrEmpty(detail.APPENDIX1))
+                    //sql = "DimensionId = '" + oDim.DimensionId.ToString() + "'";
+                    var detailList = ctx.ProductDim_Details.Where(x => x.DimensionId == oDim.DimensionId).ToList();
+                    foreach (var detail in detailList)
                     {
-                        CombinA2(oItem, ref oList, oItem.SubItems[0].Text, oItem.SubItems[3].Text, detail.APPENDIX1);
+                        if (!string.IsNullOrEmpty(detail.APPENDIX1))
+                        {
+                            CombinA2(oItem, ref oList, oItem.SubItems[0].Text, oItem.SubItems[3].Text, detail.APPENDIX1);
+                        }
                     }
                 }
             }
@@ -264,55 +267,61 @@ namespace RT2020.Product
 
         private void CombinA2(ListViewItem oItem, ref ListView oList, string batchId, string stk, string a1)
         {
-            string sql = "DimCode = '" + oItem.SubItems[5].Text + "'";
-            ProductDim oDim = ProductDim.LoadWhere(sql);
-            if (oDim != null)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                sql = "DimensionId = '" + oDim.DimensionId.ToString() + "'";
-                ProductDim_DetailsCollection detailList = ProductDim_Details.LoadCollection(sql);
-                foreach (ProductDim_Details detail in detailList)
+                //string sql = "DimCode = '" + oItem.SubItems[5].Text + "'";
+                var oDim = ctx.ProductDim.Where(x => x.DimCode == oItem.SubItems[4].Text).FirstOrDefault();
+                if (oDim != null)
                 {
-                    if (!string.IsNullOrEmpty(detail.APPENDIX2))
+                    //sql = "DimensionId = '" + oDim.DimensionId.ToString() + "'";
+                    var detailList = ctx.ProductDim_Details.Where(x => x.DimensionId == oDim.DimensionId).ToList();
+                    foreach (var detail in detailList)
                     {
-                        CombinA3(oItem, ref oList, batchId, stk, a1, detail.APPENDIX2);
+                        if (!string.IsNullOrEmpty(detail.APPENDIX2))
+                        {
+                            CombinA3(oItem, ref oList, batchId, stk, a1, detail.APPENDIX2);
+                        }
+                    }
+
+                    if (detailList.Count == 0)
+                    {
+                        AddToList(ref oList, batchId, stk, a1, string.Empty, string.Empty);
                     }
                 }
-
-                if (detailList.Count == 0)
+                else
                 {
                     AddToList(ref oList, batchId, stk, a1, string.Empty, string.Empty);
                 }
-            }
-            else
-            {
-                AddToList(ref oList, batchId, stk, a1, string.Empty, string.Empty);
             }
         }
 
         private void CombinA3(ListViewItem oItem, ref ListView oList, string batchId, string stk, string a1, string a2)
         {
-            string sql = "DimCode = '" + oItem.SubItems[6].Text + "'";
-            ProductDim oDim = ProductDim.LoadWhere(sql);
-            if (oDim != null)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                sql = "DimensionId = '" + oDim.DimensionId.ToString() + "'";
-                ProductDim_DetailsCollection detailList = ProductDim_Details.LoadCollection(sql);
-                foreach (ProductDim_Details detail in detailList)
+                //string sql = "DimCode = '" + oItem.SubItems[6].Text + "'";
+                var oDim = ctx.ProductDim.Where(x => x.DimCode == oItem.SubItems[4].Text).FirstOrDefault();
+                if (oDim != null)
                 {
-                    if (!string.IsNullOrEmpty(detail.APPENDIX3))
+                    //sql = "DimensionId = '" + oDim.DimensionId.ToString() + "'";
+                    var detailList = ctx.ProductDim_Details.Where(x => x.DimensionId == oDim.DimensionId).ToList();
+                    foreach (var detail in detailList)
                     {
-                        AddToList(ref oList, batchId, stk, a1, a2, detail.APPENDIX3);
+                        if (!string.IsNullOrEmpty(detail.APPENDIX3))
+                        {
+                            AddToList(ref oList, batchId, stk, a1, a2, detail.APPENDIX3);
+                        }
+                    }
+
+                    if (detailList.Count == 0)
+                    {
+                        AddToList(ref oList, batchId, stk, a1, a2, string.Empty);
                     }
                 }
-
-                if (detailList.Count == 0)
+                else
                 {
                     AddToList(ref oList, batchId, stk, a1, a2, string.Empty);
                 }
-            }
-            else
-            {
-                AddToList(ref oList, batchId, stk, a1, a2, string.Empty);
             }
         }
 
@@ -392,106 +401,6 @@ namespace RT2020.Product
             return true;
         }
 
-        #region Get IDs
-        private Guid GetNatureId(string nature)
-        {
-            System.Guid natureId = System.Guid.Empty;
-
-            string sql = "NatureCode = '" + nature + "'";
-            ProductNature oNature = ProductNature.LoadWhere(sql);
-            if (oNature != null)
-            {
-                natureId = oNature.NatureId;
-            }
-
-            return natureId;
-        }
-
-        private Guid GetClass1Id(string c1Code)
-        {
-            System.Guid c1Id = System.Guid.Empty;
-
-            string sql = "Class1Code = '" + c1Code + "'";
-            ProductClass1 oClass1 = ProductClass1.LoadWhere(sql);
-            if (oClass1 != null)
-            {
-                c1Id = oClass1.Class1Id;
-            }
-
-            return c1Id;
-        }
-
-        private Guid GetClass2Id(string c2Code)
-        {
-            System.Guid c2Id = System.Guid.Empty;
-
-            string sql = "Class2Code = '" + c2Code + "'";
-            ProductClass2 oClass2 = ProductClass2.LoadWhere(sql);
-            if (oClass2 != null)
-            {
-                c2Id = oClass2.Class2Id;
-            }
-
-            return c2Id;
-        }
-
-        private Guid GetClass3Id(string c3Code)
-        {
-            System.Guid c3Id = System.Guid.Empty;
-
-            string sql = "Class3Code = '" + c3Code + "'";
-            ProductClass3 oClass3 = ProductClass3.LoadWhere(sql);
-            if (oClass3 != null)
-            {
-                c3Id = oClass3.Class3Id;
-            }
-
-            return c3Id;
-        }
-
-        private Guid GetClass4Id(string c4Code)
-        {
-            System.Guid c4Id = System.Guid.Empty;
-
-            string sql = "Class4Code = '" + c4Code + "'";
-            ProductClass4 oClass4 = ProductClass4.LoadWhere(sql);
-            if (oClass4 != null)
-            {
-                c4Id = oClass4.Class4Id;
-            }
-
-            return c4Id;
-        }
-
-        private Guid GetClass5Id(string c5Code)
-        {
-            System.Guid c5Id = System.Guid.Empty;
-
-            string sql = "Class5Code = '" + c5Code + "'";
-            ProductClass5 oClass5 = ProductClass5.LoadWhere(sql);
-            if (oClass5 != null)
-            {
-                c5Id = oClass5.Class5Id;
-            }
-
-            return c5Id;
-        }
-
-        private Guid GetClass6Id(string c6Code)
-        {
-            System.Guid c6Id = System.Guid.Empty;
-
-            string sql = "Class6Code = '" + c6Code + "'";
-            ProductClass6 oClass6 = ProductClass6.LoadWhere(sql);
-            if (oClass6 != null)
-            {
-                c6Id = oClass6.Class6Id;
-            }
-
-            return c6Id;
-        }
-        #endregion
-
         private int CreateProducts()
         {
             int iCount = 0;
@@ -558,7 +467,7 @@ namespace RT2020.Product
 
                             oItem.NormalDiscount = oBatch.NRDISC;
                             oItem.UOM = oBatch.MAINUNIT;
-                            oItem.NatureId = GetNatureId(oBatch.NATURE);
+                            oItem.NatureId =  ModelEx.ProductNatureEx.GetIdByCode(oBatch.NATURE);
 
                             oItem.FixedPriceItem = false;
 
@@ -572,12 +481,12 @@ namespace RT2020.Product
                             SaveProductBarcode(oBatch, oItem.ProductId, prodCode);
 
                             // Appendix / Class
-                            System.Guid c1Id = GetClass1Id(oBatch.CLASS1);
-                            System.Guid c2Id = GetClass2Id(oBatch.CLASS2);
-                            System.Guid c3Id = GetClass3Id(oBatch.CLASS3);
-                            System.Guid c4Id = GetClass4Id(oBatch.CLASS4);
-                            System.Guid c5Id = GetClass5Id(oBatch.CLASS5);
-                            System.Guid c6Id = GetClass6Id(oBatch.CLASS6);
+                            System.Guid c1Id = ModelEx.ProductClass1Ex.GetClassIdByCode(oBatch.CLASS1);
+                            System.Guid c2Id = ModelEx.ProductClass2Ex.GetClassIdByCode(oBatch.CLASS2);
+                            System.Guid c3Id = ModelEx.ProductClass3Ex.GetClassIdByCode(oBatch.CLASS3);
+                            System.Guid c4Id = ModelEx.ProductClass4Ex.GetClassIdByCode(oBatch.CLASS4);
+                            System.Guid c5Id = ModelEx.ProductClass5Ex.GetClassIdByCode(oBatch.CLASS5);
+                            System.Guid c6Id = ModelEx.ProductClass6Ex.GetClassIdByCode(oBatch.CLASS6);
                             SaveProductCode(oItem.ProductId, a1Id, a2Id, a3Id, c1Id, c2Id, c3Id, c4Id, c5Id, c6Id);
 
                             // Product Price

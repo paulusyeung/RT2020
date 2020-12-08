@@ -21,6 +21,26 @@ namespace RT2020.Helper
             return result;
         }
 
+        public static bool IsServiceItem(Guid productId)
+        {
+            bool result = false;
+
+            using (var ctx = new EF6.RT2020Entities())
+            {
+                var oProd = ctx.Product.Find(productId);
+                if (oProd != null)
+                {
+                    var oNature = ctx.ProductNature.Find(oProd.NatureId);
+                    if (oNature != null)
+                    {
+                        result = (oNature.NatureCode == "S");
+                    }
+                }
+            }
+
+            return result; ;
+        }
+
         /// <summary>
         /// Product Onhand Qty 全部 Workplace
         /// </summary>

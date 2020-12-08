@@ -367,7 +367,7 @@ namespace RT2020.Inventory.GoodsReturn
                             isPostable = isPostable & false;
                         }
 
-                        if (!(!CheckServiceItem(detail.ProductId) && chkIgnoreServiceItemQtyChecking.Checked))
+                        if (!(!ProductHelper.IsServiceItem(detail.ProductId) && chkIgnoreServiceItemQtyChecking.Checked))
                         {
                             decimal cdQty = ProductHelper.GetOnHandQtyByWorkplaceId(detail.ProductId, oBatchHeader.WorkplaceId);
                             if (detail.Qty > cdQty)
@@ -406,23 +406,6 @@ namespace RT2020.Inventory.GoodsReturn
             isChecked = isChecked & (txDate.Month.ToString().PadLeft(2, '0') == RT2020.SystemInfo.CurrentInfo.Default.CurrentSystemMonth);
 
             return isChecked;
-        }
-
-        private bool CheckServiceItem(Guid productId)
-        {
-            bool isServiceItem = false;
-
-            RT2020.DAL.Product oProd = RT2020.DAL.Product.Load(productId);
-            if (oProd != null)
-            {
-                ProductNature oNature = ProductNature.Load(oProd.NatureId);
-                if (oNature != null)
-                {
-                    isServiceItem = (oNature.NatureCode == "S");
-                }
-            }
-
-            return isServiceItem;
         }
 
         private bool CheckTxDate(string dateToBeChecked)
@@ -620,59 +603,71 @@ namespace RT2020.Inventory.GoodsReturn
 
         private void CreateLedgerDetails(string txnumber, Guid subledgerHeaderId, Guid ledgerHeaderId, DateTime txDate, string shop, string staffNumber)
         {
-            string sql = "HeaderId = '" + subledgerHeaderId.ToString() + "'";
-            string[] orderBy = new string[] { "LineNumber" };
-            InvtSubLedgerCAP_DetailsCollection oSubLedgerDetails = InvtSubLedgerCAP_Details.LoadCollection(sql, orderBy, true);
-            foreach (InvtSubLedgerCAP_Details oSDetail in oSubLedgerDetails)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                InvtLedgerDetails oLedgerDetail = new InvtLedgerDetails();
-                oLedgerDetail.HeaderId = ledgerHeaderId;
-                oLedgerDetail.SubLedgerDetailsId = oSDetail.DetailsId;
-                oLedgerDetail.LineNumber = oSDetail.LineNumber;
-                oLedgerDetail.ProductId = oSDetail.ProductId;
-                oLedgerDetail.Qty = oSDetail.Qty;
-                oLedgerDetail.TxNumber = txnumber;
-                oLedgerDetail.TxType = Common.Enums.TxType.REJ.ToString();
-                oLedgerDetail.TxDate = txDate;
-                oLedgerDetail.UnitAmount = oSDetail.UnitAmount;
-                oLedgerDetail.Amount = oLedgerDetail.Qty * oLedgerDetail.UnitAmount;
-                oLedgerDetail.Notes = string.Empty;
-                oLedgerDetail.SerialNumber = string.Empty;
-                oLedgerDetail.SHOP = shop;
-                oLedgerDetail.OPERATOR = staffNumber;
-
-                // Product Info
-                RT2020.DAL.Product oItem = RT2020.DAL.Product.Load(oSDetail.ProductId);
-                if (oItem != null)
+                using (var scope = ctx.Database.BeginTransaction())
                 {
-                    oLedgerDetail.BasicPrice = oItem.RetailPrice;
-                    oLedgerDetail.Discount = oItem.NormalDiscount;
-
-                    sql = "ProductId = '" + oSDetail.ProductId.ToString() + "'";
-                    ProductCurrentSummary summary = ProductCurrentSummary.LoadWhere(sql);
-                    if (summary != null)
+                    try
                     {
-                        oLedgerDetail.AverageCost = summary.AverageCost;
+                        //string sql = "HeaderId = '" + subledgerHeaderId.ToString() + "'";
+                        //string[] orderBy = new string[] { "LineNumber" };
+                        var oSubLedgerDetails = ctx.InvtSubLedgerCAP_Details.Where(x => x.HeaderId == subledgerHeaderId).OrderBy(x => x.LineNumber);
+                        foreach (var oSDetail in oSubLedgerDetails)
+                        {
+                            InvtLedgerDetails oLedgerDetail = new InvtLedgerDetails();
+                            oLedgerDetail.HeaderId = ledgerHeaderId;
+                            oLedgerDetail.SubLedgerDetailsId = oSDetail.DetailsId;
+                            oLedgerDetail.LineNumber = oSDetail.LineNumber.Value;
+                            oLedgerDetail.ProductId = oSDetail.ProductId;
+                            oLedgerDetail.Qty = oSDetail.Qty.Value;
+                            oLedgerDetail.TxNumber = txnumber;
+                            oLedgerDetail.TxType = Common.Enums.TxType.REJ.ToString();
+                            oLedgerDetail.TxDate = txDate;
+                            oLedgerDetail.UnitAmount = oSDetail.UnitAmount.Value;
+                            oLedgerDetail.Amount = oLedgerDetail.Qty * oLedgerDetail.UnitAmount;
+                            oLedgerDetail.Notes = string.Empty;
+                            oLedgerDetail.SerialNumber = string.Empty;
+                            oLedgerDetail.SHOP = shop;
+                            oLedgerDetail.OPERATOR = staffNumber;
+
+                            // Product Info
+                            var oItem = ctx.Product.Find(oSDetail.ProductId);
+                            if (oItem != null)
+                            {
+                                oLedgerDetail.BasicPrice = oItem.RetailPrice.Value;
+                                oLedgerDetail.Discount = oItem.NormalDiscount;
+
+                                //sql = "ProductId = '" + oSDetail.ProductId.ToString() + "'";
+                                var summary = ctx.ProductCurrentSummary.Where(x => x.ProductId == oSDetail.ProductId).FirstOrDefault();
+                                if (summary != null)
+                                {
+                                    oLedgerDetail.AverageCost = summary.AverageCost;
+                                }
+
+                                var priceTypeId = ModelEx.ProductPriceTypeEx.GetIdByPriceType(Common.Enums.ProductPriceType.VPRC.ToString());
+
+                                //sql += " AND PriceTypeId = '" + priceTypeId.ToString() + "'";
+                                var oPrice = ctx.ProductPrice.Where(x => x.ProductId == oSDetail.ProductId && x.PriceTypeId == priceTypeId).FirstOrDefault();
+                                if (oPrice != null)
+                                {
+                                    oLedgerDetail.VendorRef = oPrice.CurrencyCode;
+                                }
+                            }
+
+                            var oLedgerHeader = ctx.InvtLedgerHeader.Find(ledgerHeaderId);
+                            if (oLedgerHeader != null)
+                            {
+                                oLedgerHeader.TotalAmount += oLedgerDetail.Amount;
+                            }
+
+                            ctx.SaveChanges();
+                        }
+                        scope.Commit();
                     }
-
-                    var priceTypeId = ModelEx.ProductPriceTypeEx.GetIdByPriceType(Common.Enums.ProductPriceType.VPRC.ToString());
-                    sql += " AND PriceTypeId = '" + priceTypeId.ToString() + "'";
-
-                    ProductPrice oPrice = ProductPrice.LoadWhere(sql);
-                    if (oPrice != null)
+                    catch (Exception ex)
                     {
-                        oLedgerDetail.VendorRef = oPrice.CurrencyCode;
+                        scope.Rollback();
                     }
-                }
-
-                oLedgerDetail.Save();
-
-                InvtLedgerHeader oLedgerHeader = InvtLedgerHeader.Load(ledgerHeaderId);
-                if (oLedgerHeader != null)
-                {
-                    oLedgerHeader.TotalAmount += oLedgerDetail.Amount;
-
-                    oLedgerHeader.Save();
                 }
             }
         }
@@ -693,28 +688,35 @@ namespace RT2020.Inventory.GoodsReturn
 
         private void UpdateProductSummary(Guid productId, decimal qty, decimal unitAmount)
         {
-            string sql = "ProductId = '" + productId.ToString() + "'";
-            ProductCurrentSummary oSummary = ProductCurrentSummary.LoadWhere(sql);
-            if (oSummary == null)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                oSummary = new ProductCurrentSummary();
-                oSummary.ProductId = productId;
-                oSummary.AverageCost = unitAmount;
-            }
+                string sql = "ProductId = '" + productId.ToString() + "'";
+                var oSummary = ctx.ProductCurrentSummary.Where(x => x.ProductId == productId).FirstOrDefault();
+                if (oSummary == null)
+                {
+                    oSummary = new EF6.ProductCurrentSummary();
+                    oSummary.CurrentSummaryId = Guid.NewGuid();
+                    oSummary.ProductId = productId;
+                    oSummary.AverageCost = unitAmount;
 
-            if ((oSummary.CDQTY - qty) != 0)
-            {
-                oSummary.AverageCost = (oSummary.AverageCost * oSummary.CDQTY - unitAmount * qty) / (oSummary.CDQTY - qty);
-            }
-            else
-            {
-                oSummary.AverageCost = oSummary.LastCost;
-            }
+                    ctx.ProductCurrentSummary.Add(oSummary);
+                }
 
-            oSummary.LastCost = unitAmount;
+                if ((oSummary.CDQTY - qty) != 0)
+                {
+                    oSummary.AverageCost = (oSummary.AverageCost * oSummary.CDQTY - unitAmount * qty) / (oSummary.CDQTY - qty);
+                }
+                else
+                {
+                    oSummary.AverageCost = oSummary.LastCost;
+                }
 
-            oSummary.CDQTY -= qty;
-            oSummary.Save();
+                oSummary.LastCost = unitAmount;
+
+                oSummary.CDQTY -= qty;
+
+                ctx.SaveChanges();
+            }
         }
 
         private void UpdateProductQty(Guid productId, Guid workplaceId, decimal qty)

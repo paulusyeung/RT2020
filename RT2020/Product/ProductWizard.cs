@@ -728,16 +728,22 @@ namespace RT2020.Product
 
         private void SaveProductCurrentSummary(Guid productId)
         {
-            string where = "ProductId = '" + productId.ToString() + "'";
-            ProductCurrentSummary oCurrSummary = ProductCurrentSummary.LoadWhere(where);
-            if (oCurrSummary == null)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                oCurrSummary = new ProductCurrentSummary();
-                oCurrSummary.ProductId = productId;
-                oCurrSummary.CDQTY = 0;
-                oCurrSummary.LastPurchasedOn = new DateTime(1900, 1, 1);
-                oCurrSummary.LastSoldOn = new DateTime(1900, 1, 1);
-                oCurrSummary.Save();
+                //string where = "ProductId = '" + productId.ToString() + "'";
+                var oCurrSummary = ctx.ProductCurrentSummary.Where(x => x.ProductId == productId).FirstOrDefault();
+                if (oCurrSummary == null)
+                {
+                    oCurrSummary = new EF6.ProductCurrentSummary();
+                    oCurrSummary.CurrentSummaryId = Guid.NewGuid();
+                    oCurrSummary.ProductId = productId;
+                    oCurrSummary.CDQTY = 0;
+                    oCurrSummary.LastPurchasedOn = new DateTime(1900, 1, 1);
+                    oCurrSummary.LastSoldOn = new DateTime(1900, 1, 1);
+
+                    ctx.ProductCurrentSummary.Add(oCurrSummary);
+                    ctx.SaveChanges();
+                }
             }
         }
 
@@ -750,20 +756,25 @@ namespace RT2020.Product
                 stkcode = oItem.STKCODE.Remove(10);
             }
 
-            string barcode = stkcode + oItem.APPENDIX1 + oItem.APPENDIX2 + oItem.APPENDIX3;
-            string sql = "ProductId = '" + oItem.ProductId.ToString() + "' AND Barcode = '" + barcode + "'";
-            ProductBarcode oBarcode = ProductBarcode.LoadWhere(sql);
-            if (oBarcode == null)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                oBarcode = new ProductBarcode();
-                oBarcode.ProductId = oItem.ProductId;
-                oBarcode.Barcode = barcode;
-                oBarcode.BarcodeType = "INTER";
-                oBarcode.PrimaryBarcode = true;
-                oBarcode.DownloadToPOS = general.chkRetailItem.Checked;
-                oBarcode.DownloadToCounter = general.chkCounterItem.Checked;
+                string barcode = stkcode + oItem.APPENDIX1 + oItem.APPENDIX2 + oItem.APPENDIX3;
+                //string sql = "ProductId = '" + oItem.ProductId.ToString() + "' AND Barcode = '" + barcode + "'";
+                var oBarcode = ctx.ProductBarcode.Where(x => x.ProductId == oItem.ProductId && x.Barcode == barcode).FirstOrDefault();
+                if (oBarcode == null)
+                {
+                    oBarcode = new EF6.ProductBarcode();
+                    oBarcode.ProductBarcodeId = Guid.NewGuid();
+                    oBarcode.ProductId = oItem.ProductId;
+                    oBarcode.Barcode = barcode;
+                    oBarcode.BarcodeType = "INTER";
+                    oBarcode.PrimaryBarcode = true;
+                    oBarcode.DownloadToPOS = general.chkRetailItem.Checked;
+                    oBarcode.DownloadToCounter = general.chkCounterItem.Checked;
 
-                oBarcode.Save();
+                    ctx.ProductBarcode.Add(oBarcode);
+                    ctx.SaveChanges();
+                }
             }
         }
 
@@ -802,24 +813,30 @@ namespace RT2020.Product
 
         private void SaveProductCode(Guid productId, Guid a1Id, Guid a2Id, Guid a3Id, Guid c1Id, Guid c2Id, Guid c3Id, Guid c4Id, Guid c5Id, Guid c6Id)
         {
-            string sql = "ProductId = '" + productId.ToString() + "'";
-            ProductCode oCode = ProductCode.LoadWhere(sql);
-            if (oCode == null)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                oCode = new ProductCode();
+                string sql = "ProductId = '" + productId.ToString() + "'";
+                var oCode = ctx.ProductCode.Where(x => x.ProductId == productId).FirstOrDefault();
+                if (oCode == null)
+                {
+                    oCode = new EF6.ProductCode();
+                    oCode.CodeId = Guid.NewGuid();
+                    oCode.ProductId = productId;
+                    oCode.Appendix1Id = a1Id;
+                    oCode.Appendix2Id = a2Id;
+                    oCode.Appendix3Id = a3Id;
 
-                oCode.ProductId = productId;
-                oCode.Appendix1Id = a1Id;
-                oCode.Appendix2Id = a2Id;
-                oCode.Appendix3Id = a3Id;
+                    ctx.ProductCode.Add(oCode);
+                }
+                oCode.Class1Id = c1Id;
+                oCode.Class2Id = c2Id;
+                oCode.Class3Id = c3Id;
+                oCode.Class4Id = c4Id;
+                oCode.Class5Id = c5Id;
+                oCode.Class6Id = c6Id;
+
+                ctx.SaveChanges();
             }
-            oCode.Class1Id = c1Id;
-            oCode.Class2Id = c2Id;
-            oCode.Class3Id = c3Id;
-            oCode.Class4Id = c4Id;
-            oCode.Class5Id = c5Id;
-            oCode.Class6Id = c6Id;
-            oCode.Save();
         }
 
         private void SaveProductSupplement(Guid productId)

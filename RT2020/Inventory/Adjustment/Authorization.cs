@@ -591,68 +591,69 @@ namespace RT2020.Inventory.Adjustment
 
         private void CreateLedgerDetails(string txnumber, Guid subledgerHeaderId, Guid ledgerHeaderId, InvtBatchADJ_Header oBatchHeader)
         {
-            string sql = "HeaderId = '" + subledgerHeaderId.ToString() + "'";
-            string[] orderBy = new string[] { "LineNumber" };
-            InvtSubLedgerADJ_DetailsCollection oSubLedgerDetails = InvtSubLedgerADJ_Details.LoadCollection(sql, orderBy, true);
-            foreach (InvtSubLedgerADJ_Details oSDetail in oSubLedgerDetails)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                InvtLedgerDetails oLedgerDetail = new InvtLedgerDetails();
-                oLedgerDetail.HeaderId = ledgerHeaderId;
-                oLedgerDetail.SubLedgerDetailsId = oSDetail.DetailsId;
-                oLedgerDetail.LineNumber = oSDetail.LineNumber;
-                oLedgerDetail.ProductId = oSDetail.ProductId;
-                oLedgerDetail.Qty = oSDetail.Qty;
-                oLedgerDetail.TxNumber = txnumber;
-                oLedgerDetail.TxType = Common.Enums.TxType.ADJ.ToString();
-                oLedgerDetail.TxDate = oBatchHeader.TxDate;
-                oLedgerDetail.Amount = oLedgerDetail.Qty * oLedgerDetail.AverageCost;
-                oLedgerDetail.Notes = string.Empty;
-                oLedgerDetail.SerialNumber = string.Empty;
-                oLedgerDetail.SHOP = ModelEx.WorkplaceEx.GetWorkplaceCodeById(oBatchHeader.WorkplaceId);
-                oLedgerDetail.OPERATOR = ModelEx.StaffEx.GetStaffNumberById(oBatchHeader.StaffId);
-
-                // Product Info
-                RT2020.DAL.Product oItem = RT2020.DAL.Product.Load(oSDetail.ProductId);
-                if (oItem != null)
+                using (var scope = ctx.Database.BeginTransaction())
                 {
-                    oLedgerDetail.BasicPrice = oItem.RetailPrice;
-                    oLedgerDetail.UnitAmount = this.GetAverageCost(oItem.ProductId);
-                    oLedgerDetail.Discount = oItem.NormalDiscount;
-                    oLedgerDetail.Amount = oLedgerDetail.UnitAmount * oLedgerDetail.Qty;
-                    oLedgerDetail.AverageCost = this.GetAverageCost(oItem.ProductId);
-
-                    var priceTypeId = ModelEx.ProductPriceTypeEx.GetIdByPriceType(Common.Enums.ProductPriceType.VPRC.ToString());
-                    sql = "ProductId = '" + oSDetail.ProductId.ToString() + "' AND PriceTypeId = '" + priceTypeId.ToString() + "'";
-
-                    ProductPrice oPrice = ProductPrice.LoadWhere(sql);
-                    if (oPrice != null)
+                    try
                     {
-                        oLedgerDetail.VendorRef = oPrice.CurrencyCode;
+                        //string sql = "HeaderId = '" + subledgerHeaderId.ToString() + "'";
+                        //string[] orderBy = new string[] { "LineNumber" };
+
+                        var oSubLedgerDetails = ctx.InvtSubLedgerADJ_Details.Where(x => x.HeaderId == subledgerHeaderId).OrderBy(x => x.LineNumber);
+                        foreach (var oSDetail in oSubLedgerDetails)
+                        {
+                            InvtLedgerDetails oLedgerDetail = new InvtLedgerDetails();
+                            oLedgerDetail.HeaderId = ledgerHeaderId;
+                            oLedgerDetail.SubLedgerDetailsId = oSDetail.DetailsId;
+                            oLedgerDetail.LineNumber = oSDetail.LineNumber.Value;
+                            oLedgerDetail.ProductId = oSDetail.ProductId;
+                            oLedgerDetail.Qty = oSDetail.Qty.Value;
+                            oLedgerDetail.TxNumber = txnumber;
+                            oLedgerDetail.TxType = Common.Enums.TxType.ADJ.ToString();
+                            oLedgerDetail.TxDate = oBatchHeader.TxDate;
+                            oLedgerDetail.Amount = oLedgerDetail.Qty * oLedgerDetail.AverageCost;
+                            oLedgerDetail.Notes = string.Empty;
+                            oLedgerDetail.SerialNumber = string.Empty;
+                            oLedgerDetail.SHOP = ModelEx.WorkplaceEx.GetWorkplaceCodeById(oBatchHeader.WorkplaceId);
+                            oLedgerDetail.OPERATOR = ModelEx.StaffEx.GetStaffNumberById(oBatchHeader.StaffId);
+
+                            // Product Info
+                            var oItem = ctx.Product.Find(oSDetail.ProductId);
+                            if (oItem != null)
+                            {
+                                oLedgerDetail.BasicPrice = oItem.RetailPrice.Value;
+                                oLedgerDetail.UnitAmount = ModelEx.ProductCurrentSummaryEx.GetAverageCode(oItem.ProductId);
+                                oLedgerDetail.Discount = oItem.NormalDiscount;
+                                oLedgerDetail.Amount = oLedgerDetail.UnitAmount * oLedgerDetail.Qty;
+                                oLedgerDetail.AverageCost = ModelEx.ProductCurrentSummaryEx.GetAverageCode(oItem.ProductId);
+
+                                var priceTypeId = ModelEx.ProductPriceTypeEx.GetIdByPriceType(Common.Enums.ProductPriceType.VPRC.ToString());
+                                //sql = "ProductId = '" + oSDetail.ProductId.ToString() + "' AND PriceTypeId = '" + priceTypeId.ToString() + "'";
+
+                                var oPrice = ctx.ProductPrice.Where(x => x.ProductId == oSDetail.ProductId && x.PriceTypeId == priceTypeId).FirstOrDefault();
+                                if (oPrice != null)
+                                {
+                                    oLedgerDetail.VendorRef = oPrice.CurrencyCode;
+                                }
+                            }
+
+                            InvtLedgerHeader oLedgerHeader = InvtLedgerHeader.Load(ledgerHeaderId);
+                            if (oLedgerHeader != null)
+                            {
+                                oLedgerHeader.TotalAmount += oLedgerDetail.Amount;
+                            }
+
+                            ctx.SaveChanges();
+                        }
+                        scope.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        scope.Rollback();
                     }
                 }
-
-                oLedgerDetail.Save();
-
-                InvtLedgerHeader oLedgerHeader = InvtLedgerHeader.Load(ledgerHeaderId);
-                if (oLedgerHeader != null)
-                {
-                    oLedgerHeader.TotalAmount += oLedgerDetail.Amount;
-
-                    oLedgerHeader.Save();
-                }
             }
-        }
-
-        private decimal GetAverageCost(Guid productId)
-        {
-            string sql = "ProductId = '" + productId.ToString() + "'";
-            ProductCurrentSummary oSummary = ProductCurrentSummary.LoadWhere(sql);
-            if (oSummary != null)
-            {
-                return oSummary.AverageCost;
-            }
-
-            return 0;
         }
         #endregion
 

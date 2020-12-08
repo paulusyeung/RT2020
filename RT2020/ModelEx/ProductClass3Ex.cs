@@ -10,6 +10,19 @@ namespace RT2020.ModelEx
 {
     public class ProductClass3Ex
     {
+        public static Guid GetClassIdByCode(string code)
+        {
+            Guid result = Guid.Empty;
+
+            using (var ctx = new EF6.RT2020Entities())
+            {
+                var item = ctx.ProductClass3.Where(x => x.Class3Code == code).FirstOrDefault();
+                if (item != null) result = item.Class3Id;
+            }
+
+            return result;
+        }
+
         public static bool IsClassCodeInUse(string code)
         {
             bool result = false;

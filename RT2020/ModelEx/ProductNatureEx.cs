@@ -23,6 +23,19 @@ namespace RT2020.ModelEx
             return result;
         }
 
+        public static Guid GetIdByCode(string code)
+        {
+            Guid result = Guid.Empty;
+
+            using (var ctx = new EF6.RT2020Entities())
+            {
+                var item = ctx.ProductNature.Where(x => x.NatureCode == code).FirstOrDefault();
+                if (item != null) result = item.NatureId;
+            }
+
+            return result;
+        }
+
         #region LoadCombo
 
         public static void LoadCombo(ref ComboBox ddList, string TextField, bool SwitchLocale)
