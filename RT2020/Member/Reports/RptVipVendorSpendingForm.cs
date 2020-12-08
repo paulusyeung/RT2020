@@ -124,20 +124,23 @@ namespace RT2020.Member.Reports
 
         private void FillClass1List()
         {
-            ProductClass1Collection Class1List = RT2020.DAL.ProductClass1.LoadCollection(new string[] { "Class1Code" }, true);
-            foreach (RT2020.DAL.ProductClass1 Class1 in Class1List)
+            using (var ctx = new RT2020.EF6.RT2020Entities())
             {
-                ListViewItem listItem = lvVendorList.Items.Add(Class1.Class1Id.ToString());
-                if (Class1.Class1Code.Length >= 3)
+                var Class1List = ctx.ProductClass1.OrderBy(x => x.Class1Code).AsNoTracking().ToList();
+                foreach (var Class1 in Class1List)
                 {
-                    listItem.SubItems.Add(Class1.Class1Code.Substring(0, 3));
-                }
-                else if (Class1.Class1Code.Length > 0 && Class1.Class1Code.Length < 3)
-                {
-                    listItem.SubItems.Add(Class1.Class1Code);
-                }
+                    ListViewItem listItem = lvVendorList.Items.Add(Class1.Class1Id.ToString());
+                    if (Class1.Class1Code.Length >= 3)
+                    {
+                        listItem.SubItems.Add(Class1.Class1Code.Substring(0, 3));
+                    }
+                    else if (Class1.Class1Code.Length > 0 && Class1.Class1Code.Length < 3)
+                    {
+                        listItem.SubItems.Add(Class1.Class1Code);
+                    }
 
-                listItem.SubItems.Add(string.Empty);
+                    listItem.SubItems.Add(string.Empty);
+                }
             }
         }
 

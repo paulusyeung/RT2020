@@ -169,28 +169,44 @@ namespace RT2020.Product
                         wizAppendix3.ShowDialog();
                         break;
                     case "product_class1":
-                        ProductClassWizard wizClass1 = new ProductClassWizard(typeof(ProductClass1));
+                        //ProductClassWizard wizClass1 = new ProductClassWizard(typeof(ProductClass1));
+                        ProductClassWizard wizClass1 = new ProductClassWizard();
+                        wizClass1.ClassMode = ProductHelper.Classes.Class1;
+                        wizClass1.EditMode = CommonHelper.EditMode.Add;
                         wizClass1.ShowDialog();
                         break;
                     case "product_class2":
-                        ProductClassWizard wizClass2 = new ProductClassWizard(typeof(ProductClass2));
+                        //ProductClassWizard wizClass2 = new ProductClassWizard(typeof(ProductClass2));
+                        ProductClassWizard wizClass2 = new ProductClassWizard();
+                        wizClass2.ClassMode = ProductHelper.Classes.Class2;
+                        wizClass2.EditMode = CommonHelper.EditMode.Add;
                         wizClass2.ShowDialog();
                         break;
                     case "product_class3":
-                        ProductClassWizard wizClass3 = new ProductClassWizard(typeof(ProductClass3));
+                        //ProductClassWizard wizClass3 = new ProductClassWizard(typeof(ProductClass3));
+                        ProductClassWizard wizClass3 = new ProductClassWizard();
+                        wizClass3.ClassMode = ProductHelper.Classes.Class3;
+                        wizClass3.EditMode = CommonHelper.EditMode.Add;
                         wizClass3.ShowDialog();
                         break;
                     case "product_class4":
-                        ProductClassWizard wizClass4 = new ProductClassWizard(typeof(ProductClass4));
+                        //ProductClassWizard wizClass4 = new ProductClassWizard(typeof(ProductClass4));
+                        ProductClassWizard wizClass4 = new ProductClassWizard();
+                        wizClass4.ClassMode = ProductHelper.Classes.Class4;
+                        wizClass4.EditMode = CommonHelper.EditMode.Add;
                         wizClass4.ShowDialog();
                         break;
                     case "product_class5":
-                        ProductClassWizard wizClass5 = new ProductClassWizard(typeof(ProductClass5));
+                        //ProductClassWizard wizClass5 = new ProductClassWizard(typeof(ProductClass5));
+                        ProductClassWizard wizClass5 = new ProductClassWizard();
+                        wizClass5.ClassMode = ProductHelper.Classes.Class5;
+                        wizClass5.EditMode = CommonHelper.EditMode.Add;
                         wizClass5.ShowDialog();
                         break;
                     case "product_class6":
                         //ProductClassWizard wizClass6 = new ProductClassWizard(typeof(ProductClass6));
                         ProductClassWizard wizClass6 = new ProductClassWizard();
+                        wizClass6.ClassMode = ProductHelper.Classes.Class6;
                         wizClass6.EditMode = CommonHelper.EditMode.Add;
                         wizClass6.ShowDialog();
                         break;

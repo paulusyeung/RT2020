@@ -170,11 +170,6 @@
     <Compile Include="ProductApply.cs" />
     <Compile Include="ProductBarcode.cs" />
     <Compile Include="ProductBatch.cs" />
-    <Compile Include="ProductClass1.cs" />
-    <Compile Include="ProductClass2.cs" />
-    <Compile Include="ProductClass3.cs" />
-    <Compile Include="ProductClass4.cs" />
-    <Compile Include="ProductClass5.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SqlHelper.cs" />
   </ItemGroup>
