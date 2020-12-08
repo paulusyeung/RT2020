@@ -189,7 +189,9 @@ namespace RT2020.Product
                         wizClass5.ShowDialog();
                         break;
                     case "product_class6":
-                        ProductClassWizard wizClass6 = new ProductClassWizard(typeof(ProductClass6));
+                        //ProductClassWizard wizClass6 = new ProductClassWizard(typeof(ProductClass6));
+                        ProductClassWizard wizClass6 = new ProductClassWizard();
+                        wizClass6.EditMode = CommonHelper.EditMode.Add;
                         wizClass6.ShowDialog();
                         break;
                     case "combination":

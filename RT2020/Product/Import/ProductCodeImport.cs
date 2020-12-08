@@ -406,49 +406,55 @@ namespace RT2020.Product.Import
             }
 
             // Class1
-            sql = "Class1Code = '" + Utility.VerifyQuotes(row[colClass1].ToString().Trim()) + "'";
-            ProductClass1 oCls1 = ProductClass1.LoadWhere(sql);
-            if (oCls1 != null)
+            //sql = "Class1Code = '" + Utility.VerifyQuotes(row[colClass1].ToString().Trim()) + "'";
+            //ProductClass1 oCls1 = ProductClass1.LoadWhere(sql);
+            //if (oCls1 != null)
+            if (ModelEx.ProductClass1Ex.IsClassCodeInUse(Utility.VerifyQuotes(row[colClass1].ToString().Trim())))
             {
                 verifiedResult.Append(colClass1).Append(";");
             }
 
             // Class2
-            sql = "Class2Code = '" + Utility.VerifyQuotes(row[colClass2].ToString().Trim()) + "'";
-            ProductClass2 oCls2 = ProductClass2.LoadWhere(sql);
-            if (oCls2 != null)
+            //sql = "Class2Code = '" + Utility.VerifyQuotes(row[colClass2].ToString().Trim()) + "'";
+            //ProductClass2 oCls2 = ProductClass2.LoadWhere(sql);
+            //if (oCls2 != null)
+            if (ModelEx.ProductClass2Ex.IsClassCodeInUse(Utility.VerifyQuotes(row[colClass2].ToString().Trim())))
             {
                 verifiedResult.Append(colClass2).Append(";");
             }
 
             // Class3
-            sql = "Class3Code = '" + Utility.VerifyQuotes(row[colClass3].ToString().Trim()) + "'";
-            ProductClass3 oCls3 = ProductClass3.LoadWhere(sql);
-            if (oCls3 != null)
+            //sql = "Class3Code = '" + Utility.VerifyQuotes(row[colClass3].ToString().Trim()) + "'";
+            //ProductClass3 oCls3 = ProductClass3.LoadWhere(sql);
+            //if (oCls3 != null)
+            if (ModelEx.ProductClass3Ex.IsClassCodeInUse(Utility.VerifyQuotes(row[colClass3].ToString().Trim())))
             {
                 verifiedResult.Append(colClass3).Append(";");
             }
 
             // Class4
-            sql = "Class4Code = '" + Utility.VerifyQuotes(row[colClass4].ToString().Trim()) + "'";
-            ProductClass4 oCls4 = ProductClass4.LoadWhere(sql);
-            if (oCls4 != null)
+            //sql = "Class4Code = '" + Utility.VerifyQuotes(row[colClass4].ToString().Trim()) + "'";
+            //ProductClass4 oCls4 = ProductClass4.LoadWhere(sql);
+            //if (oCls4 != null)
+            if (ModelEx.ProductClass4Ex.IsClassCodeInUse(Utility.VerifyQuotes(row[colClass4].ToString().Trim())))
             {
                 verifiedResult.Append(colClass4).Append(";");
             }
 
             // Class5
-            sql = "Class5Code = '" + Utility.VerifyQuotes(row[colClass5].ToString().Trim()) + "'";
-            ProductClass5 oCls5 = ProductClass5.LoadWhere(sql);
-            if (oCls5 != null)
+            //sql = "Class5Code = '" + Utility.VerifyQuotes(row[colClass5].ToString().Trim()) + "'";
+            //ProductClass5 oCls5 = ProductClass5.LoadWhere(sql);
+            //if (oCls5 != null)
+            if (ModelEx.ProductClass5Ex.IsClassCodeInUse(Utility.VerifyQuotes(row[colClass5].ToString().Trim())))
             {
                 verifiedResult.Append(colClass5).Append(";");
             }
 
             // Class6
-            sql = "Class6Code = '" + Utility.VerifyQuotes(row[colClass6].ToString().Trim()) + "'";
-            ProductClass6 oCls6 = ProductClass6.LoadWhere(sql);
-            if (oCls6 != null)
+            //sql = "Class6Code = '" + Utility.VerifyQuotes(row[colClass6].ToString().Trim()) + "'";
+            //ProductClass6 oCls6 = ProductClass6.LoadWhere(sql);
+            //if (oCls6 != null)
+            if (ModelEx.ProductClass6Ex.IsClassCodeInUse(Utility.VerifyQuotes(row[colClass6].ToString().Trim())))
             {
                 verifiedResult.Append(colClass6).Append(";");
             }
@@ -599,140 +605,188 @@ namespace RT2020.Product.Import
 
         private Guid ImportClass1(string class1Value)
         {
-            string sql = "Class1Code = '" + class1Value + "'";
-            ProductClass1 oC1 = ProductClass1.LoadWhere(sql);
-            if (oC1 == null)
+            Guid result = Guid.Empty;
+
+            using (var ctx = new EF6.RT2020Entities())
             {
-                oC1 = new ProductClass1();
+                //string sql = "Class1Code = '" + class1Value + "'";
+                var oC1 = ctx.ProductClass1.Where(x => x.Class1Code == class1Value).FirstOrDefault();
+                if (oC1 == null)
+                {
+                    oC1 = new EF6.ProductClass1();
+                    oC1.Class1Id = Guid.NewGuid();
+                    oC1.Class1Code = class1Value;
+                    oC1.Class1Initial = class1Value;
 
-                oC1.Class1Code = class1Value;
-                oC1.Class1Initial = class1Value;
+                    oC1.CreatedBy = Common.Config.CurrentUserId;
+                    oC1.CreatedOn = DateTime.Now;
 
-                oC1.CreatedBy = Common.Config.CurrentUserId;
-                oC1.CreatedOn = DateTime.Now;
+                    ctx.ProductClass1.Add(oC1);
+                }
+
+                oC1.ModifiedBy = Common.Config.CurrentUserId;
+                oC1.ModifiedOn = DateTime.Now;
+
+                ctx.SaveChanges();
+                result = oC1.Class1Id;
             }
 
-            oC1.ModifiedBy = Common.Config.CurrentUserId;
-            oC1.ModifiedOn = DateTime.Now;
-
-            oC1.Save();
-
-            return oC1.Class1Id;
+            return result;
         }
 
         private Guid ImportClass2(string class2Value)
         {
-            string sql = "Class2Code = '" + class2Value +"'";
-            ProductClass2 oC2 = ProductClass2.LoadWhere(sql);
-            if (oC2 == null)
+            Guid result = Guid.Empty;
+
+            using (var ctx = new EF6.RT2020Entities())
             {
-                oC2 = new ProductClass2();
+                //string sql = "Class2Code = '" + class2Value +"'";
+                var oC2 = ctx.ProductClass2.Where(x => x.Class2Code == class2Value).FirstOrDefault();
+                if (oC2 == null)
+                {
+                    oC2 = new EF6.ProductClass2();
+                    oC2.Class2Id = Guid.NewGuid();
+                    oC2.Class2Code = class2Value;
+                    oC2.Class2Initial = class2Value;
 
-                oC2.Class2Code = class2Value;
-                oC2.Class2Initial = class2Value;
+                    oC2.CreatedBy = Common.Config.CurrentUserId;
+                    oC2.CreatedOn = DateTime.Now;
 
-                oC2.CreatedBy = Common.Config.CurrentUserId;
-                oC2.CreatedOn = DateTime.Now;
+                    ctx.ProductClass2.Add(oC2);
+                }
+
+                oC2.ModifiedBy = Common.Config.CurrentUserId;
+                oC2.ModifiedOn = DateTime.Now;
+
+                ctx.SaveChanges();
+                result = oC2.Class2Id;
             }
 
-            oC2.ModifiedBy = Common.Config.CurrentUserId;
-            oC2.ModifiedOn = DateTime.Now;
-
-            oC2.Save();
-
-            return oC2.Class2Id;
+            return result;
         }
 
         private Guid ImportClass3(string class3Value)
         {
-            string sql = "Class3Code = '" + class3Value +"'";
-            ProductClass3 oC3 = ProductClass3.LoadWhere(sql);
-            if (oC3 == null)
+            Guid result = Guid.Empty;
+
+            using (var ctx = new EF6.RT2020Entities())
             {
-                oC3 = new ProductClass3();
+                //string sql = "Class3Code = '" + class3Value +"'";
+                var oC3 = ctx.ProductClass3.Where(x => x.Class3Code == class3Value).FirstOrDefault();
+                if (oC3 == null)
+                {
+                    oC3 = new EF6.ProductClass3();
+                    oC3.Class3Id = Guid.NewGuid();
+                    oC3.Class3Code = class3Value;
+                    oC3.Class3Initial = class3Value;
 
-                oC3.Class3Code = class3Value;
-                oC3.Class3Initial = class3Value;
+                    oC3.CreatedBy = Common.Config.CurrentUserId;
+                    oC3.CreatedOn = DateTime.Now;
 
-                oC3.CreatedBy = Common.Config.CurrentUserId;
-                oC3.CreatedOn = DateTime.Now;
+                    ctx.ProductClass3.Add(oC3);
+                }
+
+                oC3.ModifiedBy = Common.Config.CurrentUserId;
+                oC3.ModifiedOn = DateTime.Now;
+
+                ctx.SaveChanges();
+                result = oC3.Class3Id;
             }
 
-            oC3.ModifiedBy = Common.Config.CurrentUserId;
-            oC3.ModifiedOn = DateTime.Now;
-
-            oC3.Save();
-
-            return oC3.Class3Id;
+            return result;
         }
 
         private Guid ImportClass4(string class4Value)
         {
-            string sql = "Class4Code = '" + class4Value + "'";
-            ProductClass4 oC4 = ProductClass4.LoadWhere(sql);
-            if (oC4 == null)
+            Guid result = Guid.Empty;
+
+            using (var ctx = new EF6.RT2020Entities())
             {
-                oC4 = new ProductClass4();
+                //string sql = "Class4Code = '" + class4Value + "'";
+                var oC4 = ctx.ProductClass4.Where(x => x.Class4Code == class4Value).FirstOrDefault();
+                if (oC4 == null)
+                {
+                    oC4 = new EF6.ProductClass4();
+                    oC4.Class4Id = Guid.NewGuid();
+                    oC4.Class4Code = class4Value;
+                    oC4.Class4Initial = class4Value;
 
-                oC4.Class4Code = class4Value;
-                oC4.Class4Initial = class4Value;
+                    oC4.CreatedBy = Common.Config.CurrentUserId;
+                    oC4.CreatedOn = DateTime.Now;
 
-                oC4.CreatedBy = Common.Config.CurrentUserId;
-                oC4.CreatedOn = DateTime.Now;
+                    ctx.ProductClass4.Add(oC4);
+                }
+
+                oC4.ModifiedBy = Common.Config.CurrentUserId;
+                oC4.ModifiedOn = DateTime.Now;
+
+                ctx.SaveChanges();
+                result = oC4.Class4Id;
             }
 
-            oC4.ModifiedBy = Common.Config.CurrentUserId;
-            oC4.ModifiedOn = DateTime.Now;
-
-            oC4.Save();
-
-            return oC4.Class4Id;
+            return result;
         }
 
         private Guid ImportClass5(string class5Value)
         {
-            string sql = "Class5Code = '" + class5Value + "'";
-            ProductClass5 oC5 = ProductClass5.LoadWhere(sql);
-            if (oC5 == null)
+            Guid result = Guid.Empty;
+
+            using (var ctx = new EF6.RT2020Entities())
             {
-                oC5 = new ProductClass5();
+                //string sql = "Class5Code = '" + class5Value + "'";
+                var oC5 = ctx.ProductClass5.Where(x => x.Class5Code == class5Value).FirstOrDefault();
+                if (oC5 == null)
+                {
+                    oC5 = new EF6.ProductClass5();
+                    oC5.Class5Id = Guid.NewGuid();
+                    oC5.Class5Code = class5Value;
+                    oC5.Class5Initial = class5Value;
 
-                oC5.Class5Code = class5Value;
-                oC5.Class5Initial = class5Value;
+                    oC5.CreatedBy = Common.Config.CurrentUserId;
+                    oC5.CreatedOn = DateTime.Now;
 
-                oC5.CreatedBy = Common.Config.CurrentUserId;
-                oC5.CreatedOn = DateTime.Now;
+                    ctx.ProductClass5.Add(oC5);
+                }
+
+                oC5.ModifiedBy = Common.Config.CurrentUserId;
+                oC5.ModifiedOn = DateTime.Now;
+
+                ctx.SaveChanges();
+                result = oC5.Class5Id;
             }
 
-            oC5.ModifiedBy = Common.Config.CurrentUserId;
-            oC5.ModifiedOn = DateTime.Now;
-
-            oC5.Save();
-
-            return oC5.Class5Id;
+            return result;
         }
 
         private Guid ImportClass6(string class6Value)
         {
-            string sql = "Class6Code = '" + class6Value + "'";
-            ProductClass6 oC6 = ProductClass6.LoadWhere(sql);
-            if (oC6 == null)
+            Guid result = Guid.Empty;
+
+            using (var ctx = new EF6.RT2020Entities())
             {
-                oC6 = new ProductClass6();
+                //string sql = "Class6Code = '" + class6Value + "'";
+                var oC6 = ctx.ProductClass6.Where(x => x.Class6Code == class6Value).FirstOrDefault();
+                if (oC6 == null)
+                {
+                    oC6 = new EF6.ProductClass6();
+                    oC6.Class6Id = Guid.NewGuid();
+                    oC6.Class6Code = class6Value;
+                    oC6.Class6Initial = class6Value;
 
-                oC6.Class6Code = class6Value;
-                oC6.Class6Initial = class6Value;
+                    oC6.CreatedBy = Common.Config.CurrentUserId;
+                    oC6.CreatedOn = DateTime.Now;
 
-                oC6.CreatedBy = Common.Config.CurrentUserId;
-                oC6.CreatedOn = DateTime.Now;
+                    ctx.ProductClass6.Add(oC6);
+                }
+
+                oC6.ModifiedBy = Common.Config.CurrentUserId;
+                oC6.ModifiedOn = DateTime.Now;
+
+                ctx.SaveChanges();
+                result = oC6.Class6Id;
             }
 
-            oC6.ModifiedBy = Common.Config.CurrentUserId;
-            oC6.ModifiedOn = DateTime.Now;
-
-            oC6.Save();
-
-            return oC6.Class6Id;
+            return result;
         }
         #endregion
 

@@ -849,6 +849,7 @@
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Helper\BotHelper.cs" />
     <Compile Include="Helper\ComboBoxHelper.cs" />
+    <Compile Include="Helper\CommonHelper.cs" />
     <Compile Include="Helper\CookieHelper.cs" />
     <Compile Include="Helper\GenData\ChinaData.cs" />
     <Compile Include="Helper\GenData\TaiwanData.cs" />
@@ -1626,9 +1627,15 @@
     <Compile Include="MenuStrip\SettingsAms.cs" />
     <Compile Include="MenuStrip\ToolsAms.cs" />
     <Compile Include="MenuStrip\ViewAms.cs" />
+    <Compile Include="ModelEx\ProductClass5Ex.cs" />
+    <Compile Include="ModelEx\ProductClass4Ex.cs" />
+    <Compile Include="ModelEx\ProductClass3Ex.cs" />
+    <Compile Include="ModelEx\ProductClass2Ex.cs" />
+    <Compile Include="ModelEx\ProductClass1Ex.cs" />
     <Compile Include="ModelEx\ProductCurrentSummaryEx.cs" />
     <Compile Include="ModelEx\ProductDimEx.cs" />
     <Compile Include="ModelEx\ProductDim_DetailsEx.cs" />
+    <Compile Include="ModelEx\ProductClass6Ex.cs" />
     <Compile Include="ModelEx\ProductNatureEx.cs" />
     <Compile Include="ModelEx\ProductPriceEx.cs" />
     <Compile Include="ModelEx\ProductPriceTypeEx.cs" />

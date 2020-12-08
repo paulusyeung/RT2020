@@ -124,5 +124,16 @@ namespace RT2020.Helper
 
             return result;
         }
+
+        public enum Classes
+        {
+            None,
+            Class1,
+            Class2,
+            Class3,
+            Class4,
+            Class5,
+            Class6
+        }
     }
 }

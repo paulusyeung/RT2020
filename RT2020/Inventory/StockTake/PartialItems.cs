@@ -125,6 +125,8 @@ namespace RT2020.Inventory.StockTake
 
         private void FillFromClass1List()
         {
+            ModelEx.ProductClass1Ex.LoadCombo(ref cboClass1_From, "Class1Code", false, true, "", "");
+            /**
             cboClass1_From.Items.Clear();
 
             string[] orderBy = new string[] { "Class1Code" };
@@ -133,11 +135,14 @@ namespace RT2020.Inventory.StockTake
             cboClass1_From.DataSource = prodCls1List;
             cboClass1_From.DisplayMember = "Class1Code";
             cboClass1_From.ValueMember = "Class1Id";
-            cboClass1_From.SelectedIndex = prodCls1List.Count - 1;
+            */
+            cboClass1_From.SelectedIndex = cboClass1_From.Items.Count - 1;
         }
 
         private void FillToClass1List()
         {
+            ModelEx.ProductClass1Ex.LoadCombo(ref cboClass1_To, "Class1Code", false, true, "zz", "");
+            /**
             cboClass1_To.Items.Clear();
             ProductClass1 prodCls1 = new ProductClass1();
             prodCls1.Class1Code = "zz";
@@ -148,11 +153,14 @@ namespace RT2020.Inventory.StockTake
             cboClass1_To.DataSource = prodCls1List;
             cboClass1_To.DisplayMember = "Class1Code";
             cboClass1_To.ValueMember = "Class1Id";
-            cboClass1_To.SelectedIndex = prodCls1List.Count - 1;
+            */
+            cboClass1_To.SelectedIndex = cboClass1_To.Items.Count - 1;
         }
 
         private void FillFromClass2List()
         {
+            ModelEx.ProductClass2Ex.LoadCombo(ref cboClass2_From, "Class2Code", false, true, "", "");
+            /**
             cboClass2_From.Items.Clear();
 
             string[] orderBy = new string[] { "Class2Code" };
@@ -161,11 +169,14 @@ namespace RT2020.Inventory.StockTake
             cboClass2_From.DataSource = prodCls2List;
             cboClass2_From.DisplayMember = "Class2Code";
             cboClass2_From.ValueMember = "Class2Id";
-            cboClass2_From.SelectedIndex = prodCls2List.Count - 1;
+            */
+            cboClass2_From.SelectedIndex = cboClass2_From.Items.Count - 1;
         }
 
         private void FillToClass2List()
         {
+            ModelEx.ProductClass2Ex.LoadCombo(ref cboClass2_To, "Class2Code", false, true, "zz", "");
+            /**
             cboClass2_To.Items.Clear();
             ProductClass2 prodCls2 = new ProductClass2();
             prodCls2.Class2Code = "zz";
@@ -177,11 +188,14 @@ namespace RT2020.Inventory.StockTake
             cboClass2_To.DataSource = prodCls2List;
             cboClass2_To.DisplayMember = "Class2Code";
             cboClass2_To.ValueMember = "Class2Id";
-            cboClass2_To.SelectedIndex = prodCls2List.Count - 1;
+            */
+            cboClass2_To.SelectedIndex = cboClass2_To.Items.Count - 1;
         }
 
         private void FillFromClass3List()
         {
+            ModelEx.ProductClass3Ex.LoadCombo(ref cboClass3_From, "Class3Code", false, true, "", "");
+            /**
             cboClass3_From.Items.Clear();
 
             string[] orderBy = new string[] { "Class3Code" };
@@ -190,11 +204,14 @@ namespace RT2020.Inventory.StockTake
             cboClass3_From.DataSource = prodCls3List;
             cboClass3_From.DisplayMember = "Class3Code";
             cboClass3_From.ValueMember = "Class3Id";
-            cboClass3_From.SelectedIndex = prodCls3List.Count - 1;
+            */
+            cboClass3_From.SelectedIndex = cboClass3_From.Items.Count - 1;
         }
 
         private void FillToClass3List()
         {
+            ModelEx.ProductClass3Ex.LoadCombo(ref cboClass3_To, "Class4Code", false, true, "zz", "");
+            /**
             cboClass3_To.Items.Clear();
             ProductClass3 prodCls3 = new ProductClass3();
             prodCls3.Class3Code = "zz";
@@ -206,11 +223,14 @@ namespace RT2020.Inventory.StockTake
             cboClass3_To.DataSource = prodCls3List;
             cboClass3_To.DisplayMember = "Class3Code";
             cboClass3_To.ValueMember = "Class3Id";
+            /*
             cboClass3_To.SelectedIndex = prodCls3List.Count - 1;
         }
 
         private void FillFromClass4List()
         {
+            ModelEx.ProductClass4Ex.LoadCombo(ref cboClass4_From, "Class4Code", false, true, "", "");
+            /**
             cboClass4_From.Items.Clear();
 
             string[] orderBy = new string[] { "Class4Code" };
@@ -219,11 +239,30 @@ namespace RT2020.Inventory.StockTake
             cboClass4_From.DataSource = prodCls4List;
             cboClass4_From.DisplayMember = "Class4Code";
             cboClass4_From.ValueMember = "Class4Id";
-            cboClass4_From.SelectedIndex = prodCls4List.Count - 1;
+            */
+            cboClass3_From.SelectedIndex = cboClass3_From.Items.Count - 1;
+        }
+
+        private void FillFromClass4List()
+        {
+            ModelEx.ProductClass4Ex.LoadCombo(ref cboClass4_From, "Class4Code", false, true, "", "");
+            /**
+            cboClass5_From.Items.Clear();
+
+            string[] orderBy = new string[] { "Class5Code" };
+            ProductClass5Collection prodCls5List = ProductClass5.LoadCollection(orderBy, true);
+            prodCls5List.Add(new ProductClass5());
+            cboClass5_From.DataSource = prodCls5List;
+            cboClass5_From.DisplayMember = "Class5Code";
+            cboClass5_From.ValueMember = "Class5Id";
+            */
+            cboClass4_From.SelectedIndex = cboClass4_From.Items.Count - 1;
         }
 
         private void FillToClass4List()
         {
+            ModelEx.ProductClass4Ex.LoadCombo(ref cboClass4_To, "Class4Code", false, true, "zz", "");
+            /**
             cboClass4_To.Items.Clear();
             ProductClass4 prodCls4 = new ProductClass4();
             prodCls4.Class4Code = "zz";
@@ -235,11 +274,14 @@ namespace RT2020.Inventory.StockTake
             cboClass4_To.DataSource = prodCls4List;
             cboClass4_To.DisplayMember = "Class4Code";
             cboClass4_To.ValueMember = "Class4Id";
-            cboClass4_To.SelectedIndex = prodCls4List.Count - 1;
+            */
+            cboClass4_To.SelectedIndex = cboClass4_To.Items.Count - 1;
         }
 
         private void FillFromClass5List()
         {
+            ModelEx.ProductClass5Ex.LoadCombo(ref cboClass5_From, "Class5Code", false, true, "", "");
+            /**
             cboClass5_From.Items.Clear();
 
             string[] orderBy = new string[] { "Class5Code" };
@@ -248,11 +290,14 @@ namespace RT2020.Inventory.StockTake
             cboClass5_From.DataSource = prodCls5List;
             cboClass5_From.DisplayMember = "Class5Code";
             cboClass5_From.ValueMember = "Class5Id";
-            cboClass5_From.SelectedIndex = prodCls5List.Count - 1;
+            */
+            cboClass5_From.SelectedIndex = cboClass5_From.Items.Count - 1;
         }
 
         private void FillToClass5List()
         {
+            ModelEx.ProductClass5Ex.LoadCombo(ref cboClass5_To, "Class5Code", false, true, "zz", "");
+            /**
             cboClass5_To.Items.Clear();
             ProductClass5 prodCls5 = new ProductClass5();
             prodCls5.Class5Code = "zz";
@@ -264,11 +309,14 @@ namespace RT2020.Inventory.StockTake
             cboClass5_To.DataSource = prodCls5List;
             cboClass5_To.DisplayMember = "Class5Code";
             cboClass5_To.ValueMember = "Class5Id";
-            cboClass5_To.SelectedIndex = prodCls5List.Count - 1;
+            */
+            cboClass5_To.SelectedIndex = cboClass5_To.Items.Count - 1;
         }
 
         private void FillFromClass6List()
         {
+            ModelEx.ProductClass6Ex.LoadCombo(ref cboClass6_From, "Class6Code", false, true, "", "");
+            /**
             cboClass6_From.Items.Clear();
 
             string[] orderBy = new string[] { "Class6Code" };
@@ -277,11 +325,14 @@ namespace RT2020.Inventory.StockTake
             cboClass6_From.DataSource = prodCls6List;
             cboClass6_From.DisplayMember = "Class6Code";
             cboClass6_From.ValueMember = "Class6Id";
-            cboClass6_From.SelectedIndex = prodCls6List.Count - 1;
+            */
+            cboClass6_From.SelectedIndex = cboClass6_From.Items.Count - 1;
         }
 
         private void FillToClass6List()
         {
+            ModelEx.ProductClass6Ex.LoadCombo(ref cboClass6_To, "Class6Code", false, true, "zz", "");
+            /**
             cboClass6_To.Items.Clear();
             ProductClass6 prodCls6 = new ProductClass6();
             prodCls6.Class6Code = "zz";
@@ -293,7 +344,8 @@ namespace RT2020.Inventory.StockTake
             cboClass6_To.DataSource = prodCls6List;
             cboClass6_To.DisplayMember = "Class6Code";
             cboClass6_To.ValueMember = "Class6Id";
-            cboClass6_To.SelectedIndex = prodCls6List.Count - 1;
+            */
+            cboClass6_To.SelectedIndex = cboClass6_To.Items.Count - 1;
         }
         #endregion
 

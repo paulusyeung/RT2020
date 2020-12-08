@@ -54,17 +54,14 @@ namespace RT2020.Product
             // 
             // tbWizardAction
             // 
-            this.tbWizardAction.Anchor = Gizmox.WebGUI.Forms.AnchorStyles.None;
-            this.tbWizardAction.Appearance = Gizmox.WebGUI.Forms.ToolBarAppearance.Normal;
-            this.tbWizardAction.Dock = Gizmox.WebGUI.Forms.DockStyle.Top;
             this.tbWizardAction.DragHandle = true;
-            this.tbWizardAction.DropDownArrows = false;
-            this.tbWizardAction.ImageList = null;
+            this.tbWizardAction.DropDownArrows = true;
+            this.tbWizardAction.ImageSize = new System.Drawing.Size(16, 16);
             this.tbWizardAction.Location = new System.Drawing.Point(0, 0);
             this.tbWizardAction.MenuHandle = true;
             this.tbWizardAction.Name = "tbWizardAction";
-            //this.tbWizardAction.RightToLeft = false;
             this.tbWizardAction.ShowToolTips = true;
+            this.tbWizardAction.Size = new System.Drawing.Size(100, 22);
             this.tbWizardAction.TabIndex = 0;
             // 
             // lblCode
@@ -207,10 +204,6 @@ namespace RT2020.Product
             // errorProvider
             // 
             this.errorProvider.BlinkRate = 3;
-            this.errorProvider.BlinkStyle = Gizmox.WebGUI.Forms.ErrorBlinkStyle.BlinkIfDifferentError;
-            this.errorProvider.DataMember = "";
-            this.errorProvider.DataSource = "";
-            this.errorProvider.Icon = null;
             // 
             // cboAltClass
             // 
@@ -255,6 +248,7 @@ namespace RT2020.Product
             this.MinimizeBox = false;
             this.Size = new System.Drawing.Size(441, 292);
             this.Text = "Prodcut Class Wizard";
+            this.Load += new System.EventHandler(this.ProductClassWizard_Load);
             this.ResumeLayout(false);
 
         }
