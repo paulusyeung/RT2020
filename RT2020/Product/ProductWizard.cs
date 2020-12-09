@@ -199,6 +199,8 @@ namespace RT2020.Product
 
         private void FillAppendixe1()
         {
+            ModelEx.ProductAppendix1Ex.LoadCombo(ref cboAppendix1, "Appendix1Code", false, true, "", "");
+            /**
             cboAppendix1.Items.Clear();
 
             string[] orderBy = new string[] { "Appendix1Code" };
@@ -207,10 +209,13 @@ namespace RT2020.Product
             cboAppendix1.DataSource = oA1List;
             cboAppendix1.DisplayMember = "Appendix1Code";
             cboAppendix1.ValueMember = "Appendix1Id";
+            */
         }
 
         private void FillAppendixe2()
         {
+            ModelEx.ProductAppendix2Ex.LoadCombo(ref cboAppendix2, "Appendix2Code", false, true, "", "");
+            /**
             cboAppendix2.Items.Clear();
 
             string[] orderBy = new string[] { "Appendix2Code" };
@@ -219,10 +224,13 @@ namespace RT2020.Product
             cboAppendix2.DataSource = oA2List;
             cboAppendix2.DisplayMember = "Appendix2Code";
             cboAppendix2.ValueMember = "Appendix2Id";
+            */
         }
 
         private void FillAppendixe3()
         {
+            ModelEx.ProductAppendix1Ex.LoadCombo(ref cboAppendix3, "Appendix3Code", false, true, "", "");
+            /**
             cboAppendix3.Items.Clear();
 
             string[] orderBy = new string[] { "Appendix3Code" };
@@ -231,6 +239,7 @@ namespace RT2020.Product
             cboAppendix3.DataSource = oA3List;
             cboAppendix3.DisplayMember = "Appendix3Code";
             cboAppendix3.ValueMember = "Appendix3Id";
+            */
         }
         #endregion
 
@@ -254,9 +263,10 @@ namespace RT2020.Product
         {
             if (cboAppendix1.Text.Trim().Length > 0)
             {
-                string sql = "Appendix1Code = '" + cboAppendix1.Text.Trim() + "'";
-                ProductAppendix1 a1 = ProductAppendix1.LoadWhere(sql);
-                if (a1 == null)
+                //string sql = "Appendix1Code = '" + cboAppendix1.Text.Trim() + "'";
+                //ProductAppendix1 a1 = ProductAppendix1.LoadWhere(sql);
+                //if (a1 == null)
+                if (!ModelEx.ProductAppendix1Ex.IsAppendixCodeInUse(cboAppendix1.Text))
                 {
                     errorProvider.SetError(cboAppendix1, "The code is invalid! Try to select a value from the list!");
                     return false;
@@ -277,9 +287,10 @@ namespace RT2020.Product
         {
             if (cboAppendix2.Text.Trim().Length > 0)
             {
-                string sql = "Appendix2Code = '" + cboAppendix2.Text.Trim() + "'";
-                ProductAppendix2 a2 = ProductAppendix2.LoadWhere(sql);
-                if (a2 == null)
+                //string sql = "Appendix2Code = '" + cboAppendix2.Text.Trim() + "'";
+                //ProductAppendix2 a2 = ProductAppendix2.LoadWhere(sql);
+                //if (a2 == null)
+                if (!ModelEx.ProductAppendix2Ex.IsAppendixCodeInUse(cboAppendix2.Text))
                 {
                     errorProvider.SetError(cboAppendix2, "The code is invalid! Try to select a value from the list!");
                     return false;
@@ -300,9 +311,10 @@ namespace RT2020.Product
         {
             if (cboAppendix3.Text.Trim().Length > 0)
             {
-                string sql = "Appendix3Code = '" + cboAppendix3.Text.Trim() + "'";
-                ProductAppendix3 a3 = ProductAppendix3.LoadWhere(sql);
-                if (a3 == null)
+                //string sql = "Appendix3Code = '" + cboAppendix3.Text.Trim() + "'";
+                //ProductAppendix3 a3 = ProductAppendix3.LoadWhere(sql);
+                //if (a3 == null)
+                if (!ModelEx.ProductAppendix3Ex.IsAppendixCodeInUse(cboAppendix3.Text))
                 {
                     errorProvider.SetError(cboAppendix3, "The code is invalid! Try to select a value from the list!");
                     return false;

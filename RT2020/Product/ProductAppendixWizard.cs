@@ -1,4 +1,4 @@
-#region Using
+﻿#region Using
 
 using System;
 using System.Collections.Generic;
@@ -12,6 +12,9 @@ using Gizmox.WebGUI.Forms;
 using RT2020.DAL;
 using Gizmox.WebGUI.Common.Resources;
 using System.Collections;
+using System.Linq;
+using System.Data.Entity;
+using RT2020.Helper;
 
 #endregion
 
@@ -19,102 +22,51 @@ namespace RT2020.Product
 {
     public partial class ProductAppendixWizard : Form
     {
-        public ProductAppendixWizard(Type appendixName)
+        #region public properties
+        private CommonHelper.EditMode _EditMode = CommonHelper.EditMode.None;
+        public CommonHelper.EditMode EditMode
         {
-            InitializeComponent();
-            InitAppendix(appendixName);
-            SetCtrlEditable();
-            SetToolBar();
-            FillParentAppendixList();
-            SetCaptions();
+            get { return _EditMode; }
+            set { _EditMode = value; }
         }
 
-        public ProductAppendixWizard(Guid appendixId)
+        private ProductHelper.Appendix _AppendixMode = ProductHelper.Appendix.None;
+        public ProductHelper.Appendix AppendixMode
         {
-            InitializeComponent();
-            this.AppendixId = appendixId;
-            SetCtrlEditable();
-            SetToolBar();
-            FillParentAppendixList();
-            LoadAppendix();
-            SetCaptions();
+            get { return _AppendixMode; }
+            set { _AppendixMode = value; }
         }
 
-        #region Initialize Appendix
-        private void InitAppendix(Type appendixName)
-        {
-            object objAppendix = Activator.CreateInstance(appendixName);
-
-            if (objAppendix.GetType().Equals(typeof(ProductAppendix1)))
-            {
-                Appendix1 = objAppendix as ProductAppendix1;
-            }
-
-            if (objAppendix.GetType().Equals(typeof(ProductAppendix2)))
-            {
-                Appendix2 = objAppendix as ProductAppendix2;
-            }
-
-            if (objAppendix.GetType().Equals(typeof(ProductAppendix3)))
-            {
-                Appendix3 = objAppendix as ProductAppendix3;
-            }
-        }
-        #endregion
-
-        #region Properties
-        private Guid appendixId = System.Guid.Empty;
+        private Guid _AppendixId = Guid.Empty;
         public Guid AppendixId
         {
-            get
-            {
-                return appendixId;
-            }
-            set
-            {
-                appendixId = value;
-            }
-        }
-
-        private ProductAppendix1 appendix1 = null;
-        public ProductAppendix1 Appendix1
-        {
-            get
-            {
-                return appendix1;
-            }
-            set
-            {
-                appendix1 = value;
-            }
-        }
-
-        private ProductAppendix2 appendix2 = null;
-        public ProductAppendix2 Appendix2
-        {
-            get
-            {
-                return appendix2;
-            }
-            set
-            {
-                appendix2 = value;
-            }
-        }
-
-        private ProductAppendix3 appendix3 = null;
-        public ProductAppendix3 Appendix3
-        {
-            get
-            {
-                return appendix3;
-            }
-            set
-            {
-                appendix3 = value;
-            }
+            get { return _AppendixId; }
+            set { _AppendixId = value; }
         }
         #endregion
+
+        public ProductAppendixWizard()
+        {
+            InitializeComponent();
+        }
+
+        private void ProductAppendixWizard_Load(object sender, EventArgs e)
+        {
+            SetCtrlEditable();
+            SetToolBar();
+            FillParentAppendixList();
+            LoadAppendixData();
+            SetCaptions();
+
+            switch (_EditMode)
+            {
+                case CommonHelper.EditMode.Add:
+                    break;
+                case CommonHelper.EditMode.Edit:
+                case CommonHelper.EditMode.Delete:
+                    break;
+            }
+        }
 
         #region ToolBar
         private void SetCtrlEditable()
@@ -132,19 +84,17 @@ namespace RT2020.Product
 
         private void SetCaptions()
         {
-            if (this.Appendix1 != null)
+            switch (_AppendixMode)
             {
-                this.Text += " [" + RT2020.SystemInfo.Settings.GetSystemLabelByKey("Appendix1") + "] ";
-            }
-
-            if (this.Appendix2 != null)
-            {
-                this.Text += " [" + RT2020.SystemInfo.Settings.GetSystemLabelByKey("Appendix2") + "] ";
-            }
-
-            if (this.Appendix3 != null)
-            {
-                this.Text += " [" + RT2020.SystemInfo.Settings.GetSystemLabelByKey("Appendix3") + "] ";
+                case ProductHelper.Appendix.Appendix1:
+                    this.Text += " [" + RT2020.SystemInfo.Settings.GetSystemLabelByKey("Appendix1") + "] ";
+                    break;
+                case ProductHelper.Appendix.Appendix2:
+                    this.Text += " [" + RT2020.SystemInfo.Settings.GetSystemLabelByKey("Appendix2") + "] ";
+                    break;
+                case ProductHelper.Appendix.Appendix3:
+                    this.Text += " [" + RT2020.SystemInfo.Settings.GetSystemLabelByKey("Appendix3") + "] ";
+                    break;
             }
         }
 
@@ -212,9 +162,12 @@ namespace RT2020.Product
                         this.Update();
                         break;
                     case "save":
-                        Save();
-                        LoadAppendix();
-                        this.Update();
+                        if (IsValid())
+                        {
+                            Save();
+                            LoadAppendixData();
+                            this.Update();
+                        }
                         break;
                     case "refresh":
                         this.Update();
@@ -230,32 +183,31 @@ namespace RT2020.Product
         #region Fill Combo List
         private void FillParentAppendixList()
         {
-            cboParentAppendix.DataSource = null;
+            string sql;
+            string[] orderBy;
 
-            cboParentAppendix.Items.Clear();
-
-            if (Appendix1 != null)
+            switch (_AppendixMode)
             {
-                cboParentAppendix.DataSource = GetA1List();
-                cboParentAppendix.DisplayMember = "Appendix1Code";
-                cboParentAppendix.ValueMember = "Appendix1Id";
-            }
-            else if (Appendix2 != null)
-            {
-                cboParentAppendix.DataSource = GetA2List();
-                cboParentAppendix.DisplayMember = "Appendix2Code";
-                cboParentAppendix.ValueMember = "Appendix2Id";
-            }
-            else if (Appendix3 != null)
-            {
-                cboParentAppendix.DataSource = GetA3List();
-                cboParentAppendix.DisplayMember = "Appendix3Code";
-                cboParentAppendix.ValueMember = "Appendix3Id";
+                case ProductHelper.Appendix.Appendix1:
+                    sql = "Appendix1Id NOT IN ('" + _AppendixId.ToString() + "')";
+                    orderBy = new string[] { "Appendix1Code" };
+                    ModelEx.ProductAppendix1Ex.LoadCombo(ref cboParentAppendix, "Appendix1Code", true, true, "", sql, orderBy);
+                    break;
+                case ProductHelper.Appendix.Appendix2:
+                    sql = "Appendix1Id NOT IN ('" + this.AppendixId.ToString() + "')";
+                    orderBy = new string[] { "Appendix1Code" };
+                    ModelEx.ProductAppendix1Ex.LoadCombo(ref cboParentAppendix, "Appendix1Code", true, true, "", sql, orderBy);
+                    break;
+                case ProductHelper.Appendix.Appendix3:
+                    sql = "Appendix3Id NOT IN ('" + this.AppendixId.ToString() + "')";
+                    orderBy = new string[] { "Appendix3Code" };
+                    ModelEx.ProductAppendix3Ex.LoadCombo(ref cboParentAppendix, "Appendix3Code", true, true, "", sql, orderBy);
+                    break;
             }
 
             cboParentAppendix.SelectedIndex = cboParentAppendix.Items.Count - 1;
         }
-
+        /**
         private ProductAppendix1Collection GetA1List()
         {
             string sql = "Appendix1Id NOT IN ('" + this.AppendixId.ToString() + "')";
@@ -285,189 +237,188 @@ namespace RT2020.Product
 
             return oProductAppendixList;
         }
+        */
         #endregion
 
         #region Save
 
-        private void Save()
+        private bool IsValid()
         {
+            bool result = true;
+
+            #region Appendix Code 唔可以吉
+            errorProvider.SetError(txtCode, string.Empty);
             if (txtCode.Text.Length == 0)
             {
                 errorProvider.SetError(txtCode, "Cannot be blank!");
+                return false;
             }
-            else
+            #endregion
+
+            #region 新增，要 check Appendix Code 係咪 in use
+            errorProvider.SetError(txtCode, string.Empty);
+            var isAppendixCodeInUse = _AppendixMode == ProductHelper.Appendix.Appendix1 ?
+                true : _AppendixMode == ProductHelper.Appendix.Appendix2 ?
+                true : _AppendixMode == ProductHelper.Appendix.Appendix3 ?
+                true : false;
+            if (this.AppendixId == Guid.Empty && isAppendixCodeInUse)
             {
-                errorProvider.SetError(txtCode, string.Empty);
-
-                SaveAppendix1();
-                SaveAppendix2();
-                SaveAppendix3();
-
-                if (this.AppendixId != System.Guid.Empty)
-                {
-                    RT2020.SystemInfo.Settings.RefreshMainList<DefaultAppendixList>();
-                }
+                errorProvider.SetError(txtCode, "Appendix Code in use");
+                return false;
             }
+            #endregion
+
+            return result;
+        }
+
+        private void Save()
+        {
+            switch (_AppendixMode)
+            {
+                case ProductHelper.Appendix.Appendix1:
+                    SaveAppendix1();
+                    break;
+                case ProductHelper.Appendix.Appendix2:
+                    SaveAppendix2();
+                    break;
+                case ProductHelper.Appendix.Appendix3:
+                    SaveAppendix3();
+                    break;
+            }
+            RT2020.SystemInfo.Settings.RefreshMainList<DefaultAppendixList>();
         }
 
         private bool SaveAppendix1()
         {
-            if (this.Appendix1 != null)
+            bool result = false;
+
+            using (var ctx = new EF6.RT2020Entities())
             {
-                if (this.AppendixId != System.Guid.Empty)
+                EF6.ProductAppendix1 item = null;
+                switch (_EditMode)
                 {
-                    this.Appendix1 = ProductAppendix1.Load(this.AppendixId);
+                    case CommonHelper.EditMode.Add:
+                        item = new EF6.ProductAppendix1();
+                        item.Appendix1Id = Guid.NewGuid();
+                        item.Appendix1Code = txtCode.Text;
+                        item.CreatedBy = Common.Config.CurrentUserId;
+                        item.CreatedOn = DateTime.Now;
+
+                        ctx.ProductAppendix1.Add(item);
+                        break;
+                    case CommonHelper.EditMode.Edit:
+                        item = ctx.ProductAppendix1.Find(_AppendixId);
+                        break;
                 }
-                else
-                {
-                    string sql = "Appendix1Code = '" + txtCode.Text + "'";
-                    ProductAppendix1Collection oA1 = ProductAppendix1.LoadCollection(sql);
-                    if (oA1.Count > 0)
-                    {
-                        errorProvider.SetError(txtCode, string.Format(Resources.Common.DuplicatedCode, RT2020.SystemInfo.Settings.GetSystemLabelByKey("Appendix1")));
-                        return false;
-                    }
-                    else
-                    {
-                        this.Appendix1.Appendix1Code = txtCode.Text;
-                        this.Appendix1.CreatedBy = Common.Config.CurrentUserId;
-                        this.Appendix1.CreatedOn = DateTime.Now;
-                        errorProvider.SetError(txtCode, string.Empty);
-                    }
-                }
+                item.Appendix1Initial = txtInitial.Text;
+                item.Appendix1Name = txtName.Text;
+                item.Appendix1Name_Chs = txtNameChs.Text;
+                item.Appendix1Name_Cht = txtNameCht.Text;
+                item.ParentAppendix = (cboParentAppendix.SelectedValue == null) ? System.Guid.Empty : new System.Guid(cboParentAppendix.SelectedValue.ToString());
 
-                this.appendix1.Appendix1Initial = txtInitial.Text;
-                this.Appendix1.Appendix1Name = txtName.Text;
-                this.Appendix1.Appendix1Name_Chs = txtNameChs.Text;
-                this.Appendix1.Appendix1Name_Cht = txtNameCht.Text;
-                this.Appendix1.ParentAppendix = (cboParentAppendix.SelectedValue == null) ? System.Guid.Empty : new System.Guid(cboParentAppendix.SelectedValue.ToString());
+                item.ModifiedBy = Common.Config.CurrentUserId;
+                item.ModifiedOn = DateTime.Now;
 
-                this.Appendix1.ModifiedBy = Common.Config.CurrentUserId;
-                this.Appendix1.ModifiedOn = DateTime.Now;
-                this.Appendix1.Save();
+                ctx.SaveChanges();
 
-                this.AppendixId = this.Appendix1.Appendix1Id;
+                _AppendixId = item.Appendix1Id;
 
-                return true;
+                result = true;
             }
-            else
-            {
-                return false;
-            }
+
+            return result;
         }
 
         private bool SaveAppendix2()
         {
-            if (this.Appendix2 != null)
+            bool result = false;
+
+            using (var ctx = new EF6.RT2020Entities())
             {
-                if (this.AppendixId != System.Guid.Empty)
+                EF6.ProductAppendix2 item = null;
+                switch (_EditMode)
                 {
-                    this.Appendix2 = ProductAppendix2.Load(this.AppendixId);
+                    case CommonHelper.EditMode.Add:
+                        item = new EF6.ProductAppendix2();
+                        item.Appendix2Id = Guid.NewGuid();
+                        item.Appendix2Code = txtCode.Text;
+                        item.CreatedBy = Common.Config.CurrentUserId;
+                        item.CreatedOn = DateTime.Now;
+
+                        ctx.ProductAppendix2.Add(item);
+                        break;
+                    case CommonHelper.EditMode.Edit:
+                        item = ctx.ProductAppendix2.Find(_AppendixId);
+                        break;
                 }
-                else
-                {
-                    string sql = "Appendix2Code = '" + txtCode.Text + "'";
-                    ProductAppendix2Collection oA2 = ProductAppendix2.LoadCollection(sql);
-                    if (oA2.Count > 0)
-                    {
-                        errorProvider.SetError(txtCode, string.Format(Resources.Common.DuplicatedCode, RT2020.SystemInfo.Settings.GetSystemLabelByKey("Appendix2")));
-                        return false;
-                    }
-                    else
-                    {
-                        this.Appendix2.Appendix2Code = txtCode.Text;
-                        this.Appendix2.CreatedBy = Common.Config.CurrentUserId;
-                        this.Appendix2.CreatedOn = DateTime.Now;
-                        errorProvider.SetError(txtCode, string.Empty);
-                    }
-                }
+                item.Appendix2Initial = txtInitial.Text;
+                item.Appendix2Name = txtName.Text;
+                item.Appendix2Name_Chs = txtNameChs.Text;
+                item.Appendix2Name_Cht = txtNameCht.Text;
+                item.ParentAppendix = (cboParentAppendix.SelectedValue == null) ? System.Guid.Empty : new System.Guid(cboParentAppendix.SelectedValue.ToString());
 
-                this.appendix2.Appendix2Initial = txtInitial.Text;
-                this.Appendix2.Appendix2Name = txtName.Text;
-                this.Appendix2.Appendix2Name_Chs = txtNameChs.Text;
-                this.Appendix2.Appendix2Name_Cht = txtNameCht.Text;
-                this.Appendix2.ParentAppendix = (cboParentAppendix.SelectedValue == null) ? System.Guid.Empty : new System.Guid(cboParentAppendix.SelectedValue.ToString());
+                item.ModifiedBy = Common.Config.CurrentUserId;
+                item.ModifiedOn = DateTime.Now;
 
-                this.Appendix2.ModifiedBy = Common.Config.CurrentUserId;
-                this.Appendix2.ModifiedOn = DateTime.Now;
-                this.Appendix2.Save();
+                ctx.SaveChanges();
 
-                this.AppendixId = this.Appendix2.Appendix2Id;
+                _AppendixId = item.Appendix2Id;
 
-                return true;
+                result = true;
             }
-            else
-            {
-                return false;
-            }
+
+            return result;
         }
 
         private bool SaveAppendix3()
         {
-            if (this.Appendix3 != null)
+            bool result = false;
+
+            using (var ctx = new EF6.RT2020Entities())
             {
-                if (this.AppendixId != System.Guid.Empty)
+                EF6.ProductAppendix3 item = null;
+                switch (_EditMode)
                 {
-                    this.Appendix3 = ProductAppendix3.Load(this.AppendixId);
+                    case CommonHelper.EditMode.Add:
+                        item = new EF6.ProductAppendix3();
+                        item.Appendix3Id = Guid.NewGuid();
+                        item.Appendix3Code = txtCode.Text;
+                        item.CreatedBy = Common.Config.CurrentUserId;
+                        item.CreatedOn = DateTime.Now;
+
+                        ctx.ProductAppendix3.Add(item);
+                        break;
+                    case CommonHelper.EditMode.Edit:
+                        item = ctx.ProductAppendix3.Find(_AppendixId);
+                        break;
                 }
-                else
-                {
-                    string sql = "Appendix3Code = '" + txtCode.Text + "'";
-                    ProductAppendix3Collection oA3 = ProductAppendix3.LoadCollection(sql);
-                    if (oA3.Count > 0)
-                    {
-                        errorProvider.SetError(txtCode, string.Format(Resources.Common.DuplicatedCode, RT2020.SystemInfo.Settings.GetSystemLabelByKey("Appendix3")));
-                        return false;
-                    }
-                    else
-                    {
-                        this.Appendix3.Appendix3Code = txtCode.Text;
-                        this.Appendix3.CreatedBy = Common.Config.CurrentUserId;
-                        this.Appendix3.CreatedOn = DateTime.Now;
-                        errorProvider.SetError(txtCode, string.Empty);
-                    }
-                }
+                item.Appendix3Initial = txtInitial.Text;
+                item.Appendix3Name = txtName.Text;
+                item.Appendix3Name_Chs = txtNameChs.Text;
+                item.Appendix3Name_Cht = txtNameCht.Text;
+                item.ParentAppendix = (cboParentAppendix.SelectedValue == null) ? System.Guid.Empty : new System.Guid(cboParentAppendix.SelectedValue.ToString());
 
-                this.appendix3.Appendix3Initial = txtInitial.Text;
-                this.Appendix3.Appendix3Name = txtName.Text;
-                this.Appendix3.Appendix3Name_Chs = txtNameChs.Text;
-                this.Appendix3.Appendix3Name_Cht = txtNameCht.Text;
-                this.Appendix3.ParentAppendix = (cboParentAppendix.SelectedValue == null) ? System.Guid.Empty : new System.Guid(cboParentAppendix.SelectedValue.ToString());
+                item.ModifiedBy = Common.Config.CurrentUserId;
+                item.ModifiedOn = DateTime.Now;
 
-                this.Appendix3.ModifiedBy = Common.Config.CurrentUserId;
-                this.Appendix3.ModifiedOn = DateTime.Now;
-                this.Appendix3.Save();
+                ctx.SaveChanges();
 
-                this.AppendixId = this.Appendix3.Appendix3Id;
-                return true;
+                _AppendixId = item.Appendix3Id;
+
+                result = true;
             }
-            else
-            {
-                return false;
-            }
+
+            return result;
         }
 
         private void Clear()
         {
             this.Close();
-            Type type = null;
 
-            if (this.Appendix1 != null)
-            {
-                type = Appendix1.GetType();
-            }
-
-            if (this.Appendix2 != null)
-            {
-                type = Appendix2.GetType();
-            }
-
-            if (this.Appendix3 != null)
-            {
-                type = Appendix3.GetType();
-            }
-
-            ProductAppendixWizard wizAppendix = new ProductAppendixWizard(type);
+            ProductAppendixWizard wizAppendix = new ProductAppendixWizard();
+            wizAppendix.AppendixId = _AppendixId;
+            wizAppendix.AppendixMode = _AppendixMode;
+            wizAppendix.EditMode = _EditMode;
             wizAppendix.ShowDialog();
         }
 
@@ -475,82 +426,94 @@ namespace RT2020.Product
 
         #region Load
 
-        private void LoadAppendix()
+        private void LoadAppendixData()
         {
-            LoadAppendix1();
-            LoadAppendix2();
-            LoadAppendix3();
+            switch (_AppendixMode)
+            {
+                case ProductHelper.Appendix.Appendix1:
+                    LoadAppendix1();
+                    break;
+                case ProductHelper.Appendix.Appendix2:
+                    LoadAppendix2();
+                    break;
+                case ProductHelper.Appendix.Appendix3:
+                    LoadAppendix3();
+                    break;
+            }
         }
 
         private void LoadAppendix1()
         {
-            this.Appendix1 = ProductAppendix1.Load(this.AppendixId);
-            if (this.Appendix1 != null)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                this.AppendixId = this.Appendix1.Appendix1Id;
+                var item = ctx.ProductAppendix1.Where(x => x.Appendix1Id == _AppendixId).AsNoTracking().FirstOrDefault();
+                if (item != null)
+                {
+                    FillParentAppendixList();
 
-                FillParentAppendixList();
+                    txtCode.Text = item.Appendix1Code;
+                    txtInitial.Text = item.Appendix1Initial;
+                    txtName.Text = item.Appendix1Name;
+                    txtNameChs.Text = item.Appendix1Name_Chs;
+                    txtNameCht.Text = item.Appendix1Name_Cht;
+                    cboParentAppendix.SelectedValue = item.ParentAppendix;
 
-                txtCode.Text = this.Appendix1.Appendix1Code;
-                txtInitial.Text = this.Appendix1.Appendix1Initial;
-                txtName.Text = this.Appendix1.Appendix1Name;
-                txtNameChs.Text = this.Appendix1.Appendix1Name_Chs;
-                txtNameCht.Text = this.Appendix1.Appendix1Name_Cht;
-                cboParentAppendix.SelectedValue = this.Appendix1.ParentAppendix;
+                    txtLastUpdatedOn.Text = RT2020.SystemInfo.Settings.DateTimeToString(item.ModifiedOn, false);
+                    txtCreatedOn.Text = RT2020.SystemInfo.Settings.DateTimeToString(item.CreatedOn, false);
+                    txtLastUpdatedBy.Text = ModelEx.StaffEx.GetStaffNumberById(item.ModifiedBy);
 
-                txtLastUpdatedOn.Text = RT2020.SystemInfo.Settings.DateTimeToString(this.Appendix1.ModifiedOn, false);
-                txtCreatedOn.Text = RT2020.SystemInfo.Settings.DateTimeToString(this.Appendix1.CreatedOn, false);
-                txtLastUpdatedBy.Text = ModelEx.StaffEx.GetStaffNumberById(this.Appendix1.ModifiedBy);
-
-                SetCtrlEditable();
+                    SetCtrlEditable();
+                }
             }
         }
 
         private void LoadAppendix2()
         {
-            this.Appendix2 = ProductAppendix2.Load(this.AppendixId);
-            if (this.Appendix2 != null)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                this.AppendixId = this.Appendix2.Appendix2Id;
+                var item = ctx.ProductAppendix2.Where(x => x.Appendix2Id == _AppendixId).AsNoTracking().FirstOrDefault();
+                if (item != null)
+                {
+                    FillParentAppendixList();
 
-                FillParentAppendixList();
+                    txtCode.Text = item.Appendix2Code;
+                    txtInitial.Text = item.Appendix2Initial;
+                    txtName.Text = item.Appendix2Name;
+                    txtNameChs.Text = item.Appendix2Name_Chs;
+                    txtNameCht.Text = item.Appendix2Name_Cht;
+                    cboParentAppendix.SelectedValue = item.ParentAppendix;
 
-                txtCode.Text = this.Appendix2.Appendix2Code;
-                txtInitial.Text = this.Appendix2.Appendix2Initial;
-                txtName.Text = this.Appendix2.Appendix2Name;
-                txtNameChs.Text = this.Appendix2.Appendix2Name_Chs;
-                txtNameCht.Text = this.Appendix2.Appendix2Name_Cht;
-                cboParentAppendix.SelectedValue = this.Appendix2.ParentAppendix;
+                    txtLastUpdatedOn.Text = RT2020.SystemInfo.Settings.DateTimeToString(item.ModifiedOn, false);
+                    txtCreatedOn.Text = RT2020.SystemInfo.Settings.DateTimeToString(item.CreatedOn, false);
+                    txtLastUpdatedBy.Text = ModelEx.StaffEx.GetStaffNumberById(item.ModifiedBy);
 
-                txtLastUpdatedOn.Text = RT2020.SystemInfo.Settings.DateTimeToString(this.Appendix2.ModifiedOn, false);
-                txtCreatedOn.Text = RT2020.SystemInfo.Settings.DateTimeToString(this.Appendix2.CreatedOn, false);
-                txtLastUpdatedBy.Text = ModelEx.StaffEx.GetStaffNumberById(this.Appendix2.ModifiedBy);
-
-                SetCtrlEditable();
+                    SetCtrlEditable();
+                }
             }
         }
 
         private void LoadAppendix3()
         {
-            this.Appendix3 = ProductAppendix3.Load(this.AppendixId);
-            if (this.Appendix3 != null)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                this.AppendixId = this.Appendix3.Appendix3Id;
+                var item = ctx.ProductAppendix3.Where(x => x.Appendix3Id == _AppendixId).AsNoTracking().FirstOrDefault();
+                if (item != null)
+                {
+                    FillParentAppendixList();
 
-                FillParentAppendixList();
+                    txtCode.Text = item.Appendix3Code;
+                    txtInitial.Text = item.Appendix3Initial;
+                    txtName.Text = item.Appendix3Name;
+                    txtNameChs.Text = item.Appendix3Name_Chs;
+                    txtNameCht.Text = item.Appendix3Name_Cht;
+                    cboParentAppendix.SelectedValue = item.ParentAppendix;
 
-                txtCode.Text = this.Appendix3.Appendix3Code;
-                txtInitial.Text = this.Appendix3.Appendix3Initial;
-                txtName.Text = this.Appendix3.Appendix3Name;
-                txtNameChs.Text = this.Appendix3.Appendix3Name_Chs;
-                txtNameCht.Text = this.Appendix3.Appendix3Name_Cht;
-                cboParentAppendix.SelectedValue = this.Appendix3.ParentAppendix;
+                    txtLastUpdatedOn.Text = RT2020.SystemInfo.Settings.DateTimeToString(item.ModifiedOn, false);
+                    txtCreatedOn.Text = RT2020.SystemInfo.Settings.DateTimeToString(item.CreatedOn, false);
+                    txtLastUpdatedBy.Text = ModelEx.StaffEx.GetStaffNumberById(item.ModifiedBy);
 
-                txtLastUpdatedOn.Text = RT2020.SystemInfo.Settings.DateTimeToString(this.Appendix3.ModifiedOn, false);
-                txtCreatedOn.Text = RT2020.SystemInfo.Settings.DateTimeToString(this.Appendix3.CreatedOn, false);
-                txtLastUpdatedBy.Text = ModelEx.StaffEx.GetStaffNumberById(this.Appendix3.ModifiedBy);
-
-                SetCtrlEditable();
+                    SetCtrlEditable();
+                }
             }
         }
         #endregion
@@ -558,26 +521,48 @@ namespace RT2020.Product
         #region Delete
         private void Delete()
         {
-            try
+            using (var ctx = new EF6.RT2020Entities())
             {
-                if (this.Appendix1 != null)
+                try
                 {
-                    this.Appendix1.Delete();
+                    switch (_AppendixMode)
+                    {
+                        case ProductHelper.Appendix.Appendix1:
+                            #region delete Appendix1
+                            var item1 = ctx.ProductAppendix1.Find(_AppendixId);
+                            if (item1 != null)
+                            {
+                                ctx.ProductAppendix1.Remove(item1);
+                                ctx.SaveChanges();
+                            }
+                            break;
+                            #endregion
+                        case ProductHelper.Appendix.Appendix2:
+                            #region delete Appendix2
+                            var item2 = ctx.ProductAppendix2.Find(_AppendixId);
+                            if (item2 != null)
+                            {
+                                ctx.ProductAppendix2.Remove(item2);
+                                ctx.SaveChanges();
+                            }
+                            break;
+                            #endregion
+                        case ProductHelper.Appendix.Appendix3:
+                            #region delete Appendix3
+                            var item3 = ctx.ProductAppendix3.Find(_AppendixId);
+                            if (item3 != null)
+                            {
+                                ctx.ProductAppendix3.Remove(item3);
+                                ctx.SaveChanges();
+                            }
+                            break;
+                            #endregion
+                    }
                 }
-
-                if (this.Appendix2 != null)
+                catch (Exception ex)
                 {
-                    this.Appendix2.Delete();
+                    MessageBox.Show("Cannot delete the record being used by other record!", "Delete Warning");
                 }
-
-                if (this.Appendix3 != null)
-                {
-                    this.Appendix3.Delete();
-                }
-            }
-            catch
-            {
-                MessageBox.Show("Cannot delete the record being used by other record!", "Delete Warning");
             }
         }
         #endregion

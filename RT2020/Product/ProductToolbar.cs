@@ -157,15 +157,21 @@ namespace RT2020.Product
                         prodImport.ShowDialog();
                         break;
                     case "product_appendix1":
-                        ProductAppendixWizard wizAppendix1 = new ProductAppendixWizard(typeof(ProductAppendix1));
+                        ProductAppendixWizard wizAppendix1 = new ProductAppendixWizard();
+                        wizAppendix1.EditMode = CommonHelper.EditMode.Add;
+                        wizAppendix1.AppendixMode = ProductHelper.Appendix.Appendix3;
                         wizAppendix1.ShowDialog();
                         break;
                     case "product_appendix2":
-                        ProductAppendixWizard wizAppendix2 = new ProductAppendixWizard(typeof(ProductAppendix2));
+                        ProductAppendixWizard wizAppendix2 = new ProductAppendixWizard();
+                        wizAppendix2.EditMode = CommonHelper.EditMode.Add;
+                        wizAppendix2.AppendixMode = ProductHelper.Appendix.Appendix3;
                         wizAppendix2.ShowDialog();
                         break;
                     case "product_appendix3":
-                        ProductAppendixWizard wizAppendix3 = new ProductAppendixWizard(typeof(ProductAppendix3));
+                        ProductAppendixWizard wizAppendix3 = new ProductAppendixWizard();
+                        wizAppendix3.EditMode = CommonHelper.EditMode.Add;
+                        wizAppendix3.AppendixMode = ProductHelper.Appendix.Appendix3;
                         wizAppendix3.ShowDialog();
                         break;
                     case "product_class1":

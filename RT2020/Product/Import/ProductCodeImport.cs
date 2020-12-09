@@ -382,25 +382,28 @@ namespace RT2020.Product.Import
             }
 
             // Appendix1
-            sql = "Appendix1Code = '" + Utility.VerifyQuotes(row[colAppendix1].ToString().Trim()) + "'";
-            ProductAppendix1 oApp1 = ProductAppendix1.LoadWhere(sql);
-            if (oApp1 != null)
+            //sql = "Appendix1Code = '" + Utility.VerifyQuotes(row[colAppendix1].ToString().Trim()) + "'";
+            //ProductAppendix1 oApp1 = ProductAppendix1.LoadWhere(sql);
+            //if (oApp1 != null)
+            if (ModelEx.ProductAppendix1Ex.IsAppendixCodeInUse(Utility.VerifyQuotes(row[colAppendix3].ToString())))
             {
                 verifiedResult.Append(colAppendix1).Append(";");
             }
 
             // Appendix2
-            sql = "Appednix2Code = '" + Utility.VerifyQuotes(row[colAppendix2].ToString().Trim()) + "'";
-            ProductAppendix2 oApp2 = ProductAppendix2.LoadWhere(sql);
-            if (oApp2 != null)
+            //sql = "Appednix2Code = '" + Utility.VerifyQuotes(row[colAppendix2].ToString().Trim()) + "'";
+            //ProductAppendix2 oApp2 = ProductAppendix2.LoadWhere(sql);
+            //if (oApp2 != null)
+            if (ModelEx.ProductAppendix2Ex.IsAppendixCodeInUse(Utility.VerifyQuotes(row[colAppendix3].ToString())))
             {
                 verifiedResult.Append(colAppendix2).Append(";");
             }
 
             // Appendix3
-            sql = "Appendix3Code = '" + Utility.VerifyQuotes(row[colAppendix3].ToString().Trim()) + "'";
-            ProductAppendix3 oApp3 = ProductAppendix3.LoadWhere(sql);
-            if (oApp3 != null)
+            //sql = "Appendix3Code = '" + Utility.VerifyQuotes(row[colAppendix3].ToString().Trim()) + "'";
+            //ProductAppendix3 oApp3 = ProductAppendix3.LoadWhere(sql);
+            //if (oApp3 != null)
+            if (ModelEx.ProductAppendix3Ex.IsAppendixCodeInUse(Utility.VerifyQuotes(row[colAppendix3].ToString())))
             {
                 verifiedResult.Append(colAppendix3).Append(";");
             }
@@ -537,71 +540,95 @@ namespace RT2020.Product.Import
         #region Class/Appendix
         private Guid ImportAppendix1(string appendix1Value)
         {
-            string sql = "Appendix1Code = '" + appendix1Value + "'";
-            ProductAppendix1 oA1 = ProductAppendix1.LoadWhere(sql);
-            if (oA1 == null)
+            Guid result = Guid.Empty;
+
+            using (var ctx = new EF6.RT2020Entities())
             {
-                oA1 = new ProductAppendix1();
+                //string sql = "Appendix1Code = '" + appendix1Value + "'";
+                var oA1 = ctx.ProductAppendix1.Where(x => x.Appendix1Code == appendix1Value).FirstOrDefault();
+                if (oA1 == null)
+                {
+                    oA1 = new EF6.ProductAppendix1();
+                    oA1.Appendix1Id = Guid.NewGuid();
+                    oA1.Appendix1Code = appendix1Value;
+                    oA1.Appendix1Initial = appendix1Value;
 
-                oA1.Appendix1Code = appendix1Value;
-                oA1.Appendix1Initial = appendix1Value;
+                    oA1.CreatedBy = Common.Config.CurrentUserId;
+                    oA1.CreatedOn = DateTime.Now;
 
-                oA1.CreatedBy = Common.Config.CurrentUserId;
-                oA1.CreatedOn = DateTime.Now;
+                    ctx.ProductAppendix1.Add(oA1);
+                }
+
+                oA1.ModifiedBy = Common.Config.CurrentUserId;
+                oA1.ModifiedOn = DateTime.Now;
+
+                ctx.SaveChanges();
+                result = oA1.Appendix1Id;
             }
 
-            oA1.ModifiedBy = Common.Config.CurrentUserId;
-            oA1.ModifiedOn = DateTime.Now;
-
-            oA1.Save();
-
-            return oA1.Appendix1Id;
+            return result;
         }
 
         private Guid ImportAppendix2(string appendix2Value)
         {
-            string sql = "Appendix2Code = '" + appendix2Value + "'";
-            ProductAppendix2 oA2 = ProductAppendix2.LoadWhere(sql);
-            if (oA2 == null)
+            Guid result = Guid.Empty;
+
+            using (var ctx = new EF6.RT2020Entities())
             {
-                oA2 = new ProductAppendix2();
+                //string sql = "Appendix2Code = '" + appendix2Value + "'";
+                var oA2 = ctx.ProductAppendix2.Where(x => x.Appendix2Code == appendix2Value).FirstOrDefault();
+                if (oA2 == null)
+                {
+                    oA2 = new EF6.ProductAppendix2();
+                    oA2.Appendix2Id = Guid.NewGuid();
+                    oA2.Appendix2Code = appendix2Value;
+                    oA2.Appendix2Initial = appendix2Value;
 
-                oA2.Appendix2Code = appendix2Value;
-                oA2.Appendix2Initial = appendix2Value;
+                    oA2.CreatedBy = Common.Config.CurrentUserId;
+                    oA2.CreatedOn = DateTime.Now;
 
-                oA2.CreatedBy = Common.Config.CurrentUserId;
-                oA2.CreatedOn = DateTime.Now;
+                    ctx.ProductAppendix2.Add(oA2);
+                }
+
+                oA2.ModifiedBy = Common.Config.CurrentUserId;
+                oA2.ModifiedOn = DateTime.Now;
+
+                ctx.SaveChanges();
+                result = oA2.Appendix2Id;
             }
 
-            oA2.ModifiedBy = Common.Config.CurrentUserId;
-            oA2.ModifiedOn = DateTime.Now;
-
-            oA2.Save();
-
-            return oA2.Appendix2Id;
+            return result;
         }
 
         private Guid ImportAppendix3(string appendix3Value)
         {
-            string sql = "Appendix3Code = '" + appendix3Value + "'";
-            ProductAppendix3 oA3 = ProductAppendix3.LoadWhere(sql);
-            if (oA3 == null)
+            Guid result = Guid.Empty;
+
+            using (var ctx = new EF6.RT2020Entities())
             {
-                oA3 = new ProductAppendix3();
+                //string sql = "Appendix3Code = '" + appendix3Value + "'";
+                var oA3 = ctx.ProductAppendix3.Where(x => x.Appendix3Code == appendix3Value).FirstOrDefault();
+                if (oA3 == null)
+                {
+                    oA3 = new EF6.ProductAppendix3();
+                    oA3.Appendix3Id = Guid.NewGuid();
+                    oA3.Appendix3Code = appendix3Value;
+                    oA3.Appendix3Initial = appendix3Value;
 
-                oA3.Appendix3Code = appendix3Value;
-                oA3.Appendix3Initial = appendix3Value;
+                    oA3.CreatedBy = Common.Config.CurrentUserId;
+                    oA3.CreatedOn = DateTime.Now;
 
-                oA3.CreatedBy = Common.Config.CurrentUserId;
-                oA3.CreatedOn = DateTime.Now;
+                    ctx.ProductAppendix3.Add(oA3);
+                }
+
+                oA3.ModifiedBy = Common.Config.CurrentUserId;
+                oA3.ModifiedOn = DateTime.Now;
+
+                ctx.SaveChanges();
+                result = oA3.Appendix3Id;
             }
 
-            oA3.ModifiedBy = Common.Config.CurrentUserId;
-            oA3.ModifiedOn = DateTime.Now;
-
-            oA3.Save();
-
-            return oA3.Appendix3Id;
+            return result;
         }
 
         private Guid ImportClass1(string class1Value)

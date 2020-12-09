@@ -145,6 +145,14 @@ namespace RT2020.Helper
             return result;
         }
 
+        public enum Appendix
+        {
+            None,
+            Appendix1,
+            Appendix2,
+            Appendix3
+        }
+
         public enum Classes
         {
             None,

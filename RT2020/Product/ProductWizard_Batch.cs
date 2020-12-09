@@ -321,51 +321,9 @@ namespace RT2020.Product
             objItem.SubItems.Add(a1);
             objItem.SubItems.Add(a2);
             objItem.SubItems.Add(a3);
-            objItem.SubItems.Add(GetAppendix1Id(a1).ToString());
-            objItem.SubItems.Add(GetAppendix2Id(a2).ToString());
-            objItem.SubItems.Add(GetAppendix3Id(a3).ToString());
-        }
-
-        private Guid GetAppendix1Id(string a1Code)
-        {
-            string sql = "Appendix1Initial = '" + a1Code + "'";
-            ProductAppendix1 oA1 = ProductAppendix1.LoadWhere(sql);
-            if (oA1 != null)
-            {
-                return oA1.Appendix1Id;
-            }
-            else
-            {
-                return System.Guid.Empty;
-            }
-        }
-
-        private Guid GetAppendix2Id(string a2Code)
-        {
-            string sql = "Appendix2Initial = '" + a2Code + "'";
-            ProductAppendix2 oA2 = ProductAppendix2.LoadWhere(sql);
-            if (oA2 != null)
-            {
-                return oA2.Appendix2Id;
-            }
-            else
-            {
-                return System.Guid.Empty;
-            }
-        }
-
-        private Guid GetAppendix3Id(string a3Code)
-        {
-            string sql = "Appendix3Initial = '" + a3Code + "'";
-            ProductAppendix3 oA3 = ProductAppendix3.LoadWhere(sql);
-            if (oA3 != null)
-            {
-                return oA3.Appendix3Id;
-            }
-            else
-            {
-                return System.Guid.Empty;
-            }
+            objItem.SubItems.Add(ModelEx.ProductAppendix1Ex.GetIdByInitial(a1).ToString());
+            objItem.SubItems.Add(ModelEx.ProductAppendix2Ex.GetIdByInitial(a2).ToString());
+            objItem.SubItems.Add(ModelEx.ProductAppendix3Ex.GetIdByInitial(a3).ToString());
         }
         #endregion
 

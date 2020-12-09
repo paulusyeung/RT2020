@@ -167,6 +167,9 @@ namespace RT2020.Product
 
         private void FillAppendixe1()
         {
+            string[] orderBy = new string[] { "Appendix1Code" };
+            ModelEx.ProductAppendix1Ex.LoadCombo(ref cboAppendix1, "Appendix1Code", false, true, "", "", orderBy);
+            /**
             cboAppendix1.Items.Clear();
 
             string[] orderBy = new string[] { "Appendix1Code"};
@@ -175,11 +178,15 @@ namespace RT2020.Product
             cboAppendix1.DataSource = oA1List;
             cboAppendix1.DisplayMember = "Appendix1Code";
             cboAppendix1.ValueMember = "Appendix1Id";
+            */
             cboAppendix1.SelectedIndex = cboAppendix1.Items.Count - 1;
         } 
 
         private void FillAppendixe2()
         {
+            string[] orderBy = new string[] { "Appendix2Code" };
+            ModelEx.ProductAppendix2Ex.LoadCombo(ref cboAppendix2, "Appendix2Code", false, true, "", "", orderBy);
+            /**
             cboAppendix2.Items.Clear();
 
             string[] orderBy = new string[] { "Appendix2Code" };
@@ -188,11 +195,15 @@ namespace RT2020.Product
             cboAppendix2.DataSource = oA2List;
             cboAppendix2.DisplayMember = "Appendix2Code";
             cboAppendix2.ValueMember = "Appendix2Id";
+            */
             cboAppendix2.SelectedIndex = cboAppendix2.Items.Count - 1;
         }
 
         private void FillAppendixe3()
         {
+            string[] orderBy = new string[] { "Appendix3Code" };
+            ModelEx.ProductAppendix3Ex.LoadCombo(ref cboAppendix3, "Appendix3Code", false, true, "", "", orderBy);
+            /**
             cboAppendix3.Items.Clear();
 
             string[] orderBy = new string[] { "Appendix3Code" };
@@ -201,6 +212,7 @@ namespace RT2020.Product
             cboAppendix3.DataSource = oA3List;
             cboAppendix3.DisplayMember = "Appendix3Code";
             cboAppendix3.ValueMember = "Appendix3Id";
+            */
             cboAppendix3.SelectedIndex = cboAppendix3.Items.Count - 1;
         }
         #endregion

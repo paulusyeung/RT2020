@@ -72,16 +72,16 @@ namespace RT2020.Product.Reports
             switch (this.AppendixType.Trim().ToUpper())
             {
                 case "APPENDIX1":
-                    RT2020.DAL.ProductAppendix1.LoadCombo(ref cmbFrom, textField, false);
-                    RT2020.DAL.ProductAppendix1.LoadCombo(ref cmbTo, textField, false);
+                    ModelEx.ProductAppendix1Ex.LoadCombo(ref cmbFrom, textField, false);
+                    ModelEx.ProductAppendix1Ex.LoadCombo(ref cmbTo, textField, false);
                     break;
                 case "APPENDIX2":
-                    RT2020.DAL.ProductAppendix2.LoadCombo(ref cmbFrom, textField, false);
-                    RT2020.DAL.ProductAppendix2.LoadCombo(ref cmbTo, textField, false);
+                    ModelEx.ProductAppendix2Ex.LoadCombo(ref cmbFrom, textField, false);
+                    ModelEx.ProductAppendix2Ex.LoadCombo(ref cmbTo, textField, false);
                     break;
                 case "APPENDIX3":
-                    RT2020.DAL.ProductAppendix3.LoadCombo(ref cmbFrom, textField, false);
-                    RT2020.DAL.ProductAppendix3.LoadCombo(ref cmbTo, textField, false);
+                    ModelEx.ProductAppendix3Ex.LoadCombo(ref cmbFrom, textField, false);
+                    ModelEx.ProductAppendix3Ex.LoadCombo(ref cmbTo, textField, false);
                     break;
             }
 

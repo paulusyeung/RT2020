@@ -28,6 +28,7 @@ namespace RT2020.Product
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.tbWizardAction = new Gizmox.WebGUI.Forms.ToolBar();
             this.lblCode = new Gizmox.WebGUI.Forms.Label();
             this.lblInitial = new Gizmox.WebGUI.Forms.Label();
@@ -46,28 +47,23 @@ namespace RT2020.Product
             this.txtLastUpdatedBy = new Gizmox.WebGUI.Forms.TextBox();
             this.txtLastUpdatedOn = new Gizmox.WebGUI.Forms.TextBox();
             this.txtCreatedOn = new Gizmox.WebGUI.Forms.TextBox();
-            this.errorProvider = new Gizmox.WebGUI.Forms.ErrorProvider();
+            this.errorProvider = new Gizmox.WebGUI.Forms.ErrorProvider(this.components);
             this.SuspendLayout();
             // 
             // tbWizardAction
             // 
-            this.tbWizardAction.Anchor = Gizmox.WebGUI.Forms.AnchorStyles.None;
-            this.tbWizardAction.Appearance = Gizmox.WebGUI.Forms.ToolBarAppearance.Normal;
-            this.tbWizardAction.Dock = Gizmox.WebGUI.Forms.DockStyle.Top;
             this.tbWizardAction.DragHandle = true;
-            this.tbWizardAction.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.tbWizardAction.DropDownArrows = false;
-            this.tbWizardAction.ImageList = null;
+            this.tbWizardAction.DropDownArrows = true;
+            this.tbWizardAction.ImageSize = new System.Drawing.Size(16, 16);
             this.tbWizardAction.Location = new System.Drawing.Point(0, 0);
             this.tbWizardAction.MenuHandle = true;
             this.tbWizardAction.Name = "tbWizardAction";
-            //this.tbWizardAction.RightToLeft = false;
             this.tbWizardAction.ShowToolTips = true;
+            this.tbWizardAction.Size = new System.Drawing.Size(100, 22);
             this.tbWizardAction.TabIndex = 0;
             // 
             // lblCode
             // 
-            this.lblCode.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
             this.lblCode.Location = new System.Drawing.Point(12, 41);
             this.lblCode.Name = "lblCode";
             this.lblCode.Size = new System.Drawing.Size(70, 23);
@@ -76,7 +72,6 @@ namespace RT2020.Product
             // 
             // lblInitial
             // 
-            this.lblInitial.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
             this.lblInitial.Location = new System.Drawing.Point(12, 64);
             this.lblInitial.Name = "lblInitial";
             this.lblInitial.Size = new System.Drawing.Size(70, 23);
@@ -85,7 +80,6 @@ namespace RT2020.Product
             // 
             // lblName
             // 
-            this.lblName.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
             this.lblName.Location = new System.Drawing.Point(12, 87);
             this.lblName.Name = "lblName";
             this.lblName.Size = new System.Drawing.Size(70, 23);
@@ -94,7 +88,6 @@ namespace RT2020.Product
             // 
             // lblNameChs
             // 
-            this.lblNameChs.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
             this.lblNameChs.Location = new System.Drawing.Point(12, 110);
             this.lblNameChs.Name = "lblNameChs";
             this.lblNameChs.Size = new System.Drawing.Size(70, 23);
@@ -103,7 +96,6 @@ namespace RT2020.Product
             // 
             // lblNameCht
             // 
-            this.lblNameCht.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
             this.lblNameCht.Location = new System.Drawing.Point(12, 133);
             this.lblNameCht.Name = "lblNameCht";
             this.lblNameCht.Size = new System.Drawing.Size(70, 23);
@@ -112,7 +104,6 @@ namespace RT2020.Product
             // 
             // lblParentAppendix
             // 
-            this.lblParentAppendix.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
             this.lblParentAppendix.Location = new System.Drawing.Point(12, 156);
             this.lblParentAppendix.Name = "lblParentAppendix";
             this.lblParentAppendix.Size = new System.Drawing.Size(70, 23);
@@ -121,7 +112,6 @@ namespace RT2020.Product
             // 
             // txtCode
             // 
-            this.txtCode.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
             this.txtCode.Location = new System.Drawing.Point(88, 38);
             this.txtCode.MaxLength = 4;
             this.txtCode.Name = "txtCode";
@@ -130,7 +120,6 @@ namespace RT2020.Product
             // 
             // txtInitial
             // 
-            this.txtInitial.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
             this.txtInitial.Location = new System.Drawing.Point(88, 61);
             this.txtInitial.MaxLength = 10;
             this.txtInitial.Name = "txtInitial";
@@ -139,7 +128,6 @@ namespace RT2020.Product
             // 
             // txtName
             // 
-            this.txtName.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
             this.txtName.Location = new System.Drawing.Point(88, 84);
             this.txtName.Name = "txtName";
             this.txtName.Size = new System.Drawing.Size(319, 20);
@@ -147,7 +135,6 @@ namespace RT2020.Product
             // 
             // txtNameChs
             // 
-            this.txtNameChs.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
             this.txtNameChs.Location = new System.Drawing.Point(88, 107);
             this.txtNameChs.Name = "txtNameChs";
             this.txtNameChs.Size = new System.Drawing.Size(319, 20);
@@ -155,7 +142,6 @@ namespace RT2020.Product
             // 
             // txtNameCht
             // 
-            this.txtNameCht.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
             this.txtNameCht.Location = new System.Drawing.Point(88, 130);
             this.txtNameCht.Name = "txtNameCht";
             this.txtNameCht.Size = new System.Drawing.Size(319, 20);
@@ -164,7 +150,6 @@ namespace RT2020.Product
             // cboParentAppendix
             // 
             this.cboParentAppendix.BorderStyle = Gizmox.WebGUI.Forms.BorderStyle.Fixed3D;
-            this.cboParentAppendix.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
             this.cboParentAppendix.DropDownStyle = Gizmox.WebGUI.Forms.ComboBoxStyle.DropDownList;
             this.cboParentAppendix.DropDownWidth = 121;
             this.cboParentAppendix.Location = new System.Drawing.Point(88, 153);
@@ -174,7 +159,6 @@ namespace RT2020.Product
             // 
             // lblLastUpdate
             // 
-            this.lblLastUpdate.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
             this.lblLastUpdate.Location = new System.Drawing.Point(12, 241);
             this.lblLastUpdate.Name = "lblLastUpdate";
             this.lblLastUpdate.Size = new System.Drawing.Size(70, 23);
@@ -183,7 +167,6 @@ namespace RT2020.Product
             // 
             // lblCreatedOn
             // 
-            this.lblCreatedOn.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
             this.lblCreatedOn.Location = new System.Drawing.Point(12, 264);
             this.lblCreatedOn.Name = "lblCreatedOn";
             this.lblCreatedOn.Size = new System.Drawing.Size(70, 23);
@@ -193,7 +176,6 @@ namespace RT2020.Product
             // txtLastUpdatedBy
             // 
             this.txtLastUpdatedBy.BackColor = System.Drawing.Color.LightYellow;
-            this.txtLastUpdatedBy.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
             this.txtLastUpdatedBy.Location = new System.Drawing.Point(194, 238);
             this.txtLastUpdatedBy.Name = "txtLastUpdatedBy";
             this.txtLastUpdatedBy.ReadOnly = true;
@@ -203,7 +185,6 @@ namespace RT2020.Product
             // txtLastUpdatedOn
             // 
             this.txtLastUpdatedOn.BackColor = System.Drawing.Color.LightYellow;
-            this.txtLastUpdatedOn.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
             this.txtLastUpdatedOn.Location = new System.Drawing.Point(88, 238);
             this.txtLastUpdatedOn.Name = "txtLastUpdatedOn";
             this.txtLastUpdatedOn.ReadOnly = true;
@@ -213,7 +194,6 @@ namespace RT2020.Product
             // txtCreatedOn
             // 
             this.txtCreatedOn.BackColor = System.Drawing.Color.LightYellow;
-            this.txtCreatedOn.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
             this.txtCreatedOn.Location = new System.Drawing.Point(88, 261);
             this.txtCreatedOn.Name = "txtCreatedOn";
             this.txtCreatedOn.ReadOnly = true;
@@ -223,9 +203,6 @@ namespace RT2020.Product
             // errorProvider
             // 
             this.errorProvider.BlinkRate = 3;
-            this.errorProvider.BlinkStyle = Gizmox.WebGUI.Forms.ErrorBlinkStyle.BlinkIfDifferentError;
-            this.errorProvider.DataMember = "";
-            this.errorProvider.DataSource = "";
             // 
             // ProductAppendixWizard
             // 
@@ -251,6 +228,7 @@ namespace RT2020.Product
             this.MinimizeBox = false;
             this.Size = new System.Drawing.Size(419, 466);
             this.Text = "Prodcut Appendix Wizard";
+            this.Load += new System.EventHandler(this.ProductAppendixWizard_Load);
             this.ResumeLayout(false);
 
         }
