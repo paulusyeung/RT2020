@@ -1262,31 +1262,35 @@ namespace RT2020.EmulatedPoS
             else
             {
                 int count = 0;
-                string sqlWhere = "HeaderId='" + this.HeaderId + "'";
-                RT2020.DAL.EPOSBatchTenderCollection posTenderCollection = RT2020.DAL.EPOSBatchTender.LoadCollection(sqlWhere);
-                foreach (RT2020.DAL.EPOSBatchTender posTender in posTenderCollection)
-                {
-                    string typeCode;
-                    RT2020.DAL.PosTenderType posType = RT2020.DAL.PosTenderType.Load(posTender.TypeId);
-                    typeCode = posType.TypeCode;
-                    ListViewItem item = new ListViewItem(posTender.TenderId.ToString());
-                    item.SubItems.Add(posTender.TypeId.ToString());
-                    item.SubItems.Add(typeCode);
-                    item.SubItems.Add(posTender.TenderAmount.ToString());
-                    item.SubItems.Add(posTender.CardNumber);
-                    item.SubItems.Add(posTender.AuthorizationCode);
-                    item.SubItems.Add(posTender.CurrencyCode);
-                    item.SubItems.Add(posTender.ExchangeRate.ToString());
-                    item.SubItems.Add(posTender.InLocalCurrency.ToString());
 
-                    lvPaymentItems.Items.Add(item);
-                    count++;
-                }
-                if (count < 5)
+                using (var ctx = new EF6.RT2020Entities())
                 {
-                    for (int i = 0; i < 5 - count; i++)
+                    string sqlWhere = "HeaderId='" + this.HeaderId + "'";
+                    var posTenderCollection = ctx.EPOSBatchTender.Where(x => x.HeaderId == this.HeaderId).ToList();
+                    foreach (var posTender in posTenderCollection)
                     {
-                        lvPaymentItems.Items.Add("");
+                        string typeCode;
+                        var posType = ModelEx.PosTenderTypeEx.Get(posTender.TypeId);
+                        typeCode = posType.TypeCode;
+                        ListViewItem item = new ListViewItem(posTender.TenderId.ToString());
+                        item.SubItems.Add(posTender.TypeId.ToString());
+                        item.SubItems.Add(typeCode);
+                        item.SubItems.Add(posTender.TenderAmount.ToString());
+                        item.SubItems.Add(posTender.CardNumber);
+                        item.SubItems.Add(posTender.AuthorizationCode);
+                        item.SubItems.Add(posTender.CurrencyCode);
+                        item.SubItems.Add(posTender.ExchangeRate.ToString());
+                        item.SubItems.Add(posTender.InLocalCurrency.ToString());
+
+                        lvPaymentItems.Items.Add(item);
+                        count++;
+                    }
+                    if (count < 5)
+                    {
+                        for (int i = 0; i < 5 - count; i++)
+                        {
+                            lvPaymentItems.Items.Add("");
+                        }
                     }
                 }
 
@@ -1420,8 +1424,8 @@ namespace RT2020.EmulatedPoS
         /// <param name="amount">The amount.</param>
         private void InitPaymentItems(decimal amount)
         {
-            string sqlWhere = "TypeCode = 'CASH' AND CurrencyCode = 'HKD'";
-            RT2020.DAL.PosTenderType posTenderType = RT2020.DAL.PosTenderType.LoadWhere(sqlWhere);
+            //string sqlWhere = "TypeCode = 'CASH' AND CurrencyCode = 'HKD'";
+            var posTenderType = ModelEx.PosTenderTypeEx.Get("CASH", "HKD");
 
             if (lvPaymentItems.Items[0].SubItems.Count <= 1)
             {

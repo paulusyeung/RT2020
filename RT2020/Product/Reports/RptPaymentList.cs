@@ -16,6 +16,8 @@ using System.Web;
 using RT2020.DAL;
 using System.Data.Common;
 using System.Configuration;
+using System.Linq;
+using System.Data.Entity;
 
 #endregion
 
@@ -32,20 +34,23 @@ namespace RT2020.Product.Reports
         #region FillComboBox
         private void FillComboBox()
         {
-            PosTenderTypeCollection collection = RT2020.DAL.PosTenderType.LoadCollection(new string[] { "TypeCode" }, true);
-            if (collection.Count > 0)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                foreach (RT2020.DAL.PosTenderType oPosTenderType in collection)
+                var collection = ctx.PosTenderType.OrderBy(x => x.TypeCode).AsNoTracking().ToList();
+                if (collection.Count > 0)
                 {
-                    System.Web.UI.WebControls.ListItem item = new System.Web.UI.WebControls.ListItem(oPosTenderType.TypeCode, oPosTenderType.TypeId.ToString());
-                    cmbFrom.Items.Add(item);
-                    cmbTo.Items.Add(item);
-                }
-                cmbFrom.SelectedIndex = 0;
-                //cmbFrom.DropDownStyle = ComboBoxStyle.DropDownList;
+                    foreach (var oPosTenderType in collection)
+                    {
+                        System.Web.UI.WebControls.ListItem item = new System.Web.UI.WebControls.ListItem(oPosTenderType.TypeCode, oPosTenderType.TypeId.ToString());
+                        cmbFrom.Items.Add(item);
+                        cmbTo.Items.Add(item);
+                    }
+                    cmbFrom.SelectedIndex = 0;
+                    //cmbFrom.DropDownStyle = ComboBoxStyle.DropDownList;
 
-                cmbTo.SelectedIndex = collection.Count - 1;
-                //cmbTo.DropDownStyle = ComboBoxStyle.DropDownList;
+                    cmbTo.SelectedIndex = collection.Count - 1;
+                    //cmbTo.DropDownStyle = ComboBoxStyle.DropDownList;
+                }
             }
         }
 

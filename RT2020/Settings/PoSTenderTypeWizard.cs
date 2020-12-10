@@ -174,20 +174,7 @@ namespace RT2020.Settings
         #endregion
 
         #region Save
-        private bool CodeExists()
-        {
-            string sql = "TypeCode = '" + txtPosTenderTypeCode.Text.Trim() + "'";
-            PosTenderTypeCollection typeList = PosTenderType.LoadCollection(sql);
-            if (typeList.Count > 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
+        
         private bool Save()
         {
             if (txtPosTenderTypeCode.Text.Length == 0)
@@ -229,40 +216,44 @@ namespace RT2020.Settings
                 errorProvider.SetError(txtAdditionalMonthlyCharge, string.Empty);
                 errorProvider.SetError(txtMinimumMonthlyCharge, string.Empty);
 
-                PosTenderType oPosTenderType = PosTenderType.Load(this.PosTenderTypeId);
-                if (oPosTenderType == null)
+                using (var ctx = new EF6.RT2020Entities())
                 {
-                    oPosTenderType = new PosTenderType();
+                    var oPosTenderType = ctx.PosTenderType.Find(this.PosTenderTypeId);
+                    if (oPosTenderType == null)
+                    {
+                        oPosTenderType = new EF6.PosTenderType();
+                        oPosTenderType.TypeId = Guid.NewGuid();
+                        if (ModelEx.PosTenderTypeEx.IsTypeCodeInUse(txtPosTenderTypeCode.Text.Trim()))
+                        {
+                            errorProvider.SetError(txtPosTenderTypeCode, string.Format(Resources.Common.DuplicatedCode, "PoS Tender Type Code"));
+                            return false;
+                        }
+                        else
+                        {
+                            oPosTenderType.TypeCode = txtPosTenderTypeCode.Text;
+                            oPosTenderType.CreatedBy = Common.Config.CurrentUserId;
+                            oPosTenderType.CreatedOn = DateTime.Now;
+                            errorProvider.SetError(txtPosTenderTypeCode, string.Empty);
+                        }
+                        ctx.PosTenderType.Add(oPosTenderType);
+                    }
+                    oPosTenderType.TypeName = txtPosTenderTypeName.Text;
+                    oPosTenderType.TypeName_Chs = txtPosTenderTypeNameChs.Text;
+                    oPosTenderType.TypeName_Cht = txtPosTenderTypeNameCht.Text;
 
-                    if (CodeExists())
-                    {
-                        errorProvider.SetError(txtPosTenderTypeCode, string.Format(Resources.Common.DuplicatedCode, "PoS Tender Type Code"));
-                        return false;
-                    }
-                    else
-                    {
-                        oPosTenderType.TypeCode = txtPosTenderTypeCode.Text;
-                        oPosTenderType.CreatedBy = Common.Config.CurrentUserId;
-                        oPosTenderType.CreatedOn = DateTime.Now;
-                        errorProvider.SetError(txtPosTenderTypeCode, string.Empty);
-                    }
+                    oPosTenderType.CurrencyCode = cboCurrency.Text;
+                    oPosTenderType.ExchangeRate = (txtExchangeRate.Text.Length == 0) ? 0 : Convert.ToDecimal(txtExchangeRate.Text);
+                    oPosTenderType.DownloadToPOS = chkDownloadToPoS.Checked;
+                    oPosTenderType.ChargeRate = (txtChargeRate.Text.Length == 0) ? 0 : Convert.ToDecimal(txtChargeRate.Text);
+                    oPosTenderType.ChargeAmount = (txtChargeAmount.Text.Length == 0) ? 0 : Convert.ToDecimal(txtChargeAmount.Text);
+                    oPosTenderType.AdditionalMonthlyCharge = (txtAdditionalMonthlyCharge.Text.Length == 0) ? 0 : Convert.ToDecimal(txtAdditionalMonthlyCharge.Text);
+                    oPosTenderType.MinimumMonthlyCharge = (txtMinimumMonthlyCharge.Text.Length == 0) ? 0 : Convert.ToDecimal(txtMinimumMonthlyCharge.Text);
+
+                    oPosTenderType.ModifiedBy = Common.Config.CurrentUserId;
+                    oPosTenderType.ModifiedOn = DateTime.Now;
+
+                    ctx.SaveChanges();
                 }
-                oPosTenderType.TypeName = txtPosTenderTypeName.Text;
-                oPosTenderType.TypeName_Chs = txtPosTenderTypeNameChs.Text;
-                oPosTenderType.TypeName_Cht = txtPosTenderTypeNameCht.Text;
-
-                oPosTenderType.CurrencyCode = cboCurrency.Text;
-                oPosTenderType.ExchangeRate = (txtExchangeRate.Text.Length == 0) ? 0 : Convert.ToDecimal(txtExchangeRate.Text);
-                oPosTenderType.DownloadToPOS = chkDownloadToPoS.Checked;
-                oPosTenderType.ChargeRate = (txtChargeRate.Text.Length == 0) ? 0 : Convert.ToDecimal(txtChargeRate.Text);
-                oPosTenderType.ChargeAmount = (txtChargeAmount.Text.Length == 0) ? 0 : Convert.ToDecimal(txtChargeAmount.Text);
-                oPosTenderType.AdditionalMonthlyCharge = (txtAdditionalMonthlyCharge.Text.Length == 0) ? 0 : Convert.ToDecimal(txtAdditionalMonthlyCharge.Text);
-                oPosTenderType.MinimumMonthlyCharge = (txtMinimumMonthlyCharge.Text.Length == 0) ? 0 : Convert.ToDecimal(txtMinimumMonthlyCharge.Text);
-
-                oPosTenderType.ModifiedBy = Common.Config.CurrentUserId;
-                oPosTenderType.ModifiedOn = DateTime.Now;
-
-                oPosTenderType.Save();
                 return true;
             }
         }
@@ -293,16 +284,20 @@ namespace RT2020.Settings
 
         private void Delete()
         {
-            PosTenderType oPosTenderType = PosTenderType.Load(this.PosTenderTypeId);
-            if (oPosTenderType != null)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                try
+                var oPosTenderType = ctx.PosTenderType.Find(this.PosTenderTypeId);
+                if (oPosTenderType != null)
                 {
-                    oPosTenderType.Delete();
-                }
-                catch
-                {
-                    MessageBox.Show("Cannot delete the record being used by other record!", "Delete Warning");
+                    try
+                    {
+                        ctx.PosTenderType.Remove(oPosTenderType);
+                        ctx.SaveChanges();
+                    }
+                    catch
+                    {
+                        MessageBox.Show("Cannot delete the record being used by other record!", "Delete Warning");
+                    }
                 }
             }
         }
@@ -311,27 +306,31 @@ namespace RT2020.Settings
         {
             if (lvPosTenderTypeList.SelectedItem != null)
             {
-                if (Common.Utility.IsGUID(lvPosTenderTypeList.SelectedItem.Text))
+                Guid id = Guid.Empty;
+                if (Guid.TryParse(lvPosTenderTypeList.SelectedItem.Text, out id))
                 {
-                    PosTenderType oPosTenderType = PosTenderType.Load(new System.Guid(lvPosTenderTypeList.SelectedItem.Text));
-                    if (oPosTenderType != null)
+                    using (var ctx = new EF6.RT2020Entities())
                     {
-                        txtPosTenderTypeCode.Text = oPosTenderType.TypeCode;
-                        txtPosTenderTypeName.Text = oPosTenderType.TypeName;
-                        txtPosTenderTypeNameChs.Text = oPosTenderType.TypeName_Chs;
-                        txtPosTenderTypeNameCht.Text = oPosTenderType.TypeName_Cht;
-                        cboCurrency.Text = oPosTenderType.CurrencyCode;
-                        txtExchangeRate.Text = oPosTenderType.ExchangeRate.ToString("n4");
-                        chkDownloadToPoS.Checked = true;
-                        txtChargeRate.Text = oPosTenderType.ChargeRate.ToString("n2");
-                        txtChargeAmount.Text = oPosTenderType.ChargeAmount.ToString("n2");
-                        txtAdditionalMonthlyCharge.Text = oPosTenderType.AdditionalMonthlyCharge.ToString("n2");
-                        txtMinimumMonthlyCharge.Text = oPosTenderType.MinimumMonthlyCharge.ToString("n2");
+                        var oPosTenderType = ctx.PosTenderType.Find(id);
+                        if (oPosTenderType != null)
+                        {
+                            txtPosTenderTypeCode.Text = oPosTenderType.TypeCode;
+                            txtPosTenderTypeName.Text = oPosTenderType.TypeName;
+                            txtPosTenderTypeNameChs.Text = oPosTenderType.TypeName_Chs;
+                            txtPosTenderTypeNameCht.Text = oPosTenderType.TypeName_Cht;
+                            cboCurrency.Text = oPosTenderType.CurrencyCode;
+                            txtExchangeRate.Text = oPosTenderType.ExchangeRate.Value.ToString("n4");
+                            chkDownloadToPoS.Checked = true;
+                            txtChargeRate.Text = oPosTenderType.ChargeRate.ToString("n2");
+                            txtChargeAmount.Text = oPosTenderType.ChargeAmount.ToString("n2");
+                            txtAdditionalMonthlyCharge.Text = oPosTenderType.AdditionalMonthlyCharge.ToString("n2");
+                            txtMinimumMonthlyCharge.Text = oPosTenderType.MinimumMonthlyCharge.ToString("n2");
 
-                        this.PosTenderTypeId = oPosTenderType.TypeId;
+                            this.PosTenderTypeId = oPosTenderType.TypeId;
 
-                        SetCtrlEditable();
-                        SetToolBar();
+                            SetCtrlEditable();
+                            SetToolBar();
+                        }
                     }
                 }
             }

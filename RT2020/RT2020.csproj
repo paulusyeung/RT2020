@@ -1627,6 +1627,7 @@
     <Compile Include="MenuStrip\SettingsAms.cs" />
     <Compile Include="MenuStrip\ToolsAms.cs" />
     <Compile Include="MenuStrip\ViewAms.cs" />
+    <Compile Include="ModelEx\PosTenderTypeEx.cs" />
     <Compile Include="ModelEx\PriceManagementActiveHeaderEx.cs" />
     <Compile Include="ModelEx\PriceManagementBatchHeaderEx.cs" />
     <Compile Include="ModelEx\PriceManagementReasonEx.cs" />

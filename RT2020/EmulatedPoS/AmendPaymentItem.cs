@@ -12,6 +12,8 @@ using Gizmox.WebGUI.Common;
 using Gizmox.WebGUI.Forms;
 
 using RT2020.DAL;
+using System.Linq;
+using System.Data.Entity;
 
 #endregion
 
@@ -64,10 +66,13 @@ namespace RT2020.EmulatedPoS
                 cboCurrencyCode.Items.Clear();
 
                 string sqlWhere = "TypeCode='" + cboTypeCode.Text + "'";
-                RT2020.DAL.PosTenderTypeCollection posTypeCollection = RT2020.DAL.PosTenderType.LoadCollection(sqlWhere);
-                foreach (RT2020.DAL.PosTenderType posType in posTypeCollection)
+                using (var ctx = new EF6.RT2020Entities())
                 {
-                    cboCurrencyCode.Items.Add(posType.CurrencyCode);
+                    var posTypeCollection = ctx.PosTenderType.Where(x => x.TypeCode == cboTypeCode.Text).AsNoTracking().ToList(); ;
+                    foreach (var posType in posTypeCollection)
+                    {
+                        cboCurrencyCode.Items.Add(posType.CurrencyCode);
+                    }
                 }
             }
         }
@@ -160,9 +165,9 @@ namespace RT2020.EmulatedPoS
         /// <param name="authorize">The authorize.</param>
         public void ReturnValues(ref Guid typeId,ref string typeCode, ref string currencyCode, ref string amount, ref string exchangeRate, ref string amtHkd, ref string card, ref string authorize)
         {
-            string sqlWhere = "TypeCode = '" + cboTypeCode.Text + "' AND CurrencyCode = '" + cboCurrencyCode.Text + "'";
-            RT2020.DAL.PosTenderType posTender = RT2020.DAL.PosTenderType.LoadWhere(sqlWhere);
-            typeId = posTender.TypeId;
+            //string sqlWhere = "TypeCode = '" + cboTypeCode.Text + "' AND CurrencyCode = '" + cboCurrencyCode.Text + "'";
+            //RT2020.DAL.PosTenderType posTender = RT2020.DAL.PosTenderType.LoadWhere(sqlWhere);
+            typeId = ModelEx.PosTenderTypeEx.GetId(typeCode, currencyCode);
             typeCode = cboTypeCode.Text;
             currencyCode = cboCurrencyCode.Text;
             amount = txtAmount.Text;
@@ -179,9 +184,9 @@ namespace RT2020.EmulatedPoS
         /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
         private void cboCurrencyCode_SelectedIndexChanged(object sender, EventArgs e)
         {
-            string sqlWhere = "TypeCode = '" + cboTypeCode.Text + "' AND CurrencyCode = '" + cboCurrencyCode.Text + "'";
-            RT2020.DAL.PosTenderType posType = RT2020.DAL.PosTenderType.LoadWhere(sqlWhere);
-            txtXchgRate.Text = posType.ExchangeRate.ToString("n4");
+            //string sqlWhere = "TypeCode = '" + cboTypeCode.Text + "' AND CurrencyCode = '" + cboCurrencyCode.Text + "'";
+            //RT2020.DAL.PosTenderType posType = RT2020.DAL.PosTenderType.LoadWhere(sqlWhere);
+            txtXchgRate.Text = ModelEx.PosTenderTypeEx.GetExchageRte(cboTypeCode.Text, cboCurrencyCode.Text).ToString("n4");
         }
 
         /// <summary>
