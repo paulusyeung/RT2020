@@ -350,7 +350,7 @@ namespace RT2020.Inventory.StockTake
         #endregion
 
         #region Stock Take Creation
-        private ProductCollection GetProductList()
+        private string GetProductListQueryString()
         {
             StringBuilder sql = new StringBuilder();
 
@@ -403,8 +403,8 @@ namespace RT2020.Inventory.StockTake
                 .Append(cboClass6_To.Text)
                 .Append("') ");
 
-            ProductCollection prodList = RT2020.DAL.Product.LoadCollection(sql.ToString(), new string[] { "STKCODE" }, true);
-            return prodList;
+            //ProductCollection prodList = RT2020.DAL.Product.LoadCollection(sql.ToString(), new string[] { "STKCODE" }, true);
+            return sql.ToString();
         }
 
         private int CreateSTK()
@@ -488,8 +488,8 @@ namespace RT2020.Inventory.StockTake
                 {
                     try
                     {
-                        ProductCollection prodList = GetProductList();
-                        foreach (RT2020.DAL.Product prod in prodList)
+                        var prodList = ctx.Product.SqlQuery(string.Format("Select * from Product Where {0}", GetProductListQueryString())).ToList();
+                        foreach (var prod in prodList)
                         {
                             string sql = "WorkplaceId = '" + workplaceId.ToString() + "' AND ProductId = '" + prod.ProductId.ToString() + "'";
                             if (rbtnNonZeroQtyItems.Checked)
@@ -498,7 +498,7 @@ namespace RT2020.Inventory.StockTake
                             }
 
                             var wpItem = ctx.ProductWorkplace
-                                .Where(x => x.WorkplaceId == workplaceId && x.ProductId == prod.ProductId)
+                                .SqlQuery(string.Format("Select * from ProductWorkplace Where {0}", sql))
                                 .FirstOrDefault();
                             if (wpItem != null)
                             {

@@ -366,7 +366,7 @@ namespace RT2020.Product
         private void GenBarcode()
         {
             StringBuilder barcode = new StringBuilder();
-            RT2020.DAL.Product oItem = RT2020.DAL.Product.Load(this.ProductId);
+            var oItem = ModelEx.ProductEx.Get(this.ProductId);
             if (oItem != null)
             {
                 barcode.Append(oItem.STKCODE);

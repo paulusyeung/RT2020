@@ -75,12 +75,14 @@ namespace RT2020.Inventory.Olap
         /// </summary>
         private void GetProductCode()
         {
+            /**
             RT2020.DAL.ProductCollection oProdList = RT2020.DAL.Product.LoadCollection(new string[] { "STKCODE" }, true);
             if (oProdList.Count > 0)
             {
                 this.txtSTKCODE_From.Text = oProdList[0].STKCODE;
                 this.txtSTKCODE_To.Text = oProdList[oProdList.Count - 1].STKCODE;
             }
+            */
         }
 
         #region APSxPivotGrid

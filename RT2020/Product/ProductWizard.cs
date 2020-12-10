@@ -413,7 +413,7 @@ namespace RT2020.Product
                                 ctx.Product.Add(oProduct);
                                 #endregion
                             }
-
+                            #region Porduct core data
                             oProduct.CLASS1 = general.cboClass1.Text;
                             oProduct.CLASS2 = general.cboClass2.Text;
                             oProduct.CLASS3 = general.cboClass3.Text;
@@ -458,7 +458,11 @@ namespace RT2020.Product
                             oProduct.ReorderQty = Convert.ToDecimal((order.txtReorderQuantity.Text == string.Empty) ? "0" : order.txtReorderQuantity.Text);
 
                             ctx.SaveChanges();
+                            #endregion
 
+                            var productId = oProduct.ProductId;
+
+                            #region log4net
                             if (isNew)
                             {// log activity (New Record)
                                 RT2020.Controls.Log4net.LogInfo(RT2020.Controls.Log4net.LogAction.Create, oProduct.ToString());
@@ -467,6 +471,7 @@ namespace RT2020.Product
                             { // log activity (Update)
                                 RT2020.Controls.Log4net.LogInfo(RT2020.Controls.Log4net.LogAction.Update, oProduct.ToString());
                             }
+                            #endregion
 
                             #region SaveProductBarcode(oProduct);
                             string stkcode = oProduct.STKCODE;
@@ -556,7 +561,86 @@ namespace RT2020.Product
                             ctx.SaveChanges();
                             #endregion
 
-                            SaveProductPrice(oProduct.ProductId);
+                            //SaveProductPrice(oProduct.ProductId);
+                            #region SaveProductPrice(productId, Common.Enums.ProductPriceType.BASPRC.ToString(), general.txtCurrentRetailCurrency.Text, general.txtCurrentRetailPrice.Text);
+                            var price = general.txtCurrentRetailPrice.Text;
+                            var currencyCode = general.txtCurrentRetailCurrency.Text;
+                            var priceType = Common.Enums.ProductPriceType.BASPRC.ToString();
+                            var priceTypeId = ModelEx.ProductPriceTypeEx.GetIdByPriceType(priceType);
+
+                            var oBPrice = ctx.ProductPrice.Where(x => x.ProductId == productId && x.PriceTypeId == priceTypeId).FirstOrDefault();
+                            if (oBPrice == null)
+                            {
+                                oBPrice = new EF6.ProductPrice();
+                                oBPrice.ProductPriceId = Guid.NewGuid();
+                                oBPrice.ProductId = productId;
+                                ctx.ProductPrice.Add(oBPrice);
+                            }
+                            oBPrice.PriceTypeId = ModelEx.ProductPriceTypeEx.GetIdByPriceType(priceType);
+                            oBPrice.CurrencyCode = currencyCode;
+                            oBPrice.Price = Convert.ToDecimal((price == string.Empty) ? "0" : price);
+                            ctx.SaveChanges();
+                            #endregion
+                            //
+                            #region SaveProductPrice(productId, Common.Enums.ProductPriceType.ORIPRC.ToString(), general.txtOriginalRetailCurrency.Text, general.txtOriginalRetailPrice.Text);
+                            price = general.txtOriginalRetailPrice.Text;
+                            currencyCode = general.txtOriginalRetailCurrency.Text;
+                            priceType = Common.Enums.ProductPriceType.ORIPRC.ToString();
+                            priceTypeId = ModelEx.ProductPriceTypeEx.GetIdByPriceType(priceType);
+
+                            var oOPrice = ctx.ProductPrice.Where(x => x.ProductId == productId && x.PriceTypeId == priceTypeId).FirstOrDefault();
+                            if (oOPrice == null)
+                            {
+                                oOPrice = new EF6.ProductPrice();
+                                oOPrice.ProductPriceId = Guid.NewGuid();
+                                oOPrice.ProductId = productId;
+                                ctx.ProductPrice.Add(oOPrice);
+                            }
+                            oOPrice.PriceTypeId = ModelEx.ProductPriceTypeEx.GetIdByPriceType(priceType);
+                            oOPrice.CurrencyCode = currencyCode;
+                            oOPrice.Price = Convert.ToDecimal((price == string.Empty) ? "0" : price);
+                            ctx.SaveChanges();
+                            #endregion
+                            //
+                            #region SaveProductPrice(productId, Common.Enums.ProductPriceType.VPRC.ToString(), general.cboVendorCurrency.Text, general.txtVendorPrice.Text);
+                            price = general.txtVendorPrice.Text;
+                            currencyCode = general.cboVendorCurrency.Text;
+                            priceType = Common.Enums.ProductPriceType.VPRC.ToString();
+                            priceTypeId = ModelEx.ProductPriceTypeEx.GetIdByPriceType(priceType);
+
+                            var oVPrice = ctx.ProductPrice.Where(x => x.ProductId == productId && x.PriceTypeId == priceTypeId).FirstOrDefault();
+                            if (oVPrice == null)
+                            {
+                                oVPrice = new EF6.ProductPrice();
+                                oVPrice.ProductPriceId = Guid.NewGuid();
+                                oVPrice.ProductId = productId;
+                                ctx.ProductPrice.Add(oVPrice);
+                            }
+                            oVPrice.PriceTypeId = ModelEx.ProductPriceTypeEx.GetIdByPriceType(priceType);
+                            oVPrice.CurrencyCode = currencyCode;
+                            oVPrice.Price = Convert.ToDecimal((price == string.Empty) ? "0" : price);
+                            ctx.SaveChanges();
+                            #endregion
+                            //
+                            #region SaveProductPrice(productId, Common.Enums.ProductPriceType.WHLPRC.ToString(), general.txtWholesalesCurrency.Text, general.txtWholesalesPrice.Text);
+                            price = general.txtWholesalesPrice.Text;
+                            currencyCode = general.txtWholesalesCurrency.Text;
+                            priceType = Common.Enums.ProductPriceType.WHLPRC.ToString();
+                            priceTypeId = ModelEx.ProductPriceTypeEx.GetIdByPriceType(priceType);
+
+                            var oWPrice = ctx.ProductPrice.Where(x => x.ProductId == productId && x.PriceTypeId == priceTypeId).FirstOrDefault();
+                            if (oWPrice == null)
+                            {
+                                oWPrice = new EF6.ProductPrice();
+                                oWPrice.ProductPriceId = Guid.NewGuid();
+                                oWPrice.ProductId = productId;
+                                ctx.ProductPrice.Add(oWPrice);
+                            }
+                            oWPrice.PriceTypeId = ModelEx.ProductPriceTypeEx.GetIdByPriceType(priceType);
+                            oWPrice.CurrencyCode = currencyCode;
+                            oWPrice.Price = Convert.ToDecimal((price == string.Empty) ? "0" : price);
+                            ctx.SaveChanges();
+                            #endregion
 
                             // Remarks
                             #region SaveProductRemarks(oProduct.ProductId);
@@ -639,105 +723,306 @@ namespace RT2020.Product
 
         private Guid SaveGeneralInfo()
         {
+            Guid result = Guid.Empty;
             bool isNew = false;
 
-            RT2020.DAL.Product oItem = RT2020.DAL.Product.Load(this.ProductId);
-            if (oItem == null)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                oItem = new RT2020.DAL.Product();
-
-                oItem.STKCODE = txtStkCode.Text.Trim();
-                oItem.APPENDIX1 = cboAppendix1.Text.Trim();
-                oItem.APPENDIX2 = cboAppendix2.Text.Trim();
-                oItem.APPENDIX3 = cboAppendix3.Text.Trim();
-
-                oItem.Status = Convert.ToInt32(Common.Enums.Status.Active.ToString("d"));
-                isNew = true;
-
-                oItem.CreatedBy = Common.Config.CurrentUserId;
-                oItem.CreatedOn = DateTime.Now;
-
-                if (VerifyDuplicated())
+                using (var scope = ctx.Database.BeginTransaction())
                 {
-                    return System.Guid.Empty;
+                    try
+                    {
+                        var oProduct = ctx.Product.Find(this.ProductId);
+                        if (oProduct == null)
+                        {
+                            #region add new product
+                            oProduct = new EF6.Product();
+                            oProduct.ProductId = Guid.NewGuid();
+                            oProduct.STKCODE = txtStkCode.Text.Trim();
+                            oProduct.APPENDIX1 = cboAppendix1.Text.Trim();
+                            oProduct.APPENDIX2 = cboAppendix2.Text.Trim();
+                            oProduct.APPENDIX3 = cboAppendix3.Text.Trim();
+
+                            oProduct.Status = Convert.ToInt32(Common.Enums.Status.Active.ToString("d"));
+                            oProduct.CreatedBy = Common.Config.CurrentUserId;
+                            oProduct.CreatedOn = DateTime.Now;
+
+                            ctx.Product.Add(oProduct);
+                            isNew = true;
+                            #endregion
+                        }
+                        #region Product core data
+                        oProduct.CLASS1 = general.cboClass1.Text;
+                        oProduct.CLASS2 = general.cboClass2.Text;
+                        oProduct.CLASS3 = general.cboClass3.Text;
+                        oProduct.CLASS4 = general.cboClass4.Text;
+                        oProduct.CLASS5 = general.cboClass5.Text;
+                        oProduct.CLASS6 = general.cboClass6.Text;
+
+                        oProduct.ProductName = general.txtProductName.Text;
+                        oProduct.ProductName_Chs = general.txtProductNameChs.Text;
+                        oProduct.ProductName_Cht = general.txtProductNameCht.Text;
+                        oProduct.Remarks = general.txtRemarks.Text;
+
+                        oProduct.NormalDiscount = Convert.ToDecimal((general.txtRetailDiscount.Text == string.Empty) ? "0" : general.txtRetailDiscount.Text);
+                        oProduct.UOM = general.txtUnit.Text;
+                        oProduct.NatureId = new Guid(general.cboNature.SelectedValue.ToString());
+
+                        oProduct.FixedPriceItem = discount.chkFixedPrice.Checked;
+
+                        #region Price
+                        oProduct.RetailPrice = Convert.ToDecimal((general.txtCurrentRetailPrice.Text == string.Empty) ? "0" : general.txtCurrentRetailPrice.Text);
+                        oProduct.WholesalePrice = Convert.ToDecimal((general.txtWholesalesPrice.Text == string.Empty) ? "0" : general.txtWholesalesPrice.Text);
+                        oProduct.OriginalRetailPrice = Convert.ToDecimal((general.txtOriginalRetailPrice.Text == string.Empty) ? "0" : general.txtOriginalRetailPrice.Text);
+                        //oItem.Markup = Convert.ToDecimal((general.txtVendorPrice.Text == string.Empty) ? "0" : general.txtVendorPrice.Text);
+                        #endregion
+
+                        // Download Packets
+                        oProduct.DownloadToPOS = general.chkRetailItem.Checked;
+                        oProduct.DownloadToCounter = general.chkCounterItem.Checked;
+
+                        // If the item existed, change the status to Modified.
+                        if (!isNew) oProduct.Status = Convert.ToInt32(Common.Enums.Status.Modified.ToString("d"));
+
+                        oProduct.ModifiedBy = Common.Config.CurrentUserId;
+                        oProduct.ModifiedOn = DateTime.Now;
+
+                        ctx.SaveChanges();
+                        #endregion
+
+                        var productId = oProduct.ProductId;
+
+                        #region log4net
+                        if (isNew)
+                        {// log activity (New Record)
+                            RT2020.Controls.Log4net.LogInfo(RT2020.Controls.Log4net.LogAction.Create, oProduct.ToString());
+                        }
+                        else
+                        { // log activity (Update)
+                            RT2020.Controls.Log4net.LogInfo(RT2020.Controls.Log4net.LogAction.Update, oProduct.ToString());
+                        }
+                        #endregion
+
+                        #region SaveProductBarcode(oProduct);
+                        string stkcode = oProduct.STKCODE.Length > 10 ? oProduct.STKCODE.Remove(10) : oProduct.STKCODE;
+                        string barcode = stkcode + oProduct.APPENDIX1 + oProduct.APPENDIX2 + oProduct.APPENDIX3;
+
+                        var oBarcode = ctx.ProductBarcode.Where(x => x.ProductId == oProduct.ProductId && x.Barcode == barcode).FirstOrDefault();
+                        if (oBarcode == null)
+                        {
+                            oBarcode = new EF6.ProductBarcode();
+                            oBarcode.ProductBarcodeId = Guid.NewGuid();
+                            oBarcode.ProductId = oProduct.ProductId;
+                            oBarcode.Barcode = barcode;
+                            oBarcode.BarcodeType = "INTER";
+                            oBarcode.PrimaryBarcode = true;
+                            oBarcode.DownloadToPOS = general.chkRetailItem.Checked;
+                            oBarcode.DownloadToCounter = general.chkCounterItem.Checked;
+
+                            ctx.ProductBarcode.Add(oBarcode);
+                            ctx.SaveChanges();
+                        }
+                        #endregion
+
+                        #region Appendix / Class
+                        System.Guid a1Id = (cboAppendix1.SelectedValue != null) ? new Guid(cboAppendix1.SelectedValue.ToString()) : System.Guid.Empty;
+                        System.Guid a2Id = (cboAppendix2.SelectedValue != null) ? new Guid(cboAppendix2.SelectedValue.ToString()) : System.Guid.Empty;
+                        System.Guid a3Id = (cboAppendix3.SelectedValue != null) ? new Guid(cboAppendix3.SelectedValue.ToString()) : System.Guid.Empty;
+
+                        System.Guid c1Id = (general.cboClass1.SelectedValue != null) ? new Guid(general.cboClass1.SelectedValue.ToString()) : System.Guid.Empty;
+                        System.Guid c2Id = (general.cboClass2.SelectedValue != null) ? new Guid(general.cboClass2.SelectedValue.ToString()) : System.Guid.Empty;
+                        System.Guid c3Id = (general.cboClass3.SelectedValue != null) ? new Guid(general.cboClass3.SelectedValue.ToString()) : System.Guid.Empty;
+                        System.Guid c4Id = (general.cboClass4.SelectedValue != null) ? new Guid(general.cboClass4.SelectedValue.ToString()) : System.Guid.Empty;
+                        System.Guid c5Id = (general.cboClass5.SelectedValue != null) ? new Guid(general.cboClass5.SelectedValue.ToString()) : System.Guid.Empty;
+                        System.Guid c6Id = (general.cboClass6.SelectedValue != null) ? new Guid(general.cboClass6.SelectedValue.ToString()) : System.Guid.Empty;
+                        //SaveProductCode(oProduct.ProductId, a1Id, a2Id, a3Id, c1Id, c2Id, c3Id, c4Id, c5Id, c6Id);
+                        var oCode = ctx.ProductCode.Where(x => x.ProductId == productId).FirstOrDefault();
+                        if (oCode == null)
+                        {
+                            oCode = new EF6.ProductCode();
+                            oCode.CodeId = Guid.NewGuid();
+                            oCode.ProductId = productId;
+                            oCode.Appendix1Id = a1Id;
+                            oCode.Appendix2Id = a2Id;
+                            oCode.Appendix3Id = a3Id;
+
+                            ctx.ProductCode.Add(oCode);
+                        }
+                        oCode.Class1Id = c1Id;
+                        oCode.Class2Id = c2Id;
+                        oCode.Class3Id = c3Id;
+                        oCode.Class4Id = c4Id;
+                        oCode.Class5Id = c5Id;
+                        oCode.Class6Id = c6Id;
+
+                        ctx.SaveChanges();
+                        #endregion
+
+                        // Product Barcode
+                        this.barcode.AddBarcode();
+
+                        // Product Price
+                        #region SaveProductSupplement(oProduct.ProductId);
+                        var oProdSupp = ctx.ProductSupplement.Where(x => x.ProductId == productId).FirstOrDefault();
+                        if (oProdSupp == null)
+                        {
+                            oProdSupp = new EF6.ProductSupplement();
+                            oProdSupp.SupplementId = Guid.NewGuid();
+                            oProdSupp.ProductId = productId;
+
+                            ctx.ProductSupplement.Add(oProdSupp);
+                        }
+                        oProdSupp.VendorCurrencyCode = general.cboVendorCurrency.Text;
+                        oProdSupp.VendorPrice = Convert.ToDecimal((general.txtVendorPrice.Text == string.Empty) ? "0" : general.txtVendorPrice.Text);
+                        oProdSupp.ProductName_Memo = general.txtMemo.Text;
+                        oProdSupp.ProductName_Pole = general.txtPole.Text;
+
+                        oProdSupp.VipDiscount_FixedItem = Convert.ToDecimal((discount.txtDiscount1_FixPriceItem.Text == string.Empty) ? "0" : discount.txtDiscount1_FixPriceItem.Text);
+                        oProdSupp.VipDiscount_DiscountItem = Convert.ToDecimal((discount.txtDiscount2_DiscountItem.Text == string.Empty) ? "0" : discount.txtDiscount2_DiscountItem.Text);
+                        oProdSupp.VipDiscount_NoDiscountItem = Convert.ToDecimal((discount.txtDiscount3_NoDiscountItem.Text == string.Empty) ? "0" : discount.txtDiscount3_NoDiscountItem.Text);
+                        oProdSupp.StaffDiscount = Convert.ToDecimal((discount.txtStaff.Text == string.Empty) ? "0" : discount.txtStaff.Text);
+
+                        ctx.SaveChanges();
+                        #endregion
+                        //
+                        //SaveProductPrice(oProduct.ProductId);
+                        #region SaveProductPrice(productId, Common.Enums.ProductPriceType.BASPRC.ToString(), general.txtCurrentRetailCurrency.Text, general.txtCurrentRetailPrice.Text);
+                        var price = general.txtCurrentRetailPrice.Text;
+                        var currencyCode = general.txtCurrentRetailCurrency.Text;
+                        var priceType = Common.Enums.ProductPriceType.BASPRC.ToString();
+                        var priceTypeId = ModelEx.ProductPriceTypeEx.GetIdByPriceType(priceType);
+
+                        var oBPrice = ctx.ProductPrice.Where(x => x.ProductId == productId && x.PriceTypeId == priceTypeId).FirstOrDefault();
+                        if (oBPrice == null)
+                        {
+                            oBPrice = new EF6.ProductPrice();
+                            oBPrice.ProductPriceId = Guid.NewGuid();
+                            oBPrice.ProductId = productId;
+                            ctx.ProductPrice.Add(oBPrice);
+                        }
+                        oBPrice.PriceTypeId = ModelEx.ProductPriceTypeEx.GetIdByPriceType(priceType);
+                        oBPrice.CurrencyCode = currencyCode;
+                        oBPrice.Price = Convert.ToDecimal((price == string.Empty) ? "0" : price);
+                        ctx.SaveChanges();
+                        #endregion
+                        //
+                        #region SaveProductPrice(productId, Common.Enums.ProductPriceType.ORIPRC.ToString(), general.txtOriginalRetailCurrency.Text, general.txtOriginalRetailPrice.Text);
+                        price = general.txtOriginalRetailPrice.Text;
+                        currencyCode = general.txtOriginalRetailCurrency.Text;
+                        priceType = Common.Enums.ProductPriceType.ORIPRC.ToString();
+                        priceTypeId = ModelEx.ProductPriceTypeEx.GetIdByPriceType(priceType);
+
+                        var oOPrice = ctx.ProductPrice.Where(x => x.ProductId == productId && x.PriceTypeId == priceTypeId).FirstOrDefault();
+                        if (oOPrice == null)
+                        {
+                            oOPrice = new EF6.ProductPrice();
+                            oOPrice.ProductPriceId = Guid.NewGuid();
+                            oOPrice.ProductId = productId;
+                            ctx.ProductPrice.Add(oOPrice);
+                        }
+                        oOPrice.PriceTypeId = ModelEx.ProductPriceTypeEx.GetIdByPriceType(priceType);
+                        oOPrice.CurrencyCode = currencyCode;
+                        oOPrice.Price = Convert.ToDecimal((price == string.Empty) ? "0" : price);
+                        ctx.SaveChanges();
+                        #endregion
+                        //
+                        #region SaveProductPrice(productId, Common.Enums.ProductPriceType.VPRC.ToString(), general.cboVendorCurrency.Text, general.txtVendorPrice.Text);
+                        price = general.txtVendorPrice.Text;
+                        currencyCode = general.cboVendorCurrency.Text;
+                        priceType = Common.Enums.ProductPriceType.VPRC.ToString();
+                        priceTypeId = ModelEx.ProductPriceTypeEx.GetIdByPriceType(priceType);
+
+                        var oVPrice = ctx.ProductPrice.Where(x => x.ProductId == productId && x.PriceTypeId == priceTypeId).FirstOrDefault();
+                        if (oVPrice == null)
+                        {
+                            oVPrice = new EF6.ProductPrice();
+                            oVPrice.ProductPriceId = Guid.NewGuid();
+                            oVPrice.ProductId = productId;
+                            ctx.ProductPrice.Add(oVPrice);
+                        }
+                        oVPrice.PriceTypeId = ModelEx.ProductPriceTypeEx.GetIdByPriceType(priceType);
+                        oVPrice.CurrencyCode = currencyCode;
+                        oVPrice.Price = Convert.ToDecimal((price == string.Empty) ? "0" : price);
+                        ctx.SaveChanges();
+                        #endregion
+                        //
+                        #region SaveProductPrice(productId, Common.Enums.ProductPriceType.WHLPRC.ToString(), general.txtWholesalesCurrency.Text, general.txtWholesalesPrice.Text);
+                        price = general.txtWholesalesPrice.Text;
+                        currencyCode = general.txtWholesalesCurrency.Text;
+                        priceType = Common.Enums.ProductPriceType.WHLPRC.ToString();
+                        priceTypeId = ModelEx.ProductPriceTypeEx.GetIdByPriceType(priceType);
+
+                        var oWPrice = ctx.ProductPrice.Where(x => x.ProductId == productId && x.PriceTypeId == priceTypeId).FirstOrDefault();
+                        if (oWPrice == null)
+                        {
+                            oWPrice = new EF6.ProductPrice();
+                            oWPrice.ProductPriceId = Guid.NewGuid();
+                            oWPrice.ProductId = productId;
+                            ctx.ProductPrice.Add(oWPrice);
+                        }
+                        oWPrice.PriceTypeId = ModelEx.ProductPriceTypeEx.GetIdByPriceType(priceType);
+                        oWPrice.CurrencyCode = currencyCode;
+                        oWPrice.Price = Convert.ToDecimal((price == string.Empty) ? "0" : price);
+                        ctx.SaveChanges();
+                        #endregion
+
+                        // Remarks
+                        #region SaveProductRemarks(oProduct.ProductId);
+                        var oRemarks = ctx.ProductRemarks.Where(x => x.ProductId == productId).FirstOrDefault();
+                        if (oRemarks == null)
+                        {
+                            oRemarks = new EF6.ProductRemarks();
+                            oRemarks.ProductRemarksId = Guid.NewGuid();
+                            oRemarks.ProductId = productId;
+
+                            ctx.ProductRemarks.Add(oRemarks);
+                        }
+                        oRemarks.BinX = general.txtBin_X.Text;
+                        oRemarks.BinY = general.txtBin_Y.Text;
+                        oRemarks.BinZ = general.txtBin_Z.Text;
+
+                        oRemarks.DownloadToShop = general.chkRetailItem.Checked;
+                        oRemarks.OffDisplayItem = general.chkOffDisplayItem.Checked;
+                        oRemarks.DownloadToCounter = general.chkCounterItem.Checked;
+
+                        oRemarks.REMARK1 = general.txtRemarks1.Text;
+                        oRemarks.REMARK2 = general.txtRemarks2.Text;
+                        oRemarks.REMARK3 = general.txtRemarks3.Text;
+                        oRemarks.REMARK4 = general.txtRemarks4.Text;
+                        oRemarks.REMARK5 = general.txtRemarks5.Text;
+                        oRemarks.REMARK6 = general.txtRemarks6.Text;
+
+                        oRemarks.Notes = misc.txtMemo.Text;
+
+                        if (string.IsNullOrEmpty(oRemarks.Photo))
+                        {
+                            oRemarks.Photo = misc.txtPicFileName.Text;
+                        }
+                        else if (oRemarks.Photo != misc.txtPicFileName.Text)
+                        {
+                            oRemarks.Photo5 = oRemarks.Photo4;
+                            oRemarks.Photo4 = oRemarks.Photo3;
+                            oRemarks.Photo3 = oRemarks.Photo2;
+                            oRemarks.Photo2 = oRemarks.Photo;
+                            oRemarks.Photo = misc.txtPicFileName.Text;
+                        }
+
+                        ctx.SaveChanges();
+                        #endregion
+
+                        result = productId;
+
+                        scope.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        scope.Rollback();
+                    }
+                    return result;
                 }
             }
-
-            oItem.CLASS1 = general.cboClass1.Text;
-            oItem.CLASS2 = general.cboClass2.Text;
-            oItem.CLASS3 = general.cboClass3.Text;
-            oItem.CLASS4 = general.cboClass4.Text;
-            oItem.CLASS5 = general.cboClass5.Text;
-            oItem.CLASS6 = general.cboClass6.Text;
-
-            oItem.ProductName = general.txtProductName.Text;
-            oItem.ProductName_Chs = general.txtProductNameChs.Text;
-            oItem.ProductName_Cht = general.txtProductNameCht.Text;
-            oItem.Remarks = general.txtRemarks.Text;
-
-            oItem.NormalDiscount = Convert.ToDecimal((general.txtRetailDiscount.Text == string.Empty) ? "0" : general.txtRetailDiscount.Text);
-            oItem.UOM = general.txtUnit.Text;
-            oItem.NatureId = new Guid(general.cboNature.SelectedValue.ToString());
-
-            oItem.FixedPriceItem = discount.chkFixedPrice.Checked;
-
-            // Price 
-            oItem.RetailPrice = Convert.ToDecimal((general.txtCurrentRetailPrice.Text == string.Empty) ? "0" : general.txtCurrentRetailPrice.Text);
-            oItem.WholesalePrice = Convert.ToDecimal((general.txtWholesalesPrice.Text == string.Empty) ? "0" : general.txtWholesalesPrice.Text);
-            oItem.OriginalRetailPrice = Convert.ToDecimal((general.txtOriginalRetailPrice.Text == string.Empty) ? "0" : general.txtOriginalRetailPrice.Text);
-            //oItem.Markup = Convert.ToDecimal((general.txtVendorPrice.Text == string.Empty) ? "0" : general.txtVendorPrice.Text);
-
-            // Download Packets
-            oItem.DownloadToPOS = general.chkRetailItem.Checked;
-            oItem.DownloadToCounter = general.chkCounterItem.Checked;
-
-            // If the item existed, change the status to Modified.
-            if (!isNew)
-            {
-                oItem.Status = Convert.ToInt32(Common.Enums.Status.Modified.ToString("d"));
-            }
-
-            oItem.ModifiedBy = Common.Config.CurrentUserId;
-            oItem.ModifiedOn = DateTime.Now;
-            oItem.Save();
-
-            if (isNew)
-            {// log activity (New Record)
-                RT2020.Controls.Log4net.LogInfo(RT2020.Controls.Log4net.LogAction.Create, oItem.ToString());
-            }
-            else
-            { // log activity (Update)
-                RT2020.Controls.Log4net.LogInfo(RT2020.Controls.Log4net.LogAction.Update, oItem.ToString());
-            }     
-
-            SaveProductBarcode(oItem);
-
-            // Appendix / Class
-            System.Guid a1Id = (cboAppendix1.SelectedValue != null) ? new Guid(cboAppendix1.SelectedValue.ToString()) : System.Guid.Empty;
-            System.Guid a2Id = (cboAppendix2.SelectedValue != null) ? new Guid(cboAppendix2.SelectedValue.ToString()) : System.Guid.Empty;
-            System.Guid a3Id = (cboAppendix3.SelectedValue != null) ? new Guid(cboAppendix3.SelectedValue.ToString()) : System.Guid.Empty;
-
-            System.Guid c1Id = (general.cboClass1.SelectedValue != null) ? new Guid(general.cboClass1.SelectedValue.ToString()) : System.Guid.Empty;
-            System.Guid c2Id = (general.cboClass2.SelectedValue != null) ? new Guid(general.cboClass2.SelectedValue.ToString()) : System.Guid.Empty;
-            System.Guid c3Id = (general.cboClass3.SelectedValue != null) ? new Guid(general.cboClass3.SelectedValue.ToString()) : System.Guid.Empty;
-            System.Guid c4Id = (general.cboClass4.SelectedValue != null) ? new Guid(general.cboClass4.SelectedValue.ToString()) : System.Guid.Empty;
-            System.Guid c5Id = (general.cboClass5.SelectedValue != null) ? new Guid(general.cboClass5.SelectedValue.ToString()) : System.Guid.Empty;
-            System.Guid c6Id = (general.cboClass6.SelectedValue != null) ? new Guid(general.cboClass6.SelectedValue.ToString()) : System.Guid.Empty;
-            SaveProductCode(oItem.ProductId, a1Id, a2Id, a3Id, c1Id, c2Id, c3Id, c4Id, c5Id, c6Id);
-
-            // Product Barcode
-            barcode.AddBarcode();
-
-            // Product Price
-            SaveProductSupplement(oItem.ProductId);
-            SaveProductPrice(oItem.ProductId);
-
-            // Remarks
-            SaveProductRemarks(oItem.ProductId);
-
-            return oItem.ProductId;
         }
-
+        /**
         private void SaveProductCurrentSummary(Guid productId)
         {
             using (var ctx = new EF6.RT2020Entities())
@@ -758,7 +1043,7 @@ namespace RT2020.Product
                 }
             }
         }
-
+        
         private void SaveProductBarcode(RT2020.DAL.Product oItem)
         {
             string stkcode = oItem.STKCODE;
@@ -789,7 +1074,7 @@ namespace RT2020.Product
                 }
             }
         }
-
+        
         private void SaveQtyInfo()
         {
             RT2020.DAL.Product oItem = RT2020.DAL.Product.Load(this.ProductId);
@@ -817,12 +1102,12 @@ namespace RT2020.Product
                 oItem.Save();
             }
         }
-
+        
         private void SaveDiscountInfo()
         {
             SaveProductSupplement(this.ProductId);
         }
-
+        
         private void SaveProductCode(Guid productId, Guid a1Id, Guid a2Id, Guid a3Id, Guid c1Id, Guid c2Id, Guid c3Id, Guid c4Id, Guid c5Id, Guid c6Id)
         {
             using (var ctx = new EF6.RT2020Entities())
@@ -850,7 +1135,7 @@ namespace RT2020.Product
                 ctx.SaveChanges();
             }
         }
-
+        
         private void SaveProductSupplement(Guid productId)
         {
             using (var ctx = new EF6.RT2020Entities())
@@ -877,7 +1162,7 @@ namespace RT2020.Product
                 ctx.SaveChanges();
             }
         }
-
+        
         private void SaveProductPrice(Guid productId)
         {
             SaveProductPrice(productId, Common.Enums.ProductPriceType.BASPRC.ToString(), general.txtCurrentRetailCurrency.Text, general.txtCurrentRetailPrice.Text);
@@ -906,7 +1191,7 @@ namespace RT2020.Product
                 ctx.SaveChanges();
             }
         }
-
+        
         private void SaveProductRemarks(Guid productId)
         {
             using (var ctx = new EF6.RT2020Entities())
@@ -954,6 +1239,7 @@ namespace RT2020.Product
                 ctx.SaveChanges();
             }
         }
+        */
         #endregion
 
         #endregion

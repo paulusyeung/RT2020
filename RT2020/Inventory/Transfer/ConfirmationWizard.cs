@@ -506,18 +506,6 @@ namespace RT2020.Inventory.Transfer
             }
         }
 
-        private decimal GetRetailPrice(Guid productId)
-        {
-            decimal rtPrice = 1;
-
-            RT2020.DAL.Product oProd = RT2020.DAL.Product.Load(productId);
-            if (oProd != null)
-            {
-                rtPrice = oProd.RetailPrice;
-            }
-
-            return rtPrice;
-        }
         #endregion
 
         #region Delete
@@ -776,7 +764,8 @@ namespace RT2020.Inventory.Transfer
         {
             if (basicProduct.SelectedItem != null)
             {
-                RT2020.DAL.Product oProd = RT2020.DAL.Product.Load(new Guid(basicProduct.SelectedItem.ToString()));
+                //RT2020.DAL.Product oProd = RT2020.DAL.Product.Load(new Guid(basicProduct.SelectedItem.ToString()));
+                var oProd = ModelEx.ProductEx.Get((Guid)basicProduct.SelectedItem);
                 if (oProd != null)
                 {
                     stkCode = oProd.STKCODE;

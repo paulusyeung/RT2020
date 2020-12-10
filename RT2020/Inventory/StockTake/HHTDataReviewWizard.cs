@@ -118,7 +118,7 @@ namespace RT2020.Inventory.StockTake
         {
             List<string> productCode = new List<string>();
 
-            RT2020.DAL.Product product = RT2020.DAL.Product.Load(productId);
+            var product = ModelEx.ProductEx.Get(productId);
             if (product != null)
             {
                 productCode.Add(product.STKCODE);

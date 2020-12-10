@@ -312,7 +312,7 @@ namespace RT2020.Inventory.StockTake
                         bool retired = false;
                         string stk = string.Empty, a1 = string.Empty, a2 = string.Empty, a3 = string.Empty;
 
-                        RT2020.DAL.Product oProduct = RT2020.DAL.Product.Load(detail.ProductId.Value);
+                        var oProduct = ModelEx.ProductEx.Get(detail.ProductId.Value);
                         if (oProduct != null)
                         {
                             stk = oProduct.STKCODE;

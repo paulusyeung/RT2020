@@ -156,7 +156,7 @@ namespace RT2020.EmulatedPoS
             EPOSBatchDetailsCollection detailList = EPOSBatchDetails.LoadCollection("HeaderId = '" + objItem.Text + "'");
             foreach (EPOSBatchDetails detail in detailList)
             {
-                RT2020.DAL.Product oProduct = RT2020.DAL.Product.Load(detail.ProductId);
+                var oProduct = ModelEx.ProductEx.Get(detail.ProductId);
                 if (oProduct != null)
                 {
                     oItem.SubItems.Add(oProduct.STKCODE);//StkCode(STYLE)
@@ -414,7 +414,7 @@ namespace RT2020.EmulatedPoS
                         bool retired = false;
                         string stk = string.Empty, a1 = string.Empty, a2 = string.Empty, a3 = string.Empty;
 
-                        RT2020.DAL.Product oProduct = RT2020.DAL.Product.Load(detail.ProductId);
+                        var oProduct = ModelEx.ProductEx.Get(detail.ProductId);
                         if (oProduct != null)
                         {
                             stk = oProduct.STKCODE;
@@ -817,10 +817,10 @@ namespace RT2020.EmulatedPoS
                 oLedgerDetail.OPERATOR = staffNumber;
 
                 // Product Info
-                RT2020.DAL.Product oItem = RT2020.DAL.Product.Load(oSDetail.ProductId);
+                var oItem = ModelEx.ProductEx.Get(oSDetail.ProductId);
                 if (oItem != null)
                 {
-                    oLedgerDetail.BasicPrice = oItem.RetailPrice;
+                    oLedgerDetail.BasicPrice = oItem.RetailPrice.Value;
                     //oLedgerDetail.Discount = oItem.NormalDiscount;
                     oLedgerDetail.AverageCost = ModelEx.ProductCurrentSummaryEx.GetAverageCode(oItem.ProductId);
                 }

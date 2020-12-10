@@ -14,7 +14,7 @@ namespace RT2020.Helper
 
             using (var ctx = new EF6.RT2020Entities())
             {
-                var item = ctx.Product.Where(x => x.STKCODE == STKCODE && x.APPENDIX1 == APPENDIX1 & x.APPENDIX2 == APPENDIX2 && x.APPENDIX3 == APPENDIX3).AsNoTracking().FirstOrDefault();
+                var item = ctx.Product.Where(x => x.STKCODE == STKCODE && x.APPENDIX1 == APPENDIX1 && x.APPENDIX2 == APPENDIX2 && x.APPENDIX3 == APPENDIX3).AsNoTracking().FirstOrDefault();
                 if (item != null) result = true;
             }
 

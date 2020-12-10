@@ -157,7 +157,7 @@ namespace RT2020.Inventory.Transfer.Import
         private Guid GetProductId(TxferTxtIEDetails detail)
         {
             string sql = "STKCODE = '" + detail.StockCode +"' AND APPENDIX1 = '" + detail.Appendix1 + "' AND APPENDIX2 = '" + detail.Appendix2 + "' AND APPENDIX3 = '" + detail.Appendix3 + "'";
-            RT2020.DAL.Product oItem = RT2020.DAL.Product.LoadWhere(sql);
+            var oItem = ModelEx.ProductEx.Get(sql);
             if (oItem != null)
             {
                 return oItem.ProductId;

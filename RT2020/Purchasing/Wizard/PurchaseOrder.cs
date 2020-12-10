@@ -494,8 +494,10 @@ namespace RT2020.Purchasing.Wizard
         private void ItemInfo(ref string stkCode, ref string appendix1, ref string appendix2, ref string appendix3)
         {
             if (this.basicProduct.SelectedItem != null)
-            {                
-                RT2020.DAL.Product objProd = RT2020.DAL.Product.Load(new Guid(this.basicProduct.SelectedItem.ToString()));
+            {
+                //RT2020.DAL.Product objProd = RT2020.DAL.Product.Load(new Guid(this.basicProduct.SelectedItem.ToString()));
+                var productId = new Guid(this.basicProduct.SelectedItem.ToString());
+                var objProd = ModelEx.ProductEx.Get(productId);
                 if (objProd != null)
                 {
                     stkCode = objProd.STKCODE;

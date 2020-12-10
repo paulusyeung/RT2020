@@ -438,7 +438,7 @@ namespace RT2020.Inventory.StockTake.Import
         private Guid GetProductId(string stkCode, string appendix1, string appendix2, string appendix3)
         {
             string sql = "STKCODE = '" + stkCode + "' AND APPENDIX1 = '" + appendix1 + "' AND APPENDIX2 = '" + appendix2 + "' AND APPENDIX3 = '" + appendix3 + "'";
-            RT2020.DAL.Product oProduct = RT2020.DAL.Product.LoadWhere(sql);
+            var oProduct = ModelEx.ProductEx.Get(sql);
             if (oProduct != null)
             {
                 return oProduct.ProductId;

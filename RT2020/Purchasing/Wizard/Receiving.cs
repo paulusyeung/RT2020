@@ -737,7 +737,9 @@ WHERE ReceiveHeaderId = '" + this.ReceivingHeaderId.ToString() + "'";
         {
             if (this.basicProduct.SelectedItem != null)
             {
-                RT2020.DAL.Product objProd = RT2020.DAL.Product.Load(new Guid(this.basicProduct.SelectedItem.ToString()));
+                //RT2020.DAL.Product objProd = RT2020.DAL.Product.Load(new Guid(this.basicProduct.SelectedItem.ToString()));
+                var productId = new Guid(this.basicProduct.SelectedItem.ToString());
+                var objProd = ModelEx.ProductEx.Get(productId);
                 if (objProd != null)
                 {
                     stkCode = objProd.STKCODE;
@@ -1148,17 +1150,17 @@ WHERE ReceiveHeaderId = '" + this.ReceivingHeaderId.ToString() + "'";
         {
             decimal result = 0;
 
-            Product objProduct = Product.Load(productId);
+            var objProduct = ModelEx.ProductEx.Get(productId);
             if (objProduct != null)
             {
                 switch (stockName.ToUpper())
                 {
                     case "RETAILPRICE":     ////Retail Price
                     default:
-                        result = objProduct.RetailPrice;  
+                        result = objProduct.RetailPrice.Value;  
                         break;
                     case "TOTALRETAIL":     ////Total Retail($)
-                        result = objProduct.RetailPrice * recQty;
+                        result = objProduct.RetailPrice.Value * recQty;
                         break;
                 }
             }

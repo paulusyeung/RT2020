@@ -16,6 +16,7 @@ using System.Web;
 using RT2020.DAL;
 using System.Data.Common;
 using System.Configuration;
+using System.Linq;
 #endregion
 
 namespace RT2020.Product.Reports
@@ -43,18 +44,21 @@ namespace RT2020.Product.Reports
         #region FillComboBox
         private void FillComboBox()
         {
-            ProductCollection collection = RT2020.DAL.Product.LoadCollection(new string[] { "STKCODE" }, true);
-            if (collection.Count > 0)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                foreach (RT2020.DAL.Product oProduct in collection)
+                var collection = ctx.Product.OrderBy(x => x.STKCODE).ToList();
+                if (collection.Count > 0)
                 {
-                    System.Web.UI.WebControls.ListItem item = new System.Web.UI.WebControls.ListItem(oProduct.STKCODE, oProduct.ProductId.ToString());
-                    cmbFrom.Items.Add(item);
-                    cmbTo.Items.Add(item);
-                }
-                cmbFrom.SelectedIndex = 0;
+                    foreach (var oProduct in collection)
+                    {
+                        System.Web.UI.WebControls.ListItem item = new System.Web.UI.WebControls.ListItem(oProduct.STKCODE, oProduct.ProductId.ToString());
+                        cmbFrom.Items.Add(item);
+                        cmbTo.Items.Add(item);
+                    }
+                    cmbFrom.SelectedIndex = 0;
 
-                cmbTo.SelectedIndex = collection.Count - 1;
+                    cmbTo.SelectedIndex = collection.Count - 1;
+                }
             }
         }
         #endregion

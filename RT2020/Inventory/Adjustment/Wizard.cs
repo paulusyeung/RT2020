@@ -456,24 +456,12 @@ namespace RT2020.Inventory.Adjustment
             InvtBatchADJ_DetailsCollection oDetails = InvtBatchADJ_Details.LoadCollection(sql);
             foreach (InvtBatchADJ_Details oDetail in oDetails)
             {
-                totalAmt += oDetail.Qty * GetRetailPrice(oDetail.ProductId);
+                totalAmt += oDetail.Qty * ModelEx.ProductEx.GetRetailPrice(oDetail.ProductId);
             }
 
             return totalAmt;
         }
 
-        private decimal GetRetailPrice(Guid productId)
-        {
-            decimal rtPrice = 1;
-
-            RT2020.DAL.Product oProd = RT2020.DAL.Product.Load(productId);
-            if (oProd != null)
-            {
-                rtPrice = oProd.RetailPrice;
-            }
-
-            return rtPrice;
-        }
         #endregion
 
         #region Delete
@@ -803,7 +791,7 @@ namespace RT2020.Inventory.Adjustment
             if (basicFindProduct.SelectedItem != null)
             {
                 System.Guid prodId = Common.Utility.IsGUID(basicFindProduct.SelectedItem.ToString()) ? new System.Guid(basicFindProduct.SelectedItem.ToString()) : System.Guid.Empty;
-                RT2020.DAL.Product oProd = RT2020.DAL.Product.Load(prodId);
+                var oProd = ModelEx.ProductEx.Get(prodId);
                 if (oProd != null)
                 {
                     stkCode = oProd.STKCODE;
@@ -978,7 +966,7 @@ namespace RT2020.Inventory.Adjustment
         {
             foreach (RT2020.Controls.ProductSearcher.DetailData detail in resultList)
             {
-                DAL.Product oProduct = DAL.Product.Load(detail.ProductId);
+                var oProduct = ModelEx.ProductEx.Get(detail.ProductId);
                 if (oProduct != null)
                 {
                     string stkCode = oProduct.STKCODE;

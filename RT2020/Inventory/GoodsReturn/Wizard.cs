@@ -479,18 +479,6 @@ ORDER BY TxNumber, TxDate, LineNumber
             return totalAmt;
         }
 
-        private decimal GetRetailPrice(Guid productId)
-        {
-            decimal rtPrice = 1;
-
-            RT2020.DAL.Product oProd = RT2020.DAL.Product.Load(productId);
-            if (oProd != null)
-            {
-                rtPrice = oProd.RetailPrice;
-            }
-
-            return rtPrice;
-        }
         #endregion
 
         #region Delete
@@ -751,7 +739,7 @@ ORDER BY TxNumber, TxDate, LineNumber
         {
             if (basicProduct.SelectedItem != null)
             {
-                RT2020.DAL.Product oProd = RT2020.DAL.Product.Load(new Guid(basicProduct.SelectedItem.ToString()));
+                var oProd = ModelEx.ProductEx.Get((Guid)basicProduct.SelectedItem);
                 if (oProd != null)
                 {
                     if (IsDuplicated(oProd.STKCODE, oProd.APPENDIX1, oProd.APPENDIX2, oProd.APPENDIX3))
@@ -793,7 +781,7 @@ ORDER BY TxNumber, TxDate, LineNumber
             {
                 if (basicProduct.SelectedItem != null)
                 {
-                    RT2020.DAL.Product oProd = RT2020.DAL.Product.Load(this.ProductId);
+                    var oProd = ModelEx.ProductEx.Get(this.ProductId);
                     if (oProd != null)
                     {
                         ListViewItem listItem = lvDetailsList.SelectedItem;
@@ -901,7 +889,7 @@ ORDER BY TxNumber, TxDate, LineNumber
         {
             foreach (RT2020.Controls.ProductSearcher.DetailData detail in resultList)
             {
-                DAL.Product oProduct = DAL.Product.Load(detail.ProductId);
+                var oProduct = ModelEx.ProductEx.Get(detail.ProductId);
                 if (oProduct != null)
                 {
                     string stkCode = oProduct.STKCODE;

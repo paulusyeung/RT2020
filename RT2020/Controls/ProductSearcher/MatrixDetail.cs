@@ -107,11 +107,12 @@ namespace RT2020.Controls.ProductSearcher
                     result = ModelEx.ProductCurrentSummaryEx.GetAverageCode(productId);
                     break;
                 case Common.Enums.TxType.TXF:
-                    DAL.Product product = DAL.Product.Load(productId);
-                    if (product != null)
-                    {
-                        result = product.RetailPrice;
-                    }
+                    //DAL.Product product = DAL.Product.Load(productId);
+                    //if (product != null)
+                    //{
+                    //    result = product.RetailPrice;
+                    //}
+                    result = ModelEx.ProductEx.GetRetailPrice(productId);
                     break;
             }
 
@@ -235,13 +236,15 @@ WHERE wpn.NatureCode = '2'"; // 2 => Workplace Nature: Warehouse
 
         private void LoadProductList()
         {
+            /**
             string where = string.Format("STKCODE = '{0}'", txtStockCode.Text.Trim());
             DAL.Product oProd = DAL.Product.LoadWhere(where);
             if (oProd != null)
             {
                 this.txtProductName.Text = oProd.ProductName;
             }
-
+            */
+            this.txtProductName.Text = ModelEx.ProductEx.GetProductNameBySTKCODE(txtStockCode.Text.Trim());
             BindData();
         }
 

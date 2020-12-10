@@ -126,7 +126,7 @@ namespace RT2020.Product
                         //{
                         //    MessageBox.Show(result.ToString() + " Succeed!", "Create Result", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         //}
-                        if (Verify())
+                        if (IsValidEntries())
                         {
                             SaveProductBatch();
                             if (this.ProductBatchId != System.Guid.Empty)
@@ -136,7 +136,7 @@ namespace RT2020.Product
                         }
                         break;
                     case "save & new":
-                        if (Verify())
+                        if (IsValidEntries())
                         {
                             SaveProductBatch();
                             if (this.ProductBatchId != System.Guid.Empty)
@@ -146,7 +146,7 @@ namespace RT2020.Product
                         }
                         break;
                     case "save & close":
-                        if (Verify())
+                        if (IsValidEntries())
                         {
                             SaveProductBatch();
                             if (this.ProductBatchId != System.Guid.Empty)
@@ -357,39 +357,38 @@ namespace RT2020.Product
             return result;
         }
 
-        private bool Verify()
+        private bool IsValidEntries()
         {
-            bool isVerified = false;
+            bool result = true;
+
+            errorProvider.SetError(txtStkCode, string.Empty);
+            errorProvider.SetError(cboItemStatus, string.Empty);
 
             if (cboAppendix1.Text.Length == 0 && cboAppendix2.Text.Length == 0 && cboAppendix3.Text.Length == 0)
             {
                 MessageBox.Show("You should add one appendix at least or select one combination number!");
+                result = false;
             }
-            else if (txtStkCode.Text.Length == 0)
+
+            if (txtStkCode.Text.Length == 0)
             {
                 errorProvider.SetError(txtStkCode, "Can not be blank!");
-                isVerified = false;
+                result = false;
             }
-            else if (IsStockCodeExist())
+            if (IsStockCodeExist())
             {
                 errorProvider.SetError(txtStkCode, "Stock Code exists!");
-                isVerified = false;
+                result = false;
             }
-            else if (cboItemStatus.Text.Length == 0)
+            if (cboItemStatus.Text.Length == 0)
             {
                 errorProvider.SetError(cboItemStatus, "Please specified the status!");
-                isVerified = false;
-            }
-            else
-            {
-                errorProvider.SetError(txtStkCode, string.Empty);
-                errorProvider.SetError(cboItemStatus, string.Empty);
-                isVerified = true;
+                result = false;
             }
 
-            return isVerified;
+            return result;
         }
-
+        /**
         private int CreateProducts()
         {
             int iCount = 0;
@@ -404,10 +403,10 @@ namespace RT2020.Product
             }
             return iCount;
         }
-
+        
         private void CreateProducts(ListViewItem listItem)
         {
-            if (Verify())
+            if (IsValidEntries())
             {
                 string a1 = listItem.SubItems[1].Text;
                 string a2 = listItem.SubItems[2].Text;
@@ -426,55 +425,55 @@ namespace RT2020.Product
                     sql.Append(" AND APPENDIX2 = '").Append(a2.Trim()).Append("' ");
                     sql.Append(" AND APPENDIX3 = '").Append(a3.Trim()).Append("' ");
 
-                    RT2020.DAL.Product oItem = RT2020.DAL.Product.LoadWhere(sql.ToString());
-                    if (oItem == null)
+                    var oProduct = RT2020.DAL.Product.LoadWhere(sql.ToString());
+                    if (oProduct == null)
                     {
-                        oItem = new RT2020.DAL.Product();
+                        oProduct = new RT2020.DAL.Product();
 
-                        oItem.STKCODE = txtStkCode.Text;
-                        oItem.APPENDIX1 = a1;
-                        oItem.APPENDIX2 = a2;
-                        oItem.APPENDIX3 = a3;
+                        oProduct.STKCODE = txtStkCode.Text;
+                        oProduct.APPENDIX1 = a1;
+                        oProduct.APPENDIX2 = a2;
+                        oProduct.APPENDIX3 = a3;
 
                         if (cboItemStatus.Text == "HOLD")
                         {
-                            oItem.Status = Convert.ToInt32(Common.Enums.Status.Draft.ToString("d"));
+                            oProduct.Status = Convert.ToInt32(Common.Enums.Status.Draft.ToString("d"));
                         }
                         else if (cboItemStatus.Text == "POST")
                         {
-                            oItem.Status = Convert.ToInt32(Common.Enums.Status.Active.ToString("d"));
+                            oProduct.Status = Convert.ToInt32(Common.Enums.Status.Active.ToString("d"));
                         }
 
-                        oItem.CLASS1 = general.cboClass1.Text;
-                        oItem.CLASS2 = general.cboClass2.Text;
-                        oItem.CLASS3 = general.cboClass3.Text;
-                        oItem.CLASS4 = general.cboClass4.Text;
-                        oItem.CLASS5 = general.cboClass5.Text;
-                        oItem.CLASS6 = general.cboClass6.Text;
+                        oProduct.CLASS1 = general.cboClass1.Text;
+                        oProduct.CLASS2 = general.cboClass2.Text;
+                        oProduct.CLASS3 = general.cboClass3.Text;
+                        oProduct.CLASS4 = general.cboClass4.Text;
+                        oProduct.CLASS5 = general.cboClass5.Text;
+                        oProduct.CLASS6 = general.cboClass6.Text;
 
-                        oItem.ProductName = general.txtProductName.Text;
-                        oItem.ProductName_Chs = general.txtProductNameChs.Text;
-                        oItem.ProductName_Cht = general.txtProductNameCht.Text;
-                        oItem.Remarks = general.txtRemarks.Text;
+                        oProduct.ProductName = general.txtProductName.Text;
+                        oProduct.ProductName_Chs = general.txtProductNameChs.Text;
+                        oProduct.ProductName_Cht = general.txtProductNameCht.Text;
+                        oProduct.Remarks = general.txtRemarks.Text;
 
-                        oItem.NormalDiscount = Convert.ToDecimal((general.txtRetailDiscount.Text == string.Empty) ? "0" : general.txtRetailDiscount.Text);
-                        oItem.UOM = general.txtUnit.Text;
-                        oItem.NatureId = new Guid(general.cboNature.SelectedValue.ToString());
+                        oProduct.NormalDiscount = Convert.ToDecimal((general.txtRetailDiscount.Text == string.Empty) ? "0" : general.txtRetailDiscount.Text);
+                        oProduct.UOM = general.txtUnit.Text;
+                        oProduct.NatureId = new Guid(general.cboNature.SelectedValue.ToString());
 
-                        oItem.FixedPriceItem = false;
+                        oProduct.FixedPriceItem = false;
 
                         // Download Packets
-                        oItem.DownloadToPOS = general.chkRetailItem.Checked;
-                        oItem.DownloadToCounter = general.chkCounterItem.Checked;
+                        oProduct.DownloadToPOS = general.chkRetailItem.Checked;
+                        oProduct.DownloadToCounter = general.chkCounterItem.Checked;
 
-                        oItem.CreatedBy = Common.Config.CurrentUserId;
-                        oItem.CreatedOn = DateTime.Now;
-                        oItem.ModifiedBy = Common.Config.CurrentUserId;
-                        oItem.ModifiedOn = DateTime.Now;
+                        oProduct.CreatedBy = Common.Config.CurrentUserId;
+                        oProduct.CreatedOn = DateTime.Now;
+                        oProduct.ModifiedBy = Common.Config.CurrentUserId;
+                        oProduct.ModifiedOn = DateTime.Now;
 
-                        oItem.Save();
+                        oProduct.Save();
 
-                        SaveProductBarcode(oItem.ProductId, prodCode);
+                        SaveProductBarcode(oProduct.ProductId, prodCode);
 
                         // Appendix / Class
                         System.Guid c1Id = (general.cboClass1.SelectedValue != null) ? new Guid(general.cboClass1.SelectedValue.ToString()) : System.Guid.Empty;
@@ -483,21 +482,21 @@ namespace RT2020.Product
                         System.Guid c4Id = (general.cboClass4.SelectedValue != null) ? new Guid(general.cboClass4.SelectedValue.ToString()) : System.Guid.Empty;
                         System.Guid c5Id = (general.cboClass5.SelectedValue != null) ? new Guid(general.cboClass5.SelectedValue.ToString()) : System.Guid.Empty;
                         System.Guid c6Id = (general.cboClass6.SelectedValue != null) ? new Guid(general.cboClass6.SelectedValue.ToString()) : System.Guid.Empty;
-                        SaveProductCode(oItem.ProductId, a1Id, a2Id, a3Id, c1Id, c2Id, c3Id, c4Id, c5Id, c6Id);
+                        SaveProductCode(oProduct.ProductId, a1Id, a2Id, a3Id, c1Id, c2Id, c3Id, c4Id, c5Id, c6Id);
 
                         // Product Price
-                        SaveProductSupplement(oItem.ProductId);
-                        SaveProductPrice(oItem.ProductId);
+                        SaveProductSupplement(oProduct.ProductId);
+                        SaveProductPrice(oProduct.ProductId);
 
                         // Remarks
-                        SaveProductRemarks(oItem.ProductId);
+                        SaveProductRemarks(oProduct.ProductId);
 
-                        SaveCurrentSummary(oItem.ProductId);
+                        SaveCurrentSummary(oProduct.ProductId);
                     }
                 }
             }
         }
-
+        
         private void SaveCurrentSummary(Guid productId)
         {
             string where = "ProductId = '" + productId.ToString() + "'";
@@ -542,7 +541,7 @@ namespace RT2020.Product
                 }
             }
         }
-
+        
         private void SaveProductCode(Guid productId, Guid a1Id, Guid a2Id, Guid a3Id, Guid c1Id, Guid c2Id, Guid c3Id, Guid c4Id, Guid c5Id, Guid c6Id)
         {
             using (var ctx = new EF6.RT2020Entities())
@@ -598,7 +597,7 @@ namespace RT2020.Product
                 ctx.SaveChanges();
             }
         }
-
+        
         private void SaveProductPrice(Guid productId)
         {
             SaveProductPrice(productId, Common.Enums.ProductPriceType.BASPRC.ToString(), general.txtCurrentRetailCurrency.Text, general.txtCurrentRetailPrice.Text);
@@ -606,7 +605,7 @@ namespace RT2020.Product
             SaveProductPrice(productId, Common.Enums.ProductPriceType.VPRC.ToString(), general.cboVendorCurrency.Text, general.txtVendorPrice.Text);
             SaveProductPrice(productId, Common.Enums.ProductPriceType.WHLPRC.ToString(), general.txtWholesalesCurrency.Text, general.txtWholesalesPrice.Text);
         }
-
+        
         private void SaveProductPrice(Guid productId, string priceType, string currencyCode, string price)
         {
             using (var ctx = new EF6.RT2020Entities())
@@ -663,6 +662,7 @@ namespace RT2020.Product
                 ctx.SaveChanges();
             }
         }
+        */
         #endregion
 
         #region Save Product Batch

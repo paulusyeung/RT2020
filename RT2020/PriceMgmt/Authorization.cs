@@ -483,24 +483,27 @@ namespace RT2020.PriceMgmt
         /// <param name="updatedValue">The updated value.</param>
         private void UpdateProductInfo(Guid productId, decimal updatedValue)
         {
-            RT2020.DAL.Product oProduct = RT2020.DAL.Product.Load(productId);
-            if (oProduct != null)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                if (this.ListType == PriceUtility.PriceMgmtType.Price)
+                var oProduct = ctx.Product.Find(productId);
+                if (oProduct != null)
                 {
-                    oProduct.RetailPrice = updatedValue;
-                }
-                else if (this.ListType == PriceUtility.PriceMgmtType.Discount)
-                {
-                    oProduct.NormalDiscount = updatedValue;
-                }
+                    if (this.ListType == PriceUtility.PriceMgmtType.Price)
+                    {
+                        oProduct.RetailPrice = updatedValue;
+                    }
+                    else if (this.ListType == PriceUtility.PriceMgmtType.Discount)
+                    {
+                        oProduct.NormalDiscount = updatedValue;
+                    }
 
-                oProduct.DownloadToPOS = true;
-                oProduct.Status = (int)Common.Enums.Status.Modified;
-                oProduct.ModifiedBy = Common.Config.CurrentUserId;
-                oProduct.ModifiedOn = DateTime.Now;
+                    oProduct.DownloadToPOS = true;
+                    oProduct.Status = (int)Common.Enums.Status.Modified;
+                    oProduct.ModifiedBy = Common.Config.CurrentUserId;
+                    oProduct.ModifiedOn = DateTime.Now;
 
-                oProduct.Save();
+                    ctx.SaveChanges();
+                }
             }
         }
 

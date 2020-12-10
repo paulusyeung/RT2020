@@ -1060,7 +1060,9 @@ namespace RT2020.Purchasing.Wizard
         {
             if (this.basicProduct.SelectedItem != null)
             {
-                RT2020.DAL.Product objProd = RT2020.DAL.Product.Load(RT2020.Purchasing.PurchasingUtils.Convert.ToGuid(this.basicProduct.SelectedItem.ToString()));
+                var productId = RT2020.Purchasing.PurchasingUtils.Convert.ToGuid(this.basicProduct.SelectedItem.ToString());
+                //RT2020.DAL.Product objProd = RT2020.DAL.Product.Load(RT2020.Purchasing.PurchasingUtils.Convert.ToGuid(this.basicProduct.SelectedItem.ToString()));
+                var objProd = ModelEx.ProductEx.Get(productId);
                 if (objProd != null)
                 {
                     stkCode = objProd.STKCODE;

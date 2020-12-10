@@ -737,7 +737,7 @@ namespace RT2020.Inventory.Replenishment
         {
             if (basicProduct.SelectedItem != null)
             {
-                RT2020.DAL.Product oProd = RT2020.DAL.Product.Load(new Guid(basicProduct.SelectedItem.ToString()));
+                var oProd = ModelEx.ProductEx.Get((Guid)basicProduct.SelectedItem);
                 if (oProd != null)
                 {
                     stkCode = oProd.STKCODE;

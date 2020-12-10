@@ -18,6 +18,7 @@ using Gizmox.WebGUI.Common.Gateways;
 using RT2020.Controls;
 using System.Collections;
 using System.Linq;
+using RT2020.Helper;
 
 #endregion
 
@@ -372,11 +373,16 @@ namespace RT2020.Product.Import
             int iLen = verifiedResult.ToString().Length;
 
             // Check whether the StockCode is duplicate or not
-            string sql = @"STKCODE = '" + Utility.VerifyQuotes(row[colSTKCode].ToString().Trim()) + "' AND APPENDIX1 = '" + Utility.VerifyQuotes(row[colAppendix1].ToString().Trim())
-                + "' AND APPENDIX2 = '" + Utility.VerifyQuotes(row[colAppendix2].ToString().Trim()) + "' AND APPENDIX3 = '" + Utility.VerifyQuotes(row[colAppendix3].ToString().Trim()) + "'";
+            //string sql = @"STKCODE = '" + Utility.VerifyQuotes(row[colSTKCode].ToString().Trim()) + "' AND APPENDIX1 = '" + Utility.VerifyQuotes(row[colAppendix1].ToString().Trim())
+            //    + "' AND APPENDIX2 = '" + Utility.VerifyQuotes(row[colAppendix2].ToString().Trim()) + "' AND APPENDIX3 = '" + Utility.VerifyQuotes(row[colAppendix3].ToString().Trim()) + "'";
 
-            RT2020.DAL.Product oStockItem = RT2020.DAL.Product.LoadWhere(sql);
-            if (oStockItem != null)
+            //RT2020.DAL.Product oStockItem = RT2020.DAL.Product.LoadWhere(sql);
+            //if (oStockItem != null)
+            if (ProductHelper.IsDuplicated(
+                Utility.VerifyQuotes(row[colSTKCode].ToString().Trim()),
+                Utility.VerifyQuotes(row[colAppendix1].ToString().Trim()),
+                Utility.VerifyQuotes(row[colAppendix2].ToString().Trim()),
+                Utility.VerifyQuotes(row[colAppendix3].ToString().Trim())))
             {
                 returnResult.Append("Duplicated Stock Code;");
             }
@@ -464,7 +470,7 @@ namespace RT2020.Product.Import
 
             // Barcode 
             var barcode = Utility.VerifyQuotes(row[colSTKCode].ToString().Trim()) + Utility.VerifyQuotes(row[colAppendix1].ToString().Trim()) + Utility.VerifyQuotes(row[colAppendix2].ToString().Trim()) + Utility.VerifyQuotes(row[colAppendix3].ToString().Trim());
-            sql = "BARCODE = '" + barcode + "'";
+            var sql = "BARCODE = '" + barcode + "'";
 
             if (ModelEx.ProductBarcodeEx.IsBarcodeInUse(barcode))
             {
@@ -820,6 +826,7 @@ namespace RT2020.Product.Import
 
         private Guid ImportProduct(StockCodeRec oRec)
         {
+            Guid result = Guid.Empty;
             StringBuilder productWhereClause = new StringBuilder();
             productWhereClause.Append(" STKCODE = '").Append(oRec.PLU).Append("' ");
             productWhereClause.Append(" AND APPENDIX1 = '").Append(oRec.Season).Append("' ");
@@ -832,37 +839,42 @@ namespace RT2020.Product.Import
             productWhereClause.Append(" AND CLASS5 = '").Append(oRec.Category).Append("' ");
             productWhereClause.Append(" AND CLASS6 = '").Append(oRec.SubCat).Append("' ");
 
-            RT2020.DAL.Product oItem = RT2020.DAL.Product.LoadWhere(productWhereClause.ToString());
-            if (oItem == null)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                oItem = new RT2020.DAL.Product();
+                var oItem = ctx.Product.SqlQuery(string.Format("Select * from Product where {0}", productWhereClause.ToString())).FirstOrDefault();
+                if (oItem == null)
+                {
+                    oItem = new EF6.Product();
+                    oItem.ProductId = Guid.NewGuid();
+                    oItem.STKCODE = oRec.PLU;
+                    oItem.APPENDIX1 = oRec.Season;
+                    oItem.APPENDIX2 = oRec.Color;
+                    oItem.APPENDIX3 = oRec.Size;
+                    oItem.CLASS1 = oRec.Vendor;
+                    oItem.CLASS2 = oRec.Gender;
+                    oItem.CLASS3 = oRec.Collection;
+                    oItem.CLASS4 = oRec.Group;
+                    oItem.CLASS5 = oRec.Category;
+                    oItem.CLASS6 = oRec.SubCat;
 
-                oItem.STKCODE = oRec.PLU;
-                oItem.APPENDIX1 = oRec.Season;
-                oItem.APPENDIX2 = oRec.Color;
-                oItem.APPENDIX3 = oRec.Size;
-                oItem.CLASS1 = oRec.Vendor;
-                oItem.CLASS2 = oRec.Gender;
-                oItem.CLASS3 = oRec.Collection;
-                oItem.CLASS4 = oRec.Group;
-                oItem.CLASS5 = oRec.Category;
-                oItem.CLASS6 = oRec.SubCat;
+                    oItem.ProductName = oRec.Description;
+                    oItem.RetailPrice = Convert.ToDecimal(oRec.BASPRC);
+                    oItem.DownloadToPOS = chkSetRetailItem.Checked;
+                    //oItem.NatureId = System.Guid.Empty;
 
-                oItem.ProductName = oRec.Description;
-                oItem.RetailPrice = Convert.ToDecimal(oRec.BASPRC);
-                oItem.DownloadToPOS = chkSetRetailItem.Checked;
-                //oItem.NatureId = System.Guid.Empty;
+                    oItem.CreatedBy = Common.Config.CurrentUserId;
+                    oItem.CreatedOn = DateTime.Now;
 
-                oItem.CreatedBy = Common.Config.CurrentUserId;
-                oItem.CreatedOn = DateTime.Now;
+                    ctx.Product.Add(oItem);
+                }
+
+                oItem.ModifiedBy = Common.Config.CurrentUserId;
+                oItem.ModifiedOn = DateTime.Now;
+
+                ctx.SaveChanges();
+                result = oItem.ProductId;
             }
-
-            oItem.ModifiedBy = Common.Config.CurrentUserId;
-            oItem.ModifiedOn = DateTime.Now;
-
-            oItem.Save();
-
-            return oItem.ProductId;
+            return result;
         }
 
         private void ImportProductSupplement(Guid productId, StockCodeRec oRec)

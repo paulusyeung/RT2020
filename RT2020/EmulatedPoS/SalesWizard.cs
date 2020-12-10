@@ -1161,7 +1161,7 @@ namespace RT2020.EmulatedPoS
             if (basicFindProduct.SelectedItem != null)
             {
                 System.Guid prodId = Common.Utility.IsGUID(basicFindProduct.SelectedItem.ToString()) ? new System.Guid(basicFindProduct.SelectedItem.ToString()) : System.Guid.Empty;
-                RT2020.DAL.Product oProd = RT2020.DAL.Product.Load(prodId);
+                var oProd = ModelEx.ProductEx.Get(prodId);
                 if (oProd != null)
                 {
                     stkCode = oProd.STKCODE;

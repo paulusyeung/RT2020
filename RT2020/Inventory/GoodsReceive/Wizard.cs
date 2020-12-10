@@ -865,7 +865,7 @@ namespace RT2020.Inventory.GoodsReceive
 
         private void SetStockCode(Guid productId)
         {
-            DAL.Product oProd = DAL.Product.Load(productId);
+            var oProd = ModelEx.ProductEx.Get(productId);
             if (oProd != null)
             {
                 if (rbtnBarcode.Checked)
@@ -1233,8 +1233,8 @@ namespace RT2020.Inventory.GoodsReceive
 
         private bool FindProduct(string whereClause)
         {
-            RT2020.DAL.ProductCollection oProdList = RT2020.DAL.Product.LoadCollection(whereClause);
-            if (oProdList.Count > 1)
+            //RT2020.DAL.ProductCollection oProdList = RT2020.DAL.Product.LoadCollection(whereClause);
+            if (ModelEx.ProductEx.Count(whereClause) > 0)
             {
                 return true;
             }
@@ -1248,7 +1248,7 @@ namespace RT2020.Inventory.GoodsReceive
         {
             if (whereClause.Length > 0)
             {
-                RT2020.DAL.Product oProd = RT2020.DAL.Product.LoadWhere(whereClause);
+                var oProd = ModelEx.ProductEx.Get(whereClause);
                 if (oProd != null)
                 {
                     if (rbtnStockCode_1.Checked)
@@ -1260,8 +1260,8 @@ namespace RT2020.Inventory.GoodsReceive
                     }
 
                     txtDescription.Text = oProd.ProductName;
-                    txtUnitPrice_1.Text = oProd.RetailPrice.ToString("n2");
-                    txtUnitPrice_2.Text = (oProd.RetailPrice * Convert.ToDecimal(txtCoefficient.Text.Length == 0 ? "1" : txtCoefficient.Text)).ToString("n2");
+                    txtUnitPrice_1.Text = oProd.RetailPrice.Value.ToString("n2");
+                    txtUnitPrice_2.Text = (oProd.RetailPrice.Value * Convert.ToDecimal(txtCoefficient.Text.Length == 0 ? "1" : txtCoefficient.Text)).ToString("n2");
 
                     GetSummaryCost(oProd.ProductId);
 
@@ -1297,7 +1297,7 @@ namespace RT2020.Inventory.GoodsReceive
         {
             foreach (RT2020.Controls.ProductSearcher.DetailData detail in resultList)
             {
-                DAL.Product oProduct = DAL.Product.Load(detail.ProductId);
+                var oProduct = ModelEx.ProductEx.Get(detail.ProductId);
                 if (oProduct != null)
                 {
                     string stkCode = oProduct.STKCODE;

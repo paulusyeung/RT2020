@@ -212,7 +212,7 @@ namespace RT2020.Inventory.Transfer
 
                 if (query.Length > 0)
                 {
-                    RT2020.DAL.Product oProd = RT2020.DAL.Product.LoadWhere(query);
+                    var oProd = ModelEx.ProductEx.Get(query);
                     if (oProd != null)
                     {
                         stkCode = oProd.STKCODE;

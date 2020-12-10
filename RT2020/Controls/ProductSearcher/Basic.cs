@@ -1,4 +1,4 @@
-#region Using
+﻿#region Using
 
 using System;
 using System.Collections.Generic;
@@ -10,6 +10,7 @@ using System.Text;
 using Gizmox.WebGUI.Common;
 using Gizmox.WebGUI.Forms;
 using RT2020.DAL;
+using System.Linq;
 
 #endregion
 
@@ -104,41 +105,37 @@ namespace RT2020.Controls.ProductSearcher
 
         private void FillProductList(string value)
         {
-            //if (!cboFullStockCode.Items.Contains(value))
-            //{
-            //    cboFullStockCode.DataSource = null;
-            //}
+            List<KeyValuePair<Guid, string>> itemList = new List<KeyValuePair<Guid, string>>();
 
-            //if (cboFullStockCode.DataSource == null)
-            //{
-                ProductList itemList = new ProductList();
+            string sql = string.Empty;
+            if (Common.Utility.IsGUID(value))
+            {
+                sql = "ProductId = '" + value + "'";
+            }
+            else
+            {
+                sql = BuildWhereClause(value);
+            }
 
-                //cboFullStockCode.Items.Clear();
+            sql += " AND Retired = 0";
 
-                string sql = string.Empty;
-                if (Common.Utility.IsGUID(value))
+            string[] orderBy = new string[] { "STKCODE" };
+
+            using (var ctx = new EF6.RT2020Entities())
+            {
+                var prodList = ctx.Product.
+                    SqlQuery(string.Format("Select * from Product Where {0} Order By {1}", sql, orderBy))
+                    .ToList();
+                foreach (var prod in prodList)
                 {
-                    sql = "ProductId = '" + value + "'";
+                    var stkcode = string.Format("{0} {1} {2} {3}", prod.STKCODE, prod.APPENDIX1, prod.APPENDIX2, prod.APPENDIX3);
+                    itemList.Add(new KeyValuePair<Guid, string>(prod.ProductId, stkcode));
                 }
-                else
-                {
-                    //itemList.Add(new ProductRec(System.Guid.Empty, value));
-                    sql = BuildWhereClause(value);
-                }
-
-                sql += " AND Retired = 0";
-
-                string[] orderBy = new string[] { "STKCODE" };
-                RT2020.DAL.ProductCollection prodList = RT2020.DAL.Product.LoadCollection(sql, orderBy, true);
-                foreach (RT2020.DAL.Product prod in prodList)
-                {
-                    itemList.Add(new ProductRec(prod.ProductId, prod.STKCODE + " " + prod.APPENDIX1 + " " + prod.APPENDIX2 + " " + prod.APPENDIX3));
-                }
-                cboFullStockCode.DisplayMember = "StockCode";
-                cboFullStockCode.ValueMember = "ProductId";
-                cboFullStockCode.DataSource = itemList;
-                cboFullStockCode.Update();
-            //}
+            }
+            cboFullStockCode.DisplayMember = "Value";
+            cboFullStockCode.ValueMember = "Key";
+            cboFullStockCode.DataSource = itemList;
+            cboFullStockCode.Update();
         }
 
         private string BuildWhereClause(string value)
@@ -307,9 +304,11 @@ namespace RT2020.Controls.ProductSearcher
         private void cboFullStockCode_SelectedIndexChanged(object sender, EventArgs e)
         {
             string query = string.Empty;
-            if (cboFullStockCode.SelectedValue != null && Common.Utility.IsGUID(cboFullStockCode.SelectedValue.ToString()))
+            Guid productId = Guid.Empty;
+            //* 搞咩呢？cboFullStockCode 一定係 ProductId + stkcode
+            if (cboFullStockCode.SelectedValue != null && Guid.TryParse(cboFullStockCode.SelectedValue.ToString(), out productId))
             {
-                query = "ProductId = '" + cboFullStockCode.SelectedValue.ToString() + "'";
+                query = "ProductId = '" + productId.ToString() + "'";
             }
             else
             {
@@ -318,7 +317,7 @@ namespace RT2020.Controls.ProductSearcher
 
             if (query.Length > 0)
             {
-                RT2020.DAL.Product oProd = RT2020.DAL.Product.LoadWhere(query);
+                var oProd = ModelEx.ProductEx.Get(query);
                 if (oProd != null)
                 {
                     this.SelectedItem = oProd.ProductId;
@@ -326,9 +325,9 @@ namespace RT2020.Controls.ProductSearcher
                     ProductSelectionEventArgs args = new ProductSelectionEventArgs(oProd.ProductId, oProd.STKCODE, oProd.APPENDIX1, oProd.APPENDIX2,
                         oProd.APPENDIX3,
                         oProd.ProductName,
-                        oProd.RetailPrice,
+                        oProd.RetailPrice.Value,
                         Utility.GetOnHandQtyByCurrentZone(oProd.ProductId),
-                        oProd.OriginalRetailPrice,
+                        oProd.OriginalRetailPrice.Value,
                         ModelEx.ProductCurrentSummaryEx.GetAverageCode(oProd.ProductId),
                         oProd.NormalDiscount);
 

@@ -334,7 +334,7 @@ namespace RT2020.Inventory.GoodsReceive
                         bool retired = false;
                         string stk = string.Empty, a1 = string.Empty, a2 = string.Empty, a3 = string.Empty;
 
-                        Product oProduct = Product.Load(detail.ProductId);
+                        var oProduct = ModelEx.ProductEx.Get(detail.ProductId);
                         if (oProduct != null)
                         {
                             stk = oProduct.STKCODE;
