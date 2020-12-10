@@ -309,19 +309,22 @@ AND CONVERT(NVARCHAR(10),EffectDate,126) BETWEEN '" + this.dtpEffectiveDate.Valu
         /// </summary>
         private void LoadHeader()
         {
-            PriceManagementBatchHeader oHeader = PriceManagementBatchHeader.Load(this.HeaderId);
-            if (oHeader != null)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                txtTxNumber.Text = oHeader.TxNumber;
+                var oHeader = ctx.PriceManagementBatchHeader.Find(this.HeaderId);
+                if (oHeader != null)
+                {
+                    txtTxNumber.Text = oHeader.TxNumber;
 
-                dtpEffectiveDate.Value = oHeader.EffectDate;
-                cboReasonCode.SelectedValue = oHeader.ReasonId;
-                txtRemarks.Text = oHeader.Remarks;
+                    dtpEffectiveDate.Value = oHeader.EffectDate.Value;
+                    cboReasonCode.SelectedValue = oHeader.ReasonId;
+                    txtRemarks.Text = oHeader.Remarks;
 
-                txtModifiedOn.Text = RT2020.SystemInfo.Settings.DateTimeToString(oHeader.ModifiedOn, true);
-                txtModifiedBy.Text = ModelEx.StaffEx.GetStaffNumberById(oHeader.ModifiedBy);
-                txtCreatedOn.Text = RT2020.SystemInfo.Settings.DateTimeToString(oHeader.CreatedOn, true);
+                    txtModifiedOn.Text = RT2020.SystemInfo.Settings.DateTimeToString(oHeader.ModifiedOn.Value, true);
+                    txtModifiedBy.Text = ModelEx.StaffEx.GetStaffNumberById(oHeader.ModifiedBy);
+                    txtCreatedOn.Text = RT2020.SystemInfo.Settings.DateTimeToString(oHeader.CreatedOn.Value, true);
 
+                }
             }
         }
 
@@ -375,34 +378,127 @@ AND CONVERT(NVARCHAR(10),EffectDate,126) BETWEEN '" + this.dtpEffectiveDate.Valu
         /// </summary>
         private void UpdateHeader()
         {
-            PriceManagementBatchHeader oHeader = PriceManagementBatchHeader.Load(this.HeaderId);
-            if (oHeader == null)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                oHeader = new PriceManagementBatchHeader();
-                oHeader.HeaderId = System.Guid.NewGuid();
-                txtTxNumber.Text = RT2020.SystemInfo.Settings.QueuingTxNumber(Common.Enums.TxType.PMS);
-                oHeader.TxNumber = txtTxNumber.Text;
-                oHeader.TxType = Common.Enums.TxType.PMC.ToString();
-                oHeader.PM_TYPE = this.ListType.ToString().Substring(0, 1);
+                using (var scope = ctx.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        var oHeader = ctx.PriceManagementBatchHeader.Find(this.HeaderId);
+                        if (oHeader == null)
+                        {
+                            #region add new PriceManagementBatchHeader
+                            oHeader = new EF6.PriceManagementBatchHeader();
+                            oHeader.HeaderId = Guid.NewGuid();
+                            txtTxNumber.Text = RT2020.SystemInfo.Settings.QueuingTxNumber(Common.Enums.TxType.PMS);
+                            oHeader.TxNumber = txtTxNumber.Text;
+                            oHeader.TxType = Common.Enums.TxType.PMC.ToString();
+                            oHeader.PM_TYPE = this.ListType.ToString().Substring(0, 1);
 
-                oHeader.CreatedBy = Common.Config.CurrentUserId;
-                oHeader.CreatedOn = DateTime.Now;
+                            oHeader.CreatedBy = Common.Config.CurrentUserId;
+                            oHeader.CreatedOn = DateTime.Now;
+
+                            ctx.PriceManagementBatchHeader.Add(oHeader);
+                            #endregion
+                        }
+
+                        oHeader.EffectDate = dtpEffectiveDate.Value;
+                        oHeader.ReasonId = Common.Utility.IsGUID(cboReasonCode.SelectedValue.ToString()) ? new System.Guid(cboReasonCode.SelectedValue.ToString()) : System.Guid.Empty;
+                        oHeader.Remarks = txtRemarks.Text;
+
+                        oHeader.ModifiedBy = Common.Config.CurrentUserId;
+                        oHeader.ModifiedOn = DateTime.Now;
+
+                        ctx.SaveChanges();
+
+                        this.HeaderId = oHeader.HeaderId;
+
+                        #region UpdateDetails();
+                        for (int i = 0; i < details.lvItemList.Items.Count; i++)
+                        {
+                            ListViewItem lvItem = details.lvItemList.Items[i];
+                            int lineNumber = i + 1;
+
+                            Guid productId = Guid.Empty, detailId = Guid.Empty;
+                            if (Guid.TryParse(lvItem.SubItems[27].Text, out productId) && Guid.TryParse(lvItem.Text, out detailId))
+                            {
+                                var oDetail = ctx.PriceManagementBatchDetails.Find(detailId);
+                                if (oDetail == null)
+                                {
+                                    #region new PriceManagementBatchDetails
+                                    oDetail = new EF6.PriceManagementBatchDetails();
+                                    oDetail.DetailId = Guid.NewGuid();
+                                    oDetail.HeaderId = this.HeaderId;
+                                    oDetail.LineNumber = lineNumber;
+                                    oDetail.ProductId = productId;
+                                    oDetail.TxNumber = txtTxNumber.Text;
+                                    oDetail.TxType = txtTxType.Text;
+
+                                    ctx.PriceManagementBatchDetails.Add(oDetail);
+                                    #endregion
+                                }
+
+                                if (lvItem.SubItems[1].Text != "D")
+                                {
+                                    decimal oldValue = 0, newValue = 0;
+
+                                    if (this.ListType == PriceUtility.PriceMgmtType.Price)
+                                    {
+                                        decimal.TryParse(lvItem.SubItems[7].Text, out oldValue);
+                                        decimal.TryParse(lvItem.SubItems[9].Text, out newValue);
+                                    }
+                                    else
+                                    {
+                                        decimal.TryParse(lvItem.SubItems[12].Text, out oldValue);
+                                        decimal.TryParse(lvItem.SubItems[13].Text, out newValue);
+                                    }
+
+                                    oDetail.OLD_FIGURE = oldValue;
+                                    oDetail.NEW_FIGURE = newValue;
+
+                                    #region Update Vip Discount
+                                    if (lvItem.SubItems[21].Text == "Y") // Update Vip Discount
+                                    {
+                                        var objProduct = ctx.Product.Find(productId);
+                                        if (objProduct != null)
+                                        {
+                                            objProduct.FixedPriceItem = (lvItem.SubItems[22].Text == "Y"); // Fixed price item
+
+                                            string query = "ProductId = '" + objProduct.ProductId.ToString() + "'";
+                                            var oSupplement = ctx.ProductSupplement.Where(x => x.ProductId == objProduct.ProductId).FirstOrDefault();
+                                            if (oSupplement != null)
+                                            {
+                                                oSupplement.VipDiscount_FixedItem = Common.Utility.IsNumeric(lvItem.SubItems[23].Text) ? Convert.ToDecimal(lvItem.SubItems[23].Text.Trim()) : oSupplement.VipDiscount_FixedItem; // Discount For Fixed price Item
+                                                oSupplement.VipDiscount_DiscountItem = Common.Utility.IsNumeric(lvItem.SubItems[24].Text) ? Convert.ToDecimal(lvItem.SubItems[24].Text.Trim()) : oSupplement.VipDiscount_DiscountItem; // Discount for Discount Item
+                                                oSupplement.VipDiscount_NoDiscountItem = Common.Utility.IsNumeric(lvItem.SubItems[25].Text) ? Convert.ToDecimal(lvItem.SubItems[25].Text.Trim()) : oSupplement.VipDiscount_NoDiscountItem; // Disocunt for No Discount Item
+                                                oSupplement.StaffDiscount = Common.Utility.IsNumeric(lvItem.SubItems[26].Text) ? Convert.ToDecimal(lvItem.SubItems[26].Text.Trim()) : oSupplement.StaffDiscount; // Staff Discount
+                                            }
+
+                                            objProduct.ModifiedBy = Common.Config.CurrentUserId;
+                                            objProduct.ModifiedOn = DateTime.Now;
+                                        }
+                                    }
+                                    #endregion
+                                }
+                                else
+                                {
+                                    ctx.PriceManagementBatchDetails.Remove(oDetail);
+                                }
+                                ctx.SaveChanges();
+                            }
+                        }
+                        #endregion
+
+                        scope.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        scope.Rollback();
+                    }
+                }
             }
-
-            oHeader.EffectDate = dtpEffectiveDate.Value;
-            oHeader.ReasonId = Common.Utility.IsGUID(cboReasonCode.SelectedValue.ToString()) ? new System.Guid(cboReasonCode.SelectedValue.ToString()) : System.Guid.Empty;
-            oHeader.Remarks = txtRemarks.Text;
-
-            oHeader.ModifiedBy = Common.Config.CurrentUserId;
-            oHeader.ModifiedOn = DateTime.Now;
-
-            oHeader.Save();
-
-            this.HeaderId = oHeader.HeaderId;
-
-            UpdateDetails();
         }
-
+        /**
         /// <summary>
         /// Updates the details.
         /// </summary>
@@ -496,7 +592,7 @@ AND CONVERT(NVARCHAR(10),EffectDate,126) BETWEEN '" + this.dtpEffectiveDate.Valu
                 }
             }
         }
-
+        */
         #endregion
 
         /// <summary>
@@ -577,27 +673,34 @@ AND CONVERT(NVARCHAR(10),EffectDate,126) BETWEEN '" + this.dtpEffectiveDate.Valu
         /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
         private void DeleteConfirmationHandler(object sender, EventArgs e)
         {
-            PriceManagementBatchHeader objPriceMgmtBatchHeader = PriceManagementBatchHeader.Load(this.HeaderId);
-            if (objPriceMgmtBatchHeader != null)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                try
+                var objPriceMgmtBatchHeader = ctx.PriceManagementBatchHeader.Find(this.HeaderId);
+                if (objPriceMgmtBatchHeader != null)
                 {
-                    string query = "HeaderId = '" + objPriceMgmtBatchHeader.HeaderId.ToString() + "'";
-                    PriceManagementBatchDetailsCollection objDetailList = PriceManagementBatchDetails.LoadCollection(query);
-                    foreach (PriceManagementBatchDetails objDetail in objDetailList)
+                    try
                     {
-                        objDetail.Delete();
+                        //string query = "HeaderId = '" + objPriceMgmtBatchHeader.HeaderId.ToString() + "'";
+                        var objDetailList = ctx.PriceManagementBatchDetails
+                            .Where(x => x.HeaderId == objPriceMgmtBatchHeader.HeaderId)
+                            .ToList();
+                        foreach (var objDetail in objDetailList)
+                        {
+                            ctx.PriceManagementBatchDetails.Remove(objDetail);
+                        }
+
+                        ctx.PriceManagementBatchHeader.Remove(objPriceMgmtBatchHeader);
+
+                        ctx.SaveChanges();
+
+                        MessageBox.Show("Record deleted!", "Delete Successful!");
+
+                        this.Close();
                     }
-
-                    objPriceMgmtBatchHeader.Delete();
-
-                    MessageBox.Show("Record deleted!", "Delete Successful!");
-
-                    this.Close();
-                }
-                catch (Exception exc)
-                {
-                    MessageBox.Show(exc.Message, "Failed to delete!");
+                    catch (Exception exc)
+                    {
+                        MessageBox.Show(exc.Message, "Failed to delete!");
+                    }
                 }
             }
         }

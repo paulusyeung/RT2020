@@ -13,6 +13,7 @@ using RT2020.DAL;
 using System.Text.RegularExpressions;
 using System.Data.SqlClient;
 using System.Configuration;
+using System.Linq;
 
 #endregion
 
@@ -355,30 +356,143 @@ namespace RT2020.PriceMgmt
         private int CreateActiveRecords()
         {
             int iCount = 0;
-            if (lvAuthList.Items.Count > 0)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                foreach (ListViewItem oItem in lvAuthList.Items)
+                using (var scope = ctx.Database.BeginTransaction())
                 {
-                    if (oItem.SubItems[1].Text == "*")
+                    try
                     {
-                        if (Common.Utility.IsGUID(oItem.Text))
+                        foreach (ListViewItem oItem in lvAuthList.Items)
                         {
-                            System.Guid srcHeaderId = new Guid(oItem.Text);
-                            System.Guid destHeaderId = CreateActiveHeader(srcHeaderId);
-                            if (destHeaderId != System.Guid.Empty)
+                            if (oItem.SubItems[1].Text == "*")
                             {
-                                this.CreateActiveDetails(destHeaderId, srcHeaderId);
-                                iCount++;
-                            }
+                                Guid headerId = Guid.Empty;
+                                if (Guid.TryParse(oItem.Text, out headerId))
+                                {
+                                    Guid destHeaderId = Guid.Empty;
 
-                            RemovePostedBatchInfo(srcHeaderId);
+                                    #region Guid destHeaderId = CreateActiveHeader(headerId);
+                                    var srcHeader = ctx.PriceManagementBatchHeader.Find(headerId);
+                                    if (srcHeader != null)
+                                    {
+                                        // Add new active header
+                                        var destHeader = new EF6.PriceManagementActiveHeader();
+                                        destHeader.HeaderId = System.Guid.NewGuid();
+                                        destHeader.TxNumber = srcHeader.TxNumber;
+                                        destHeader.TxType = srcHeader.TxType;
+                                        destHeader.EffectDate = srcHeader.EffectDate;
+                                        destHeader.PM_TYPE = srcHeader.PM_TYPE;
+                                        destHeader.ReasonId = srcHeader.ReasonId;
+                                        destHeader.StartOn = srcHeader.StartOn;
+                                        destHeader.EndOn = srcHeader.EndOn;
+                                        destHeader.Remarks = srcHeader.Remarks;
+                                        destHeader.SEGMENT_LOCATION = srcHeader.SEGMENT_LOCATION;
+                                        destHeader.Posted = true;
+                                        destHeader.PostedBy = Common.Config.CurrentUserId;
+                                        destHeader.PostedOn = DateTime.Now;
+                                        destHeader.CreatedOn = srcHeader.CreatedOn;
+                                        destHeader.CreatedBy = srcHeader.CreatedBy;
+                                        destHeader.ModifiedBy = srcHeader.ModifiedBy;
+                                        destHeader.ModifiedOn = srcHeader.ModifiedOn;
+                                        ctx.PriceManagementActiveHeader.Add(destHeader);
+
+                                        destHeaderId = destHeader.HeaderId;
+
+                                        // Update the posted detail (batch)
+                                        srcHeader.Posted = true;
+                                        srcHeader.PostedBy = Common.Config.CurrentUserId;
+                                        srcHeader.PostedOn = DateTime.Now;
+                                        srcHeader.ModifiedBy = Common.Config.CurrentUserId;
+                                        srcHeader.ModifiedOn = DateTime.Now;
+
+                                        ctx.SaveChanges();
+                                    }
+                                    #endregion
+
+                                    if (destHeaderId != Guid.Empty)
+                                    {
+                                        #region this.CreateActiveDetails(destHeaderId, headerId);
+                                        //string query = "HeaderId = '" + srcHeaderId.ToString() + "'";
+                                        var srcDetailList = ctx.PriceManagementBatchDetails
+                                            .Where(x => x.HeaderId == headerId)
+                                            .OrderBy(x => x.LineNumber); 
+                                        foreach (var srcDetail in srcDetailList)
+                                        {
+                                            //PriceManagementBatchDetails srcDetail = srcDetailList[i];
+
+                                            var destDetail = new EF6.PriceManagementActiveDetails();
+                                            destDetail.DetailId = Guid.NewGuid();
+                                            destDetail.HeaderId = destHeaderId;
+                                            destDetail.LineNumber = srcDetail.LineNumber;
+                                            destDetail.TxNumber = srcDetail.TxNumber;
+                                            destDetail.TxType = srcDetail.TxType;
+                                            destDetail.ProductId = srcDetail.ProductId;
+                                            destDetail.OLD_FIGURE = srcDetail.OLD_FIGURE;
+                                            destDetail.NEW_FIGURE = srcDetail.NEW_FIGURE;
+
+                                            ctx.PriceManagementActiveDetails.Add(destDetail);
+
+                                            // Updates the product info.
+                                            #region this.UpdateProductInfo(srcDetail.ProductId, srcDetail.NEW_FIGURE.Value);
+                                            var updatedValue = srcDetail.NEW_FIGURE.Value;
+                                            var oProduct = ctx.Product.Find(srcDetail.ProductId);
+                                            if (oProduct != null)
+                                            {
+                                                if (this.ListType == PriceUtility.PriceMgmtType.Price)
+                                                {
+                                                    oProduct.RetailPrice = updatedValue;
+                                                }
+                                                else if (this.ListType == PriceUtility.PriceMgmtType.Discount)
+                                                {
+                                                    oProduct.NormalDiscount = updatedValue;
+                                                }
+
+                                                oProduct.DownloadToPOS = true;
+                                                oProduct.Status = (int)Common.Enums.Status.Modified;
+                                                oProduct.ModifiedBy = Common.Config.CurrentUserId;
+                                                oProduct.ModifiedOn = DateTime.Now;
+
+                                                ctx.SaveChanges();
+                                            }
+                                            #endregion
+                                        }
+                                        #endregion
+
+                                        iCount++;
+                                    }
+
+                                    #region RemovePostedBatchInfo(headerId);
+                                    var objHeader = ctx.PriceManagementBatchHeader.Find(headerId);
+                                    if (objHeader != null)
+                                    {
+                                        //string query = "HeaderId = '" + headerId.ToString() + "'";
+                                        var srcDetailList = ctx.PriceManagementBatchDetails
+                                            .Where(x => x.HeaderId == headerId)
+                                            .OrderBy(x => x.LineNumber);
+                                        foreach (var srcDetail in srcDetailList)
+                                        {
+                                            ctx.PriceManagementBatchDetails.Remove(srcDetail);
+                                        }
+
+                                        ctx.PriceManagementBatchHeader.Remove(objHeader);
+                                    }
+                                    ctx.SaveChanges();
+                                    #endregion
+                                }
+                            }
                         }
+                        scope.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        scope.Rollback();
                     }
                 }
+
             }
             return iCount;
         }
-
+        /**
         /// <summary>
         /// Creates the active header.
         /// </summary>
@@ -506,7 +620,7 @@ namespace RT2020.PriceMgmt
                 }
             }
         }
-
+        */
         #endregion
 
         /// <summary>

@@ -44,7 +44,7 @@ namespace RT2020.PriceMgmt.Reports
         {
             string type = this.ReportType.ToString().Substring(0, 1);
 
-            PriceManagementBatchHeader.LoadCombo(ref cboFrom, "TxNumber", false, false, string.Empty, "PM_TYPE ='" + type + "'");
+            ModelEx.PriceManagementBatchHeaderEx.LoadCombo(ref cboFrom, "TxNumber", false, false, string.Empty, "PM_TYPE ='" + type + "'");
 
         }
 
@@ -52,7 +52,7 @@ namespace RT2020.PriceMgmt.Reports
         {
             string type = this.ReportType.ToString().Substring(0, 1);
 
-            PriceManagementBatchHeader.LoadCombo(ref cboTo, "TxNumber", false, false, string.Empty, "PM_TYPE ='" + type + "'");
+            ModelEx.PriceManagementBatchHeaderEx.LoadCombo(ref cboTo, "TxNumber", false, false, string.Empty, "PM_TYPE ='" + type + "'");
 
             this.cboTo.SelectedIndex = cboTo.Items.Count - 1;
         }
