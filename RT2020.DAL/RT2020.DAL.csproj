@@ -159,8 +159,6 @@
     <Compile Include="PosLedgerTender.cs" />
     <Compile Include="PosTenderType.cs" />
     <Compile Include="PriceManagementActiveDetails.cs" />
-    <Compile Include="PriceManagementActiveHeader.cs" />
-    <Compile Include="PriceManagementBatchDetails.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SqlHelper.cs" />
   </ItemGroup>

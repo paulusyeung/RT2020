@@ -42,14 +42,14 @@ namespace RT2020.PriceMgmt.Reports
         {
             string type = this.ReportType.ToString().Substring(0, 1);
 
-            PriceManagementActiveHeader.LoadCombo(ref cboFrom, "TxNumber", false, false, string.Empty, "PM_TYPE ='" + type + "'");
+            ModelEx.PriceManagementActiveHeaderEx.LoadCombo(ref cboFrom, "TxNumber", false, false, string.Empty, "PM_TYPE ='" + type + "'");
         }
 
         private void FillToList()
         {
             string type = this.ReportType.ToString().Substring(0, 1);
 
-            PriceManagementActiveHeader.LoadCombo(ref cboTo, "TxNumber", false, false, string.Empty, "PM_TYPE ='" + type + "'");
+            ModelEx.PriceManagementActiveHeaderEx.LoadCombo(ref cboTo, "TxNumber", false, false, string.Empty, "PM_TYPE ='" + type + "'");
 
             this.cboTo.SelectedIndex = cboTo.Items.Count - 1;
         }
