@@ -173,7 +173,7 @@ namespace RT2020.PriceMgmt
         /// </summary>
         private void LoadReason()
         {
-            PriceManagementReason objReason = PriceManagementReason.Load(this.ReasonId);
+            var objReason = ModelEx.PriceManagementReasonEx.Get(this.ReasonId);
             if (objReason != null)
             {
                 txtReasonCode.Text = objReason.ReasonCode;
@@ -214,29 +214,33 @@ namespace RT2020.PriceMgmt
         /// <returns></returns>
         private bool Save()
         {
+            bool result = false;
+
             if (Verify())
             {
-                PriceManagementReason objReason = PriceManagementReason.Load(this.ReasonId);
-                if (objReason == null)
+                using (var ctx = new EF6.RT2020Entities())
                 {
-                    objReason = new PriceManagementReason();
-                    objReason.ReasonId = System.Guid.NewGuid();
-                    objReason.ReasonCode = txtReasonCode.Text;
+                    var objReason = ctx.PriceManagementReason.Find(this.ReasonId);
+                    if (objReason == null)
+                    {
+                        objReason = new EF6.PriceManagementReason();
+                        objReason.ReasonId = Guid.NewGuid();
+                        objReason.ReasonId = System.Guid.NewGuid();
+                        objReason.ReasonCode = txtReasonCode.Text;
+
+                        ctx.PriceManagementReason.Add(objReason);
+                    }
+                    objReason.ReasonName = txtReasonName.Text;
+                    objReason.ReasonName_Chs = txtReasonName_Chs.Text;
+                    objReason.ReasonName_Cht = txtReasonName_Cht.Text;
+
+                    ctx.SaveChanges();
+                    result = true;
+
+                    this.ReasonId = objReason.ReasonId;
                 }
-                objReason.ReasonName = txtReasonName.Text;
-                objReason.ReasonName_Chs = txtReasonName_Chs.Text;
-                objReason.ReasonName_Cht = txtReasonName_Cht.Text;
-
-                objReason.Save();
-
-                this.ReasonId = objReason.ReasonId;
-
-                return true;
             }
-            else
-            {
-                return false;
-            }
+            return result;
         }
 
         #endregion
@@ -305,20 +309,24 @@ namespace RT2020.PriceMgmt
         /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
         private void DeleteConfirmationHandler(object sender, EventArgs e)
         {
-            PriceManagementReason objReason = PriceManagementReason.Load(this.ReasonId);
-            if (objReason != null)
+            using (var ctx = new EF6.RT2020Entities())
             {
                 try
                 {
-                    objReason.Delete();
+                    var item = ctx.PriceManagementReason.Find(this.ReasonId);
+                    if (item != null)
+                    {
+                        ctx.PriceManagementReason.Remove(item);
+                        ctx.SaveChanges();
 
-                    MessageBox.Show("Record [" + objReason.ReasonCode + "] deleted!", "Delete Successful!");
+                        MessageBox.Show("Record [" + item.ReasonCode + "] deleted!", "Delete Successful!");
 
-                    this.Close();
+                        this.Close();
+                    }
                 }
-                catch (Exception exc)
+                catch
                 {
-                    MessageBox.Show(exc.Message, "Failed to delete!");
+                    MessageBox.Show("Cannot delete the record...Might be in use by other record!", "Delete Warning");
                 }
             }
         }

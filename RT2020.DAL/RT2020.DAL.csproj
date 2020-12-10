@@ -162,7 +162,6 @@
     <Compile Include="PriceManagementActiveHeader.cs" />
     <Compile Include="PriceManagementBatchDetails.cs" />
     <Compile Include="PriceManagementBatchHeader.cs" />
-    <Compile Include="PriceManagementReason.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SqlHelper.cs" />
   </ItemGroup>
@@ -186,7 +185,7 @@
   -->
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties StartDate="20080107" AssemblyFileVersion="1" AssemblyVersion="1" Reset="1" />
+      <UserProperties Reset="1" AssemblyVersion="1" AssemblyFileVersion="1" StartDate="20080107" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

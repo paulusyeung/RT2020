@@ -52,7 +52,7 @@ namespace RT2020.PriceMgmt
         {
             base.OnLoad(e);
 
-            PriceManagementReason.LoadCombo(ref cboReasonCode, "ReasonCode", false, true, string.Empty, string.Empty);
+            ModelEx.PriceManagementReasonEx.LoadCombo(ref cboReasonCode, "ReasonCode", false, true, string.Empty, string.Empty);
 
             this.SetAttributes();
 
