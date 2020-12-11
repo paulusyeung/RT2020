@@ -13,6 +13,7 @@ using Gizmox.WebGUI.Common.Resources;
 using RT2020.DAL;
 using Westwind.Globalization;
 using RT2020.Helper;
+using System.Linq;
 
 #endregion
 
@@ -114,9 +115,12 @@ namespace RT2020.Product
                         SetCtrlEditable();
                         break;
                     case "save":
-                        Save();
-                        LoadAnalysisCode();
-                        this.Update();
+                        if (Verify())
+                        {
+                            Save();
+                            LoadAnalysisCode();
+                            this.Update();
+                        }
                         break;
                     case "delete":
                         MessageBox.Show("Delete Record?", "Delete Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question, new EventHandler(DeleteConfirmationHandler));
@@ -144,14 +148,16 @@ namespace RT2020.Product
         #region Fill Combo List
         private void FillParentCodeList()
         {
-            cboParentAnalysisCode.Items.Clear();
+            //cboParentAnalysisCode.Items.Clear();
 
             string sql = "ParentCode IS NULL OR ParentCode = '" + System.Guid.Empty.ToString() + "'";
             string[] orderBy = new string[] { "AnalysisCode" };
-            PosAnalysisCodeCollection oAnalysisCodeList = PosAnalysisCode.LoadCollection(sql, orderBy, true);
-            cboParentAnalysisCode.DataSource = oAnalysisCodeList;
-            cboParentAnalysisCode.DisplayMember = "AnalysisCode";
-            cboParentAnalysisCode.ValueMember = "AnalysisCodeId";
+
+            ModelEx.PosAnalysisCodeEx.LoadCombo(ref cboParentAnalysisCode, "AnalysisCode", false, false, "", sql, orderBy);
+            //PosAnalysisCodeCollection oAnalysisCodeList = PosAnalysisCode.LoadCollection(sql, orderBy, true);
+            //cboParentAnalysisCode.DataSource = oAnalysisCodeList;
+            //cboParentAnalysisCode.DisplayMember = "AnalysisCode";
+            //cboParentAnalysisCode.ValueMember = "AnalysisCodeId";
         }
 
         private void VerifyFixedAnalysisCode()
@@ -159,28 +165,33 @@ namespace RT2020.Product
             int fixedCount = 10;
             string fixedAnalysisCode = string.Empty;
 
-            for (int i = 1; i <= fixedCount; i++)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                fixedAnalysisCode = i.ToString().PadLeft(2, '0');
-
-                string sql = "AnalysisCode = '" + fixedAnalysisCode + "'";
-                PosAnalysisCode oACode = PosAnalysisCode.LoadWhere(sql);
-                if (oACode == null)
+                for (int i = 1; i <= fixedCount; i++)
                 {
-                    oACode = new PosAnalysisCode();
-                    oACode.AnalysisCode = fixedAnalysisCode;
-                    oACode.AnalysisType = fixedAnalysisCode;
-                    oACode.CodeInitial = fixedAnalysisCode;
-                    oACode.CodeName = fixedAnalysisCode;
-                    oACode.CodeName_Chs = fixedAnalysisCode;
-                    oACode.CodeName_Cht = fixedAnalysisCode;
-                    oACode.Mandatory = true;
-                    oACode.DownloadToPOS = false;
-                    oACode.CreatedBy = Common.Config.CurrentUserId;
-                    oACode.CreatedOn = DateTime.Now;
-                    oACode.ModifiedBy = Common.Config.CurrentUserId;
-                    oACode.ModifiedOn = DateTime.Now;
-                    oACode.Save();
+                    fixedAnalysisCode = i.ToString().PadLeft(2, '0');
+
+                    //string sql = "AnalysisCode = '" + fixedAnalysisCode + "'";
+                    var oACode = ctx.PosAnalysisCode.Where(x => x.AnalysisCode == fixedAnalysisCode).FirstOrDefault();
+                    if (oACode == null)
+                    {
+                        oACode = new EF6.PosAnalysisCode();
+                        oACode.AnalysisCodeId = Guid.NewGuid();
+                        oACode.AnalysisCode = fixedAnalysisCode;
+                        oACode.AnalysisType = fixedAnalysisCode;
+                        oACode.CodeInitial = fixedAnalysisCode;
+                        oACode.CodeName = fixedAnalysisCode;
+                        oACode.CodeName_Chs = fixedAnalysisCode;
+                        oACode.CodeName_Cht = fixedAnalysisCode;
+                        oACode.Mandatory = true;
+                        oACode.DownloadToPOS = false;
+                        oACode.CreatedBy = Common.Config.CurrentUserId;
+                        oACode.CreatedOn = DateTime.Now;
+                        oACode.ModifiedBy = Common.Config.CurrentUserId;
+                        oACode.ModifiedOn = DateTime.Now;
+
+                        ctx.PosAnalysisCode.Add(oACode);
+                    }
                 }
             }
         }
@@ -201,9 +212,9 @@ namespace RT2020.Product
                 errorProvider.SetError(txtCode, string.Empty);
             }
 
-            string sql = "AnalysisCode = '" + txtCode.Text + "'";
-            PosAnalysisCode oAnalysisCode = PosAnalysisCode.LoadWhere(sql);
-            if (oAnalysisCode != null && this.AnalysisCodeId == System.Guid.Empty)
+            //string sql = "AnalysisCode = '" + txtCode.Text + "'";
+            //PosAnalysisCode oAnalysisCode = PosAnalysisCode.LoadWhere(sql);
+            if (ModelEx.PosAnalysisCodeEx.IsAnalysisCodeInUse(txtCode.Text))
             {
                 result = false;
                 errorProvider.SetError(txtCode, "Duplicated Analysis Code!");
@@ -218,16 +229,19 @@ namespace RT2020.Product
 
         private void Save()
         {
-            if (Verify())
-            {
-                PosAnalysisCode oAnalysisCode = PosAnalysisCode.Load(this.AnalysisCodeId);
+            using (var ctx = new EF6.RT2020Entities())
+            { 
+                var oAnalysisCode = ctx.PosAnalysisCode.Find(this.AnalysisCodeId);
                 if (oAnalysisCode == null)
                 {
-                    oAnalysisCode = new PosAnalysisCode();
+                    oAnalysisCode = new EF6.PosAnalysisCode();
+                    oAnalysisCode.AnalysisCodeId = Guid.NewGuid();
                     oAnalysisCode.AnalysisCode = txtCode.Text;
 
                     oAnalysisCode.CreatedBy = Common.Config.CurrentUserId;
                     oAnalysisCode.CreatedOn = DateTime.Now;
+
+                    ctx.PosAnalysisCode.Add(oAnalysisCode);
                 }
                 oAnalysisCode.AnalysisType = txtType.Text;
                 oAnalysisCode.CodeInitial = txtInitial.Text;
@@ -241,7 +255,7 @@ namespace RT2020.Product
                 oAnalysisCode.ModifiedBy = Common.Config.CurrentUserId;
                 oAnalysisCode.ModifiedOn = DateTime.Now;
 
-                oAnalysisCode.Save();
+                ctx.SaveChanges();
 
                 // log activity (New Record)
                 RT2020.Controls.Log4net.LogInfo(RT2020.Controls.Log4net.LogAction.Create, oAnalysisCode.ToString());
@@ -263,7 +277,7 @@ namespace RT2020.Product
         #region Load
         private void LoadAnalysisCode()
         {
-            PosAnalysisCode oAnalysisCode = PosAnalysisCode.Load(this.AnalysisCodeId);
+            var oAnalysisCode = ModelEx.PosAnalysisCodeEx.Get(this.AnalysisCodeId);
             if (oAnalysisCode != null)
             {
                 txtCode.Text = oAnalysisCode.AnalysisCode;
@@ -290,18 +304,22 @@ namespace RT2020.Product
         #region Delete
         private void Delete()
         {
-            PosAnalysisCode oAnalysisCode = PosAnalysisCode.Load(this.AnalysisCodeId);
-            if (oAnalysisCode != null)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                try
+                var oAnalysisCode = ctx.PosAnalysisCode.Find(this.AnalysisCodeId);
+                if (oAnalysisCode != null)
                 {
-                    oAnalysisCode.Delete();
-                    // log activity
-                    RT2020.Controls.Log4net.LogInfo(RT2020.Controls.Log4net.LogAction.Delete, oAnalysisCode.ToString());
-                }
-                catch
-                {
-                    MessageBox.Show("Cannot delete the record being used by other record!", "Delete Warning");
+                    try
+                    {
+                        ctx.PosAnalysisCode.Remove(oAnalysisCode);
+                        ctx.SaveChanges();
+                        // log activity
+                        RT2020.Controls.Log4net.LogInfo(RT2020.Controls.Log4net.LogAction.Delete, oAnalysisCode.ToString());
+                    }
+                    catch
+                    {
+                        MessageBox.Show("Cannot delete the record being used by other record!", "Delete Warning");
+                    }
                 }
             }
         }

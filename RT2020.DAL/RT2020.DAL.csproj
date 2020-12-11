@@ -152,11 +152,6 @@
     <Compile Include="MemberVipData.cs" />
     <Compile Include="MemberVipLineOfOperation.cs" />
     <Compile Include="MemberVipSupplement.cs" />
-    <Compile Include="PosAnalysisCode.cs" />
-    <Compile Include="PosLedgerAnalysis.cs" />
-    <Compile Include="PosLedgerDetails.cs" />
-    <Compile Include="PosLedgerHeader.cs" />
-    <Compile Include="PosLedgerTender.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SqlHelper.cs" />
   </ItemGroup>

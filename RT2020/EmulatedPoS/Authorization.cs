@@ -331,9 +331,10 @@ namespace RT2020.EmulatedPoS
 
             foreach (ListViewItem objItem in lvPostTransaction.Items)
             {
-                if (objItem.Checked)
+                Guid headerId = Guid.Empty;
+                if (objItem.Checked && Guid.TryParse(objItem.Text, out headerId))
                 {
-                    if (!IsPostable(objItem.Text, ref oTable))
+                    if (!IsPostable(headerId, ref oTable))
                     {
                         objItem.SubItems[1].Text = new IconResourceHandle("16x16.16_error.gif").ToString();
                         postStatus = RT2020.Controls.InvtUtility.PostingStatus.Error;
@@ -365,17 +366,18 @@ namespace RT2020.EmulatedPoS
         /// <returns>
         /// 	<c>true</c> if the specified header id is postable; otherwise, <c>false</c>.
         /// </returns>
-        private bool IsPostable(string headerId, ref DataTable errorTable)
+        private bool IsPostable(Guid headerId, ref DataTable errorTable)
         {
             bool isPostable = true;
 
-            if (Common.Utility.IsGUID(headerId))
+            using (var ctx = new EF6.RT2020Entities())
             {
-                EPOSBatchHeader oBatchHeader = EPOSBatchHeader.Load(new Guid(headerId));
+                var oBatchHeader = ctx.EPOSBatchHeader.Find(headerId);
                 if (oBatchHeader != null)
                 {
-                    if (!CheckTxDate(oBatchHeader.TxDate))
+                    if (!CheckTxDate(oBatchHeader.TxDate.Value))
                     {
+                        #region errorTable add row
                         DataRow row = errorTable.NewRow();
                         row["HeaderId"] = oBatchHeader.HeaderId.ToString();
                         row["TxNumber"] = oBatchHeader.TxNumber;
@@ -389,10 +391,12 @@ namespace RT2020.EmulatedPoS
                         errorTable.Rows.Add(row);
 
                         isPostable = isPostable & false;
+                        #endregion
                     }
 
-                    if (oBatchHeader.Posted)
+                    if (oBatchHeader.Posted.Value)
                     {
+                        #region errorTable add row
                         DataRow row = errorTable.NewRow();
                         row["HeaderId"] = oBatchHeader.HeaderId.ToString();
                         row["TxNumber"] = oBatchHeader.TxNumber;
@@ -406,10 +410,11 @@ namespace RT2020.EmulatedPoS
                         errorTable.Rows.Add(row);
 
                         isPostable = isPostable & false;
+                        #endregion
                     }
 
-                    EPOSBatchDetailsCollection detailList = EPOSBatchDetails.LoadCollection("HeaderId = '" + oBatchHeader.HeaderId.ToString() + "'");
-                    foreach (EPOSBatchDetails detail in detailList)
+                    var detailList = ctx.EPOSBatchDetails.Where(x => x.HeaderId == oBatchHeader.HeaderId).ToList();
+                    foreach (var detail in detailList)
                     {
                         bool retired = false;
                         string stk = string.Empty, a1 = string.Empty, a2 = string.Empty, a3 = string.Empty;
@@ -426,6 +431,7 @@ namespace RT2020.EmulatedPoS
 
                         if (retired)
                         {
+                            #region errorTable add row
                             DataRow row = errorTable.NewRow();
                             row["HeaderId"] = oBatchHeader.HeaderId.ToString();
                             row["TxNumber"] = oBatchHeader.TxNumber;
@@ -439,12 +445,14 @@ namespace RT2020.EmulatedPoS
                             errorTable.Rows.Add(row);
 
                             isPostable = isPostable & false;
+                            #endregion
                         }
                     }
 
-                    PosLedgerHeader oLedger = PosLedgerHeader.LoadWhere("TxNumber = '" + oBatchHeader.TxNumber + "' AND TxType = '" + this.SalesType.ToString() + "'");
+                    var oLedger = ctx.PosLedgerHeader.Where(x => x.TxNumber == oBatchHeader.TxNumber && x.TxType == this.SalesType.ToString()).FirstOrDefault();
                     if (oLedger != null)
                     {
+                        #region errorTable add row
                         DataRow row = errorTable.NewRow();
                         row["HeaderId"] = oBatchHeader.HeaderId.ToString();
                         row["TxNumber"] = oBatchHeader.TxNumber;
@@ -458,6 +466,7 @@ namespace RT2020.EmulatedPoS
                         errorTable.Rows.Add(row);
 
                         isPostable = isPostable & false;
+                        #endregion
                     }
                 }
                 else
@@ -465,7 +474,6 @@ namespace RT2020.EmulatedPoS
                     return false;
                 }
             }
-
             return isPostable;
         }
 
@@ -559,40 +567,331 @@ namespace RT2020.EmulatedPoS
         /// <param name="iCount">The i count.</param>
         private void CreatePosTx(Guid headerId, ref int iCount)
         {
-            EPOSBatchHeader oBatchHeader = EPOSBatchHeader.Load(headerId);            
-            if (oBatchHeader != null)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                //if (postStatus == RT2020.Controls.InvtUtility.PostingStatus.Postable)
-                //{
-                // Update Product Info
-                UpdateProduct(oBatchHeader.HeaderId, oBatchHeader.WorkplaceId, oBatchHeader.TxType);
+                using (var scope = ctx.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        var oBatchHeader = ctx.EPOSBatchHeader.Find(headerId);
+                        if (oBatchHeader != null)
+                        {
+                            Guid txHeaderId = oBatchHeader.HeaderId;
+                            Guid workplaceId = oBatchHeader.WorkplaceId;
+                            string txType = oBatchHeader.TxType;
 
-                // Create CAP SubLedger
-                string txNumber_SubLedger = oBatchHeader.TxNumber;
-                System.Guid subLedgerHeaderId = CreateEPOSSubLedgerHeader(oBatchHeader);
-                CreateEPOSSubLedgerDetail(txNumber_SubLedger, oBatchHeader.HeaderId, subLedgerHeaderId);
-                CreateEPOSSubLedgerTender(txNumber_SubLedger, oBatchHeader.HeaderId, subLedgerHeaderId);
+                            #region UpdateProduct(oBatchHeader.HeaderId, oBatchHeader.WorkplaceId, oBatchHeader.TxType);
+                            var detailsList = ctx.EPOSBatchDetails.Where(x => x.HeaderId == txHeaderId);
+                            foreach (var detail in detailsList)
+                            {
+                                Guid productId = detail.ProductId;
+                                decimal qty = detail.Qty.Value;
 
-                // Create Ledger for TxType 'CAP'
-                string txNumber_Ledger = oBatchHeader.TxNumber;
-                System.Guid ledgerHeaderId = CreatePosLedgerHeader(oBatchHeader, subLedgerHeaderId);
-                CreatePosLedgerDetails(txNumber_Ledger, subLedgerHeaderId, ledgerHeaderId, ModelEx.WorkplaceEx.GetWorkplaceCodeById(oBatchHeader.WorkplaceId), ModelEx.StaffEx.GetStaffNumberById(oBatchHeader.StaffId));
-                CreatePosLedgerTender(txNumber_Ledger, subLedgerHeaderId, ledgerHeaderId);
+                                #region UpdateProductQty(detail.ProductId, workplaceId, detail.Qty, txType);
+                                var item = ctx.ProductWorkplace.Where(x => x.ProductId == productId && x.WorkplaceId == workplaceId).FirstOrDefault();
+                                if (item == null)
+                                {
+                                    item = new EF6.ProductWorkplace();
+                                    item.ProductWorkplaceId = Guid.NewGuid();
+                                    item.ProductId = productId;
+                                    item.WorkplaceId = workplaceId;
+                                    ctx.ProductWorkplace.Add(item);
+                                }
+                                if (txType == "CAS")
+                                {
+                                    item.CDQTY -= qty;
+                                }
+                                else
+                                {
+                                    item.CDQTY += qty;
+                                }
+                                ctx.SaveChanges();
+                                #endregion
 
-                // Update Batch Header Info
-                oBatchHeader.ModifiedBy = Common.Config.CurrentUserId;
-                oBatchHeader.ModifiedOn = DateTime.Now;
-                oBatchHeader.Save();
+                                #region UpdateProductSummary(detail.ProductId, detail.Qty, detail.UnitAmount, txType);
+                                var oSummary = ctx.ProductCurrentSummary.Where(x => x.ProductId == productId).FirstOrDefault();
+                                if (oSummary == null)
+                                {
+                                    oSummary = new EF6.ProductCurrentSummary();
+                                    oSummary.CurrentSummaryId = Guid.NewGuid();
+                                    oSummary.ProductId = productId;
+                                    //oSummary.AverageCost = unitAmount;
 
-                iCount++;
+                                    ctx.ProductCurrentSummary.Add(oSummary);
+                                }
 
-                ClearBatchTransaction(oBatchHeader);
-                //}
+                                if (txType == "CAS")
+                                {
+                                    oSummary.CDQTY -= qty;
+                                }
+                                else
+                                {
+                                    oSummary.CDQTY += qty;
+                                }
+                                ctx.SaveChanges();
+                                #endregion
+                            }
+                            #endregion
+
+                            // Create CAP SubLedger
+                            string txNumber_SubLedger = oBatchHeader.TxNumber;
+
+                            #region Guid subLedgerHeaderId = CreateEPOSSubLedgerHeader(oBatchHeader);
+                            EPOSSubLedgerHeader oSubHeader = new EPOSSubLedgerHeader();
+
+                            oSubHeader.TxNumber = oBatchHeader.TxNumber;
+                            oSubHeader.TxType = oBatchHeader.TxType;
+                            oSubHeader.TxDate = oBatchHeader.TxDate.Value;
+                            oSubHeader.TotalAmount = oBatchHeader.TotalAmount.Value;
+                            oSubHeader.DepositAmount = oBatchHeader.DepositAmount.Value;
+
+                            oSubHeader.StaffId = oBatchHeader.StaffId;
+                            oSubHeader.Staff1 = oBatchHeader.Staff1.Value;
+                            oSubHeader.Staff2 = oBatchHeader.Staff2.Value;
+                            oSubHeader.WorkplaceId = oBatchHeader.WorkplaceId;
+                            oSubHeader.VsLocationId = oBatchHeader.VsLocationId.Value;
+                            oSubHeader.MemberId = oBatchHeader.MemberId.Value;
+                            oSubHeader.Reference = oBatchHeader.Reference;
+                            oSubHeader.Remarks = oBatchHeader.Remarks;
+                            oSubHeader.Status = Convert.ToInt32(Common.Enums.Status.Active.ToString("d"));
+
+                            oSubHeader.SEX = oBatchHeader.SEX;
+                            oSubHeader.RACE = oBatchHeader.RACE;
+                            oSubHeader.EVT_CODE = oBatchHeader.EVT_CODE;
+                            oSubHeader.PRICE_TYPE = oBatchHeader.PRICE_TYPE;
+                            oSubHeader.CurrencyCode = oBatchHeader.CurrencyCode;
+                            oSubHeader.ExchangeRate = oBatchHeader.ExchangeRate.Value;
+                            oSubHeader.ANALYSIS_CODE01 = oBatchHeader.ANALYSIS_CODE01;
+                            oSubHeader.ANALYSIS_CODE02 = oBatchHeader.ANALYSIS_CODE02;
+                            oSubHeader.ANALYSIS_CODE03 = oBatchHeader.ANALYSIS_CODE03;
+                            oSubHeader.ANALYSIS_CODE04 = oBatchHeader.ANALYSIS_CODE04;
+                            oSubHeader.ANALYSIS_CODE05 = oBatchHeader.ANALYSIS_CODE05;
+                            oSubHeader.ANALYSIS_CODE06 = oBatchHeader.ANALYSIS_CODE06;
+                            oSubHeader.ANALYSIS_CODE07 = oBatchHeader.ANALYSIS_CODE07;
+                            oSubHeader.ANALYSIS_CODE08 = oBatchHeader.ANALYSIS_CODE08;
+                            oSubHeader.ANALYSIS_CODE09 = oBatchHeader.ANALYSIS_CODE09;
+                            oSubHeader.ANALYSIS_CODE10 = oBatchHeader.ANALYSIS_CODE10;
+
+                            oSubHeader.CreatedBy = Common.Config.CurrentUserId;
+                            oSubHeader.CreatedOn = DateTime.Now;
+                            oSubHeader.ModifiedBy = Common.Config.CurrentUserId;
+                            oSubHeader.ModifiedOn = DateTime.Now;
+                            oSubHeader.Posted = true;
+                            oSubHeader.PostedBy = Common.Config.CurrentUserId;
+                            oSubHeader.PostedOn = DateTime.Now;
+
+                            oSubHeader.Save();
+
+                            var subLedgerHeaderId = oSubHeader.HeaderId;
+                            #endregion
+
+                            string txnumber = txNumber_SubLedger;
+                            Guid batchHeaderId = oBatchHeader.HeaderId;
+                            //Guid subledgerHeaderId = subLedgerHeaderId;
+
+                            #region CreateEPOSSubLedgerDetail(txNumber_SubLedger, oBatchHeader.HeaderId, subLedgerHeaderId);
+                            string sql = "HeaderId = '" + batchHeaderId.ToString() + "'";
+                            string[] orderBy = new string[] { "LineNumber" };
+                            var oBatchDetails = ctx.EPOSBatchDetails.Where(x => x.HeaderId == batchHeaderId).OrderBy(x => x.LineNumber);
+                            foreach (var oBDetail in oBatchDetails)
+                            {
+                                var oSubDetail = new EF6.EPOSSubLedgerDetails();
+                                oSubDetail.DetailsId = Guid.NewGuid();
+                                oSubDetail.HeaderId = subLedgerHeaderId;
+                                oSubDetail.TxType = oBDetail.TxType;
+                                oSubDetail.TxNumber = txnumber;
+                                oSubDetail.TxDate = oBDetail.TxDate;
+                                oSubDetail.LineNumber = oBDetail.LineNumber;
+                                oSubDetail.ProductId = oBDetail.ProductId;
+                                oSubDetail.Qty = oBDetail.Qty;
+                                oSubDetail.UnitAmount = oBDetail.UnitAmount;
+                                oSubDetail.Discount = oBDetail.Discount;
+                                oSubDetail.Amount = oBDetail.Amount;
+                                oSubDetail.BARCODE = oBDetail.BARCODE;
+                                oSubDetail.SERIALNO = oBDetail.SERIALNO;
+                                oSubDetail.VITEM = oBDetail.VITEM;
+                                oSubDetail.COUPONNO = oBDetail.COUPONNO;
+                                oSubDetail.UAMT_FCURR = oBDetail.UAMT_FCURR;
+                                oSubDetail.AMOUNT_FCURR = oBDetail.AMOUNT_FCURR;
+
+                                ctx.EPOSSubLedgerDetails.Add(oSubDetail);
+                            }
+                            #endregion
+
+                            #region CreateEPOSSubLedgerTender(txNumber_SubLedger, oBatchHeader.HeaderId, subLedgerHeaderId);
+                            var oBatchTender = ctx.EPOSBatchTender.Where(x => x.HeaderId == batchHeaderId);
+                            foreach (var oBTender in oBatchTender)
+                            {
+                                var oSubTender = new EF6.EPOSSubLedgerTender();
+                                oSubTender.TenderId = Guid.NewGuid();
+                                oSubTender.HeaderId = subLedgerHeaderId;
+                                oSubTender.TxType = oBTender.TxType;
+                                oSubTender.TxNumber = txnumber;
+                                oSubTender.TxDate = oBTender.TxDate.Value;
+                                oSubTender.TypeId = oBTender.TypeId;
+                                oSubTender.CurrencyCode = oBTender.CurrencyCode;
+                                oSubTender.CardNumber = oBTender.CardNumber;
+                                oSubTender.AuthorizationCode = oBTender.AuthorizationCode;
+                                oSubTender.TenderAmount = oBTender.TenderAmount.Value;
+                                oSubTender.ExchangeRate = oBTender.ExchangeRate.Value;
+                                oSubTender.InLocalCurrency = oBTender.InLocalCurrency.Value;
+
+                                ctx.EPOSSubLedgerTender.Add(oSubTender);
+                            }
+                            #endregion
+
+                            #region Create Ledger for TxType 'CAP'
+
+                            string txNumber_Ledger = oBatchHeader.TxNumber;
+                            //var oBatchHeader = oBatchHeader;
+                            //Guid subLedgerHeaderId = subLedgerHeaderId;
+                            #region Guid ledgerHeaderId = CreatePosLedgerHeader(oBatchHeader, subLedgerHeaderId);
+                            var oLedgerHeader = new EF6.PosLedgerHeader();
+                            oLedgerHeader.HeaderId = Guid.NewGuid();
+                            oLedgerHeader.TxNumber = oBatchHeader.TxNumber;
+                            oLedgerHeader.TxType = oBatchHeader.TxType;
+                            oLedgerHeader.TxDate = oBatchHeader.TxDate;
+                            oLedgerHeader.TotalAmount = oBatchHeader.TotalAmount;
+                            oLedgerHeader.DepositAmount = oBatchHeader.DepositAmount;
+
+                            oLedgerHeader.StaffId = oBatchHeader.StaffId;
+                            oLedgerHeader.Staff1 = oBatchHeader.Staff1;
+                            oLedgerHeader.Staff2 = oBatchHeader.Staff2;
+                            oLedgerHeader.WorkplaceId = oBatchHeader.WorkplaceId;
+                            oLedgerHeader.VsLocationId = oBatchHeader.VsLocationId;
+                            oLedgerHeader.MemberId = oBatchHeader.MemberId;
+                            oLedgerHeader.Reference = oBatchHeader.Reference;
+                            oLedgerHeader.Remarks = oBatchHeader.Remarks;
+                            oLedgerHeader.Status = Convert.ToInt32(Common.Enums.Status.Active.ToString("d"));
+
+                            oLedgerHeader.SEX = oBatchHeader.SEX;
+                            oLedgerHeader.RACE = oBatchHeader.RACE;
+                            oLedgerHeader.EVT_CODE = oBatchHeader.EVT_CODE;
+
+                            oLedgerHeader.CreatedBy = Common.Config.CurrentUserId;
+                            oLedgerHeader.CreatedOn = DateTime.Now;
+                            oLedgerHeader.ModifiedBy = Common.Config.CurrentUserId;
+                            oLedgerHeader.ModifiedOn = DateTime.Now;
+                            oLedgerHeader.PostedBy = Common.Config.CurrentUserId;
+                            oLedgerHeader.PostedOn = DateTime.Now;
+
+                            ctx.PosLedgerHeader.Add(oLedgerHeader);
+
+                            var ledgerHeaderId = oLedgerHeader.HeaderId;
+                            #endregion
+
+                            txnumber = txNumber_Ledger;
+                            //Guid subledgerHeaderId = subLedgerHeaderId;
+                            //Guid ledgerHeaderId = ledgerHeaderId;
+                            string shop = ModelEx.WorkplaceEx.GetWorkplaceCodeById(oBatchHeader.WorkplaceId);
+                            string staffNumber = ModelEx.StaffEx.GetStaffNumberById(oBatchHeader.StaffId);
+
+                            #region CreatePosLedgerDetails(txNumber_Ledger, subLedgerHeaderId, ledgerHeaderId, ModelEx.WorkplaceEx.GetWorkplaceCodeById(oBatchHeader.WorkplaceId), ModelEx.StaffEx.GetStaffNumberById(oBatchHeader.StaffId));
+                            //string sql = "HeaderId = '" + subledgerHeaderId.ToString() + "'";
+                            //string[] orderBy = new string[] { "LineNumber" };
+                            var oSubDetails = ctx.EPOSSubLedgerDetails.Where(x => x.HeaderId == subLedgerHeaderId).OrderBy(x => x.LineNumber);
+                            foreach (var oSDetail in oSubDetails)
+                            {
+                                var oLedgerDetail = new EF6.PosLedgerDetails();
+                                oLedgerDetail.DetailsId = Guid.NewGuid();
+                                oLedgerDetail.HeaderId = ledgerHeaderId;
+                                oLedgerDetail.TxType = oSDetail.TxType;
+                                oLedgerDetail.TxNumber = txnumber;
+                                oLedgerDetail.TxDate = oSDetail.TxDate;
+                                oLedgerDetail.LineNumber = oSDetail.LineNumber;
+                                oLedgerDetail.ProductId = oSDetail.ProductId;
+                                oLedgerDetail.Qty = oSDetail.Qty;
+                                oLedgerDetail.UnitAmount = oSDetail.UnitAmount;
+                                oLedgerDetail.Discount = oSDetail.Discount;
+                                oLedgerDetail.Amount = oSDetail.Amount;
+                                oLedgerDetail.Barcode = oSDetail.BARCODE;
+
+                                oLedgerDetail.AverageCost = 0;
+                                oLedgerDetail.SerialNumber = oSDetail.SERIALNO;
+                                oLedgerDetail.VendorItemRef = oSDetail.VITEM;
+                                oLedgerDetail.CouponNumber = oSDetail.COUPONNO;
+
+                                oLedgerDetail.SHOP = shop;
+                                oLedgerDetail.OPERATOR = staffNumber;
+
+                                // Product Info
+                                var oItem = ModelEx.ProductEx.Get(oSDetail.ProductId);
+                                if (oItem != null)
+                                {
+                                    oLedgerDetail.BasicPrice = oItem.RetailPrice.Value;
+                                    //oLedgerDetail.Discount = oItem.NormalDiscount;
+                                    oLedgerDetail.AverageCost = ModelEx.ProductCurrentSummaryEx.GetAverageCode(oItem.ProductId);
+                                }
+
+                                ctx.PosLedgerDetails.Add(oLedgerDetail);
+                            }
+                            #endregion
+
+                            //string txnumber, Guid subledgerHeaderId, Guid ledgerHeaderId
+                            #region CreatePosLedgerTender(txNumber_Ledger, subLedgerHeaderId, ledgerHeaderId);
+                            //string sql = "HeaderId = '" + subledgerHeaderId.ToString() + "'";
+                            var oSubTenders = ctx.EPOSSubLedgerTender.Where(x => x.HeaderId == subLedgerHeaderId);
+                            foreach (var oSTender in oSubTenders)
+                            {
+                                var oLedgerTender = new EF6.PosLedgerTender();
+                                oLedgerTender.TenderId = Guid.NewGuid();
+                                oLedgerTender.HeaderId = ledgerHeaderId;
+                                oLedgerTender.TxType = oSTender.TxType;
+                                oLedgerTender.TxNumber = txnumber;
+                                oLedgerTender.TxDate = oSTender.TxDate;
+                                oLedgerTender.TypeId = oSTender.TypeId;
+                                oLedgerTender.CurrencyCode = oSTender.CurrencyCode;
+                                oLedgerTender.CardNumber = oSTender.CardNumber;
+                                oLedgerTender.AuthorizationCode = oSTender.AuthorizationCode;
+                                oLedgerTender.TenderAmount = oSTender.TenderAmount;
+                                oLedgerTender.ExchangeRate = oSTender.ExchangeRate;
+                                oLedgerTender.InLocalCurrency = oSTender.InLocalCurrency;
+
+                                ctx.PosLedgerTender.Add(oLedgerTender);
+                            }
+                            #endregion
+
+                            #endregion
+
+                            // Update Batch Header Info
+                            oBatchHeader.ModifiedBy = Common.Config.CurrentUserId;
+                            oBatchHeader.ModifiedOn = DateTime.Now;
+
+                            ctx.SaveChanges();
+
+                            iCount++;
+
+                            #region ClearBatchTransaction(oBatchHeader);
+                            //string query = "HeaderId = '" + oBatchHeader.HeaderId.ToString() + "'";
+                            var detailList = ctx.EPOSBatchDetails.Where(x => x.HeaderId == oBatchHeader.HeaderId);
+                            foreach (var detail in detailList)
+                            {
+                                ctx.EPOSBatchDetails.Remove(detail);
+                            }
+
+                            var tenderList =ctx. EPOSBatchTender.Where(x => x.HeaderId == oBatchHeader.HeaderId);
+                            foreach (var tender in tenderList)
+                            {
+                                ctx.EPOSBatchTender.Remove(tender);
+                            }
+
+                            ctx.EPOSBatchHeader.Remove(oBatchHeader);
+
+                            ctx.SaveChanges();
+                            #endregion
+                        }
+                        scope.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        scope.Rollback();
+                    }
+                }
             }
         }
 
         #region Clear Batch
-
+        /**
         /// <summary>
         /// Clears the batch transaction.
         /// </summary>
@@ -613,10 +912,11 @@ namespace RT2020.EmulatedPoS
 
             oBatchHeader.Delete();
         }
-
+        */
         #endregion
 
         #region SubLedger
+        /**
         /// <summary>
         /// Creates the EPOS sub ledger header.
         /// </summary>
@@ -735,9 +1035,11 @@ namespace RT2020.EmulatedPoS
                 oSubTender.Save();
             }
         }    
+        */
         #endregion
 
         #region Ledger
+        /**
         /// <summary>
         /// Creates the pos ledger header.
         /// </summary>
@@ -857,6 +1159,7 @@ namespace RT2020.EmulatedPoS
                 oLedgerTender.Save();
             }
         }
+        */
         #endregion
 
         #region Product
@@ -947,6 +1250,7 @@ namespace RT2020.EmulatedPoS
                 }
             }
         }
+
         #endregion
 
         #endregion
@@ -989,6 +1293,7 @@ namespace RT2020.EmulatedPoS
         }
         #endregion
 
+        /**
         /// <summary>
         /// Checks the tx date.
         /// </summary>
@@ -1012,6 +1317,7 @@ namespace RT2020.EmulatedPoS
 
             return canBeMark;
         }
+        */
 
         /// <summary>
         /// Handles the CheckedChanged event of the chkSortAndFilter control.

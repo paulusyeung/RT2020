@@ -456,53 +456,57 @@ namespace RT2020.Inventory.Replenishment
 
         private void UpdateReplenishment(Guid productId)
         {
-            DataRow[] rowList = preparedDataList.Select("ProductId = '" + productId.ToString() + "'");
-            for (int i = 0; i < rowList.Length; i++)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                if (Common.Utility.IsGUID(rowList[i]["DetailsId"].ToString()))
+                DataRow[] rowList = preparedDataList.Select("ProductId = '" + productId.ToString() + "'");
+                for (int i = 0; i < rowList.Length; i++)
                 {
-                    string txType = rowList[i]["TxType"].ToString();
-                    System.Guid detailsId = (System.Guid)rowList[i]["DetailsId"];
-
-                    // POS
-                    if (txType == "CAS" || txType == "CRT" || txType == "VOD")
+                    Guid detailsId = Guid.Empty;
+                    if (Guid.TryParse(rowList[i]["DetailsId"].ToString(), out detailsId))
                     {
-                        PosLedgerDetails oDetail = PosLedgerDetails.Load(detailsId);
-                        if (oDetail != null)
+                        string txType = rowList[i]["TxType"].ToString();
+                        //Guid detailsId = (Guid)rowList[i]["DetailsId"];
+
+                        // POS
+                        if (txType == "CAS" || txType == "CRT" || txType == "VOD")
                         {
-                            oDetail.Replenishment = rbtnWH2Shop.Checked ? 1 : 2;
-                            oDetail.Save();
-                        }
-                        else
-                        {
-                            FepBatchDetail oFepDetail = FepBatchDetail.Load(detailsId);
-                            if (oFepDetail != null)
+                            var oDetail = ctx.PosLedgerDetails.Find(detailsId);
+                            if (oDetail != null)
                             {
-                                oFepDetail.REPLENISH = (short)(rbtnWH2Shop.Checked ? 1 : 2);
-                                oFepDetail.Save();
+                                oDetail.Replenishment = rbtnWH2Shop.Checked ? 1 : 2;
+                                ctx.SaveChanges();
+                            }
+                            else
+                            {
+                                var oFepDetail = ctx.FepBatchDetail.Find(detailsId);
+                                if (oFepDetail != null)
+                                {
+                                    oFepDetail.REPLENISH = (short)(rbtnWH2Shop.Checked ? 1 : 2);
+                                    ctx.SaveChanges();
+                                }
                             }
                         }
-                    }
-                    else if (txType == "TXO" || txType == "TRO")  // INVT
-                    {
-                        InvtLedgerDetails oDetail = InvtLedgerDetails.Load(detailsId);
-                        if (oDetail != null)
+                        else if (txType == "TXO" || txType == "TRO")  // INVT
                         {
-                            oDetail.Replenish = rbtnWH2Shop.Checked ? 1 : 2;
-                            oDetail.Save();
+                            var oDetail = ctx.InvtLedgerDetails.Find(detailsId);
+                            if (oDetail != null)
+                            {
+                                oDetail.Replenish = rbtnWH2Shop.Checked ? 1 : 2;
+                                ctx.SaveChanges();
+                            }
                         }
-                    }
-                    else if (txType == "TXI" || txType == "TRI") // Un-Posted FEP
-                    {
-                        FepBatchDetail oDetail = FepBatchDetail.Load(detailsId);
-                        if (oDetail != null)
+                        else if (txType == "TXI" || txType == "TRI") // Un-Posted FEP
                         {
-                            oDetail.REPLENISH = (short)(rbtnWH2Shop.Checked ? 1 : 2);
-                            oDetail.Save();
+                            var oDetail = ctx.FepBatchDetail.Find(detailsId);
+                            if (oDetail != null)
+                            {
+                                oDetail.REPLENISH = (short)(rbtnWH2Shop.Checked ? 1 : 2);
+                                ctx.SaveChanges();
+                            }
                         }
-                    }
-                    else if(txType == "SAL" || txType == "SRT") // Wholesale
-                    {
+                        else if (txType == "SAL" || txType == "SRT") // Wholesale
+                        {
+                        }
                     }
                 }
             }

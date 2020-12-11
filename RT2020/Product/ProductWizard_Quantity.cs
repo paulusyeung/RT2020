@@ -85,19 +85,22 @@ namespace RT2020.Product
                 type = "AND YEAR(TxDate) = " + DateTime.Now.Year.ToString();
             }
 
-            string sql = "ProductId = '" + this.ProductId.ToString() + "' AND TxType IN (" + txType + ")" + type;
-            PosLedgerDetailsCollection oDetails = PosLedgerDetails.LoadCollection(sql);
-            for (int i = 0; i < oDetails.Count; i++)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                switch (oDetails[i].TxType)
+                string sql = "ProductId = '" + this.ProductId.ToString() + "' AND TxType IN (" + txType + ")" + type;
+                var oDetails = ctx.PosLedgerDetails.Where(x => x.ProductId == this.ProductId && txType.Contains(x.TxType)).ToList();
+                foreach (var detail in oDetails)
                 {
-                    case "CRT":
-                    case "VOD":
-                        totalVOD += oDetails[i].Qty;
-                        break;
-                    case "CAS":
-                        totalCAS += oDetails[i].Qty;
-                        break;
+                    switch (detail.TxType)
+                    {
+                        case "CRT":
+                        case "VOD":
+                            totalVOD += detail.Qty.Value;
+                            break;
+                        case "CAS":
+                            totalCAS += detail.Qty.Value;
+                            break;
+                    }
                 }
             }
 
