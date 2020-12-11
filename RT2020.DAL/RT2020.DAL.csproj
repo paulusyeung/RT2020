@@ -150,8 +150,6 @@
     <Compile Include="MemberGroup.cs" />
     <Compile Include="MemberSmartTag.cs" />
     <Compile Include="MemberVipData.cs" />
-    <Compile Include="MemberVipLineOfOperation.cs" />
-    <Compile Include="MemberVipSupplement.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SqlHelper.cs" />
   </ItemGroup>

@@ -12,6 +12,8 @@ using Gizmox.WebGUI.Forms;
 using Gizmox.WebGUI.Common.Resources;
 using RT2020.DAL;
 using System.IO;
+using System.Linq;
+using System.Data.Entity;
 
 #endregion
 
@@ -514,119 +516,124 @@ namespace RT2020.Member
 
         private void SaveVipData(Guid memberId)
         {
-            string sql = "MemberId = '" + memberId.ToString() + "'";
-            MemberVipData oVip = MemberVipData.LoadWhere(sql);
-            if (oVip == null)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                oVip = new MemberVipData();
-                oVip.MemberVipId = System.Guid.NewGuid();
-                oVip.MemberId = memberId;
-                oVip.VipNumber = this.VipNumber;
-            }
-            oVip.FORMER_PPNO = card.txtFormerPPNumber.Text;
-            oVip.CARD_ACTIVE = card.chkCardActived.Checked;
-            oVip.CARD_RECEIVE = card.chkCardReceived.Checked;
-            oVip.CARD_NAME = card.txtCardName.Text;
-            oVip.CARD_EXPIRE = card.dtpCardExpiredOn.Value;
-            oVip.CARD_ISSUE = card.dtpIssuedOn.Value;
+                string sql = "MemberId = '" + memberId.ToString() + "'";
+                var oVip = ctx.MemberVipData.Where(x => x.MemberId == memberId).FirstOrDefault();
+                if (oVip == null)
+                {
+                    oVip = new EF6.MemberVipData();
+                    oVip.MemberVipId = Guid.NewGuid();
+                    oVip.MemberVipId = System.Guid.NewGuid();
+                    oVip.MemberId = memberId;
+                    oVip.VipNumber = this.VipNumber;
 
-            oVip.CommencementDate = card.dtpCommencementDate.Value;
-            oVip.MigrationDate = card.dtpMigrationDate.Value;
+                    ctx.MemberVipData.Add(oVip);
+                }
+                oVip.FORMER_PPNO = card.txtFormerPPNumber.Text;
+                oVip.CARD_ACTIVE = card.chkCardActived.Checked;
+                oVip.CARD_RECEIVE = card.chkCardReceived.Checked;
+                oVip.CARD_NAME = card.txtCardName.Text;
+                oVip.CARD_EXPIRE = card.dtpCardExpiredOn.Value;
+                oVip.CARD_ISSUE = card.dtpIssuedOn.Value;
 
-            decimal credit = 0;
-            if (Decimal.TryParse(others.txtCreditLimit.Text.Trim(), out credit))
-            {
-                oVip.CreditLimit = credit;
-            }
+                oVip.CommencementDate = card.dtpCommencementDate.Value;
+                oVip.MigrationDate = card.dtpMigrationDate.Value;
 
-            decimal terms = 0;
-            if (Decimal.TryParse(others.txtCreditTerms.Text.Trim(), out terms))
-            {
-                oVip.CreditTerms = terms;
-            }
+                decimal credit = 0;
+                if (Decimal.TryParse(others.txtCreditLimit.Text.Trim(), out credit))
+                {
+                    oVip.CreditLimit = credit;
+                }
 
-            decimal paydisc = 0;
-            if (Decimal.TryParse(others.txtPaymentDiscount.Text.Trim(), out paydisc))
-            {
-                oVip.PaymentDiscount = paydisc;
-            }
+                decimal terms = 0;
+                if (Decimal.TryParse(others.txtCreditTerms.Text.Trim(), out terms))
+                {
+                    oVip.CreditTerms = terms;
+                }
 
-            decimal staffQuota = 0;
-            if (Decimal.TryParse(others.txtStaffQuota.Text.Trim(), out staffQuota))
-            {
-                oVip.StaffQuota = staffQuota;
-            }
+                decimal paydisc = 0;
+                if (Decimal.TryParse(others.txtPaymentDiscount.Text.Trim(), out paydisc))
+                {
+                    oVip.PaymentDiscount = paydisc;
+                }
 
-            oVip.AddOnDiscount = others.chkAddOnDiscount.Checked;
+                decimal staffQuota = 0;
+                if (Decimal.TryParse(others.txtStaffQuota.Text.Trim(), out staffQuota))
+                {
+                    oVip.StaffQuota = staffQuota;
+                }
 
-            oVip.Save();
+                oVip.AddOnDiscount = others.chkAddOnDiscount.Checked;
 
-            System.Guid vipId = oVip.MemberVipId;
-            if (vipId != System.Guid.Empty)
-            {
-                this.SaveVipLineOfOperation(vipId);
-                this.SaveVipSupplement(vipId);
+                ctx.SaveChanges();
+
+                var vipId = oVip.MemberVipId;
+                #region this.SaveVipLineOfOperation(vipId);
+                string query = "MemberVipId = '" + vipId.ToString() + "'";
+                var oVipLoo = ctx.MemberVipLineOfOperation.Where(x => x.MemberVipId == vipId).FirstOrDefault();
+                if (oVipLoo == null)
+                {
+                    oVipLoo = new EF6.MemberVipLineOfOperation();
+                    oVipLoo.MemberVipId = vipId;
+                    oVipLoo.VipLooId = Guid.NewGuid();
+
+                    ctx.MemberVipLineOfOperation.Add(oVipLoo);
+                }
+
+                oVipLoo.LineOfOperationId = new Guid(cboLineOfOperation.SelectedValue.ToString());
+                oVipLoo.NormalDiscount = (others.txtNormalItemDiscount.Text.Length == 0) ? 0 : Convert.ToDecimal(others.txtNormalItemDiscount.Text);
+                oVipLoo.PromotionDiscount = (others.txtPromotionItemDiscount.Text.Length == 0) ? 0 : Convert.ToDecimal(others.txtPromotionItemDiscount.Text);
+
+                ctx.SaveChanges();
+                #endregion
+
+                #region this.SaveVipSupplement(vipId);
+                //string query = "MemberVipId = '" + vipId.ToString() + "'";
+                var oSupplement = ctx.MemberVipSupplement.Where(x => x.MemberVipId == vipId).FirstOrDefault();
+                if (oSupplement == null)
+                {
+                    oSupplement = new EF6.MemberVipSupplement();
+                    oSupplement.VipSupplementId = Guid.NewGuid();
+                    oSupplement.MemberVipId = vipId;
+
+                    ctx.MemberVipSupplement.Add(oSupplement);
+                }
+
+                // Others Info
+                oSupplement.CustomerNumber = others.txtCustomerInfo1.Text;
+                oSupplement.BRANCH = others.txtCustomerInfo2.Text;
+                oSupplement.Remarks1 = others.txtRemarks1.Text;
+                oSupplement.Remarks2 = others.txtRemarks2.Text;
+                oSupplement.Remarks3 = others.txtRemarks3.Text;
+                oSupplement.Nature = others.cboNature.Text;
+                oSupplement.Memo = misc.txtMemo.Text;
+
+                // Marketing Info
+                oSupplement.MostVisitedMalls1 = marketing.txtMostVisitedMalls1.Text;
+                oSupplement.MostVisitedMalls2 = marketing.txtMostVisitedMalls2.Text;
+                oSupplement.MostVisitedMalls3 = marketing.txtMostVisitedMalls3.Text;
+
+                oSupplement.MostBoughtBrands1 = marketing.txtMostBoughtBrands1.Text;
+                oSupplement.MostBoughtBrands2 = marketing.txtMostBoughtBrands2.Text;
+                oSupplement.MostBoughtBrands3 = marketing.txtMostBoughtBrands3.Text;
+
+                oSupplement.MostReadMagazine1 = marketing.txtMostReadMagazine1.Text;
+                oSupplement.MostReadMagazine2 = marketing.txtMostReadMagazine2.Text;
+                oSupplement.MostReadMagazine3 = marketing.txtMostReadMagazine3.Text;
+
+                oSupplement.MostUsedCreditCards1 = marketing.txtMostUsedCreditCards1.Text;
+                oSupplement.MostUsedCreditCards2 = marketing.txtMostUsedCreditCards2.Text;
+                oSupplement.MostUsedCreditCards3 = marketing.txtMostUsedCreditCards3.Text;
+
+                // Photo
+                oSupplement.Photo = misc.txtPicFileName.Text;
+
+                ctx.SaveChanges();
+                #endregion
             }
         }
 
-        private void SaveVipSupplement(Guid vipId)
-        {
-            string query = "MemberVipId = '" + vipId.ToString() + "'";
-            MemberVipSupplement oSupplement = MemberVipSupplement.LoadWhere(query);
-            if (oSupplement == null)
-            {
-                oSupplement = new MemberVipSupplement();
-                oSupplement.MemberVipId = vipId;
-            }
-
-            // Others Info
-            oSupplement.CustomerNumber = others.txtCustomerInfo1.Text;
-            oSupplement.BRANCH = others.txtCustomerInfo2.Text;
-            oSupplement.Remarks1 = others.txtRemarks1.Text;
-            oSupplement.Remarks2 = others.txtRemarks2.Text;
-            oSupplement.Remarks3 = others.txtRemarks3.Text;
-            oSupplement.Nature = others.cboNature.Text;
-            oSupplement.Memo = misc.txtMemo.Text;
-
-            // Marketing Info
-            oSupplement.MostVisitedMalls1 = marketing.txtMostVisitedMalls1.Text;
-            oSupplement.MostVisitedMalls2 = marketing.txtMostVisitedMalls2.Text;
-            oSupplement.MostVisitedMalls3 = marketing.txtMostVisitedMalls3.Text;
-
-            oSupplement.MostBoughtBrands1 = marketing.txtMostBoughtBrands1.Text;
-            oSupplement.MostBoughtBrands2 = marketing.txtMostBoughtBrands2.Text;
-            oSupplement.MostBoughtBrands3 = marketing.txtMostBoughtBrands3.Text;
-
-            oSupplement.MostReadMagazine1 = marketing.txtMostReadMagazine1.Text;
-            oSupplement.MostReadMagazine2 = marketing.txtMostReadMagazine2.Text;
-            oSupplement.MostReadMagazine3 = marketing.txtMostReadMagazine3.Text;
-
-            oSupplement.MostUsedCreditCards1 = marketing.txtMostUsedCreditCards1.Text;
-            oSupplement.MostUsedCreditCards2 = marketing.txtMostUsedCreditCards2.Text;
-            oSupplement.MostUsedCreditCards3 = marketing.txtMostUsedCreditCards3.Text;
-
-            // Photo
-            oSupplement.Photo = misc.txtPicFileName.Text;
-
-            oSupplement.Save();
-        }
-
-        private void SaveVipLineOfOperation(Guid vipId)
-        {
-            string query = "MemberVipId = '" + vipId.ToString() + "'";
-            MemberVipLineOfOperation oVipLoo = MemberVipLineOfOperation.LoadWhere(query);
-            if (oVipLoo == null)
-            {
-                oVipLoo = new MemberVipLineOfOperation();
-                oVipLoo.MemberVipId = vipId;
-            }
-
-            oVipLoo.LineOfOperationId = new Guid(cboLineOfOperation.SelectedValue.ToString());
-            oVipLoo.NormalDiscount = (others.txtNormalItemDiscount.Text.Length == 0) ? 0 : Convert.ToDecimal(others.txtNormalItemDiscount.Text);
-            oVipLoo.PromotionDiscount = (others.txtPromotionItemDiscount.Text.Length == 0) ? 0 : Convert.ToDecimal(others.txtPromotionItemDiscount.Text);
-
-            oVipLoo.Save();
-        }
         #endregion
 
         #region Load Member Info
@@ -879,93 +886,96 @@ namespace RT2020.Member
 
         private void LoadVipData()
         {
-            string sql = "MemberId = '" + this.MemberId.ToString() + "'";
-            MemberVipData oVip = MemberVipData.LoadWhere(sql);
-            if (oVip != null)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                chkVIP.Text = "VIP #: " + oVip.VipNumber;
-                chkVIP.Checked = true;
-                chkVIP.Enabled = false;
-
-                this.VipNumber = oVip.VipNumber;
-
-                card.txtFormerPPNumber.Text = oVip.FORMER_PPNO;
-                card.chkCardActived.Checked = oVip.CARD_ACTIVE;
-                card.chkCardReceived.Checked = oVip.CARD_RECEIVE;
-                card.txtCardName.Text = oVip.CARD_NAME;
-                card.dtpCardExpiredOn.Value = oVip.CARD_EXPIRE;
-                card.dtpIssuedOn.Value = oVip.CARD_ISSUE;
-
-                card.dtpCommencementDate.Value = oVip.CommencementDate;
-                card.dtpMigrationDate.Value = oVip.MigrationDate;
-
-                // Others Info
-                others.txtCreditLimit.Text = oVip.CreditLimit.ToString("n2");
-                others.txtCreditTerms.Text = oVip.CreditTerms.ToString("n0");
-                others.txtPaymentDiscount.Text = oVip.PaymentDiscount.ToString("n2");
-                others.chkAddOnDiscount.Checked = oVip.AddOnDiscount;
-                others.txtStaffQuota.Text = oVip.StaffQuota.ToString("n2");
-
-                sql = "MemberVipId = '" + oVip.MemberVipId.ToString() + "'";
-                MemberVipLineOfOperation oVipLoo = MemberVipLineOfOperation.LoadWhere(sql);
-                if (oVipLoo != null)
+                string sql = "MemberId = '" + this.MemberId.ToString() + "'";
+                var oVip = ctx.MemberVipData.Where(x => x.MemberId == this.MemberId).AsNoTracking().FirstOrDefault();
+                if (oVip != null)
                 {
-                    cboLineOfOperation.SelectedValue = oVipLoo.LineOfOperationId;
-                    others.txtPromotionItemDiscount.Text = oVipLoo.PromotionDiscount.ToString("n2");
-                }
+                    chkVIP.Text = "VIP #: " + oVip.VipNumber;
+                    chkVIP.Checked = true;
+                    chkVIP.Enabled = false;
 
-                MemberVipSupplement oVipSupplement = MemberVipSupplement.LoadWhere(sql);
-                if (oVipSupplement != null)
-                {
-                    others.txtCustomerInfo1.Text = oVipSupplement.CustomerNumber;
-                    others.txtCustomerInfo2.Text = oVipSupplement.BRANCH;
-                    others.txtRemarks1.Text = oVipSupplement.Remarks1;
-                    others.txtRemarks2.Text = oVipSupplement.Remarks2;
-                    others.txtRemarks3.Text = oVipSupplement.Remarks3;
-                    others.cboNature.Text = oVipSupplement.Nature;
+                    this.VipNumber = oVip.VipNumber;
 
+                    card.txtFormerPPNumber.Text = oVip.FORMER_PPNO;
+                    card.chkCardActived.Checked = oVip.CARD_ACTIVE;
+                    card.chkCardReceived.Checked = oVip.CARD_RECEIVE;
+                    card.txtCardName.Text = oVip.CARD_NAME;
+                    card.dtpCardExpiredOn.Value = oVip.CARD_EXPIRE.Value;
+                    card.dtpIssuedOn.Value = oVip.CARD_ISSUE.Value;
 
-                    // Marketing Info
-                    marketing.txtMostVisitedMalls1.Text = oVipSupplement.MostVisitedMalls1;
-                    marketing.txtMostVisitedMalls2.Text = oVipSupplement.MostVisitedMalls2;
-                    marketing.txtMostVisitedMalls3.Text = oVipSupplement.MostVisitedMalls3;
+                    card.dtpCommencementDate.Value = oVip.CommencementDate.Value;
+                    card.dtpMigrationDate.Value = oVip.MigrationDate.Value;
 
-                    marketing.txtMostBoughtBrands1.Text = oVipSupplement.MostBoughtBrands1;
-                    marketing.txtMostBoughtBrands2.Text = oVipSupplement.MostBoughtBrands2;
-                    marketing.txtMostBoughtBrands3.Text = oVipSupplement.MostBoughtBrands3;
+                    // Others Info
+                    others.txtCreditLimit.Text = oVip.CreditLimit.Value.ToString("n2");
+                    others.txtCreditTerms.Text = oVip.CreditTerms.Value.ToString("n0");
+                    others.txtPaymentDiscount.Text = oVip.PaymentDiscount.Value.ToString("n2");
+                    others.chkAddOnDiscount.Checked = oVip.AddOnDiscount.Value;
+                    others.txtStaffQuota.Text = oVip.StaffQuota.Value.ToString("n2");
 
-                    marketing.txtMostReadMagazine1.Text = oVipSupplement.MostReadMagazine1;
-                    marketing.txtMostReadMagazine2.Text = oVipSupplement.MostReadMagazine2;
-                    marketing.txtMostReadMagazine3.Text = oVipSupplement.MostReadMagazine3;
-
-                    marketing.txtMostUsedCreditCards1.Text = oVipSupplement.MostUsedCreditCards1;
-                    marketing.txtMostUsedCreditCards2.Text = oVipSupplement.MostUsedCreditCards2;
-                    marketing.txtMostUsedCreditCards3.Text = oVipSupplement.MostUsedCreditCards3;
-
-                    // Photo
-                    misc.txtPicFileName.Text = oVipSupplement.Photo;
-
-                    // 2009.12.29 david: 如果为网络路径，则直接显示。
-                    string photoPath = Path.Combine(Path.Combine(Context.Config.GetDirectory("RTImages"), "Product"), oVipSupplement.Photo);
-                    try
+                    sql = "MemberVipId = '" + oVip.MemberVipId.ToString() + "'";
+                    var oVipLoo = ctx.MemberVipLineOfOperation.Where(x => x.MemberVipId == oVip.MemberVipId).AsNoTracking().FirstOrDefault();
+                    if (oVipLoo != null)
                     {
-                        Uri uri = new Uri(oVipSupplement.Photo);
-                        if (uri.IsUnc)
+                        cboLineOfOperation.SelectedValue = oVipLoo.LineOfOperationId;
+                        others.txtPromotionItemDiscount.Text = oVipLoo.PromotionDiscount.Value.ToString("n2");
+                    }
+
+                    var oVipSupplement = ctx.MemberVipSupplement.Where(x => x.MemberVipId == oVip.MemberVipId).FirstOrDefault();
+                    if (oVipSupplement != null)
+                    {
+                        others.txtCustomerInfo1.Text = oVipSupplement.CustomerNumber;
+                        others.txtCustomerInfo2.Text = oVipSupplement.BRANCH;
+                        others.txtRemarks1.Text = oVipSupplement.Remarks1;
+                        others.txtRemarks2.Text = oVipSupplement.Remarks2;
+                        others.txtRemarks3.Text = oVipSupplement.Remarks3;
+                        others.cboNature.Text = oVipSupplement.Nature;
+
+
+                        // Marketing Info
+                        marketing.txtMostVisitedMalls1.Text = oVipSupplement.MostVisitedMalls1;
+                        marketing.txtMostVisitedMalls2.Text = oVipSupplement.MostVisitedMalls2;
+                        marketing.txtMostVisitedMalls3.Text = oVipSupplement.MostVisitedMalls3;
+
+                        marketing.txtMostBoughtBrands1.Text = oVipSupplement.MostBoughtBrands1;
+                        marketing.txtMostBoughtBrands2.Text = oVipSupplement.MostBoughtBrands2;
+                        marketing.txtMostBoughtBrands3.Text = oVipSupplement.MostBoughtBrands3;
+
+                        marketing.txtMostReadMagazine1.Text = oVipSupplement.MostReadMagazine1;
+                        marketing.txtMostReadMagazine2.Text = oVipSupplement.MostReadMagazine2;
+                        marketing.txtMostReadMagazine3.Text = oVipSupplement.MostReadMagazine3;
+
+                        marketing.txtMostUsedCreditCards1.Text = oVipSupplement.MostUsedCreditCards1;
+                        marketing.txtMostUsedCreditCards2.Text = oVipSupplement.MostUsedCreditCards2;
+                        marketing.txtMostUsedCreditCards3.Text = oVipSupplement.MostUsedCreditCards3;
+
+                        // Photo
+                        misc.txtPicFileName.Text = oVipSupplement.Photo;
+
+                        // 2009.12.29 david: 如果为网络路径，则直接显示。
+                        string photoPath = Path.Combine(Path.Combine(Context.Config.GetDirectory("RTImages"), "Product"), oVipSupplement.Photo);
+                        try
                         {
-                            misc.imgMemberPicture.ImageName = uri.LocalPath;
+                            Uri uri = new Uri(oVipSupplement.Photo);
+                            if (uri.IsUnc)
+                            {
+                                misc.imgMemberPicture.ImageName = uri.LocalPath;
+                            }
+                            else
+                            {
+                                misc.imgMemberPicture.ImageName = photoPath;
+                            }
                         }
-                        else
+                        catch { }
+                        finally
                         {
                             misc.imgMemberPicture.ImageName = photoPath;
                         }
-                    }
-                    catch { }
-                    finally
-                    {
-                        misc.imgMemberPicture.ImageName = photoPath;
-                    }
 
-                    misc.txtMemo.Text = oVipSupplement.Memo;
+                        misc.txtMemo.Text = oVipSupplement.Memo;
+                    }
                 }
             }
         }
@@ -997,24 +1007,27 @@ namespace RT2020.Member
 
         private void DeleteVIPData(string sql)
         {
-            MemberVipDataCollection oVIPList = MemberVipData.LoadCollection(sql);
-            foreach (MemberVipData oVip in oVIPList)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                sql = "MemberVipId = '" + oVip.MemberVipId.ToString() + "'";
-                MemberVipSupplement oVipSupplement = MemberVipSupplement.LoadWhere(sql);
-                if (oVipSupplement != null)
+                var oVIPList = ctx.MemberVipData.SqlQuery(string.Format("Select * from MemberVipData Where {0}", sql));
+                foreach (var oVip in oVIPList)
                 {
-                    oVipSupplement.Delete();
-                }
+                    sql = "MemberVipId = '" + oVip.MemberVipId.ToString() + "'";
+                    var oVipSupplement = ctx.MemberVipSupplement.Where(x => x.MemberVipId == oVip.MemberVipId).FirstOrDefault();
+                    if (oVipSupplement != null)
+                    {
+                        ctx.MemberVipSupplement.Remove(oVipSupplement);
+                    }
 
-                sql = "MemberVipId = '" + oVip.MemberVipId.ToString() + "'";
-                MemberVipLineOfOperation oVipLoo = MemberVipLineOfOperation.LoadWhere(sql);
-                if (oVipLoo != null)
-                {
-                    oVipLoo.Delete();
-                }
+                    sql = "MemberVipId = '" + oVip.MemberVipId.ToString() + "'";
+                    var oVipLoo = ctx.MemberVipLineOfOperation.Where(x => x.MemberVipId == oVip.MemberVipId).FirstOrDefault();
+                    if (oVipLoo != null)
+                    {
+                        ctx.MemberVipLineOfOperation.Remove(oVipLoo);
+                    }
 
-                oVip.Delete();
+                    ctx.MemberVipData.Remove(oVip);
+                }
             }
         }
 

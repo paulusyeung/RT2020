@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 
 using Gizmox.WebGUI.Forms;
 using RT2020.Helper;
-using System.Data.Entity;
 
 namespace RT2020.ModelEx
 {

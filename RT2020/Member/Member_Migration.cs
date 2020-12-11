@@ -568,18 +568,24 @@ namespace RT2020.Member
         /// <param name="objTempVip">The temp vip object.</param>
         private void UpdateLoo(Guid memberVipId, MemberApply4TempVip objTempVip)
         {
-            string query = "MemberVipId = '" + memberVipId.ToString() + "'";
-            MemberVipLineOfOperation oVipLoo = MemberVipLineOfOperation.LoadWhere(query);
-            if (oVipLoo == null)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                oVipLoo = new MemberVipLineOfOperation();
-                oVipLoo.VipLooId = System.Guid.NewGuid();
-                oVipLoo.MemberVipId = memberVipId;
-                oVipLoo.LineOfOperationId = ModelEx.LineOfOperationEx.GetLineOfOperationIdByName(objTempVip.LOOID);
+                string query = "MemberVipId = '" + memberVipId.ToString() + "'";
+                var oVipLoo = ctx.MemberVipLineOfOperation.Where(x => x.MemberVipId == memberVipId).FirstOrDefault();
+                if (oVipLoo == null)
+                {
+                    oVipLoo = new EF6.MemberVipLineOfOperation();
+                    oVipLoo.VipLooId = Guid.NewGuid();
+                    oVipLoo.VipLooId = System.Guid.NewGuid();
+                    oVipLoo.MemberVipId = memberVipId;
+                    oVipLoo.LineOfOperationId = ModelEx.LineOfOperationEx.GetLineOfOperationIdByName(objTempVip.LOOID);
+
+                    ctx.MemberVipLineOfOperation.Add(oVipLoo);
+                }
+                oVipLoo.NormalDiscount = (decimal)objTempVip.NRDISC;
+                oVipLoo.PromotionDiscount = (decimal)objTempVip.PRO_DISC;
+                ctx.SaveChanges();
             }
-            oVipLoo.NormalDiscount = (decimal)objTempVip.NRDISC;
-            oVipLoo.PromotionDiscount = (decimal)objTempVip.PRO_DISC;
-            oVipLoo.Save();
         }
 
         /// <summary>
@@ -589,36 +595,42 @@ namespace RT2020.Member
         /// <param name="objTempVip">The temp vip object.</param>
         private void UpdateSupplement(Guid memberVipId, MemberApply4TempVip objTempVip)
         {
-            string query = "MemberVipId = '" + memberVipId.ToString() + "'";
-            MemberVipSupplement oSupplement = MemberVipSupplement.LoadWhere(query);
-            if (oSupplement == null)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                oSupplement = new MemberVipSupplement();
-                oSupplement.VipSupplementId = System.Guid.NewGuid();
-                oSupplement.MemberVipId = memberVipId;
-                oSupplement.CustomerNumber = objTempVip.CUSTNUM;
-                oSupplement.BRANCH = objTempVip.BRANCH;
-            }
+                string query = "MemberVipId = '" + memberVipId.ToString() + "'";
+                var oSupplement = ctx.MemberVipSupplement.Where(x => x.MemberVipId == memberVipId).FirstOrDefault();
+                if (oSupplement == null)
+                {
+                    oSupplement = new EF6.MemberVipSupplement();
+                    oSupplement.VipSupplementId = Guid.NewGuid();
+                    oSupplement.VipSupplementId = System.Guid.NewGuid();
+                    oSupplement.MemberVipId = memberVipId;
+                    oSupplement.CustomerNumber = objTempVip.CUSTNUM;
+                    oSupplement.BRANCH = objTempVip.BRANCH;
 
-            oSupplement.Remarks1 = objTempVip.R1;
-            oSupplement.Remarks2 = objTempVip.R2;
-            oSupplement.Remarks3 = objTempVip.R3;
-            oSupplement.Nature = objTempVip.NATURE;
-            oSupplement.Memo = objTempVip.MEMO;
-            oSupplement.Photo = objTempVip.PHOTO;
-            oSupplement.MostVisitedMalls1 = objTempVip.MALL1;
-            oSupplement.MostVisitedMalls2 = objTempVip.MALL2;
-            oSupplement.MostVisitedMalls3 = objTempVip.MALL3;
-            oSupplement.MostBoughtBrands1 = objTempVip.BRAND1;
-            oSupplement.MostBoughtBrands2 = objTempVip.BRAND2;
-            oSupplement.MostBoughtBrands3 = objTempVip.BRAND3;
-            oSupplement.MostReadMagazine1 = objTempVip.MAGAZINE1;
-            oSupplement.MostReadMagazine2 = objTempVip.MAGAZINE2;
-            oSupplement.MostReadMagazine3 = objTempVip.MAGAZINE3;
-            oSupplement.MostUsedCreditCards1 = objTempVip.CARD1;
-            oSupplement.MostUsedCreditCards2 = objTempVip.CARD2;
-            oSupplement.MostUsedCreditCards3 = objTempVip.CARD3;
-            oSupplement.Save();
+                    ctx.MemberVipSupplement.Add(oSupplement);
+                }
+
+                oSupplement.Remarks1 = objTempVip.R1;
+                oSupplement.Remarks2 = objTempVip.R2;
+                oSupplement.Remarks3 = objTempVip.R3;
+                oSupplement.Nature = objTempVip.NATURE;
+                oSupplement.Memo = objTempVip.MEMO;
+                oSupplement.Photo = objTempVip.PHOTO;
+                oSupplement.MostVisitedMalls1 = objTempVip.MALL1;
+                oSupplement.MostVisitedMalls2 = objTempVip.MALL2;
+                oSupplement.MostVisitedMalls3 = objTempVip.MALL3;
+                oSupplement.MostBoughtBrands1 = objTempVip.BRAND1;
+                oSupplement.MostBoughtBrands2 = objTempVip.BRAND2;
+                oSupplement.MostBoughtBrands3 = objTempVip.BRAND3;
+                oSupplement.MostReadMagazine1 = objTempVip.MAGAZINE1;
+                oSupplement.MostReadMagazine2 = objTempVip.MAGAZINE2;
+                oSupplement.MostReadMagazine3 = objTempVip.MAGAZINE3;
+                oSupplement.MostUsedCreditCards1 = objTempVip.CARD1;
+                oSupplement.MostUsedCreditCards2 = objTempVip.CARD2;
+                oSupplement.MostUsedCreditCards3 = objTempVip.CARD3;
+                ctx.SaveChanges();
+            }
         }
 
         #endregion
