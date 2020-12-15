@@ -77,12 +77,12 @@ namespace RT2020.Member
 
         private void FillProvinceList(System.Guid CountryId)
         {
-            ModelEx.ProvinceEx.LoadCombo(ref cboProvince, "ProvinceName", false, true, "", String.Format("CountryId = {0}", CountryId.ToString()));
+            ModelEx.ProvinceEx.LoadCombo(ref cboProvince, "ProvinceName", false, true, "", String.Format("CountryId = '{0}'", CountryId.ToString()));
         }
 
         private void FillCityList(System.Guid ProvinceId)
         {
-            ModelEx.CityEx.LoadCombo(ref cboCity, "CityName", false, true, "", String.Format("ProvinceId = {0}", ProvinceId.ToString()));
+            ModelEx.CityEx.LoadCombo(ref cboCity, "CityName", false, true, "", String.Format("ProvinceId = '{0}'", ProvinceId.ToString()));
         }
         #endregion
 
@@ -110,13 +110,20 @@ namespace RT2020.Member
         private string LoadPaperNumberFromVIPData(Guid addressTypeId)
         {
             string result = string.Empty;
-            string key = "Address_Phone_Pager_" + addressTypeId.ToString("N");
-            string sql = "MemberId = '" + this.MemberId.ToString() + "'";
-            MemberVipData oVip = MemberVipData.LoadWhere(sql);
-            if (oVip != null)
+
+            using (var ctx = new EF6.RT2020Entities())
             {
-                result = oVip.GetMetadata(key);
+                //string key = "Address_Phone_Pager_" + addressTypeId.ToString("N");
+                //string sql = "MemberId = '" + this.MemberId.ToString() + "'";
+
+                var oVip = ctx.MemberVipData.Where(x => x.MemberId == this.MemberId).FirstOrDefault();
+
+                if (oVip != null)
+                {
+                    result = ModelEx.MemberVipDataEx.GetAttribute(oVip.MetadataXml, "Address", "Phone", "Pager", addressTypeId.ToString("N"));
+                }
             }
+
             return result;
         }
 

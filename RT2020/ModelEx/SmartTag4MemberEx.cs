@@ -87,7 +87,7 @@ namespace RT2020.ModelEx
 
                 result = ctx.SmartTag4Member.SqlQuery(
                     String.Format(
-                        "Select * from SmartTag4Member Order By {1}",
+                        "Select * from SmartTag4Member Order By {0}",
                         order
                     ))
                     .AsNoTracking()

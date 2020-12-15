@@ -1,4 +1,4 @@
-#region Using
+﻿#region Using
 
 using System;
 using System.Collections.Generic;
@@ -13,6 +13,7 @@ using Gizmox.WebGUI.Common.Resources;
 using System.Data.SqlClient;
 using RT2020.DAL;
 using System.Configuration;
+using System.Linq;
 
 #endregion
 
@@ -119,10 +120,16 @@ namespace RT2020.Member
             cmd.CommandTimeout = Common.Config.CommandTimeout;
             cmd.CommandType= CommandType.Text;
 
+            using (var ctx = new EF6.RT2020Entities())
+            {
+                //var item = ctx.
+            }
             using (SqlDataReader reader = SqlHelper.Default.ExecuteReader(cmd))
             {
                 while (reader.Read())
                 {
+                    var vipNumber = reader.GetString(0);
+
                     txtVipNumber.Text = reader.GetString(0);
                     txtPhoneBook.Text = reader.GetString(1);
                     txtType.Text = reader.GetString(2);
@@ -130,7 +137,8 @@ namespace RT2020.Member
                     txtPhoneTag2.Text = reader.GetString(4);
                     txtPhoneTag3.Text = reader.GetString(5);
                     txtPhoneTag4.Text = reader.GetString(6);
-                    txtPhoneTag5.Text = reader.GetString(7);
+                    //txtPhoneTag5.Text = reader.GetString(7);
+                    txtPhoneTag5.Text = ModelEx.MemberVipDataEx.GetAttribute(vipNumber, "Pager", this.AddressTypeId.ToString().Replace("-", ""));
                 }
             }
         }
@@ -157,27 +165,37 @@ namespace RT2020.Member
 
         private void PhoneDetails()
         {
-            StringBuilder sql = new StringBuilder();
-            sql.Append(" MemberId = '").Append(this.MemberId.ToString()).Append("'");
+            //StringBuilder sql = new StringBuilder();
+            //sql.Append(" MemberId = '").Append(this.MemberId.ToString()).Append("'");
 
-            MemberVipData oVip = MemberVipData.LoadWhere(sql.ToString());
-            if (oVip != null)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                oVip.SetMetadata("Address_Phone_Pager_" + this.AddressTypeId.ToString().Replace("-", ""), txtPhoneTag5.Text);
-                oVip.Save();
-            }
+                var oVip = ctx.MemberVipData.Where(x => x.MemberId == this.MemberId).FirstOrDefault();
+                if (oVip != null)
+                {
+                    //* HACK: oVip.SetMetadata("Address_Phone_Pager_" + this.AddressTypeId.ToString().Replace("-", ""), txtPhoneTag5.Text);
+                    var key = "Pager_" + this.AddressTypeId.ToString().Replace("-", "");    //! 點解唔要 dash 呢?
+                    var value = txtPhoneTag5.Text;
 
-            sql.Append(" AND ");
-            sql.Append(" AddressTypeId = '").Append(this.AddressTypeId.ToString()).Append("'");
+                    oVip.MetadataXml = ModelEx.MemberVipDataEx.SetAttribute(oVip.MetadataXml, "Address", "Phone", "Pager", this.AddressTypeId.ToString("N"), value);
+                    ctx.SaveChanges();
+                }
 
-            MemberAddress oAddress = MemberAddress.LoadWhere(sql.ToString());
-            if (oAddress != null)
-            {
-                oAddress.PhoneTag1Value = txtPhoneTag1.Text;
-                oAddress.PhoneTag2Value = txtPhoneTag2.Text;
-                oAddress.PhoneTag3Value = txtPhoneTag3.Text;
-                oAddress.PhoneTag4Value = txtPhoneTag4.Text;
-                oAddress.Save();
+                //sql.Append(" AND ");
+                //sql.Append(" AddressTypeId = '").Append(this.AddressTypeId.ToString()).Append("'");
+
+                var oAddress = ctx.MemberAddress
+                    .Where(x => x.MemberId == this.MemberId && x.AddressTypeId == this.AddressTypeId)
+                    .FirstOrDefault();
+                if (oAddress != null)
+                {
+                    oAddress.PhoneTag1Value = txtPhoneTag1.Text;
+                    oAddress.PhoneTag2Value = txtPhoneTag2.Text;
+                    oAddress.PhoneTag3Value = txtPhoneTag3.Text;
+                    oAddress.PhoneTag4Value = txtPhoneTag4.Text;
+
+                    ctx.SaveChanges();
+                }
             }
         }
         #endregion

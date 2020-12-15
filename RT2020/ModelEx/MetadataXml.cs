@@ -177,7 +177,6 @@ namespace RT2020.ModelEx
             return sqlXml;
         }
 
-
         public MetadataAttributes GetMetadataList(string id)
         {
             if (this.metadataXml.ContainsKey(id))

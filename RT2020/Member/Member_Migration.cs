@@ -532,45 +532,37 @@ namespace RT2020.Member
         /// <param name="objTempVip">The temp vip object.</param>
         private void UpdateVipData(Guid memberId, MemberApply4TempVip objTempVip)
         {
-            string query = "MemberId = '" + memberId.ToString() + "'";
-            MemberVipData oVip = MemberVipData.LoadWhere(query);
-            if (oVip == null)
-            {
-                oVip = new MemberVipData();
-                oVip.MemberVipId = System.Guid.NewGuid();
-                oVip.MemberId = memberId;
-                oVip.VipNumber = objTempVip.VIPNO;
-            }
-
-            oVip.CARD_ISSUE = objTempVip.CARD_ISSUE;
-            oVip.CARD_EXPIRE = objTempVip.CARD_EXPIRE;
-            oVip.CARD_NAME = objTempVip.CARD_NAME;
-            oVip.CARD_RECEIVE = objTempVip.CARD_RECEIVE;
-            oVip.CARD_ACTIVE = objTempVip.CARD_ACTIVE;
-            oVip.FORMER_PPNO = objTempVip.FORMER_PPNO;
-            oVip.MigrationDate = objTempVip.DATE_MIGRATE;
-            oVip.CommencementDate = objTempVip.DATE_COMM;
-            oVip.CreditLimit = objTempVip.ACREDIT;
-            oVip.CreditTerms = objTempVip.TERMS;
-            oVip.PaymentDiscount = (decimal)objTempVip.PYDISC;
-            oVip.AddOnDiscount = objTempVip.BADDONDISC == "Y" ? true : false;
-            oVip.StaffQuota = objTempVip.STAFF_QUOTA;
-            oVip.Save();
-
-            this.UpdateLoo(oVip.MemberVipId, objTempVip);
-            this.UpdateSupplement(oVip.MemberVipId, objTempVip);
-        }
-
-        /// <summary>
-        /// Updates the vip loo.
-        /// </summary>
-        /// <param name="memberId">The member vip id.</param>
-        /// <param name="objTempVip">The temp vip object.</param>
-        private void UpdateLoo(Guid memberVipId, MemberApply4TempVip objTempVip)
-        {
             using (var ctx = new EF6.RT2020Entities())
             {
-                string query = "MemberVipId = '" + memberVipId.ToString() + "'";
+                string query = "MemberId = '" + memberId.ToString() + "'";
+                var oVip = ctx.MemberVipData.Where(x => x.MemberId == memberId).FirstOrDefault();
+                if (oVip == null)
+                {
+                    oVip = new EF6.MemberVipData();
+                    oVip.MemberVipId = Guid.NewGuid();
+                    oVip.MemberId = memberId;
+                    oVip.VipNumber = objTempVip.VIPNO;
+
+                    ctx.MemberVipData.Add(oVip);
+                }
+
+                oVip.CARD_ISSUE = objTempVip.CARD_ISSUE;
+                oVip.CARD_EXPIRE = objTempVip.CARD_EXPIRE;
+                oVip.CARD_NAME = objTempVip.CARD_NAME;
+                oVip.CARD_RECEIVE = objTempVip.CARD_RECEIVE;
+                oVip.CARD_ACTIVE = objTempVip.CARD_ACTIVE;
+                oVip.FORMER_PPNO = objTempVip.FORMER_PPNO;
+                oVip.MigrationDate = objTempVip.DATE_MIGRATE;
+                oVip.CommencementDate = objTempVip.DATE_COMM;
+                oVip.CreditLimit = objTempVip.ACREDIT;
+                oVip.CreditTerms = objTempVip.TERMS;
+                oVip.PaymentDiscount = (decimal)objTempVip.PYDISC;
+                oVip.AddOnDiscount = objTempVip.BADDONDISC == "Y" ? true : false;
+                oVip.StaffQuota = objTempVip.STAFF_QUOTA;
+                ctx.SaveChanges();
+
+                var memberVipId = oVip.MemberVipId;
+                #region this.UpdateLoo(oVip.MemberVipId, objTempVip);
                 var oVipLoo = ctx.MemberVipLineOfOperation.Where(x => x.MemberVipId == memberVipId).FirstOrDefault();
                 if (oVipLoo == null)
                 {
@@ -585,19 +577,9 @@ namespace RT2020.Member
                 oVipLoo.NormalDiscount = (decimal)objTempVip.NRDISC;
                 oVipLoo.PromotionDiscount = (decimal)objTempVip.PRO_DISC;
                 ctx.SaveChanges();
-            }
-        }
+                #endregion
 
-        /// <summary>
-        /// Updates the supplement.
-        /// </summary>
-        /// <param name="memberVipId">The member vip id.</param>
-        /// <param name="objTempVip">The temp vip object.</param>
-        private void UpdateSupplement(Guid memberVipId, MemberApply4TempVip objTempVip)
-        {
-            using (var ctx = new EF6.RT2020Entities())
-            {
-                string query = "MemberVipId = '" + memberVipId.ToString() + "'";
+                #region this.UpdateSupplement(oVip.MemberVipId, objTempVip);
                 var oSupplement = ctx.MemberVipSupplement.Where(x => x.MemberVipId == memberVipId).FirstOrDefault();
                 if (oSupplement == null)
                 {
@@ -630,6 +612,7 @@ namespace RT2020.Member
                 oSupplement.MostUsedCreditCards2 = objTempVip.CARD2;
                 oSupplement.MostUsedCreditCards3 = objTempVip.CARD3;
                 ctx.SaveChanges();
+                #endregion
             }
         }
 
