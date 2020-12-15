@@ -87,14 +87,17 @@ namespace RT2020.Member
         /// </summary>
         private void CheckTempRecords()
         {
-            string query = "RECORD_SOURCE = 'IMPORT'";
-            MemberApply4TempVipCollection objTempVip = MemberApply4TempVip.LoadCollection(query);
-            if (objTempVip.Count == 0)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                MessageBox.Show("No record found.", "Warning!");
-            }
+                //string query = "RECORD_SOURCE = 'IMPORT'";
+                var counts = ctx.MemberApply4TempVip.Where(x => x.RECORD_SOURCE == "IMPORT").Count();
+                if (counts == 0)
+                {
+                    MessageBox.Show("No record found.", "Warning!");
+                }
 
-            btnProcess.Enabled = (objTempVip.Count != 0);
+                btnProcess.Enabled = (counts != 0);
+            }
         }
 
         /// <summary>
@@ -151,22 +154,26 @@ namespace RT2020.Member
         /// </summary>
         private void ProcessMigration(bool canDelete)
         {
-            string query = "RECORD_SOURCE = 'IMPORT'";
-            MemberApply4TempVipCollection objTempVipList = MemberApply4TempVip.LoadCollection(query);
-            for (int i = 0; i < objTempVipList.Count; i++)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                MemberApply4TempVip objTempVip = objTempVipList[i];
-
-                System.Guid memberId = this.UpdateMemberMainInfo(objTempVip, canDelete);
-                if (memberId != System.Guid.Empty)
+                //string query = "RECORD_SOURCE = 'IMPORT'";
+                var objTempVipList = ctx.MemberApply4TempVip.Where(x => x.RECORD_SOURCE == "IMPORT").ToList();
+                for (int i = 0; i < objTempVipList.Count; i++)
                 {
-                    this.UpdateMemberAddressInfo(memberId, objTempVip);
-                    this.UpdateMemberSmartTagValues(memberId, objTempVip);
-                    this.UpdateVipData(memberId, objTempVip);
-                }
+                    var objTempVip = objTempVipList[i];
 
-                // Delete temp record
-                objTempVip.Delete();
+                    System.Guid memberId = this.UpdateMemberMainInfo(objTempVip, canDelete);
+                    if (memberId != System.Guid.Empty)
+                    {
+                        this.UpdateMemberAddressInfo(memberId, objTempVip);
+                        this.UpdateMemberSmartTagValues(memberId, objTempVip);
+                        this.UpdateVipData(memberId, objTempVip);
+                    }
+
+                    // Delete temp record
+                    ctx.MemberApply4TempVip.Remove(objTempVip);
+                }
+                ctx.SaveChanges();
             }
         }
 
@@ -178,7 +185,7 @@ namespace RT2020.Member
         /// <param name="objTempVip">The temp vip object.</param>
         /// <param name="canDelete">if set to <c>true</c> [can delete].</param>
         /// <returns>member id</returns>
-        private Guid UpdateMemberMainInfo(MemberApply4TempVip objTempVip, bool canDelete)
+        private Guid UpdateMemberMainInfo(EF6.MemberApply4TempVip objTempVip, bool canDelete)
         {
             bool isNew = false;
             System.Guid memberId = System.Guid.Empty;
@@ -407,7 +414,7 @@ namespace RT2020.Member
         /// </summary>
         /// <param name="memberId">The member id.</param>
         /// <param name="objTempVip">The temp vip object.</param>
-        private void UpdateMemberAddressInfo(Guid memberId, MemberApply4TempVip objTempVip)
+        private void UpdateMemberAddressInfo(Guid memberId, EF6.MemberApply4TempVip objTempVip)
         {
             // English Address
             System.Guid enAddressTypeId = GetAddressTypeId("ADDR_EN");
@@ -464,7 +471,7 @@ namespace RT2020.Member
         /// </summary>
         /// <param name="memberId">The member id.</param>
         /// <param name="objTempVip">The temp vip object.</param>
-        private void UpdateMemberSmartTagValues(Guid memberId, MemberApply4TempVip objTempVip)
+        private void UpdateMemberSmartTagValues(Guid memberId, EF6.MemberApply4TempVip objTempVip)
         {
             // 1.Grade
             this.UpdateMemberSmartTagValues(memberId, GetSmartTagId("Grade", 1), objTempVip.GRADE);
@@ -488,10 +495,10 @@ namespace RT2020.Member
             this.UpdateMemberSmartTagValues(memberId, GetSmartTagId("Profile", 7), objTempVip.PROFILE);
 
             // 8.DOB
-            this.UpdateMemberSmartTagValues(memberId, GetSmartTagId("DOB", 8), objTempVip.DATE_BIRTH.ToString("yyyy-MM-dd"));
+            this.UpdateMemberSmartTagValues(memberId, GetSmartTagId("DOB", 8), objTempVip.DATE_BIRTH.Value.ToString("yyyy-MM-dd"));
 
             // 9.DOR
-            this.UpdateMemberSmartTagValues(memberId, GetSmartTagId("DOR", 9), objTempVip.DATE_REGIS.ToString("yyyy-MM-dd"));
+            this.UpdateMemberSmartTagValues(memberId, GetSmartTagId("DOR", 9), objTempVip.DATE_REGIS.Value.ToString("yyyy-MM-dd"));
 
             // 10.HKID
             this.UpdateMemberSmartTagValues(memberId, GetSmartTagId("HKID", 10), objTempVip.ID_NO);
@@ -542,7 +549,7 @@ namespace RT2020.Member
         /// </summary>
         /// <param name="memberId">The member id.</param>
         /// <param name="objTempVip">The temp vip object.</param>
-        private void UpdateVipData(Guid memberId, MemberApply4TempVip objTempVip)
+        private void UpdateVipData(Guid memberId, EF6.MemberApply4TempVip objTempVip)
         {
             using (var ctx = new EF6.RT2020Entities())
             {
@@ -561,8 +568,8 @@ namespace RT2020.Member
                 oVip.CARD_ISSUE = objTempVip.CARD_ISSUE;
                 oVip.CARD_EXPIRE = objTempVip.CARD_EXPIRE;
                 oVip.CARD_NAME = objTempVip.CARD_NAME;
-                oVip.CARD_RECEIVE = objTempVip.CARD_RECEIVE;
-                oVip.CARD_ACTIVE = objTempVip.CARD_ACTIVE;
+                oVip.CARD_RECEIVE = objTempVip.CARD_RECEIVE.Value;
+                oVip.CARD_ACTIVE = objTempVip.CARD_ACTIVE.Value;
                 oVip.FORMER_PPNO = objTempVip.FORMER_PPNO;
                 oVip.MigrationDate = objTempVip.DATE_MIGRATE;
                 oVip.CommencementDate = objTempVip.DATE_COMM;

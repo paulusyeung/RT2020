@@ -144,8 +144,6 @@
     <Compile Include="MemberAddress.cs" />
     <Compile Include="MemberAddressType.cs" />
     <Compile Include="MemberApply.cs" />
-    <Compile Include="MemberApply4TempVip.cs" />
-    <Compile Include="MemberApply4TempVipLog.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SqlHelper.cs" />
   </ItemGroup>

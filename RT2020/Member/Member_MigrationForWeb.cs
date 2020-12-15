@@ -11,6 +11,7 @@ using Gizmox.WebGUI.Common;
 using Gizmox.WebGUI.Forms;
 using RT2020.DAL;
 using System.Data.SqlClient;
+using System.Linq;
 
 #endregion
 
@@ -179,14 +180,18 @@ namespace RT2020.Member
         /// </summary>
         private void CheckTempRecords()
         {
-            string query = "RECORD_SOURCE = 'WEB'";
-            MemberApply4TempVipCollection objTempVip = MemberApply4TempVip.LoadCollection(query);
-            if (objTempVip.Count == 0)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                MessageBox.Show("No record found.", "Warning!");
-            }
+                //string query = "RECORD_SOURCE = 'WEB'";
+                //MemberApply4TempVipCollection objTempVip = MemberApply4TempVip.LoadCollection(query);
+                var counts = ctx.MemberApply4TempVip.Where(x => x.RECORD_SOURCE == "WEB").Count();
+                if (counts == 0)
+                {
+                    MessageBox.Show("No record found.", "Warning!");
+                }
 
-            btnProcess.Enabled = (objTempVip.Count != 0);
+                btnProcess.Enabled = (counts != 0);
+            }
         }
 
         /// <summary>
