@@ -494,33 +494,39 @@ namespace RT2020.Member
 
         private void SaveAddress(Guid memberId)
         {
-            string sql = "MemberId = '" + memberId.ToString() + "' AND AddressTypeId = '" + address.cboAddressType.SelectedValue.ToString() + "'";
-            MemberAddress oAddress = MemberAddress.LoadWhere(sql);
-            if (oAddress == null)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                oAddress = new MemberAddress();
-                oAddress.MemberId = memberId;
-                oAddress.AddressTypeId = new Guid(address.cboAddressType.SelectedValue.ToString());
-            }
-            oAddress.Address = address.txtAddress.Text;
-            oAddress.PostalCode = address.txtPostalCode.Text;
-            oAddress.CountryId = new Guid(address.cboCountry.SelectedValue.ToString());
-            oAddress.ProvinceId = new Guid(address.cboProvince.SelectedValue.ToString());
-            oAddress.CityId = new Guid(address.cboCity.SelectedValue.ToString());
-            oAddress.District = address.txtDistrict.Text;
-            oAddress.Mailing = true;
-            oAddress.PhoneTag1 = (address.txtPhoneTag1.Tag == null) ? System.Guid.Empty : new System.Guid(address.txtPhoneTag1.Tag.ToString());
-            oAddress.PhoneTag1Value = address.txtPhoneTag1.Text;
-            oAddress.PhoneTag2 = (address.txtPhoneTag2.Tag == null) ? System.Guid.Empty : new System.Guid(address.txtPhoneTag2.Tag.ToString());
-            oAddress.PhoneTag2Value = address.txtPhoneTag2.Text;
-            oAddress.PhoneTag3 = (address.txtPhoneTag3.Tag == null) ? System.Guid.Empty : new System.Guid(address.txtPhoneTag3.Tag.ToString());
-            oAddress.PhoneTag3Value = address.txtPhoneTag3.Text;
-            oAddress.PhoneTag4 = (address.txtPhoneTag4.Tag == null) ? System.Guid.Empty : new System.Guid(address.txtPhoneTag4.Tag.ToString());
-            oAddress.PhoneTag4Value = address.txtPhoneTag4.Text;
-            oAddress.PhoneTag5 = (address.txtPhoneTag5.Tag == null) ? System.Guid.Empty : new System.Guid(address.txtPhoneTag5.Tag.ToString());
-            oAddress.PhoneTag5Value = address.txtPhoneTag5.Text;
+                string sql = "MemberId = '" + memberId.ToString() + "' AND AddressTypeId = '" + address.cboAddressType.SelectedValue.ToString() + "'";
+                var oAddress = ctx.MemberAddress.Where(x => x.MemberId == memberId && x.AddressTypeId == (Guid)address.cboAddressType.SelectedValue).FirstOrDefault();
+                if (oAddress == null)
+                {
+                    oAddress = new EF6.MemberAddress();
+                    oAddress.AddressId = Guid.NewGuid();
+                    oAddress.MemberId = memberId;
+                    oAddress.AddressTypeId = new Guid(address.cboAddressType.SelectedValue.ToString());
 
-            oAddress.Save();
+                    ctx.MemberAddress.Add(oAddress);
+                }
+                oAddress.Address = address.txtAddress.Text;
+                oAddress.PostalCode = address.txtPostalCode.Text;
+                oAddress.CountryId = new Guid(address.cboCountry.SelectedValue.ToString());
+                oAddress.ProvinceId = new Guid(address.cboProvince.SelectedValue.ToString());
+                oAddress.CityId = new Guid(address.cboCity.SelectedValue.ToString());
+                oAddress.District = address.txtDistrict.Text;
+                oAddress.Mailing = true;
+                oAddress.PhoneTag1 = (address.txtPhoneTag1.Tag == null) ? System.Guid.Empty : new System.Guid(address.txtPhoneTag1.Tag.ToString());
+                oAddress.PhoneTag1Value = address.txtPhoneTag1.Text;
+                oAddress.PhoneTag2 = (address.txtPhoneTag2.Tag == null) ? System.Guid.Empty : new System.Guid(address.txtPhoneTag2.Tag.ToString());
+                oAddress.PhoneTag2Value = address.txtPhoneTag2.Text;
+                oAddress.PhoneTag3 = (address.txtPhoneTag3.Tag == null) ? System.Guid.Empty : new System.Guid(address.txtPhoneTag3.Tag.ToString());
+                oAddress.PhoneTag3Value = address.txtPhoneTag3.Text;
+                oAddress.PhoneTag4 = (address.txtPhoneTag4.Tag == null) ? System.Guid.Empty : new System.Guid(address.txtPhoneTag4.Tag.ToString());
+                oAddress.PhoneTag4Value = address.txtPhoneTag4.Text;
+                oAddress.PhoneTag5 = (address.txtPhoneTag5.Tag == null) ? System.Guid.Empty : new System.Guid(address.txtPhoneTag5.Tag.ToString());
+                oAddress.PhoneTag5Value = address.txtPhoneTag5.Text;
+
+                ctx.SaveChanges();
+            }
         }
 
         private void SaveVipData(Guid memberId)
@@ -853,48 +859,50 @@ namespace RT2020.Member
 
         private void LoadAddress()
         {
-            string sql = "MemberId = '" + this.MemberId.ToString() + "'";
-            MemberAddressCollection oAddressList = MemberAddress.LoadCollection(sql);
-
-            // Default to show AddressTypeCode = ADDR_EN
-            if (oAddressList.Count > 0)
+            using (var ctx = new EF6.RT2020Entities())
             {
+                string sql = "MemberId = '" + this.MemberId.ToString() + "'";
+                var oAddressList = ctx.MemberAddress.Where(x => x.MemberId == this.MemberId).AsNoTracking().ToList();
+
                 // Default to show AddressTypeCode = ADDR_EN
-                int foundRow = 0;
-                bool foundAddrEn = false;
-                Guid addressTypeId_ADDR_EN = ModelEx.MemberAddressTypeEx.GetIdByCode("ADDR_EN");
-                foreach (MemberAddress oAddress in oAddressList)
+                if (oAddressList.Count > 0)
                 {
-                    if (oAddress.AddressTypeId == addressTypeId_ADDR_EN)
+                    // Default to show AddressTypeCode = ADDR_EN
+                    int foundRow = 0;
+                    bool foundAddrEn = false;
+                    Guid addressTypeId_ADDR_EN = ModelEx.MemberAddressTypeEx.GetIdByCode("ADDR_EN");
+                    foreach (var oAddress in oAddressList)
                     {
-                        foundAddrEn = true;
-                        break;
+                        if (oAddress.AddressTypeId == addressTypeId_ADDR_EN)
+                        {
+                            foundAddrEn = true;
+                            break;
+                        }
+                        foundRow++;
                     }
-                    foundRow++;
+                    if (!foundAddrEn)
+                    {
+                        foundRow = 0;
+                    }
+                    address.cboAddressType.SelectedValue = oAddressList[foundRow].AddressTypeId;
+                    address.txtAddress.Text = oAddressList[foundRow].Address;
+                    address.txtPostalCode.Text = oAddressList[foundRow].PostalCode;
+                    address.cboCountry.SelectedValue = oAddressList[foundRow].CountryId;
+                    address.cboProvince.SelectedValue = oAddressList[foundRow].ProvinceId;
+                    address.cboCity.SelectedValue = oAddressList[foundRow].CityId;
+                    address.txtDistrict.Text = oAddressList[foundRow].District;
+
+                    address.txtPhoneTag1.Text = oAddressList[foundRow].PhoneTag1Value;
+                    address.txtPhoneTag2.Text = oAddressList[foundRow].PhoneTag2Value;
+                    address.txtPhoneTag3.Text = oAddressList[foundRow].PhoneTag3Value;
+                    address.txtPhoneTag4.Text = oAddressList[foundRow].PhoneTag4Value;
+                    address.txtPhoneTag5.Text = oAddressList[foundRow].PhoneTag5Value;
                 }
-                if (!foundAddrEn)
+                else
                 {
-                    foundRow = 0;
+                    address.cboAddressType.SelectedValue = ModelEx.MemberAddressTypeEx.GetIdByCode("ADDR_EN");
                 }
-                address.cboAddressType.SelectedValue = oAddressList[foundRow].AddressTypeId;
-                address.txtAddress.Text = oAddressList[foundRow].Address;
-                address.txtPostalCode.Text = oAddressList[foundRow].PostalCode;
-                address.cboCountry.SelectedValue = oAddressList[foundRow].CountryId;
-                address.cboProvince.SelectedValue = oAddressList[foundRow].ProvinceId;
-                address.cboCity.SelectedValue = oAddressList[foundRow].CityId;
-                address.txtDistrict.Text = oAddressList[foundRow].District;
-
-                address.txtPhoneTag1.Text = oAddressList[foundRow].PhoneTag1Value;
-                address.txtPhoneTag2.Text = oAddressList[foundRow].PhoneTag2Value;
-                address.txtPhoneTag3.Text = oAddressList[foundRow].PhoneTag3Value;
-                address.txtPhoneTag4.Text = oAddressList[foundRow].PhoneTag4Value;
-                address.txtPhoneTag5.Text = oAddressList[foundRow].PhoneTag5Value;
             }
-            else
-            {
-                address.cboAddressType.SelectedValue = ModelEx.MemberAddressTypeEx.GetIdByCode("ADDR_EN");
-            }
-
         }
 
         private void LoadVipData()
@@ -1032,15 +1040,6 @@ namespace RT2020.Member
 
                     ctx.MemberVipData.Remove(oVip);
                 }
-            }
-        }
-
-        private void DeleteAddress(string sql)
-        {
-            MemberAddressCollection oAddressList = MemberAddress.LoadCollection(sql);
-            foreach (MemberAddress oAddress in oAddressList)
-            {
-                oAddress.Delete();
             }
         }
         #endregion

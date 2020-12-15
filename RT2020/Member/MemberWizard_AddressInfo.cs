@@ -91,22 +91,25 @@ namespace RT2020.Member
 
         private void LoadAddress(Guid addressTypeId)
         {
-            string sql = "MemberId = '" + this.MemberId.ToString() + "' AND AddressTypeId = '" + addressTypeId.ToString() + "'";
-            MemberAddress oAddress = MemberAddress.LoadWhere(sql);
-            if (oAddress != null)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                txtAddress.Text = oAddress.Address;
-                txtPostalCode.Text = oAddress.PostalCode;
-                cboCountry.SelectedValue = oAddress.CountryId;
-                cboProvince.SelectedValue = oAddress.ProvinceId;
-                cboCity.SelectedValue = oAddress.CityId;
-                txtDistrict.Text = oAddress.District;
+                //string sql = "MemberId = '" + this.MemberId.ToString() + "' AND AddressTypeId = '" + addressTypeId.ToString() + "'";
+                var oAddress = ctx.MemberAddress.Where(x => x.MemberId == this.MemberId && x.AddressTypeId == addressTypeId).AsNoTracking().FirstOrDefault();
+                if (oAddress != null)
+                {
+                    txtAddress.Text = oAddress.Address;
+                    txtPostalCode.Text = oAddress.PostalCode;
+                    cboCountry.SelectedValue = oAddress.CountryId;
+                    cboProvince.SelectedValue = oAddress.ProvinceId;
+                    cboCity.SelectedValue = oAddress.CityId;
+                    txtDistrict.Text = oAddress.District;
 
-                txtPhoneTag1.Text = oAddress.PhoneTag1Value;
-                txtPhoneTag2.Text = oAddress.PhoneTag2Value;
-                txtPhoneTag3.Text = oAddress.PhoneTag3Value;
-                txtPhoneTag4.Text = oAddress.PhoneTag4Value;
-                txtPhoneTag5.Text = LoadPaperNumberFromVIPData(addressTypeId);
+                    txtPhoneTag1.Text = oAddress.PhoneTag1Value;
+                    txtPhoneTag2.Text = oAddress.PhoneTag2Value;
+                    txtPhoneTag3.Text = oAddress.PhoneTag3Value;
+                    txtPhoneTag4.Text = oAddress.PhoneTag4Value;
+                    txtPhoneTag5.Text = LoadPaperNumberFromVIPData(addressTypeId);
+                }
             }
         }
 

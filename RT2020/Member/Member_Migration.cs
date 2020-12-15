@@ -416,35 +416,40 @@ namespace RT2020.Member
         /// <param name="addressType">Type of the address.</param>
         private void UpdateMemberAddressInfo(Guid memberId, string address, string workPhone, string homePhone, string fax, string otherPhone, string pager, Guid addressType)
         {
-            string query = "MemberId = '" + memberId.ToString() + "' AND AddressTypeId = '" + addressType.ToString() + "'";
-            MemberAddress objAddress = MemberAddress.LoadWhere(query);
-            if (objAddress == null)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                objAddress = new MemberAddress();
-                objAddress.AddressId = System.Guid.NewGuid();
-                objAddress.AddressTypeId = addressType;
-                objAddress.MemberId = memberId;
+                string query = "MemberId = '" + memberId.ToString() + "' AND AddressTypeId = '" + addressType.ToString() + "'";
+                var objAddress = ctx.MemberAddress.Where(x => x.MemberId == memberId && x.AddressTypeId == addressType).FirstOrDefault();
+                if (objAddress == null)
+                {
+                    objAddress = new EF6.MemberAddress();
+                    objAddress.AddressId = System.Guid.NewGuid();
+                    objAddress.AddressTypeId = addressType;
+                    objAddress.MemberId = memberId;
+
+                    ctx.MemberAddress.Add(objAddress);
+                }
+
+                objAddress.Address = address;
+                objAddress.PostalCode = string.Empty;
+                objAddress.CountryId = System.Guid.Empty;
+                objAddress.ProvinceId = System.Guid.Empty;
+                objAddress.CityId = System.Guid.Empty;
+                objAddress.District = string.Empty;
+                objAddress.Mailing = false;
+                objAddress.PhoneTag1 = ModelEx.PhoneTagEx.GetPhoneTagIdByPriority(1);
+                objAddress.PhoneTag1Value = workPhone;
+                objAddress.PhoneTag2 = ModelEx.PhoneTagEx.GetPhoneTagIdByPriority(2);
+                objAddress.PhoneTag2Value = homePhone;
+                objAddress.PhoneTag3 = ModelEx.PhoneTagEx.GetPhoneTagIdByPriority(3);
+                objAddress.PhoneTag3Value = fax;
+                objAddress.PhoneTag4 = ModelEx.PhoneTagEx.GetPhoneTagIdByPriority(4);
+                objAddress.PhoneTag4Value = otherPhone;
+                objAddress.PhoneTag5 = ModelEx.PhoneTagEx.GetPhoneTagIdByPriority(5);
+                objAddress.PhoneTag5Value = pager;
+
+                ctx.SaveChanges();
             }
-
-            objAddress.Address = address;
-            objAddress.PostalCode = string.Empty;
-            objAddress.CountryId = System.Guid.Empty;
-            objAddress.ProvinceId = System.Guid.Empty;
-            objAddress.CityId = System.Guid.Empty;
-            objAddress.District = string.Empty;
-            objAddress.Mailing = false;
-            objAddress.PhoneTag1 = ModelEx.PhoneTagEx.GetPhoneTagIdByPriority(1);
-            objAddress.PhoneTag1Value = workPhone;
-            objAddress.PhoneTag2 = ModelEx.PhoneTagEx.GetPhoneTagIdByPriority(2);
-            objAddress.PhoneTag2Value = homePhone;
-            objAddress.PhoneTag3 = ModelEx.PhoneTagEx.GetPhoneTagIdByPriority(3);
-            objAddress.PhoneTag3Value = fax;
-            objAddress.PhoneTag4 = ModelEx.PhoneTagEx.GetPhoneTagIdByPriority(4);
-            objAddress.PhoneTag4Value = otherPhone;
-            objAddress.PhoneTag5 = ModelEx.PhoneTagEx.GetPhoneTagIdByPriority(5);
-            objAddress.PhoneTag5Value = pager;
-
-            objAddress.Save();
         }
 
         /// <summary>
