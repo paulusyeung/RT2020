@@ -228,10 +228,13 @@ namespace RT2020.Member.Import
         {
             System.Guid result = System.Guid.Empty;
 
-            MemberAddressTypeCollection oTypeList = MemberAddressType.LoadCollection();
-            if (oTypeList.Count > 0)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                result = oTypeList[0].AddressTypeId;
+                var oTypeList = ctx.MemberAddressType.AsNoTracking().ToList();
+                if (oTypeList.Count > 0)
+                {
+                    result = oTypeList[0].AddressTypeId;
+                }
             }
 
             return result;

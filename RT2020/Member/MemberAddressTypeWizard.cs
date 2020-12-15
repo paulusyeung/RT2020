@@ -94,8 +94,9 @@ namespace RT2020.Member
                         SetCtrlEditable();
                         break;
                     case "save":
-                        if (Save())
+                        if (Verify())
                         {
+                            Save();
                             Clear();
                             BindAddressTypeList();
                             this.Update();
@@ -164,78 +165,62 @@ namespace RT2020.Member
         #endregion
 
         #region Save
-        private bool CodeExists()
-        {
-            string sql = "AddressTypeCode = '" + txtAddressTypeCode.Text.Trim() + "'";
-            MemberAddressTypeCollection typeList = MemberAddressType.LoadCollection(sql);
-            if (typeList.Count > 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
         private bool Verify()
         {
+            bool result = true;
+            errorProvider.SetError(txtAddressTypeCode, string.Empty);
+            errorProvider.SetError(txtPriority, string.Empty);
+
             if (txtAddressTypeCode.Text.Length == 0)
             {
                 errorProvider.SetError(txtAddressTypeCode, "Cannot be blank!");
-                return false;
+                result = false;
             }
-            else if (txtPriority.Text.Length == 0)
+            if (txtPriority.Text.Length == 0)
             {
                 errorProvider.SetError(txtPriority, "Cannot be blank!");
-                return false;
+                result = false;
             }
-            else if (!Common.Utility.IsNumeric(txtPriority.Text))
+            if (!Common.Utility.IsNumeric(txtPriority.Text))
             {
                 errorProvider.SetError(txtPriority, Resources.Common.DigitalNeeded);
-                return false;
+                result = false;
             }
-            else
+            if (ModelEx.MemberAddressTypeEx.IsTypeCodeInUse(txtAddressTypeCode.Text))
             {
-                errorProvider.SetError(txtAddressTypeCode, string.Empty);
-                errorProvider.SetError(txtPriority, string.Empty);
-                return true;
+                errorProvider.SetError(txtAddressTypeCode, "Type Code in use");
+                result = false;
             }
+
+            return result;
         }
 
         private bool Save()
         {
-            if (Verify())
+            bool result = false;
+
+            using (var ctx = new EF6.RT2020Entities())
             {
-                MemberAddressType oAddressType = MemberAddressType.Load(this.AddressTypeId);
+                var oAddressType = ctx.MemberAddressType.Find(this.AddressTypeId);
                 if (oAddressType == null)
                 {
-                    oAddressType = new MemberAddressType();
+                    oAddressType = new EF6.MemberAddressType();
+                    oAddressType.AddressTypeId = Guid.NewGuid();
+                    oAddressType.AddressTypeCode = txtAddressTypeCode.Text;
 
-                    if (CodeExists())
-                    {
-                        errorProvider.SetError(txtAddressTypeCode, string.Format(Resources.Common.DuplicatedCode, "Member Address Type Code"));
-                        return false;
-                    }
-                    else
-                    {
-                        errorProvider.SetError(txtAddressTypeCode, string.Empty);
-                        oAddressType.AddressTypeCode = txtAddressTypeCode.Text;
-                    }
+                    ctx.MemberAddressType.Add(oAddressType);
                 }
                 oAddressType.AddressTypeName = txtAddressTypeName.Text;
                 oAddressType.AddressTypeName_Chs = txtAddressTypeNameChs.Text;
                 oAddressType.AddressTypeName_Cht = txtAddressTypeNameCht.Text;
                 oAddressType.Priority = Convert.ToInt32(txtPriority.Text);
 
-                oAddressType.Save();
+                ctx.SaveChanges();
 
-                return true;
+                result = true;
             }
-            else
-            {
-                return false;
-            }
+
+            return result;
         }
 
         private void Clear()
@@ -265,16 +250,19 @@ namespace RT2020.Member
         #region Delete
         private void Delete()
         {
-            MemberAddressType oAddressType = MemberAddressType.Load(this.AddressTypeId);
-            if (oAddressType != null)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                try
+                var oAddressType = ctx.MemberAddressType.Find(this.AddressTypeId);
+                if (oAddressType != null)
                 {
-                    oAddressType.Delete();
-                }
-                catch
-                {
-                    MessageBox.Show("Cannot delete the record being used by other record!", "Delete Warning");
+                    try
+                    {
+                        ctx.MemberAddressType.Remove(oAddressType);
+                    }
+                    catch
+                    {
+                        MessageBox.Show("Cannot delete the record being used by other record!", "Delete Warning");
+                    }
                 }
             }
         }
@@ -284,9 +272,10 @@ namespace RT2020.Member
         {
             if (lvAddressTypeList.SelectedItem != null)
             {
-                if (Common.Utility.IsGUID(lvAddressTypeList.SelectedItem.Text))
+                Guid id = Guid.Empty;
+                if (Guid.TryParse(lvAddressTypeList.SelectedItem.Text, out id))
                 {
-                    MemberAddressType oAddressType = MemberAddressType.Load(new System.Guid(lvAddressTypeList.SelectedItem.Text));
+                    var oAddressType = ModelEx.MemberAddressTypeEx.Get(id);
                     if (oAddressType != null)
                     {
                         txtAddressTypeCode.Text = oAddressType.AddressTypeCode;

@@ -862,7 +862,7 @@ namespace RT2020.Member
                 // Default to show AddressTypeCode = ADDR_EN
                 int foundRow = 0;
                 bool foundAddrEn = false;
-                Guid addressTypeId_ADDR_EN = MemberAddressType.LoadWhere("AddressTypeCode = 'ADDR_EN'").AddressTypeId;
+                Guid addressTypeId_ADDR_EN = ModelEx.MemberAddressTypeEx.GetIdByCode("ADDR_EN");
                 foreach (MemberAddress oAddress in oAddressList)
                 {
                     if (oAddress.AddressTypeId == addressTypeId_ADDR_EN)
@@ -892,7 +892,7 @@ namespace RT2020.Member
             }
             else
             {
-                address.cboAddressType.SelectedValue = MemberAddressType.LoadWhere("AddressTypeCode = 'ADDR_EN'").AddressTypeId;
+                address.cboAddressType.SelectedValue = ModelEx.MemberAddressTypeEx.GetIdByCode("ADDR_EN");
             }
 
         }
@@ -1143,7 +1143,7 @@ namespace RT2020.Member
 
         private void SetDefaults()
         {
-            address.cboAddressType.SelectedValue = MemberAddressType.LoadWhere("AddressTypeCode = 'ADDR_EN'").AddressTypeId;
+            address.cboAddressType.SelectedValue = ModelEx.MemberAddressTypeEx.GetIdByCode("ADDR_EN");
             card.dtpCardExpiredOn.Value = DateTime.Today.AddYears(+100);
         }
     }

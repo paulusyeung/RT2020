@@ -378,25 +378,6 @@ namespace RT2020.Member
         }
 
         /// <summary>
-        /// Gets the address type id.
-        /// </summary>
-        /// <param name="addressType">Type of the address.</param>
-        /// <returns></returns>
-        private Guid GetAddressTypeId(string addressType)
-        {
-            string query = "AddressTypeCode = '" + addressType + "'";
-            MemberAddressType oType = MemberAddressType.LoadWhere(query);
-            if (oType != null)
-            {
-                return oType.AddressTypeId;
-            }
-            else
-            {
-                return System.Guid.Empty;
-            }
-        }
-
-        /// <summary>
         /// Gets the smart tag id.
         /// </summary>
         /// <param name="tagCode">The tag code.</param>
@@ -417,12 +398,12 @@ namespace RT2020.Member
         private void UpdateMemberAddressInfo(Guid memberId, EF6.MemberApply4TempVip objTempVip)
         {
             // English Address
-            System.Guid enAddressTypeId = GetAddressTypeId("ADDR_EN");
+            System.Guid enAddressTypeId = ModelEx.MemberAddressTypeEx.GetIdByCode("ADDR_EN");
             string enAddress = objTempVip.ADDRESS1C + Environment.NewLine + objTempVip.ADDRESS2C + Environment.NewLine + objTempVip.ADDRESS3C + Environment.NewLine + objTempVip.ADDRESS4C;
             this.UpdateMemberAddressInfo(memberId, enAddress, objTempVip.TELW, objTempVip.TELH, objTempVip.FAX, objTempVip.TELOTHER, objTempVip.TELP, enAddressTypeId);
 
             // Chinese Address
-            System.Guid chAddressTypeId = GetAddressTypeId("ADDR_CN");
+            System.Guid chAddressTypeId = ModelEx.MemberAddressTypeEx.GetIdByCode("ADDR_CN");
             string chAddress = objTempVip.ADDRESS1 + Environment.NewLine + objTempVip.ADDRESS2 + Environment.NewLine + objTempVip.ADDRESS3 + Environment.NewLine + objTempVip.ADDRESS4;
             this.UpdateMemberAddressInfo(memberId, chAddress, objTempVip.TELW, objTempVip.TELH, objTempVip.FAX, objTempVip.TELOTHER, objTempVip.TELP, chAddressTypeId);
         }

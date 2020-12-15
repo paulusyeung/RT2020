@@ -142,8 +142,6 @@
     <Compile Include="InvtSubLedgerTXF_Header.cs" />
     <Compile Include="Member.cs" />
     <Compile Include="MemberAddress.cs" />
-    <Compile Include="MemberAddressType.cs" />
-    <Compile Include="MemberApply.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SqlHelper.cs" />
   </ItemGroup>
@@ -167,7 +165,7 @@
   -->
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties StartDate="20080107" AssemblyFileVersion="1" AssemblyVersion="1" Reset="1" />
+      <UserProperties Reset="1" AssemblyVersion="1" AssemblyFileVersion="1" StartDate="20080107" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

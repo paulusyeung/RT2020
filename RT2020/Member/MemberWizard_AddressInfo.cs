@@ -59,15 +59,18 @@ namespace RT2020.Member
 
         private void FillAddressList()
         {
-            cboAddressType.DataSource = null;
-            cboAddressType.Items.Clear();
+            //cboAddressType.DataSource = null;
+            //cboAddressType.Items.Clear();
 
             string[] orderBy = new string[] { "AddressTypeName" };
+            ModelEx.MemberAddressTypeEx.LoadCombo(ref cboAddressType, "AddressTypeName", true, false, "", "", orderBy);
+            /**
             MemberAddressTypeCollection countryList = MemberAddressType.LoadCollection(orderBy, true);
 
             cboAddressType.DataSource = countryList;
             cboAddressType.DisplayMember = "AddressTypeName";
             cboAddressType.ValueMember = "AddressTypeId";
+            */
         }
 
         private void FillCountryList()
