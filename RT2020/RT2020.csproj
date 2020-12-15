@@ -1661,6 +1661,7 @@
     <Compile Include="ModelEx\SmartTag4SupplierEx.cs" />
     <Compile Include="ModelEx\SmartTag4WorkplaceEx.cs" />
     <Compile Include="ModelEx\ShipmentMethodEx.cs" />
+    <Compile Include="ModelEx\MemberSmartTagEx.cs" />
     <Compile Include="ModelEx\StockTakeDetailsEx.cs" />
     <Compile Include="ModelEx\StockTakeHeaderEx.cs" />
     <Compile Include="ModelEx\StocktakeHeader_HHTEx.cs" />

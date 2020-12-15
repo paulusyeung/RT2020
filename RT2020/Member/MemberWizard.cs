@@ -467,17 +467,26 @@ namespace RT2020.Member
                         }
                     }
 
-                    if (Common.Utility.IsGUID(tagId))
+                    Guid smartTagId = Guid.Empty;
+                    if (Guid.TryParse(tagId, out smartTagId))
                     {
-                        MemberSmartTag oTag = MemberSmartTag.LoadWhere(string.Format(sql, tagId));
-                        if (oTag == null)
+                        using (var ctx = new EF6.RT2020Entities())
                         {
-                            oTag = new MemberSmartTag();
-                            oTag.MemberId = memberId;
-                            oTag.TagId = new Guid(tagId);
+                            var oTag = ctx.MemberSmartTag
+                                .Where(x => x.MemberId == memberId && x.TagId == smartTagId)
+                                .FirstOrDefault();
+                            if (oTag == null)
+                            {
+                                oTag = new EF6.MemberSmartTag();
+                                oTag.SmartTagId = Guid.NewGuid();
+                                oTag.MemberId = memberId;
+                                oTag.TagId = new Guid(tagId);
+
+                                ctx.MemberSmartTag.Add(oTag);
+                            }
+                            oTag.SmartTagValue = value;
+                            ctx.SaveChanges();
                         }
-                        oTag.SmartTagValue = value;
-                        oTag.Save();
                     }
                 }
             }
@@ -771,50 +780,54 @@ namespace RT2020.Member
                     {
                         tagId = Ctrl.Tag.ToString();
 
-                        if (Common.Utility.IsGUID(tagId))
+                        Guid smartTagId = Guid.Empty;
+                        if (Guid.TryParse(tagId, out smartTagId))
                         {
-                            MemberSmartTag oTag = MemberSmartTag.LoadWhere(string.Format(sql, tagId));
-                            if (oTag != null)
+                            using (var ctx = new EF6.RT2020Entities())
                             {
-                                if (Ctrl.GetType().Equals(typeof(TextBox)))
+                                var oTag = ctx.MemberSmartTag.Where(x => x.MemberId == memberId && x.TagId == smartTagId).AsNoTracking().FirstOrDefault();
+                                if (oTag != null)
                                 {
-                                    TextBox txtTag = Ctrl as TextBox;
-                                    txtTag.Text = oTag.SmartTagValue;
-                                }
-
-                                if (Ctrl.GetType().Equals(typeof(MaskedTextBox)))
-                                {
-                                    MaskedTextBox txtTag = Ctrl as MaskedTextBox;
-                                    txtTag.Text = oTag.SmartTagValue;
-                                }
-
-                                if (Ctrl.GetType().Equals(typeof(ComboBox)))
-                                {
-                                    ComboBox cboTag = Ctrl as ComboBox;
-                                    cboTag.Text = oTag.SmartTagValue;
-                                }
-
-                                if (Ctrl.GetType().Equals(typeof(DateTimePicker)))
-                                {
-                                    DateTimePicker dtpTag = Ctrl as DateTimePicker;
-                                    //2014.01.08 paulus: 可以唔輸入 birthday，先決係要有 ShowCheckBox，然後根據 value
-                                    //舊 code: dtpTag.Value = (oTag.SmartTagValue.Length == 0) ? DateTime.Now : Convert.ToDateTime(ReformatDateTime(oTag.SmartTagValue));
-                                    if (dtpTag.ShowCheckBox)
+                                    if (Ctrl.GetType().Equals(typeof(TextBox)))
                                     {
-                                        if (oTag.SmartTagValue.Length == 0)
+                                        TextBox txtTag = Ctrl as TextBox;
+                                        txtTag.Text = oTag.SmartTagValue;
+                                    }
+
+                                    if (Ctrl.GetType().Equals(typeof(MaskedTextBox)))
+                                    {
+                                        MaskedTextBox txtTag = Ctrl as MaskedTextBox;
+                                        txtTag.Text = oTag.SmartTagValue;
+                                    }
+
+                                    if (Ctrl.GetType().Equals(typeof(ComboBox)))
+                                    {
+                                        ComboBox cboTag = Ctrl as ComboBox;
+                                        cboTag.Text = oTag.SmartTagValue;
+                                    }
+
+                                    if (Ctrl.GetType().Equals(typeof(DateTimePicker)))
+                                    {
+                                        DateTimePicker dtpTag = Ctrl as DateTimePicker;
+                                        //2014.01.08 paulus: 可以唔輸入 birthday，先決係要有 ShowCheckBox，然後根據 value
+                                        //舊 code: dtpTag.Value = (oTag.SmartTagValue.Length == 0) ? DateTime.Now : Convert.ToDateTime(ReformatDateTime(oTag.SmartTagValue));
+                                        if (dtpTag.ShowCheckBox)
                                         {
-                                            dtpTag.Value = dtpTag.MinDate;
-                                            dtpTag.Checked = false;
+                                            if (oTag.SmartTagValue.Length == 0)
+                                            {
+                                                dtpTag.Value = dtpTag.MinDate;
+                                                dtpTag.Checked = false;
+                                            }
+                                            else
+                                            {
+                                                dtpTag.Value = Convert.ToDateTime(ReformatDateTime(oTag.SmartTagValue));
+                                                dtpTag.Checked = true;
+                                            }
                                         }
                                         else
                                         {
-                                            dtpTag.Value = Convert.ToDateTime(ReformatDateTime(oTag.SmartTagValue));
-                                            dtpTag.Checked = true;
+                                            dtpTag.Value = (oTag.SmartTagValue.Length == 0) ? dtpTag.MinDate : Convert.ToDateTime(ReformatDateTime(oTag.SmartTagValue));
                                         }
-                                    }
-                                    else
-                                    {
-                                        dtpTag.Value = (oTag.SmartTagValue.Length == 0) ? dtpTag.MinDate : Convert.ToDateTime(ReformatDateTime(oTag.SmartTagValue));
                                     }
                                 }
                             }
@@ -993,15 +1006,6 @@ namespace RT2020.Member
                 oMember.Save();
                 // log activity
                 RT2020.Controls.Log4net.LogInfo(RT2020.Controls.Log4net.LogAction.Update, oMember.ToString());
-            }
-        }
-
-        private void DeleteSmartTags(string sql)
-        {
-            MemberSmartTagCollection oSmartTagList = MemberSmartTag.LoadCollection(sql);
-            foreach (MemberSmartTag oSmartTag in oSmartTagList)
-            {
-                oSmartTag.Delete();
             }
         }
 

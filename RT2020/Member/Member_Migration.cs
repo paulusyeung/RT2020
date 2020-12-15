@@ -511,18 +511,24 @@ namespace RT2020.Member
         /// <param name="tagValue">The tag value.</param>
         private void UpdateMemberSmartTagValues(Guid memberId, Guid tagId, string tagValue)
         {
-            string query = "MemberId = '" + memberId.ToString() + "' AND TagId = '" + tagId.ToString() + "'";
-            MemberSmartTag oTag = MemberSmartTag.LoadWhere(query);
-            if (oTag == null)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                oTag = new MemberSmartTag();
-                oTag.SmartTagId = System.Guid.NewGuid();
-                oTag.MemberId = memberId;
-                oTag.TagId = tagId;
-            }
+                string query = "MemberId = '" + memberId.ToString() + "' AND TagId = '" + tagId.ToString() + "'";
+                var oTag = ctx.MemberSmartTag.Where(x => x.MemberId == memberId && x.TagId == tagId).FirstOrDefault();
+                if (oTag == null)
+                {
+                    oTag = new EF6.MemberSmartTag();
+                    oTag.SmartTagId = Guid.NewGuid();
+                    oTag.SmartTagId = System.Guid.NewGuid();
+                    oTag.MemberId = memberId;
+                    oTag.TagId = tagId;
 
-            oTag.SmartTagValue = tagValue;
-            oTag.Save();
+                    ctx.MemberSmartTag.Add(oTag);
+                }
+
+                oTag.SmartTagValue = tagValue;
+                ctx.SaveChanges();
+            }
         }
 
         /// <summary>
