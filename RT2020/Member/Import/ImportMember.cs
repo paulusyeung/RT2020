@@ -206,19 +206,6 @@ namespace RT2020.Member.Import
         #region Import
 
         #region IDs
-        private Guid GetClassId(string classCode)
-        {
-            System.Guid result = System.Guid.Empty;
-            string sql = "ClassCode = '" + classCode + "'";
-            MemberClass oClass = MemberClass.LoadWhere(sql);
-            if (oClass != null)
-            {
-                result = oClass.ClassId;
-            }
-
-            return result;
-        }
-
         private Guid GetSmartTagId(string priority)
         {
             return ModelEx.SmartTag4MemberEx.GetIdByPriority(int.Parse(priority));
@@ -285,7 +272,7 @@ namespace RT2020.Member.Import
                         }
 
                         oMember.WorkplaceId = System.Guid.Empty;
-                        oMember.ClassId = GetClassId(member.PHONEBOOK);
+                        oMember.ClassId = ModelEx.MemberClassEx.GetIdByCode(member.PHONEBOOK);
                         oMember.GroupId = ModelEx.MemberGroupEx.GetIdByCode(member.GROUP);
                         oMember.MemberInitial = member.NNAME;
                         oMember.SalutationId = ModelEx.SalutationEx.GetIdByCode(member.SALUTE);

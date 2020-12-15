@@ -1,4 +1,4 @@
-#region Using
+﻿#region Using
 
 using System;
 using System.Collections.Generic;
@@ -95,8 +95,9 @@ namespace RT2020.Member
                         SetCtrlEditable();
                         break;
                     case "save":
-                        if (Save())
+                        if (IsValid())
                         {
+                            Save();
                             Clear();
                             BindMemberClassList();
                             this.Update();
@@ -137,12 +138,14 @@ namespace RT2020.Member
 
             string sql = "ClassId NOT IN ('" + this.MemberClassId.ToString() + "')";
             string[] orderBy = new string[] { "ClassCode" };
+
+            /**
             MemberClassCollection oMemberClassList = MemberClass.LoadCollection(sql, orderBy, true);
             oMemberClassList.Add(new MemberClass(System.Guid.Empty, System.Guid.Empty, string.Empty, string.Empty, string.Empty, string.Empty));
             cboParentClass.DataSource = oMemberClassList;
             cboParentClass.DisplayMember = "ClassCode";
             cboParentClass.ValueMember = "ClassId";
-
+            */
             cboParentClass.SelectedIndex = cboParentClass.Items.Count - 1;
         }
         #endregion
@@ -182,55 +185,58 @@ namespace RT2020.Member
         #endregion
 
         #region Save
-        private bool CodeExists()
-        {
-            string sql = "ClassCode = '" + txtMemberClassCode.Text.Trim() + "'";
-            MemberClassCollection classList = MemberClass.LoadCollection(sql);
-            if (classList.Count > 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
 
-        private bool Save()
+        private bool IsValid()
         {
+            bool result = true;
+
+            #region Class Code 唔可以吉
+            errorProvider.SetError(txtMemberClassCode, string.Empty);
             if (txtMemberClassCode.Text.Length == 0)
             {
                 errorProvider.SetError(txtMemberClassCode, "Cannot be blank!");
                 return false;
             }
-            else
+            #endregion
+
+            #region 新增，要 check Class Code 係咪 in use
+            errorProvider.SetError(txtMemberClassCode, string.Empty);
+            if (this.MemberClassId == System.Guid.Empty && ModelEx.MemberGroupEx.IsGroupCodeInUse(txtMemberClassCode.Text.Trim()))
             {
-                errorProvider.SetError(txtMemberClassCode, string.Empty);
-
-                MemberClass oMemberClass = MemberClass.Load(this.MemberClassId);
-                if (oMemberClass == null)
-                {
-                    oMemberClass = new MemberClass();
-
-                    if (CodeExists())
-                    {
-                        errorProvider.SetError(txtMemberClassCode, string.Format(Resources.Common.DuplicatedCode, "Member Class Code"));
-                        return false;
-                    }
-                    else
-                    {
-                        oMemberClass.ClassCode = txtMemberClassCode.Text;
-                        errorProvider.SetError(txtMemberClassCode, string.Empty);
-                    }
-                }
-                oMemberClass.ClassName = txtMemberClassName.Text;
-                oMemberClass.ClassName_Chs = txtMemberClassNameChs.Text;
-                oMemberClass.ClassName_Cht = txtMemberClassNameCht.Text;
-                oMemberClass.ParentClass = (cboParentClass.SelectedValue == null)? System.Guid.Empty:new System.Guid(cboParentClass.SelectedValue.ToString());
-
-                oMemberClass.Save();
-                return true;
+                errorProvider.SetError(txtMemberClassCode, "Class Code in use");
+                return false;
             }
+            #endregion
+
+            return result;
+        }
+
+        private bool Save()
+        {
+            bool result = false;
+
+            using (var ctx = new EF6.RT2020Entities())
+            {
+                var item = ctx.MemberClass.Find(this.MemberClassId);
+
+                if (item == null)
+                {
+                    item = new EF6.MemberClass();
+                    item.ClassId = new Guid();
+                    item.ClassCode = txtMemberClassCode.Text;
+
+                    ctx.MemberClass.Add(item);
+                }
+                item.ClassName = txtMemberClassName.Text;
+                item.ClassName_Chs = txtMemberClassNameChs.Text;
+                item.ClassName_Cht = txtMemberClassNameCht.Text;
+                item.ParentClass = (cboParentClass.SelectedValue == null) ? System.Guid.Empty : new System.Guid(cboParentClass.SelectedValue.ToString());
+
+                ctx.SaveChanges();
+                result = true;
+            }
+
+            return result;
         }
 
         private void Clear()
@@ -260,16 +266,20 @@ namespace RT2020.Member
         #region Delete
         private void Delete()
         {
-            MemberClass oMemberClass = MemberClass.Load(this.MemberClassId);
-            if (oMemberClass != null)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                try
+                var oMemberClass = ctx.MemberClass.Find(this.MemberClassId);
+                if (oMemberClass != null)
                 {
-                    oMemberClass.Delete();
-                }
-                catch
-                {
-                    MessageBox.Show("Cannot delete the record being used by other record!", "Delete Warning");
+                    try
+                    {
+                        ctx.MemberClass.Remove(oMemberClass);
+                        ctx.SaveChanges();
+                    }
+                    catch
+                    {
+                        MessageBox.Show("Cannot delete the record being used by other record!", "Delete Warning");
+                    }
                 }
             }
         }
@@ -279,9 +289,10 @@ namespace RT2020.Member
         {
             if (lvMemberClassList.SelectedItem != null)
             {
-                if (Common.Utility.IsGUID(lvMemberClassList.SelectedItem.Text))
+                Guid id = Guid.Empty;
+                if (Guid.TryParse(lvMemberClassList.SelectedItem.Text, out id))
                 {
-                    MemberClass oMemberClass = MemberClass.Load(new System.Guid(lvMemberClassList.SelectedItem.Text));
+                    var oMemberClass = ModelEx.MemberClassEx.Get(id);
                     if (oMemberClass != null)
                     {
                         this.MemberClassId = oMemberClass.ClassId;

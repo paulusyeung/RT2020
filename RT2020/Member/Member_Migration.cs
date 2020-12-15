@@ -279,25 +279,28 @@ namespace RT2020.Member
         /// <returns></returns>
         private Guid GetClassId(string classCode)
         {
-            string query = "ClassCode = '" + classCode + "'";
-            MemberClassCollection objClassList = MemberClass.LoadCollection(query);
-            if (objClassList.Count == 0)
-            {
-                MemberClass objClass = new MemberClass();
-                objClass.ClassId = System.Guid.NewGuid();
-                objClass.ClassCode = classCode;
-                objClass.ClassName = classCode;
-                objClass.ClassName_Chs = classCode;
-                objClass.ClassName_Cht = classCode;
+            Guid result = Guid.Empty;
 
-                objClass.Save();
-
-                return objClass.ClassId;
-            }
-            else
+            using (var ctx = new EF6.RT2020Entities())
             {
-                return objClassList[0].ClassId;
+                string query = "ClassCode = '" + classCode + "'";
+                var item = ctx.MemberClass.Where(x => x.ClassCode == classCode).FirstOrDefault();
+                if (item == null)
+                {
+                    item = new EF6.MemberClass();
+                    item.ClassId = System.Guid.NewGuid();
+                    item.ClassCode = classCode;
+                    item.ClassName = classCode;
+                    item.ClassName_Chs = classCode;
+                    item.ClassName_Cht = classCode;
+
+                    ctx.MemberClass.Add(item);
+                    ctx.SaveChanges();
+                }
+                return item.ClassId;
             }
+
+            return result;
         }
 
         /// <summary>

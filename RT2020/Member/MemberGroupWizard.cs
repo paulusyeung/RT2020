@@ -95,8 +95,9 @@ namespace RT2020.Member
                         SetCtrlEditable();
                         break;
                     case "save":
-                        if (Save())
+                        if (IsValid())
                         {
+                            Save();
                             Clear();
                             BindMemberGroupList();
                             this.Update();
