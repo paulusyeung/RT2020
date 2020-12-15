@@ -10,6 +10,8 @@ using System.Text;
 using Gizmox.WebGUI.Common;
 using Gizmox.WebGUI.Forms;
 using RT2020.DAL;
+using System.Linq;
+using System.Data.Entity;
 
 #endregion
 
@@ -66,19 +68,21 @@ namespace RT2020.Member.Reports
         }
         private void FillMemberNumber()
         {
-            MemberCollection collection = RT2020.DAL.Member.LoadCollection(new string[] { "MemberNumber" }, true);
-            if (collection.Count > 0)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                foreach (RT2020.DAL.Member oItem in collection)
+                var list = ctx.Member.OrderBy(x => x.MemberNumber).AsNoTracking().ToList();
+                if (list.Count > 0)
                 {
-                    string item = oItem.MemberNumber;
-                    cmbFrom.Items.Add(item);
-                    cmbTo.Items.Add(item);
+                    foreach (var oItem in list)
+                    {
+                        string item = oItem.MemberNumber;
+                        cmbFrom.Items.Add(item);
+                        cmbTo.Items.Add(item);
+                    }
+                    cmbFrom.SelectedIndex = 0;
+                    cmbTo.SelectedIndex = list.Count - 1;
                 }
-                cmbFrom.SelectedIndex = 0;
-                cmbTo.SelectedIndex = collection.Count - 1;
             }
-
         }
         private void FillComboBoxGroup()
         {

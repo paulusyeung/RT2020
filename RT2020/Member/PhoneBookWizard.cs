@@ -152,49 +152,43 @@ namespace RT2020.Member
 
         private void SavePhoneBook()
         {
-            RT2020.DAL.Member oMember = RT2020.DAL.Member.Load(this.MemberId);
-            if (oMember != null)
-            {
-                oMember.ModifiedBy = Common.Config.CurrentUserId;
-                oMember.ModifiedOn = DateTime.Now;
-                oMember.Save();
-
-                PhoneDetails();
-            }
-        }
-
-        private void PhoneDetails()
-        {
-            //StringBuilder sql = new StringBuilder();
-            //sql.Append(" MemberId = '").Append(this.MemberId.ToString()).Append("'");
-
             using (var ctx = new EF6.RT2020Entities())
             {
-                var oVip = ctx.MemberVipData.Where(x => x.MemberId == this.MemberId).FirstOrDefault();
-                if (oVip != null)
+                var oMember = ctx.Member.Find(this.MemberId);
+                if (oMember != null)
                 {
-                    //* HACK: oVip.SetMetadata("Address_Phone_Pager_" + this.AddressTypeId.ToString().Replace("-", ""), txtPhoneTag5.Text);
-                    var key = "Pager_" + this.AddressTypeId.ToString().Replace("-", "");    //! 點解唔要 dash 呢?
-                    var value = txtPhoneTag5.Text;
-
-                    oVip.MetadataXml = ModelEx.MemberVipDataEx.SetAttribute(oVip.MetadataXml, "Address", "Phone", "Pager", this.AddressTypeId.ToString("N"), value);
+                    oMember.ModifiedBy = Common.Config.CurrentUserId;
+                    oMember.ModifiedOn = DateTime.Now;
                     ctx.SaveChanges();
-                }
 
-                //sql.Append(" AND ");
-                //sql.Append(" AddressTypeId = '").Append(this.AddressTypeId.ToString()).Append("'");
+                    #region PhoneDetails();
+                    var oVip = ctx.MemberVipData.Where(x => x.MemberId == this.MemberId).FirstOrDefault();
+                    if (oVip != null)
+                    {
+                        //* HACK: oVip.SetMetadata("Address_Phone_Pager_" + this.AddressTypeId.ToString().Replace("-", ""), txtPhoneTag5.Text);
+                        var key = "Pager_" + this.AddressTypeId.ToString().Replace("-", "");    //! 點解唔要 dash 呢?
+                        var value = txtPhoneTag5.Text;
 
-                var oAddress = ctx.MemberAddress
-                    .Where(x => x.MemberId == this.MemberId && x.AddressTypeId == this.AddressTypeId)
-                    .FirstOrDefault();
-                if (oAddress != null)
-                {
-                    oAddress.PhoneTag1Value = txtPhoneTag1.Text;
-                    oAddress.PhoneTag2Value = txtPhoneTag2.Text;
-                    oAddress.PhoneTag3Value = txtPhoneTag3.Text;
-                    oAddress.PhoneTag4Value = txtPhoneTag4.Text;
+                        oVip.MetadataXml = ModelEx.MemberVipDataEx.SetAttribute(oVip.MetadataXml, "Address", "Phone", "Pager", this.AddressTypeId.ToString("N"), value);
+                        ctx.SaveChanges();
+                    }
 
-                    ctx.SaveChanges();
+                    //sql.Append(" AND ");
+                    //sql.Append(" AddressTypeId = '").Append(this.AddressTypeId.ToString()).Append("'");
+
+                    var oAddress = ctx.MemberAddress
+                        .Where(x => x.MemberId == this.MemberId && x.AddressTypeId == this.AddressTypeId)
+                        .FirstOrDefault();
+                    if (oAddress != null)
+                    {
+                        oAddress.PhoneTag1Value = txtPhoneTag1.Text;
+                        oAddress.PhoneTag2Value = txtPhoneTag2.Text;
+                        oAddress.PhoneTag3Value = txtPhoneTag3.Text;
+                        oAddress.PhoneTag4Value = txtPhoneTag4.Text;
+
+                        ctx.SaveChanges();
+                    }
+                    #endregion
                 }
             }
         }

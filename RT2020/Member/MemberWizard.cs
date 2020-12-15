@@ -274,9 +274,9 @@ namespace RT2020.Member
 
                 if (this.MemberId == System.Guid.Empty)
                 {
-                    string sql = "MemberNumber = '" + txtMemberNumber.Text + "'";
-                    RT2020.DAL.Member oMember = RT2020.DAL.Member.LoadWhere(sql);
-                    if (oMember != null && this.MemberId == System.Guid.Empty)
+                    //string sql = "MemberNumber = '" + txtMemberNumber.Text + "'";
+                    //RT2020.DAL.Member oMember = RT2020.DAL.Member.LoadWhere(sql);
+                    if (ModelEx.MemberEx.IsMemberNumberInUse(txtMemberNumber.Text))
                     {
                         errorProvider.SetError(txtMemberNumber, "Member Number exists!");
                         result = false;
@@ -349,75 +349,312 @@ namespace RT2020.Member
 
         private bool Save()
         {
-            if (Verify() && VerifyNumbers())
+            bool result = false;
+            bool isNew = false;
+
+            using (var ctx = new EF6.RT2020Entities())
             {
-                bool isNew = false;
-
-                RT2020.DAL.Member oMember = RT2020.DAL.Member.Load(this.MemberId);
-                if (oMember == null)
+                using (var scope = ctx.Database.BeginTransaction())
                 {
-                    oMember = new RT2020.DAL.Member();
+                    try
+                    {
+                        var oMember = ctx.Member.Find(this.MemberId);
+                        if (oMember == null)
+                        {
+                            #region add new Member
+                            oMember = new EF6.Member();
 
-                    oMember.MemberNumber = txtMemberNumber.Text;
-                    oMember.Status = Convert.ToInt32(Common.Enums.Status.Active.ToString("d"));
-                    isNew = true;
+                            oMember.MemberNumber = txtMemberNumber.Text;
+                            oMember.Status = Convert.ToInt32(Common.Enums.Status.Active.ToString("d"));
+                            isNew = true;
 
-                    oMember.CreatedBy = Common.Config.CurrentUserId;
-                    oMember.CreatedOn = DateTime.Now;
+                            oMember.CreatedBy = Common.Config.CurrentUserId;
+                            oMember.CreatedOn = DateTime.Now;
+
+                            ctx.Member.Add(oMember);
+                            #endregion
+                        }
+                        #region update Member core data
+                        oMember.WorkplaceId = (main.cboWorkplace.SelectedValue == null) ? System.Guid.Empty : new System.Guid(main.cboWorkplace.SelectedValue.ToString());
+                        oMember.ClassId = (main.cboPhoneBook.SelectedValue == null) ? System.Guid.Empty : new System.Guid(main.cboPhoneBook.SelectedValue.ToString());
+                        oMember.GroupId = (main.cboGroup.SelectedValue == null) ? System.Guid.Empty : new System.Guid(main.cboGroup.SelectedValue.ToString());
+                        oMember.MemberInitial = main.txtNickName.Text;
+                        oMember.SalutationId = (main.cboSalutation.SelectedValue == null) ? System.Guid.Empty : new System.Guid(main.cboSalutation.SelectedValue.ToString());
+                        oMember.FirstName = main.txtFirstName.Text;
+                        oMember.LastName = main.txtLastName.Text;
+                        oMember.FullName = main.txtLastName.Text + "," + main.txtFirstName.Text;
+                        oMember.FullName_Chs = main.txtChineseName.Text;
+                        oMember.FullName_Cht = main.txtChineseName.Text;
+                        oMember.JobTitleId = (main.cboJobTitle.SelectedValue == null) ? System.Guid.Empty : new System.Guid(main.cboJobTitle.SelectedValue.ToString());
+                        oMember.AssignedTo = System.Guid.Empty;
+                        oMember.Remarks = main.txtRemarks.Text;
+                        oMember.NormalDiscount = (others.txtNormalItemDiscount.Text.Length == 0) ? 0 : Convert.ToDecimal(others.txtNormalItemDiscount.Text);
+                        oMember.DownloadToPOS = true;
+
+                        if (!isNew)
+                        {
+                            oMember.Status = Convert.ToInt32(Common.Enums.Status.Modified.ToString("d"));
+                        }
+
+                        oMember.ModifiedBy = Common.Config.CurrentUserId;
+                        oMember.ModifiedOn = DateTime.Now;
+                        ctx.SaveChanges();
+                        #endregion
+
+                        this.MemberId = oMember.MemberId;
+
+                        var memberId = oMember.MemberId;
+                        #region SaveSmartTag(oMember.MemberId);
+                        string key = "SmartTag";
+
+                        for (int i = 0; i < main.Controls.Count; i++)
+                        {
+                            string tagId = String.Empty;
+                            string value = String.Empty;
+                            Control Ctrl = main.Controls[i];
+
+                            if (Ctrl != null && Ctrl.Name.Contains(key))
+                            {
+                                #region prepare the update value
+                                if (Ctrl.GetType().Equals(typeof(TextBox)))
+                                {
+                                    TextBox txtTag = Ctrl as TextBox;
+                                    tagId = txtTag.Tag.ToString();
+                                    value = txtTag.Text;
+                                }
+
+                                if (Ctrl.GetType().Equals(typeof(MaskedTextBox)))
+                                {
+                                    MaskedTextBox txtTag = Ctrl as MaskedTextBox;
+                                    tagId = txtTag.Tag.ToString();
+                                    value = txtTag.Text;
+                                }
+
+                                if (Ctrl.GetType().Equals(typeof(ComboBox)))
+                                {
+                                    ComboBox cboTag = Ctrl as ComboBox;
+                                    tagId = cboTag.Tag.ToString();
+                                    value = cboTag.Text;
+                                }
+
+                                if (Ctrl.GetType().Equals(typeof(DateTimePicker)))
+                                {
+                                    DateTimePicker dtpTag = Ctrl as DateTimePicker;
+                                    tagId = dtpTag.Tag.ToString();
+                                    //2014.01.08 paulus: 可以唔輸入 birthday，先決 ShowCheckBox，再睇吓有冇 Checked
+                                    if (dtpTag.ShowCheckBox)
+                                    {
+                                        value = (dtpTag.Checked) ? dtpTag.Value.ToString("yyyy-MM-dd") : String.Empty;
+                                    }
+                                    else
+                                    {
+                                        value = dtpTag.Value.ToString("yyyy-MM-dd");
+                                    }
+                                }
+                                #endregion
+
+                                #region save the MemberSmartTag
+                                Guid smartTagId = Guid.Empty;
+                                if (Guid.TryParse(tagId, out smartTagId))
+                                {
+                                    var oTag = ctx.MemberSmartTag
+                                        .Where(x => x.MemberId == memberId && x.TagId == smartTagId)
+                                        .FirstOrDefault();
+                                    if (oTag == null)
+                                    {
+                                        oTag = new EF6.MemberSmartTag();
+                                        oTag.SmartTagId = Guid.NewGuid();
+                                        oTag.MemberId = memberId;
+                                        oTag.TagId = new Guid(tagId);
+
+                                        ctx.MemberSmartTag.Add(oTag);
+                                    }
+                                    oTag.SmartTagValue = value;
+                                    ctx.SaveChanges();
+                                }
+                                #endregion
+                            }
+                        }
+
+                        #endregion
+
+                        #region SaveAddress(oMember.MemberId);
+                        //string sql = "MemberId = '" + memberId.ToString() + "' AND AddressTypeId = '" + address.cboAddressType.SelectedValue.ToString() + "'";
+                        var oAddress = ctx.MemberAddress.Where(x => x.MemberId == memberId && x.AddressTypeId == (Guid)address.cboAddressType.SelectedValue).FirstOrDefault();
+                        if (oAddress == null)
+                        {
+                            oAddress = new EF6.MemberAddress();
+                            oAddress.AddressId = Guid.NewGuid();
+                            oAddress.MemberId = memberId;
+                            oAddress.AddressTypeId = new Guid(address.cboAddressType.SelectedValue.ToString());
+
+                            ctx.MemberAddress.Add(oAddress);
+                        }
+                        oAddress.Address = address.txtAddress.Text;
+                        oAddress.PostalCode = address.txtPostalCode.Text;
+                        oAddress.CountryId = new Guid(address.cboCountry.SelectedValue.ToString());
+                        oAddress.ProvinceId = new Guid(address.cboProvince.SelectedValue.ToString());
+                        oAddress.CityId = new Guid(address.cboCity.SelectedValue.ToString());
+                        oAddress.District = address.txtDistrict.Text;
+                        oAddress.Mailing = true;
+                        oAddress.PhoneTag1 = (address.txtPhoneTag1.Tag == null) ? System.Guid.Empty : new System.Guid(address.txtPhoneTag1.Tag.ToString());
+                        oAddress.PhoneTag1Value = address.txtPhoneTag1.Text;
+                        oAddress.PhoneTag2 = (address.txtPhoneTag2.Tag == null) ? System.Guid.Empty : new System.Guid(address.txtPhoneTag2.Tag.ToString());
+                        oAddress.PhoneTag2Value = address.txtPhoneTag2.Text;
+                        oAddress.PhoneTag3 = (address.txtPhoneTag3.Tag == null) ? System.Guid.Empty : new System.Guid(address.txtPhoneTag3.Tag.ToString());
+                        oAddress.PhoneTag3Value = address.txtPhoneTag3.Text;
+                        oAddress.PhoneTag4 = (address.txtPhoneTag4.Tag == null) ? System.Guid.Empty : new System.Guid(address.txtPhoneTag4.Tag.ToString());
+                        oAddress.PhoneTag4Value = address.txtPhoneTag4.Text;
+                        oAddress.PhoneTag5 = (address.txtPhoneTag5.Tag == null) ? System.Guid.Empty : new System.Guid(address.txtPhoneTag5.Tag.ToString());
+                        oAddress.PhoneTag5Value = address.txtPhoneTag5.Text;
+
+                        ctx.SaveChanges();
+                        #endregion
+
+                        if (chkVIP.Checked && this.VipNumber.Trim().Length > 0)
+                        {
+                            #region SaveVipData(oMember.MemberId);
+
+                            var oVip = ctx.MemberVipData.Where(x => x.MemberId == memberId).FirstOrDefault();
+                            if (oVip == null)
+                            {
+                                oVip = new EF6.MemberVipData();
+                                oVip.MemberVipId = Guid.NewGuid();
+                                oVip.MemberVipId = System.Guid.NewGuid();
+                                oVip.MemberId = memberId;
+                                oVip.VipNumber = this.VipNumber;
+
+                                ctx.MemberVipData.Add(oVip);
+                            }
+                            oVip.FORMER_PPNO = card.txtFormerPPNumber.Text;
+                            oVip.CARD_ACTIVE = card.chkCardActived.Checked;
+                            oVip.CARD_RECEIVE = card.chkCardReceived.Checked;
+                            oVip.CARD_NAME = card.txtCardName.Text;
+                            oVip.CARD_EXPIRE = card.dtpCardExpiredOn.Value;
+                            oVip.CARD_ISSUE = card.dtpIssuedOn.Value;
+
+                            oVip.CommencementDate = card.dtpCommencementDate.Value;
+                            oVip.MigrationDate = card.dtpMigrationDate.Value;
+
+                            decimal credit = 0;
+                            if (Decimal.TryParse(others.txtCreditLimit.Text.Trim(), out credit))
+                            {
+                                oVip.CreditLimit = credit;
+                            }
+
+                            decimal terms = 0;
+                            if (Decimal.TryParse(others.txtCreditTerms.Text.Trim(), out terms))
+                            {
+                                oVip.CreditTerms = terms;
+                            }
+
+                            decimal paydisc = 0;
+                            if (Decimal.TryParse(others.txtPaymentDiscount.Text.Trim(), out paydisc))
+                            {
+                                oVip.PaymentDiscount = paydisc;
+                            }
+
+                            decimal staffQuota = 0;
+                            if (Decimal.TryParse(others.txtStaffQuota.Text.Trim(), out staffQuota))
+                            {
+                                oVip.StaffQuota = staffQuota;
+                            }
+
+                            oVip.AddOnDiscount = others.chkAddOnDiscount.Checked;
+
+                            ctx.SaveChanges();
+
+                            var vipId = oVip.MemberVipId;
+                            #region this.SaveVipLineOfOperation(vipId);
+                            //string query = "MemberVipId = '" + vipId.ToString() + "'";
+                            var oVipLoo = ctx.MemberVipLineOfOperation.Where(x => x.MemberVipId == vipId).FirstOrDefault();
+                            if (oVipLoo == null)
+                            {
+                                oVipLoo = new EF6.MemberVipLineOfOperation();
+                                oVipLoo.MemberVipId = vipId;
+                                oVipLoo.VipLooId = Guid.NewGuid();
+
+                                ctx.MemberVipLineOfOperation.Add(oVipLoo);
+                            }
+
+                            oVipLoo.LineOfOperationId = new Guid(cboLineOfOperation.SelectedValue.ToString());
+                            oVipLoo.NormalDiscount = (others.txtNormalItemDiscount.Text.Length == 0) ? 0 : Convert.ToDecimal(others.txtNormalItemDiscount.Text);
+                            oVipLoo.PromotionDiscount = (others.txtPromotionItemDiscount.Text.Length == 0) ? 0 : Convert.ToDecimal(others.txtPromotionItemDiscount.Text);
+
+                            ctx.SaveChanges();
+                            #endregion
+
+                            #region this.SaveVipSupplement(vipId);
+                            //string query = "MemberVipId = '" + vipId.ToString() + "'";
+                            var oSupplement = ctx.MemberVipSupplement.Where(x => x.MemberVipId == vipId).FirstOrDefault();
+                            if (oSupplement == null)
+                            {
+                                oSupplement = new EF6.MemberVipSupplement();
+                                oSupplement.VipSupplementId = Guid.NewGuid();
+                                oSupplement.MemberVipId = vipId;
+
+                                ctx.MemberVipSupplement.Add(oSupplement);
+                            }
+
+                            // Others Info
+                            oSupplement.CustomerNumber = others.txtCustomerInfo1.Text;
+                            oSupplement.BRANCH = others.txtCustomerInfo2.Text;
+                            oSupplement.Remarks1 = others.txtRemarks1.Text;
+                            oSupplement.Remarks2 = others.txtRemarks2.Text;
+                            oSupplement.Remarks3 = others.txtRemarks3.Text;
+                            oSupplement.Nature = others.cboNature.Text;
+                            oSupplement.Memo = misc.txtMemo.Text;
+
+                            // Marketing Info
+                            oSupplement.MostVisitedMalls1 = marketing.txtMostVisitedMalls1.Text;
+                            oSupplement.MostVisitedMalls2 = marketing.txtMostVisitedMalls2.Text;
+                            oSupplement.MostVisitedMalls3 = marketing.txtMostVisitedMalls3.Text;
+
+                            oSupplement.MostBoughtBrands1 = marketing.txtMostBoughtBrands1.Text;
+                            oSupplement.MostBoughtBrands2 = marketing.txtMostBoughtBrands2.Text;
+                            oSupplement.MostBoughtBrands3 = marketing.txtMostBoughtBrands3.Text;
+
+                            oSupplement.MostReadMagazine1 = marketing.txtMostReadMagazine1.Text;
+                            oSupplement.MostReadMagazine2 = marketing.txtMostReadMagazine2.Text;
+                            oSupplement.MostReadMagazine3 = marketing.txtMostReadMagazine3.Text;
+
+                            oSupplement.MostUsedCreditCards1 = marketing.txtMostUsedCreditCards1.Text;
+                            oSupplement.MostUsedCreditCards2 = marketing.txtMostUsedCreditCards2.Text;
+                            oSupplement.MostUsedCreditCards3 = marketing.txtMostUsedCreditCards3.Text;
+
+                            // Photo
+                            oSupplement.Photo = misc.txtPicFileName.Text;
+
+                            ctx.SaveChanges();
+                            #endregion
+
+                            #endregion
+                        }
+
+                        scope.Commit();
+                        result = true;
+
+                        #region write Log
+                        if (isNew)
+                        {// log activity (New Record)
+                            RT2020.Controls.Log4net.LogInfo(RT2020.Controls.Log4net.LogAction.Create, oMember.ToString());
+                        }
+                        else
+                        { // log activity (Update)
+                            RT2020.Controls.Log4net.LogInfo(RT2020.Controls.Log4net.LogAction.Update, oMember.ToString());
+                        }
+                        #endregion
+                    }
+                    catch (Exception ex)
+                    {
+                        scope.Rollback();
+                    }
                 }
-
-                oMember.WorkplaceId = (main.cboWorkplace.SelectedValue == null) ? System.Guid.Empty : new System.Guid(main.cboWorkplace.SelectedValue.ToString());
-                oMember.ClassId = (main.cboPhoneBook.SelectedValue == null) ? System.Guid.Empty : new System.Guid(main.cboPhoneBook.SelectedValue.ToString());
-                oMember.GroupId = (main.cboGroup.SelectedValue == null) ? System.Guid.Empty : new System.Guid(main.cboGroup.SelectedValue.ToString());
-                oMember.MemberInitial = main.txtNickName.Text;
-                oMember.SalutationId = (main.cboSalutation.SelectedValue == null) ? System.Guid.Empty : new System.Guid(main.cboSalutation.SelectedValue.ToString());
-                oMember.FirstName = main.txtFirstName.Text;
-                oMember.LastName = main.txtLastName.Text;
-                oMember.FullName = main.txtLastName.Text + "," + main.txtFirstName.Text;
-                oMember.FullName_Chs = main.txtChineseName.Text;
-                oMember.FullName_Cht = main.txtChineseName.Text;
-                oMember.JobTitleId = (main.cboJobTitle.SelectedValue == null) ? System.Guid.Empty : new System.Guid(main.cboJobTitle.SelectedValue.ToString());
-                oMember.AssignedTo = System.Guid.Empty;
-                oMember.Remarks = main.txtRemarks.Text;
-                oMember.NormalDiscount = (others.txtNormalItemDiscount.Text.Length == 0) ? 0 : Convert.ToDecimal(others.txtNormalItemDiscount.Text);
-                oMember.DownloadToPOS = true;
-
-                if (!isNew)
-                {
-                    oMember.Status = Convert.ToInt32(Common.Enums.Status.Modified.ToString("d"));
-                }
-
-                oMember.ModifiedBy = Common.Config.CurrentUserId;
-                oMember.ModifiedOn = DateTime.Now;
-                oMember.Save();
-
-                this.MemberId = oMember.MemberId;
-
-                SaveSmartTag(oMember.MemberId);
-                SaveAddress(oMember.MemberId);
-
-                if (chkVIP.Checked && this.VipNumber.Trim().Length > 0)
-                {
-                    SaveVipData(oMember.MemberId);
-                }
-
-                if (isNew)
-                {// log activity (New Record)
-                    RT2020.Controls.Log4net.LogInfo(RT2020.Controls.Log4net.LogAction.Create, oMember.ToString());
-                }
-                else
-                { // log activity (Update)
-                    RT2020.Controls.Log4net.LogInfo(RT2020.Controls.Log4net.LogAction.Update, oMember.ToString());
-                }     
-
-                return true;
             }
-            else
-            {
-                return false;
-            }
+
+            return result;
         }
-
+        /**
         private void SaveSmartTag(Guid memberId)
         {
             string sql = "MemberId = '" + memberId.ToString() + "' AND TagId = '{0}'";
@@ -431,6 +668,7 @@ namespace RT2020.Member
 
                 if (Ctrl != null && Ctrl.Name.Contains(key))
                 {
+                    #region prepare the update value
                     if (Ctrl.GetType().Equals(typeof(TextBox)))
                     {
                         TextBox txtTag = Ctrl as TextBox;
@@ -466,6 +704,7 @@ namespace RT2020.Member
                             value = dtpTag.Value.ToString("yyyy-MM-dd");
                         }
                     }
+                    #endregion
 
                     Guid smartTagId = Guid.Empty;
                     if (Guid.TryParse(tagId, out smartTagId))
@@ -648,13 +887,13 @@ namespace RT2020.Member
                 #endregion
             }
         }
-
+        */
         #endregion
 
         #region Load Member Info
         private void LoadMemberInfo()
         {
-            RT2020.DAL.Member oMember = RT2020.DAL.Member.Load(this.MemberId);
+            var oMember = ModelEx.MemberEx.Get(this.MemberId);
             if (oMember != null)
             {
                 txtMemberNumber.Text = oMember.MemberNumber;
@@ -668,7 +907,7 @@ namespace RT2020.Member
                 main.txtChineseName.Text = oMember.FullName_Chs;
                 main.cboJobTitle.SelectedValue = oMember.JobTitleId;
                 main.txtRemarks.Text = oMember.Remarks;
-                others.txtNormalItemDiscount.Text = oMember.NormalDiscount.ToString("n2");
+                others.txtNormalItemDiscount.Text = oMember.NormalDiscount.Value.ToString("n2");
 
                 main.txtLastUpdatedBy.Text = ModelEx.StaffEx.GetStaffNumberById(oMember.ModifiedBy);
                 main.txtLastUpdatedOn.Text = RT2020.SystemInfo.Settings.DateTimeToString(oMember.ModifiedOn, false);
@@ -679,7 +918,7 @@ namespace RT2020.Member
                 LoadAddress();
                 LoadVipData();
 
-                // Disable edit when status is Inactive (-2) or Deleted (-1)
+                #region Disable edit when status is Inactive (-2) or Deleted (-1)
                 if (oMember.Status == Convert.ToInt32(Common.Enums.Status.Deleted.ToString("d")) ||
                     oMember.Status == Convert.ToInt32(Common.Enums.Status.Inactive.ToString("d")))
                 {
@@ -766,6 +1005,7 @@ namespace RT2020.Member
                     this.tbWizardAction.Visible = false;
                     this.tbWizardAction.Enabled = false;
                 }
+                #endregion
             }
         }
 
@@ -1005,15 +1245,19 @@ namespace RT2020.Member
         #region Delete
         private void Delete()
         {
-            RT2020.DAL.Member oMember = RT2020.DAL.Member.Load(this.MemberId);
-            if (oMember != null)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                oMember.Status = Convert.ToInt32(Common.Enums.Status.Deleted.ToString("d"));
-                oMember.DownloadToPOS = true;
+                var oMember = ctx.Member.Find(this.MemberId);
+                if (oMember != null)
+                {
+                    oMember.Status = Convert.ToInt32(Common.Enums.Status.Deleted.ToString("d"));
+                    oMember.DownloadToPOS = true;
 
-                oMember.Save();
-                // log activity
-                RT2020.Controls.Log4net.LogInfo(RT2020.Controls.Log4net.LogAction.Update, oMember.ToString());
+                    ctx.SaveChanges();
+
+                    // log activity
+                    RT2020.Controls.Log4net.LogInfo(RT2020.Controls.Log4net.LogAction.Update, oMember.ToString());
+                }
             }
         }
 
@@ -1048,8 +1292,9 @@ namespace RT2020.Member
         {
             if (((Form)sender).DialogResult == DialogResult.Yes)
             {
-                if (Save())
+                if (Verify() && VerifyNumbers())
                 {
+                    Save();
                     if (this.MemberId != System.Guid.Empty)
                     {
                         RT2020.SystemInfo.Settings.RefreshMainList<DefaultList>();
@@ -1067,8 +1312,9 @@ namespace RT2020.Member
         {
             if (((Form)sender).DialogResult == DialogResult.Yes)
             {
-                if (Save())
+                if (Verify() && VerifyNumbers())
                 {
+                    Save();
                     if (this.MemberId != System.Guid.Empty)
                     {
                         RT2020.SystemInfo.Settings.RefreshMainList<DefaultList>();
@@ -1084,8 +1330,9 @@ namespace RT2020.Member
         {
             if (((Form)sender).DialogResult == DialogResult.Yes)
             {
-                if (Save())
+                if (Verify() && VerifyNumbers())
                 {
+                    Save();
                     if (this.MemberId != System.Guid.Empty && Verify())
                     {
                         RT2020.SystemInfo.Settings.RefreshMainList<DefaultList>();

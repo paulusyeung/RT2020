@@ -140,7 +140,6 @@
     <Compile Include="InvtSubLedgerRPL_Header.cs" />
     <Compile Include="InvtSubLedgerTXF_Details.cs" />
     <Compile Include="InvtSubLedgerTXF_Header.cs" />
-    <Compile Include="Member.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SqlHelper.cs" />
   </ItemGroup>

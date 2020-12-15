@@ -371,7 +371,7 @@ namespace RT2020.EmulatedPoS
         /// </summary>
         private void FillVipList()
         {
-            RT2020.DAL.Member.LoadCombo(ref cboMemberNumber, "MemberNumber", false);
+            ModelEx.MemberEx.LoadCombo(ref cboMemberNumber, "MemberNumber", false);
         }
         #endregion
 

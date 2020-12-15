@@ -135,17 +135,17 @@ namespace RT2020.Member
         /// </summary>
         private void PurgeVipRecords()
         {
-            RT2020.DAL.MemberCollection objMemberList = RT2020.DAL.Member.LoadCollection();
-            for (int i = 0; i < objMemberList.Count; i++)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                RT2020.DAL.Member objMember = objMemberList[i];
-
-                objMember.Status = (int)Common.Enums.Status.Deleted;
-                objMember.Retired = true;
-                objMember.RetiredBy = Common.Config.CurrentUserId;
-                objMember.RetiredOn = DateTime.Now;
-
-                objMember.Save();
+                var objMemberList = ctx.Member.OrderBy(x => x.MemberNumber);
+                foreach (var objMember in objMemberList)
+                {
+                    objMember.Status = (int)Common.Enums.Status.Deleted;
+                    objMember.Retired = true;
+                    objMember.RetiredBy = Common.Config.CurrentUserId;
+                    objMember.RetiredOn = DateTime.Now;
+                }
+                ctx.SaveChanges();
             }
         }
 
@@ -187,94 +187,108 @@ namespace RT2020.Member
         /// <returns>member id</returns>
         private Guid UpdateMemberMainInfo(EF6.MemberApply4TempVip objTempVip, bool canDelete)
         {
+            Guid result = Guid.Empty;
             bool isNew = false;
             System.Guid memberId = System.Guid.Empty;
-            string query = "MemberNumber = '" + objTempVip.VIPNO.Trim() + "'";
-            RT2020.DAL.Member objMember = RT2020.DAL.Member.LoadWhere(query);
-            if (objMember == null)
+            //string query = "MemberNumber = '" + objTempVip.VIPNO.Trim() + "'";
+            var memberNumber = objTempVip.VIPNO.Trim();
+
+            using (var ctx = new EF6.RT2020Entities())
             {
-                isNew = true;
-
-                objMember = new RT2020.DAL.Member();
-                objMember.MemberId = System.Guid.NewGuid();
-                objMember.MemberNumber = objTempVip.VIPNO;
-
-                objMember.CreatedBy = Common.Config.CurrentUserId;
-                objMember.CreatedOn = DateTime.Now;
-                objMember.Retired = false;
-                objMember.RetiredBy = System.Guid.Empty;
-                objMember.RetiredOn = new DateTime(1900, 1, 1);
-            }
-
-            // Check the temp vip DLFLAG
-            if (objTempVip.DLFLAG.Trim().Length > 0)
-            {
-                switch (objTempVip.DLFLAG.Trim().ToUpper())
+                var objMember = ctx.Member.Where(x => x.MemberNumber == memberNumber).FirstOrDefault();
+                if (objMember == null)
                 {
-                    case "A":
-                    case "":
-                    default:
-                        objMember.Status = (int)Common.Enums.Status.Active;
-                        break;
-                    case "M":
-                        objMember.Status = (int)Common.Enums.Status.Modified;
-                        break;
-                    case "D":
-                        objMember.Status = (int)Common.Enums.Status.Deleted;
-                        break;
-                    case "I":
-                        objMember.Status = (int)Common.Enums.Status.Inactive;
-                        break;
+                    #region add new Member
+                    isNew = true;
+
+                    objMember = new EF6.Member();
+                    objMember.MemberId = Guid.NewGuid();
+                    objMember.MemberNumber = objTempVip.VIPNO;
+
+                    objMember.CreatedBy = Common.Config.CurrentUserId;
+                    objMember.CreatedOn = DateTime.Now;
+                    objMember.Retired = false;
+                    objMember.RetiredBy = Guid.Empty;
+                    objMember.RetiredOn = new DateTime(1900, 1, 1);
+
+                    ctx.Member.Add(objMember);
+                    #endregion
                 }
-            }
-            else
-            {
-                if (isNew)
+
+                #region Check the temp vip DLFLAG
+                if (objTempVip.DLFLAG.Trim().Length > 0)
                 {
-                    objMember.Status = (int)Common.Enums.Status.Active;
+                    switch (objTempVip.DLFLAG.Trim().ToUpper())
+                    {
+                        case "A":
+                        case "":
+                        default:
+                            objMember.Status = (int)Common.Enums.Status.Active;
+                            break;
+                        case "M":
+                            objMember.Status = (int)Common.Enums.Status.Modified;
+                            break;
+                        case "D":
+                            objMember.Status = (int)Common.Enums.Status.Deleted;
+                            break;
+                        case "I":
+                            objMember.Status = (int)Common.Enums.Status.Inactive;
+                            break;
+                    }
                 }
                 else
                 {
-                    objMember.Status = (int)Common.Enums.Status.Modified;
+                    if (isNew)
+                    {
+                        objMember.Status = (int)Common.Enums.Status.Active;
+                    }
+                    else
+                    {
+                        objMember.Status = (int)Common.Enums.Status.Modified;
+                    }
                 }
+                #endregion
+
+                #region Option 2. Migrate Temporary VIP to Permanent VIP With Delete
+                if (canDelete)
+                {
+                    objMember.Status = (int)Common.Enums.Status.Deleted;
+                }
+                #endregion
+
+                #region update Member core data
+                objMember.WorkplaceId = System.Guid.Empty;
+                objMember.ClassId = GetClassId(objTempVip.PHONEBOOK); //Class
+                objMember.GroupId = GetGroupId(objTempVip.GROUP);
+                objMember.MemberInitial = objTempVip.NNAME; // Nick Name
+                objMember.SalutationId = GetSaluteId(objTempVip.SALUTE);
+                objMember.FirstName = objTempVip.FNAME; // First Name
+                objMember.LastName = objTempVip.LNAME; // Last Name
+                objMember.FullName = objTempVip.FNAME + "," + objTempVip.LNAME; // Full Name
+                objMember.FullName_Chs = objTempVip.CNAME; // Chinese Name (S)
+                objMember.FullName_Cht = objTempVip.CNAME; // Chinese Name (T)
+                objMember.JobTitleId = ModelEx.JobTitleEx.GetJobTitleIdByName(objTempVip.TITLE);
+                objMember.AssignedTo = System.Guid.Empty;
+                objMember.Remarks = objTempVip.REMARKS;
+                objMember.NormalDiscount = (decimal)objTempVip.NRDISC;
+                objMember.DownloadToPOS = true;
+                objMember.ModifiedBy = Common.Config.CurrentUserId;
+                objMember.ModifiedOn = DateTime.Now;
+
+                if (objMember.Status == (int)Common.Enums.Status.Deleted || objMember.Status == (int)Common.Enums.Status.Inactive)
+                {
+                    objMember.Retired = false;
+                    objMember.RetiredBy = System.Guid.Empty;
+                    objMember.RetiredOn = new DateTime(1900, 1, 1);
+                }
+                #endregion
+
+                ctx.SaveChanges();
+
+                result = memberId = objMember.MemberId;
             }
 
-            // Option 2. Migrate Temporary VIP to Permanent VIP With Delete
-            if (canDelete)
-            {
-                objMember.Status = (int)Common.Enums.Status.Deleted;
-            }
-
-            objMember.WorkplaceId = System.Guid.Empty;
-            objMember.ClassId = GetClassId(objTempVip.PHONEBOOK); //Class
-            objMember.GroupId = GetGroupId(objTempVip.GROUP);
-            objMember.MemberInitial = objTempVip.NNAME; // Nick Name
-            objMember.SalutationId = GetSaluteId(objTempVip.SALUTE);
-            objMember.FirstName = objTempVip.FNAME; // First Name
-            objMember.LastName = objTempVip.LNAME; // Last Name
-            objMember.FullName = objTempVip.FNAME + "," + objTempVip.LNAME; // Full Name
-            objMember.FullName_Chs = objTempVip.CNAME; // Chinese Name (S)
-            objMember.FullName_Cht = objTempVip.CNAME; // Chinese Name (T)
-            objMember.JobTitleId = ModelEx.JobTitleEx.GetJobTitleIdByName(objTempVip.TITLE);
-            objMember.AssignedTo = System.Guid.Empty;
-            objMember.Remarks = objTempVip.REMARKS;
-            objMember.NormalDiscount = (decimal)objTempVip.NRDISC;
-            objMember.DownloadToPOS = true;
-            objMember.ModifiedBy = Common.Config.CurrentUserId;
-            objMember.ModifiedOn = DateTime.Now;
-
-            if (objMember.Status == (int)Common.Enums.Status.Deleted || objMember.Status == (int)Common.Enums.Status.Inactive)
-            {
-                objMember.Retired = false;
-                objMember.RetiredBy = System.Guid.Empty;
-                objMember.RetiredOn = new DateTime(1900, 1, 1);
-            }
-
-            objMember.Save();
-
-            memberId = objMember.MemberId;
-
-            return memberId;
+            return result;
         }
 
         #region Misc Methods

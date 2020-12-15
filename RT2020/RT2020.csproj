@@ -1629,6 +1629,7 @@
     <Compile Include="MenuStrip\ViewAms.cs" />
     <Compile Include="ModelEx\MemberAddressTypeEx.cs" />
     <Compile Include="ModelEx\MemberClassEx.cs" />
+    <Compile Include="ModelEx\MemberEx.cs" />
     <Compile Include="ModelEx\MemberGroupEx.cs" />
     <Compile Include="ModelEx\MemberVipDataEx.cs" />
     <Compile Include="ModelEx\MemberVipLineOfOperationEx.cs" />

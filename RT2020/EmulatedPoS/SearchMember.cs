@@ -58,11 +58,14 @@ namespace RT2020.EmulatedPoS
 
             if (sqlWhere.Length > 0)
             {
+                this.MemberId = ModelEx.MemberEx.GetIdBySql(sqlWhere.ToString());
+                /**
                 RT2020.DAL.Member oMember = RT2020.DAL.Member.LoadWhere(sqlWhere.ToString());
                 if (oMember != null)
                 {
                     this.MemberId = oMember.MemberId;
                 }
+                */
             }
 
             this.DialogResult = DialogResult.OK;
