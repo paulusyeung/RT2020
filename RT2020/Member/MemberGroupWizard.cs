@@ -1,4 +1,4 @@
-#region Using
+﻿#region Using
 
 using System;
 using System.Collections.Generic;
@@ -132,17 +132,20 @@ namespace RT2020.Member
         #region Fill Combo List
         private void FillParentGroupList()
         {
-            cboParentGroup.DataSource = null;
-            cboParentGroup.Items.Clear();
+            //cboParentGroup.DataSource = null;
+            //cboParentGroup.Items.Clear();
 
             string sql = "GroupId NOT IN ('" + this.MemberGroupId.ToString() + "')";
             string[] orderBy = new string[] { "GroupCode" };
+
+            ModelEx.MemberGroupEx.LoadCombo(ref cboParentGroup, "GroupCode", true, true, "", sql, orderBy);
+            /**
             MemberGroupCollection oMemberGroupList = MemberGroup.LoadCollection(sql, orderBy, true);
             oMemberGroupList.Add(new MemberGroup(System.Guid.Empty, System.Guid.Empty, string.Empty, string.Empty, string.Empty, string.Empty));
             cboParentGroup.DataSource = oMemberGroupList;
             cboParentGroup.DisplayMember = "GroupCode";
             cboParentGroup.ValueMember = "GroupId";
-
+            */
             cboParentGroup.SelectedIndex = cboParentGroup.Items.Count - 1;
         }
         #endregion
@@ -182,55 +185,58 @@ namespace RT2020.Member
         #endregion
 
         #region Save
-        private bool CodeExists()
-        {
-            string sql = "GroupCode = '" + txtMemberGroupCode.Text.Trim() + "'";
-            MemberGroupCollection grouplist = MemberGroup.LoadCollection(sql);
-            if (grouplist.Count > 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
 
-        private bool Save()
+        private bool IsValid()
         {
+            bool result = true;
+
+            #region Group Code 唔可以吉
+            errorProvider.SetError(txtMemberGroupCode, string.Empty);
             if (txtMemberGroupCode.Text.Length == 0)
             {
                 errorProvider.SetError(txtMemberGroupCode, "Cannot be blank!");
                 return false;
             }
-            else
+            #endregion
+
+            #region 新增，要 check Group Code 係咪 in use
+            errorProvider.SetError(txtMemberGroupCode, string.Empty);
+            if (this.MemberGroupId == System.Guid.Empty && ModelEx.MemberGroupEx.IsGroupCodeInUse(txtMemberGroupCode.Text.Trim()))
             {
-                errorProvider.SetError(txtMemberGroupCode, string.Empty);
-
-                MemberGroup oMemberGroup = MemberGroup.Load(this.MemberGroupId);
-                if (oMemberGroup == null)
-                {
-                    oMemberGroup = new MemberGroup();
-
-                    if (CodeExists())
-                    {
-                        errorProvider.SetError(txtMemberGroupCode, string.Format(Resources.Common.DuplicatedCode, "Member Group Code"));
-                        return false;
-                    }
-                    else
-                    {
-                        errorProvider.SetError(txtMemberGroupCode, string.Empty);
-                        oMemberGroup.GroupCode = txtMemberGroupCode.Text;
-                    }
-                }
-                oMemberGroup.GroupName = txtMemberGroupName.Text;
-                oMemberGroup.GroupName_Chs = txtMemberGroupNameChs.Text;
-                oMemberGroup.GroupName_Cht = txtMemberGroupNameCht.Text;
-                oMemberGroup.ParentGroup = (cboParentGroup.SelectedValue == null)? System.Guid.Empty:new System.Guid(cboParentGroup.SelectedValue.ToString());
-
-                oMemberGroup.Save();
-                return true;
+                errorProvider.SetError(txtMemberGroupCode, "Groud Code in use");
+                return false;
             }
+            #endregion
+
+            return result;
+        }
+
+        private bool Save()
+        {
+            bool result = false;
+
+            using (var ctx = new EF6.RT2020Entities())
+            {
+                var item = ctx.MemberGroup.Find(this.MemberGroupId);
+
+                if (item == null)
+                {
+                    item = new EF6.MemberGroup();
+                    item.GroupId = new Guid();
+                    item.GroupCode = txtMemberGroupCode.Text;
+
+                    ctx.MemberGroup.Add(item);
+                }
+                item.GroupName = txtMemberGroupName.Text;
+                item.GroupName_Chs = txtMemberGroupNameChs.Text;
+                item.GroupName_Cht = txtMemberGroupNameCht.Text;
+                item.ParentGroup = (cboParentGroup.SelectedValue == null) ? System.Guid.Empty : new System.Guid(cboParentGroup.SelectedValue.ToString());
+
+                ctx.SaveChanges();
+                result = true;
+            }
+
+            return result; ;
         }
 
         private void Clear()
@@ -260,16 +266,20 @@ namespace RT2020.Member
         #region Delete
         private void Delete()
         {
-            MemberGroup oMemberGroup = MemberGroup.Load(this.MemberGroupId);
-            if (oMemberGroup != null)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                try
+                var oMemberGroup = ctx.MemberGroup.Find(this.MemberGroupId);
+                if (oMemberGroup != null)
                 {
-                    oMemberGroup.Delete();
-                }
-                catch
-                {
-                    MessageBox.Show("Cannot delete the record being used by other record!", "Delete Warning");
+                    try
+                    {
+                        ctx.MemberGroup.Remove(oMemberGroup);
+                        ctx.SaveChanges();
+                    }
+                    catch
+                    {
+                        MessageBox.Show("Cannot delete the record being used by other record!", "Delete Warning");
+                    }
                 }
             }
         }
@@ -279,9 +289,10 @@ namespace RT2020.Member
         {
             if (lvMemberGroupList.SelectedItem != null)
             {
-                if (Common.Utility.IsGUID(lvMemberGroupList.SelectedItem.Text))
+                Guid id = Guid.Empty;
+                if (Guid.TryParse(lvMemberGroupList.SelectedItem.Text, out id))
                 {
-                    MemberGroup oMemberGroup = MemberGroup.Load(new System.Guid(lvMemberGroupList.SelectedItem.Text));
+                    var oMemberGroup = ModelEx.MemberGroupEx.Get(id);
                     if (oMemberGroup != null)
                     {
                         this.MemberGroupId = oMemberGroup.GroupId;

@@ -219,19 +219,6 @@ namespace RT2020.Member.Import
             return result;
         }
 
-        private Guid GetGroupId(string groupCode)
-        {
-            System.Guid result = System.Guid.Empty;
-            string sql = "GroupCode = '" + groupCode + "'";
-            MemberGroup oGroup = MemberGroup.LoadWhere(sql);
-            if (oGroup != null)
-            {
-                result = oGroup.GroupId;
-            }
-
-            return result;
-        }
-
         private Guid GetSmartTagId(string priority)
         {
             return ModelEx.SmartTag4MemberEx.GetIdByPriority(int.Parse(priority));
@@ -299,7 +286,7 @@ namespace RT2020.Member.Import
 
                         oMember.WorkplaceId = System.Guid.Empty;
                         oMember.ClassId = GetClassId(member.PHONEBOOK);
-                        oMember.GroupId = GetGroupId(member.GROUP);
+                        oMember.GroupId = ModelEx.MemberGroupEx.GetIdByCode(member.GROUP);
                         oMember.MemberInitial = member.NNAME;
                         oMember.SalutationId = ModelEx.SalutationEx.GetIdByCode(member.SALUTE);
                         oMember.FirstName = member.FNAME;

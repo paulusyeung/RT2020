@@ -307,25 +307,28 @@ namespace RT2020.Member
         /// <returns></returns>
         private Guid GetGroupId(string groupCode)
         {
-            string query = "GroupCode = '" + groupCode + "'";
-            MemberGroupCollection objGroupList = MemberGroup.LoadCollection(query);
-            if (objGroupList.Count == 0)
-            {
-                MemberGroup objGroup = new MemberGroup();
-                objGroup.GroupId = System.Guid.NewGuid();
-                objGroup.GroupCode = groupCode;
-                objGroup.GroupName = groupCode;
-                objGroup.GroupName_Chs = groupCode;
-                objGroup.GroupName_Cht = groupCode;
+            Guid result = Guid.Empty;
 
-                objGroup.Save();
-
-                return objGroup.GroupId;
-            }
-            else
+            using (var ctx = new EF6.RT2020Entities())
             {
-                return objGroupList[0].GroupId;
+                string query = "GroupCode = '" + groupCode + "'";
+                var item = ctx.MemberGroup.Where(x => x.GroupCode == groupCode).FirstOrDefault();
+                if (item == null)
+                {
+                    item = new EF6.MemberGroup();
+                    item.GroupId = Guid.NewGuid();
+                    item.GroupCode = groupCode;
+                    item.GroupName = groupCode;
+                    item.GroupName_Chs = groupCode;
+                    item.GroupName_Cht = groupCode;
+
+                    ctx.MemberGroup.Add(item);
+                    ctx.SaveChanges();
+                }
+                result = item.GroupId;
             }
+
+            return result;
         }
 
         /// <summary>
