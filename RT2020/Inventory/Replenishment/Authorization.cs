@@ -505,7 +505,8 @@ namespace RT2020.Inventory.Replenishment
                             var oBatchDetails = ctx.InvtBatchRPL_Details.Where(x => x.HeaderId == batchHeaderId).OrderBy(x => x.LineNumber);
                             foreach (var oBDetail in oBatchDetails)
                             {
-                                InvtSubLedgerRPL_Details oSubLedgerDetail = new InvtSubLedgerRPL_Details();
+                                var oSubLedgerDetail = new EF6.InvtSubLedgerRPL_Details();
+                                oSubLedgerDetail.DetailsId = Guid.NewGuid();
                                 oSubLedgerDetail.HeaderId = subLedgerHeaderId;
                                 oSubLedgerDetail.LineNumber = oBDetail.LineNumber;
                                 oSubLedgerDetail.ProductId = oBDetail.ProductId.Value;
@@ -514,7 +515,7 @@ namespace RT2020.Inventory.Replenishment
                                 oSubLedgerDetail.QtyRequested = oBDetail.QtyRequested.Value;
                                 oSubLedgerDetail.Remarks = oBDetail.Remarks;
 
-                                oSubLedgerDetail.Save();
+                                ctx.InvtSubLedgerRPL_Details.Add(oSubLedgerDetail);
                             }
                             #endregion
 
