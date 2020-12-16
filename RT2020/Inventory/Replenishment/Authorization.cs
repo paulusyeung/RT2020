@@ -14,6 +14,7 @@ using System.Text.RegularExpressions;
 using RT2020.DAL;
 using Gizmox.WebGUI.Common.Resources;
 using System.Configuration;
+using System.Linq;
 
 #endregion
 
@@ -440,43 +441,177 @@ namespace RT2020.Inventory.Replenishment
         {
             string[] result = new string[2];
 
-            InvtBatchRPL_Header oBatchHeader = InvtBatchRPL_Header.Load(new Guid(listItem.Text));
-            if (oBatchHeader != null)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                // Update Batch Header Info
-                oBatchHeader.Posted = true;
-                oBatchHeader.PostedBy = Common.Config.CurrentUserId;
-                oBatchHeader.PostedOn = DateTime.Now;
-                oBatchHeader.ModifiedBy = Common.Config.CurrentUserId;
-                oBatchHeader.ModifiedOn = DateTime.Now;
-                oBatchHeader.Save();
-
-                // Create RPL SubLedger
-                string txNumber_SubLedger = oBatchHeader.TxNumber;
-                System.Guid subLedgerHeaderId = CreateRPLSubLedgerHeader(txNumber_SubLedger, oBatchHeader);
-                CreateRPLSubLedgerDetail(txNumber_SubLedger, oBatchHeader.HeaderId, subLedgerHeaderId);
-
-                if (IsConsolidation)
+                using (var scope = ctx.Database.BeginTransaction())
                 {
-                    result[0] = oBatchHeader.HeaderId.ToString();
-                    result[1] = oBatchHeader.TxNumber;
-                }
-                else
-                {
-                    // Created Transfer Record
-                    string txfNumber = CreateTXFBatchHeader(oBatchHeader);
-                    
-                    // Update Txfer Number to RPL SubLedger
-                    InvtSubLedgerRPL_Header rplSubLedger = InvtSubLedgerRPL_Header.Load(subLedgerHeaderId);
-                    if (rplSubLedger != null)
+                    try
                     {
-                        rplSubLedger.TXFNumber = txfNumber;
+                        var headerId = Guid.Empty;
+                        Guid.TryParse(listItem.Text, out headerId);
 
-                        rplSubLedger.Save();
+                        var oBatchHeader = ctx.InvtBatchRPL_Header.Find(headerId);
+                        if (oBatchHeader != null)
+                        {
+                            #region Update Batch Header Info
+                            oBatchHeader.Posted = true;
+                            oBatchHeader.PostedBy = Common.Config.CurrentUserId;
+                            oBatchHeader.PostedOn = DateTime.Now;
+                            oBatchHeader.ModifiedBy = Common.Config.CurrentUserId;
+                            oBatchHeader.ModifiedOn = DateTime.Now;
+                            #endregion
+
+                            ctx.SaveChanges();
+
+                            // Create RPL SubLedger
+                            string txNumber_SubLedger = oBatchHeader.TxNumber;
+
+                            #region Guid subLedgerHeaderId = CreateRPLSubLedgerHeader(txNumber_SubLedger, oBatchHeader);
+                            var txnumber = txNumber_SubLedger;
+                            var oSubRPL = new EF6.InvtSubLedgerRPL_Header();
+                            oSubRPL.TxNumber = txnumber;
+                            oSubRPL.TxDate = oBatchHeader.TxDate;
+                            oSubRPL.FromLocation = oBatchHeader.FromLocation;
+                            oSubRPL.ToLocation = oBatchHeader.ToLocation;
+                            oSubRPL.Remarks = oBatchHeader.Remarks + " \t " + oBatchHeader.TxNumber;
+                            oSubRPL.StaffId = oBatchHeader.StaffId;
+                            oSubRPL.Status = (int)Common.Enums.Status.Active;
+                            oSubRPL.CompletedOn = oBatchHeader.CompletedOn;
+                            oSubRPL.SpecialRequest = oBatchHeader.SpecialRequest;
+                            oSubRPL.TXFNumber = oBatchHeader.TXFNumber;
+                            oSubRPL.TXFOn = oBatchHeader.TXFOn;
+                            oSubRPL.Confirmed = oBatchHeader.Confirmed;
+                            oSubRPL.ConfirmedBy = oBatchHeader.ConfirmedBy;
+                            oSubRPL.ConfirmedOn = oBatchHeader.ConfirmedOn;
+                            oSubRPL.Posted = oBatchHeader.Posted;
+                            oSubRPL.PostedBy = oBatchHeader.PostedBy;
+                            oSubRPL.PostedOn = oBatchHeader.PostedOn;
+
+                            oSubRPL.CreatedBy = Common.Config.CurrentUserId;
+                            oSubRPL.CreatedOn = DateTime.Now;
+                            oSubRPL.ModifiedBy = Common.Config.CurrentUserId;
+                            oSubRPL.ModifiedOn = DateTime.Now;
+
+                            ctx.InvtSubLedgerRPL_Header.Add(oSubRPL);
+
+                            Guid subLedgerHeaderId = oSubRPL.HeaderId;
+                            #endregion
+
+                            #region CreateRPLSubLedgerDetail(txNumber_SubLedger, oBatchHeader.HeaderId, subLedgerHeaderId);
+                            var batchHeaderId = oBatchHeader.HeaderId;
+
+                            //string sql = "HeaderId = '" + batchHeaderId.ToString() + "'";
+                            //string[] orderBy = new string[] { "LineNumber" };
+                            var oBatchDetails = ctx.InvtBatchRPL_Details.Where(x => x.HeaderId == batchHeaderId).OrderBy(x => x.LineNumber);
+                            foreach (var oBDetail in oBatchDetails)
+                            {
+                                InvtSubLedgerRPL_Details oSubLedgerDetail = new InvtSubLedgerRPL_Details();
+                                oSubLedgerDetail.HeaderId = subLedgerHeaderId;
+                                oSubLedgerDetail.LineNumber = oBDetail.LineNumber;
+                                oSubLedgerDetail.ProductId = oBDetail.ProductId.Value;
+                                oSubLedgerDetail.TxNumber = txnumber;
+                                oSubLedgerDetail.QtyIssued = oBDetail.QtyIssued.Value;
+                                oSubLedgerDetail.QtyRequested = oBDetail.QtyRequested.Value;
+                                oSubLedgerDetail.Remarks = oBDetail.Remarks;
+
+                                oSubLedgerDetail.Save();
+                            }
+                            #endregion
+
+                            if (IsConsolidation)
+                            {
+                                result[0] = oBatchHeader.HeaderId.ToString();
+                                result[1] = oBatchHeader.TxNumber;
+                            }
+                            else
+                            {
+                                // Created Transfer Record
+                                #region string txfNumber = CreateTXFBatchHeader(oBatchHeader);
+                                var oHeader = new EF6.InvtBatchTXF_Header();
+                                oHeader.HeaderId = Guid.NewGuid();
+                                oHeader.TxNumber = RT2020.SystemInfo.Settings.QueuingTxNumber(Common.Enums.TxType.TXF);
+                                oHeader.TxType = Common.Enums.TxType.TXF.ToString();
+
+                                oHeader.Status = (int)Common.Enums.Status.Active;
+
+                                oHeader.FromLocation = ModelEx.WorkplaceEx.GetWorkplaceIdByCode(oBatchHeader.FromLocation);
+                                oHeader.ToLocation = ModelEx.WorkplaceEx.GetWorkplaceIdByCode(oBatchHeader.ToLocation);
+                                oHeader.StaffId = oBatchHeader.StaffId;
+                                oHeader.TxDate = oBatchHeader.TxDate;
+                                oHeader.TransferredOn = oBatchHeader.TXFOn;
+                                oHeader.CompletedOn = oBatchHeader.CompletedOn;
+                                oHeader.Remarks = "REPLENISH";
+                                oHeader.Reference = oBatchHeader.TxNumber;
+                                oHeader.ReadOnly = true;
+
+                                oHeader.CreatedBy = Common.Config.CurrentUserId;
+                                oHeader.CreatedOn = DateTime.Now;
+
+                                oHeader.ModifiedBy = oBatchHeader.ModifiedBy;
+                                oHeader.ModifiedOn = oBatchHeader.ModifiedOn;
+
+                                ctx.InvtBatchTXF_Header.Add(oHeader);
+
+                                #region CreateTXFBatchDetails(oBatchHeader, oHeader);
+                                int iCount = 1;
+                                //string sql = "TxNumber = '" + oBatchHeader.TxNumber + "'";
+                                //string[] orderBy = new string[] { "LineNumber" };
+
+                                var rplDetailList = ctx.InvtBatchRPL_Details.Where(x => x.TxNumber == txNumber_SubLedger);
+                                foreach (var rplDetail in rplDetailList)
+                                {
+                                    var oDetail = new EF6.InvtBatchTXF_Details();
+                                    oDetail.HeaderId = oHeader.HeaderId;
+                                    oDetail.TxNumber = oHeader.TxNumber;
+                                    oDetail.TxType = oHeader.TxType;
+                                    oDetail.LineNumber = iCount;
+
+                                    oDetail.ProductId = rplDetail.ProductId;
+                                    oDetail.QtyRequested = rplDetail.QtyRequested;
+                                    oDetail.QtyConfirmed = 0;
+                                    oDetail.QtyHHT = 0;
+                                    oDetail.QtyManualInput = 0;
+                                    oDetail.QtyReceived = rplDetail.QtyRequested;
+                                    oDetail.Remarks = rplDetail.Remarks;
+
+                                    ctx.InvtBatchTXF_Details.Add(oDetail);
+
+                                    iCount++;
+                                }
+                                #endregion
+
+                                var txfNumber = oHeader.TxNumber;
+                                #endregion
+
+                                #region Update Txfer Number to RPL SubLedger
+                                var rplSubLedger = ctx.InvtSubLedgerRPL_Header.Find(subLedgerHeaderId);
+                                if (rplSubLedger != null)
+                                {
+                                    rplSubLedger.TXFNumber = txfNumber;
+
+                                    ctx.SaveChanges();
+                                }
+                                #endregion
+
+                                // Clear Batch
+                                #region ClearBatchTransaction(oBatchHeader);
+                                string query = "HeaderId = '" + oBatchHeader.HeaderId.ToString() + "'";
+                                var detailList = ctx.InvtBatchRPL_Details.Where(x => x.HeaderId == oBatchHeader.HeaderId);
+                                foreach (var detail in detailList)
+                                {
+                                    ctx.InvtBatchRPL_Details.Remove(detail);
+                                }
+
+                                ctx.InvtBatchRPL_Header.Remove(oBatchHeader);
+                                #endregion
+                            }
+                            scope.Commit();
+                        }
                     }
-
-                    // Clear Batch
-                    ClearBatchTransaction(oBatchHeader);
+                    catch (Exception ex)
+                    {
+                        scope.Rollback();
+                    }
                 }
             }
 
@@ -503,6 +638,7 @@ namespace RT2020.Inventory.Replenishment
         #endregion
 
         #region SubLedger
+        /**
         private Guid CreateRPLSubLedgerHeader(string txnumber, InvtBatchRPL_Header oBatchHeader)
         {
             InvtSubLedgerRPL_Header oSubRPL = new InvtSubLedgerRPL_Header();
@@ -533,7 +669,7 @@ namespace RT2020.Inventory.Replenishment
 
             return oSubRPL.HeaderId;
         }
-
+        
         private void CreateRPLSubLedgerDetail(string txnumber, Guid batchHeaderId, Guid subledgerHeaderId)
         {
             string sql = "HeaderId = '" + batchHeaderId.ToString() + "'";
@@ -553,10 +689,11 @@ namespace RT2020.Inventory.Replenishment
                 oSubLedgerDetail.Save();
             }
         }
+        */
         #endregion
 
         #region Transfer Records
-
+        /**
         private string CreateTXFBatchHeader(InvtBatchRPL_Header oBatchHeader)
         {
             InvtBatchTXF_Header oHeader = new InvtBatchTXF_Header();
@@ -588,7 +725,7 @@ namespace RT2020.Inventory.Replenishment
 
             return oHeader.TxNumber;
         }
-
+        
         private void CreateTXFBatchDetails(InvtBatchRPL_Header oBatchHeader, InvtBatchTXF_Header txfHeader)
         {
             int iCount = 1;
@@ -615,7 +752,7 @@ namespace RT2020.Inventory.Replenishment
                 iCount++;
             }
         }
-
+        */
         #endregion
 
         #region Consolidate
@@ -805,64 +942,134 @@ namespace RT2020.Inventory.Replenishment
             string consolidatedTxNumber = string.Empty;
             string fromLoc = string.Empty, toLoc = string.Empty;
 
-            foreach (ListViewItem lvItem in lvPostTxList.Items)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                string headerId = lvItem.Text;
-
-                if (Common.Utility.IsGUID(headerId) && lvItem.Checked)
+                using (var scope = ctx.Database.BeginTransaction())
                 {
-                    if (ConsolidateChecking(new Guid(headerId)))
+                    try
                     {
-                        string[] result = CreateRPLTx(lvItem, true);
-                        consolidatedList.Add(result[0]);
-                        consolidatedTxNumber += result[1] + ";";
-
-                        fromLoc = lvItem.SubItems[4].Text;
-                        toLoc = lvItem.SubItems[5].Text;
-
-                        lvItem.SubItems[1].Text = new IconResourceHandle("16x16.16_succeeded.png").ToString();
-                    }
-                    else
-                    {
-                        postStatus = RT2020.Controls.InvtUtility.PostingStatus.Error;
-                        lvItem.SubItems[1].Text = new IconResourceHandle("16x16.16_error.gif").ToString();
-                    }
-                }
-            }
-
-            if (consolidatedList.Count > 0)
-            {
-                string txNumber = RT2020.SystemInfo.Settings.QueuingTxNumber(Common.Enums.TxType.TXF);
-                System.Guid headerId = ConsolidatedTXFBatchHeader(txNumber, fromLoc, toLoc, consolidatedTxNumber);
-
-                if (headerId != System.Guid.Empty)
-                {
-                    foreach (string consolidatedId in consolidatedList)
-                    {
-                        if (Common.Utility.IsGUID(consolidatedId))
+                        #region loop thro lvItem
+                        foreach (ListViewItem lvItem in lvPostTxList.Items)
                         {
-                            ConsolidatedTXFBatchDetails(consolidatedId, headerId, txNumber);
+                            Guid headerId = Guid.Empty;
 
-                            // Update Txfer Number to RPL SubLedger
-                            InvtBatchRPL_Header oBatchHeader = InvtBatchRPL_Header.Load(new Guid(consolidatedId));
-                            if (oBatchHeader != null)
+                            if (Guid.TryParse(lvItem.Text, out headerId) && lvItem.Checked)
                             {
-                                InvtSubLedgerRPL_Header rplSubLedger = InvtSubLedgerRPL_Header.LoadWhere("TxNumber = '" + oBatchHeader.TxNumber + "'");
-                                if (rplSubLedger != null)
+                                if (ConsolidateChecking(headerId))
                                 {
-                                    rplSubLedger.TXFNumber = txNumber;
-                                    rplSubLedger.TXFOn = dtpTxferDate.Value;
+                                    string[] result = CreateRPLTx(lvItem, true);
+                                    consolidatedList.Add(result[0]);
+                                    consolidatedTxNumber += result[1] + ";";
 
-                                    rplSubLedger.Save();
+                                    fromLoc = lvItem.SubItems[4].Text;
+                                    toLoc = lvItem.SubItems[5].Text;
+
+                                    lvItem.SubItems[1].Text = new IconResourceHandle("16x16.16_succeeded.png").ToString();
                                 }
-
-                                // Clear Batch
-                                ClearBatchTransaction(oBatchHeader);
+                                else
+                                {
+                                    postStatus = RT2020.Controls.InvtUtility.PostingStatus.Error;
+                                    lvItem.SubItems[1].Text = new IconResourceHandle("16x16.16_error.gif").ToString();
+                                }
                             }
                         }
-                    }
+                        #endregion
 
-                    UpdateLineNumbersInTXFBatchDetails(headerId);
+                        if (consolidatedList.Count > 0)
+                        {
+                            string txNumber = RT2020.SystemInfo.Settings.QueuingTxNumber(Common.Enums.TxType.TXF);
+                            Guid headerId = ConsolidatedTXFBatchHeader(txNumber, fromLoc, toLoc, consolidatedTxNumber);
+
+                            if (headerId != Guid.Empty)
+                            {
+                                foreach (string consolidatedId in consolidatedList)
+                                {
+                                    Guid rplHeaderId = Guid.Empty;
+                                    if (Guid.TryParse(consolidatedId, out rplHeaderId))
+                                    {
+                                        #region ConsolidatedTXFBatchDetails(consolidatedId, headerId, txNumber);
+                                        Guid txfHeaderId = headerId;
+                                        string txfTxNumber = txNumber;
+                                        //string sql = "HeaderId = '" + rplHeaderId + "'";
+                                        //string[] orderBy = new string[] { "LineNumber" };
+                                        var rplDetailList = ctx.InvtBatchRPL_Details.Where(x => x.HeaderId == rplHeaderId);
+                                        foreach (var rplDetail in rplDetailList)
+                                        {
+                                            //sql = "HeaderId = '" + txfHeaderId + "' AND ProductId = '" + rplDetail.ProductId.ToString() + "'";
+                                            var oDetail = ctx.InvtBatchTXF_Details.Where(x => x.HeaderId == txfHeaderId && x.ProductId == rplDetail.ProductId).FirstOrDefault();
+                                            if (oDetail == null)
+                                            {
+                                                oDetail = new EF6.InvtBatchTXF_Details();
+                                                oDetail.DetailsId = Guid.NewGuid();
+                                                oDetail.HeaderId = txfHeaderId;
+                                                oDetail.TxNumber = txfTxNumber;
+                                                oDetail.TxType = Common.Enums.TxType.TXF.ToString();
+                                                oDetail.LineNumber = 1;
+                                                oDetail.ProductId = rplDetail.ProductId;
+
+                                                ctx.InvtBatchTXF_Details.Add(oDetail);
+                                            }
+
+                                            oDetail.QtyRequested += rplDetail.QtyRequested;
+                                            oDetail.QtyConfirmed = 0;
+                                            oDetail.QtyHHT = 0;
+                                            oDetail.QtyManualInput = 0;
+                                            oDetail.QtyReceived += rplDetail.QtyRequested;
+                                            oDetail.Remarks = txtItemRemarks.Text;
+
+                                            ctx.SaveChanges();
+                                        }
+                                        #endregion
+
+                                        #region Update Txfer Number to RPL SubLedger
+                                        var oBatchHeader = ctx.InvtBatchRPL_Header.Find(new Guid(consolidatedId));
+                                        if (oBatchHeader != null)
+                                        {
+                                            var rplSubLedger = ctx.InvtSubLedgerRPL_Header.Where(x => x.TxNumber == oBatchHeader.TxNumber + "'").FirstOrDefault();
+                                            if (rplSubLedger != null)
+                                            {
+                                                rplSubLedger.TXFNumber = txNumber;
+                                                rplSubLedger.TXFOn = dtpTxferDate.Value;
+
+                                                ctx.SaveChanges();
+                                            }
+
+                                            // Clear Batch
+                                            #region ClearBatchTransaction(oBatchHeader);
+                                            //string query = "HeaderId = '" + oBatchHeader.HeaderId.ToString() + "'";
+                                            var detailList = ctx.InvtBatchRPL_Details.Where(x => x.HeaderId == oBatchHeader.HeaderId);
+                                            foreach (var detail in detailList)
+                                            {
+                                                ctx.InvtBatchRPL_Details.Remove(detail);
+                                            }
+
+                                            ctx.InvtBatchRPL_Header.Remove(oBatchHeader);
+                                            #endregion
+                                        }
+                                        #endregion
+                                    }
+                                }
+
+                                #region UpdateLineNumbersInTXFBatchDetails(headerId);
+                                int iCount = 1;
+                                //string sql = "HeaderId = '" + txfHeaderId + "'";
+                                var oDetailList = ctx.InvtBatchTXF_Details.Where(x => x.HeaderId == headerId);
+                                foreach (var oDetail in oDetailList)
+                                {
+                                    oDetail.LineNumber = iCount;
+                                    ctx.SaveChanges();
+
+                                    iCount++;
+                                }
+                                #endregion
+                            }
+                        }
+                        scope.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        scope.Rollback();
+                    }
                 }
             }
 
@@ -906,7 +1113,7 @@ namespace RT2020.Inventory.Replenishment
 
             return System.Guid.Empty;
         }
-
+        /**
         private void ConsolidatedTXFBatchDetails(string rplHeaderId, System.Guid txfHeaderId, string txfTxNumber)
         {
             string sql = "HeaderId = '" + rplHeaderId + "'";
@@ -935,7 +1142,7 @@ namespace RT2020.Inventory.Replenishment
                 oDetail.Save();
             }
         }
-
+        
         private void UpdateLineNumbersInTXFBatchDetails(System.Guid txfHeaderId)
         {
             int iCount = 1;
@@ -949,6 +1156,7 @@ namespace RT2020.Inventory.Replenishment
                 iCount++;
             }
         }
+        */
         #endregion
 
         #endregion
