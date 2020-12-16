@@ -1628,6 +1628,7 @@
     <Compile Include="MenuStrip\ToolsAms.cs" />
     <Compile Include="MenuStrip\ViewAms.cs" />
     <Compile Include="ModelEx\InvtBatchTXF_HeaderEx.cs" />
+    <Compile Include="ModelEx\InvtSubLedgerCAP_HeaderEx.cs" />
     <Compile Include="ModelEx\MemberAddressTypeEx.cs" />
     <Compile Include="ModelEx\MemberClassEx.cs" />
     <Compile Include="ModelEx\MemberEx.cs" />

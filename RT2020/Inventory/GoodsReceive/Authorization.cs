@@ -442,7 +442,8 @@ namespace RT2020.Inventory.GoodsReceive
             {
                 foreach (ListViewItem oItem in lvPostTxList.CheckedItems)
                 {
-                    if (Common.Utility.IsGUID(oItem.Text) && oItem.Checked)
+                    Guid headerId = Guid.Empty;
+                    if (Guid.TryParse(oItem.Text, out headerId) && oItem.Checked)
                     {
                         if (!HasError(oItem.Text))
                         {
@@ -458,42 +459,266 @@ namespace RT2020.Inventory.GoodsReceive
 
         private void CreateCAPTx(Guid headerId, ref int iCount)
         {
-            InvtBatchCAP_Header oBatchHeader = InvtBatchCAP_Header.Load(headerId);
-            if (oBatchHeader != null)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                //if (postStatus == RT2020.Controls.InvtUtility.PostingStatus.Postable)
-                //{
-                // Update Product Info
-                UpdateProduct(oBatchHeader.HeaderId, oBatchHeader.WorkplaceId);
+                using (var scope = ctx.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        var oBatchHeader = ctx.InvtBatchCAP_Header.Find(headerId);
+                        if (oBatchHeader != null)
+                        {
+                            //if (postStatus == RT2020.Controls.InvtUtility.PostingStatus.Postable)
+                            //{
+                            // Update Product Info
+                            #region UpdateProduct(oBatchHeader.HeaderId, oBatchHeader.WorkplaceId);
+                            Guid txHeaderId = oBatchHeader.HeaderId;
+                            Guid workplaceId = oBatchHeader.WorkplaceId;
 
-                // Create CAP SubLedger
-                string txNumber_SubLedger = oBatchHeader.TxNumber;
-                System.Guid subLedgerHeaderId = CreateCAPSubLedgerHeader(oBatchHeader);
-                CreateCAPSubLedgerDetail(txNumber_SubLedger, oBatchHeader.HeaderId, subLedgerHeaderId);
+                            //string sql = "HeaderId = '" + txHeaderId.ToString() + "'";
 
-                // Create Ledger for TxType 'CAP'
-                string txNumber_Ledger = oBatchHeader.TxNumber;
-                System.Guid ledgerHeaderId = CreateLedgerHeader(oBatchHeader, subLedgerHeaderId);
-                CreateLedgerDetails(txNumber_Ledger, subLedgerHeaderId, ledgerHeaderId, oBatchHeader.TxDate, ModelEx.WorkplaceEx.GetWorkplaceCodeById(oBatchHeader.WorkplaceId), ModelEx.StaffEx.GetStaffNumberById(oBatchHeader.StaffId));
+                            var detailsList = ctx.InvtBatchCAP_Details.Where(x => x.HeaderId == txHeaderId);
+                            foreach (var detail in detailsList)
+                            {
+                                Guid productId = detail.ProductId;
+                                decimal qty = detail.Qty.Value, unitAmount = detail.UnitAmount.Value;
 
-                // Update Batch Header Info
-                oBatchHeader.ReadOnly = true;
-                oBatchHeader.ModifiedBy = Common.Config.CurrentUserId;
-                oBatchHeader.ModifiedOn = DateTime.Now;
-                oBatchHeader.Save();
+                                #region UpdateProductQty(detail.ProductId, workplaceId, detail.Qty);
+                                var wpProd = ctx.ProductWorkplace.Where(x => x.ProductId == productId && x.WorkplaceId == workplaceId).FirstOrDefault();
+                                if (wpProd == null)
+                                {
+                                    wpProd = new EF6.ProductWorkplace();
+                                    wpProd.ProductWorkplaceId = Guid.NewGuid();
+                                    wpProd.ProductId = productId;
+                                    wpProd.WorkplaceId = workplaceId;
 
-                iCount++;
+                                    ctx.ProductWorkplace.Add(wpProd);
+                                }
+                                wpProd.CDQTY += qty;
+                                #endregion
 
-                ClearBatchTransaction(oBatchHeader);
-                //}
+                                #region UpdateProductSummary(detail.ProductId, detail.Qty, detail.UnitAmount);
+                                var oSummary = ctx.ProductCurrentSummary.Where(x => x.ProductId == productId).FirstOrDefault();
+                                if (oSummary == null)
+                                {
+                                    oSummary = new EF6.ProductCurrentSummary();
+                                    oSummary.CurrentSummaryId = Guid.NewGuid();
+                                    oSummary.ProductId = productId;
+                                    oSummary.AverageCost = unitAmount;
+
+                                    ctx.ProductCurrentSummary.Add(oSummary);
+                                }
+
+                                if ((oSummary.CDQTY + qty) > 0)
+                                {
+                                    oSummary.AverageCost = (oSummary.AverageCost * oSummary.CDQTY + unitAmount * qty) / (oSummary.CDQTY + qty);
+                                }
+                                else
+                                {
+                                    oSummary.AverageCost = oSummary.LastCost;
+                                }
+
+                                oSummary.LastCost = unitAmount;
+
+                                oSummary.CDQTY += qty;
+                                #endregion
+
+                                ctx.SaveChanges();
+                            }
+                            #endregion
+
+                            // Create CAP SubLedger
+                            string txNumber_SubLedger = oBatchHeader.TxNumber;
+                            #region Guid subLedgerHeaderId = CreateCAPSubLedgerHeader(oBatchHeader);
+                            var oSubCAP = new EF6.InvtSubLedgerCAP_Header();
+                            oSubCAP.HeaderId = Guid.NewGuid();
+                            oSubCAP.TxNumber = oBatchHeader.TxNumber;
+                            oSubCAP.TxType = Common.Enums.TxType.CAP.ToString();
+                            oSubCAP.WorkplaceId = oBatchHeader.WorkplaceId;
+                            oSubCAP.TxDate = oBatchHeader.TxDate;
+                            oSubCAP.CurrencyCode = oBatchHeader.CurrencyCode;
+                            oSubCAP.ExchangeRate = oBatchHeader.ExchangeRate;
+                            oSubCAP.LinkToAP = oBatchHeader.LinkToAP;
+                            oSubCAP.ReadOnly = oBatchHeader.ReadOnly;
+                            oSubCAP.Reference = oBatchHeader.Reference;
+                            oSubCAP.Remarks = oBatchHeader.Remarks;
+                            oSubCAP.StaffId = oBatchHeader.StaffId;
+                            oSubCAP.Status = Convert.ToInt32(Common.Enums.Status.Active.ToString("d"));
+                            oSubCAP.SupplierId = oBatchHeader.SupplierId;
+                            oSubCAP.SupplierRefernce = oBatchHeader.SupplierRefernce;
+
+                            oSubCAP.CreatedBy = Common.Config.CurrentUserId;
+                            oSubCAP.CreatedOn = DateTime.Now;
+                            oSubCAP.ModifiedBy = Common.Config.CurrentUserId;
+                            oSubCAP.ModifiedOn = DateTime.Now;
+
+                            ctx.InvtSubLedgerCAP_Header.Add(oSubCAP);
+
+                            Guid subLedgerHeaderId = oSubCAP.HeaderId;
+                            #endregion
+
+                            #region CreateCAPSubLedgerDetail(txNumber_SubLedger, oBatchHeader.HeaderId, subLedgerHeaderId);
+                            string txnumber = txNumber_SubLedger;
+                            Guid batchHeaderId = oBatchHeader.HeaderId;
+
+                            decimal ttlAmt = 0;
+                            string sql = "HeaderId = '" + batchHeaderId.ToString() + "'";
+                            string[] orderBy = new string[] { "LineNumber" };
+                            var oBatchDetails = ctx.InvtBatchCAP_Details.Where(x => x.HeaderId == batchHeaderId).OrderBy(x => x.LineNumber);
+                            foreach (var oBDetail in oBatchDetails)
+                            {
+                                var oSubLedgerDetail = new EF6.InvtSubLedgerCAP_Details();
+                                oSubLedgerDetail.DetailsId = Guid.NewGuid();
+                                oSubLedgerDetail.HeaderId = subLedgerHeaderId;
+                                oSubLedgerDetail.LineNumber = oBDetail.LineNumber;
+                                oSubLedgerDetail.ProductId = oBDetail.ProductId;
+                                oSubLedgerDetail.Qty = oBDetail.Qty;
+                                oSubLedgerDetail.TxNumber = txnumber;
+                                oSubLedgerDetail.TxType = Common.Enums.TxType.CAP.ToString();
+                                oSubLedgerDetail.UnitAmount = oBDetail.UnitAmount;
+                                oSubLedgerDetail.UnitAmountInForeignCurrency = oBDetail.UnitAmountInForeignCurrency;
+
+                                ctx.InvtSubLedgerCAP_Details.Add(oSubLedgerDetail);
+
+                                ttlAmt += oSubLedgerDetail.Qty.Value * oSubLedgerDetail.UnitAmount.Value;
+                            }
+
+                            var oSubLedgerHeader = ctx.InvtSubLedgerCAP_Header.Find(subLedgerHeaderId);
+                            if (oSubLedgerHeader != null)
+                            {
+                                oSubLedgerHeader.TotalAmount = ttlAmt;
+
+                                oSubLedgerHeader.ModifiedOn = DateTime.Now;
+                                oSubLedgerHeader.ModifiedBy = Common.Config.CurrentUserId;
+                            }
+                            ctx.SaveChanges();
+                            #endregion
+
+                            // Create Ledger for TxType 'CAP'
+                            string txNumber_Ledger = oBatchHeader.TxNumber;
+                            #region Guid ledgerHeaderId = CreateLedgerHeader(oBatchHeader, subLedgerHeaderId);
+                            var oLedgerHeader = new EF6.InvtLedgerHeader();
+                            oLedgerHeader.HeaderId = Guid.NewGuid();
+                            oLedgerHeader.TxNumber = oBatchHeader.TxNumber;
+                            oLedgerHeader.TxType = Common.Enums.TxType.CAP.ToString();
+                            oLedgerHeader.TxDate = oBatchHeader.TxDate;
+                            oLedgerHeader.SubLedgerHeaderId = subLedgerHeaderId;
+                            oLedgerHeader.WorkplaceId = oBatchHeader.WorkplaceId;
+                            oLedgerHeader.SupplierId = oBatchHeader.SupplierId;
+                            oLedgerHeader.StaffId = oBatchHeader.StaffId;
+                            oLedgerHeader.Reference = oBatchHeader.Reference;
+                            oLedgerHeader.Remarks = oBatchHeader.Remarks;
+                            oLedgerHeader.Status = Convert.ToInt32(Common.Enums.Status.Active.ToString("d"));
+                            oLedgerHeader.CreatedBy = Common.Config.CurrentUserId;
+                            oLedgerHeader.CreatedOn = DateTime.Now;
+                            oLedgerHeader.ModifiedBy = Common.Config.CurrentUserId;
+                            oLedgerHeader.ModifiedOn = DateTime.Now;
+
+                            ctx.InvtLedgerHeader.Add(oLedgerHeader);
+
+                            Guid ledgerHeaderId = oLedgerHeader.HeaderId;
+                            #endregion
+
+                            #region CreateLedgerDetails(txNumber_Ledger, subLedgerHeaderId, ledgerHeaderId, oBatchHeader.TxDate, ModelEx.WorkplaceEx.GetWorkplaceCodeById(oBatchHeader.WorkplaceId), ModelEx.StaffEx.GetStaffNumberById(oBatchHeader.StaffId));
+                            txnumber = txNumber_Ledger;
+                            //Guid subLedgerHeaderId = subLedgerHeaderId;
+                            //Guid ledgerHeaderId = ledgerHeaderId;
+                            DateTime txDate = oBatchHeader.TxDate.Value;
+                            string shop = ModelEx.WorkplaceEx.GetWorkplaceCodeById(oBatchHeader.WorkplaceId);
+                            string staffNumber = ModelEx.StaffEx.GetStaffNumberById(oBatchHeader.StaffId);
+
+                            var oSubLedgerDetails = ctx.InvtSubLedgerCAP_Details
+                            .Where(x => x.HeaderId == subLedgerHeaderId)    //sql, orderBy, true);
+                            .OrderBy(x => x.LineNumber)
+                            .ToList();
+                            foreach (var oSDetail in oSubLedgerDetails)
+                            {
+                                var oLedgerDetail = new EF6.InvtLedgerDetails();
+
+                                oLedgerDetail.DetailsId = Guid.NewGuid();
+                                oLedgerDetail.HeaderId = ledgerHeaderId;
+                                oLedgerDetail.SubLedgerDetailsId = oSDetail.DetailsId;
+                                oLedgerDetail.LineNumber = oSDetail.LineNumber;
+                                oLedgerDetail.ProductId = oSDetail.ProductId;
+                                oLedgerDetail.Qty = oSDetail.Qty;
+                                oLedgerDetail.TxNumber = txnumber;
+                                oLedgerDetail.TxType = Common.Enums.TxType.CAP.ToString();
+                                oLedgerDetail.TxDate = txDate;
+                                oLedgerDetail.UnitAmount = oSDetail.UnitAmount;
+                                oLedgerDetail.AverageCost = 0;
+                                oLedgerDetail.Notes = string.Empty;
+                                oLedgerDetail.SerialNumber = string.Empty;
+                                oLedgerDetail.SHOP = shop;
+                                oLedgerDetail.OPERATOR = staffNumber;
+
+                                // Product Info
+                                var oItem = ctx.Product.Find(oSDetail.ProductId);
+                                if (oItem != null)
+                                {
+                                    oLedgerDetail.BasicPrice = oItem.RetailPrice;
+                                    oLedgerDetail.Discount = oItem.NormalDiscount;
+                                    oLedgerDetail.AverageCost = ModelEx.ProductCurrentSummaryEx.GetAverageCode(oItem.ProductId);
+
+                                    var priceTypeId = ModelEx.ProductPriceTypeEx.GetIdByPriceType(Common.Enums.ProductPriceType.VPRC.ToString());
+                                    //sql = "ProductId = '" + oSDetail.ProductId.ToString() + "' AND PriceTypeId = '" + priceTypeId.ToString() + "'";
+
+                                    var oPrice = ctx.ProductPrice.Where(x => x.ProductId == oSDetail.ProductId && x.PriceTypeId == priceTypeId).FirstOrDefault();
+                                    if (oPrice != null)
+                                    {
+                                        oLedgerDetail.VendorRef = oPrice.CurrencyCode;
+                                    }
+                                }
+
+                                oLedgerDetail.Amount = oLedgerDetail.Qty * (oLedgerDetail.UnitAmount * ((100 - oLedgerDetail.Discount) * (decimal)0.01));
+
+                                ctx.InvtLedgerDetails.Add(oLedgerDetail);
+
+                                var oLedgerHeader2 = ctx.InvtLedgerHeader.Find(ledgerHeaderId);
+                                if (oLedgerHeader2 != null)
+                                {
+                                    oLedgerHeader2.TotalAmount += oLedgerDetail.Amount;
+
+                                    //oLedgerHeader.Save();
+                                }
+                                ctx.SaveChanges();
+                            }
+                            #endregion
+
+                            // Update Batch Header Info
+                            oBatchHeader.ReadOnly = true;
+                            oBatchHeader.ModifiedBy = Common.Config.CurrentUserId;
+                            oBatchHeader.ModifiedOn = DateTime.Now;
+                            ctx.SaveChanges();
+
+                            iCount++;
+
+                            #region ClearBatchTransaction(oBatchHeader);
+                            //string query = "HeaderId = '" + oBatchHeader.HeaderId.ToString() + "'";
+                            var detailList = ctx.InvtBatchCAP_Details.Where(x => x.HeaderId == oBatchHeader.HeaderId);
+                            foreach (var detail in detailList)
+                            {
+                                ctx.InvtBatchCAP_Details.Remove(detail);
+                            }
+
+                            ctx.InvtBatchCAP_Header.Remove(oBatchHeader);
+                            #endregion
+                        }
+                        scope.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        scope.Rollback();
+                    }
+                }
             }
         }
 
         #region Clear Batch
-
+        /**
         /// <summary>
         /// Clears the batch transaction.
         /// </summary>
+        ///
         private void ClearBatchTransaction(InvtBatchCAP_Header oBatchHeader)
         {
             string query = "HeaderId = '" + oBatchHeader.HeaderId.ToString() + "'";
@@ -505,10 +730,11 @@ namespace RT2020.Inventory.GoodsReceive
 
             oBatchHeader.Delete();
         }
-
+        */
         #endregion
 
         #region SubLedger
+        /**
         private Guid CreateCAPSubLedgerHeader(InvtBatchCAP_Header oBatchHeader)
         {
             InvtSubLedgerCAP_Header oSubCAP = new InvtSubLedgerCAP_Header();
@@ -571,9 +797,11 @@ namespace RT2020.Inventory.GoodsReceive
                 oSubLedgerHeader.Save();
             }
         }
+        */
         #endregion
 
         #region Ledger
+        /**
         private Guid CreateLedgerHeader(InvtBatchCAP_Header oBatchHeader, Guid subLedgerHeaderId)
         {
             InvtLedgerHeader oLedgerHeader = new InvtLedgerHeader();
@@ -670,9 +898,11 @@ namespace RT2020.Inventory.GoodsReceive
                 }
             }
         }
+        */
         #endregion
 
         #region Product
+        /**
         private void UpdateProduct(Guid txHeaderId, Guid workplaceId)
         {
             using (var ctx = new EF6.RT2020Entities())
@@ -741,6 +971,7 @@ namespace RT2020.Inventory.GoodsReceive
                 }
             }
         }
+        */
         #endregion
 
         #endregion

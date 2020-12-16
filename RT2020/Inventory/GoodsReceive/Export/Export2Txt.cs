@@ -47,7 +47,7 @@ namespace RT2020.Inventory.GoodsReceive.Export
 
             if (rbtnPosted.Checked)
             {
-                InvtSubLedgerCAP_Header.LoadCombo(ref cboFrom, "TxNumber", false, false, string.Empty, "TxType = 'CAP'");
+                ModelEx.InvtSubLedgerCAP_HeaderEx.LoadCombo(ref cboFrom, "TxNumber", false, false, string.Empty, "TxType = 'CAP'");
             }
             else
             {
@@ -63,7 +63,7 @@ namespace RT2020.Inventory.GoodsReceive.Export
 
             if (rbtnPosted.Checked)
             {
-                InvtSubLedgerCAP_Header.LoadCombo(ref cboTo, "TxNumber", false, false, string.Empty, "TxType = 'CAP'");
+                ModelEx.InvtSubLedgerCAP_HeaderEx.LoadCombo(ref cboTo, "TxNumber", false, false, string.Empty, "TxType = 'CAP'");
             }
             else
             {
