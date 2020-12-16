@@ -1,4 +1,4 @@
-#region Using
+﻿#region Using
 
 using System;
 using System.Collections.Generic;
@@ -16,6 +16,7 @@ using Gizmox.WebGUI.Common.Resources;
 using System.Configuration;
 using RT2020.Helper;
 using System.Linq;
+using System.Data.Entity;
 
 #endregion
 
@@ -269,102 +270,16 @@ namespace RT2020.Inventory.Adjustment
         {
             bool isPostable = true;
 
-            if (Common.Utility.IsGUID(headerId))
+            using (var ctx = new EF6.RT2020Entities())
             {
-                InvtBatchADJ_Header oBatchHeader = InvtBatchADJ_Header.Load(new Guid(headerId));
-                if (oBatchHeader != null)
+                if (Common.Utility.IsGUID(headerId))
                 {
-                    if (!CheckTxDate(oBatchHeader.TxDate))
+                    InvtBatchADJ_Header oBatchHeader = InvtBatchADJ_Header.Load(new Guid(headerId));
+                    if (oBatchHeader != null)
                     {
-                        DataRow row = errorTable.NewRow();
-                        row["HeaderId"] = oBatchHeader.HeaderId.ToString();
-                        row["TxNumber"] = oBatchHeader.TxNumber;
-                        row["STKCODE"] = string.Empty;
-                        row["APPENDIX1"] = string.Empty;
-                        row["APPENDIX2"] = string.Empty;
-                        row["APPENDIX3"] = string.Empty;
-                        row["ErrorReason"] = "Transaction date does not belong to current system month.";
-                        row["PostDate"] = DateTime.Now;
-
-                        errorTable.Rows.Add(row);
-
-                        isPostable = isPostable & false;
-                    }
-
-                    if (oBatchHeader.Status == (int)Common.Enums.Status.Active && oBatchHeader.PostedBy != System.Guid.Empty)
-                    {
-                        DataRow row = errorTable.NewRow();
-                        row["HeaderId"] = oBatchHeader.HeaderId.ToString();
-                        row["TxNumber"] = oBatchHeader.TxNumber;
-                        row["STKCODE"] = string.Empty;
-                        row["APPENDIX1"] = string.Empty;
-                        row["APPENDIX2"] = string.Empty;
-                        row["APPENDIX3"] = string.Empty;
-                        row["ErrorReason"] = "Transaction already had been posted! Cannot post again!";
-                        row["PostDate"] = DateTime.Now;
-
-                        errorTable.Rows.Add(row);
-
-                        isPostable = isPostable & false;
-                    }
-
-                    InvtBatchADJ_DetailsCollection detailList = InvtBatchADJ_Details.LoadCollection("HeaderId = '" + oBatchHeader.HeaderId.ToString() + "'");
-                    foreach (InvtBatchADJ_Details detail in detailList)
-                    {
-                        bool retired = false;
-                        string stk = string.Empty, a1 = string.Empty, a2 = string.Empty, a3 = string.Empty;
-
-                        var oProduct = ModelEx.ProductEx.Get(detail.ProductId);
-                        if (oProduct != null)
+                        if (!CheckTxDate(oBatchHeader.TxDate))
                         {
-                            stk = oProduct.STKCODE;
-                            a1 = oProduct.APPENDIX1;
-                            a2 = oProduct.APPENDIX2;
-                            a3 = oProduct.APPENDIX3;
-                            retired = oProduct.Retired;
-                        }
-
-                        if (retired)
-                        {
-                            DataRow row = errorTable.NewRow();
-                            row["HeaderId"] = oBatchHeader.HeaderId.ToString();
-                            row["TxNumber"] = oBatchHeader.TxNumber;
-                            row["STKCODE"] = stk;
-                            row["APPENDIX1"] = a1;
-                            row["APPENDIX2"] = a2;
-                            row["APPENDIX3"] = a3;
-                            row["ErrorReason"] = "Product does not exist or has been removed!";
-                            row["PostDate"] = DateTime.Now;
-
-                            errorTable.Rows.Add(row);
-
-                            isPostable = isPostable & false;
-                        }
-
-                        decimal qty = ProductHelper.GetOnHandQtyByWorkplaceId(detail.ProductId, oBatchHeader.WorkplaceId);
-                        if ((qty + detail.Qty) < 0)
-                        {
-                            DataRow row = errorTable.NewRow();
-                            row["HeaderId"] = oBatchHeader.HeaderId.ToString();
-                            row["TxNumber"] = oBatchHeader.TxNumber;
-                            row["STKCODE"] = stk;
-                            row["APPENDIX1"] = a1;
-                            row["APPENDIX2"] = a2;
-                            row["APPENDIX3"] = a3;
-                            row["ErrorReason"] = "Product does not have enough on-hand qty!";
-                            row["PostDate"] = DateTime.Now;
-
-                            errorTable.Rows.Add(row);
-
-                            isPostable = isPostable & false;
-                        }
-                    }
-
-                    var oStaff = ModelEx.StaffEx.GetByStaffId(oBatchHeader.StaffId);
-                    if (oStaff != null)
-                    {
-                        if (oStaff.Retired)
-                        {
+                            #region 加一行
                             DataRow row = errorTable.NewRow();
                             row["HeaderId"] = oBatchHeader.HeaderId.ToString();
                             row["TxNumber"] = oBatchHeader.TxNumber;
@@ -372,36 +287,131 @@ namespace RT2020.Inventory.Adjustment
                             row["APPENDIX1"] = string.Empty;
                             row["APPENDIX2"] = string.Empty;
                             row["APPENDIX3"] = string.Empty;
-                            row["ErrorReason"] = "Staff does not exist or has been removed!";
+                            row["ErrorReason"] = "Transaction date does not belong to current system month.";
                             row["PostDate"] = DateTime.Now;
 
                             errorTable.Rows.Add(row);
+                            #endregion
+                            isPostable = isPostable & false;
+                        }
 
+                        if (oBatchHeader.Status == (int)Common.Enums.Status.Active && oBatchHeader.PostedBy != System.Guid.Empty)
+                        {
+                            #region 加一行
+                            DataRow row = errorTable.NewRow();
+                            row["HeaderId"] = oBatchHeader.HeaderId.ToString();
+                            row["TxNumber"] = oBatchHeader.TxNumber;
+                            row["STKCODE"] = string.Empty;
+                            row["APPENDIX1"] = string.Empty;
+                            row["APPENDIX2"] = string.Empty;
+                            row["APPENDIX3"] = string.Empty;
+                            row["ErrorReason"] = "Transaction already had been posted! Cannot post again!";
+                            row["PostDate"] = DateTime.Now;
+
+                            errorTable.Rows.Add(row);
+                            #endregion
+                            isPostable = isPostable & false;
+                        }
+
+                        var detailList = ctx.InvtBatchADJ_Details.Where(x => x.HeaderId == oBatchHeader.HeaderId).AsNoTracking().ToList();
+                        foreach (var detail in detailList)
+                        {
+                            bool retired = false;
+                            string stk = string.Empty, a1 = string.Empty, a2 = string.Empty, a3 = string.Empty;
+
+                            var oProduct = ModelEx.ProductEx.Get(detail.ProductId);
+                            if (oProduct != null)
+                            {
+                                stk = oProduct.STKCODE;
+                                a1 = oProduct.APPENDIX1;
+                                a2 = oProduct.APPENDIX2;
+                                a3 = oProduct.APPENDIX3;
+                                retired = oProduct.Retired;
+                            }
+
+                            if (retired)
+                            {
+                                #region 加一行
+                                DataRow row = errorTable.NewRow();
+                                row["HeaderId"] = oBatchHeader.HeaderId.ToString();
+                                row["TxNumber"] = oBatchHeader.TxNumber;
+                                row["STKCODE"] = stk;
+                                row["APPENDIX1"] = a1;
+                                row["APPENDIX2"] = a2;
+                                row["APPENDIX3"] = a3;
+                                row["ErrorReason"] = "Product does not exist or has been removed!";
+                                row["PostDate"] = DateTime.Now;
+
+                                errorTable.Rows.Add(row);
+                                #endregion
+                                isPostable = isPostable & false;
+                            }
+
+                            decimal qty = ProductHelper.GetOnHandQtyByWorkplaceId(detail.ProductId, oBatchHeader.WorkplaceId);
+                            if ((qty + detail.Qty) < 0)
+                            {
+                                #region 加一行
+                                DataRow row = errorTable.NewRow();
+                                row["HeaderId"] = oBatchHeader.HeaderId.ToString();
+                                row["TxNumber"] = oBatchHeader.TxNumber;
+                                row["STKCODE"] = stk;
+                                row["APPENDIX1"] = a1;
+                                row["APPENDIX2"] = a2;
+                                row["APPENDIX3"] = a3;
+                                row["ErrorReason"] = "Product does not have enough on-hand qty!";
+                                row["PostDate"] = DateTime.Now;
+
+                                errorTable.Rows.Add(row);
+                                #endregion
+                                isPostable = isPostable & false;
+                            }
+                        }
+
+                        var oStaff = ModelEx.StaffEx.GetByStaffId(oBatchHeader.StaffId);
+                        if (oStaff != null)
+                        {
+                            if (oStaff.Retired)
+                            {
+                                #region 加一行
+                                DataRow row = errorTable.NewRow();
+                                row["HeaderId"] = oBatchHeader.HeaderId.ToString();
+                                row["TxNumber"] = oBatchHeader.TxNumber;
+                                row["STKCODE"] = string.Empty;
+                                row["APPENDIX1"] = string.Empty;
+                                row["APPENDIX2"] = string.Empty;
+                                row["APPENDIX3"] = string.Empty;
+                                row["ErrorReason"] = "Staff does not exist or has been removed!";
+                                row["PostDate"] = DateTime.Now;
+
+                                errorTable.Rows.Add(row);
+                                #endregion
+                                isPostable = isPostable & false;
+                            }
+                        }
+
+                        var oInvtLedger = ctx.InvtLedgerHeader.Where(x => x.TxNumber == oBatchHeader.TxNumber && x.TxType == "ADJ").AsNoTracking().FirstOrDefault();
+                        if (oInvtLedger != null)
+                        {
+                            #region 加一行
+                            DataRow row = errorTable.NewRow();
+                            row["HeaderId"] = oBatchHeader.HeaderId.ToString();
+                            row["TxNumber"] = oBatchHeader.TxNumber;
+                            row["STKCODE"] = string.Empty;
+                            row["APPENDIX1"] = string.Empty;
+                            row["APPENDIX2"] = string.Empty;
+                            row["APPENDIX3"] = string.Empty;
+                            row["ErrorReason"] = "Transaction existed in Inventory Ledger!";
+                            row["PostDate"] = DateTime.Now;
+
+                            errorTable.Rows.Add(row);
+                            #endregion
                             isPostable = isPostable & false;
                         }
                     }
-
-                    InvtLedgerHeader oInvtLedger = InvtLedgerHeader.LoadWhere("TxNumber = '" + oBatchHeader.TxNumber + "' AND TxType = 'ADJ'");
-                    if (oInvtLedger != null)
+                    else
                     {
-                        DataRow row = errorTable.NewRow();
-                        row["HeaderId"] = oBatchHeader.HeaderId.ToString();
-                        row["TxNumber"] = oBatchHeader.TxNumber;
-                        row["STKCODE"] = string.Empty;
-                        row["APPENDIX1"] = string.Empty;
-                        row["APPENDIX2"] = string.Empty;
-                        row["APPENDIX3"] = string.Empty;
-                        row["ErrorReason"] = "Transaction existed in Inventory Ledger!";
-                        row["PostDate"] = DateTime.Now;
-
-                        errorTable.Rows.Add(row);
-
-                        isPostable = isPostable & false;
+                        return false;
                     }
-                }
-                else
-                {
-                    return false;
                 }
             }
 

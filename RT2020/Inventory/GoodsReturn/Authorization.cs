@@ -18,6 +18,7 @@ namespace RT2020.Inventory.GoodsReturn
     using System.Configuration;
     using Helper;
     using System.Linq;
+    using System.Data.Entity;
 
     #endregion
 
@@ -298,100 +299,103 @@ namespace RT2020.Inventory.GoodsReturn
         {
             bool isPostable = true;
 
-            if (Common.Utility.IsGUID(headerId))
+            using (var ctx = new EF6.RT2020Entities())
             {
-                InvtBatchCAP_Header oBatchHeader = InvtBatchCAP_Header.Load(new Guid(headerId));
-                if (oBatchHeader != null)
+                if (Common.Utility.IsGUID(headerId))
                 {
-                    if (!CheckTxDate(oBatchHeader.TxDate))
+                    var oBatchHeader = ctx.InvtBatchCAP_Header.Find(new Guid(headerId));
+                    if (oBatchHeader != null)
                     {
-                        WriteLog(ref errorTable, oBatchHeader.HeaderId.ToString(), oBatchHeader.TxNumber,
-                            string.Empty, string.Empty, string.Empty, string.Empty, "Transaction date does not belong to current system month.");
-
-                        isPostable = isPostable & false;
-                    }
-
-                    var wp = ModelEx.WorkplaceEx.GetWorkplaceById(oBatchHeader.WorkplaceId);
-                    if (wp != null)
-                    {
-                        if (wp.Retired)
+                        if (!CheckTxDate(oBatchHeader.TxDate.Value))
                         {
                             WriteLog(ref errorTable, oBatchHeader.HeaderId.ToString(), oBatchHeader.TxNumber,
-                                string.Empty, string.Empty, string.Empty, string.Empty, "Location [" + wp.WorkplaceCode + "] does not exist or had been removed!");
-
-                            isPostable = isPostable & false;
-                        }
-                    }
-
-                    var staff = ModelEx.StaffEx.GetByStaffId(oBatchHeader.StaffId);
-                    if (staff != null)
-                    {
-                        if (staff.Retired)
-                        {
-                            WriteLog(ref errorTable, oBatchHeader.HeaderId.ToString(), oBatchHeader.TxNumber,
-                                string.Empty, string.Empty, string.Empty, string.Empty, "Location [" + staff.StaffNumber + "] does not exist or had been removed!");
-
-                            isPostable = isPostable & false;
-                        }
-                    }
-
-                    if (oBatchHeader.ReadOnly && oBatchHeader.Status == (int)Common.Enums.Status.Active)
-                    {
-                        WriteLog(ref errorTable, oBatchHeader.HeaderId.ToString(), oBatchHeader.TxNumber,
-                            string.Empty, string.Empty, string.Empty, string.Empty, "Transaction already had been posted! Cannot post again!");
-
-                        isPostable = isPostable & false;
-                    }
-
-                    InvtBatchCAP_DetailsCollection detailList = InvtBatchCAP_Details.LoadCollection("HeaderId = '" + oBatchHeader.HeaderId.ToString() + "'");
-                    foreach (InvtBatchCAP_Details detail in detailList)
-                    {
-                        bool retired = false;
-                        string stk = string.Empty, a1 = string.Empty, a2 = string.Empty, a3 = string.Empty;
-
-                        var oProduct = ModelEx.ProductEx.Get(detail.ProductId);
-                        if (oProduct != null)
-                        {
-                            stk = oProduct.STKCODE;
-                            a1 = oProduct.APPENDIX1;
-                            a2 = oProduct.APPENDIX2;
-                            a3 = oProduct.APPENDIX3;
-                            retired = oProduct.Retired;
-                        }
-
-                        if (retired)
-                        {
-                            WriteLog(ref errorTable, oBatchHeader.HeaderId.ToString(), oBatchHeader.TxNumber,
-                                stk, a1, a2, a3, "Product does not exist or had been removed!");
+                                string.Empty, string.Empty, string.Empty, string.Empty, "Transaction date does not belong to current system month.");
 
                             isPostable = isPostable & false;
                         }
 
-                        if (!(!ProductHelper.IsServiceItem(detail.ProductId) && chkIgnoreServiceItemQtyChecking.Checked))
+                        var wp = ModelEx.WorkplaceEx.GetWorkplaceById(oBatchHeader.WorkplaceId);
+                        if (wp != null)
                         {
-                            decimal cdQty = ProductHelper.GetOnHandQtyByWorkplaceId(detail.ProductId, oBatchHeader.WorkplaceId);
-                            if (detail.Qty > cdQty)
+                            if (wp.Retired)
                             {
                                 WriteLog(ref errorTable, oBatchHeader.HeaderId.ToString(), oBatchHeader.TxNumber,
-                                    stk, a1, a2, a3, "On-hand Qty cannot be ZERO!");
+                                    string.Empty, string.Empty, string.Empty, string.Empty, "Location [" + wp.WorkplaceCode + "] does not exist or had been removed!");
 
                                 isPostable = isPostable & false;
                             }
                         }
-                    }
 
-                    InvtLedgerHeader oInvtLedger = InvtLedgerHeader.LoadWhere("TxNumber = '" + oBatchHeader.TxNumber + "' AND TxType = '" + oBatchHeader.TxType + "'");
-                    if (oInvtLedger != null)
+                        var staff = ModelEx.StaffEx.GetByStaffId(oBatchHeader.StaffId);
+                        if (staff != null)
+                        {
+                            if (staff.Retired)
+                            {
+                                WriteLog(ref errorTable, oBatchHeader.HeaderId.ToString(), oBatchHeader.TxNumber,
+                                    string.Empty, string.Empty, string.Empty, string.Empty, "Location [" + staff.StaffNumber + "] does not exist or had been removed!");
+
+                                isPostable = isPostable & false;
+                            }
+                        }
+
+                        if (oBatchHeader.ReadOnly && oBatchHeader.Status == (int)Common.Enums.Status.Active)
+                        {
+                            WriteLog(ref errorTable, oBatchHeader.HeaderId.ToString(), oBatchHeader.TxNumber,
+                                string.Empty, string.Empty, string.Empty, string.Empty, "Transaction already had been posted! Cannot post again!");
+
+                            isPostable = isPostable & false;
+                        }
+
+                        var detailList = ctx.InvtBatchCAP_Details.Where(x => x.HeaderId == oBatchHeader.HeaderId).AsNoTracking().ToList();
+                        foreach (var detail in detailList)
+                        {
+                            bool retired = false;
+                            string stk = string.Empty, a1 = string.Empty, a2 = string.Empty, a3 = string.Empty;
+
+                            var oProduct = ModelEx.ProductEx.Get(detail.ProductId);
+                            if (oProduct != null)
+                            {
+                                stk = oProduct.STKCODE;
+                                a1 = oProduct.APPENDIX1;
+                                a2 = oProduct.APPENDIX2;
+                                a3 = oProduct.APPENDIX3;
+                                retired = oProduct.Retired;
+                            }
+
+                            if (retired)
+                            {
+                                WriteLog(ref errorTable, oBatchHeader.HeaderId.ToString(), oBatchHeader.TxNumber,
+                                    stk, a1, a2, a3, "Product does not exist or had been removed!");
+
+                                isPostable = isPostable & false;
+                            }
+
+                            if (!(!ProductHelper.IsServiceItem(detail.ProductId) && chkIgnoreServiceItemQtyChecking.Checked))
+                            {
+                                decimal cdQty = ProductHelper.GetOnHandQtyByWorkplaceId(detail.ProductId, oBatchHeader.WorkplaceId);
+                                if (detail.Qty > cdQty)
+                                {
+                                    WriteLog(ref errorTable, oBatchHeader.HeaderId.ToString(), oBatchHeader.TxNumber,
+                                        stk, a1, a2, a3, "On-hand Qty cannot be ZERO!");
+
+                                    isPostable = isPostable & false;
+                                }
+                            }
+                        }
+
+                        var oInvtLedger = ctx.InvtLedgerHeader.Where(x => x.TxNumber == oBatchHeader.TxNumber && x.TxType == oBatchHeader.TxType).AsNoTracking().FirstOrDefault();
+                        if (oInvtLedger != null)
+                        {
+                            WriteLog(ref errorTable, oBatchHeader.HeaderId.ToString(), oBatchHeader.TxNumber,
+                                string.Empty, string.Empty, string.Empty, string.Empty, "Transaction existed in Inventory Ledger!");
+
+                            isPostable = isPostable & false;
+                        }
+                    }
+                    else
                     {
-                        WriteLog(ref errorTable, oBatchHeader.HeaderId.ToString(), oBatchHeader.TxNumber,
-                            string.Empty, string.Empty, string.Empty, string.Empty, "Transaction existed in Inventory Ledger!");
-
-                        isPostable = isPostable & false;
+                        return false;
                     }
-                }
-                else
-                {
-                    return false;
                 }
             }
 
