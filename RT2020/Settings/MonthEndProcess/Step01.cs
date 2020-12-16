@@ -116,32 +116,37 @@ namespace RT2020.Settings.MonthEndProcess
 
             string sql = "HeaderId = '" + srcHeaderId.ToString() + "' AND WorkplaceId = '" + workplaceId.ToString() + "'";
 
-            InvtSubLedgerADJ_Header objHeader = InvtSubLedgerADJ_Header.LoadWhere(sql);
-            if (objHeader == null)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                objHeader = new InvtSubLedgerADJ_Header();
-                objHeader.TxNumber = SystemInfo.Settings.QueuingTxNumber(RT2020.DAL.Common.Enums.TxType.ADJ);
-                objHeader.TxType = RT2020.DAL.Common.Enums.TxType.ADJ.ToString();
-                objHeader.TxDate = txDate;
-                objHeader.WorkplaceId = workplaceId;
-                objHeader.TotalAmount = 0;
-                objHeader.Reference = string.Empty;
-                objHeader.Remarks = "GENERATED FROM MONTH END.";
-                objHeader.Status = (int)RT2020.DAL.Common.Enums.Status.Active;
-                objHeader.StaffId = Common.Config.CurrentUserId;
-                objHeader.PostedBy = Common.Config.CurrentUserId;
-                objHeader.PostedOn = DateTime.Now;
+                var objHeader = ctx.InvtSubLedgerADJ_Header.Where(x => x.HeaderId == srcHeaderId && x.WorkplaceId == workplaceId).FirstOrDefault();
+                if (objHeader == null)
+                {
+                    objHeader = new EF6.InvtSubLedgerADJ_Header();
+                    objHeader.HeaderId = Guid.NewGuid();
+                    objHeader.TxNumber = SystemInfo.Settings.QueuingTxNumber(RT2020.DAL.Common.Enums.TxType.ADJ);
+                    objHeader.TxType = RT2020.DAL.Common.Enums.TxType.ADJ.ToString();
+                    objHeader.TxDate = txDate;
+                    objHeader.WorkplaceId = workplaceId;
+                    objHeader.TotalAmount = 0;
+                    objHeader.Reference = string.Empty;
+                    objHeader.Remarks = "GENERATED FROM MONTH END.";
+                    objHeader.Status = (int)RT2020.DAL.Common.Enums.Status.Active;
+                    objHeader.StaffId = Common.Config.CurrentUserId;
+                    objHeader.PostedBy = Common.Config.CurrentUserId;
+                    objHeader.PostedOn = DateTime.Now;
 
-                objHeader.CreatedBy = Common.Config.CurrentUserId;
-                objHeader.CreatedOn = DateTime.Now;
-                objHeader.ModifiedBy = Common.Config.CurrentUserId;
-                objHeader.ModifiedOn = DateTime.Now;
+                    objHeader.CreatedBy = Common.Config.CurrentUserId;
+                    objHeader.CreatedOn = DateTime.Now;
+                    objHeader.ModifiedBy = Common.Config.CurrentUserId;
+                    objHeader.ModifiedOn = DateTime.Now;
 
-                objHeader.Save();
+                    ctx.InvtSubLedgerADJ_Header.Add(objHeader);
+                    ctx.SaveChanges();
+                }
+
+                headerId = objHeader.HeaderId;
+                txNumber = objHeader.TxNumber;
             }
-
-            headerId = objHeader.HeaderId;
-            txNumber = objHeader.TxNumber;
 
             return headerId;
         }
@@ -151,18 +156,22 @@ namespace RT2020.Settings.MonthEndProcess
         /// </summary>
         private void CreatedAdjSubLedgerDetails(Guid headerId, Guid productId, decimal cdQty)
         {
-            InvtSubLedgerADJ_Details objDetail = new InvtSubLedgerADJ_Details();
-            objDetail.HeaderId = headerId;
-            objDetail.TxNumber = txNumber;
-            objDetail.LineNumber = 0;
-            objDetail.TxType = RT2020.DAL.Common.Enums.TxType.ADJ.ToString();
-            objDetail.ProductId = productId;
-            objDetail.Qty = Math.Abs(cdQty) * (-1);
-            objDetail.AverageCost = ModelEx.ProductCurrentSummaryEx.GetAverageCode(productId);
-            objDetail.ReasonCode = string.Empty;
-            objDetail.Remarks = string.Empty;
+            using (var ctx = new EF6.RT2020Entities())
+            {
+                var objDetail = new EF6.InvtSubLedgerADJ_Details();
+                objDetail.DetailsId = Guid.NewGuid();
+                objDetail.HeaderId = headerId;
+                objDetail.TxNumber = txNumber;
+                objDetail.LineNumber = 0;
+                objDetail.TxType = RT2020.DAL.Common.Enums.TxType.ADJ.ToString();
+                objDetail.ProductId = productId;
+                objDetail.Qty = Math.Abs(cdQty) * (-1);
+                objDetail.AverageCost = ModelEx.ProductCurrentSummaryEx.GetAverageCode(productId);
+                objDetail.ReasonCode = string.Empty;
+                objDetail.Remarks = string.Empty;
 
-            objDetail.Save();
+                ctx.InvtSubLedgerADJ_Details.Add(objDetail);
+            }
         }
 
         /// <summary>
@@ -173,17 +182,20 @@ namespace RT2020.Settings.MonthEndProcess
             string sql = "HeaderId = '" + headerId.ToString() + "'";
             decimal totalAmt = 0;
 
-            InvtSubLedgerADJ_DetailsCollection detailList = InvtSubLedgerADJ_Details.LoadCollection(sql);
-            for (int i = 0; i < detailList.Count; i++)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                totalAmt += detailList[i].Qty * detailList[i].AverageCost;
-            }
+                var detailList = ctx.InvtSubLedgerADJ_Details.Where(x => x.HeaderId == headerId);
+                foreach (var detail in detailList)
+                {
+                    totalAmt += detail.Qty.Value * detail.AverageCost.Value;
+                }
 
-            InvtSubLedgerADJ_Header objHeader = InvtSubLedgerADJ_Header.Load(headerId);
-            if (objHeader != null)
-            {
-                objHeader.TotalAmount = totalAmt;
-                objHeader.Save();
+                var objHeader = ctx.InvtSubLedgerADJ_Header.Find(headerId);
+                if (objHeader != null)
+                {
+                    objHeader.TotalAmount = totalAmt;
+                    ctx.SaveChanges();
+                }
             }
         }
 
@@ -199,31 +211,36 @@ namespace RT2020.Settings.MonthEndProcess
         {
             Guid headerId = Guid.Empty;
 
-            InvtSubLedgerADJ_Header objSubHeader = InvtSubLedgerADJ_Header.Load(subLedgerHeaderId);
-            if (objSubHeader != null)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                string query = "HeaderId = '" + srcHeaderId.ToString() + "' AND SubLedgerHeaderId = '" + objSubHeader.HeaderId.ToString() + "'";
-                InvtLedgerHeader objHeader = InvtLedgerHeader.LoadWhere(query);
-                if (objHeader == null)
+                var objSubHeader = ctx.InvtSubLedgerADJ_Header.Find(subLedgerHeaderId);
+                if (objSubHeader != null)
                 {
-                    objHeader = new InvtLedgerHeader();
-                    objHeader.TxNumber = objSubHeader.TxNumber;
-                    objHeader.TxDate = objSubHeader.TxDate;
-                    objHeader.TxType = objSubHeader.TxType;
-                    objHeader.SubLedgerHeaderId = objSubHeader.HeaderId;
-                    objHeader.WorkplaceId = objSubHeader.WorkplaceId;
-                    objHeader.TotalAmount = objSubHeader.TotalAmount;
-                    objHeader.Reference = objSubHeader.Reference;
-                    objHeader.Remarks = objSubHeader.Remarks;
-                    objHeader.StaffId = objSubHeader.StaffId;
-                    objHeader.Status = (int)RT2020.DAL.Common.Enums.Status.Active;
+                    string query = "HeaderId = '" + srcHeaderId.ToString() + "' AND SubLedgerHeaderId = '" + objSubHeader.HeaderId.ToString() + "'";
+                    var objHeader = ctx.InvtLedgerHeader.Where(x => x.HeaderId == srcHeaderId && x.SubLedgerHeaderId == objSubHeader.HeaderId).FirstOrDefault();
+                    if (objHeader == null)
+                    {
+                        objHeader = new EF6.InvtLedgerHeader();
+                        objHeader.HeaderId = Guid.NewGuid();
+                        objHeader.TxNumber = objSubHeader.TxNumber;
+                        objHeader.TxDate = objSubHeader.TxDate;
+                        objHeader.TxType = objSubHeader.TxType;
+                        objHeader.SubLedgerHeaderId = objSubHeader.HeaderId;
+                        objHeader.WorkplaceId = objSubHeader.WorkplaceId;
+                        objHeader.TotalAmount = objSubHeader.TotalAmount;
+                        objHeader.Reference = objSubHeader.Reference;
+                        objHeader.Remarks = objSubHeader.Remarks;
+                        objHeader.StaffId = objSubHeader.StaffId;
+                        objHeader.Status = (int)RT2020.DAL.Common.Enums.Status.Active;
 
-                    objHeader.CreatedBy = Common.Config.CurrentUserId;
-                    objHeader.CreatedOn = DateTime.Now;
-                    objHeader.ModifiedBy = Common.Config.CurrentUserId;
-                    objHeader.ModifiedOn = DateTime.Now;
+                        objHeader.CreatedBy = Common.Config.CurrentUserId;
+                        objHeader.CreatedOn = DateTime.Now;
+                        objHeader.ModifiedBy = Common.Config.CurrentUserId;
+                        objHeader.ModifiedOn = DateTime.Now;
 
-                    objHeader.Save();
+                        ctx.InvtLedgerHeader.Add(objHeader);
+                        ctx.SaveChanges();
+                    }
                 }
             }
 
@@ -238,33 +255,37 @@ namespace RT2020.Settings.MonthEndProcess
         private void CreateLedgerDetails(Guid headerId, Guid subLedgerHeaderId, DateTime txDate, Guid workplaceId)
         {
             string query = "HeaderId = '" + subLedgerHeaderId.ToString() + "'";
-            InvtSubLedgerADJ_DetailsCollection detailList = InvtSubLedgerADJ_Details.LoadCollection(query);
-            for (int i = 0; i < detailList.Count; i++)
+
+            using (var ctx = new EF6.RT2020Entities())
             {
-                InvtSubLedgerADJ_Details detail = detailList[i];
-                if (detail != null)
+                var detailList = ctx.InvtSubLedgerADJ_Details.Where(x => x.HeaderId == subLedgerHeaderId);
+                foreach (var detail in detailList)
                 {
-                    query = "HeaderId = '" + headerId.ToString() + "' AND ProductId = '" + detail.ProductId.ToString() + "'";
-                    InvtLedgerDetails objDetail = InvtLedgerDetails.LoadWhere(query);
-                    if (objDetail == null)
-                    {
-                        objDetail = new InvtLedgerDetails();
+                    //InvtSubLedgerADJ_Details detail = detailList[i];
+                    //if (detail != null)
+                    //{
+                        query = "HeaderId = '" + headerId.ToString() + "' AND ProductId = '" + detail.ProductId.ToString() + "'";
+                        var objDetail = ctx.InvtLedgerDetails.Where(x => x.HeaderId == headerId && x.ProductId == detail.ProductId).FirstOrDefault();
+                        if (objDetail == null)
+                        {
+                            objDetail = new EF6.InvtLedgerDetails();
+                        objDetail.DetailsId = Guid.NewGuid();
+                            objDetail.HeaderId = headerId;
+                            objDetail.TxType = detail.TxType;
+                            objDetail.TxNumber = detail.TxNumber;
+                            objDetail.LineNumber = 0;
+                            objDetail.ProductId = detail.ProductId;
+                            objDetail.SHOP = ModelEx.WorkplaceEx.GetWorkplaceCodeById(workplaceId);
+                            objDetail.TxDate = txDate;
+                            objDetail.OPERATOR = ModelEx.StaffEx.GetStaffNumberById(Common.Config.CurrentUserId);
+                            objDetail.Qty = detail.Qty;
+                            objDetail.AverageCost = detail.AverageCost;
+                            objDetail.UnitAmount = detail.AverageCost;
+                            objDetail.Amount = detail.AverageCost * detail.Qty;
 
-                        objDetail.HeaderId = headerId;
-                        objDetail.TxType = detail.TxType;
-                        objDetail.TxNumber = detail.TxNumber;
-                        objDetail.LineNumber = 0;
-                        objDetail.ProductId = detail.ProductId;
-                        objDetail.SHOP = ModelEx.WorkplaceEx.GetWorkplaceCodeById(workplaceId);
-                        objDetail.TxDate = txDate;
-                        objDetail.OPERATOR = ModelEx.StaffEx.GetStaffNumberById(Common.Config.CurrentUserId);
-                        objDetail.Qty = detail.Qty;
-                        objDetail.AverageCost = detail.AverageCost;
-                        objDetail.UnitAmount = detail.AverageCost;
-                        objDetail.Amount = detail.AverageCost * detail.Qty;
-
-                        objDetail.Save();
-                    }
+                            ctx.InvtLedgerDetails.Add(objDetail);
+                        }
+                    //}
                 }
             }
         }
