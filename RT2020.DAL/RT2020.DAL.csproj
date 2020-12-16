@@ -128,7 +128,6 @@
     <Compile Include="InvtBatchTXF_Details.cs" />
     <Compile Include="InvtBatchTXF_Header.cs" />
     <Compile Include="InvtBatchTXF_Log.cs" />
-    <Compile Include="InvtLedgerDetails.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SqlHelper.cs" />
   </ItemGroup>

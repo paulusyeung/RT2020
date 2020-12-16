@@ -51,19 +51,22 @@ namespace RT2020.Product
                 type = "AND YEAR(TxDate) = " + DateTime.Now.Year.ToString();
             }
 
-            string sql = "ProductId = '" + this.ProductId.ToString() + "' AND TxType IN (" + txType + ")" + type;
-            InvtLedgerDetailsCollection oDetails = InvtLedgerDetails.LoadCollection(sql);
-            for (int i = 0; i < oDetails.Count; i++)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                switch (oDetails[i].TxType)
+                string sql = "ProductId = '" + this.ProductId.ToString() + "' AND TxType IN (" + txType + ")" + type;
+                var oDetails = ctx.InvtLedgerDetails.Where(x => x.ProductId == this.ProductId && txType.Contains(x.TxType)).AsNoTracking().ToList();
+                foreach (var detail in oDetails)
                 {
-                    case "REJ":
-                        totalREJ += oDetails[i].Qty;
-                        break;
-                    case "REC":
-                    case "CAP":
-                        totalREC += oDetails[i].Qty;
-                        break;
+                    switch (detail.TxType)
+                    {
+                        case "REJ":
+                            totalREJ += detail.Qty.Value;
+                            break;
+                        case "REC":
+                        case "CAP":
+                            totalREC += detail.Qty.Value;
+                            break;
+                    }
                 }
             }
 

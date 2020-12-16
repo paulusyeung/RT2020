@@ -643,7 +643,7 @@ namespace RT2020.Inventory.GoodsReturn
                             var oSubLedgerDetails = ctx.InvtSubLedgerCAP_Details.Where(x => x.HeaderId == subLedgerHeaderId).OrderBy(x => x.LineNumber);
                             foreach (var oSDetail in oSubLedgerDetails)
                             {
-                                InvtLedgerDetails oLedgerDetail = new InvtLedgerDetails();
+                                var oLedgerDetail = new EF6.InvtLedgerDetails();
                                 oLedgerDetail.DetailsId = Guid.NewGuid();
                                 oLedgerDetail.HeaderId = ledgerHeaderId;
                                 oLedgerDetail.SubLedgerDetailsId = oSDetail.DetailsId;
@@ -691,6 +691,7 @@ namespace RT2020.Inventory.GoodsReturn
                                     oLedgerHeader2.TotalAmount += oLedgerDetail.Amount;
                                 }
 
+                                ctx.InvtLedgerDetails.Add(oLedgerDetail);
                                 ctx.SaveChanges();
                             }
                             #endregion
