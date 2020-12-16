@@ -15,6 +15,8 @@ using System.IO;
 using FileHelpers.DataLink;
 using FileHelpers.MasterDetail;
 using System.Web;
+using System.Linq;
+using System.Data.Entity;
 
 #endregion
 
@@ -46,19 +48,22 @@ namespace RT2020.Inventory.Transfer.Export
 
             string[] orderBy = { "TxNumber" };
 
-            if (rbtnUnposted.Checked)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                InvtBatchTXF_HeaderCollection headerList = InvtBatchTXF_Header.LoadCollection(orderBy, true);
-                cboFrom.DataSource = headerList;
-                cboFrom.DisplayMember = "TxNumber";
-                cboFrom.ValueMember = "HeaderId";
-            }
-            else
-            {
-                InvtSubLedgerTXF_HeaderCollection headerList = InvtSubLedgerTXF_Header.LoadCollection(orderBy, true);
-                cboFrom.DataSource = headerList;
-                cboFrom.DisplayMember = "TxNumber";
-                cboFrom.ValueMember = "HeaderId";
+                if (rbtnUnposted.Checked)
+                {
+                    var headerList = ctx.InvtBatchTXF_Header.OrderBy(x => x.TxNumber).AsNoTracking().ToList();
+                    cboFrom.DataSource = headerList;
+                    cboFrom.DisplayMember = "TxNumber";
+                    cboFrom.ValueMember = "HeaderId";
+                }
+                else
+                {
+                    var headerList = ctx.InvtSubLedgerTXF_Header.OrderBy(x => x.TxNumber).AsNoTracking().ToList();
+                    cboFrom.DataSource = headerList;
+                    cboFrom.DisplayMember = "TxNumber";
+                    cboFrom.ValueMember = "HeaderId";
+                }
             }
         }
 
@@ -69,22 +74,25 @@ namespace RT2020.Inventory.Transfer.Export
 
             string[] orderBy = { "TxNumber" };
 
-            if (rbtnUnposted.Checked)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                InvtBatchTXF_HeaderCollection headerList = InvtBatchTXF_Header.LoadCollection(orderBy, true);
-                cboTo.DataSource = headerList;
-                cboTo.DisplayMember = "TxNumber";
-                cboTo.ValueMember = "HeaderId";
-            }
-            else
-            {
-                InvtSubLedgerTXF_HeaderCollection headerList = InvtSubLedgerTXF_Header.LoadCollection(orderBy, true);
-                cboTo.DataSource = headerList;
-                cboTo.DisplayMember = "TxNumber";
-                cboTo.ValueMember = "HeaderId";
-            }
+                if (rbtnUnposted.Checked)
+                {
+                    var headerList = ctx.InvtBatchTXF_Header.OrderBy(x => x.TxNumber).AsNoTracking().ToList();
+                    cboTo.DataSource = headerList;
+                    cboTo.DisplayMember = "TxNumber";
+                    cboTo.ValueMember = "HeaderId";
+                }
+                else
+                {
+                    var headerList = ctx.InvtSubLedgerTXF_Header.OrderBy(x => x.TxNumber).AsNoTracking().ToList();
+                    cboTo.DataSource = headerList;
+                    cboTo.DisplayMember = "TxNumber";
+                    cboTo.ValueMember = "HeaderId";
+                }
 
-            cboTo.SelectedIndex = cboTo.Items.Count - 1;
+                cboTo.SelectedIndex = cboTo.Items.Count - 1;
+            }
         }
         #endregion
 

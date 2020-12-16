@@ -250,48 +250,192 @@ namespace RT2020.Inventory.Transfer
 
         private void Confirmation()
         {
-            InvtBatchTXF_Header oHeader = InvtBatchTXF_Header.Load(this.TxferId);
-            if (oHeader != null)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                SaveTxferDetail();
+                using (var scope = ctx.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        var oHeader = ctx.InvtBatchTXF_Header.Find(this.TxferId);
+                        if (oHeader != null)
+                        {
+                            var txnumber_Batch = oHeader.TxNumber;
 
-                // Update TXF SubLedger
-                UpdateTXFSubLedger(oHeader.TxNumber);
+                            SaveTxferDetail();
 
-                // Update Ledger
-                UpdateLedger(oHeader.TxNumber);
+                            // Update TXF SubLedger
+                            #region UpdateTXFSubLedger(oHeader.TxNumber);
+                            var oSubTXF = ctx.InvtSubLedgerTXF_Header.Find(this.TxferId);
+                            if (oSubTXF != null)
+                            {
+                                #region UpdateTXFSubLedgerDetail(oSubTXF.HeaderId);
+                                var subLedgerHeaderId = oSubTXF.HeaderId;
+                                foreach (ListViewItem listItem in lvDetailsList.Items)
+                                {
+                                    Guid productId = Guid.Empty;
+                                    decimal qty = 0;
+                                    if (Guid.TryParse(listItem.SubItems[10].Text, out productId))
+                                    {
+                                        //string sql = "HeaderId = '" + subledgerHeaderId.ToString() + "' AND ProductId = '" + listItem.SubItems[10].Text + "'";
+                                        var oSubLedgerDetail = ctx.InvtSubLedgerTXF_Details.Where(x => x.HeaderId == subLedgerHeaderId && x.ProductId == productId).FirstOrDefault();
+                                        if (oSubLedgerDetail != null)
+                                        {
+                                            if (decimal.TryParse(listItem.SubItems[9].Text, out qty))
+                                            {
+                                                oSubLedgerDetail.QtyConfirmed = qty;
 
-                // Update Product Info
-                UpdateProduct(oHeader);
+                                                ctx.SaveChanges();
+                                            }
+                                        }
+                                    }
+                                }
+                                #endregion
 
-                oHeader.CONFIRM_TRF = this.IsConfirmedTransaction;
-                oHeader.CONFIRM_TRF_LASTUPDATE = DateTime.Now;
-                oHeader.CONFIRM_TRF_LASTUSER = Common.Config.CurrentUserId;
-                oHeader.ModifiedBy = Common.Config.CurrentUserId;
-                oHeader.ModifiedOn = DateTime.Now;
+                                oSubTXF.CONFIRM_TRF = this.IsConfirmedTransaction;
+                                oSubTXF.CONFIRM_TRF_LASTUPDATE = DateTime.Now;
+                                oSubTXF.CONFIRM_TRF_LASTUSER = Common.Config.CurrentUserId;
 
-                oHeader.Save();
+                                oSubTXF.ModifiedBy = Common.Config.CurrentUserId;
+                                oSubTXF.ModifiedOn = DateTime.Now;
 
-                this.TxferId = oHeader.HeaderId;
+                                ctx.SaveChanges();
+                            }
+                            #endregion
+
+                            // Update Ledger
+                            #region UpdateLedger(oHeader.TxNumber);
+                            var oLedgerHeader = ctx.InvtLedgerHeader.Find(this.TxferId);
+                            if (oLedgerHeader != null)
+                            {
+                                #region UpdateLedgerDetails(oLedgerHeader.HeaderId);
+                                var ledgerHeaderId = oLedgerHeader.HeaderId;
+                                foreach (ListViewItem listItem in lvDetailsList.Items)
+                                {
+                                    Guid productId = Guid.Empty;
+                                    decimal qty = 0;
+                                    if (Guid.TryParse(listItem.SubItems[10].Text, out productId))
+                                    {
+                                        //string sql = "HeaderId = '" + ledgerHeaderId.ToString() + "' AND ProductId = '" + listItem.SubItems[10].Text + "'";
+                                        var oLedgerDetail = ctx.InvtLedgerDetails.Where(x => x.HeaderId == ledgerHeaderId && x.ProductId == productId).FirstOrDefault();
+                                        if (oLedgerDetail != null)
+                                        {
+                                            if (decimal.TryParse(listItem.SubItems[9].Text, out qty))
+                                            {
+                                                oLedgerDetail.Qty = qty;
+
+                                                ctx.SaveChanges();
+                                            }
+                                        }
+                                    }
+                                }
+                                #endregion
+
+                                oLedgerHeader.CONFIRM_TRF = this.IsConfirmedTransaction;
+                                oLedgerHeader.CONFIRM_TRF_LASTUPDATE = DateTime.Now;
+                                oLedgerHeader.CONFIRM_TRF_LASTUSER = ModelEx.StaffEx.GetStaffNumberById(Common.Config.CurrentUserId);
+
+                                oLedgerHeader.ModifiedBy = Common.Config.CurrentUserId;
+                                oLedgerHeader.ModifiedOn = DateTime.Now;
+                                ctx.SaveChanges();
+                            }
+                            #endregion
+
+                            // Update Product Info
+                            #region UpdateProduct(oHeader);
+                            var headerId = oHeader.HeaderId;
+                            var fromId = oHeader.FromLocation.Value;
+                            var toId = oHeader.ToLocation.Value;
+
+                            //string sql = "HeaderId = '" + oBatchHeader.HeaderId.ToString() + "'";
+                            var detailsList = ctx.InvtBatchTXF_Details.Where(x => x.HeaderId == headerId);
+                            foreach (var detail in detailsList)
+                            {
+                                //InvtBatchTXF_Details detail = detailsList[i];
+
+                                Guid productId = detail.ProductId.Value;
+                                decimal qty = 0;
+                                //Out
+                                #region UpdateProductQty(detail.ProductId.Value, fromId, detail.QtyConfirmed.Value * (-1));
+                                qty = detail.QtyConfirmed.Value * (-1);
+                                var outPorductWorkplace = ctx.ProductWorkplace.Where(x => x.ProductId == productId && x.WorkplaceId == fromId).FirstOrDefault();
+                                if (outPorductWorkplace == null)
+                                {
+                                    outPorductWorkplace = new EF6.ProductWorkplace();
+                                    outPorductWorkplace.ProductWorkplaceId = Guid.NewGuid();
+                                    outPorductWorkplace.ProductId = productId;
+                                    outPorductWorkplace.WorkplaceId = fromId;
+                                    ctx.ProductWorkplace.Add(outPorductWorkplace);
+                                }
+                                outPorductWorkplace.CDQTY += qty;
+                                if (qty > 0)
+                                {
+                                    outPorductWorkplace.RECQTY += qty;
+                                }
+                                ctx.SaveChanges();
+                                #endregion
+
+                                //In
+                                #region UpdateProductQty(detail.ProductId.Value, toId, detail.QtyConfirmed.Value);
+                                qty = detail.QtyConfirmed.Value;
+                                var inPorductWorkplace = ctx.ProductWorkplace.Where(x => x.ProductId == productId && x.WorkplaceId == toId).FirstOrDefault();
+                                if (inPorductWorkplace == null)
+                                {
+                                    inPorductWorkplace = new EF6.ProductWorkplace();
+                                    inPorductWorkplace.ProductWorkplaceId = Guid.NewGuid();
+                                    inPorductWorkplace.ProductId = productId;
+                                    inPorductWorkplace.WorkplaceId = fromId;
+                                    ctx.ProductWorkplace.Add(inPorductWorkplace);
+                                }
+                                inPorductWorkplace.CDQTY += qty;
+                                if (qty > 0)
+                                {
+                                    inPorductWorkplace.RECQTY += qty;
+                                }
+                                ctx.SaveChanges();
+                                #endregion
+                            }
+                            #endregion
+
+                            oHeader.CONFIRM_TRF = this.IsConfirmedTransaction;
+                            oHeader.CONFIRM_TRF_LASTUPDATE = DateTime.Now;
+                            oHeader.CONFIRM_TRF_LASTUSER = Common.Config.CurrentUserId;
+                            oHeader.ModifiedBy = Common.Config.CurrentUserId;
+                            oHeader.ModifiedOn = DateTime.Now;
+
+                            ctx.SaveChanges();
+
+                            this.TxferId = oHeader.HeaderId;
+                        }
+                        scope.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        scope.Rollback();
+                    }
+                }
             }
         }
 
         #region SubLedger
+        /**
         private void UpdateTXFSubLedger(string txnumber_Batch)
         {
-            InvtSubLedgerTXF_Header oSubTXF = InvtSubLedgerTXF_Header.Load(this.TxferId);
-            if (oSubTXF != null)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                UpdateTXFSubLedgerDetail(oSubTXF.HeaderId);
+                var oSubTXF = ctx.InvtSubLedgerTXF_Header.Find(this.TxferId);
+                if (oSubTXF != null)
+                {
+                    UpdateTXFSubLedgerDetail(oSubTXF.HeaderId);
 
-                oSubTXF.CONFIRM_TRF = this.IsConfirmedTransaction;
-                oSubTXF.CONFIRM_TRF_LASTUPDATE = DateTime.Now;
-                oSubTXF.CONFIRM_TRF_LASTUSER = Common.Config.CurrentUserId;
+                    oSubTXF.CONFIRM_TRF = this.IsConfirmedTransaction;
+                    oSubTXF.CONFIRM_TRF_LASTUPDATE = DateTime.Now;
+                    oSubTXF.CONFIRM_TRF_LASTUSER = Common.Config.CurrentUserId;
 
-                oSubTXF.ModifiedBy = Common.Config.CurrentUserId;
-                oSubTXF.ModifiedOn = DateTime.Now;
+                    oSubTXF.ModifiedBy = Common.Config.CurrentUserId;
+                    oSubTXF.ModifiedOn = DateTime.Now;
 
-                oSubTXF.Save();
+                    ctx.SaveChanges();
+                }
             }
         }
 
@@ -315,9 +459,11 @@ namespace RT2020.Inventory.Transfer
                 }
             }
         }
+        */
         #endregion
 
         #region Ledger
+        /**
         private void UpdateLedger(string txnumber_Batch)
         {
             InvtLedgerHeader oLedgerHeader = InvtLedgerHeader.Load(this.TxferId);
@@ -334,7 +480,7 @@ namespace RT2020.Inventory.Transfer
                 oLedgerHeader.Save();
             }
         }
-
+        
         private void UpdateLedgerDetails(Guid ledgerHeaderId)
         {
             foreach (ListViewItem listItem in lvDetailsList.Items)
@@ -355,9 +501,11 @@ namespace RT2020.Inventory.Transfer
                 }
             }
         }
+        */
         #endregion
 
         #region FEP
+        /**
         private void UpdateFEP()
         {
             FepBatchHeader oFepHeader = FepBatchHeader.Load(this.TxferId);
@@ -395,9 +543,11 @@ namespace RT2020.Inventory.Transfer
                 }
             }
         }
+        */
         #endregion
 
         #region Product
+        /**
         private void UpdateProduct(InvtBatchTXF_Header oBatchHeader)
         {
             string sql = "HeaderId = '" + oBatchHeader.HeaderId.ToString() + "'";
@@ -411,7 +561,7 @@ namespace RT2020.Inventory.Transfer
                 UpdateProductQty(detail.ProductId, oBatchHeader.ToLocation, detail.QtyConfirmed);
             }
         }
-
+        
         private void UpdateProductQty(Guid productId, Guid workplaceId, decimal qty)
         {
             using (var ctx = new EF6.RT2020Entities())
@@ -434,6 +584,7 @@ namespace RT2020.Inventory.Transfer
                 ctx.SaveChanges();
             }
         }
+        */
         #endregion
 
         #endregion
@@ -441,33 +592,69 @@ namespace RT2020.Inventory.Transfer
         #region Load Txfer Header Info
         private void LoadTxferInfo()
         {
-            InvtBatchTXF_Header oHeader = InvtBatchTXF_Header.Load(this.TxferId);
-            if (oHeader != null)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                txtTxNumber.Text = oHeader.TxNumber;
-                txtTxType.Text = oHeader.TxType;
+                var oBatchHeader = ctx.InvtBatchTXF_Header.Find(this.TxferId);
+                if (oBatchHeader != null)
+                {
+                    txtTxNumber.Text = oBatchHeader.TxNumber;
+                    txtTxType.Text = oBatchHeader.TxType;
 
-                cboFromLocation.SelectedValue = oHeader.FromLocation;
-                cboToLocation.SelectedValue = oHeader.ToLocation;
-                dtpTxDate.Value = oHeader.TxDate;
+                    cboFromLocation.SelectedValue = oBatchHeader.FromLocation;
+                    cboToLocation.SelectedValue = oBatchHeader.ToLocation;
+                    dtpTxDate.Value = oBatchHeader.TxDate.Value;
 
-                txtLatestConfirmedOn.Text = RT2020.SystemInfo.Settings.DateTimeToString(oHeader.CONFIRM_TRF_LASTUPDATE, false);
-                txtLatestConfirmedBy.Text = ModelEx.StaffEx.GetStaffNumberById(oHeader.CONFIRM_TRF_LASTUSER);
+                    txtLatestConfirmedOn.Text = RT2020.SystemInfo.Settings.DateTimeToString(oBatchHeader.CONFIRM_TRF_LASTUPDATE.Value, false);
+                    txtLatestConfirmedBy.Text = ModelEx.StaffEx.GetStaffNumberById(oBatchHeader.CONFIRM_TRF_LASTUSER.Value);
 
-                txtRecordStatus.Text = string.Format(txtRecordStatus.Text, oHeader.TxType);
+                    txtRecordStatus.Text = string.Format(txtRecordStatus.Text, oBatchHeader.TxType);
 
-                txtConfirmationStatus.Text = oHeader.CONFIRM_TRF == "Y" ? "Completed" : (oHeader.CONFIRM_TRF.Trim() == "" ? "Unprocessed" : "Incompleted");
-            }
-            else
-            {
-                LoadTxferLedgerInfo();
-                LoadTxferFepInfo();
+                    txtConfirmationStatus.Text = oBatchHeader.CONFIRM_TRF == "Y" ? "Completed" : (oBatchHeader.CONFIRM_TRF.Trim() == "" ? "Unprocessed" : "Incompleted");
+                }
+                else
+                {
+                    #region LoadTxferLedgerInfo();
+                    var oLedgerHeader = ctx.InvtLedgerHeader.Find(this.TxferId);
+                    if (oLedgerHeader != null)
+                    {
+                        txtTxNumber.Text = oLedgerHeader.TxNumber;
+                        txtTxType.Text = oLedgerHeader.TxType;
+
+                        cboFromLocation.SelectedValue = oLedgerHeader.WorkplaceId;
+                        cboToLocation.SelectedValue = oLedgerHeader.VsLocationId;
+                        dtpTxDate.Value = oLedgerHeader.TxDate.Value;
+
+                        txtLatestConfirmedOn.Text = RT2020.SystemInfo.Settings.DateTimeToString(oLedgerHeader.CONFIRM_TRF_LASTUPDATE.Value, false);
+                        txtLatestConfirmedBy.Text = oLedgerHeader.CONFIRM_TRF_LASTUSER;
+
+                        txtRecordStatus.Text = string.Format(txtRecordStatus.Text, oLedgerHeader.TxType);
+                    }
+                    #endregion
+
+                    #region LoadTxferFepInfo();
+                    var oFepHeader = ctx.FepBatchHeader.Find(this.TxferId);
+                    if (oFepHeader != null)
+                    {
+                        txtTxNumber.Text = oFepHeader.TxNumber;
+                        txtTxType.Text = oFepHeader.TxType;
+
+                        cboFromLocation.SelectedValue = ModelEx.WorkplaceEx.GetWorkplaceIdByCode(oFepHeader.SHOP);
+                        cboToLocation.SelectedValue = ModelEx.WorkplaceEx.GetWorkplaceIdByCode(oFepHeader.FTSHOP);
+                        dtpTxDate.Value = oFepHeader.TxDate.Value;
+
+                        txtLatestConfirmedOn.Text = RT2020.SystemInfo.Settings.DateTimeToString(oFepHeader.CONFIRM_TRF_LASTUPDATE.Value, false);
+                        txtLatestConfirmedBy.Text = oFepHeader.CONFIRM_TRF_LASTUSER;
+
+                        txtRecordStatus.Text = string.Format(txtRecordStatus.Text, oFepHeader.TxType);
+                    }
+                    #endregion
+                }
             }
 
             BindTxferDetailsInfo();
             CalcTotal();
         }
-
+        /**
         private void LoadTxferLedgerInfo()
         {
             InvtLedgerHeader oHeader = InvtLedgerHeader.Load(this.TxferId);
@@ -505,23 +692,45 @@ namespace RT2020.Inventory.Transfer
                 txtRecordStatus.Text = string.Format(txtRecordStatus.Text, oHeader.TxType);
             }
         }
-
+        */
         #endregion
 
         #region Delete
         private void Delete()
         {
-            InvtBatchTXF_Header oHeader = InvtBatchTXF_Header.Load(this.TxferId);
-            if (oHeader != null)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                string sql = "HeaderId = '" + oHeader.HeaderId.ToString() + "'";
+                using (var scope = ctx.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        var oHeader = ctx.InvtBatchTXF_Header.Find(this.TxferId);
+                        if (oHeader != null)
+                        {
+                            var headerId = oHeader.HeaderId;
+                            string sql = "HeaderId = '" + oHeader.HeaderId.ToString() + "'";
 
-                DeleteDetails(sql);
+                            #region DeleteDetails(sql);
+                            var oDetailList = ctx.InvtBatchTXF_Details.Where(x => x.HeaderId == headerId);
+                            foreach (var oDetail in oDetailList)
+                            {
+                                ctx.InvtBatchTXF_Details.Remove(oDetail);
+                            }
+                            #endregion
 
-                oHeader.Delete();
+                            ctx.InvtBatchTXF_Header.Remove(oHeader);
+                            ctx.SaveChanges();
+                        }
+                        scope.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        scope.Rollback();
+                    }
+                }
             }
         }
-
+        /**
         private void DeleteDetails(string sql)
         {
             InvtBatchTXF_DetailsCollection oDetailList = InvtBatchTXF_Details.LoadCollection(sql);
@@ -530,6 +739,7 @@ namespace RT2020.Inventory.Transfer
                 oDetail.Delete();
             }
         }
+        */
         #endregion
 
         #region Message Handler
