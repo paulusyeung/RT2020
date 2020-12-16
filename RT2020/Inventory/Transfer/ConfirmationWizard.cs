@@ -261,7 +261,55 @@ namespace RT2020.Inventory.Transfer
                         {
                             var txnumber_Batch = oHeader.TxNumber;
 
-                            SaveTxferDetail();
+                            #region SaveTxferDetail();
+                            foreach (ListViewItem listItem in lvDetailsList.Items)
+                            {
+                                Guid detailId = Guid.Empty;
+                                Guid productId = Guid.Empty;
+                                if (Guid.TryParse(listItem.Text.Trim(), out detailId) && Guid.TryParse(listItem.SubItems[10].Text.Trim(), out productId))
+                                {
+                                    //Guid detailId = new Guid(listItem.Text.Trim());
+                                    var oDetail = ctx.InvtBatchTXF_Details.Find(detailId);
+                                    if (oDetail != null)
+                                    {
+                                        oDetail.QtyConfirmed = Convert.ToDecimal(listItem.SubItems[9].Text.Length == 0 ? "0" : listItem.SubItems[9].Text);
+
+                                        ctx.SaveChanges();
+                                    }
+
+                                    var oLedgerDetail = ctx.InvtLedgerDetails.Find(detailId);
+                                    if (oLedgerDetail != null)
+                                    {
+                                        oLedgerDetail.CONFIRM_TRF_QTY = Convert.ToDecimal(listItem.SubItems[9].Text.Length == 0 ? "0" : listItem.SubItems[9].Text);
+
+                                        var oSubLedgerDetail = ctx.InvtSubLedgerTXF_Details.Find(oLedgerDetail.SubLedgerDetailsId);
+                                        if (oSubLedgerDetail != null)
+                                        {
+                                            oSubLedgerDetail.QtyConfirmed = Convert.ToDecimal(listItem.SubItems[9].Text.Length == 0 ? "0" : listItem.SubItems[9].Text);
+                                        }
+
+                                        ctx.SaveChanges();
+                                    }
+
+                                    var oFepDetail = ctx.FepBatchDetail.Find(detailId);
+                                    if (oFepDetail != null)
+                                    {
+                                        oFepDetail.CONFIRM_TRF_QTY = Convert.ToDecimal(listItem.SubItems[9].Text.Length == 0 ? "0" : listItem.SubItems[9].Text);
+
+                                        ctx.SaveChanges();
+                                    }
+
+                                    if (listItem.SubItems[9].Text.Trim().CompareTo(listItem.SubItems[8].Text.Trim()) == 0)
+                                    {
+                                        this.IsConfirmedTransaction = "Y";
+                                    }
+                                    else
+                                    {
+                                        this.IsConfirmedTransaction = "N";
+                                    }
+                                }
+                            }
+                            #endregion
 
                             // Update TXF SubLedger
                             #region UpdateTXFSubLedger(oHeader.TxNumber);
@@ -853,6 +901,7 @@ namespace RT2020.Inventory.Transfer
         #endregion
 
         #region Save Txfer Detail Info
+        /**
         private void SaveTxferDetail()
         {
             foreach (ListViewItem listItem in lvDetailsList.Items)
@@ -903,6 +952,7 @@ namespace RT2020.Inventory.Transfer
                 }
             }
         }
+        */
         #endregion
 
         #region Load Txfer Detail Info
