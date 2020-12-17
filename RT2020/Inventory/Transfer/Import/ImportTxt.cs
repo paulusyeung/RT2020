@@ -193,28 +193,32 @@ namespace RT2020.Inventory.Transfer.Import
         {
             System.Guid headerId = System.Guid.Empty;
 
-            InvtBatchTXF_Header oHeader = new InvtBatchTXF_Header();
+            using (var ctx = new EF6.RT2020Entities())
+            {
+                var oHeader = new EF6.InvtBatchTXF_Header();
+                oHeader.HeaderId = Guid.NewGuid();
+                oHeader.TxType = Common.Enums.TxType.TXF.ToString();
+                oHeader.TxNumber = txNumber;
+                oHeader.TxDate = master.TxDate;
+                oHeader.TransferredOn = master.TxferDate;
+                oHeader.CompletedOn = master.CompletionDate;
+                oHeader.FromLocation = ModelEx.WorkplaceEx.GetWorkplaceIdByCode(master.FromLocation);
+                oHeader.ToLocation = ModelEx.WorkplaceEx.GetWorkplaceIdByCode(master.ToLocation);
+                oHeader.StaffId = ModelEx.StaffEx.GetStaffIdByStaffNumber(master.Operator);
+                oHeader.Status = Convert.ToInt32(Common.Enums.Status.Draft.ToString("d"));
+                oHeader.Reference = master.RefNumber;
+                oHeader.Remarks = master.Remarks;
 
-            oHeader.TxType = Common.Enums.TxType.TXF.ToString();
-            oHeader.TxNumber = txNumber;
-            oHeader.TxDate = master.TxDate;
-            oHeader.TransferredOn = master.TxferDate;
-            oHeader.CompletedOn = master.CompletionDate;
-            oHeader.FromLocation = ModelEx.WorkplaceEx.GetWorkplaceIdByCode(master.FromLocation);
-            oHeader.ToLocation = ModelEx.WorkplaceEx.GetWorkplaceIdByCode(master.ToLocation);
-            oHeader.StaffId = ModelEx.StaffEx.GetStaffIdByStaffNumber(master.Operator);
-            oHeader.Status = Convert.ToInt32(Common.Enums.Status.Draft.ToString("d"));
-            oHeader.Reference = master.RefNumber;
-            oHeader.Remarks = master.Remarks;
+                oHeader.CreatedBy = Common.Config.CurrentUserId;
+                oHeader.CreatedOn = DateTime.Now;
+                oHeader.ModifiedBy = Common.Config.CurrentUserId;
+                oHeader.ModifiedOn = DateTime.Now;
 
-            oHeader.CreatedBy = Common.Config.CurrentUserId;
-            oHeader.CreatedOn = DateTime.Now;
-            oHeader.ModifiedBy = Common.Config.CurrentUserId;
-            oHeader.ModifiedOn = DateTime.Now;
+                ctx.InvtBatchTXF_Header.Add(oHeader);
+                ctx.SaveChanges();
 
-            oHeader.Save();
-
-            headerId = oHeader.HeaderId;
+                headerId = oHeader.HeaderId;
+            }
 
             return headerId;
         }

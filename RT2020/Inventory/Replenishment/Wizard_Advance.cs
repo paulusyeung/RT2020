@@ -155,15 +155,7 @@ namespace RT2020.Inventory.Replenishment
         #region Delete
         private void Delete()
         {
-            InvtBatchTXF_Header oHeader = InvtBatchTXF_Header.Load(this.RplId);
-            if (oHeader != null)
-            {
-                string sql = "HeaderId = '" + oHeader.HeaderId.ToString() + "'";
-
-                DeleteDetails(sql);
-
-                oHeader.Delete();
-            }
+            ModelEx.InvtBatchTXF_HeaderEx.DeleteChildToo(this.RplId);
         }
 
         private void DeleteDetails(string sql)

@@ -979,7 +979,42 @@ namespace RT2020.Inventory.Replenishment
                         if (consolidatedList.Count > 0)
                         {
                             string txNumber = RT2020.SystemInfo.Settings.QueuingTxNumber(Common.Enums.TxType.TXF);
-                            Guid headerId = ConsolidatedTXFBatchHeader(txNumber, fromLoc, toLoc, consolidatedTxNumber);
+                            var headerId = Guid.Empty;
+                            #region Guid headerId = ConsolidatedTXFBatchHeader(txNumber, fromLoc, toLoc, consolidatedTxNumber);
+                            var fromLocation = ModelEx.WorkplaceEx.GetWorkplaceIdByCode(fromLoc);
+                            var toLocation = ModelEx.WorkplaceEx.GetWorkplaceIdByCode(toLoc);
+                            var staffId = Guid.Empty;
+                            if (Guid.TryParse(cboStaff.SelectedValue.ToString(), out staffId) && fromLocation != Guid.Empty && toLocation != Guid.Empty)
+                            {
+                                var oHeader = new EF6.InvtBatchTXF_Header();
+                                oHeader.HeaderId = Guid.NewGuid();
+                                oHeader.TxNumber = txNumber;
+                                oHeader.TxType = Common.Enums.TxType.TXF.ToString();
+
+                                oHeader.Status = (int)Common.Enums.Status.Active;
+
+                                oHeader.FromLocation = fromLocation;
+                                oHeader.ToLocation = toLocation;
+                                oHeader.StaffId = staffId;
+                                oHeader.TxDate = dtpTxDate.Value;
+                                oHeader.TransferredOn = dtpTxferDate.Value;
+                                oHeader.CompletedOn = dtpCompletedDate.Value;
+                                oHeader.Remarks = "RPL: " + ((consolidatedTxNumber.Length <= (100 - 4)) ? consolidatedTxNumber : consolidatedTxNumber.Substring(0, (100 - 4 - 3)) + "...");
+                                oHeader.Reference = string.Empty;
+                                oHeader.ReadOnly = true;
+
+                                oHeader.CreatedBy = Common.Config.CurrentUserId;
+                                oHeader.CreatedOn = DateTime.Now;
+
+                                oHeader.ModifiedBy = Common.Config.CurrentUserId;
+                                oHeader.ModifiedOn = DateTime.Now;
+
+                                ctx.InvtBatchTXF_Header.Add(oHeader);
+                                ctx.SaveChanges();
+
+                                headerId = oHeader.HeaderId;
+                            }
+                            #endregion
 
                             if (headerId != Guid.Empty)
                             {
@@ -1076,7 +1111,7 @@ namespace RT2020.Inventory.Replenishment
 
             return consolidatedList.Count;
         }
-
+        /**
         private Guid ConsolidatedTXFBatchHeader(string txNumber, string fromLoc, string toLoc, string consolidatedTxNumber)
         {
             System.Guid fromLocation = ModelEx.WorkplaceEx.GetWorkplaceIdByCode(fromLoc);
@@ -1114,7 +1149,7 @@ namespace RT2020.Inventory.Replenishment
 
             return System.Guid.Empty;
         }
-        /**
+        
         private void ConsolidatedTXFBatchDetails(string rplHeaderId, System.Guid txfHeaderId, string txfTxNumber)
         {
             string sql = "HeaderId = '" + rplHeaderId + "'";

@@ -176,25 +176,56 @@ namespace RT2020.Inventory.Transfer
             if (VerifySelection())
             {
                 int iCount = 0;
-                for (int i = 0; i < dgvToLocation.Rows.Count; i++)
+                using (var ctx = new EF6.RT2020Entities())
                 {
-                    DataGridViewCheckBoxCell chkCell = (DataGridViewCheckBoxCell)(dgvToLocation.Rows[i].Cells[colStatus.Name]);
-                    bool verified = (chkCell.Value != null) ? Convert.ToBoolean(chkCell.Value.ToString()) : false;
-                    if (verified)
+                    for (int i = 0; i < dgvToLocation.Rows.Count; i++)
                     {
-                        DataGridViewTextBoxCell idCell = (DataGridViewTextBoxCell)(dgvToLocation.Rows[i].Cells[dataGridViewTextBoxColumn1.Name]);
-                        System.Guid id = System.Guid.Empty;
-                        if (Common.Utility.IsGUID(idCell.Value.ToString()))
+                        DataGridViewCheckBoxCell chkCell = (DataGridViewCheckBoxCell)(dgvToLocation.Rows[i].Cells[colStatus.Name]);
+                        bool verified = (chkCell.Value != null) ? Convert.ToBoolean(chkCell.Value.ToString()) : false;
+                        if (verified)
                         {
-                            DataGridViewTextBoxCell pnqCell = (DataGridViewTextBoxCell)(dgvToLocation.Rows[i].Cells[dataGridViewTextBoxColumn4.Name]);
-                            int pnq = pnqCell.Value == null ? 0 : Convert.ToInt32(pnqCell.Value.ToString());
-
-                            InvtBatchTXF_Header header = GeneratePNQ(new Guid(idCell.Value.ToString()), pnq);
-
-                            if (header.HeaderId != System.Guid.Empty)
+                            DataGridViewTextBoxCell idCell = (DataGridViewTextBoxCell)(dgvToLocation.Rows[i].Cells[dataGridViewTextBoxColumn1.Name]);
+                            System.Guid id = System.Guid.Empty;
+                            if (Common.Utility.IsGUID(idCell.Value.ToString()))
                             {
-                                dgvToLocation.Rows[i].Cells[dataGridViewTextBoxColumn5.Name].Value = header.TxNumber;
+                                DataGridViewTextBoxCell pnqCell = (DataGridViewTextBoxCell)(dgvToLocation.Rows[i].Cells[dataGridViewTextBoxColumn4.Name]);
+                                int pnq = pnqCell.Value == null ? 0 : Convert.ToInt32(pnqCell.Value.ToString());
 
+                                #region InvtBatchTXF_Header header = GeneratePNQ(new Guid(idCell.Value.ToString()), pnq);
+                                Guid toLocation = new Guid(idCell.Value.ToString());
+                                int pickingNumber = pnq;
+
+                                var oHeader = new EF6.InvtBatchTXF_Header();
+                                oHeader.HeaderId = Guid.NewGuid();
+                                oHeader.TxNumber = RT2020.SystemInfo.Settings.QueuingTxNumber(Common.Enums.TxType.PNQ);
+                                oHeader.TxType = Common.Enums.TxType.PNQ.ToString();
+                                oHeader.TxDate = dtpTxDate.Value;
+
+                                oHeader.CreatedBy = Common.Config.CurrentUserId;
+                                oHeader.CreatedOn = DateTime.Now;
+
+                                oHeader.FromLocation = new Guid(cboFromLocation.SelectedValue.ToString());
+                                oHeader.ToLocation = toLocation;
+                                oHeader.StaffId = new Guid(cboOperatorCode.SelectedValue.ToString());
+                                oHeader.TransferredOn = dtpTxferDate.Value;
+                                oHeader.CompletedOn = dtpCompDate.Value;
+                                oHeader.Remarks = txtRemarks.Text;
+                                oHeader.Picked = true;
+
+                                oHeader.ModifiedBy = Common.Config.CurrentUserId;
+                                oHeader.ModifiedOn = DateTime.Now;
+
+                                ctx.InvtBatchTXF_Header.Add(oHeader);
+                                ctx.SaveChanges();
+                                #endregion
+
+                                dgvToLocation.Rows[i].Cells[dataGridViewTextBoxColumn5.Name].Value = oHeader.TxNumber;
+                                //if (oHeader.HeaderId != Guid.Empty)
+                                //{
+                                //    dgvToLocation.Rows[i].Cells[dataGridViewTextBoxColumn5.Name].Value = header.TxNumber;
+
+                                //    iCount++;
+                                //}
                                 iCount++;
                             }
                         }
@@ -207,7 +238,7 @@ namespace RT2020.Inventory.Transfer
                 return 0;
             }
         }
-
+        /**
         private InvtBatchTXF_Header GeneratePNQ(Guid toLocation, int pickingNumber)
         {
             System.Guid headerId = System.Guid.Empty;
@@ -250,6 +281,7 @@ namespace RT2020.Inventory.Transfer
             oDetail.Remarks = "Picking Note";
             oDetail.Save();
         }
+        */
         #endregion
 
         private void btnExit_Click(object sender, EventArgs e)

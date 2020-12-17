@@ -42,6 +42,8 @@ namespace RT2020.Inventory.Transfer.Reports
 
         private void FillFromList()
         {
+            ModelEx.InvtBatchTXF_HeaderEx.LoadCombo(ref cboFrom, "TxNumber", false);
+            /**
             cboFrom.Items.Clear();
 
             string[] orderBy = { "TxNumber" };
@@ -52,10 +54,13 @@ namespace RT2020.Inventory.Transfer.Reports
             cboFrom.DataSource = headerList;
             cboFrom.DisplayMember = "TxNumber";
             cboFrom.ValueMember = "HeaderId";
+            */
         }
 
         private void FillToList()
         {
+            ModelEx.InvtBatchTXF_HeaderEx.LoadCombo(ref cboTo, "TxNumber", false);
+            /**
             cboTo.Items.Clear();
 
             string[] orderBy = { "TxNumber" };
@@ -66,8 +71,8 @@ namespace RT2020.Inventory.Transfer.Reports
             cboTo.DataSource = headerList;
             cboTo.DisplayMember = "TxNumber";
             cboTo.ValueMember = "HeaderId";
-
-            cboTo.SelectedIndex = headerList.Count - 1;
+            */
+            cboTo.SelectedIndex = cboTo.Items.Count - 1;
         }
         #endregion
 
