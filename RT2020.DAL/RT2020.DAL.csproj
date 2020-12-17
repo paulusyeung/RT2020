@@ -110,12 +110,6 @@
     <Compile Include="EPOSBatchDetails.cs" />
     <Compile Include="EPOSBatchHeader.cs" />
     <Compile Include="EPOSBatchTender.cs" />
-    <Compile Include="EPOSSubLedgerDetails.cs" />
-    <Compile Include="EPOSSubLedgerHeader.cs" />
-    <Compile Include="EPOSSubLedgerTender.cs" />
-    <Compile Include="FepAudit.cs" />
-    <Compile Include="FepBatchDetail.cs" />
-    <Compile Include="FepBatchHeader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SqlHelper.cs" />
   </ItemGroup>

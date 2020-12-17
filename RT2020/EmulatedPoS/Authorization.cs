@@ -637,8 +637,8 @@ namespace RT2020.EmulatedPoS
                             string txNumber_SubLedger = oBatchHeader.TxNumber;
 
                             #region Guid subLedgerHeaderId = CreateEPOSSubLedgerHeader(oBatchHeader);
-                            EPOSSubLedgerHeader oSubHeader = new EPOSSubLedgerHeader();
-
+                            var oSubHeader = new EF6.EPOSSubLedgerHeader();
+                            oSubHeader.HeaderId = Guid.NewGuid();
                             oSubHeader.TxNumber = oBatchHeader.TxNumber;
                             oSubHeader.TxType = oBatchHeader.TxType;
                             oSubHeader.TxDate = oBatchHeader.TxDate.Value;
@@ -680,7 +680,8 @@ namespace RT2020.EmulatedPoS
                             oSubHeader.PostedBy = Common.Config.CurrentUserId;
                             oSubHeader.PostedOn = DateTime.Now;
 
-                            oSubHeader.Save();
+                            ctx.EPOSSubLedgerHeader.Add(oSubHeader);
+                            ctx.SaveChanges();
 
                             var subLedgerHeaderId = oSubHeader.HeaderId;
                             #endregion
