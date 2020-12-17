@@ -197,7 +197,7 @@ namespace RT2020.Inventory.Replenishment
             if (txtTxNumber.Text.Trim().Length > 0)
             {
                 string sql = "TxNumber LIKE '%" + txtTxNumber.Text.Trim() + "%'";
-                InvtBatchRPL_Header oHeader = InvtBatchRPL_Header.LoadWhere(sql);
+                var oHeader = ModelEx.InvtBatchRPL_HeaderEx.Get(sql);
                 if (oHeader != null)
                 {
                     Common.Enums.Status oStatus = (Common.Enums.Status)Enum.Parse(typeof(Common.Enums.Status), oHeader.Status.ToString());
@@ -284,10 +284,10 @@ namespace RT2020.Inventory.Replenishment
 
             if (Common.Utility.IsGUID(headerId))
             {
-                InvtBatchRPL_Header oBatchHeader = InvtBatchRPL_Header.Load(new Guid(headerId));
+                var oBatchHeader = ModelEx.InvtBatchRPL_HeaderEx.Get(new Guid(headerId));
                 if (oBatchHeader != null)
                 {
-                    if (!CheckTxDate(oBatchHeader.TxDate))
+                    if (!CheckTxDate(oBatchHeader.TxDate.Value))
                     {
                         DataRow row = errorTable.NewRow();
                         row["HeaderId"] = oBatchHeader.HeaderId.ToString();
@@ -338,13 +338,13 @@ namespace RT2020.Inventory.Replenishment
                         isPostable = isPostable & false;
                     }
 
-                    InvtBatchRPL_DetailsCollection detailList = InvtBatchRPL_Details.LoadCollection("HeaderId = '" + oBatchHeader.HeaderId.ToString() + "' AND TxType = 'RPL'");
-                    foreach (InvtBatchRPL_Details detail in detailList)
+                    var detailList = ModelEx.InvtBatchRPL_DetailsEx.GetList("HeaderId = '" + oBatchHeader.HeaderId.ToString() + "' AND TxType = 'RPL'");
+                    foreach (var detail in detailList)
                     {
                         bool retired = false;
                         string stk = string.Empty, a1 = string.Empty, a2 = string.Empty, a3 = string.Empty;
 
-                        var oProduct = ModelEx.ProductEx.Get(detail.ProductId);
+                        var oProduct = ModelEx.ProductEx.Get(detail.ProductId.Value);
                         if (oProduct != null)
                         {
                             stk = oProduct.STKCODE;
@@ -620,7 +620,7 @@ namespace RT2020.Inventory.Replenishment
         }
 
         #region Clear Batch
-
+        /**
         /// <summary>
         /// Clears the batch transaction.
         /// </summary>
@@ -635,7 +635,7 @@ namespace RT2020.Inventory.Replenishment
 
             oBatchHeader.Delete();
         }
-
+        */
         #endregion
 
         #region SubLedger
@@ -770,7 +770,7 @@ namespace RT2020.Inventory.Replenishment
                 oTable = ErrorMessageTable();
             }
 
-            InvtBatchRPL_Header oBatchHeader = InvtBatchRPL_Header.Load(headerId);
+            var oBatchHeader = ModelEx.InvtBatchRPL_HeaderEx.Get(headerId);
             if (oBatchHeader != null)
             {
                 if (dtpTxDate.Value == null || dtpTxDate.Value.Year <= 1900)

@@ -407,28 +407,78 @@ namespace RT2020.Inventory.Replenishment
         {
             if (IsValid())
             {
-                InvtBatchRPL_Header oHeader = InvtBatchRPL_Header.Load(this.RplId);
-                if (oHeader != null)
+                using (var ctx = new EF6.RT2020Entities())
                 {
-                    oHeader.Status = cboStatus.Text == "HOLD" ? (int)Common.Enums.Status.Draft : (int)Common.Enums.Status.Active;
+                    using (var scope = ctx.Database.BeginTransaction())
+                    {
+                        try
+                        {
+                            #region save InvtBatchRPL_Header
+                            var oHeader = ctx.InvtBatchRPL_Header.Find(this.RplId);
+                            if (oHeader != null)
+                            {
+                                oHeader.Status = cboStatus.Text == "HOLD" ? (int)Common.Enums.Status.Draft : (int)Common.Enums.Status.Active;
 
-                    oHeader.TxDate = dtpTxDate.Value;
-                    oHeader.TXFOn = dtpTxferDate.Value;
-                    oHeader.CompletedOn = dtpCompDate.Value;
+                                oHeader.TxDate = dtpTxDate.Value;
+                                oHeader.TXFOn = dtpTxferDate.Value;
+                                oHeader.CompletedOn = dtpCompDate.Value;
 
-                    oHeader.FromLocation = cboFromLocation.Text;
-                    oHeader.ToLocation = cboToLocation.Text;
-                    oHeader.StaffId = new Guid(cboOperatorCode.SelectedValue.ToString());
-                    oHeader.Remarks = txtRemarks.Text;
+                                oHeader.FromLocation = cboFromLocation.Text;
+                                oHeader.ToLocation = cboToLocation.Text;
+                                oHeader.StaffId = new Guid(cboOperatorCode.SelectedValue.ToString());
+                                oHeader.Remarks = txtRemarks.Text;
 
-                    oHeader.ModifiedBy = Common.Config.CurrentUserId;
-                    oHeader.ModifiedOn = DateTime.Now;
+                                oHeader.ModifiedBy = Common.Config.CurrentUserId;
+                                oHeader.ModifiedOn = DateTime.Now;
 
-                    oHeader.Save();
-                    this.RplId = oHeader.HeaderId;
+                                ctx.SaveChanges();
+
+                                this.RplId = oHeader.HeaderId;
+                            }
+                            #endregion
+
+                            #region SaveRplDetail();
+                            foreach (ListViewItem listItem in lvDetailsList.Items)
+                            {
+                                Guid detailId = Guid.Empty, productId = Guid.Empty;
+
+                                if (Guid.TryParse(listItem.Text.Trim(), out detailId) && Guid.TryParse(listItem.SubItems[11].Text.Trim(), out productId))
+                                {
+                                    //System.Guid detailId = new Guid(listItem.Text.Trim());
+                                    var oDetail = ctx.InvtBatchRPL_Details.Find(detailId);
+                                    if (oDetail == null)
+                                    {
+                                        oDetail = new EF6.InvtBatchRPL_Details();
+                                        oDetail.DetailsId = Guid.NewGuid();
+                                        oDetail.HeaderId = this.RplId;
+                                        oDetail.TxNumber = txtTxNumber.Text;
+                                        oDetail.LineNumber = Convert.ToInt32(listItem.SubItems[1].Text.Length == 0 ? "1" : listItem.SubItems[1].Text);
+
+                                        ctx.InvtBatchRPL_Details.Add(oDetail);
+                                    }
+                                    oDetail.ProductId = productId;  // new Guid(listItem.SubItems[11].Text.Trim());
+                                    oDetail.QtyRequested = Convert.ToDecimal(listItem.SubItems[8].Text.Length == 0 ? "0" : listItem.SubItems[8].Text);
+                                    oDetail.QtyIssued = Convert.ToDecimal(listItem.SubItems[9].Text.Length == 0 ? "0" : listItem.SubItems[9].Text);
+                                    oDetail.Remarks = listItem.SubItems[10].Text;
+
+                                    if (listItem.SubItems[2].Text.Trim().ToUpper() == "REMOVED" && detailId != Guid.Empty)
+                                    {
+                                        ctx.InvtBatchRPL_Details.Remove(oDetail);
+                                    }
+
+                                    ctx.SaveChanges();
+                                }
+                            }
+                            #endregion
+
+                            scope.Commit();
+                        }
+                        catch (Exception ex)
+                        {
+                            scope.Rollback();
+                        }
+                    }
                 }
-
-                SaveRplDetail();
             }
         }
         #endregion
@@ -436,7 +486,7 @@ namespace RT2020.Inventory.Replenishment
         #region Load Rpl Header Info
         private void LoadRplInfo()
         {
-            InvtBatchRPL_Header oHeader = InvtBatchRPL_Header.Load(this.RplId);
+            var oHeader = ModelEx.InvtBatchRPL_HeaderEx.Get(this.RplId);
             if (oHeader != null)
             {
                 txtTxNumber.Text = oHeader.TxNumber;
@@ -446,9 +496,9 @@ namespace RT2020.Inventory.Replenishment
                 cboOperatorCode.SelectedValue = oHeader.StaffId;
                 cboStatus.Text = (oHeader.Status == 0) ? "HOLD" : "POST";
 
-                dtpTxDate.Value = oHeader.TxDate;
-                dtpTxferDate.Value = oHeader.TXFOn;
-                dtpCompDate.Value = oHeader.CompletedOn;
+                dtpTxDate.Value = oHeader.TxDate.Value;
+                dtpTxferDate.Value = oHeader.TXFOn.Value;
+                dtpCompDate.Value = oHeader.CompletedOn.Value;
 
                 txtRemarks.Text = oHeader.Remarks;
 
@@ -456,8 +506,8 @@ namespace RT2020.Inventory.Replenishment
                 txtLastUpdateBy.Text = ModelEx.StaffEx.GetStaffNumberById(oHeader.ModifiedBy);
 
                 txtTxConfirmed.Text = oHeader.Confirmed ? "Y" : "N";
-                txtConfirmedBy.Text = ModelEx.StaffEx.GetStaffNumberById(oHeader.ConfirmedBy);
-                txtConfirmedOn.Text = RT2020.SystemInfo.Settings.DateTimeToString(oHeader.ConfirmedOn, false);
+                txtConfirmedBy.Text = ModelEx.StaffEx.GetStaffNumberById(oHeader.ConfirmedBy.Value);
+                txtConfirmedOn.Text = RT2020.SystemInfo.Settings.DateTimeToString(oHeader.ConfirmedOn.Value, false);
                 txtSpecialRequest.Text = oHeader.SpecialRequest ? "Y" : "N";
 
                 this.tbWizardAction.Buttons[0].Enabled = !oHeader.Confirmed;
@@ -470,6 +520,7 @@ namespace RT2020.Inventory.Replenishment
         #endregion
 
         #region Delete
+        /**
         private void Delete()
         {
             InvtBatchRPL_Header oHeader = InvtBatchRPL_Header.Load(this.RplId);
@@ -491,6 +542,7 @@ namespace RT2020.Inventory.Replenishment
                 oDetail.Delete();
             }
         }
+        */
         #endregion
 
         #region Message Handler
@@ -546,7 +598,7 @@ namespace RT2020.Inventory.Replenishment
         {
             if (((Form)sender).DialogResult == DialogResult.Yes)
             {
-                Delete();
+                ModelEx.InvtBatchRPL_HeaderEx.DeleteChildToo(this.RplId); // Delete();
 
                 this.Close();
             }
@@ -618,6 +670,7 @@ namespace RT2020.Inventory.Replenishment
         #endregion
 
         #region Save Rpl Detail Info
+        /**
         private void SaveRplDetail()
         {
             foreach (ListViewItem listItem in lvDetailsList.Items)
@@ -649,6 +702,7 @@ namespace RT2020.Inventory.Replenishment
                 }
             }
         }
+        */
         #endregion
 
         #region Load Rpl Detail Info

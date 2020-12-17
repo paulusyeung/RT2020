@@ -296,41 +296,286 @@ namespace RT2020.Inventory.Replenishment
                     sRemarks = sRemarks.Remove(sRemarks.LastIndexOf('/'));
             }
 
-            if (rbtnWH2WH.Checked)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                DateTime txDate = DateTime.Now;
-                string txNumber = RT2020.SystemInfo.Settings.QueuingTxNumber(Common.Enums.TxType.RPL);
-                Guid headerId = CreateRPLHeader(txNumber, txDate, cboFromWorkplace.Text, cboToWorkplace.Text, sRemarks);
-
-                if (headerId != System.Guid.Empty)
+                using (var scope = ctx.Database.BeginTransaction())
                 {
-                    CreateRPLDetails(headerId, txNumber, cboToWorkplace.Text);
-                    iCount++;
-                }
-            }
-            else
-            {
-                foreach (ListViewItem listItem in lvToWorkplaceList.Items)
-                {
-                    if (listItem.Checked)
+                    if (rbtnWH2WH.Checked)
                     {
+                        #region single item
                         DateTime txDate = DateTime.Now;
                         string txNumber = RT2020.SystemInfo.Settings.QueuingTxNumber(Common.Enums.TxType.RPL);
-                        Guid headerId = CreateRPLHeader(txNumber, txDate, cboFromWorkplace.Text, listItem.SubItems[2].Text, sRemarks);
+                        #region Guid headerId = CreateRPLHeader(txNumber, txDate, cboFromWorkplace.Text, cboToWorkplace.Text, sRemarks);
+                        string fromLocation = cboFromWorkplace.Text, toLocation = cboToWorkplace.Text;
 
-                        if (headerId != System.Guid.Empty)
+                        var oHeader = new EF6.InvtBatchRPL_Header();
+                        oHeader.HeaderId = Guid.Empty;
+                        oHeader.TxNumber = txNumber;
+                        oHeader.TxDate = txDate;
+                        oHeader.FromLocation = fromLocation;
+                        oHeader.ToLocation = toLocation;
+                        oHeader.StaffId = Common.Config.CurrentUserId;
+                        oHeader.Remarks = sRemarks;
+
+                        oHeader.CreatedBy = Common.Config.CurrentUserId;
+                        oHeader.CreatedOn = DateTime.Now;
+                        oHeader.ModifiedBy = Common.Config.CurrentUserId;
+                        oHeader.ModifiedOn = DateTime.Now;
+                        oHeader.Status = Convert.ToInt32(Common.Enums.Status.Draft.ToString("d"));
+
+                        ctx.InvtBatchRPL_Header.Add(oHeader);
+                        ctx.SaveChanges();
+
+                        Guid headerId = oHeader.HeaderId;
+                        #endregion
+
+                        #region CreateRPLDetails(headerId, txNumber, cboToWorkplace.Text);
+                        string workplace = cboToWorkplace.Text;
+
+                        if (preparedDataList != null)
                         {
-                            CreateRPLDetails(headerId, txNumber, listItem.SubItems[2].Text);
+                            DataTable oTable;
+                            int ln = 1;
+
+                            if (rbtnWH2Shop.Checked)
+                            {
+                                oTable = ProcessPreparedData(workplace);
+                            }
+                            else
+                            {
+                                oTable = preparedDataList;
+                            }
+
+                            foreach (DataRow preparedData in oTable.Rows)
+                            {
+                                decimal rplQty = (decimal)preparedData["Qty"];
+                                Guid productId = (Guid)preparedData["ProductId"];
+
+                                if (rplQty > 0 && productId != Guid.Empty)
+                                {
+                                    //string sql = "ProductId = '" + productId.ToString() + "' AND HeaderId = '" + headerId.ToString() + "'";
+                                    var oDetail = ctx.InvtBatchRPL_Details.Where(x => x.ProductId == productId && x.HeaderId == headerId).FirstOrDefault();
+                                    if (oDetail == null)
+                                    {
+                                        oDetail = new EF6.InvtBatchRPL_Details();
+                                        oDetail.DetailsId = Guid.NewGuid();
+                                        oDetail.HeaderId = headerId;
+                                        oDetail.TxNumber = txNumber;
+                                        oDetail.LineNumber = ln++;
+                                        oDetail.ProductId = productId;
+
+                                        ctx.InvtBatchRPL_Details.Add(oDetail);
+                                    }
+                                    oDetail.QtyRequested += rplQty;
+                                    oDetail.QtyIssued += rplQty;
+
+                                    ctx.SaveChanges();
+
+                                    #region UpdateReplenishment(productId);
+                                    DataRow[] rowList = preparedDataList.Select("ProductId = '" + productId.ToString() + "'");
+                                    for (int i = 0; i < rowList.Length; i++)
+                                    {
+                                        Guid detailsId = Guid.Empty;
+                                        if (Guid.TryParse(rowList[i]["DetailsId"].ToString(), out detailsId))
+                                        {
+                                            string txType = rowList[i]["TxType"].ToString();
+                                            //Guid detailsId = (Guid)rowList[i]["DetailsId"];
+
+                                            // POS
+                                            if (txType == "CAS" || txType == "CRT" || txType == "VOD")
+                                            {
+                                                var oCurDetail = ctx.PosLedgerDetails.Find(detailsId);
+                                                if (oCurDetail != null)
+                                                {
+                                                    oCurDetail.Replenishment = rbtnWH2Shop.Checked ? 1 : 2;
+                                                    ctx.SaveChanges();
+                                                }
+                                                else
+                                                {
+                                                    var oFepDetail = ctx.FepBatchDetail.Find(detailsId);
+                                                    if (oFepDetail != null)
+                                                    {
+                                                        oFepDetail.REPLENISH = (short)(rbtnWH2Shop.Checked ? 1 : 2);
+                                                        ctx.SaveChanges();
+                                                    }
+                                                }
+                                            }
+                                            else if (txType == "TXO" || txType == "TRO")  // INVT
+                                            {
+                                                var oCurDetail = ctx.InvtLedgerDetails.Find(detailsId);
+                                                if (oCurDetail != null)
+                                                {
+                                                    oCurDetail.Replenish = rbtnWH2Shop.Checked ? 1 : 2;
+                                                    ctx.SaveChanges();
+                                                }
+                                            }
+                                            else if (txType == "TXI" || txType == "TRI") // Un-Posted FEP
+                                            {
+                                                var oCurDetail = ctx.FepBatchDetail.Find(detailsId);
+                                                if (oCurDetail != null)
+                                                {
+                                                    oCurDetail.REPLENISH = (short)(rbtnWH2Shop.Checked ? 1 : 2);
+                                                    ctx.SaveChanges();
+                                                }
+                                            }
+                                            else if (txType == "SAL" || txType == "SRT") // Wholesale
+                                            {
+                                            }
+                                        }
+                                    }
+                                    #endregion
+                                }
+                            }
                         }
+                        #endregion
 
                         iCount++;
+                        #endregion
+                    }
+                    else
+                    {
+                        #region multiple items
+                        foreach (ListViewItem listItem in lvToWorkplaceList.Items)
+                        {
+                            if (listItem.Checked)
+                            {
+                                DateTime txDate = DateTime.Now;
+                                string txNumber = RT2020.SystemInfo.Settings.QueuingTxNumber(Common.Enums.TxType.RPL);
+                                #region Guid headerId = CreateRPLHeader(txNumber, txDate, cboFromWorkplace.Text, listItem.SubItems[2].Text, sRemarks);
+                                string fromLocation = cboFromWorkplace.Text, toLocation = cboToWorkplace.Text;
+
+                                var oHeader = new EF6.InvtBatchRPL_Header();
+                                oHeader.HeaderId = Guid.Empty;
+                                oHeader.TxNumber = txNumber;
+                                oHeader.TxDate = txDate;
+                                oHeader.FromLocation = fromLocation;
+                                oHeader.ToLocation = toLocation;
+                                oHeader.StaffId = Common.Config.CurrentUserId;
+                                oHeader.Remarks = sRemarks;
+
+                                oHeader.CreatedBy = Common.Config.CurrentUserId;
+                                oHeader.CreatedOn = DateTime.Now;
+                                oHeader.ModifiedBy = Common.Config.CurrentUserId;
+                                oHeader.ModifiedOn = DateTime.Now;
+                                oHeader.Status = Convert.ToInt32(Common.Enums.Status.Draft.ToString("d"));
+
+                                ctx.InvtBatchRPL_Header.Add(oHeader);
+                                ctx.SaveChanges();
+
+                                Guid headerId = oHeader.HeaderId;
+                                #endregion
+
+                                #region CreateRPLDetails(headerId, txNumber, listItem.SubItems[2].Text);
+                                string workplace = listItem.SubItems[2].Text;
+
+                                if (preparedDataList != null)
+                                {
+                                    DataTable oTable;
+                                    int ln = 1;
+
+                                    if (rbtnWH2Shop.Checked)
+                                    {
+                                        oTable = ProcessPreparedData(workplace);
+                                    }
+                                    else
+                                    {
+                                        oTable = preparedDataList;
+                                    }
+
+                                    foreach (DataRow preparedData in oTable.Rows)
+                                    {
+                                        decimal rplQty = (decimal)preparedData["Qty"];
+                                        Guid productId = (Guid)preparedData["ProductId"];
+
+                                        if (rplQty > 0 && productId != Guid.Empty)
+                                        {
+                                            //string sql = "ProductId = '" + productId.ToString() + "' AND HeaderId = '" + headerId.ToString() + "'";
+                                            var oDetail = ctx.InvtBatchRPL_Details.Where(x => x.ProductId == productId && x.HeaderId == headerId).FirstOrDefault();
+                                            if (oDetail == null)
+                                            {
+                                                oDetail = new EF6.InvtBatchRPL_Details();
+                                                oDetail.DetailsId = Guid.NewGuid();
+                                                oDetail.HeaderId = headerId;
+                                                oDetail.TxNumber = txNumber;
+                                                oDetail.LineNumber = ln++;
+                                                oDetail.ProductId = productId;
+
+                                                ctx.InvtBatchRPL_Details.Add(oDetail);
+                                            }
+                                            oDetail.QtyRequested += rplQty;
+                                            oDetail.QtyIssued += rplQty;
+
+                                            ctx.SaveChanges();
+
+                                            #region UpdateReplenishment(productId);
+                                            DataRow[] rowList = preparedDataList.Select("ProductId = '" + productId.ToString() + "'");
+                                            for (int i = 0; i < rowList.Length; i++)
+                                            {
+                                                Guid detailsId = Guid.Empty;
+                                                if (Guid.TryParse(rowList[i]["DetailsId"].ToString(), out detailsId))
+                                                {
+                                                    string txType = rowList[i]["TxType"].ToString();
+                                                    //Guid detailsId = (Guid)rowList[i]["DetailsId"];
+
+                                                    // POS
+                                                    if (txType == "CAS" || txType == "CRT" || txType == "VOD")
+                                                    {
+                                                        var oCurDetail = ctx.PosLedgerDetails.Find(detailsId);
+                                                        if (oCurDetail != null)
+                                                        {
+                                                            oCurDetail.Replenishment = rbtnWH2Shop.Checked ? 1 : 2;
+                                                            ctx.SaveChanges();
+                                                        }
+                                                        else
+                                                        {
+                                                            var oFepDetail = ctx.FepBatchDetail.Find(detailsId);
+                                                            if (oFepDetail != null)
+                                                            {
+                                                                oFepDetail.REPLENISH = (short)(rbtnWH2Shop.Checked ? 1 : 2);
+                                                                ctx.SaveChanges();
+                                                            }
+                                                        }
+                                                    }
+                                                    else if (txType == "TXO" || txType == "TRO")  // INVT
+                                                    {
+                                                        var oCurDetail = ctx.InvtLedgerDetails.Find(detailsId);
+                                                        if (oCurDetail != null)
+                                                        {
+                                                            oCurDetail.Replenish = rbtnWH2Shop.Checked ? 1 : 2;
+                                                            ctx.SaveChanges();
+                                                        }
+                                                    }
+                                                    else if (txType == "TXI" || txType == "TRI") // Un-Posted FEP
+                                                    {
+                                                        var oCurDetail = ctx.FepBatchDetail.Find(detailsId);
+                                                        if (oCurDetail != null)
+                                                        {
+                                                            oCurDetail.REPLENISH = (short)(rbtnWH2Shop.Checked ? 1 : 2);
+                                                            ctx.SaveChanges();
+                                                        }
+                                                    }
+                                                    else if (txType == "SAL" || txType == "SRT") // Wholesale
+                                                    {
+                                                    }
+                                                }
+                                            }
+                                            #endregion
+                                        }
+                                    }
+                                }
+                                #endregion
+
+                                iCount++;
+                            }
+                        }
+                        #endregion
                     }
                 }
             }
 
             return iCount;
         }
-
+        /**
         private Guid CreateRPLHeader(string txNumber, DateTime txDate, string fromLocation, string toLocation, string remarks)
         {
             InvtBatchRPL_Header oHeader = new InvtBatchRPL_Header();
@@ -397,7 +642,7 @@ namespace RT2020.Inventory.Replenishment
                 }
             }
         }
-
+        */
         private DataTable ProcessPreparedData(string workplace)
         {
             DataTable oTable = new DataTable();
@@ -453,7 +698,7 @@ namespace RT2020.Inventory.Replenishment
 
             return oTable;
         }
-
+        /**
         private void UpdateReplenishment(Guid productId)
         {
             using (var ctx = new EF6.RT2020Entities())
@@ -511,6 +756,7 @@ namespace RT2020.Inventory.Replenishment
                 }
             }
         }
+        */
 
         #endregion
 

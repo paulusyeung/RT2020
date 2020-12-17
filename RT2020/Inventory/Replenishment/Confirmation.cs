@@ -200,25 +200,31 @@ namespace RT2020.Inventory.Replenishment
         private int ConfirmTx()
         {
             int iCount = 0;
-            foreach (ListViewItem objItem in this.lvPostTxList.Items)
+
+            using (var ctx = new EF6.RT2020Entities())
             {
-                if (objItem.Checked)
+                foreach (ListViewItem objItem in this.lvPostTxList.Items)
                 {
-                    InvtBatchRPL_Header oHeader = InvtBatchRPL_Header.Load(new Guid(objItem.Text));
-                    if (oHeader != null)
+                    if (objItem.Checked)
                     {
-                        oHeader.Confirmed = true;
-                        oHeader.ConfirmedBy = Common.Config.CurrentUserId;
-                        oHeader.ConfirmedOn = DateTime.Now;
+                        var oHeader = ctx.InvtBatchRPL_Header.Find(new Guid(objItem.Text));
+                        if (oHeader != null)
+                        {
+                            oHeader.Confirmed = true;
+                            oHeader.ConfirmedBy = Common.Config.CurrentUserId;
+                            oHeader.ConfirmedOn = DateTime.Now;
 
-                        oHeader.ModifiedBy = Common.Config.CurrentUserId;
-                        oHeader.ModifiedOn = DateTime.Now;
-                        oHeader.Save();
+                            oHeader.ModifiedBy = Common.Config.CurrentUserId;
+                            oHeader.ModifiedOn = DateTime.Now;
 
-                        iCount++;
+                            ctx.SaveChanges();
+
+                            iCount++;
+                        }
                     }
                 }
             }
+
             return iCount;
         }
         #endregion
