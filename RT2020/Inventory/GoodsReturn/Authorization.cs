@@ -728,7 +728,7 @@ namespace RT2020.Inventory.GoodsReturn
         }
 
         #region Clear Batch
-
+        /**
         /// <summary>
         /// Clears the batch transaction.
         /// </summary>
@@ -743,7 +743,7 @@ namespace RT2020.Inventory.GoodsReturn
 
             oBatchHeader.Delete();
         }
-
+        */
         #endregion
 
         #region SubLedger
@@ -987,7 +987,7 @@ namespace RT2020.Inventory.GoodsReturn
             if (txtTxNumber.Text.Trim().Length > 0)
             {
                 string sql = "TxNumber LIKE '%" + txtTxNumber.Text.Trim() + "%'";
-                InvtBatchCAP_Header oHeader = InvtBatchCAP_Header.LoadWhere(sql);
+                var oHeader = ModelEx.InvtBatchCAP_HeaderEx.Get(sql);
                 if (oHeader != null)
                 {
                     Common.Enums.Status oStatus = (Common.Enums.Status)Enum.Parse(typeof(Common.Enums.Status), oHeader.Status.ToString());

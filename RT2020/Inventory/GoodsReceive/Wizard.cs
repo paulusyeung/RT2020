@@ -500,45 +500,137 @@ namespace RT2020.Inventory.GoodsReceive
 
         private void SaveCAP()
         {
-            InvtBatchCAP_Header oHeader = InvtBatchCAP_Header.Load(this.CAPId);
-            if (oHeader == null)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                oHeader = new InvtBatchCAP_Header();
+                using (var scope = ctx.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        var oHeader = ctx.InvtBatchCAP_Header.Find(this.CAPId);
+                        if (oHeader == null)
+                        {
+                            #region add new InvtBatchCAP_Header
+                            oHeader = new EF6.InvtBatchCAP_Header();
 
-                txtTxNumber.Text = RT2020.SystemInfo.Settings.QueuingTxNumber(Common.Enums.TxType.CAP);
-                oHeader.TxNumber = txtTxNumber.Text;
-                oHeader.TxType = Common.Enums.TxType.CAP.ToString();
+                            txtTxNumber.Text = RT2020.SystemInfo.Settings.QueuingTxNumber(Common.Enums.TxType.CAP);
 
-                oHeader.CreatedBy = Common.Config.CurrentUserId;
-                oHeader.CreatedOn = DateTime.Now;
+                            oHeader.HeaderId = Guid.NewGuid();
+                            oHeader.TxNumber = txtTxNumber.Text;
+                            oHeader.TxType = Common.Enums.TxType.CAP.ToString();
+
+                            oHeader.CreatedBy = Common.Config.CurrentUserId;
+                            oHeader.CreatedOn = DateTime.Now;
+
+                            ctx.InvtBatchCAP_Header.Add(oHeader);
+                            #endregion
+                        }
+                        #region InvtBatchCAP_Header core data
+                        oHeader.TxDate = dtpRecvDate.Value;
+                        oHeader.Status = Convert.ToInt32(cboStatus.Text == "HOLD" ? Common.Enums.Status.Draft.ToString("d") : Common.Enums.Status.Active.ToString("d"));
+
+                        oHeader.WorkplaceId = new Guid(cboWorkplace.SelectedValue.ToString());
+                        oHeader.StaffId = new Guid(cboOperatorCode.SelectedValue.ToString());
+                        oHeader.SupplierId = new Guid(cboSupplierList.SelectedValue.ToString());
+                        oHeader.SupplierRefernce = txtSupplierInvoice.Text;
+                        oHeader.Remarks = txtRemarks.Text;
+                        oHeader.Reference = txtRefNumber.Text;
+                        oHeader.CurrencyCode = cboCurrency.Text;
+                        oHeader.ExchangeRate = Convert.ToDecimal(txtCoefficient.Text.Length == 0 ? "1" : txtCoefficient.Text);
+                        oHeader.LinkToAP = chkAPLink.Checked;
+
+                        oHeader.ModifiedBy = Common.Config.CurrentUserId;
+                        oHeader.ModifiedOn = DateTime.Now;
+                        #endregion
+
+                        oHeader.TotalAmount = Convert.ToDecimal(Common.Utility.IsNumeric(txtTotalAmount.Text) ? txtTotalAmount.Text : "0");
+
+                        ctx.SaveChanges();
+
+                        this.CAPId = oHeader.HeaderId;
+
+                        #region log activity (New Record)
+                        RT2020.Controls.Log4net.LogInfo(
+                            ctx.Entry(oHeader).State == System.Data.Entity.EntityState.Added ?
+                            RT2020.Controls.Log4net.LogAction.Create :
+                            RT2020.Controls.Log4net.LogAction.Update, oHeader.ToString());
+                        #endregion
+
+                        #region SaveCAPDetail();
+                        foreach (ListViewItem listItem in lvDetailsList.Items)
+                        {
+                            Guid detailId = Guid.Empty, productId = Guid.Empty;
+                            if (Guid.TryParse(listItem.Text.Trim(), out detailId) && Guid.TryParse(listItem.SubItems[12].Text.Trim(), out productId))
+                            {
+                                //System.Guid detailId = new Guid(listItem.Text.Trim());
+                                var oDetail = ctx.InvtBatchCAP_Details.Find(detailId);
+                                if (oDetail == null)
+                                {
+                                    oDetail = new EF6.InvtBatchCAP_Details();
+                                    oDetail.DetailsId = Guid.NewGuid();
+                                    oDetail.HeaderId = this.CAPId;
+                                    oDetail.TxNumber = txtTxNumber.Text;
+                                    oDetail.TxType = txtTxType.Text;
+                                    oDetail.LineNumber = Convert.ToInt32(listItem.SubItems[1].Text.Length == 0 ? "1" : listItem.SubItems[1].Text);
+
+                                    ctx.InvtBatchCAP_Details.Add(oDetail);
+                                }
+                                oDetail.ProductId = productId;  // new Guid(listItem.SubItems[12].Text.Trim());
+                                oDetail.Qty = Convert.ToDecimal(listItem.SubItems[8].Text.Length == 0 ? "0" : listItem.SubItems[8].Text);
+                                oDetail.UnitAmount = Convert.ToDecimal(listItem.SubItems[10].Text.Length == 0 ? "0" : listItem.SubItems[10].Text);
+                                oDetail.UnitAmountInForeignCurrency = Convert.ToDecimal(listItem.SubItems[9].Text.Length == 0 ? "0" : listItem.SubItems[9].Text);
+
+                                if (listItem.SubItems[2].Text.Trim().ToUpper() == "REMOVED" && detailId != System.Guid.Empty)
+                                {
+                                    ctx.InvtBatchCAP_Details.Remove(oDetail);
+                                }
+                                ctx.SaveChanges();
+                            }
+                        }
+                        #endregion
+
+                        #region UpdateHeaderInfo();
+                        foreach (ListViewItem listItem in lvDetailsList.Items)
+                        {
+                            Guid detailId = Guid.Empty, productId = Guid.Empty;
+                            if (Guid.TryParse(listItem.Text.Trim(), out detailId) && Guid.TryParse(listItem.SubItems[12].Text.Trim(), out productId))
+                            {
+                                //System.Guid detailId = new Guid(listItem.Text.Trim());
+                                var oDetail = ctx.InvtBatchCAP_Details.Find(detailId);
+                                if (oDetail == null)
+                                {
+                                    oDetail = new EF6.InvtBatchCAP_Details();
+                                    oDetail.DetailsId = Guid.NewGuid();
+                                    oDetail.HeaderId = this.CAPId;
+                                    oDetail.TxNumber = txtTxNumber.Text;
+                                    oDetail.TxType = txtTxType.Text;
+                                    oDetail.LineNumber = Convert.ToInt32(listItem.SubItems[1].Text.Length == 0 ? "1" : listItem.SubItems[1].Text);
+
+                                    ctx.InvtBatchCAP_Details.Add(oDetail);
+                                }
+                                oDetail.ProductId = productId;  // new Guid(listItem.SubItems[12].Text.Trim());
+                                oDetail.Qty = Convert.ToDecimal(listItem.SubItems[8].Text.Length == 0 ? "0" : listItem.SubItems[8].Text);
+                                oDetail.UnitAmount = Convert.ToDecimal(listItem.SubItems[10].Text.Length == 0 ? "0" : listItem.SubItems[10].Text);
+                                oDetail.UnitAmountInForeignCurrency = Convert.ToDecimal(listItem.SubItems[9].Text.Length == 0 ? "0" : listItem.SubItems[9].Text);
+
+                                if (listItem.SubItems[2].Text.Trim().ToUpper() == "REMOVED" && detailId != System.Guid.Empty)
+                                {
+                                    ctx.InvtBatchCAP_Details.Remove(oDetail);
+                                }
+                                ctx.SaveChanges();
+                            }
+                        }
+                        #endregion
+
+                        scope.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        scope.Rollback();
+                    }
+                }
             }
-            oHeader.TxDate = dtpRecvDate.Value;
-            oHeader.Status = Convert.ToInt32(cboStatus.Text == "HOLD" ? Common.Enums.Status.Draft.ToString("d") : Common.Enums.Status.Active.ToString("d"));
-
-            oHeader.WorkplaceId = new Guid(cboWorkplace.SelectedValue.ToString());
-            oHeader.StaffId = new Guid(cboOperatorCode.SelectedValue.ToString());
-            oHeader.SupplierId = new Guid(cboSupplierList.SelectedValue.ToString());
-            oHeader.SupplierRefernce = txtSupplierInvoice.Text;
-            oHeader.Remarks = txtRemarks.Text;
-            oHeader.Reference = txtRefNumber.Text;
-            oHeader.CurrencyCode = cboCurrency.Text;
-            oHeader.ExchangeRate = Convert.ToDecimal(txtCoefficient.Text.Length == 0 ? "1" : txtCoefficient.Text);
-            oHeader.LinkToAP = chkAPLink.Checked;
-
-            oHeader.ModifiedBy = Common.Config.CurrentUserId;
-            oHeader.ModifiedOn = DateTime.Now;
-
-            oHeader.Save();
-
-            // log activity (New Record)
-            RT2020.Controls.Log4net.LogInfo(RT2020.Controls.Log4net.LogAction.Create, oHeader.ToString());
-
-            this.CAPId = oHeader.HeaderId;
-
-            SaveCAPDetail();
-            UpdateHeaderInfo();
         }
-
+        /**
         private void UpdateHeaderInfo()
         {
             InvtBatchCAP_Header oHeader = InvtBatchCAP_Header.Load(this.CAPId);
@@ -551,12 +643,13 @@ namespace RT2020.Inventory.GoodsReceive
                 RT2020.Controls.Log4net.LogInfo(RT2020.Controls.Log4net.LogAction.Update, oHeader.ToString());
             }
         }
+        */
         #endregion
 
         #region Load CAP Header Info
         private void LoadCAPInfo()
         {
-            InvtBatchCAP_Header oHeader = InvtBatchCAP_Header.Load(this.CAPId);
+            var oHeader = ModelEx.InvtBatchCAP_HeaderEx.Get(this.CAPId);
             if (oHeader != null)
             {
                 txtTxNumber.Text = oHeader.TxNumber;
@@ -566,7 +659,7 @@ namespace RT2020.Inventory.GoodsReceive
                 cboOperatorCode.SelectedValue = oHeader.StaffId;
                 cboStatus.Text = (oHeader.Status == 0) ? "HOLD" : "POST";
 
-                dtpRecvDate.Value = oHeader.TxDate;
+                dtpRecvDate.Value = oHeader.TxDate.Value;
 
                 cboSupplierList.SelectedValue = oHeader.SupplierId;
                 txtSupplierInvoice.Text = oHeader.SupplierRefernce;
@@ -574,7 +667,7 @@ namespace RT2020.Inventory.GoodsReceive
                 txtRefNumber.Text = oHeader.Reference;
 
                 cboCurrency.Text = oHeader.CurrencyCode;
-                txtCoefficient.Text = oHeader.ExchangeRate.ToString("n4");
+                txtCoefficient.Text = oHeader.ExchangeRate.Value.ToString("n4");
                 InitCurrency(oHeader.CurrencyCode);
 
                 txtLastUpdateOn.Text = RT2020.SystemInfo.Settings.DateTimeToString(oHeader.ModifiedOn, false);
@@ -583,15 +676,15 @@ namespace RT2020.Inventory.GoodsReceive
                 txtAmendmentRetrict.Text = oHeader.ReadOnly ? "Y" : "N";
                 chkAPLink.Checked = oHeader.LinkToAP;
 
-                txtTotalQty.Text = GetTotalRequiredQty().ToString("n0");
-                txtTotalAmount.Text = GetTotalAmount().ToString("n2");
+                txtTotalQty.Text = ModelEx.InvtBatchCAP_DetailsEx.GetTotalQty(this.CAPId).ToString("n0");
+                txtTotalAmount.Text = ModelEx.InvtBatchCAP_DetailsEx.GetTotalAmount(this.CAPId).ToString("n2");
 
                 this.Text += oHeader.ReadOnly ? " (ReadOnly)" : "";
 
                 BindCAPDetailsInfo();
             }
         }
-
+        /**
         private decimal GetTotalRequiredQty()
         {
             decimal totalQty = 0;
@@ -620,11 +713,14 @@ namespace RT2020.Inventory.GoodsReceive
 
             return totalAmt;
         }
+        */
         #endregion
 
         #region Delete
+        /**
         private void Delete()
         {
+            ModelEx.InvtBatchCAP_HeaderEx.DeleteChildToo(this.CAPId);
             InvtBatchCAP_Header oHeader = InvtBatchCAP_Header.Load(this.CAPId);
             if (oHeader != null)
             {
@@ -648,6 +744,7 @@ namespace RT2020.Inventory.GoodsReceive
                 RT2020.Controls.Log4net.LogInfo(RT2020.Controls.Log4net.LogAction.Delete, oDetail.ToString());
             }
         }
+        */
         #endregion
 
         #region Message Handler
@@ -718,7 +815,7 @@ namespace RT2020.Inventory.GoodsReceive
         {
             if (((Form)sender).DialogResult == DialogResult.Yes)
             {
-                Delete();
+                ModelEx.InvtBatchCAP_HeaderEx.DeleteChildToo(this.CAPId);   // Delete();
 
                 this.Close();
             }
@@ -791,6 +888,7 @@ namespace RT2020.Inventory.GoodsReceive
         #endregion
 
         #region Save CAP Detail Info
+        /**
         private void SaveCAPDetail()
         {
             foreach (ListViewItem listItem in lvDetailsList.Items)
@@ -823,6 +921,7 @@ namespace RT2020.Inventory.GoodsReceive
                 }
             }
         }
+        */
         #endregion
 
         #region Load CAP Detail Info

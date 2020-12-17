@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -365,43 +365,109 @@ ORDER BY TxNumber, TxDate, LineNumber
 
         private void SaveREJ()
         {
-            InvtBatchCAP_Header oHeader = InvtBatchCAP_Header.Load(this.REJId);
-            if (oHeader == null)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                oHeader = new InvtBatchCAP_Header();
+                using (var scope = ctx.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        var oHeader = ctx.InvtBatchCAP_Header.Find(this.REJId);
+                        if (oHeader == null)
+                        {
+                            #region add new InvtBatchCAP_Header
+                            oHeader = new EF6.InvtBatchCAP_Header();
+                            oHeader.HeaderId = Guid.NewGuid();
+                            txtTxNumber.Text = RT2020.SystemInfo.Settings.QueuingTxNumber(Common.Enums.TxType.REJ);
+                            oHeader.TxNumber = txtTxNumber.Text;
+                            oHeader.TxType = Common.Enums.TxType.REJ.ToString();
 
-                txtTxNumber.Text = RT2020.SystemInfo.Settings.QueuingTxNumber(Common.Enums.TxType.REJ);
-                oHeader.TxNumber = txtTxNumber.Text;
-                oHeader.TxType = Common.Enums.TxType.REJ.ToString();
+                            oHeader.CreatedBy = Common.Config.CurrentUserId;
+                            oHeader.CreatedOn = DateTime.Now;
 
-                oHeader.CreatedBy = Common.Config.CurrentUserId;
-                oHeader.CreatedOn = DateTime.Now;
+                            ctx.InvtBatchCAP_Header.Add(oHeader);
+                            #endregion
+                        }
+                        #region InvtBatchCAP_Header core data
+                        oHeader.TxDate = dtpRecvDate.Value;
+                        oHeader.Status = Convert.ToInt32(cboStatus.Text == "HOLD" ? Common.Enums.Status.Draft.ToString("d") : Common.Enums.Status.Active.ToString("d"));
+
+                        oHeader.WorkplaceId = new Guid(cboWorkplace.SelectedValue.ToString());
+                        oHeader.StaffId = new Guid(cboOperatorCode.SelectedValue.ToString());
+                        oHeader.SupplierId = new Guid(cboSupplierList.SelectedValue.ToString());
+                        oHeader.SupplierRefernce = txtSupplierInvoice.Text;
+                        oHeader.Remarks = txtRemarks.Text;
+                        oHeader.Reference = txtRefNumber.Text;
+                        oHeader.LinkToAP = chkAPLink.Checked;
+
+                        oHeader.ModifiedBy = Common.Config.CurrentUserId;
+                        oHeader.ModifiedOn = DateTime.Now;
+                        #endregion
+
+                        oHeader.TotalAmount = Convert.ToDecimal(Common.Utility.IsNumeric(txtTotalAmount.Text) ? txtTotalAmount.Text : "0");
+
+                        ctx.SaveChanges();
+
+                        #region log activity
+                        RT2020.Controls.Log4net.LogInfo(
+                            ctx.Entry(oHeader).State == System.Data.Entity.EntityState.Added ?
+                            RT2020.Controls.Log4net.LogAction.Create :
+                            RT2020.Controls.Log4net.LogAction.Update, oHeader.ToString());
+                        #endregion
+
+                        this.REJId = oHeader.HeaderId;
+
+                        #region SaveREJDetail();
+                        foreach (ListViewItem listItem in lvDetailsList.Items)
+                        {
+                            Guid detailId = Guid.Empty, productId = Guid.Empty;
+
+                            if (Guid.TryParse(listItem.Text.Trim(), out detailId) && Guid.TryParse(listItem.SubItems[11].Text.Trim(), out productId))
+                            {
+                                //System.Guid detailId = new Guid(listItem.Text.Trim());
+                                var oDetail = ctx.InvtBatchCAP_Details.Find(detailId);
+                                if (oDetail == null)
+                                {
+                                    oDetail = new EF6.InvtBatchCAP_Details();
+                                    oDetail.DetailsId = Guid.NewGuid();
+                                    oDetail.HeaderId = this.REJId;
+                                    oDetail.TxNumber = txtTxNumber.Text;
+                                    oDetail.TxType = txtTxType.Text;
+                                    oDetail.LineNumber = Convert.ToInt32(listItem.SubItems[1].Text.Length == 0 ? "1" : listItem.SubItems[1].Text);
+
+                                    ctx.InvtBatchCAP_Details.Add(oDetail);
+                                }
+                                oDetail.ProductId = productId;  // new Guid(listItem.SubItems[11].Text.Trim());
+                                oDetail.Qty = Convert.ToDecimal(listItem.SubItems[8].Text.Length == 0 ? "0" : listItem.SubItems[8].Text);
+                                oDetail.UnitAmount = Convert.ToDecimal(listItem.SubItems[9].Text.Length == 0 ? "0" : listItem.SubItems[9].Text);
+                                oDetail.UnitAmountInForeignCurrency = Convert.ToDecimal(listItem.SubItems[9].Text.Length == 0 ? "0" : listItem.SubItems[9].Text);
+
+                                if (listItem.SubItems[2].Text.Trim().ToUpper() == "REMOVED" && detailId != System.Guid.Empty)
+                                {
+                                    ctx.InvtBatchCAP_Details.Remove(oDetail);
+                                }
+                                ctx.SaveChanges();
+                            }
+                        }
+                        #endregion
+
+                        #region UpdateHeaderInfo(); HACK: 點解喺呢度先 update Total Amount? 我將佢搬咗上去
+                        //oHeader.TotalAmount = Convert.ToDecimal(Common.Utility.IsNumeric(txtTotalAmount.Text) ? txtTotalAmount.Text : "0");
+                        //ctx.SaveChanges();
+
+                        // log activity (Update)
+                        //RT2020.Controls.Log4net.LogInfo(RT2020.Controls.Log4net.LogAction.Update, oHeader.ToString());
+                        #endregion
+
+                        scope.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        scope.Rollback();
+                    }
+                }
             }
-            oHeader.TxDate = dtpRecvDate.Value;
-            oHeader.Status = Convert.ToInt32(cboStatus.Text == "HOLD" ? Common.Enums.Status.Draft.ToString("d") : Common.Enums.Status.Active.ToString("d"));
-
-            oHeader.WorkplaceId = new Guid(cboWorkplace.SelectedValue.ToString());
-            oHeader.StaffId = new Guid(cboOperatorCode.SelectedValue.ToString());
-            oHeader.SupplierId = new Guid(cboSupplierList.SelectedValue.ToString());
-            oHeader.SupplierRefernce = txtSupplierInvoice.Text;
-            oHeader.Remarks = txtRemarks.Text;
-            oHeader.Reference = txtRefNumber.Text;
-            oHeader.LinkToAP = chkAPLink.Checked;
-
-            oHeader.ModifiedBy = Common.Config.CurrentUserId;
-            oHeader.ModifiedOn = DateTime.Now;
-
-            oHeader.Save();
-
-            // log activity (New Record)
-            RT2020.Controls.Log4net.LogInfo(RT2020.Controls.Log4net.LogAction.Create, oHeader.ToString());
-
-            this.REJId = oHeader.HeaderId;
-
-            SaveREJDetail();
-            UpdateHeaderInfo();
         }
-
+        /**
         private void UpdateHeaderInfo()
         {
             InvtBatchCAP_Header oHeader = InvtBatchCAP_Header.Load(this.REJId);
@@ -414,12 +480,13 @@ ORDER BY TxNumber, TxDate, LineNumber
                 RT2020.Controls.Log4net.LogInfo(RT2020.Controls.Log4net.LogAction.Update, oHeader.ToString());
             }
         }
+        */
         #endregion
 
         #region Load REJ Header Info
         private void LoadREJInfo()
         {
-            InvtBatchCAP_Header oHeader = InvtBatchCAP_Header.Load(this.REJId);
+            var oHeader = ModelEx.InvtBatchCAP_HeaderEx.Get(this.REJId);
             if (oHeader != null)
             {
                 txtTxNumber.Text = oHeader.TxNumber;
@@ -429,7 +496,7 @@ ORDER BY TxNumber, TxDate, LineNumber
                 cboOperatorCode.SelectedValue = oHeader.StaffId;
                 cboStatus.Text = (oHeader.Status == 0) ? "HOLD" : "POST";
 
-                dtpRecvDate.Value = oHeader.TxDate;
+                dtpRecvDate.Value = oHeader.TxDate.Value;
 
                 cboSupplierList.SelectedValue = oHeader.SupplierId;
                 txtSupplierInvoice.Text = oHeader.SupplierRefernce;
@@ -442,46 +509,18 @@ ORDER BY TxNumber, TxDate, LineNumber
                 txtAmendmentRetrict.Text = oHeader.ReadOnly ? "Y" : "N";
                 chkAPLink.Checked = oHeader.LinkToAP;
 
-                txtTotalQty.Text = GetTotalRequiredQty().ToString("n0");
-                txtTotalAmount.Text = GetTotalAmount().ToString("n2");
+                txtTotalQty.Text = ModelEx.InvtBatchCAP_DetailsEx.GetTotalQty(this.REJId).ToString("n0");
+                txtTotalAmount.Text = ModelEx.InvtBatchCAP_DetailsEx.GetTotalAmount(this.REJId).ToString("n2");
 
                 this.Text += oHeader.ReadOnly ? " (ReadOnly)" : "";
 
                 BindREJDetailsInfo();
             }
         }
-
-        private decimal GetTotalRequiredQty()
-        {
-            decimal totalQty = 0;
-
-            string sql = "HeaderId = '" + this.REJId.ToString() + "'";
-            InvtBatchCAP_DetailsCollection oDetails = InvtBatchCAP_Details.LoadCollection(sql);
-            foreach (InvtBatchCAP_Details oDetail in oDetails)
-            {
-                totalQty += oDetail.Qty;
-            }
-
-            return totalQty;
-        }
-
-        private decimal GetTotalAmount()
-        {
-            decimal totalAmt = 0;
-
-            string sql = "HeaderId = '" + this.REJId.ToString() + "'";
-            InvtBatchCAP_DetailsCollection oDetails = InvtBatchCAP_Details.LoadCollection(sql);
-            foreach (InvtBatchCAP_Details oDetail in oDetails)
-            {
-                totalAmt += oDetail.Qty * oDetail.UnitAmount;
-            }
-
-            return totalAmt;
-        }
-
         #endregion
 
         #region Delete
+        /**
         private void Delete()
         {
             InvtBatchCAP_Header oHeader = InvtBatchCAP_Header.Load(this.REJId);
@@ -508,6 +547,7 @@ ORDER BY TxNumber, TxDate, LineNumber
                 RT2020.Controls.Log4net.LogInfo(RT2020.Controls.Log4net.LogAction.Delete, oDetail.ToString());
             }
         }
+        */
         #endregion
 
         #region Message Handler
@@ -578,7 +618,7 @@ ORDER BY TxNumber, TxDate, LineNumber
         {
             if (((Form)sender).DialogResult == DialogResult.Yes)
             {
-                Delete();
+                ModelEx.InvtBatchCAP_HeaderEx.DeleteChildToo(this.REJId);   //Delete();
 
                 this.Close();
             }
@@ -650,6 +690,7 @@ ORDER BY TxNumber, TxDate, LineNumber
         #endregion
 
         #region Save REJ Detail Info
+        /**
         private void SaveREJDetail()
         {
             foreach (ListViewItem listItem in lvDetailsList.Items)
@@ -682,6 +723,7 @@ ORDER BY TxNumber, TxDate, LineNumber
                 }
             }
         }
+        */
         #endregion
 
         #region Load REJ Detail Info
