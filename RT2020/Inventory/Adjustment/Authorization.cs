@@ -274,10 +274,10 @@ namespace RT2020.Inventory.Adjustment
             {
                 if (Common.Utility.IsGUID(headerId))
                 {
-                    InvtBatchADJ_Header oBatchHeader = InvtBatchADJ_Header.Load(new Guid(headerId));
+                    var oBatchHeader = ModelEx.InvtBatchADJ_HeaderEx.Get(new Guid(headerId));
                     if (oBatchHeader != null)
                     {
-                        if (!CheckTxDate(oBatchHeader.TxDate))
+                        if (!CheckTxDate(oBatchHeader.TxDate.Value))
                         {
                             #region 加一行
                             DataRow row = errorTable.NewRow();
@@ -714,7 +714,7 @@ namespace RT2020.Inventory.Adjustment
         }
 
         #region Clear Batch
-
+        /**
         /// <summary>
         /// Clears the batch transaction.
         /// </summary>
@@ -729,7 +729,7 @@ namespace RT2020.Inventory.Adjustment
 
             oBatchHeader.Delete();
         }
-
+        */
         #endregion
 
         #region SubLedger

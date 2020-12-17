@@ -40,12 +40,12 @@ namespace RT2020.Inventory.Adjustment.Reports
 
         private void FillFromList()
         {
-            InvtBatchADJ_Header.LoadCombo(ref cboFrom, "TxNumber", false);
+            ModelEx.InvtBatchADJ_HeaderEx.LoadCombo(ref cboFrom, "TxNumber", false);
         }
 
         private void FillToList()
         {
-            InvtBatchADJ_Header.LoadCombo(ref cboTo, "TxNumber", false);
+            ModelEx.InvtBatchADJ_HeaderEx.LoadCombo(ref cboTo, "TxNumber", false);
 
             cboTo.SelectedIndex = cboTo.Items.Count - 1;
         }

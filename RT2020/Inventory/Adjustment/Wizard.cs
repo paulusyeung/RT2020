@@ -345,38 +345,96 @@ namespace RT2020.Inventory.Adjustment
             {
                 if (lvDetailsList.Items.Count > 0)
                 {
-                    InvtBatchADJ_Header oHeader = InvtBatchADJ_Header.Load(this.ADJId);
-                    if (oHeader == null)
+                    using (var ctx = new EF6.RT2020Entities())
                     {
-                        oHeader = new InvtBatchADJ_Header();
+                        using (var scope = ctx.Database.BeginTransaction())
+                        {
+                            try
+                            {
+                                var oHeader = ctx.InvtBatchADJ_Header.Find(this.ADJId);
+                                if (oHeader == null)
+                                {
+                                    #region add new InvtBatchADJ_Header
+                                    oHeader = new EF6.InvtBatchADJ_Header();
 
-                        txtTxNumber.Text = RT2020.SystemInfo.Settings.QueuingTxNumber(Common.Enums.TxType.ADJ);
-                        oHeader.TxNumber = txtTxNumber.Text;
-                        oHeader.TxType = Common.Enums.TxType.ADJ.ToString();
+                                    txtTxNumber.Text = RT2020.SystemInfo.Settings.QueuingTxNumber(Common.Enums.TxType.ADJ);
+                                    oHeader.HeaderId = Guid.NewGuid();
+                                    oHeader.TxNumber = txtTxNumber.Text;
+                                    oHeader.TxType = Common.Enums.TxType.ADJ.ToString();
 
-                        oHeader.CreatedBy = Common.Config.CurrentUserId;
-                        oHeader.CreatedOn = DateTime.Now;
+                                    oHeader.CreatedBy = Common.Config.CurrentUserId;
+                                    oHeader.CreatedOn = DateTime.Now;
+
+                                    ctx.InvtBatchADJ_Header.Add(oHeader);
+                                    #endregion
+                                }
+                                #region InvtBatchADJ_Header core data
+                                oHeader.TxDate = dtpTxDate.Value;
+                                oHeader.Status = Convert.ToInt32(cboStatus.Text == "HOLD" ? Common.Enums.Status.Draft.ToString("d") : Common.Enums.Status.Active.ToString("d"));
+
+                                oHeader.WorkplaceId = new Guid(cboWorkplace.SelectedValue.ToString());
+                                oHeader.StaffId = new Guid(cboOperatorCode.SelectedValue.ToString());
+                                oHeader.Remarks = txtRemarks.Text;
+                                oHeader.Reference = txtRefNumber.Text;
+
+                                oHeader.ModifiedBy = Common.Config.CurrentUserId;
+                                oHeader.ModifiedOn = DateTime.Now;
+                                #endregion
+
+                                oHeader.TotalAmount = Convert.ToDecimal(Common.Utility.IsNumeric(txtTotalAmount.Text) ? txtTotalAmount.Text.Trim() : "0");
+
+                                ctx.SaveChanges();
+
+                                this.ADJId = oHeader.HeaderId;
+
+                                #region log activity (New Record)
+                                RT2020.Controls.Log4net.LogInfo(ctx.Entry(oHeader).State == System.Data.Entity.EntityState.Added ?
+                                    RT2020.Controls.Log4net.LogAction.Create : RT2020.Controls.Log4net.LogAction.Update, oHeader.ToString());
+                                #endregion
+
+                                #region SaveADJDetail();
+                                foreach (ListViewItem listItem in lvDetailsList.Items)
+                                {
+                                    Guid detailId = Guid.Empty, productId = Guid.Empty;
+                                    if (Guid.TryParse(listItem.Text.Trim(), out detailId) && Guid.TryParse(listItem.SubItems[13].Text.Trim(), out productId))
+                                    {
+                                        //System.Guid detailId = new Guid(listItem.Text.Trim());
+                                        var oDetail = ctx.InvtBatchADJ_Details.Find(detailId);
+                                        if (oDetail == null)
+                                        {
+                                            oDetail = new EF6.InvtBatchADJ_Details();
+                                            oDetail.DetailsId = Guid.NewGuid();
+                                            oDetail.HeaderId = this.ADJId;
+                                            oDetail.TxNumber = txtTxNumber.Text;
+                                            oDetail.TxType = txtTxType.Text;
+                                            oDetail.LineNumber = Convert.ToInt32(listItem.SubItems[1].Text.Length == 0 ? "1" : listItem.SubItems[1].Text);
+
+                                            ctx.InvtBatchADJ_Details.Add(oDetail);
+                                        }
+                                        oDetail.ProductId = productId;  // new Guid(listItem.SubItems[13].Text.Trim());
+                                        oDetail.Qty = Convert.ToDecimal(listItem.SubItems[8].Text.Length == 0 ? "0" : listItem.SubItems[8].Text);
+                                        oDetail.AverageCost = Convert.ToDecimal(listItem.SubItems[10].Text.Length == 0 ? "0" : listItem.SubItems[10].Text);
+                                        oDetail.Remarks = listItem.SubItems[12].Text;
+
+                                        if (listItem.SubItems[2].Text.Trim().ToUpper() == "REMOVED" && detailId != Guid.Empty)
+                                        {
+                                            ctx.InvtBatchADJ_Details.Remove(oDetail);
+                                        }
+                                        ctx.SaveChanges();
+                                    }
+                                }
+                                #endregion
+
+                                //UpdateHeaderInfo();
+
+                                scope.Commit();
+                            }
+                            catch (Exception ex)
+                            {
+                                scope.Rollback();
+                            }
+                        }
                     }
-                    oHeader.TxDate = dtpTxDate.Value;
-                    oHeader.Status = Convert.ToInt32(cboStatus.Text == "HOLD" ? Common.Enums.Status.Draft.ToString("d") : Common.Enums.Status.Active.ToString("d"));
-
-                    oHeader.WorkplaceId = new Guid(cboWorkplace.SelectedValue.ToString());
-                    oHeader.StaffId = new Guid(cboOperatorCode.SelectedValue.ToString());
-                    oHeader.Remarks = txtRemarks.Text;
-                    oHeader.Reference = txtRefNumber.Text;
-
-                    oHeader.ModifiedBy = Common.Config.CurrentUserId;
-                    oHeader.ModifiedOn = DateTime.Now;
-
-                    oHeader.Save();
-
-                    // log activity (New Record)
-                    RT2020.Controls.Log4net.LogInfo(RT2020.Controls.Log4net.LogAction.Create, oHeader.ToString());
-
-                    this.ADJId = oHeader.HeaderId;
-
-                    SaveADJDetail();
-                    UpdateHeaderInfo();
                 }
                 else
                 {
@@ -388,7 +446,7 @@ namespace RT2020.Inventory.Adjustment
                 MessageBox.Show("Cannot save until the errors are fixed!", "Warning!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
-
+        /**
         private void UpdateHeaderInfo()
         {
             InvtBatchADJ_Header oHeader = InvtBatchADJ_Header.Load(this.ADJId);
@@ -402,12 +460,13 @@ namespace RT2020.Inventory.Adjustment
                 RT2020.Controls.Log4net.LogInfo(RT2020.Controls.Log4net.LogAction.Update, oHeader.ToString());
             }
         }
+        */
         #endregion
 
         #region Load ADJ Header Info
         private void LoadADJInfo()
         {
-            InvtBatchADJ_Header oHeader = InvtBatchADJ_Header.Load(this.ADJId);
+            var oHeader = ModelEx.InvtBatchADJ_HeaderEx.Get(this.ADJId);
             if (oHeader != null)
             {
                 txtTxNumber.Text = oHeader.TxNumber;
@@ -417,7 +476,7 @@ namespace RT2020.Inventory.Adjustment
                 cboOperatorCode.SelectedValue = oHeader.StaffId;
                 cboStatus.Text = (oHeader.Status == 0) ? "HOLD" : "POST";
 
-                dtpTxDate.Value = oHeader.TxDate;
+                dtpTxDate.Value = oHeader.TxDate.Value;
 
                 txtRemarks.Text = oHeader.Remarks;
                 txtRefNumber.Text = oHeader.Reference;
@@ -425,15 +484,15 @@ namespace RT2020.Inventory.Adjustment
                 txtLastUpdateOn.Text = RT2020.SystemInfo.Settings.DateTimeToString(oHeader.ModifiedOn, false);
                 txtLastUpdateBy.Text = ModelEx.StaffEx.GetStaffNumberById(oHeader.ModifiedBy);
 
-                txtTotalQty.Text = GetTotalRequiredQty().ToString("n0");
-                txtTotalAmount.Text = GetTotalAmount().ToString("n2");
+                txtTotalQty.Text = ModelEx.InvtBatchADJ_DetailsEx.GetTotalQty(this.ADJId).ToString("n0");
+                txtTotalAmount.Text = ModelEx.InvtBatchADJ_DetailsEx.GetTotalAmount(this.ADJId).ToString("n2");
 
                 _WorkplaceId = oHeader.WorkplaceId;
 
                 BindADJDetailsInfo();
             }
         }
-
+        /**
         private decimal GetTotalRequiredQty()
         {
             decimal totalQty = 0;
@@ -461,10 +520,11 @@ namespace RT2020.Inventory.Adjustment
 
             return totalAmt;
         }
-
+        */
         #endregion
 
         #region Delete
+            /**
         private void Delete()
         {
             InvtBatchADJ_Header oHeader = InvtBatchADJ_Header.Load(this.ADJId);
@@ -491,6 +551,7 @@ namespace RT2020.Inventory.Adjustment
                 RT2020.Controls.Log4net.LogInfo(RT2020.Controls.Log4net.LogAction.Delete, oDetail.ToString());
             }
         }
+        */
         #endregion
 
         #region Message Handler
@@ -567,7 +628,7 @@ namespace RT2020.Inventory.Adjustment
         {
             if (((Form)sender).DialogResult == DialogResult.Yes)
             {
-                Delete();
+                ModelEx.InvtBatchADJ_HeaderEx.DeleteChildToo(this.ADJId);   // Delete();
 
                 this.Close();
             }
@@ -643,6 +704,7 @@ namespace RT2020.Inventory.Adjustment
         #endregion
 
         #region Save ADJ Detail Info
+        /**
         private void SaveADJDetail()
         {
             foreach (ListViewItem listItem in lvDetailsList.Items)
@@ -675,6 +737,7 @@ namespace RT2020.Inventory.Adjustment
                 }
             }
         }
+        */
         #endregion
 
         #region Load ADJ Detail Info
