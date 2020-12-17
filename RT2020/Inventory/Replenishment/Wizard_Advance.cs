@@ -157,15 +157,6 @@ namespace RT2020.Inventory.Replenishment
         {
             ModelEx.InvtBatchTXF_HeaderEx.DeleteChildToo(this.RplId);
         }
-
-        private void DeleteDetails(string sql)
-        {
-            InvtBatchTXF_DetailsCollection oDetailList = InvtBatchTXF_Details.LoadCollection(sql);
-            foreach (InvtBatchTXF_Details oDetail in oDetailList)
-            {
-                oDetail.Delete();
-            }
-        }
         #endregion
 
         #region Message Handler

@@ -125,7 +125,6 @@
     <Compile Include="InvtBatchREC_Header.cs" />
     <Compile Include="InvtBatchRPL_Details.cs" />
     <Compile Include="InvtBatchRPL_Header.cs" />
-    <Compile Include="InvtBatchTXF_Details.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SqlHelper.cs" />
   </ItemGroup>

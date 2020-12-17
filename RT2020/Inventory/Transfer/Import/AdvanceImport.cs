@@ -1,4 +1,4 @@
-#region Using
+﻿#region Using
 
 using System;
 using System.Collections.Generic;
@@ -269,9 +269,9 @@ ORDER BY TxNumber, NotInMatch";
                 while (reader.Read())
                 {
                     bool notInMatch = string.IsNullOrEmpty(reader.GetString(1)) || reader.GetString(1) == "N" ? false : true;
-                    // Check Detail
-                    InvtBatchTXF_DetailsCollection txfDetails = InvtBatchTXF_Details.LoadCollection("TxNumber = '" + reader.GetString(0) + "'");
-                    bool noDetail = txfDetails.Count > 0;
+                    // Check Detail HACK: check 嚟做咩? 都冇用到
+                    var txNumber = reader.GetString(0);
+                    bool noDetail = ModelEx.InvtBatchTXF_DetailsEx.CountByTxNumber(txNumber) > 0;
 
                     string sql = @"
 SELECT S.TxNumber, S.STKCODE, S.APPENDIX1, S.APPENDIX2, S.APPENDIX3, S.BARCODE, STK.ProductName, SUM(S.Qty) AS Qty

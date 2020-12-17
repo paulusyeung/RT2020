@@ -174,24 +174,101 @@ namespace RT2020.Inventory.Transfer.Import
         {
             int result = 0;
 
-            for (int i = 0; i < md.Length; i++)
+            using (var ctx = new EF6.RT2020Entities())
             {
-                string txNumber = RT2020.SystemInfo.Settings.QueuingTxNumber(Common.Enums.TxType.TXF);
-                System.Guid headerId = ImportTxferHeader(md[i].Master as TxferTxtIEMaster, txNumber);
-                if (headerId != System.Guid.Empty)
+                using (var scope = ctx.Database.BeginTransaction())
                 {
-                    lvImportedList.Items[i].Text = txNumber;
-                    ImportTxferDetails(md[i].Details, headerId, txNumber);
-                    result++;
+                    try
+                    {
+                        for (int i = 0; i < md.Length; i++)
+                        {
+                            string txNumber = RT2020.SystemInfo.Settings.QueuingTxNumber(Common.Enums.TxType.TXF);
+
+                            #region Guid headerId = ImportTxferHeader(md[i].Master as TxferTxtIEMaster, txNumber);
+                            var master = md[i].Master as TxferTxtIEMaster;
+
+                            var oHeader = new EF6.InvtBatchTXF_Header();
+                            oHeader.HeaderId = Guid.NewGuid();
+                            oHeader.TxType = Common.Enums.TxType.TXF.ToString();
+                            oHeader.TxNumber = txNumber;
+                            oHeader.TxDate = master.TxDate;
+                            oHeader.TransferredOn = master.TxferDate;
+                            oHeader.CompletedOn = master.CompletionDate;
+                            oHeader.FromLocation = ModelEx.WorkplaceEx.GetWorkplaceIdByCode(master.FromLocation);
+                            oHeader.ToLocation = ModelEx.WorkplaceEx.GetWorkplaceIdByCode(master.ToLocation);
+                            oHeader.StaffId = ModelEx.StaffEx.GetStaffIdByStaffNumber(master.Operator);
+                            oHeader.Status = Convert.ToInt32(Common.Enums.Status.Draft.ToString("d"));
+                            oHeader.Reference = master.RefNumber;
+                            oHeader.Remarks = master.Remarks;
+
+                            oHeader.CreatedBy = Common.Config.CurrentUserId;
+                            oHeader.CreatedOn = DateTime.Now;
+                            oHeader.ModifiedBy = Common.Config.CurrentUserId;
+                            oHeader.ModifiedOn = DateTime.Now;
+
+                            ctx.InvtBatchTXF_Header.Add(oHeader);
+                            ctx.SaveChanges();
+
+                            Guid headerId = oHeader.HeaderId;
+                            #endregion
+
+                            if (headerId != Guid.Empty)
+                            {
+                                lvImportedList.Items[i].Text = txNumber;
+
+                                #region ImportTxferDetails(md[i].Details, headerId, txNumber);
+                                object[] details = md[i].Details;
+
+                                if (details != null)
+                                {
+                                    for (int j = 0; j < details.Length; j++)
+                                    {
+                                        TxferTxtIEDetails detail = details[j] as TxferTxtIEDetails;
+                                        Guid prodId = GetProductId(detail);
+                                        if (prodId != Guid.Empty)
+                                        {
+
+                                            var oDetail = new EF6.InvtBatchTXF_Details();
+                                            oDetail.DetailsId = Guid.NewGuid();
+                                            oDetail.ProductId = prodId;
+                                            oDetail.HeaderId = headerId;
+                                            oDetail.LineNumber = j + 1;
+                                            oDetail.TxNumber = txNumber;
+                                            oDetail.TxType = Common.Enums.TxType.TXF.ToString();
+                                            oDetail.QtyConfirmed = 0;
+                                            oDetail.QtyHHT = 0;
+                                            oDetail.QtyManualInput = 0;
+                                            oDetail.QtyReceived = detail.TxferQty;
+                                            oDetail.QtyRequested = detail.RequiredQty;
+                                            oDetail.Remarks = detail.Remarks;
+
+                                            ctx.InvtBatchTXF_Details.Add(oDetail);
+                                            ctx.SaveChanges();
+                                            result++;
+                                        }
+                                    }
+                                }
+                                #endregion
+
+                                result++;
+                            }
+                        }
+
+                        scope.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        scope.Rollback();
+                    }
                 }
             }
 
             return result;
         }
-
+        /**
         private Guid ImportTxferHeader(TxferTxtIEMaster master, string txNumber)
         {
-            System.Guid headerId = System.Guid.Empty;
+            Guid headerId = Guid.Empty;
 
             using (var ctx = new EF6.RT2020Entities())
             {
@@ -256,7 +333,7 @@ namespace RT2020.Inventory.Transfer.Import
             }
             return result;
         }
-
+        */
         #endregion
     }
 }
