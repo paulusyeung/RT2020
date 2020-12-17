@@ -116,7 +116,6 @@
     <Compile Include="FepAudit.cs" />
     <Compile Include="FepBatchDetail.cs" />
     <Compile Include="FepBatchHeader.cs" />
-    <Compile Include="FepBatchTender.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SqlHelper.cs" />
   </ItemGroup>

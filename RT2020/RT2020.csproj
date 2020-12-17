@@ -1627,6 +1627,9 @@
     <Compile Include="MenuStrip\SettingsAms.cs" />
     <Compile Include="MenuStrip\ToolsAms.cs" />
     <Compile Include="MenuStrip\ViewAms.cs" />
+    <Compile Include="ModelEx\FepBatchDetailEx.cs" />
+    <Compile Include="ModelEx\FepBatchHeaderEx.cs" />
+    <Compile Include="ModelEx\FepBatchTenderEx.cs" />
     <Compile Include="ModelEx\InvtBatchADJ_DetailsEx.cs" />
     <Compile Include="ModelEx\InvtBatchADJ_HeaderEx.cs" />
     <Compile Include="ModelEx\InvtBatchCAP_DetailsEx.cs" />
