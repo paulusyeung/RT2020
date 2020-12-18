@@ -12,6 +12,7 @@ using System.Xml.Linq;
 
 using RT2020.DAL;
 using System.Data.SqlClient;
+using RT2020.Helper;
 
 namespace RT2020.Purchasing.Reports.PurchaseOrder.Reports
 {
@@ -41,7 +42,7 @@ ORDER BY OrderNumber;
             cmd.CommandTimeout = Common.Config.CommandTimeout;
             cmd.CommandType = System.Data.CommandType.Text;
 
-            using (DataSet dataset = RT2020.DAL.SqlHelper.Default.ExecuteDataSet(cmd))
+            using (DataSet dataset = SqlHelper.Default.ExecuteDataSet(cmd))
             {
                 return dataset.Tables[0];
             }
@@ -70,7 +71,7 @@ ORDER BY LineNumber
             cmd.CommandTimeout = Common.Config.CommandTimeout;
             cmd.CommandType = System.Data.CommandType.Text;
 
-            using (DataSet dataset = RT2020.DAL.SqlHelper.Default.ExecuteDataSet(cmd))
+            using (DataSet dataset = SqlHelper.Default.ExecuteDataSet(cmd))
             {
                 return dataset.Tables[0];
             }

@@ -17,6 +17,7 @@ namespace RT2020.Purchasing.Reports.PurchaseOrder
     using Gizmox.WebGUI.Forms;
 
     using RT2020.DAL;
+    using Helper;
 
     /// <summary>
     /// Purchase Order Worksheet

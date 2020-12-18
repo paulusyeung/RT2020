@@ -6,6 +6,7 @@ using System.Data.SqlClient;
 using System.Configuration;
 using RT2020.DAL;
 using RT2020.Controls;
+using RT2020.Helper;
 
 namespace RT2020.Settings.MonthEndProcess
 {

@@ -15,6 +15,7 @@ using RT2020.DAL;
 using System.Collections;
 using System.Linq;
 using System.Data.Entity;
+using RT2020.Helper;
 
 #endregion
 
@@ -63,7 +64,7 @@ namespace RT2020.Inventory.Reports.History
             cmd.CommandTimeout = Common.Config.CommandTimeout;
             cmd.CommandType = System.Data.CommandType.Text;
 
-            using (DataSet ds = RT2020.DAL.SqlHelper.Default.ExecuteDataSet(cmd))
+            using (DataSet ds = SqlHelper.Default.ExecuteDataSet(cmd))
             {
                 if (ds.Tables[0].Rows.Count > 0)
                 {
@@ -88,7 +89,7 @@ namespace RT2020.Inventory.Reports.History
             cmd.CommandTimeout = Common.Config.CommandTimeout;
             cmd.CommandType = System.Data.CommandType.Text;
 
-            using (DataSet dataset = RT2020.DAL.SqlHelper.Default.ExecuteDataSet(cmd))
+            using (DataSet dataset = SqlHelper.Default.ExecuteDataSet(cmd))
             {
                 return dataset.Tables[0];
             }
@@ -274,7 +275,7 @@ namespace RT2020.Inventory.Reports.History
 
             if (String.Compare(txtForMonth.Text, currentDate) >= 0)
             {
-                view.Datasource = RT2020.DAL.SqlHelper.Default.ExecuteDataSet("apStockInOutSummary_CurrentMonth", obj).Tables[0];
+                view.Datasource = SqlHelper.Default.ExecuteDataSet("apStockInOutSummary_CurrentMonth", obj).Tables[0];
                 view.ReportDatasourceName = "RT2020_Controls_Reporting_DataSource_apStockInOutSummary_CurrentMonth";
 
 
@@ -294,7 +295,7 @@ namespace RT2020.Inventory.Reports.History
             }
             else
             {
-                view.Datasource = RT2020.DAL.SqlHelper.Default.ExecuteDataSet("apStockInOutSummary_HistoryMonth", obj).Tables[0];
+                view.Datasource = SqlHelper.Default.ExecuteDataSet("apStockInOutSummary_HistoryMonth", obj).Tables[0];
                 view.ReportDatasourceName = "RT2020_Controls_Reporting_DataSource_apStockInOutSummary_HistoryMonth";
 
                 if (rbStkAndLoc.Checked)

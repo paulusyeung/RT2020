@@ -18,6 +18,7 @@ namespace RT2020.Inventory.GoodsReceive
     using System.Configuration;
     using System.Linq;
     using System.Data.Entity;
+    using Helper;
 
     #endregion
 

@@ -17,6 +17,7 @@ using RT2020.DAL;
 using System.Data.Common;
 using System.Configuration;
 using System.Linq;
+using RT2020.Helper;
 #endregion
 
 namespace RT2020.Product.Reports

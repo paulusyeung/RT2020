@@ -16,6 +16,7 @@ using Gizmox.WebGUI.Common.Interfaces;
 using System.Web;
 using System.Configuration;
 using System.Linq;
+using RT2020.Helper;
 
 #endregion
 
@@ -54,7 +55,7 @@ namespace RT2020.Product
             cmd.CommandTimeout = Common.Config.CommandTimeout;
             cmd.CommandType = System.Data.CommandType.Text;
 
-            using (SqlDataReader reader = RT2020.DAL.SqlHelper.Default.ExecuteReader(cmd))
+            using (SqlDataReader reader = SqlHelper.Default.ExecuteReader(cmd))
             {
                 while (reader.Read())
                 {

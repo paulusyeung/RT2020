@@ -15,6 +15,7 @@ using Gizmox.WebGUI.Common.Interfaces;
 using RT2020.DAL;
 using RT2020.Controls;
 using System.Linq;
+using RT2020.Helper;
 
 namespace RT2020.Inventory.GoodsReceive
 {

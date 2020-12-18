@@ -17,6 +17,7 @@ using Gizmox.WebGUI.Common.Interfaces;
 
 using RT2020.DAL;
 using RT2020.Controls;
+using RT2020.Helper;
 #endregion
 
 namespace RT2020.EmulatedPoS

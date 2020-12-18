@@ -12,6 +12,7 @@ using Gizmox.WebGUI.Forms;
 
 using RT2020.DAL;
 using System.Data.SqlClient;
+using RT2020.Helper;
 #endregion
 
 namespace RT2020.Inventory.StockTake.Reports

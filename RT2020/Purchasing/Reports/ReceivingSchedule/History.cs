@@ -19,6 +19,7 @@ namespace RT2020.Purchasing.Reports.ReceivingSchedule
     using RT2020.DAL;
     using System.Linq;
     using System.Data.Entity;
+    using Helper;
 
     /// <summary>
     /// History class

@@ -18,6 +18,7 @@ using Gizmox.WebGUI.Forms;
 using ClosedXML.Excel;
 
 using RT2020.DAL;
+using RT2020.Helper;
 
 #endregion
 
@@ -48,7 +49,7 @@ ORDER BY DateOfRegister";
             cmd.CommandTimeout = Common.Config.CommandTimeout;
             cmd.CommandType = System.Data.CommandType.Text;
 
-            using (DataSet dataset = RT2020.DAL.SqlHelper.Default.ExecuteDataSet(cmd))
+            using (DataSet dataset = SqlHelper.Default.ExecuteDataSet(cmd))
             {
                 return dataset.Tables[0];
             }

@@ -17,6 +17,7 @@ using FileHelpers.MasterDetail;
 
 using RT2020.DAL;
 using System.Configuration;
+using RT2020.Helper;
 
 namespace RT2020.Inventory.GoodsReturn.Reports
 {

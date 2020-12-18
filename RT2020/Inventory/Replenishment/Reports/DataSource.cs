@@ -12,6 +12,7 @@ using System.Web.UI.WebControls.WebParts;
 using System.Xml.Linq;
 
 using RT2020.DAL;
+using RT2020.Helper;
 
 namespace RT2020.Inventory.Replenishment.Reports
 {
@@ -46,7 +47,7 @@ ORDER BY h.TxNumber, h.TxDate;
             cmd.CommandTimeout = Common.Config.CommandTimeout;
             cmd.CommandType = System.Data.CommandType.Text;
 
-            using (DataSet dataset = RT2020.DAL.SqlHelper.Default.ExecuteDataSet(cmd))
+            using (DataSet dataset = SqlHelper.Default.ExecuteDataSet(cmd))
             {
                 return dataset.Tables[0];
             }
@@ -73,7 +74,7 @@ ORDER BY d.TxNumber, d.LineNumber
             cmd.CommandTimeout = Common.Config.CommandTimeout;
             cmd.CommandType = System.Data.CommandType.Text;
 
-            using (DataSet dataset = RT2020.DAL.SqlHelper.Default.ExecuteDataSet(cmd))
+            using (DataSet dataset = SqlHelper.Default.ExecuteDataSet(cmd))
             {
                 return dataset.Tables[0];
             }
@@ -108,7 +109,7 @@ ORDER BY h.TxNumber, h.TxDate;
             cmd.CommandTimeout = Common.Config.CommandTimeout;
             cmd.CommandType = System.Data.CommandType.Text;
 
-            using (DataSet dataset = RT2020.DAL.SqlHelper.Default.ExecuteDataSet(cmd))
+            using (DataSet dataset = SqlHelper.Default.ExecuteDataSet(cmd))
             {
                 return dataset.Tables[0];
             }
@@ -135,7 +136,7 @@ ORDER BY d.TxNumber, d.LineNumber
             cmd.CommandTimeout = Common.Config.CommandTimeout;
             cmd.CommandType = System.Data.CommandType.Text;
 
-            using (DataSet dataset = RT2020.DAL.SqlHelper.Default.ExecuteDataSet(cmd))
+            using (DataSet dataset = SqlHelper.Default.ExecuteDataSet(cmd))
             {
                 return dataset.Tables[0];
             }

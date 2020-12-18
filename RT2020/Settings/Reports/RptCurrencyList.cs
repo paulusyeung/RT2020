@@ -19,6 +19,7 @@ using System.Data.Common;
 using System.Configuration;
 using System.Linq;
 using System.Data.Entity;
+using RT2020.Helper;
 
 
 #endregion

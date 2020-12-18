@@ -16,6 +16,7 @@ using System.Web;
 using RT2020.DAL;
 using System.Data.Common;
 using System.Configuration;
+using RT2020.Helper;
 #endregion
 
 namespace RT2020.Product.Reports

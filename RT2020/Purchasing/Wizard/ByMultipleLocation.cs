@@ -16,6 +16,7 @@ namespace RT2020.Purchasing.Wizard
 
     using RT2020.DAL;
     using System.Linq;
+    using Helper;
 
     /// <summary>
     /// Documentation for the second part of ByMultipleLocation.

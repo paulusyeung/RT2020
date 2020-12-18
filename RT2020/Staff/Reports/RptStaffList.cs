@@ -15,6 +15,7 @@ using Gizmox.WebGUI.Common.Interfaces;
 using System.Web;
 using RT2020.DAL;
 using System.Configuration;
+using RT2020.Helper;
 #endregion
 
 namespace RT2020.Staff.Reports
@@ -53,7 +54,7 @@ namespace RT2020.Staff.Reports
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.AddRange(parameterValues);
 
-            using (DataSet dataset = RT2020.DAL.SqlHelper.Default.ExecuteDataSet(cmd))
+            using (DataSet dataset = SqlHelper.Default.ExecuteDataSet(cmd))
             {
                 return dataset.Tables[0];
             }

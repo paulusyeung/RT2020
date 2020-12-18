@@ -15,6 +15,7 @@ using System.Configuration;
 using System.Collections;
 using System.Linq;
 using System.Data.Entity;
+using RT2020.Helper;
 
 #endregion
 
@@ -69,7 +70,7 @@ namespace RT2020.Inventory.Reports.StockStatus
             cmd.CommandTimeout = Common.Config.CommandTimeout;
             cmd.CommandType = System.Data.CommandType.Text;
 
-            using (DataSet ds = RT2020.DAL.SqlHelper.Default.ExecuteDataSet(cmd))
+            using (DataSet ds = SqlHelper.Default.ExecuteDataSet(cmd))
             {
                 if (ds.Tables[0].Rows.Count > 0)
                 {
@@ -94,7 +95,7 @@ namespace RT2020.Inventory.Reports.StockStatus
             cmd.CommandTimeout = Common.Config.CommandTimeout;
             cmd.CommandType = System.Data.CommandType.Text;
 
-            using (DataSet dataset = RT2020.DAL.SqlHelper.Default.ExecuteDataSet(cmd))
+            using (DataSet dataset = SqlHelper.Default.ExecuteDataSet(cmd))
             {
                 return dataset.Tables[0];
             }

@@ -12,6 +12,7 @@ using Gizmox.WebGUI.Forms;
 using RT2020.DAL;
 using System.Linq;
 using System.Data.Entity;
+using RT2020.Helper;
 #endregion
 
 namespace RT2020.Member.Reports

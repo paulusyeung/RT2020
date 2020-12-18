@@ -16,6 +16,7 @@ namespace RT2020.Purchasing.Reports.Others
     using Gizmox.WebGUI.Forms;
 
     using RT2020.DAL;
+    using Helper;
 
     /// <summary>
     /// Remarks class

@@ -14,6 +14,7 @@ namespace RT2020.Purchasing.Wizard
     using Gizmox.WebGUI.Forms;
 
     using RT2020.DAL;
+    using Helper;
 
     /// <summary>
     /// Documentation for the second part of AuthPOReceiving.

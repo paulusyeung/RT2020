@@ -18,6 +18,7 @@ namespace RT2020.Purchasing.Reports.OfficialDocument
     using System.Collections;
     using System.IO;
     using System.Configuration;
+    using Helper;
 
     /// <summary>
     /// OrderSummary class

@@ -13,6 +13,7 @@ using RT2020.DAL;
 using System.Data.SqlClient;
 using System.Configuration;
 using System.Collections;
+using RT2020.Helper;
 
 #endregion
 
@@ -57,7 +58,7 @@ namespace RT2020.Inventory.Reports.History
             cmd.CommandTimeout = Common.Config.CommandTimeout;
             cmd.CommandType = System.Data.CommandType.Text;
 
-            using (DataSet ds = RT2020.DAL.SqlHelper.Default.ExecuteDataSet(cmd))
+            using (DataSet ds = SqlHelper.Default.ExecuteDataSet(cmd))
             {
                 if (ds.Tables[0].Rows.Count > 0)
                 {
@@ -81,7 +82,7 @@ namespace RT2020.Inventory.Reports.History
             cmd.CommandTimeout = Common.Config.CommandTimeout;
             cmd.CommandType = System.Data.CommandType.Text;
 
-            DataSet ds = RT2020.DAL.SqlHelper.Default.ExecuteDataSet(cmd);
+            DataSet ds = SqlHelper.Default.ExecuteDataSet(cmd);
 
             return ds.Tables[0];
         }

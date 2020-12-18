@@ -14,6 +14,7 @@ using Gizmox.WebGUI.Common.Interfaces;
 
 using RT2020.DAL;
 using System.Linq;
+using RT2020.Helper;
 
 namespace RT2020.Inventory.Transfer
 {

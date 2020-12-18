@@ -17,6 +17,7 @@ namespace RT2020.Purchasing.Reports.OfficialDocument
     using Gizmox.WebGUI.Forms;
 
     using RT2020.DAL;
+    using Helper;
 
     /// <summary>
     /// ExcelMatrix class
