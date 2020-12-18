@@ -510,65 +510,166 @@ namespace RT2020.EmulatedPoS
             {
                 if (lvDetailsList.Items.Count > 0)
                 {
-                    EPOSBatchHeader oHeader = EPOSBatchHeader.Load(this.HeaderId);
-                    if (oHeader == null)
+                    using (var ctx = new EF6.RT2020Entities())
                     {
-                        oHeader = new EPOSBatchHeader();
+                        using (var scope = ctx.Database.BeginTransaction())
+                        {
+                            try
+                            {
+                                var oHeader = ctx.EPOSBatchHeader.Find(this.HeaderId);
+                                if (oHeader == null)
+                                {
+                                    #region add new EPOSBatchHeader
+                                    oHeader = new EF6.EPOSBatchHeader();
 
-                        txtTxNumber.Text = RT2020.SystemInfo.Settings.QueuingTxNumber(this.SalesType);
-                        oHeader.TxNumber = txtTxNumber.Text;
-                        oHeader.TxType = this.SalesType.ToString();
+                                    txtTxNumber.Text = RT2020.SystemInfo.Settings.QueuingTxNumber(this.SalesType);
+                                    oHeader.HeaderId = Guid.NewGuid();
+                                    oHeader.TxNumber = txtTxNumber.Text;
+                                    oHeader.TxType = this.SalesType.ToString();
 
-                        oHeader.CreatedBy = Common.Config.CurrentUserId;
-                        oHeader.CreatedOn = DateTime.Now;
+                                    oHeader.CreatedBy = Common.Config.CurrentUserId;
+                                    oHeader.CreatedOn = DateTime.Now;
+
+                                    ctx.EPOSBatchHeader.Add(oHeader);
+                                    #endregion
+                                }
+                                #region EPOSBatchHeader core data
+                                oHeader.TxDate = dtpTxDate.Value;
+                                oHeader.Status = Convert.ToInt32(cboStatus.Text == "HOLD" ? Common.Enums.Status.Draft.ToString("d") : Common.Enums.Status.Active.ToString("d"));
+
+                                oHeader.Reference = oHeader.TxType == "CRT" ?
+                                    txtMemoNo.Text : oHeader.TxType == "CAS" ?
+                                    txtDepositAmount.Text : "";
+                                /**
+                                if (oHeader.TxType == "CRT")
+                                {
+                                    oHeader.Reference = txtMemoNo.Text;
+                                }
+                                else if (oHeader.TxType == "CAS")
+                                {
+                                    //oHeader.DepositAmount = Convert.ToDecimal(txtDepositAmount.Text.Length == 0 ? "0" : txtDepositAmount.Text);
+                                    oHeader.Reference = txtDepositAmount.Text;
+                                }
+                                */
+
+                                oHeader.PRICE_TYPE = cboPriceType.SelectedValue.ToString();
+                                oHeader.WorkplaceId = new Guid(cboWorkplace.SelectedValue.ToString());
+                                oHeader.StaffId = new Guid(cboStaff1.SelectedValue.ToString());
+                                oHeader.Staff1 = oHeader.StaffId;
+                                oHeader.Staff2 = new Guid(cboStaff2.SelectedValue.ToString());
+                                oHeader.EVT_CODE = cboEvtCode.Text;
+                                oHeader.CurrencyCode = cboCurrencyCode.Text;
+                                oHeader.ExchangeRate = Convert.ToDecimal(txtExchangeRate.Text.Length == 0 ? "0" : txtExchangeRate.Text);
+
+                                oHeader.MemberId = this.memberId;
+                                oHeader.SEX = txtSex.Text;
+                                oHeader.RACE = txtRace.Text;
+
+                                oHeader.ANALYSIS_CODE01 = cboAnalysisCode01.Text;
+                                oHeader.ANALYSIS_CODE02 = cboAnalysisCode02.Text;
+                                oHeader.ANALYSIS_CODE03 = cboAnalysisCode03.Text;
+                                oHeader.ANALYSIS_CODE04 = cboAnalysisCode04.Text;
+                                oHeader.ANALYSIS_CODE05 = cboAnalysisCode05.Text;
+                                oHeader.ANALYSIS_CODE06 = cboAnalysisCode06.Text;
+                                oHeader.ANALYSIS_CODE07 = cboAnalysisCode07.Text;
+                                oHeader.ANALYSIS_CODE08 = cboAnalysisCode08.Text;
+                                oHeader.ANALYSIS_CODE09 = cboAnalysisCode09.Text;
+                                oHeader.ANALYSIS_CODE10 = cboAnalysisCode10.Text;
+
+                                oHeader.ModifiedBy = Common.Config.CurrentUserId;
+                                oHeader.ModifiedOn = DateTime.Now;
+
+                                ctx.SaveChanges();
+                                #endregion
+
+                                this.HeaderId = oHeader.HeaderId;
+
+                                #region SavePOSBatchDetail();
+                                foreach (ListViewItem listItem in lvDetailsList.Items)
+                                {
+                                    Guid detailId = Guid.Empty, productId = Guid.Empty;
+                                    if (Guid.TryParse(listItem.Text.Trim(), out detailId) && Guid.TryParse(listItem.SubItems[18].Text.Trim(), out productId))
+                                    {
+                                        //System.Guid detailId = new Guid(listItem.Text.Trim());
+                                        var oDetail = ctx.EPOSBatchDetails.Find(detailId);
+                                        if (oDetail == null)
+                                        {
+                                            oDetail = new EF6.EPOSBatchDetails();
+                                            oDetail.DetailsId = Guid.NewGuid();
+                                            oDetail.HeaderId = this.HeaderId;
+                                            oDetail.TxNumber = txtTxNumber.Text;
+                                            oDetail.TxType = txtTxType.Text;
+                                            oDetail.LineNumber = Convert.ToInt32(listItem.SubItems[1].Text.Length == 0 ? "1" : listItem.SubItems[1].Text);
+
+                                            ctx.EPOSBatchDetails.Add(oDetail);
+                                        }
+                                        oDetail.SHOP = cboWorkplace.Text;
+                                        oDetail.TxDate = dtpTxDate.Value;
+                                        oDetail.ProductId = productId;    // new Guid(listItem.SubItems[18].Text.Trim());
+                                        oDetail.Qty = Convert.ToDecimal(listItem.SubItems[10].Text.Length == 0 ? "0" : listItem.SubItems[10].Text);
+                                        oDetail.Discount = Convert.ToDecimal(listItem.SubItems[11].Text.Length == 0 ? "0" : listItem.SubItems[11].Text);
+                                        oDetail.UnitAmount = Convert.ToDecimal(listItem.SubItems[8].Text.Length == 0 ? "0" : listItem.SubItems[8].Text);
+                                        oDetail.UAMT_FCURR = oDetail.UnitAmount;
+                                        oDetail.Amount = CalculateAmount(oDetail.Qty.Value, oDetail.UnitAmount.Value, oDetail.Discount.Value);
+                                        oDetail.AMOUNT_FCURR = oDetail.Amount;
+                                        oDetail.BARCODE = listItem.SubItems[14].Text;
+                                        oDetail.COUPONNO = listItem.SubItems[15].Text;
+                                        oDetail.SERIALNO = listItem.SubItems[16].Text;
+                                        oDetail.VITEM = listItem.SubItems[17].Text;
+
+                                        if (listItem.SubItems[2].Text.Trim().ToUpper() == "REMOVED" && detailId != System.Guid.Empty)
+                                        {
+                                            ctx.EPOSBatchDetails.Remove(oDetail);
+                                        }
+                                        ctx.SaveChanges();
+                                    }
+                                }
+                                #endregion
+
+                                #region SavePosBatchTender();
+                                foreach (ListViewItem listItem in lvPaymentItems.Items)
+                                {
+                                    Guid tenderId = Guid.Empty;
+                                    if (Guid.TryParse(listItem.Text.Trim(), out tenderId))
+                                    {
+                                        //System.Guid tenderId = new Guid(listItem.Text.Trim());
+                                        var oTender = ctx.EPOSBatchTender.Find(tenderId);
+                                        if (oTender == null)
+                                        {
+                                            oTender = new EF6.EPOSBatchTender();
+                                            oTender.TenderId = Guid.NewGuid();
+                                            oTender.HeaderId = this.HeaderId;
+                                            oTender.TxNumber = txtTxNumber.Text;
+                                            oTender.TxType = txtTxType.Text;
+
+                                            ctx.EPOSBatchTender.Add(oTender);
+                                        }
+                                        oTender.TxDate = dtpTxDate.Value;
+                                        oTender.TypeId = new Guid(listItem.SubItems[1].Text.Trim());
+                                        oTender.CurrencyCode = listItem.SubItems[6].Text.Trim();
+                                        oTender.CardNumber = listItem.SubItems[4].Text.Trim();
+                                        oTender.AuthorizationCode = listItem.SubItems[5].Text.Trim();
+                                        oTender.TenderAmount = Convert.ToDecimal(listItem.SubItems[3].Text.Length == 0 ? "0" : listItem.SubItems[3].Text);
+                                        oTender.ExchangeRate = Convert.ToDecimal(listItem.SubItems[7].Text.Length == 0 ? "0" : listItem.SubItems[7].Text);
+                                        oTender.InLocalCurrency = Convert.ToDecimal(listItem.SubItems[8].Text.Length == 0 ? "0" : listItem.SubItems[8].Text);
+
+                                        ctx.SaveChanges();
+                                    }
+                                }
+                                #endregion
+
+                                #region UpdateHeaderInfo();
+                                oHeader.TotalAmount = Convert.ToDecimal(Common.Utility.IsNumeric(txtTotalAmount.Text) ? txtTotalAmount.Text.Trim() : "0");
+                                #endregion
+
+                                scope.Commit();
+                            }
+                            catch (Exception ex)
+                            {
+                                scope.Rollback();
+                            }
+                        }
                     }
-                    oHeader.TxDate = dtpTxDate.Value;
-                    oHeader.Status = Convert.ToInt32(cboStatus.Text == "HOLD" ? Common.Enums.Status.Draft.ToString("d") : Common.Enums.Status.Active.ToString("d"));
-
-                    if (oHeader.TxType == "CRT")
-                    {
-                        oHeader.Reference = txtMemoNo.Text;
-                    }
-                    else if (oHeader.TxType == "CAS")
-                    {
-                        //oHeader.DepositAmount = Convert.ToDecimal(txtDepositAmount.Text.Length == 0 ? "0" : txtDepositAmount.Text);
-                        oHeader.Reference = txtDepositAmount.Text;
-                    }
-
-                    oHeader.PRICE_TYPE = cboPriceType.SelectedValue.ToString();
-                    oHeader.WorkplaceId = new Guid(cboWorkplace.SelectedValue.ToString());
-                    oHeader.StaffId = new Guid(cboStaff1.SelectedValue.ToString());
-                    oHeader.Staff1 = oHeader.StaffId;
-                    oHeader.Staff2 = new Guid(cboStaff2.SelectedValue.ToString());
-                    oHeader.EVT_CODE = cboEvtCode.Text;
-                    oHeader.CurrencyCode = cboCurrencyCode.Text;
-                    oHeader.ExchangeRate = Convert.ToDecimal(txtExchangeRate.Text.Length == 0 ? "0" : txtExchangeRate.Text);
-
-                    oHeader.MemberId = this.memberId;
-                    oHeader.SEX = txtSex.Text;
-                    oHeader.RACE = txtRace.Text;
-
-                    oHeader.ANALYSIS_CODE01 = cboAnalysisCode01.Text;
-                    oHeader.ANALYSIS_CODE02 = cboAnalysisCode02.Text;
-                    oHeader.ANALYSIS_CODE03 = cboAnalysisCode03.Text;
-                    oHeader.ANALYSIS_CODE04 = cboAnalysisCode04.Text;
-                    oHeader.ANALYSIS_CODE05 = cboAnalysisCode05.Text;
-                    oHeader.ANALYSIS_CODE06 = cboAnalysisCode06.Text;
-                    oHeader.ANALYSIS_CODE07 = cboAnalysisCode07.Text;
-                    oHeader.ANALYSIS_CODE08 = cboAnalysisCode08.Text;
-                    oHeader.ANALYSIS_CODE09 = cboAnalysisCode09.Text;
-                    oHeader.ANALYSIS_CODE10 = cboAnalysisCode10.Text;
-
-                    oHeader.ModifiedBy = Common.Config.CurrentUserId;
-                    oHeader.ModifiedOn = DateTime.Now;
-
-                    oHeader.Save();
-
-                    this.HeaderId = oHeader.HeaderId;
-
-                    SavePOSBatchDetail();
-                    SavePosBatchTender();
-                    UpdateHeaderInfo();
                 }
                 else
                 {
@@ -580,7 +681,7 @@ namespace RT2020.EmulatedPoS
                 MessageBox.Show("Cannot save until the errors are fixed!", "Warning!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
-
+        /**
         /// <summary>
         /// Updates the header info.
         /// </summary>
@@ -594,6 +695,7 @@ namespace RT2020.EmulatedPoS
                 oHeader.Save();
             }
         }
+        */
         #endregion
 
         #region Load POS Batch Header Info
@@ -602,19 +704,19 @@ namespace RT2020.EmulatedPoS
         /// </summary>
         private void LoadPOSBatchInfo()
         {
-            EPOSBatchHeader oHeader = EPOSBatchHeader.Load(this.HeaderId);
+            var oHeader = ModelEx.EPOSBatchHeaderEx.Get(this.HeaderId);
             if (oHeader != null)
             {
                 txtTxNumber.Text = oHeader.TxNumber;
                 txtTxType.Text = oHeader.TxType;
-                this.memberId = oHeader.MemberId;
+                this.memberId = oHeader.MemberId.Value;
 
                 cboWorkplace.SelectedValue = oHeader.WorkplaceId;
                 cboStaff1.SelectedValue = oHeader.StaffId;
                 cboStaff2.SelectedValue = oHeader.Staff2;
                 cboStatus.Text = (oHeader.Status == 0) ? "HOLD" : "POST";
 
-                dtpTxDate.Value = oHeader.TxDate;
+                dtpTxDate.Value = oHeader.TxDate.Value;
 
                 if (oHeader.TxType == "CRT")
                 {
@@ -642,19 +744,19 @@ namespace RT2020.EmulatedPoS
                 cboAnalysisCode09.Text = oHeader.ANALYSIS_CODE09;
                 cboAnalysisCode10.Text = oHeader.ANALYSIS_CODE10;
 
-                txtLastUpdateOn.Text = RT2020.SystemInfo.Settings.DateTimeToString(oHeader.ModifiedOn, false);
-                txtLastUpdateBy.Text = ModelEx.StaffEx.GetStaffNumberById(oHeader.ModifiedBy);
-                txtCreateDate.Text = RT2020.SystemInfo.Settings.DateTimeToString(oHeader.CreatedOn, false);
+                txtLastUpdateOn.Text = RT2020.SystemInfo.Settings.DateTimeToString(oHeader.ModifiedOn.Value, false);
+                txtLastUpdateBy.Text = ModelEx.StaffEx.GetStaffNumberById(oHeader.ModifiedBy.Value);
+                txtCreateDate.Text = RT2020.SystemInfo.Settings.DateTimeToString(oHeader.CreatedOn.Value, false);
 
-                txtTotalQty.Text = GetTotalRequiredQty().ToString("n0");
-                txtTotalAmount.Text = oHeader.TotalAmount.ToString("n2");
-                txtTotalAmt.Text = oHeader.TotalAmount.ToString("n2");
+                txtTotalQty.Text = ModelEx.EPOSBatchDetailsEx.GetTotalQty(this.HeaderId).ToString("n0");
+                txtTotalAmount.Text = oHeader.TotalAmount.Value.ToString("n2");
+                txtTotalAmt.Text = oHeader.TotalAmount.Value.ToString("n2");
 
                 BindPOSBatchDetailsInfo();
 
             }
         }
-
+        /**
         /// <summary>
         /// Gets the total required qty.
         /// </summary>
@@ -672,9 +774,11 @@ namespace RT2020.EmulatedPoS
 
             return totalQty;
         }
+        */
         #endregion
 
         #region Delete
+        /**
         /// <summary>
         /// Deletes this instance.
         /// </summary>
@@ -717,6 +821,7 @@ namespace RT2020.EmulatedPoS
                 oTender.Delete();
             }
         }
+        */
         #endregion
 
         #region Message Handler
@@ -825,7 +930,7 @@ namespace RT2020.EmulatedPoS
         {
             if (((Form)sender).DialogResult == DialogResult.Yes)
             {
-                Delete();
+                ModelEx.EPOSBatchHeaderEx.DeleteChildToo(this.HeaderId); // Delete();
 
                 this.Close();
             }
@@ -919,6 +1024,7 @@ namespace RT2020.EmulatedPoS
         #endregion
 
         #region Save POS Batch Detail Info
+        /**
         /// <summary>
         /// Saves the POS batch detail.
         /// </summary>
@@ -963,6 +1069,7 @@ namespace RT2020.EmulatedPoS
                 }
             }
         }
+        */
         #endregion
 
         #region Load POS Batch Detail Info
@@ -1304,6 +1411,7 @@ namespace RT2020.EmulatedPoS
         #endregion
 
         #region Save POS Batch Tender Info
+        /**
         /// <summary>
         /// Saves the pos batch tender.
         /// </summary>
@@ -1335,6 +1443,7 @@ namespace RT2020.EmulatedPoS
                 }
             }
         }
+        */
         #endregion
 
         #region Load Vip Info

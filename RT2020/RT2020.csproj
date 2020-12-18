@@ -1627,6 +1627,9 @@
     <Compile Include="MenuStrip\SettingsAms.cs" />
     <Compile Include="MenuStrip\ToolsAms.cs" />
     <Compile Include="MenuStrip\ViewAms.cs" />
+    <Compile Include="ModelEx\EPOSBatchDetailsEx.cs" />
+    <Compile Include="ModelEx\EPOSBatchHeaderEx.cs" />
+    <Compile Include="ModelEx\EPOSBatchTenderEx.cs" />
     <Compile Include="ModelEx\EPOSSubLedgerDetailsEx.cs" />
     <Compile Include="ModelEx\EPOSSubLedgerHeaderEx.cs" />
     <Compile Include="ModelEx\EPOSSubLedgerTenderEx.cs" />

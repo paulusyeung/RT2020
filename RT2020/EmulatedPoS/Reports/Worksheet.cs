@@ -40,8 +40,8 @@ namespace RT2020.EmulatedPoS.Reports
         /// </summary>
         private void FillComboList()
         {
-            RT2020.DAL.EPOSBatchHeader.LoadCombo(ref cboFromTrn, "TxNumber", false);
-            RT2020.DAL.EPOSBatchHeader.LoadCombo(ref cboToTrn, "TxNumber", false);
+            ModelEx.EPOSBatchHeaderEx.LoadCombo(ref cboFromTrn, "TxNumber", false);
+            ModelEx.EPOSBatchHeaderEx.LoadCombo(ref cboToTrn, "TxNumber", false);
             cboToTrn.SelectedIndex = cboToTrn.Items.Count - 1;
         }
 

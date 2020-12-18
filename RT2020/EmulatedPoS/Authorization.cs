@@ -153,8 +153,8 @@ namespace RT2020.EmulatedPoS
             ListViewItem oItem = lvPostingResult.Items.Add(objItem.Text);
             oItem.SubItems.Add(new IconResourceHandle("16x16.16_succeeded.png").ToString());
             oItem.SubItems.Add(objItem.SubItems[2].Text);//TxNumber
-            EPOSBatchDetailsCollection detailList = EPOSBatchDetails.LoadCollection("HeaderId = '" + objItem.Text + "'");
-            foreach (EPOSBatchDetails detail in detailList)
+            var detailList = ModelEx.EPOSBatchDetailsEx.GetList("HeaderId = '" + objItem.Text + "'");
+            foreach (var detail in detailList)
             {
                 var oProduct = ModelEx.ProductEx.Get(detail.ProductId);
                 if (oProduct != null)
@@ -1266,7 +1266,7 @@ namespace RT2020.EmulatedPoS
             if (txtTxNumber.Text.Trim().Length > 0)
             {
                 string sql = "TxNumber LIKE '%" + txtTxNumber.Text.Trim() + "%'";
-                EPOSBatchHeader oHeader = EPOSBatchHeader.LoadWhere(sql);                
+                var oHeader = ModelEx.EPOSBatchHeaderEx.Get(sql);                
                 if (oHeader != null)
                 {
                     Common.Enums.Status oStatus = (Common.Enums.Status)Enum.Parse(typeof(Common.Enums.Status), oHeader.Status.ToString());
@@ -1505,13 +1505,13 @@ namespace RT2020.EmulatedPoS
         private bool CheckQty(Guid headerId)
         {
             bool result = true;
-            EPOSBatchHeader oBatchHeader = EPOSBatchHeader.Load(headerId);
+            var oBatchHeader = ModelEx.EPOSBatchHeaderEx.Get(headerId);
             string sqlWhere = "HeaderId = '" + headerId.ToString() + "'";
-            EPOSBatchDetailsCollection oBatchDetails = EPOSBatchDetails.LoadCollection(sqlWhere);
+            var oBatchDetails = ModelEx.EPOSBatchDetailsEx.GetList(sqlWhere);
             for (int i = 0; i < oBatchDetails.Count; i++)
             {
-                EPOSBatchDetails detail = oBatchDetails[i];
-                result = CheckByProductWorkplace(detail.ProductId, oBatchHeader.WorkplaceId, detail.Qty);
+                var detail = oBatchDetails[i];
+                result = CheckByProductWorkplace(detail.ProductId, oBatchHeader.WorkplaceId, detail.Qty.Value);
                 if (!result)
                 {
                     break;
