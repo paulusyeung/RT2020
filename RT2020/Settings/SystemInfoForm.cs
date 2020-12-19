@@ -12,7 +12,7 @@ using Gizmox.WebGUI.Forms;
 using Gizmox.WebGUI.Common.Resources;
 using System.IO;
 using RT2020.Controls;
-using RT2020.DAL;
+
 using RT2020.Helper;
 using System.Linq;
 
@@ -458,7 +458,7 @@ namespace RT2020.Settings
 
                     // Others
 
-                    oSysInfo.TaxRate = Common.Utility.IsNumeric(txtTaxRate.Text) ? Convert.ToDecimal(txtTaxRate.Text.Trim()) : 0;
+                    oSysInfo.TaxRate = txtTaxRate.Text.All(char.IsNumber) ? Convert.ToDecimal(txtTaxRate.Text.Trim()) : 0;
                     oSysInfo.TaxRegisterNumber = txtTaxRegisterNumber.Text;
                     oSysInfo.PriceTag_TaxInclusive = chkPriceTagIncludeTax.Checked;
 
@@ -523,8 +523,9 @@ namespace RT2020.Settings
                                     queue.LastNumber = "0".PadLeft(12, '0');
                                     ctx.SystemQueue.Add(queue);
                                 }
-
-                                if (Common.Utility.IsNumeric(txtCtrl.Text))
+                                
+                                if (txtCtrl.Text.All(char.IsNumber))
+                                //if (Common.Utility.IsNumeric(txtCtrl.Text))
                                 {
                                     queue.LastNumber = txtCtrl.Text.ToString();
                                 }

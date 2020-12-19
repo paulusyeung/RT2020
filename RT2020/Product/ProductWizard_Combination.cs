@@ -10,7 +10,7 @@ using System.Text;
 using Gizmox.WebGUI.Common;
 using Gizmox.WebGUI.Forms;
 using Gizmox.WebGUI.Common.Resources;
-using RT2020.DAL;
+
 using RT2020.Helper;
 
 #endregion
@@ -418,13 +418,13 @@ namespace RT2020.Product
                                     break;
                             }
 
-                            oDim.CreatedBy = Common.Config.CurrentUserId;
+                            oDim.CreatedBy = ConfigHelper.CurrentUserId;
                             oDim.CreatedOn = DateTime.Now;
 
                             ctx.ProductDim.Add(oDim);
                             #endregion
                         }
-                        oDim.ModifiedBy = Common.Config.CurrentUserId;
+                        oDim.ModifiedBy = ConfigHelper.CurrentUserId;
                         oDim.ModifiedOn = DateTime.Now;
 
                         ctx.SaveChanges();
@@ -510,7 +510,7 @@ Where   DimensionId = '" + this.CombinId.ToString() + "'";
 
             System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand();
             cmd.CommandText = sql;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = CommandType.Text;
 
             using (DataSet dataset = SqlHelper.Default.ExecuteDataSet(cmd))

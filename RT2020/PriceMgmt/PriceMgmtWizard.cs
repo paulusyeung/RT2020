@@ -10,7 +10,7 @@ using System.Text;
 using Gizmox.WebGUI.Common;
 using Gizmox.WebGUI.Forms;
 using Gizmox.WebGUI.Common.Resources;
-using RT2020.DAL;
+
 using System.Linq;
 using RT2020.Helper;
 
@@ -150,7 +150,7 @@ namespace RT2020.PriceMgmt
             ToolBarButton cmdSave = new ToolBarButton("Save", "Save");
             cmdSave.Tag = "Save";
             cmdSave.Image = new IconResourceHandle("16x16.16_L_save.gif");
-            cmdSave.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(Common.Enums.Permission.Write);
+            cmdSave.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Write);
 
             this.tbWizardAction.Buttons.Add(cmdSave);
 
@@ -158,7 +158,7 @@ namespace RT2020.PriceMgmt
             ToolBarButton cmdSaveNew = new ToolBarButton("Save & New", "Save & New");
             cmdSaveNew.Tag = "Save & New";
             cmdSaveNew.Image = new IconResourceHandle("16x16.16_L_saveOpen.gif");
-            cmdSaveNew.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(Common.Enums.Permission.Write);
+            cmdSaveNew.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Write);
 
             this.tbWizardAction.Buttons.Add(cmdSaveNew);
 
@@ -166,7 +166,7 @@ namespace RT2020.PriceMgmt
             ToolBarButton cmdSaveClose = new ToolBarButton("Save & Close", "Save & Close");
             cmdSaveClose.Tag = "Save & Close";
             cmdSaveClose.Image = new IconResourceHandle("16x16.16_saveClose.gif");
-            cmdSaveClose.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(Common.Enums.Permission.Write);
+            cmdSaveClose.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Write);
 
             this.tbWizardAction.Buttons.Add(cmdSaveClose);
             this.tbWizardAction.Buttons.Add(sep);
@@ -188,8 +188,8 @@ namespace RT2020.PriceMgmt
             }
             else
             {
-                cmdDelete.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(Common.Enums.Permission.Delete);
-                cmdPrint.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(Common.Enums.Permission.Write);
+                cmdDelete.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Delete);
+                cmdPrint.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Write);
             }
 
             this.tbWizardAction.Buttons.Add(cmdDelete);
@@ -248,7 +248,7 @@ AND CONVERT(NVARCHAR(10),EffectDate,126) BETWEEN '" + this.dtpEffectiveDate.Valu
 
             System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand();
             cmd.CommandText = sql;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = CommandType.Text;
 
             using (DataSet dataset = SqlHelper.Default.ExecuteDataSet(cmd))
@@ -391,12 +391,12 @@ AND CONVERT(NVARCHAR(10),EffectDate,126) BETWEEN '" + this.dtpEffectiveDate.Valu
                             #region add new PriceManagementBatchHeader
                             oHeader = new EF6.PriceManagementBatchHeader();
                             oHeader.HeaderId = Guid.NewGuid();
-                            txtTxNumber.Text = RT2020.SystemInfo.Settings.QueuingTxNumber(Common.Enums.TxType.PMS);
+                            txtTxNumber.Text = RT2020.SystemInfo.Settings.QueuingTxNumber(EnumHelper.TxType.PMS);
                             oHeader.TxNumber = txtTxNumber.Text;
-                            oHeader.TxType = Common.Enums.TxType.PMC.ToString();
+                            oHeader.TxType = EnumHelper.TxType.PMC.ToString();
                             oHeader.PM_TYPE = this.ListType.ToString().Substring(0, 1);
 
-                            oHeader.CreatedBy = Common.Config.CurrentUserId;
+                            oHeader.CreatedBy = ConfigHelper.CurrentUserId;
                             oHeader.CreatedOn = DateTime.Now;
 
                             ctx.PriceManagementBatchHeader.Add(oHeader);
@@ -404,10 +404,10 @@ AND CONVERT(NVARCHAR(10),EffectDate,126) BETWEEN '" + this.dtpEffectiveDate.Valu
                         }
 
                         oHeader.EffectDate = dtpEffectiveDate.Value;
-                        oHeader.ReasonId = Common.Utility.IsGUID(cboReasonCode.SelectedValue.ToString()) ? new System.Guid(cboReasonCode.SelectedValue.ToString()) : System.Guid.Empty;
+                        oHeader.ReasonId = (Guid)cboReasonCode.SelectedValue;
                         oHeader.Remarks = txtRemarks.Text;
 
-                        oHeader.ModifiedBy = Common.Config.CurrentUserId;
+                        oHeader.ModifiedBy = ConfigHelper.CurrentUserId;
                         oHeader.ModifiedOn = DateTime.Now;
 
                         ctx.SaveChanges();
@@ -469,13 +469,22 @@ AND CONVERT(NVARCHAR(10),EffectDate,126) BETWEEN '" + this.dtpEffectiveDate.Valu
                                             var oSupplement = ctx.ProductSupplement.Where(x => x.ProductId == objProduct.ProductId).FirstOrDefault();
                                             if (oSupplement != null)
                                             {
-                                                oSupplement.VipDiscount_FixedItem = Common.Utility.IsNumeric(lvItem.SubItems[23].Text) ? Convert.ToDecimal(lvItem.SubItems[23].Text.Trim()) : oSupplement.VipDiscount_FixedItem; // Discount For Fixed price Item
-                                                oSupplement.VipDiscount_DiscountItem = Common.Utility.IsNumeric(lvItem.SubItems[24].Text) ? Convert.ToDecimal(lvItem.SubItems[24].Text.Trim()) : oSupplement.VipDiscount_DiscountItem; // Discount for Discount Item
-                                                oSupplement.VipDiscount_NoDiscountItem = Common.Utility.IsNumeric(lvItem.SubItems[25].Text) ? Convert.ToDecimal(lvItem.SubItems[25].Text.Trim()) : oSupplement.VipDiscount_NoDiscountItem; // Disocunt for No Discount Item
-                                                oSupplement.StaffDiscount = Common.Utility.IsNumeric(lvItem.SubItems[26].Text) ? Convert.ToDecimal(lvItem.SubItems[26].Text.Trim()) : oSupplement.StaffDiscount; // Staff Discount
+                                                decimal vipDicount_FixedItem = 0, vipDiscount_DiscountItem = 0, vipDiscount_NoDiscountItem = 0, staffDiscount = 0;
+                                                decimal.TryParse(lvItem.SubItems[23].Text, out vipDicount_FixedItem);
+                                                decimal.TryParse(lvItem.SubItems[24].Text, out vipDiscount_DiscountItem);
+                                                decimal.TryParse(lvItem.SubItems[25].Text, out vipDiscount_NoDiscountItem);
+                                                decimal.TryParse(lvItem.SubItems[26].Text, out staffDiscount);
+                                                //oSupplement.VipDiscount_FixedItem = Common.Utility.IsNumeric(lvItem.SubItems[23].Text) ? Convert.ToDecimal(lvItem.SubItems[23].Text.Trim()) : oSupplement.VipDiscount_FixedItem; // Discount For Fixed price Item
+                                                //oSupplement.VipDiscount_DiscountItem = Common.Utility.IsNumeric(lvItem.SubItems[24].Text) ? Convert.ToDecimal(lvItem.SubItems[24].Text.Trim()) : oSupplement.VipDiscount_DiscountItem; // Discount for Discount Item
+                                                //oSupplement.VipDiscount_NoDiscountItem = Common.Utility.IsNumeric(lvItem.SubItems[25].Text) ? Convert.ToDecimal(lvItem.SubItems[25].Text.Trim()) : oSupplement.VipDiscount_NoDiscountItem; // Disocunt for No Discount Item
+                                                //oSupplement.StaffDiscount = Common.Utility.IsNumeric(lvItem.SubItems[26].Text) ? Convert.ToDecimal(lvItem.SubItems[26].Text.Trim()) : oSupplement.StaffDiscount; // Staff Discount
+                                                oSupplement.VipDiscount_FixedItem = vipDicount_FixedItem;
+                                                oSupplement.VipDiscount_DiscountItem = vipDiscount_DiscountItem;
+                                                oSupplement.VipDiscount_NoDiscountItem = vipDiscount_NoDiscountItem;
+                                                oSupplement.StaffDiscount = staffDiscount;
                                             }
 
-                                            objProduct.ModifiedBy = Common.Config.CurrentUserId;
+                                            objProduct.ModifiedBy = ConfigHelper.CurrentUserId;
                                             objProduct.ModifiedOn = DateTime.Now;
                                         }
                                     }
@@ -571,7 +580,7 @@ AND CONVERT(NVARCHAR(10),EffectDate,126) BETWEEN '" + this.dtpEffectiveDate.Valu
                                                 oSupplement.StaffDiscount = Common.Utility.IsNumeric(lvItem.SubItems[26].Text) ? Convert.ToDecimal(lvItem.SubItems[26].Text.Trim()) : oSupplement.StaffDiscount; // Staff Discount
                                             }
 
-                                            objProduct.ModifiedBy = Common.Config.CurrentUserId;
+                                            objProduct.ModifiedBy = ConfigHelper.CurrentUserId;
                                             objProduct.ModifiedOn = DateTime.Now;
                                         }
                                     }

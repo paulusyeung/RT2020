@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using RT2020.DAL;
+
 using System.Data;
 using System.Data.SqlClient;
 using System.Configuration;
@@ -53,7 +53,7 @@ DROP TABLE [dbo].[MonthEndSummary] ";
 
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = query;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = CommandType.Text;
 
             SqlHelper.Default.ExecuteNonQuery(cmd);
@@ -80,7 +80,7 @@ CREATE TABLE [dbo].[MonthEndSummary](
 
             cmd = new SqlCommand();
             cmd.CommandText = query;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = CommandType.Text;
 
             SqlHelper.Default.ExecuteNonQuery(cmd);
@@ -96,7 +96,7 @@ DROP TABLE [dbo].[TempTableForMonthEnd]";
 
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = query;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = CommandType.Text;
 
             SqlHelper.Default.ExecuteNonQuery(cmd);
@@ -115,7 +115,7 @@ CREATE TABLE [dbo].[TempTableForMonthEnd](
 
             cmd = new SqlCommand();
             cmd.CommandText = query;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = CommandType.Text;
 
             SqlHelper.Default.ExecuteNonQuery(cmd);
@@ -131,7 +131,7 @@ DROP TABLE [dbo].[TempTableForMonthEndWithQty]";
 
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = query;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = CommandType.Text;
 
             SqlHelper.Default.ExecuteNonQuery(cmd);
@@ -151,7 +151,7 @@ CREATE TABLE [dbo].[TempTableForMonthEndWithQty](
 
             cmd = new SqlCommand();
             cmd.CommandText = query;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = CommandType.Text;
 
             SqlHelper.Default.ExecuteNonQuery(cmd);
@@ -168,7 +168,7 @@ CREATE TABLE [dbo].[TempTableForMonthEndWithQty](
 
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = query;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = CommandType.Text;
 
             SqlHelper.Default.ExecuteNonQuery(cmd);
@@ -184,7 +184,7 @@ FROM ProductCurrentSummary";
 
             cmd = new SqlCommand();
             cmd.CommandText = query;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = CommandType.Text;
 
             SqlHelper.Default.ExecuteNonQuery(cmd);
@@ -195,7 +195,7 @@ FROM ProductCurrentSummary";
 
             cmd = new SqlCommand();
             cmd.CommandText = query;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = CommandType.Text;
 
             SqlHelper.Default.ExecuteNonQuery(cmd);
@@ -210,7 +210,7 @@ FROM ProductCurrentSummary";
 
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = query;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = CommandType.Text;
 
             SqlHelper.Default.ExecuteNonQuery(cmd);
@@ -225,7 +225,7 @@ GROUP BY ProductId ";
 
             cmd = new SqlCommand();
             cmd.CommandText = query;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = CommandType.Text;
 
             SqlHelper.Default.ExecuteNonQuery(cmd);
@@ -247,7 +247,7 @@ WHERE  cs.LastPurchasedOn IS NULL OR
 
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = query;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = CommandType.Text;
 
             SqlHelper.Default.ExecuteNonQuery(cmd);
@@ -265,7 +265,7 @@ WHERE  [dbo].[ProductCurrentSummary].LastPurchasedOn IS NULL
 
             cmd = new SqlCommand();
             cmd.CommandText = query;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = CommandType.Text;
 
             SqlHelper.Default.ExecuteNonQuery(cmd);
@@ -281,7 +281,7 @@ WHERE  [dbo].[ProductCurrentSummary].LastPurchasedOn IS NULL
 
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = query;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = CommandType.Text;
 
             SqlHelper.Default.ExecuteNonQuery(cmd);
@@ -296,7 +296,7 @@ GROUP BY ProductId ";
 
             cmd = new SqlCommand();
             cmd.CommandText = query;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = CommandType.Text;
 
             SqlHelper.Default.ExecuteNonQuery(cmd);
@@ -318,7 +318,7 @@ WHERE  cs.LastSoldOn IS NULL OR
 
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = query;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = CommandType.Text;
 
             SqlHelper.Default.ExecuteNonQuery(cmd);
@@ -336,7 +336,7 @@ WHERE  [dbo].[ProductCurrentSummary].LastSoldOn IS NULL
 
             cmd = new SqlCommand();
             cmd.CommandText = query;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = CommandType.Text;
 
             SqlHelper.Default.ExecuteNonQuery(cmd);
@@ -352,7 +352,7 @@ WHERE  [dbo].[ProductCurrentSummary].LastSoldOn IS NULL
 
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = query;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = CommandType.Text;
 
             SqlHelper.Default.ExecuteNonQuery(cmd);
@@ -370,7 +370,7 @@ GROUP BY LDG.ProductId ";
 
             cmd = new SqlCommand();
             cmd.CommandText = query;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = CommandType.Text;
 
             SqlHelper.Default.ExecuteNonQuery(cmd);
@@ -386,7 +386,7 @@ WHERE [dbo].[TempTableForMonthEndWithQty].[Type] IN ('P') ";
 
             cmd = new SqlCommand();
             cmd.CommandText = query;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = CommandType.Text;
 
             SqlHelper.Default.ExecuteNonQuery(cmd);
@@ -403,7 +403,7 @@ WHERE [dbo].[TempTableForMonthEndWithQty].[Type] IN ('P') ";
 
             cmd = new SqlCommand();
             cmd.CommandText = query;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = CommandType.Text;
 
             SqlHelper.Default.ExecuteNonQuery(cmd);
@@ -417,7 +417,7 @@ WHERE [dbo].[TempTableForMonthEndWithQty].[Type] IN ('P') ";
 
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = query;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = CommandType.Text;
 
             SqlHelper.Default.ExecuteNonQuery(cmd);
@@ -435,7 +435,7 @@ GROUP BY LDG.ProductId ";
 
             cmd = new SqlCommand();
             cmd.CommandText = query;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = CommandType.Text;
 
             SqlHelper.Default.ExecuteNonQuery(cmd);
@@ -451,7 +451,7 @@ WHERE [dbo].[TempTableForMonthEndWithQty].[Type] IN ('S') ";
 
             cmd = new SqlCommand();
             cmd.CommandText = query;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = CommandType.Text;
 
             SqlHelper.Default.ExecuteNonQuery(cmd);
@@ -468,7 +468,7 @@ WHERE [dbo].[TempTableForMonthEndWithQty].[Type] IN ('S') ";
 
             cmd = new SqlCommand();
             cmd.CommandText = query;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = CommandType.Text;
 
             SqlHelper.Default.ExecuteNonQuery(cmd);

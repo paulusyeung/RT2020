@@ -9,7 +9,7 @@ using System.Text;
 
 using Gizmox.WebGUI.Common;
 using Gizmox.WebGUI.Forms;
-using RT2020.DAL;
+
 using System.Data.SqlClient;
 using System.Configuration;
 using System.Collections;
@@ -70,7 +70,7 @@ namespace RT2020.Inventory.Reports.StockStatus
 
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = sql;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = System.Data.CommandType.Text;
 
             using (DataSet ds = SqlHelper.Default.ExecuteDataSet(cmd))
@@ -95,7 +95,7 @@ namespace RT2020.Inventory.Reports.StockStatus
 
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = sql;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = System.Data.CommandType.Text;
 
             using (DataSet dataset = SqlHelper.Default.ExecuteDataSet(cmd))
@@ -254,7 +254,7 @@ AND Location BETWEEN '" + this.cboLocationFrom.Text.Trim() + "' AND '" + this.cb
 
             System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand();
             cmd.CommandText = sql;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = CommandType.Text;
 
             using (DataSet dataset = SqlHelper.Default.ExecuteDataSet(cmd))

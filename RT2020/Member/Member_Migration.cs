@@ -9,8 +9,9 @@ using System.Text;
 
 using Gizmox.WebGUI.Common;
 using Gizmox.WebGUI.Forms;
-using RT2020.DAL;
+
 using System.Linq;
+using RT2020.Helper;
 
 #endregion
 
@@ -140,9 +141,9 @@ namespace RT2020.Member
                 var objMemberList = ctx.Member.OrderBy(x => x.MemberNumber);
                 foreach (var objMember in objMemberList)
                 {
-                    objMember.Status = (int)Common.Enums.Status.Deleted;
+                    objMember.Status = (int)EnumHelper.Status.Deleted;
                     objMember.Retired = true;
-                    objMember.RetiredBy = Common.Config.CurrentUserId;
+                    objMember.RetiredBy = ConfigHelper.CurrentUserId;
                     objMember.RetiredOn = DateTime.Now;
                 }
                 ctx.SaveChanges();
@@ -205,7 +206,7 @@ namespace RT2020.Member
                     objMember.MemberId = Guid.NewGuid();
                     objMember.MemberNumber = objTempVip.VIPNO;
 
-                    objMember.CreatedBy = Common.Config.CurrentUserId;
+                    objMember.CreatedBy = ConfigHelper.CurrentUserId;
                     objMember.CreatedOn = DateTime.Now;
                     objMember.Retired = false;
                     objMember.RetiredBy = Guid.Empty;
@@ -223,16 +224,16 @@ namespace RT2020.Member
                         case "A":
                         case "":
                         default:
-                            objMember.Status = (int)Common.Enums.Status.Active;
+                            objMember.Status = (int)EnumHelper.Status.Active;
                             break;
                         case "M":
-                            objMember.Status = (int)Common.Enums.Status.Modified;
+                            objMember.Status = (int)EnumHelper.Status.Modified;
                             break;
                         case "D":
-                            objMember.Status = (int)Common.Enums.Status.Deleted;
+                            objMember.Status = (int)EnumHelper.Status.Deleted;
                             break;
                         case "I":
-                            objMember.Status = (int)Common.Enums.Status.Inactive;
+                            objMember.Status = (int)EnumHelper.Status.Inactive;
                             break;
                     }
                 }
@@ -240,11 +241,11 @@ namespace RT2020.Member
                 {
                     if (isNew)
                     {
-                        objMember.Status = (int)Common.Enums.Status.Active;
+                        objMember.Status = (int)EnumHelper.Status.Active;
                     }
                     else
                     {
-                        objMember.Status = (int)Common.Enums.Status.Modified;
+                        objMember.Status = (int)EnumHelper.Status.Modified;
                     }
                 }
                 #endregion
@@ -252,7 +253,7 @@ namespace RT2020.Member
                 #region Option 2. Migrate Temporary VIP to Permanent VIP With Delete
                 if (canDelete)
                 {
-                    objMember.Status = (int)Common.Enums.Status.Deleted;
+                    objMember.Status = (int)EnumHelper.Status.Deleted;
                 }
                 #endregion
 
@@ -272,10 +273,10 @@ namespace RT2020.Member
                 objMember.Remarks = objTempVip.REMARKS;
                 objMember.NormalDiscount = (decimal)objTempVip.NRDISC;
                 objMember.DownloadToPOS = true;
-                objMember.ModifiedBy = Common.Config.CurrentUserId;
+                objMember.ModifiedBy = ConfigHelper.CurrentUserId;
                 objMember.ModifiedOn = DateTime.Now;
 
-                if (objMember.Status == (int)Common.Enums.Status.Deleted || objMember.Status == (int)Common.Enums.Status.Inactive)
+                if (objMember.Status == (int)EnumHelper.Status.Deleted || objMember.Status == (int)EnumHelper.Status.Inactive)
                 {
                     objMember.Retired = false;
                     objMember.RetiredBy = System.Guid.Empty;

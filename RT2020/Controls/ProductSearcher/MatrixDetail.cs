@@ -9,7 +9,7 @@ using System.Text;
 
 using Gizmox.WebGUI.Common;
 using Gizmox.WebGUI.Forms;
-using RT2020.DAL;
+
 using RT2020.Helper;
 
 #endregion
@@ -23,7 +23,7 @@ namespace RT2020.Controls.ProductSearcher
 
         public List<DetailData> ResultList { get; set; }
         public string StockCode { get; set; }
-        public Common.Enums.TxType TxType { get; set; }
+        public EnumHelper.TxType TxType { get; set; }
 
         public MatrixDetail()
         {
@@ -84,8 +84,8 @@ namespace RT2020.Controls.ProductSearcher
 
             switch (this.TxType)
             {
-                case Common.Enums.TxType.ADJ:
-                case Common.Enums.TxType.TXF:
+                case EnumHelper.TxType.ADJ:
+                case EnumHelper.TxType.TXF:
                     result = false;
                     break;
             }
@@ -104,10 +104,10 @@ namespace RT2020.Controls.ProductSearcher
 
             switch (this.TxType)
             {
-                case Common.Enums.TxType.ADJ:
+                case EnumHelper.TxType.ADJ:
                     result = ModelEx.ProductCurrentSummaryEx.GetAverageCode(productId);
                     break;
-                case Common.Enums.TxType.TXF:
+                case EnumHelper.TxType.TXF:
                     //DAL.Product product = DAL.Product.Load(productId);
                     //if (product != null)
                     //{
@@ -140,7 +140,7 @@ namespace RT2020.Controls.ProductSearcher
 
             System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand();
             cmd.CommandText = sql.ToString();
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = CommandType.Text;
 
             DataSet ds = SqlHelper.Default.ExecuteDataSet(cmd);
@@ -274,9 +274,10 @@ WHERE wpn.NatureCode = '2'"; // 2 => Workplace Nature: Warehouse
                 dgvDetailList.Rows[e.RowIndex].Cells[8].Style.Font = new Font(dgvDetailList.DefaultCellStyle.Font, FontStyle.Bold);
             }
 
-            if (DAL.Common.Utility.IsGUID(dgvDetailList.Rows[e.RowIndex].Cells[0].Value.ToString()))
+            Guid productId = Guid.Empty;
+            if (Guid.TryParse(dgvDetailList.Rows[e.RowIndex].Cells[0].Value.ToString(), out productId))
             {
-                Guid productId = new Guid(dgvDetailList.Rows[e.RowIndex].Cells[0].Value.ToString());
+                //Guid productId = new Guid(dgvDetailList.Rows[e.RowIndex].Cells[0].Value.ToString());
 
                 DetailData detail = ResultList.Find(d => d.ProductId == productId);
 

@@ -15,7 +15,7 @@ using Gizmox.WebGUI.Common.Interfaces;
 using FileHelpers.DataLink;
 using FileHelpers.MasterDetail;
 
-using RT2020.DAL;
+
 using RT2020.Helper;
 
 namespace RT2020.Inventory.Adjustment.Reports
@@ -111,13 +111,13 @@ namespace RT2020.Inventory.Adjustment.Reports
                             WHERE	TxNumber BETWEEN '" + this.cboFrom.Text.Trim() + @"' AND '" + this.cboTo.Text.Trim() + @"' 
                               AND CONVERT(VARCHAR(10), TxDate, 126) BETWEEN '" + this.dtpTxDateFrom.Value.ToString("yyyy-MM-dd") + @"' 
                                                                         AND '" + this.dtpTxDateTo.Value.ToString("yyyy-MM-dd") + @"' 
-                              AND TxType = '" + Common.Enums.TxType.ADJ.ToString() + @"' 
+                              AND TxType = '" + EnumHelper.TxType.ADJ.ToString() + @"' 
                             ORDER BY TxNumber, STKCODE, APPENDIX1, APPENDIX2, APPENDIX3 
                           ";
 
             System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand();
             cmd.CommandText = sql;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = CommandType.Text;
 
             using (DataSet dataset = SqlHelper.Default.ExecuteDataSet(cmd))
@@ -149,7 +149,7 @@ namespace RT2020.Inventory.Adjustment.Reports
                 { "FromTxDate", this.dtpTxDateFrom.Value.ToString(RT2020.SystemInfo.Settings.GetDateFormat()) },
                 { "ToTxDate", this.dtpTxDateTo.Value.ToString(RT2020.SystemInfo.Settings.GetDateFormat()) },
                 { "PrintedOn", DateTime.Now.ToString(RT2020.SystemInfo.Settings.GetDateTimeFormat()) },
-                { "PrintedBy", ModelEx.StaffEx.GetStaffNameById(Common.Config.CurrentUserId) },
+                { "PrintedBy", ModelEx.StaffEx.GetStaffNameById(ConfigHelper.CurrentUserId) },
                 { "DateFormat", RT2020.SystemInfo.Settings.GetDateFormat() },
                 { "CompanyName", RT2020.SystemInfo.CurrentInfo.Default.CompanyName},
                 { "StockCode", RT2020.SystemInfo.Settings.GetSystemLabelByKey("STKCODE") },

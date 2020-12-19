@@ -10,7 +10,7 @@ using System.Text;
 
 using Gizmox.WebGUI.Common;
 using Gizmox.WebGUI.Forms;
-using RT2020.DAL;
+
 using Gizmox.WebGUI.Common.Interfaces;
 using System.IO;
 using FileHelpers.DataLink;
@@ -109,7 +109,7 @@ namespace RT2020.Inventory.Transfer.Reports
             SELECT * FROM dbo.vwJournalTXFList WHERE (STKCODE >= '" + txtFromStockCode.Text.Trim() + "') AND (STKCODE <= '" + txtToStockCode.Text.Trim() + @"')
                             AND CONVERT(VARCHAR(10),TxDate,126) BETWEEN '" + this.dtpTxDateFrom.Value.ToString("yyyy-MM-dd") + @"'
                             AND '" + this.dtpTxDateTo.Value.ToString("yyyy-MM-dd") + @"'
-                            AND TxType ='" + Common.Enums.TxType.TXI + "' AND FromLocation = '" + FLocation + "'";
+                            AND TxType ='" + EnumHelper.TxType.TXI + "' AND FromLocation = '" + FLocation + "'";
 
             if (this.chkVsLocation.Checked)
             {
@@ -120,7 +120,7 @@ namespace RT2020.Inventory.Transfer.Reports
 
             System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand();
             cmd.CommandText = sql;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = CommandType.Text;
 
             using (DataSet dataset = SqlHelper.Default.ExecuteDataSet(cmd))

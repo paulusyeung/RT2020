@@ -10,7 +10,8 @@ using System.Text;
 using Gizmox.WebGUI.Common;
 using Gizmox.WebGUI.Forms;
 using Gizmox.WebGUI.Common.Resources;
-using RT2020.DAL;
+using RT2020.Helper;
+
 
 #endregion
 
@@ -103,7 +104,7 @@ namespace RT2020.PriceMgmt
             ToolBarButton cmdSave = new ToolBarButton("Save", "Save");
             cmdSave.Tag = "Save";
             cmdSave.Image = new IconResourceHandle("16x16.16_L_save.gif");
-            cmdSave.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(Common.Enums.Permission.Write);
+            cmdSave.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Write);
 
             this.tbWizardAction.Buttons.Add(cmdSave);
 
@@ -111,7 +112,7 @@ namespace RT2020.PriceMgmt
             ToolBarButton cmdSaveNew = new ToolBarButton("Save & New", "Save & New");
             cmdSaveNew.Tag = "Save & New";
             cmdSaveNew.Image = new IconResourceHandle("16x16.16_L_saveOpen.gif");
-            cmdSaveNew.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(Common.Enums.Permission.Write);
+            cmdSaveNew.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Write);
 
             this.tbWizardAction.Buttons.Add(cmdSaveNew);
 
@@ -119,7 +120,7 @@ namespace RT2020.PriceMgmt
             ToolBarButton cmdSaveClose = new ToolBarButton("Save & Close", "Save & Close");
             cmdSaveClose.Tag = "Save & Close";
             cmdSaveClose.Image = new IconResourceHandle("16x16.16_saveClose.gif");
-            cmdSaveClose.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(Common.Enums.Permission.Write);
+            cmdSaveClose.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Write);
 
             this.tbWizardAction.Buttons.Add(cmdSaveClose);
             this.tbWizardAction.Buttons.Add(sep);
@@ -135,7 +136,7 @@ namespace RT2020.PriceMgmt
             }
             else
             {
-                cmdDelete.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(Common.Enums.Permission.Delete);
+                cmdDelete.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Delete);
             }
 
             this.tbWizardAction.Buttons.Add(cmdDelete);

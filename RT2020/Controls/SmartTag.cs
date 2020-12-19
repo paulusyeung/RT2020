@@ -9,7 +9,8 @@ using System.Text;
 
 using Gizmox.WebGUI.Common;
 using Gizmox.WebGUI.Forms;
-using RT2020.DAL;
+using RT2020.Helper;
+
 
 #endregion
 
@@ -101,7 +102,7 @@ namespace RT2020.Controls
 
         private void SetSmartTag(string key, object tag, string name, string name_chs, string name_cht)
         {
-            switch (Common.Config.CurrentLanguageId)
+            switch (ConfigHelper.CurrentLanguageId)
             {
                 case 2: // chs, zh-chs, zh-cn
                     name_chs = name_chs + "£º";

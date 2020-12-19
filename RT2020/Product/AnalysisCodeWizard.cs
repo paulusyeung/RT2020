@@ -10,7 +10,7 @@ using System.Text;
 using Gizmox.WebGUI.Common;
 using Gizmox.WebGUI.Forms;
 using Gizmox.WebGUI.Common.Resources;
-using RT2020.DAL;
+
 using Westwind.Globalization;
 using RT2020.Helper;
 using System.Linq;
@@ -72,7 +72,7 @@ namespace RT2020.Product
             ToolBarButton cmdNew = new ToolBarButton("New", DbRes.T("edit.new", "General", locale));
             cmdNew.Tag = "New";
             cmdNew.Image = new IconResourceHandle("16x16.ico_16_3.gif");
-            cmdNew.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(Common.Enums.Permission.Write);
+            cmdNew.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Write);
 
             this.tbWizardAction.Buttons.Add(cmdNew);
 
@@ -80,7 +80,7 @@ namespace RT2020.Product
             ToolBarButton cmdSave = new ToolBarButton("Save", DbRes.T("edit.save", "General", locale));
             cmdSave.Tag = "Save";
             cmdSave.Image = new IconResourceHandle("16x16.16_L_save.gif");
-            cmdSave.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(Common.Enums.Permission.Write);
+            cmdSave.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Write);
 
             this.tbWizardAction.Buttons.Add(cmdSave);
             this.tbWizardAction.Buttons.Add(sep);
@@ -96,7 +96,7 @@ namespace RT2020.Product
             }
             else
             {
-                cmdDelete.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(Common.Enums.Permission.Delete);
+                cmdDelete.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Delete);
             }
 
             this.tbWizardAction.Buttons.Add(cmdDelete);
@@ -185,9 +185,9 @@ namespace RT2020.Product
                         oACode.CodeName_Cht = fixedAnalysisCode;
                         oACode.Mandatory = true;
                         oACode.DownloadToPOS = false;
-                        oACode.CreatedBy = Common.Config.CurrentUserId;
+                        oACode.CreatedBy = ConfigHelper.CurrentUserId;
                         oACode.CreatedOn = DateTime.Now;
-                        oACode.ModifiedBy = Common.Config.CurrentUserId;
+                        oACode.ModifiedBy = ConfigHelper.CurrentUserId;
                         oACode.ModifiedOn = DateTime.Now;
 
                         ctx.PosAnalysisCode.Add(oACode);
@@ -238,7 +238,7 @@ namespace RT2020.Product
                     oAnalysisCode.AnalysisCodeId = Guid.NewGuid();
                     oAnalysisCode.AnalysisCode = txtCode.Text;
 
-                    oAnalysisCode.CreatedBy = Common.Config.CurrentUserId;
+                    oAnalysisCode.CreatedBy = ConfigHelper.CurrentUserId;
                     oAnalysisCode.CreatedOn = DateTime.Now;
 
                     ctx.PosAnalysisCode.Add(oAnalysisCode);
@@ -252,7 +252,7 @@ namespace RT2020.Product
                 oAnalysisCode.DownloadToPOS = chkDownloadToPoS.Checked;
                 oAnalysisCode.Mandatory = chkMandatory.Checked;
 
-                oAnalysisCode.ModifiedBy = Common.Config.CurrentUserId;
+                oAnalysisCode.ModifiedBy = ConfigHelper.CurrentUserId;
                 oAnalysisCode.ModifiedOn = DateTime.Now;
 
                 ctx.SaveChanges();

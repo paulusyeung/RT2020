@@ -15,7 +15,7 @@ using Gizmox.WebGUI.Common.Interfaces;
 using FileHelpers.DataLink;
 using FileHelpers.MasterDetail;
 
-using RT2020.DAL;
+
 using System.Configuration;
 using RT2020.Helper;
 
@@ -35,7 +35,7 @@ namespace RT2020.Inventory.GoodsReturn.Reports
             dtpTxDateFrom.Value = Convert.ToDateTime(RT2020.SystemInfo.CurrentInfo.Default.LastMonthEnd.Insert(4, "-") + "-01");
             dtpTxDateTo.Value = DateTime.Now;
 
-            RT2020.Controls.InvtUtility.ShowCriteria(ref txtTxNumberFrom, ref txtTxNumberTo, "vwRptSubLedgerCAP", Common.Enums.TxType.REJ, dtpTxDateFrom.Value, dtpTxDateTo.Value);
+            RT2020.Controls.InvtUtility.ShowCriteria(ref txtTxNumberFrom, ref txtTxNumberTo, "vwRptSubLedgerCAP", EnumHelper.TxType.REJ, dtpTxDateFrom.Value, dtpTxDateTo.Value);
         }
 
         #region IGatewayControl Members // Carrie 29-09-2008 : Buttom removed (Function is not available)
@@ -86,7 +86,7 @@ namespace RT2020.Inventory.GoodsReturn.Reports
 
         //private void RdlToExcel()
         //{
-        //    RT2020.DAL.Staff curUser = RT2020.DAL.Staff.Load(Common.Config.CurrentUserId);
+        //    RT2020.DAL.Staff curUser = RT2020.DAL.Staff.Load(ConfigHelper.CurrentUserId);
         //    string[,] param = {
         //        { "FromTxNumber", this.txtTxNumberFrom.Text.Trim() },
         //        { "ToTxNumber", this.txtTxNumberTo.Text.Trim() },
@@ -113,7 +113,7 @@ namespace RT2020.Inventory.GoodsReturn.Reports
 
         //private void RdlToPdf()
         //{
-        //    RT2020.DAL.Staff curUser = RT2020.DAL.Staff.Load(Common.Config.CurrentUserId);
+        //    RT2020.DAL.Staff curUser = RT2020.DAL.Staff.Load(ConfigHelper.CurrentUserId);
         //    string[,] param = {
         //        { "FromTxNumber", this.txtTxNumberFrom.Text.Trim() },
         //        { "ToTxNumber", this.txtTxNumberTo.Text.Trim() },
@@ -175,7 +175,7 @@ namespace RT2020.Inventory.GoodsReturn.Reports
                             WHERE TxNumber >= '" + this.txtTxNumberFrom.Text.Trim() + @"' AND TxNumber <= '" + this.txtTxNumberTo.Text.Trim() 
                         + @"' AND TxDate >= '" + this.dtpTxDateFrom.Value.ToString("yyyy-MM-dd") 
                         + @"' AND TxDate <= '" + this.dtpTxDateTo.Value.AddDays(1).ToString("yyyy-MM-dd") 
-                        + @"' AND TxType = '" + Common.Enums.TxType.REJ.ToString()
+                        + @"' AND TxType = '" + EnumHelper.TxType.REJ.ToString()
                         + @"' ORDER BY TxNumber, STKCODE, APPENDIX1, APPENDIX2, APPENDIX3 ";
             return SqlHelper.Default.ExecuteDataSet(CommandType.Text, sql).Tables[0];
         }
@@ -223,7 +223,7 @@ namespace RT2020.Inventory.GoodsReturn.Reports
                 { "FromTxDate", this.dtpTxDateFrom.Value.ToString(RT2020.SystemInfo.Settings.GetDateFormat()) },
                 { "ToTxDate", this.dtpTxDateTo.Value.ToString(RT2020.SystemInfo.Settings.GetDateFormat()) },
                 { "PrintedOn", DateTime.Now.ToString(RT2020.SystemInfo.Settings.GetDateTimeFormat()) },
-                { "PrintedBy", ModelEx.StaffEx.GetStaffNameById(Common.Config.CurrentUserId) },
+                { "PrintedBy", ModelEx.StaffEx.GetStaffNameById(ConfigHelper.CurrentUserId) },
                 { "StockCode", RT2020.SystemInfo.Settings.GetSystemLabelByKey("STKCODE") },
                 { "Appendix1", RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX1") },
                 { "Appendix2", RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX2") },
@@ -245,7 +245,7 @@ namespace RT2020.Inventory.GoodsReturn.Reports
 
         private void btnFindFromTxNumber_Click(object sender, EventArgs e)
         {
-            RT2020.Controls.InvtTxSearcher findFromTxNumber = RT2020.Controls.InvtUtility.ShowTxSearcher("vwRptSubLedgerCAP", Common.Enums.TxType.REJ);
+            RT2020.Controls.InvtTxSearcher findFromTxNumber = RT2020.Controls.InvtUtility.ShowTxSearcher("vwRptSubLedgerCAP", EnumHelper.TxType.REJ);
             findFromTxNumber.Closed += new EventHandler(findFromTxNumber_Closed);
             findFromTxNumber.ShowDialog();
         }
@@ -262,7 +262,7 @@ namespace RT2020.Inventory.GoodsReturn.Reports
 
         private void btnFindToTxNumber_Click(object sender, EventArgs e)
         {
-            RT2020.Controls.InvtTxSearcher findToTxNumber = RT2020.Controls.InvtUtility.ShowTxSearcher("vwRptSubLedgerCAP", Common.Enums.TxType.REJ);
+            RT2020.Controls.InvtTxSearcher findToTxNumber = RT2020.Controls.InvtUtility.ShowTxSearcher("vwRptSubLedgerCAP", EnumHelper.TxType.REJ);
             findToTxNumber.Closed += new EventHandler(findToTxNumber_Closed);
             findToTxNumber.ShowDialog();
         }

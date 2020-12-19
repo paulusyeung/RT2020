@@ -16,7 +16,6 @@ using Gizmox.WebGUI.Forms;
 using Gizmox.WebGUI.Server;
 using System.Xml.Serialization;
 
-using RT2020.DAL;
 using System.Linq;
 using System.Data.Entity;
 using RT2020.Helper;
@@ -83,7 +82,7 @@ namespace RT2020.Controls
         /// <returns></returns>
         public static string GetWorkplaceIdListByCurrentZone()
         {
-            return GetWorkplaceIdListByZone(Common.Config.CurrentZoneId);
+            return GetWorkplaceIdListByZone(ConfigHelper.CurrentZoneId);
         }
 
         /// <summary>
@@ -127,7 +126,7 @@ namespace RT2020.Controls
         /// <returns></returns>
         public static decimal GetOnHandQtyByCurrentZone(Guid productId)
         {
-            return GetOnHandQtyByZone(productId, Common.Config.CurrentZoneId);
+            return GetOnHandQtyByZone(productId, ConfigHelper.CurrentZoneId);
         }
 
         /// <summary>
@@ -196,13 +195,13 @@ namespace RT2020.Controls
                 string fileName = Path.Combine(VWGContext.Current.Config.GetDirectory("UserData"), "WordDict.xml");
                 nxStudio.BaseClass.WordDict wordDict = null;
 
-                if (VWGContext.Current.Session["WordDict"] != null && Common.Config.CurrentLanguageCode == System.Web.HttpContext.Current.Request.UserLanguages[0])
+                if (VWGContext.Current.Session["WordDict"] != null && ConfigHelper.CurrentLanguageCode == System.Web.HttpContext.Current.Request.UserLanguages[0])
                 {
                     wordDict = (nxStudio.BaseClass.WordDict)VWGContext.Current.Session["WordDict"];
                 }
                 else
                 {
-                    wordDict = new nxStudio.BaseClass.WordDict(fileName, Common.Config.CurrentLanguageId);
+                    wordDict = new nxStudio.BaseClass.WordDict(fileName, ConfigHelper.CurrentLanguageId);
                     VWGContext.Current.Session["WordDict"] = wordDict;
                 }
 
@@ -224,10 +223,11 @@ namespace RT2020.Controls
         public static void LoadPosTenderTypeToCombo(ref ComboBox cbo)
         {
             string sql = "SELECT DISTINCT TypeCode FROM PosTenderType WHERE Retired = 0";
-
+            ModelEx.PosTenderTypeEx.LoadCombo(ref cbo, "TypeCode", false, false, "", sql);
+            /**
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = sql;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = CommandType.Text;
 
             Common.ComboList comboList = new Common.ComboList();
@@ -246,6 +246,7 @@ namespace RT2020.Controls
             cbo.ValueMember = "Id";
             cbo.DisplayMember = "Code";
             cbo.SelectedIndex = 0;
+            */
         }
 
         public static bool StringBetween(String source, String min, String max)
@@ -379,12 +380,12 @@ namespace RT2020.Controls
             StockTransfer
         }
 
-        public static void ShowCriteria(ref TextBox txtTxNumberFrom, ref TextBox txtTxNumberTo, string targetSQLViewName, Common.Enums.TxType txType, DateTime from, DateTime to)
+        public static void ShowCriteria(ref TextBox txtTxNumberFrom, ref TextBox txtTxNumberTo, string targetSQLViewName, EnumHelper.TxType txType, DateTime from, DateTime to)
         {
             string sql = @" SELECT MIN(TxNumber) AS TxNumber FROM " + targetSQLViewName + " WHERE TxType = '" + txType.ToString() + "' AND TxDate >= '" + from.ToString("yyyy-MM-dd") + "'";
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = sql;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = CommandType.Text;
 
             using (SqlDataReader reader = SqlHelper.Default.ExecuteReader(cmd))
@@ -401,7 +402,7 @@ namespace RT2020.Controls
             sql = @" SELECT MAX(TxNumber) AS TxNumber FROM " + targetSQLViewName + " WHERE TxType = '" + txType.ToString() + "' AND TxDate <= '" + to.ToString("yyyy-MM-dd") + "'";
             cmd = new SqlCommand();
             cmd.CommandText = sql;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = CommandType.Text;
 
             using (SqlDataReader reader = SqlHelper.Default.ExecuteReader(cmd))
@@ -416,7 +417,7 @@ namespace RT2020.Controls
             }
         }
 
-        public static InvtTxSearcher ShowTxSearcher(string targetSQLViewName, Common.Enums.TxType txType)
+        public static InvtTxSearcher ShowTxSearcher(string targetSQLViewName, EnumHelper.TxType txType)
         {
             RT2020.Controls.InvtTxSearcher searchForm = new RT2020.Controls.InvtTxSearcher();
             searchForm.SqlQuery = string.Format("SELECT HeaderId, TxNumber, TxType, TxDate FROM {0}", targetSQLViewName);
@@ -436,7 +437,7 @@ namespace RT2020.Controls
         {
             string result = "1"; // Guest
 
-            var user = ModelEx.StaffEx.GetByStaffId(Common.Config.CurrentUserId);
+            var user = ModelEx.StaffEx.GetByStaffId(ConfigHelper.CurrentUserId);
             if (user != null)
             {
                 result = ModelEx.StaffGroupEx.GetGradeCodeById(user.GroupId.Value);
@@ -454,13 +455,13 @@ namespace RT2020.Controls
         /// 9       - All
         /// </summary>
         /// <returns></returns>
-        private static Common.Enums.Permission AllowedPermission()
+        private static EnumHelper.Permission AllowedPermission()
         {
             bool canRead = true, canWrite = false, canDelete = false, canPost = false;
-            Common.Enums.Permission allowedPermission = Common.Enums.Permission.Read;
+            EnumHelper.Permission allowedPermission = EnumHelper.Permission.Read;
 
-            //string query = "StaffId = '" + Common.Config.CurrentUserId.ToString() + "' AND GradeCode = '" + PermissionLevel() + "'";
-            var oSecurity = ModelEx.StaffSecurityEx.GetByStaffId(Common.Config.CurrentUserId, PermissionLevel());
+            //string query = "StaffId = '" + ConfigHelper.CurrentUserId.ToString() + "' AND GradeCode = '" + PermissionLevel() + "'";
+            var oSecurity = ModelEx.StaffSecurityEx.GetByStaffId(ConfigHelper.CurrentUserId, PermissionLevel());
             if (oSecurity != null)
             {
                 canRead = oSecurity.CanRead.Value;
@@ -470,7 +471,7 @@ namespace RT2020.Controls
             }
             else
             {
-                var oStaff = ModelEx.StaffEx.GetByStaffId(Common.Config.CurrentUserId);
+                var oStaff = ModelEx.StaffEx.GetByStaffId(ConfigHelper.CurrentUserId);
                 if (oStaff != null)
                 {
                     var oGroup = ModelEx.StaffGroupEx.GetById(oStaff.GroupId.Value);
@@ -486,22 +487,22 @@ namespace RT2020.Controls
 
             if (canRead)
             {
-                allowedPermission = Common.Enums.Permission.Read;
+                allowedPermission = EnumHelper.Permission.Read;
             }
 
             if (canWrite)
             {
-                allowedPermission = allowedPermission | Common.Enums.Permission.Write;
+                allowedPermission = allowedPermission | EnumHelper.Permission.Write;
             }
 
             if (canDelete)
             {
-                allowedPermission = allowedPermission | Common.Enums.Permission.Delete;
+                allowedPermission = allowedPermission | EnumHelper.Permission.Delete;
             }
 
             if (canPost)
             {
-                allowedPermission = allowedPermission | Common.Enums.Permission.Posting;
+                allowedPermission = allowedPermission | EnumHelper.Permission.Posting;
             }
 
             return allowedPermission;
@@ -514,7 +515,7 @@ namespace RT2020.Controls
         /// <returns>
         /// 	<c>true</c> if [is access allowed] [the specified challenge]; otherwise, <c>false</c>.
         /// </returns>
-        public static bool IsAccessAllowed(Common.Enums.Permission challenge)
+        public static bool IsAccessAllowed(EnumHelper.Permission challenge)
         {
             return (((Int64)AllowedPermission() & (Int64)challenge) == (Int64)(challenge));
         }
@@ -533,17 +534,17 @@ namespace RT2020.Controls
                     {
                         switch ((int)user.Status)
                         {
-                            case (int)Common.Enums.Status.Active:
-                                user.Status = Convert.ToInt32(Common.Enums.Status.Inactive.ToString("d"));
+                            case (int)EnumHelper.Status.Active:
+                                user.Status = Convert.ToInt32(EnumHelper.Status.Inactive.ToString("d"));
                                 user.Retired = true;
                                 user.RetiredOn = DateTime.Now;
-                                user.RetiredBy = Common.Config.CurrentUserId;
+                                user.RetiredBy = ConfigHelper.CurrentUserId;
 
                                 ctx.SaveChanges();
                                 result = true;
                                 break;
 
-                            case (int)Common.Enums.Status.Draft:
+                            case (int)EnumHelper.Status.Draft:
                                 result = ModelEx.StaffAddressEx.Delete(userId);
                                 break;
                         }
@@ -556,7 +557,7 @@ namespace RT2020.Controls
         public static String SecurityLevel()
         {
             String result = String.Empty;
-            var staff = ModelEx.StaffEx.GetByStaffId(Common.Config.CurrentUserId);
+            var staff = ModelEx.StaffEx.GetByStaffId(ConfigHelper.CurrentUserId);
 
             if (staff != null)
             {
@@ -638,7 +639,7 @@ namespace RT2020.Controls
             {
                 if (excelFile.Length > 0)
                 {
-                    OleDbConnection oConn = Common.Config.GetOleDbConnection(excelFile);
+                    OleDbConnection oConn = ConfigHelper.GetOleDbConnection(excelFile);
                     DataTable dt = new DataTable();
                     oConn.Open();
                     dt = oConn.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
@@ -681,7 +682,7 @@ namespace RT2020.Controls
 
             if (excelFile.Length > 0)
             {
-                using (OleDbConnection oConn = Common.Config.GetOleDbConnection(excelFile))
+                using (OleDbConnection oConn = ConfigHelper.GetOleDbConnection(excelFile))
                 {
                     oConn.Open();
                     DataTable schemaTable = oConn.GetOleDbSchemaTable(
@@ -702,7 +703,7 @@ namespace RT2020.Controls
         {
             if (fileName.Length > 0 && sheetName.Length > 0)
             {
-                OleDbConnection oConn = Common.Config.GetOleDbConnection(fileName);
+                OleDbConnection oConn = ConfigHelper.GetOleDbConnection(fileName);
                 DataTable dt = new DataTable();
                 OleDbDataAdapter da = new OleDbDataAdapter("SELECT * FROM [" + sheetName + "]", oConn);
 
@@ -742,7 +743,7 @@ namespace RT2020.Controls
         public static void Save(ListView lvwList)
         {
             // 把每個 ColumnHeader 的資料保存在 MetadataXml 中
-            var user = ModelEx.UserProfileEx.GetByUserSid(DAL.Common.Config.CurrentUserId);
+            var user = ModelEx.UserProfileEx.GetByUserSid(ConfigHelper.CurrentUserId);
             if (user != null)
             {
                 /**
@@ -786,7 +787,7 @@ namespace RT2020.Controls
 
         public static void Delete(ListView lvwList)
         {
-            var userId = ModelEx.UserProfileEx.GetUserIdBySid(Common.Config.CurrentUserId);
+            var userId = ModelEx.UserProfileEx.GetUserIdBySid(ConfigHelper.CurrentUserId);
             if (userId != Guid.Empty)
             {
                 ModelEx.UserPreferenceEx.Delete(userId, (Guid)lvwList.Tag);
@@ -795,11 +796,11 @@ namespace RT2020.Controls
 
         public static void Load(ref ListView lvwList)
         {
-            var user = ModelEx.UserProfileEx.GetByUserSid(DAL.Common.Config.CurrentUserId);
+            var user = ModelEx.UserProfileEx.GetByUserSid(ConfigHelper.CurrentUserId);
             if (user != null)
             {
                 /**
-                var userId = ModelEx.UserProfileEx.GetUserIdBySid(Common.Config.CurrentUserId);
+                var userId = ModelEx.UserProfileEx.GetUserIdBySid(ConfigHelper.CurrentUserId);
                 if (userId != Guid.Empty)
                 {
                     // 2012.04.18 paulus:
@@ -882,17 +883,17 @@ namespace RT2020.Controls
                     {
                         switch ((int)staff.Status)
                         {
-                            case (int)Common.Enums.Status.Active:
-                                staff.Status = Convert.ToInt32(Common.Enums.Status.Inactive.ToString("d"));
+                            case (int)EnumHelper.Status.Active:
+                                staff.Status = Convert.ToInt32(EnumHelper.Status.Inactive.ToString("d"));
                                 staff.Retired = true;
                                 staff.RetiredOn = DateTime.Now;
-                                staff.RetiredBy = Common.Config.CurrentUserId;
+                                staff.RetiredBy = ConfigHelper.CurrentUserId;
 
                                 ctx.SaveChanges();
                                 result = true;
                                 break;
 
-                            case (int)Common.Enums.Status.Draft:
+                            case (int)EnumHelper.Status.Draft:
                                 result = ModelEx.StaffAddressEx.Delete(userId);
                                 break;
                         }

@@ -1,3 +1,5 @@
+using RT2020.Helper;
+
 namespace RT2020.Inventory.Transfer
 {
     partial class Wizard
@@ -487,7 +489,7 @@ namespace RT2020.Inventory.Transfer
             this.basicProduct.Size = new System.Drawing.Size(337, 27);
             this.basicProduct.TabIndex = 28;
             this.basicProduct.Text = "FindProduct";
-            this.basicProduct.TxType = RT2020.DAL.Common.Enums.TxType.CAS;
+            this.basicProduct.TxType = EnumHelper.TxType.CAS;
             this.basicProduct.SelectionChanged += new System.EventHandler<RT2020.Controls.ProductSearcher.Basic.ProductSelectionEventArgs>(this.basicProduct_SelectionChanged);
             // 
             // btnEditItem

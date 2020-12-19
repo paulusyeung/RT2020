@@ -10,7 +10,7 @@ using System.Text;
 using Gizmox.WebGUI.Common;
 using Gizmox.WebGUI.Forms;
 using Gizmox.WebGUI.Common.Resources;
-using RT2020.DAL;
+
 using System.Data.SqlClient;
 using RT2020.Helper;
 
@@ -265,7 +265,7 @@ FROM        vwPaymentFactorList";
 
             System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand();
             cmd.CommandText = sql;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = CommandType.Text;
 
             using (SqlDataReader reader = SqlHelper.Default.ExecuteReader(cmd))
@@ -325,7 +325,7 @@ FROM        vwPaymentFactorList";
             
             System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand();
             cmd.CommandText = sql;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = CommandType.Text;
 
             using (SqlDataReader reader = SqlHelper.Default.ExecuteReader(cmd))
@@ -421,7 +421,7 @@ FROM        vwPaymentFactorList";
                         {
                             oFactor = new EF6.PromotionPaymentFactor();
                             oFactor.PaymentFactorId = Guid.NewGuid();
-                            oFactor.CreatedBy = Common.Config.CurrentUserId;
+                            oFactor.CreatedBy = ConfigHelper.CurrentUserId;
                             oFactor.CreatedOn = DateTime.Now;
 
                             /** 改為 Verify() && IsDuplicated()
@@ -449,7 +449,7 @@ FROM        vwPaymentFactorList";
                         oFactor.StartOn = dtpStartDate.Value;
                         oFactor.EndOn = dtpEndDate.Value;
 
-                        oFactor.ModifiedBy = Common.Config.CurrentUserId;
+                        oFactor.ModifiedBy = ConfigHelper.CurrentUserId;
                         oFactor.ModifiedOn = DateTime.Now;
                         oFactor.Retired = false;
 
@@ -510,7 +510,7 @@ FROM        vwPaymentFactorList";
                     if (item != null)
                     {
                         item.Retired = true;
-                        item.RetiredBy = Common.Config.CurrentUserId;
+                        item.RetiredBy = ConfigHelper.CurrentUserId;
                         item.RetiredOn = DateTime.Now;
                         ctx.SaveChanges();
 

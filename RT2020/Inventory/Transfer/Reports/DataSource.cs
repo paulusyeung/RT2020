@@ -11,7 +11,7 @@ using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Xml.Linq;
 
-using RT2020.DAL;
+
 using RT2020.Helper;
 
 namespace RT2020.Inventory.Transfer.Reports
@@ -50,7 +50,7 @@ ORDER BY h.TxNumber, h.TxDate;
 ";
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = sql;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = System.Data.CommandType.Text;
 
             using (DataSet dataset = SqlHelper.Default.ExecuteDataSet(cmd))
@@ -78,7 +78,7 @@ ORDER BY d.TxNumber, d.LineNumber
 ";
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = sql;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = System.Data.CommandType.Text;
 
             using (DataSet dataset = SqlHelper.Default.ExecuteDataSet(cmd))
@@ -115,12 +115,12 @@ FROM    dbo.Workplace AS w1 RIGHT OUTER JOIN
 			ON w1.WorkplaceId = h.FromLocation
 WHERE	h.TxNumber BETWEEN '" + FromTxNumber.Trim() + @"' AND '" + ToTxNumber.Trim() + @"' AND
         CONVERT(VARCHAR(10), h.TxDate, 101) BETWEEN '" + FromTxDate.ToString("MM/dd/yyyy") + @"' AND '" + ToTxDate.ToString("MM/dd/yyyy") + @"' AND
-        h.TxType = '" + Common.Enums.TxType.TXF.ToString() + @"'
+        h.TxType = '" + EnumHelper.TxType.TXF.ToString() + @"'
 ORDER BY h.TxNumber, h.TxDate;
 ";
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = sql;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = System.Data.CommandType.Text;
 
             using (DataSet dataset = SqlHelper.Default.ExecuteDataSet(cmd))
@@ -148,7 +148,7 @@ ORDER BY d.TxNumber, d.LineNumber
 ";
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = sql;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = System.Data.CommandType.Text;
 
             using (DataSet dataset = SqlHelper.Default.ExecuteDataSet(cmd))

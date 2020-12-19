@@ -6,7 +6,7 @@ using System.Xml.Linq;
 
 using Gizmox.WebGUI.Forms;
 using Gizmox.WebGUI.Common.Resources;
-using RT2020.DAL;
+using RT2020.Helper;
 
 namespace RT2020.EmulatedPoS
 {
@@ -50,7 +50,7 @@ namespace RT2020.EmulatedPoS
             ddlNew.MenuItems.Add(new MenuItem(RT2020.Controls.Utility.Dictionary.GetWord("Sales - Worksheet (Fast)"), string.Empty, "Sales_Worksheet_Fast"));
 
             MenuItem priceAuth = new MenuItem(RT2020.Controls.Utility.Dictionary.GetWord("Sales - Authorization"), string.Empty, "Sales_Authorization");
-            priceAuth.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(Common.Enums.Permission.Posting);
+            priceAuth.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Posting);
             ddlNew.MenuItems.Add(priceAuth);
 
             ddlNew.MenuItems.Add(new MenuItem("-"));
@@ -58,13 +58,13 @@ namespace RT2020.EmulatedPoS
             ddlNew.MenuItems.Add(new MenuItem(RT2020.Controls.Utility.Dictionary.GetWord("Sales Return - Worksheet"), string.Empty, "SalesReturn_Worksheet"));
 
             MenuItem discAuth = new MenuItem(RT2020.Controls.Utility.Dictionary.GetWord("Sales Return - Authorization"), string.Empty, "SalesReturn_Authorization");
-            discAuth.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(Common.Enums.Permission.Posting);
+            discAuth.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Posting);
             ddlNew.MenuItems.Add(discAuth);
 
             ToolBarButton cmdNew = new ToolBarButton("New", RT2020.Controls.Utility.Dictionary.GetWord("New"));
             cmdNew.Style = ToolBarButtonStyle.DropDownButton;
             cmdNew.Image = new IconResourceHandle("16x16.ico_16_3.gif");
-            cmdNew.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(Common.Enums.Permission.Write);
+            cmdNew.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Write);
             cmdNew.DropDownMenu = ddlNew;
 
             cmdNew.MenuClick += new MenuEventHandler(cmdMenuClick);
@@ -87,7 +87,7 @@ namespace RT2020.EmulatedPoS
             cmdReport.Style = ToolBarButtonStyle.DropDownButton;
             cmdReport.Image = new IconResourceHandle("16x16.16_reports.gif");
             cmdReport.DropDownMenu = ddlReport;
-            cmdReport.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(Common.Enums.Permission.Write);
+            cmdReport.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Write);
 
             cmdReport.MenuClick += new MenuEventHandler(cmdMenuClick);
             atsSales.Buttons.Add(cmdReport);
@@ -117,7 +117,7 @@ namespace RT2020.EmulatedPoS
                 switch (e.MenuItem.Tag.ToString().ToLower())
                 {
                     case "sales_worksheet":
-                        SalesWizard wizSalesInput = new SalesWizard(Common.Enums.TxType.CAS);
+                        SalesWizard wizSalesInput = new SalesWizard(EnumHelper.TxType.CAS);
                         wizSalesInput.ShowDialog();
                         break;
                     case "sales_worksheet_fast":
@@ -126,37 +126,37 @@ namespace RT2020.EmulatedPoS
                         fastLogin.ShowDialog();
                         break;
                     case "sales_authorization":
-                        Authorization wizAuthPrice = new Authorization(Common.Enums.TxType.CAS);
-                        wizAuthPrice.SalesType = Common.Enums.TxType.CAS;
+                        Authorization wizAuthPrice = new Authorization(EnumHelper.TxType.CAS);
+                        wizAuthPrice.SalesType = EnumHelper.TxType.CAS;
                         wizAuthPrice.ShowDialog();
                         break;
                     case "salesreturn_worksheet":
-                        SalesWizard wizDiscChange = new SalesWizard(Common.Enums.TxType.CRT);
+                        SalesWizard wizDiscChange = new SalesWizard(EnumHelper.TxType.CRT);
                         wizDiscChange.ShowDialog();
                         break;
                     case "salesreturn_authorization":
-                        Authorization wizAuthDisc = new Authorization(Common.Enums.TxType.CRT);
-                        wizAuthDisc.SalesType = Common.Enums.TxType.CRT;
+                        Authorization wizAuthDisc = new Authorization(EnumHelper.TxType.CRT);
+                        wizAuthDisc.SalesType = EnumHelper.TxType.CRT;
                         wizAuthDisc.ShowDialog();
                         break;
                     case "rpt_salesworksheet":
-                        Reports.Worksheet wizPriceWorksheet = new RT2020.EmulatedPoS.Reports.Worksheet(Common.Enums.TxType.CAS);
-                        wizPriceWorksheet.SalesType = Common.Enums.TxType.CAS;
+                        Reports.Worksheet wizPriceWorksheet = new RT2020.EmulatedPoS.Reports.Worksheet(EnumHelper.TxType.CAS);
+                        wizPriceWorksheet.SalesType = EnumHelper.TxType.CAS;
                         wizPriceWorksheet.ShowDialog();
                         break;
                     case "rpt_saleshistory":
-                        Reports.History wizPriceHistory = new RT2020.EmulatedPoS.Reports.History(Common.Enums.TxType.CAS);
-                        wizPriceHistory.SalesType = Common.Enums.TxType.CAS;
+                        Reports.History wizPriceHistory = new RT2020.EmulatedPoS.Reports.History(EnumHelper.TxType.CAS);
+                        wizPriceHistory.SalesType = EnumHelper.TxType.CAS;
                         wizPriceHistory.ShowDialog();
                         break;
                     case "rpt_salesreturnworksheet":
-                        Reports.Worksheet wizDiscWorksheet = new RT2020.EmulatedPoS.Reports.Worksheet(Common.Enums.TxType.CRT);
-                        wizDiscWorksheet.SalesType = Common.Enums.TxType.CRT;
+                        Reports.Worksheet wizDiscWorksheet = new RT2020.EmulatedPoS.Reports.Worksheet(EnumHelper.TxType.CRT);
+                        wizDiscWorksheet.SalesType = EnumHelper.TxType.CRT;
                         wizDiscWorksheet.ShowDialog();
                         break;
                     case "rpt_salesreturnhistory":
-                        Reports.History wizDiscHistory = new RT2020.EmulatedPoS.Reports.History(Common.Enums.TxType.CRT);
-                        wizDiscHistory.SalesType = Common.Enums.TxType.CRT;
+                        Reports.History wizDiscHistory = new RT2020.EmulatedPoS.Reports.History(EnumHelper.TxType.CRT);
+                        wizDiscHistory.SalesType = EnumHelper.TxType.CRT;
                         wizDiscHistory.ShowDialog();
                         break;
                 }
@@ -174,7 +174,7 @@ namespace RT2020.EmulatedPoS
             {
                 FastModeLogin fast = sender as FastModeLogin;
 
-                FastSalesWizard wizFastSalesInput = new FastSalesWizard(fast.TxDate, fast.WorkplaceId, Common.Enums.TxType.CAS);
+                FastSalesWizard wizFastSalesInput = new FastSalesWizard(fast.TxDate, fast.WorkplaceId, EnumHelper.TxType.CAS);
                 wizFastSalesInput.ShowDialog();
             }
         }

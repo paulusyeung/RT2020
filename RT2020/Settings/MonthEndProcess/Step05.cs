@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data.SqlClient;
-using RT2020.DAL;
+
 using System.Data;
 using System.Configuration;
 using RT2020.Controls;
@@ -41,7 +41,7 @@ DROP TABLE [dbo].[MonthEndWorkplaceSummary] ";
 
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = query;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = CommandType.Text;
 
             SqlHelper.Default.ExecuteNonQuery(cmd);
@@ -69,7 +69,7 @@ CREATE TABLE [dbo].[MonthEndWorkplaceSummary](
 
             cmd = new SqlCommand();
             cmd.CommandText = query;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = CommandType.Text;
 
             SqlHelper.Default.ExecuteNonQuery(cmd);
@@ -85,7 +85,7 @@ CREATE TABLE [dbo].[MonthEndWorkplaceSummary](
 
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = query;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = CommandType.Text;
 
             SqlHelper.Default.ExecuteNonQuery(cmd);
@@ -100,7 +100,7 @@ FROM ProductWorkplace ";
 
             cmd = new SqlCommand();
             cmd.CommandText = query;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = CommandType.Text;
 
             SqlHelper.Default.ExecuteNonQuery(cmd);
@@ -111,7 +111,7 @@ FROM ProductWorkplace ";
 
             cmd = new SqlCommand();
             cmd.CommandText = query;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = CommandType.Text;
 
             SqlHelper.Default.ExecuteNonQuery(cmd);

@@ -12,7 +12,7 @@ using Gizmox.WebGUI.Forms;
 using Gizmox.WebGUI.Common.Resources;
 using Gizmox.WebGUI.Common.Interfaces;
 
-using RT2020.DAL;
+
 using RT2020.Controls;
 using RT2020.Helper;
 
@@ -219,7 +219,7 @@ namespace RT2020.Inventory.Replenishment
             ToolBarButton cmdSave = new ToolBarButton("Save", Utility.Dictionary.GetWord("Save"));
             cmdSave.Tag = "Save";
             cmdSave.Image = new IconResourceHandle("16x16.16_L_save.gif");
-            cmdSave.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(Common.Enums.Permission.Write);
+            cmdSave.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Write);
 
             this.tbWizardAction.Buttons.Add(cmdSave);
 
@@ -235,7 +235,7 @@ namespace RT2020.Inventory.Replenishment
             ToolBarButton cmdSaveClose = new ToolBarButton("Save & Close", HttpUtility.UrlDecode(Utility.Dictionary.GetWord("Save_Close")));
             cmdSaveClose.Tag = "Save & Close";
             cmdSaveClose.Image = new IconResourceHandle("16x16.16_saveClose.gif");
-            cmdSaveClose.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(Common.Enums.Permission.Write);
+            cmdSaveClose.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Write);
 
             this.tbWizardAction.Buttons.Add(cmdSaveClose);
             this.tbWizardAction.Buttons.Add(sep);
@@ -257,8 +257,8 @@ namespace RT2020.Inventory.Replenishment
             }
             else
             {
-                cmdDelete.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(Common.Enums.Permission.Delete);
-                cmdPrint.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(Common.Enums.Permission.Write);
+                cmdDelete.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Delete);
+                cmdPrint.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Write);
             }
 
             this.tbWizardAction.Buttons.Add(cmdDelete);
@@ -318,7 +318,7 @@ namespace RT2020.Inventory.Replenishment
 
             System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand();
             cmd.CommandText = sql;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = CommandType.Text;
 
             using (DataSet dataset = SqlHelper.Default.ExecuteDataSet(cmd))
@@ -335,7 +335,7 @@ namespace RT2020.Inventory.Replenishment
                 { "FromTxDate", this.dtpTxDate.Value.ToString(RT2020.SystemInfo.Settings.GetDateFormat()) },
                 { "ToTxDate", this.dtpTxDate.Value.ToString(RT2020.SystemInfo.Settings.GetDateFormat()) },
                 { "PrintedOn", DateTime.Now.ToString(RT2020.SystemInfo.Settings.GetDateTimeFormat()) },
-                { "PrintedBy", ModelEx.StaffEx.GetStaffNameById(Common.Config.CurrentUserId) },
+                { "PrintedBy", ModelEx.StaffEx.GetStaffNameById(ConfigHelper.CurrentUserId) },
                 { "DateFormat", RT2020.SystemInfo.Settings.GetDateFormat() },
                 { "CompanyName", RT2020.SystemInfo.CurrentInfo.Default.CompanyName},
                 { "StockCode", RT2020.SystemInfo.Settings.GetSystemLabelByKey("STKCODE") },
@@ -418,7 +418,7 @@ namespace RT2020.Inventory.Replenishment
                             var oHeader = ctx.InvtBatchRPL_Header.Find(this.RplId);
                             if (oHeader != null)
                             {
-                                oHeader.Status = cboStatus.Text == "HOLD" ? (int)Common.Enums.Status.Draft : (int)Common.Enums.Status.Active;
+                                oHeader.Status = cboStatus.Text == "HOLD" ? (int)EnumHelper.Status.Draft : (int)EnumHelper.Status.Active;
 
                                 oHeader.TxDate = dtpTxDate.Value;
                                 oHeader.TXFOn = dtpTxferDate.Value;
@@ -429,7 +429,7 @@ namespace RT2020.Inventory.Replenishment
                                 oHeader.StaffId = new Guid(cboOperatorCode.SelectedValue.ToString());
                                 oHeader.Remarks = txtRemarks.Text;
 
-                                oHeader.ModifiedBy = Common.Config.CurrentUserId;
+                                oHeader.ModifiedBy = ConfigHelper.CurrentUserId;
                                 oHeader.ModifiedOn = DateTime.Now;
 
                                 ctx.SaveChanges();
@@ -642,7 +642,7 @@ namespace RT2020.Inventory.Replenishment
 
             System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand();
             cmd.CommandText = sql.ToString();
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = CommandType.Text;
 
             using (SqlDataReader reader = SqlHelper.Default.ExecuteReader(cmd))
@@ -717,7 +717,7 @@ namespace RT2020.Inventory.Replenishment
 
             System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand();
             cmd.CommandText = sql.ToString();
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = CommandType.Text;
 
             using (SqlDataReader reader = SqlHelper.Default.ExecuteReader(cmd))
@@ -834,7 +834,8 @@ namespace RT2020.Inventory.Replenishment
         {
             if (lvDetailsList.SelectedItem != null && lvDetailsList.SelectedItem.SubItems[2].Text != "REMOVED")
             {
-                if (Common.Utility.IsGUID(lvDetailsList.SelectedItem.Text))
+                Guid detailId = Guid.Empty;
+                if (Guid.TryParse(lvDetailsList.SelectedItem.Text, out detailId))
                 {
                     if (lvDetailsList.SelectedItem.Text != System.Guid.Empty.ToString())
                     {
@@ -842,8 +843,8 @@ namespace RT2020.Inventory.Replenishment
 
                         this.SelectedIndex = lvDetailsList.SelectedIndex;
 
-                        this.RplDetailId = new Guid(lvDetailsList.SelectedItem.Text);
-                        LoadRplDetailsInfo(new Guid(lvDetailsList.SelectedItem.Text));
+                        this.RplDetailId = detailId;
+                        LoadRplDetailsInfo(detailId);
 
                         this.ValidSelection = false;
                     }
@@ -867,21 +868,25 @@ namespace RT2020.Inventory.Replenishment
 
                     if (lvItem.SubItems[11].Text.Trim() == e.ProductId.ToString())
                     {
-                        if (lvItem.Text != System.Guid.Empty.ToString() && Common.Utility.IsGUID(lvItem.Text))
+                        Guid detailId = Guid.Empty;
+                        if (Guid.TryParse(lvItem.Text, out detailId))
                         {
-                            if (iCount == 0)
+                            if (detailId != Guid.Empty)
                             {
-                                txtReplenishQty.Text = lvItem.SubItems[8].Text;
-                                txtActualQty.Text = lvItem.SubItems[9].Text;
-                                txtRemarks_Detail.Text = lvItem.SubItems[10].Text;
+                                if (iCount == 0)
+                                {
+                                    txtReplenishQty.Text = lvItem.SubItems[8].Text;
+                                    txtActualQty.Text = lvItem.SubItems[9].Text;
+                                    txtRemarks_Detail.Text = lvItem.SubItems[10].Text;
 
-                                this.ProductId = e.ProductId;
-                                this.RplDetailId = new Guid(lvItem.Text);
-                                this.SelectedIndex = lvItem.Index;
+                                    this.ProductId = e.ProductId;
+                                    this.RplDetailId = detailId;    // new Guid(lvItem.Text);
+                                    this.SelectedIndex = lvItem.Index;
 
-                                lvItem.Selected = true;
+                                    lvItem.Selected = true;
 
-                                iCount++;
+                                    iCount++;
+                                }
                             }
                         }
                     }

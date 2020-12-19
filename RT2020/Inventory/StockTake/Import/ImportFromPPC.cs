@@ -13,9 +13,10 @@ using Gizmox.WebGUI.Forms;
 using System.IO;
 using System.Text.RegularExpressions;
 using RT2020.Controls;
-using RT2020.DAL;
+
 using FileHelpers;
 using System.Data.Entity;
+using RT2020.Helper;
 
 #endregion
 
@@ -120,13 +121,13 @@ namespace RT2020.Inventory.StockTake.Import
                     hhtLog.HHTID = HHTID;
                     hhtLog.Module = "RWS_STK3 [Stock Take]";
                     hhtLog.Form = "STK1300M_PPC " + this.Text;
-                    hhtLog.CreatedBy = Common.Config.CurrentUserId;
+                    hhtLog.CreatedBy = ConfigHelper.CurrentUserId;
                     hhtLog.CreatedOn = DateTime.Now;
 
                     ctx.SystemHHTLog.Add(hhtLog);
                 }
 
-                hhtLog.ModifiedBy = Common.Config.CurrentUserId;
+                hhtLog.ModifiedBy = ConfigHelper.CurrentUserId;
                 hhtLog.ModifiedOn = DateTime.Now;
 
                 ctx.SaveChanges();
@@ -290,9 +291,10 @@ namespace RT2020.Inventory.StockTake.Import
                         {
                             string[] detailInfo = srLine.Split(new char[] { '\t' });
 
-                            if (Common.Utility.IsNumeric(detailInfo[3]))
+                            decimal srQty = 0;
+                            if (decimal.TryParse(detailInfo[3], out srQty))
                             {
-                                qty += Convert.ToDecimal(detailInfo[3]);
+                                qty += srQty;
                             }
 
                             iCount++;
@@ -529,7 +531,7 @@ namespace RT2020.Inventory.StockTake.Import
                     {
                         if (stktkNumber.Trim().Length == 0)
                         {
-                            stktkNumber = SystemInfo.Settings.QueuingTxNumber(Common.Enums.TxType.STK);
+                            stktkNumber = SystemInfo.Settings.QueuingTxNumber(EnumHelper.TxType.STK);
                         }
 
                         Utility.WriteLog("	[OK] System Queue ", logFile);
@@ -606,7 +608,7 @@ namespace RT2020.Inventory.StockTake.Import
                     stktkHeader.TxNumber = txNumber;
                     stktkHeader.TxDate = DateTime.Now;
 
-                    stktkHeader.CreatedBy = Common.Config.CurrentUserId;
+                    stktkHeader.CreatedBy = ConfigHelper.CurrentUserId;
                     stktkHeader.CreatedOn = DateTime.Now;
 
                     ctx.StockTakeHeader.Add(stktkHeader);
@@ -614,9 +616,9 @@ namespace RT2020.Inventory.StockTake.Import
 
                 stktkHeader.WorkplaceId = workplaceId;
 
-                stktkHeader.ModifiedBy = Common.Config.CurrentUserId;
+                stktkHeader.ModifiedBy = ConfigHelper.CurrentUserId;
                 stktkHeader.ModifiedOn = DateTime.Now;
-                stktkHeader.Status = (int)Common.Enums.Status.Draft;
+                stktkHeader.Status = (int)EnumHelper.Status.Draft;
 
                 ctx.SaveChanges();
                 result = stktkHeader.HeaderId;
@@ -651,7 +653,7 @@ namespace RT2020.Inventory.StockTake.Import
                                     item.WorkplaceId = workplaceId;
 
                                     item.ModifiedOn = uploadedOn;
-                                    item.ModifiedBy = Common.Config.CurrentUserId;
+                                    item.ModifiedBy = ConfigHelper.CurrentUserId;
 
                                     ctx.StockTakeDetails.Add(item);
                                 }
@@ -688,8 +690,8 @@ namespace RT2020.Inventory.StockTake.Import
                     hhtHeader.HeaderId = Guid.NewGuid();
                     hhtHeader.TxNumber = txNumber;
 
-                    hhtHeader.Status = (int)Common.Enums.Status.Draft;
-                    hhtHeader.CreatedBy = Common.Config.CurrentUserId;
+                    hhtHeader.Status = (int)EnumHelper.Status.Draft;
+                    hhtHeader.CreatedBy = ConfigHelper.CurrentUserId;
                     hhtHeader.CreatedOn = DateTime.Now;
 
                     ctx.StocktakeHeader_HHT.Add(hhtHeader);
@@ -704,7 +706,7 @@ namespace RT2020.Inventory.StockTake.Import
                 hhtHeader.MissingRows = (int)missingLine;
                 hhtHeader.MissingQty = missingQty;
 
-                hhtHeader.ModifiedBy = Common.Config.CurrentUserId;
+                hhtHeader.ModifiedBy = ConfigHelper.CurrentUserId;
                 hhtHeader.ModifiedOn = DateTime.Now;
 
                 ctx.SaveChanges();

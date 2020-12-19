@@ -13,7 +13,6 @@ using Gizmox.WebGUI.Forms;
 using DevExpress.XtraReports.UI;
 using Gizmox.WebGUI.Common.Interfaces;
 using System.Web;
-using RT2020.DAL;
 using System.Data.Common;
 using System.Configuration;
 using RT2020.Helper;
@@ -52,7 +51,7 @@ namespace RT2020.Supplier.Reports
 
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "apSupplierList";
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddRange(parameterValues);
 

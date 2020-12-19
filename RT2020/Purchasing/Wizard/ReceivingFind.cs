@@ -13,8 +13,9 @@ namespace RT2020.Purchasing.Wizard
     using Gizmox.WebGUI.Common.Resources;
     using Gizmox.WebGUI.Forms;
 
-    using RT2020.DAL;
+
     using System.Linq;
+    using Helper;
 
     /// <summary>
     /// Documentation for the second part of ReceivingFind.
@@ -72,13 +73,13 @@ namespace RT2020.Purchasing.Wizard
                     switch (objHeader.OrderType)
                     {
                         case 0:
-                            orderType = Common.Enums.POType.FPO.ToString();
+                            orderType = EnumHelper.POType.FPO.ToString();
                             break;
                         case 1:
-                            orderType = Common.Enums.POType.LPO.ToString();
+                            orderType = EnumHelper.POType.LPO.ToString();
                             break;
                         case 2:
-                            orderType = Common.Enums.POType.OPO.ToString();
+                            orderType = EnumHelper.POType.OPO.ToString();
                             break;
                     }
 

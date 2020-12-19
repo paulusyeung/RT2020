@@ -10,7 +10,6 @@ using System.Text;
 using Gizmox.WebGUI.Common;
 using Gizmox.WebGUI.Forms;
 
-using RT2020.DAL;
 using System.Linq;
 using System.Data.Entity;
 #endregion
@@ -117,10 +116,11 @@ namespace RT2020.Workplace
         {
             if (lvWorkplaceList.SelectedItem != null)
             {
-                if (Common.Utility.IsGUID(lvWorkplaceList.SelectedItem.Text))
+                Guid id = Guid.Empty;
+                if (Guid.TryParse(lvWorkplaceList.SelectedItem.Text, out id))
                 {
                     this.IsCompleted = true;
-                    this.WorkplaceID = new Guid(lvWorkplaceList.SelectedItem.Text);
+                    this.WorkplaceID = id;
                     this.Close();
                 }
             }

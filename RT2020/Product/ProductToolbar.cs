@@ -6,7 +6,7 @@ using System.Xml.Linq;
 
 using Gizmox.WebGUI.Forms;
 using Gizmox.WebGUI.Common.Resources;
-using RT2020.DAL;
+
 using RT2020.Helper;
 using Westwind.Globalization;
 
@@ -60,7 +60,7 @@ namespace RT2020.Product
             ToolBarButton cmdNew = new ToolBarButton("New", WestwindHelper.GetWord("edit.new", "General"));
             cmdNew.Style = ToolBarButtonStyle.DropDownButton;
             cmdNew.Image = new IconResourceHandle("16x16.ico_16_3.gif");
-            cmdNew.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(Common.Enums.Permission.Write);
+            cmdNew.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Write);
             cmdNew.DropDownMenu = ddlNew;
 
             tbProducts.Buttons.Add(cmdNew);
@@ -75,7 +75,7 @@ namespace RT2020.Product
             ToolBarButton cmdImport = new ToolBarButton("Import", WestwindHelper.GetWord("edit.import", "General"));
             cmdImport.Style = ToolBarButtonStyle.DropDownButton;
             cmdImport.Image = new IconResourceHandle("16x16.ico_16_4407.gif");
-            cmdImport.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(Common.Enums.Permission.Write);
+            cmdImport.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Write);
             cmdImport.DropDownMenu = ddlImport;
 
             tbProducts.Buttons.Add(cmdImport);
@@ -113,7 +113,7 @@ namespace RT2020.Product
             cmdReports.Style = ToolBarButtonStyle.DropDownButton;
             cmdReports.Image = new IconResourceHandle("16x16.16_reports.gif");
             cmdReports.DropDownMenu = ddlReports;
-            cmdReports.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(Common.Enums.Permission.Write);
+            cmdReports.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Write);
 
             tbProducts.Buttons.Add(cmdReports);
             cmdReports.MenuClick += new MenuEventHandler(cmdMenuClick);
@@ -158,19 +158,19 @@ namespace RT2020.Product
                         break;
                     case "product_appendix1":
                         ProductAppendixWizard wizAppendix1 = new ProductAppendixWizard();
-                        wizAppendix1.EditMode = CommonHelper.EditMode.Add;
+                        wizAppendix1.EditMode = EnumHelper.EditMode.Add;
                         wizAppendix1.AppendixMode = ProductHelper.Appendix.Appendix3;
                         wizAppendix1.ShowDialog();
                         break;
                     case "product_appendix2":
                         ProductAppendixWizard wizAppendix2 = new ProductAppendixWizard();
-                        wizAppendix2.EditMode = CommonHelper.EditMode.Add;
+                        wizAppendix2.EditMode = EnumHelper.EditMode.Add;
                         wizAppendix2.AppendixMode = ProductHelper.Appendix.Appendix3;
                         wizAppendix2.ShowDialog();
                         break;
                     case "product_appendix3":
                         ProductAppendixWizard wizAppendix3 = new ProductAppendixWizard();
-                        wizAppendix3.EditMode = CommonHelper.EditMode.Add;
+                        wizAppendix3.EditMode = EnumHelper.EditMode.Add;
                         wizAppendix3.AppendixMode = ProductHelper.Appendix.Appendix3;
                         wizAppendix3.ShowDialog();
                         break;
@@ -178,42 +178,42 @@ namespace RT2020.Product
                         //ProductClassWizard wizClass1 = new ProductClassWizard(typeof(ProductClass1));
                         ProductClassWizard wizClass1 = new ProductClassWizard();
                         wizClass1.ClassMode = ProductHelper.Classes.Class1;
-                        wizClass1.EditMode = CommonHelper.EditMode.Add;
+                        wizClass1.EditMode = EnumHelper.EditMode.Add;
                         wizClass1.ShowDialog();
                         break;
                     case "product_class2":
                         //ProductClassWizard wizClass2 = new ProductClassWizard(typeof(ProductClass2));
                         ProductClassWizard wizClass2 = new ProductClassWizard();
                         wizClass2.ClassMode = ProductHelper.Classes.Class2;
-                        wizClass2.EditMode = CommonHelper.EditMode.Add;
+                        wizClass2.EditMode = EnumHelper.EditMode.Add;
                         wizClass2.ShowDialog();
                         break;
                     case "product_class3":
                         //ProductClassWizard wizClass3 = new ProductClassWizard(typeof(ProductClass3));
                         ProductClassWizard wizClass3 = new ProductClassWizard();
                         wizClass3.ClassMode = ProductHelper.Classes.Class3;
-                        wizClass3.EditMode = CommonHelper.EditMode.Add;
+                        wizClass3.EditMode = EnumHelper.EditMode.Add;
                         wizClass3.ShowDialog();
                         break;
                     case "product_class4":
                         //ProductClassWizard wizClass4 = new ProductClassWizard(typeof(ProductClass4));
                         ProductClassWizard wizClass4 = new ProductClassWizard();
                         wizClass4.ClassMode = ProductHelper.Classes.Class4;
-                        wizClass4.EditMode = CommonHelper.EditMode.Add;
+                        wizClass4.EditMode = EnumHelper.EditMode.Add;
                         wizClass4.ShowDialog();
                         break;
                     case "product_class5":
                         //ProductClassWizard wizClass5 = new ProductClassWizard(typeof(ProductClass5));
                         ProductClassWizard wizClass5 = new ProductClassWizard();
                         wizClass5.ClassMode = ProductHelper.Classes.Class5;
-                        wizClass5.EditMode = CommonHelper.EditMode.Add;
+                        wizClass5.EditMode = EnumHelper.EditMode.Add;
                         wizClass5.ShowDialog();
                         break;
                     case "product_class6":
                         //ProductClassWizard wizClass6 = new ProductClassWizard(typeof(ProductClass6));
                         ProductClassWizard wizClass6 = new ProductClassWizard();
                         wizClass6.ClassMode = ProductHelper.Classes.Class6;
-                        wizClass6.EditMode = CommonHelper.EditMode.Add;
+                        wizClass6.EditMode = EnumHelper.EditMode.Add;
                         wizClass6.ShowDialog();
                         break;
                     case "combination":

@@ -11,7 +11,6 @@ using Gizmox.WebGUI.Common;
 using Gizmox.WebGUI.Forms;
 using Gizmox.WebGUI.Common.Resources;
 using RT2020.Controls;
-using RT2020.DAL;
 using Westwind.Globalization;
 using System.Threading;
 using System.Globalization;
@@ -151,7 +150,7 @@ namespace RT2020.Components.Layout
 
         private void Power_OnClick(object sender, EventArgs e)
         {
-            DAL.Common.Config.CurrentUserId = Guid.Empty;
+            ConfigHelper.CurrentUserId = Guid.Empty;
 
             Log4net.LogInfo(Log4net.LogAction.Logout, this.ToString());
 

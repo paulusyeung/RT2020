@@ -76,6 +76,91 @@ namespace RT2020.ModelEx
             return result;
         }
 
+        /// <summary>
+        /// Get a EF6.PosTenderType object from the database using the given QueryString
+        /// </summary>
+        /// <param name="typeId">The primary key value</param>
+        /// <returns>A EF6.PosTenderType object</returns>
+        public static EF6.PosTenderType Get(string whereClause)
+        {
+            EF6.PosTenderType result = null;
+
+            using (var ctx = new EF6.RT2020Entities())
+            {
+                result = ctx.PosTenderType
+                    .SqlQuery(string.Format("Select * from PosTenderType Where {0}", whereClause))
+                    .AsNoTracking()
+                    .FirstOrDefault();
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Get a list of PosTenderType objects from the database
+        /// </summary>
+        /// <returns>A list containing all of the PosTenderType objects in the database.</returns>
+        public static List<EF6.PosTenderType> GetList()
+        {
+            var whereClause = "1 = 1";
+            return GetList(whereClause);
+        }
+
+        /// <summary>
+        /// Get a list of PosTenderType objects from the database
+        /// ordered by primary key
+        /// </summary>
+        /// <returns>A list containing all of the PosTenderType objects in the database ordered by the columns specified.</returns>
+        public static List<EF6.PosTenderType> GetList(string whereClause)
+        {
+            var orderBy = new string[] { "TypeId" };
+            return GetList(whereClause, orderBy);
+        }
+
+        /// <summary>
+        /// Get a list of PosTenderType objects from the database.
+        /// ordered accordingly, example { "FieldName1", "FieldName2 DESC" }
+        /// </summary>
+        /// <returns>A list containing all of the PosTenderType objects in the database.</returns>
+        public static List<EF6.PosTenderType> GetList(string whereClause, string[] orderBy)
+        {
+            List<EF6.PosTenderType> result = new List<EF6.PosTenderType>();
+
+            var orderby = String.Join(",", orderBy.Select(x => x));
+
+            using (var ctx = new EF6.RT2020Entities())
+            {
+                result = ctx.PosTenderType
+                    .SqlQuery(string.Format("Select * from PosTenderType Where {0} Order By {1}", whereClause, orderby))
+                    .AsNoTracking()
+                    .ToList();
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Deletes a EF6.PosTenderType object from the database.
+        /// </summary>
+        /// <param name="typeId">The primary key value</param>
+        public static bool Delete(Guid typeId)
+        {
+            bool result = false;
+
+            using (var ctx = new EF6.RT2020Entities())
+            {
+                var item = ctx.PosTenderType.Find(typeId);
+                if (item != null)
+                {
+                    ctx.PosTenderType.Remove(item);
+                    ctx.SaveChanges();
+                    result = true;
+                }
+            }
+
+            return result;
+        }
+
         #region LoadCombo
 
         public static void LoadCombo(ref ComboBox ddList, string TextField, bool SwitchLocale)

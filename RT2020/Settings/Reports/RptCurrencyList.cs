@@ -13,7 +13,7 @@ using Gizmox.WebGUI.Forms;
 using DevExpress.XtraReports.UI;
 using Gizmox.WebGUI.Common.Interfaces;
 using System.Web;
-using RT2020.DAL;
+
 using RT2020.Settings;
 using System.Data.Common;
 using System.Configuration;
@@ -64,7 +64,7 @@ namespace RT2020.Settings.Reports
 
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "apCurrencyList";
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType= CommandType.StoredProcedure;
             cmd.Parameters.AddRange(parameterValues);
 

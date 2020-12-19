@@ -14,7 +14,7 @@ using Gizmox.WebGUI.Forms;
 using Gizmox.WebGUI.Common.Resources;
 using Gizmox.WebGUI.Common.Interfaces;
 
-using RT2020.DAL;
+
 using RT2020.Controls;
 using System.Data.Entity;
 using RT2020.Helper;
@@ -25,7 +25,7 @@ namespace RT2020.EmulatedPoS
 {
     public partial class FastSalesWizard : Form
     {
-        public RT2020.DAL.Common.Enums.TxType SalesType { get; set; }
+        public EnumHelper.TxType SalesType { get; set; }
         public DateTime FastTxDate { get; set; }
         public Guid FastWorkplaceId { get; set; }
         AnalysisCode oAnalysisCode;
@@ -36,7 +36,7 @@ namespace RT2020.EmulatedPoS
         /// <param name="txDate">The tx date.</param>
         /// <param name="workplaceId">The workplace id.</param>
         /// <param name="salesType">Type of the sales.</param>
-        public FastSalesWizard(DateTime txDate, Guid workplaceId, RT2020.DAL.Common.Enums.TxType salesType)
+        public FastSalesWizard(DateTime txDate, Guid workplaceId, EnumHelper.TxType salesType)
         {
             InitializeComponent();
 
@@ -60,7 +60,7 @@ namespace RT2020.EmulatedPoS
         /// </summary>
         /// <param name="headerId">The header id.</param>
         /// <param name="salesType">Type of the sales.</param>
-        public FastSalesWizard(Guid headerId, RT2020.DAL.Common.Enums.TxType salesType)
+        public FastSalesWizard(Guid headerId, EnumHelper.TxType salesType)
         {
             InitializeComponent();
 
@@ -147,7 +147,7 @@ namespace RT2020.EmulatedPoS
             ToolBarButton cmdSave = new ToolBarButton("Save", "Save");
             cmdSave.Tag = "Save";
             cmdSave.Image = new IconResourceHandle("16x16.16_L_save.gif");
-            cmdSave.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(Common.Enums.Permission.Write);
+            cmdSave.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Write);
 
             this.tbWizardAction.Buttons.Add(cmdSave);
 
@@ -155,7 +155,7 @@ namespace RT2020.EmulatedPoS
             ToolBarButton cmdSaveNew = new ToolBarButton("Save & New", "Save & New");
             cmdSaveNew.Tag = "Save & New";
             cmdSaveNew.Image = new IconResourceHandle("16x16.16_L_saveOpen.gif");
-            cmdSaveNew.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(Common.Enums.Permission.Write);
+            cmdSaveNew.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Write);
 
             this.tbWizardAction.Buttons.Add(cmdSaveNew);
 
@@ -163,7 +163,7 @@ namespace RT2020.EmulatedPoS
             ToolBarButton cmdSaveClose = new ToolBarButton("Save & Close", "Save & Close");
             cmdSaveClose.Tag = "Save & Close";
             cmdSaveClose.Image = new IconResourceHandle("16x16.16_saveClose.gif");
-            cmdSaveClose.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(Common.Enums.Permission.Write);
+            cmdSaveClose.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Write);
 
             this.tbWizardAction.Buttons.Add(cmdSaveClose);
             this.tbWizardAction.Buttons.Add(sep);
@@ -185,8 +185,8 @@ namespace RT2020.EmulatedPoS
             }
             else
             {
-                cmdDelete.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(Common.Enums.Permission.Delete);
-                cmdPrint.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(Common.Enums.Permission.Write);
+                cmdDelete.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Delete);
+                cmdPrint.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Write);
             }
 
             this.tbWizardAction.Buttons.Add(cmdDelete);
@@ -246,7 +246,7 @@ namespace RT2020.EmulatedPoS
 
             System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand();
             cmd.CommandText = sql;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = CommandType.Text;
 
             using (DataSet dataset = SqlHelper.Default.ExecuteDataSet(cmd))
@@ -261,7 +261,7 @@ namespace RT2020.EmulatedPoS
         private void cmdPreview_Click()
         {
             string title = "";
-            if (this.SalesType == Common.Enums.TxType.CAS)
+            if (this.SalesType == EnumHelper.TxType.CAS)
             {
                 title = "Sales Input Worksheet";
             }
@@ -325,7 +325,7 @@ namespace RT2020.EmulatedPoS
         {
             ModelEx.StaffEx.LoadCombo(ref cboStaff1,"StaffNumber", false);
 
-            cboStaff1.SelectedValue = Common.Config.CurrentUserId;
+            cboStaff1.SelectedValue = ConfigHelper.CurrentUserId;
         }
 
         /// <summary>
@@ -392,7 +392,8 @@ namespace RT2020.EmulatedPoS
                 }
                 else
                 {
-                    InitCurrency(Common.Utility.IsGUID(cboCurrencyCode.SelectedValue.ToString()) ? System.Guid.Empty : new System.Guid(cboCurrencyCode.SelectedValue.ToString()));
+                    //InitCurrency(Common.Utility.IsGUID(cboCurrencyCode.SelectedValue.ToString()) ? System.Guid.Empty : new System.Guid(cboCurrencyCode.SelectedValue.ToString()));
+                    InitCurrency((Guid)cboCurrencyCode.SelectedValue);
                 }
             }
         }
@@ -432,7 +433,7 @@ namespace RT2020.EmulatedPoS
             txtTxType.Text = this.SalesType.ToString();
 
             txtLastUpdateOn.Text = DateTime.Now.ToString(RT2020.SystemInfo.Settings.GetDateTimeFormat());
-            txtLastUpdateBy.Text =  ModelEx.StaffEx.GetStaffNumberById(Common.Config.CurrentUserId);
+            txtLastUpdateBy.Text =  ModelEx.StaffEx.GetStaffNumberById(ConfigHelper.CurrentUserId);
             txtCreateDate.Text = DateTime.Now.ToString(RT2020.SystemInfo.Settings.GetDateTimeFormat());
         }
         /**
@@ -483,7 +484,7 @@ namespace RT2020.EmulatedPoS
                                     oHeader.TxNumber = txtTxNumber.Text;
                                     oHeader.TxType = this.SalesType.ToString();
 
-                                    oHeader.CreatedBy = Common.Config.CurrentUserId;
+                                    oHeader.CreatedBy = ConfigHelper.CurrentUserId;
                                     oHeader.CreatedOn = DateTime.Now;
 
                                     ctx.EPOSBatchHeader.Add(oHeader);
@@ -491,7 +492,7 @@ namespace RT2020.EmulatedPoS
                                 }
                                 #region EPOSBatchHeader core data
                                 oHeader.TxDate = Convert.ToDateTime(txtDate.Tag.ToString());
-                                oHeader.Status = Convert.ToInt32(cboStatus.Text == "HOLD" ? Common.Enums.Status.Draft.ToString("d") : Common.Enums.Status.Active.ToString("d"));
+                                oHeader.Status = Convert.ToInt32(cboStatus.Text == "HOLD" ? EnumHelper.Status.Draft.ToString("d") : EnumHelper.Status.Active.ToString("d"));
 
                                 //oHeader.DepositAmount = Convert.ToDecimal(txtDepositAmount.Text.Length == 0 ? "0" : txtDepositAmount.Text);
                                 oHeader.Reference = txtDepositAmount.Text;
@@ -518,7 +519,7 @@ namespace RT2020.EmulatedPoS
                                 oHeader.ANALYSIS_CODE09 = oAnalysisCode.AnalysisCode09;
                                 oHeader.ANALYSIS_CODE10 = oAnalysisCode.AnalysisCode10;
 
-                                oHeader.ModifiedBy = Common.Config.CurrentUserId;
+                                oHeader.ModifiedBy = ConfigHelper.CurrentUserId;
                                 oHeader.ModifiedOn = DateTime.Now;
 
                                 ctx.SaveChanges();
@@ -601,7 +602,9 @@ namespace RT2020.EmulatedPoS
                                 #endregion
 
                                 #region UpdateHeaderInfo();
-                                oHeader.TotalAmount = Convert.ToDecimal(Common.Utility.IsNumeric(txtTotalAmount.Text) ? txtTotalAmount.Text.Trim() : "0");
+                                decimal totalAmount = 0;
+                                decimal.TryParse(txtTotalAmount.Text, out totalAmount);
+                                oHeader.TotalAmount = totalAmount;  // Convert.ToDecimal(Common.Utility.IsNumeric(txtTotalAmount.Text) ? txtTotalAmount.Text.Trim() : "0");
                                 ctx.SaveChanges();
                                 #endregion
 
@@ -843,7 +846,7 @@ namespace RT2020.EmulatedPoS
             {
                 FastModeLogin fast = sender as FastModeLogin;
 
-                FastSalesWizard wizFastSalesInput = new FastSalesWizard(fast.TxDate, fast.WorkplaceId, Common.Enums.TxType.CAS);
+                FastSalesWizard wizFastSalesInput = new FastSalesWizard(fast.TxDate, fast.WorkplaceId, EnumHelper.TxType.CAS);
                 wizFastSalesInput.ShowDialog();
             }
         }
@@ -938,7 +941,7 @@ namespace RT2020.EmulatedPoS
 
             System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand();
             cmd.CommandText = sql.ToString();
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = CommandType.Text;
 
             using (SqlDataReader reader = SqlHelper.Default.ExecuteReader(cmd))
@@ -1040,7 +1043,7 @@ namespace RT2020.EmulatedPoS
 
             System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand();
             cmd.CommandText = sql.ToString();
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = CommandType.Text;
 
             using (SqlDataReader reader = SqlHelper.Default.ExecuteReader(cmd))
@@ -1316,7 +1319,9 @@ namespace RT2020.EmulatedPoS
         {
             if (basicFindProduct.SelectedItem != null)
             {
-                System.Guid prodId = Common.Utility.IsGUID(basicFindProduct.SelectedItem.ToString()) ? new System.Guid(basicFindProduct.SelectedItem.ToString()) : System.Guid.Empty;
+                Guid prodId = Guid.Empty;
+                Guid.TryParse(basicFindProduct.SelectedItem.ToString(), out prodId);
+                //System.Guid prodId = Common.Utility.IsGUID(basicFindProduct.SelectedItem.ToString()) ? new System.Guid(basicFindProduct.SelectedItem.ToString()) : System.Guid.Empty;
                 var oProd = ModelEx.ProductEx.Get(prodId);
                 if (oProd != null)
                 {
@@ -1563,9 +1568,10 @@ namespace RT2020.EmulatedPoS
         {
             if (lvDetailsList.SelectedItem != null && lvDetailsList.SelectedItem.SubItems[2].Text != "REMOVED")
             {
-                if (Common.Utility.IsGUID(lvDetailsList.SelectedItem.Text))
+                Guid id = Guid.Empty;
+                if (Guid.TryParse(lvDetailsList.SelectedItem.Text, out id))
                 {
-                    LoadPOSBatchDetailsInfo(new Guid(lvDetailsList.SelectedItem.Text));
+                    LoadPOSBatchDetailsInfo(id);
                 }
             }
         }

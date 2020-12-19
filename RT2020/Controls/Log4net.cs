@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 
 using log4net;
+using RT2020.Helper;
 
 namespace RT2020.Controls
 {
@@ -38,7 +39,7 @@ namespace RT2020.Controls
         }
         public static void LogInfo(LogAction action, String message)
         {
-            var user = ModelEx.UserProfileEx.GetByUserSid(DAL.Common.Config.CurrentUserId);
+            var user = ModelEx.UserProfileEx.GetByUserSid(ConfigHelper.CurrentUserId);
             if (user != null)
                 LogInfo(String.Format("[{0}] [{1}] {2}", user.Alias, action.ToString("g").ToUpper().PadRight(7), message));
         }

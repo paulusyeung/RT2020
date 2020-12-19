@@ -11,7 +11,7 @@ using Gizmox.WebGUI.Common;
 using Gizmox.WebGUI.Forms;
 using System.Data.SqlClient;
 using System.Text.RegularExpressions;
-using RT2020.DAL;
+
 using Gizmox.WebGUI.Common.Resources;
 using System.Configuration;
 using System.Linq;
@@ -54,11 +54,11 @@ namespace RT2020.Inventory.StockTake
             lvHoldingTxList.Items.Clear();
 
             int iCount = 1;
-            string sql = BuildSqlQueryString(Common.Enums.Status.Draft.ToString("d"), false);
+            string sql = BuildSqlQueryString(EnumHelper.Status.Draft.ToString("d"), false);
 
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = sql;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = System.Data.CommandType.Text;
 
             using (SqlDataReader reader = SqlHelper.Default.ExecuteReader(cmd))
@@ -84,11 +84,11 @@ namespace RT2020.Inventory.StockTake
             lvPostTxList.Items.Clear();
 
             int iCount = 1;
-            string sql = BuildSqlQueryString(Common.Enums.Status.Active.ToString("d"), true);
+            string sql = BuildSqlQueryString(EnumHelper.Status.Active.ToString("d"), true);
 
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = sql;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = System.Data.CommandType.Text;
 
             using (SqlDataReader reader = SqlHelper.Default.ExecuteReader(cmd))
@@ -408,15 +408,13 @@ namespace RT2020.Inventory.StockTake
             {
                 foreach (ListViewItem oItem in lvPostTxList.Items)
                 {
-                    if (oItem.Checked)
+                    Guid id = Guid.Empty;
+                    if (oItem.Checked && Guid.TryParse(oItem.Text, out id))
                     {
-                        if (Common.Utility.IsGUID(oItem.Text))
-                        {
-                            CreateADJTx(new Guid(oItem.Text));
-                            oItem.SubItems[1].Text = new IconResourceHandle("16x16.16_succeeded.png").ToString();
+                        CreateADJTx(id);
+                        oItem.SubItems[1].Text = new IconResourceHandle("16x16.16_succeeded.png").ToString();
 
-                            iCount++;
-                        }
+                        iCount++;
                     }
                 }
             }
@@ -436,11 +434,11 @@ namespace RT2020.Inventory.StockTake
                     this.UpdateProduct(oBatchHeader.HeaderId, oBatchHeader.WorkplaceId.Value);
 
                     // Create Ledger for TxType 'STK'
-                    string txNumber_Ledger = SystemInfo.Settings.QueuingTxNumber(Common.Enums.TxType.ADJ);
+                    string txNumber_Ledger = SystemInfo.Settings.QueuingTxNumber(EnumHelper.TxType.ADJ);
                     Guid ledgerHeaderId = CreateLedgerHeader(txNumber_Ledger, oBatchHeader);
                     CreateLedgerDetails(
                         txNumber_Ledger, ledgerHeaderId, oBatchHeader.HeaderId,
-                        ModelEx.StaffEx.GetStaffNumberById(Common.Config.CurrentUserId),
+                        ModelEx.StaffEx.GetStaffNumberById(ConfigHelper.CurrentUserId),
                         ModelEx.WorkplaceEx.GetWorkplaceCodeById(oBatchHeader.WorkplaceId.Value)
                         );
 
@@ -460,17 +458,17 @@ namespace RT2020.Inventory.StockTake
                 var oLedgerHeader = new EF6.InvtLedgerHeader();
                 oLedgerHeader.HeaderId = Guid.NewGuid();
                 oLedgerHeader.TxNumber = txNumber;
-                oLedgerHeader.TxType = Common.Enums.TxType.ADJ.ToString();
+                oLedgerHeader.TxType = EnumHelper.TxType.ADJ.ToString();
                 oLedgerHeader.TxDate = DateTime.Now;
                 oLedgerHeader.SubLedgerHeaderId = oBatchHeader.HeaderId;
                 oLedgerHeader.WorkplaceId = oBatchHeader.WorkplaceId.Value;
-                oLedgerHeader.StaffId = Common.Config.CurrentUserId;
+                oLedgerHeader.StaffId = ConfigHelper.CurrentUserId;
                 oLedgerHeader.Reference = oBatchHeader.TxNumber;
                 oLedgerHeader.Remarks = "Stock Take #: " + oBatchHeader.TxNumber;
-                oLedgerHeader.Status = Convert.ToInt32(Common.Enums.Status.Draft.ToString("d"));
-                oLedgerHeader.CreatedBy = Common.Config.CurrentUserId;
+                oLedgerHeader.Status = Convert.ToInt32(EnumHelper.Status.Draft.ToString("d"));
+                oLedgerHeader.CreatedBy = ConfigHelper.CurrentUserId;
                 oLedgerHeader.CreatedOn = DateTime.Now;
-                oLedgerHeader.ModifiedBy = Common.Config.CurrentUserId;
+                oLedgerHeader.ModifiedBy = ConfigHelper.CurrentUserId;
                 oLedgerHeader.ModifiedOn = DateTime.Now;
                 ctx.InvtLedgerHeader.Add(oLedgerHeader);
                 ctx.SaveChanges();
@@ -501,7 +499,7 @@ namespace RT2020.Inventory.StockTake
                             oLedgerDetail.ProductId = stkDetail.ProductId.Value;
                             oLedgerDetail.Qty = (stkDetail.Book1Qty + stkDetail.Book2Qty + stkDetail.Book3Qty + stkDetail.Book4Qty + stkDetail.Book5Qty + stkDetail.HHTQty) - stkDetail.CapturedQty;
                             oLedgerDetail.TxNumber = txnumber;
-                            oLedgerDetail.TxType = Common.Enums.TxType.ADJ.ToString();
+                            oLedgerDetail.TxType = EnumHelper.TxType.ADJ.ToString();
                             oLedgerDetail.TxDate = DateTime.Now;
                             oLedgerDetail.Amount = 0;
                             oLedgerDetail.UnitAmount = 0;
@@ -517,7 +515,7 @@ namespace RT2020.Inventory.StockTake
                             {
                                 oLedgerDetail.BasicPrice = oItem.RetailPrice;
 
-                                var priceTypeId = ModelEx.ProductPriceTypeEx.GetIdByPriceType(Common.Enums.ProductPriceType.VPRC.ToString());
+                                var priceTypeId = ModelEx.ProductPriceTypeEx.GetIdByPriceType(EnumHelper.ProductPriceType.VPRC.ToString());
                                 var oPrice = ctx.ProductPrice
                                         .Where(x => x.ProductId == stkDetail.ProductId && x.PriceTypeId == priceTypeId)
                                         .AsNoTracking()
@@ -617,14 +615,14 @@ namespace RT2020.Inventory.StockTake
                     var oHeader = ctx.StockTakeHeader.Where(x => x.TxNumber.Contains(txtTxNumber.Text.Trim())).AsNoTracking().FirstOrDefault();
                     if (oHeader != null)
                     {
-                        Common.Enums.Status oStatus = (Common.Enums.Status)Enum.Parse(typeof(Common.Enums.Status), oHeader.Status.ToString());
+                        EnumHelper.Status oStatus = (EnumHelper.Status)Enum.Parse(typeof(EnumHelper.Status), oHeader.Status.ToString());
                         switch (oStatus)
                         {
-                            case Common.Enums.Status.Draft: // Holding
+                            case EnumHelper.Status.Draft: // Holding
                                 tabSTKAuthorization.SelectedIndex = 1;
                                 BindingHoldingList();
                                 break;
-                            case Common.Enums.Status.Active: // Posting
+                            case EnumHelper.Status.Active: // Posting
                                 tabSTKAuthorization.SelectedIndex = 0;
                                 BindingPostingList();
                                 break;

@@ -10,7 +10,7 @@ using System.Text;
 using Gizmox.WebGUI.Common;
 using Gizmox.WebGUI.Forms;
 using Gizmox.WebGUI.Common.Resources;
-using RT2020.DAL;
+
 using System.Linq;
 using RT2020.Helper;
 
@@ -196,7 +196,7 @@ namespace RT2020.Product
 
             System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand();
             cmd.CommandText = sql;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = CommandType.Text;
 
             using (DataSet dataset = SqlHelper.Default.ExecuteDataSet(cmd))
@@ -216,7 +216,7 @@ namespace RT2020.Product
 
             System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand();
             cmd.CommandText = sql;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = CommandType.Text;
 
             using (DataSet dataset = SqlHelper.Default.ExecuteDataSet(cmd))
@@ -236,7 +236,7 @@ namespace RT2020.Product
 
             System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand();
             cmd.CommandText = sql;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = CommandType.Text;
 
             using (DataSet dataset = SqlHelper.Default.ExecuteDataSet(cmd))
@@ -438,11 +438,11 @@ namespace RT2020.Product
 
                         if (cboItemStatus.Text == "HOLD")
                         {
-                            oProduct.Status = Convert.ToInt32(Common.Enums.Status.Draft.ToString("d"));
+                            oProduct.Status = Convert.ToInt32(EnumHelper.Status.Draft.ToString("d"));
                         }
                         else if (cboItemStatus.Text == "POST")
                         {
-                            oProduct.Status = Convert.ToInt32(Common.Enums.Status.Active.ToString("d"));
+                            oProduct.Status = Convert.ToInt32(EnumHelper.Status.Active.ToString("d"));
                         }
 
                         oProduct.CLASS1 = general.cboClass1.Text;
@@ -467,9 +467,9 @@ namespace RT2020.Product
                         oProduct.DownloadToPOS = general.chkRetailItem.Checked;
                         oProduct.DownloadToCounter = general.chkCounterItem.Checked;
 
-                        oProduct.CreatedBy = Common.Config.CurrentUserId;
+                        oProduct.CreatedBy = ConfigHelper.CurrentUserId;
                         oProduct.CreatedOn = DateTime.Now;
-                        oProduct.ModifiedBy = Common.Config.CurrentUserId;
+                        oProduct.ModifiedBy = ConfigHelper.CurrentUserId;
                         oProduct.ModifiedOn = DateTime.Now;
 
                         oProduct.Save();
@@ -601,10 +601,10 @@ namespace RT2020.Product
         
         private void SaveProductPrice(Guid productId)
         {
-            SaveProductPrice(productId, Common.Enums.ProductPriceType.BASPRC.ToString(), general.txtCurrentRetailCurrency.Text, general.txtCurrentRetailPrice.Text);
-            SaveProductPrice(productId, Common.Enums.ProductPriceType.ORIPRC.ToString(), general.txtOriginalRetailCurrency.Text, general.txtOriginalRetailPrice.Text);
-            SaveProductPrice(productId, Common.Enums.ProductPriceType.VPRC.ToString(), general.cboVendorCurrency.Text, general.txtVendorPrice.Text);
-            SaveProductPrice(productId, Common.Enums.ProductPriceType.WHLPRC.ToString(), general.txtWholesalesCurrency.Text, general.txtWholesalesPrice.Text);
+            SaveProductPrice(productId, EnumHelper.ProductPriceType.BASPRC.ToString(), general.txtCurrentRetailCurrency.Text, general.txtCurrentRetailPrice.Text);
+            SaveProductPrice(productId, EnumHelper.ProductPriceType.ORIPRC.ToString(), general.txtOriginalRetailCurrency.Text, general.txtOriginalRetailPrice.Text);
+            SaveProductPrice(productId, EnumHelper.ProductPriceType.VPRC.ToString(), general.cboVendorCurrency.Text, general.txtVendorPrice.Text);
+            SaveProductPrice(productId, EnumHelper.ProductPriceType.WHLPRC.ToString(), general.txtWholesalesCurrency.Text, general.txtWholesalesPrice.Text);
         }
         
         private void SaveProductPrice(Guid productId, string priceType, string currencyCode, string price)
@@ -714,7 +714,7 @@ namespace RT2020.Product
                 oBatch.DATEPOST = new DateTime(1900, 1, 1);
                 oBatch.DATECREATE = DateTime.Now;
                 oBatch.DATELCHG = DateTime.Now;
-                oBatch.USERLCHG = ModelEx.StaffEx.GetStaffNumberById(Common.Config.CurrentUserId);
+                oBatch.USERLCHG = ModelEx.StaffEx.GetStaffNumberById(ConfigHelper.CurrentUserId);
                 oBatch.RETAILITEM = general.chkRetailItem.Checked.ToString();
                 oBatch.BINX = general.txtBin_X.Text;
                 oBatch.BINY = general.txtBin_Y.Text;

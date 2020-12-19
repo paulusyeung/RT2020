@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using RT2020.DAL;
 
 namespace RT2020.SystemInfo
 {

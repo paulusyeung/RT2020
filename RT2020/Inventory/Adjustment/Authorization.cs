@@ -11,7 +11,7 @@ using Gizmox.WebGUI.Common;
 using Gizmox.WebGUI.Forms;
 using System.Data.SqlClient;
 using System.Text.RegularExpressions;
-using RT2020.DAL;
+
 using Gizmox.WebGUI.Common.Resources;
 using System.Configuration;
 using RT2020.Helper;
@@ -61,11 +61,11 @@ namespace RT2020.Inventory.Adjustment
             lvHoldingTxList.Items.Clear();
 
             int iCount = 1;
-            string sql = BuildSqlQueryString(Common.Enums.Status.Draft.ToString("d"), false);
+            string sql = BuildSqlQueryString(EnumHelper.Status.Draft.ToString("d"), false);
 
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = sql;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = System.Data.CommandType.Text;
 
             using (SqlDataReader reader = SqlHelper.Default.ExecuteReader(cmd))
@@ -92,11 +92,11 @@ namespace RT2020.Inventory.Adjustment
             lvPostTxList.Items.Clear();
 
             int iCount = 1;
-            string sql = BuildSqlQueryString(Common.Enums.Status.Active.ToString("d"), true);
+            string sql = BuildSqlQueryString(EnumHelper.Status.Active.ToString("d"), true);
 
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = sql;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = System.Data.CommandType.Text;
 
             using (SqlDataReader reader = SqlHelper.Default.ExecuteReader(cmd))
@@ -272,9 +272,10 @@ namespace RT2020.Inventory.Adjustment
 
             using (var ctx = new EF6.RT2020Entities())
             {
-                if (Common.Utility.IsGUID(headerId))
+                Guid id = Guid.Empty;
+                if (Guid.TryParse(headerId, out id))
                 {
-                    var oBatchHeader = ModelEx.InvtBatchADJ_HeaderEx.Get(new Guid(headerId));
+                    var oBatchHeader = ModelEx.InvtBatchADJ_HeaderEx.Get(id);
                     if (oBatchHeader != null)
                     {
                         if (!CheckTxDate(oBatchHeader.TxDate.Value))
@@ -295,7 +296,7 @@ namespace RT2020.Inventory.Adjustment
                             isPostable = isPostable & false;
                         }
 
-                        if (oBatchHeader.Status == (int)Common.Enums.Status.Active && oBatchHeader.PostedBy != System.Guid.Empty)
+                        if (oBatchHeader.Status == (int)EnumHelper.Status.Active && oBatchHeader.PostedBy != System.Guid.Empty)
                         {
                             #region 加一行
                             DataRow row = errorTable.NewRow();
@@ -450,7 +451,8 @@ namespace RT2020.Inventory.Adjustment
             {
                 foreach (ListViewItem oItem in lvPostTxList.CheckedItems)
                 {
-                    if (Common.Utility.IsGUID(oItem.Text) && oItem.Checked)
+                    Guid id = Guid.Empty;
+                    if (Guid.TryParse(oItem.Text, out id) && oItem.Checked)
                     {
                         if (!HasError(oItem.Text))
                         {
@@ -535,17 +537,17 @@ namespace RT2020.Inventory.Adjustment
                                 var oSubADJ = new EF6.InvtSubLedgerADJ_Header();
                                 oSubADJ.HeaderId = Guid.NewGuid();
                                 oSubADJ.TxNumber = txnumber;
-                                oSubADJ.TxType = Common.Enums.TxType.ADJ.ToString();
+                                oSubADJ.TxType = EnumHelper.TxType.ADJ.ToString();
                                 oSubADJ.WorkplaceId = workplaceId;
                                 oSubADJ.TxDate = txDate;
                                 oSubADJ.Reference = reference;
                                 oSubADJ.Remarks = remarks;
                                 oSubADJ.StaffId = staffId;
-                                oSubADJ.Status = Convert.ToInt32(Common.Enums.Status.Active.ToString("d"));
+                                oSubADJ.Status = Convert.ToInt32(EnumHelper.Status.Active.ToString("d"));
 
-                                oSubADJ.CreatedBy = Common.Config.CurrentUserId;
+                                oSubADJ.CreatedBy = ConfigHelper.CurrentUserId;
                                 oSubADJ.CreatedOn = DateTime.Now;
-                                oSubADJ.ModifiedBy = Common.Config.CurrentUserId;
+                                oSubADJ.ModifiedBy = ConfigHelper.CurrentUserId;
                                 oSubADJ.ModifiedOn = DateTime.Now;
 
                                 ctx.InvtSubLedgerADJ_Header.Add(oSubADJ);
@@ -571,7 +573,7 @@ namespace RT2020.Inventory.Adjustment
                                     oSubLedgerDetail.ProductId = oBDetail.ProductId;
                                     oSubLedgerDetail.Qty = oBDetail.Qty.Value;
                                     oSubLedgerDetail.TxNumber = txnumber;
-                                    oSubLedgerDetail.TxType = Common.Enums.TxType.ADJ.ToString();
+                                    oSubLedgerDetail.TxType = EnumHelper.TxType.ADJ.ToString();
                                     oSubLedgerDetail.AverageCost = oBDetail.AverageCost.Value;
                                     oSubLedgerDetail.ReasonCode = oBDetail.ReasonCode;
                                     oSubLedgerDetail.Remarks = oBDetail.Remarks;
@@ -587,7 +589,7 @@ namespace RT2020.Inventory.Adjustment
                                     oSubLedgerHeader.TotalAmount = ttlAmt;
 
                                     oSubLedgerHeader.ModifiedOn = DateTime.Now;
-                                    oSubLedgerHeader.ModifiedBy = Common.Config.CurrentUserId;
+                                    oSubLedgerHeader.ModifiedBy = ConfigHelper.CurrentUserId;
                                 }
                                 ctx.SaveChanges();
                                 #endregion
@@ -606,17 +608,17 @@ namespace RT2020.Inventory.Adjustment
                                 var oLedgerHeader = new EF6.InvtLedgerHeader();
                                 oLedgerHeader.HeaderId = Guid.NewGuid();
                                 oLedgerHeader.TxNumber = txnumber;
-                                oLedgerHeader.TxType = Common.Enums.TxType.ADJ.ToString();
+                                oLedgerHeader.TxType = EnumHelper.TxType.ADJ.ToString();
                                 oLedgerHeader.TxDate = txDate;
                                 oLedgerHeader.SubLedgerHeaderId = subLedgerHeaderId;
                                 oLedgerHeader.WorkplaceId = workplaceId;
                                 oLedgerHeader.StaffId = staffId;
                                 oLedgerHeader.Reference = reference;
                                 oLedgerHeader.Remarks = remarks;
-                                oLedgerHeader.Status = Convert.ToInt32(Common.Enums.Status.Active.ToString("d"));
-                                oLedgerHeader.CreatedBy = Common.Config.CurrentUserId;
+                                oLedgerHeader.Status = Convert.ToInt32(EnumHelper.Status.Active.ToString("d"));
+                                oLedgerHeader.CreatedBy = ConfigHelper.CurrentUserId;
                                 oLedgerHeader.CreatedOn = DateTime.Now;
-                                oLedgerHeader.ModifiedBy = Common.Config.CurrentUserId;
+                                oLedgerHeader.ModifiedBy = ConfigHelper.CurrentUserId;
                                 oLedgerHeader.ModifiedOn = DateTime.Now;
 
                                 ctx.InvtLedgerHeader.Add(oLedgerHeader);
@@ -645,7 +647,7 @@ namespace RT2020.Inventory.Adjustment
                                     oLedgerDetail.ProductId = oSDetail.ProductId;
                                     oLedgerDetail.Qty = oSDetail.Qty.Value;
                                     oLedgerDetail.TxNumber = txnumber;
-                                    oLedgerDetail.TxType = Common.Enums.TxType.ADJ.ToString();
+                                    oLedgerDetail.TxType = EnumHelper.TxType.ADJ.ToString();
                                     oLedgerDetail.TxDate = oBatchHeader.TxDate.Value;
                                     oLedgerDetail.Amount = oLedgerDetail.Qty * oLedgerDetail.AverageCost;
                                     oLedgerDetail.Notes = string.Empty;
@@ -663,7 +665,7 @@ namespace RT2020.Inventory.Adjustment
                                         oLedgerDetail.Amount = oLedgerDetail.UnitAmount * oLedgerDetail.Qty;
                                         oLedgerDetail.AverageCost = ModelEx.ProductCurrentSummaryEx.GetAverageCode(oItem.ProductId);
 
-                                        var priceTypeId = ModelEx.ProductPriceTypeEx.GetIdByPriceType(Common.Enums.ProductPriceType.VPRC.ToString());
+                                        var priceTypeId = ModelEx.ProductPriceTypeEx.GetIdByPriceType(EnumHelper.ProductPriceType.VPRC.ToString());
                                         //sql = "ProductId = '" + oSDetail.ProductId.ToString() + "' AND PriceTypeId = '" + priceTypeId.ToString() + "'";
 
                                         var oPrice = ctx.ProductPrice.Where(x => x.ProductId == oSDetail.ProductId && x.PriceTypeId == priceTypeId).FirstOrDefault();
@@ -684,9 +686,9 @@ namespace RT2020.Inventory.Adjustment
                                 }
                                 #endregion
 
-                                oBatchHeader.PostedBy = Common.Config.CurrentUserId;
+                                oBatchHeader.PostedBy = ConfigHelper.CurrentUserId;
                                 oBatchHeader.PostedOn = DateTime.Now;
-                                oBatchHeader.ModifiedBy = Common.Config.CurrentUserId;
+                                oBatchHeader.ModifiedBy = ConfigHelper.CurrentUserId;
                                 oBatchHeader.ModifiedOn = DateTime.Now;
                                 ctx.SaveChanges();
 
@@ -738,17 +740,17 @@ namespace RT2020.Inventory.Adjustment
         {
             InvtSubLedgerADJ_Header oSubADJ = new InvtSubLedgerADJ_Header();
             oSubADJ.TxNumber = txnumber;
-            oSubADJ.TxType = Common.Enums.TxType.ADJ.ToString();
+            oSubADJ.TxType = EnumHelper.TxType.ADJ.ToString();
             oSubADJ.WorkplaceId = workplaceId;
             oSubADJ.TxDate = txDate;
             oSubADJ.Reference = reference;
             oSubADJ.Remarks = remarks;
             oSubADJ.StaffId = staffId;
-            oSubADJ.Status = Convert.ToInt32(Common.Enums.Status.Active.ToString("d"));
+            oSubADJ.Status = Convert.ToInt32(EnumHelper.Status.Active.ToString("d"));
 
-            oSubADJ.CreatedBy = Common.Config.CurrentUserId;
+            oSubADJ.CreatedBy = ConfigHelper.CurrentUserId;
             oSubADJ.CreatedOn = DateTime.Now;
-            oSubADJ.ModifiedBy = Common.Config.CurrentUserId;
+            oSubADJ.ModifiedBy = ConfigHelper.CurrentUserId;
             oSubADJ.ModifiedOn = DateTime.Now;
 
             oSubADJ.Save();
@@ -770,7 +772,7 @@ namespace RT2020.Inventory.Adjustment
                 oSubLedgerDetail.ProductId = oBDetail.ProductId;
                 oSubLedgerDetail.Qty = oBDetail.Qty;
                 oSubLedgerDetail.TxNumber = txnumber;
-                oSubLedgerDetail.TxType = Common.Enums.TxType.ADJ.ToString();
+                oSubLedgerDetail.TxType = EnumHelper.TxType.ADJ.ToString();
                 oSubLedgerDetail.AverageCost = oBDetail.AverageCost;
                 oSubLedgerDetail.ReasonCode = oBDetail.ReasonCode;
                 oSubLedgerDetail.Remarks = oBDetail.Remarks;
@@ -786,7 +788,7 @@ namespace RT2020.Inventory.Adjustment
                 oSubLedgerHeader.TotalAmount = ttlAmt;
 
                 oSubLedgerHeader.ModifiedOn = DateTime.Now;
-                oSubLedgerHeader.ModifiedBy = Common.Config.CurrentUserId;
+                oSubLedgerHeader.ModifiedBy = ConfigHelper.CurrentUserId;
 
                 oSubLedgerHeader.Save();
             }
@@ -800,17 +802,17 @@ namespace RT2020.Inventory.Adjustment
         {
             InvtLedgerHeader oLedgerHeader = new InvtLedgerHeader();
             oLedgerHeader.TxNumber = txnumber;
-            oLedgerHeader.TxType = Common.Enums.TxType.ADJ.ToString();
+            oLedgerHeader.TxType = EnumHelper.TxType.ADJ.ToString();
             oLedgerHeader.TxDate = txDate;
             oLedgerHeader.SubLedgerHeaderId = subLedgerHeaderId;
             oLedgerHeader.WorkplaceId = workplaceId;
             oLedgerHeader.StaffId = staffId;
             oLedgerHeader.Reference = reference;
             oLedgerHeader.Remarks = remarks;
-            oLedgerHeader.Status = Convert.ToInt32(Common.Enums.Status.Active.ToString("d"));
-            oLedgerHeader.CreatedBy = Common.Config.CurrentUserId;
+            oLedgerHeader.Status = Convert.ToInt32(EnumHelper.Status.Active.ToString("d"));
+            oLedgerHeader.CreatedBy = ConfigHelper.CurrentUserId;
             oLedgerHeader.CreatedOn = DateTime.Now;
-            oLedgerHeader.ModifiedBy = Common.Config.CurrentUserId;
+            oLedgerHeader.ModifiedBy = ConfigHelper.CurrentUserId;
             oLedgerHeader.ModifiedOn = DateTime.Now;
             oLedgerHeader.Save();
 
@@ -838,7 +840,7 @@ namespace RT2020.Inventory.Adjustment
                             oLedgerDetail.ProductId = oSDetail.ProductId;
                             oLedgerDetail.Qty = oSDetail.Qty.Value;
                             oLedgerDetail.TxNumber = txnumber;
-                            oLedgerDetail.TxType = Common.Enums.TxType.ADJ.ToString();
+                            oLedgerDetail.TxType = EnumHelper.TxType.ADJ.ToString();
                             oLedgerDetail.TxDate = oBatchHeader.TxDate;
                             oLedgerDetail.Amount = oLedgerDetail.Qty * oLedgerDetail.AverageCost;
                             oLedgerDetail.Notes = string.Empty;
@@ -856,7 +858,7 @@ namespace RT2020.Inventory.Adjustment
                                 oLedgerDetail.Amount = oLedgerDetail.UnitAmount * oLedgerDetail.Qty;
                                 oLedgerDetail.AverageCost = ModelEx.ProductCurrentSummaryEx.GetAverageCode(oItem.ProductId);
 
-                                var priceTypeId = ModelEx.ProductPriceTypeEx.GetIdByPriceType(Common.Enums.ProductPriceType.VPRC.ToString());
+                                var priceTypeId = ModelEx.ProductPriceTypeEx.GetIdByPriceType(EnumHelper.ProductPriceType.VPRC.ToString());
                                 //sql = "ProductId = '" + oSDetail.ProductId.ToString() + "' AND PriceTypeId = '" + priceTypeId.ToString() + "'";
 
                                 var oPrice = ctx.ProductPrice.Where(x => x.ProductId == oSDetail.ProductId && x.PriceTypeId == priceTypeId).FirstOrDefault();

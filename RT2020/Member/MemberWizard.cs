@@ -10,10 +10,11 @@ using System.Text;
 using Gizmox.WebGUI.Common;
 using Gizmox.WebGUI.Forms;
 using Gizmox.WebGUI.Common.Resources;
-using RT2020.DAL;
+
 using System.IO;
 using System.Linq;
 using System.Data.Entity;
+using RT2020.Helper;
 
 #endregion
 
@@ -124,7 +125,7 @@ namespace RT2020.Member
             ToolBarButton cmdSave = new ToolBarButton("Save", "Save");
             cmdSave.Tag = "Save";
             cmdSave.Image = new IconResourceHandle("16x16.16_L_save.gif");
-            cmdSave.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(Common.Enums.Permission.Write);
+            cmdSave.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Write);
 
             this.tbWizardAction.Buttons.Add(cmdSave);
 
@@ -132,7 +133,7 @@ namespace RT2020.Member
             ToolBarButton cmdSaveNew = new ToolBarButton("Save & New", "Save & New");
             cmdSaveNew.Tag = "Save & New";
             cmdSaveNew.Image = new IconResourceHandle("16x16.16_L_saveOpen.gif");
-            cmdSaveNew.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(Common.Enums.Permission.Write);
+            cmdSaveNew.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Write);
 
             this.tbWizardAction.Buttons.Add(cmdSaveNew);
 
@@ -140,7 +141,7 @@ namespace RT2020.Member
             ToolBarButton cmdSaveClose = new ToolBarButton("Save & Close", "Save & Close");
             cmdSaveClose.Tag = "Save & Close";
             cmdSaveClose.Image = new IconResourceHandle("16x16.16_saveClose.gif");
-            cmdSaveClose.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(Common.Enums.Permission.Write);
+            cmdSaveClose.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Write);
 
             this.tbWizardAction.Buttons.Add(cmdSaveClose);
             this.tbWizardAction.Buttons.Add(sep);
@@ -156,7 +157,7 @@ namespace RT2020.Member
             }
             else
             {
-                cmdDelete.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(Common.Enums.Permission.Delete);
+                cmdDelete.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Delete);
             }
 
             this.tbWizardAction.Buttons.Add(cmdDelete);
@@ -305,27 +306,28 @@ namespace RT2020.Member
         {
             bool result = true;
 
-            if (!Common.Utility.IsNumeric(others.txtCreditLimit.Text))
+            decimal numeric = 0;
+            if (!decimal.TryParse(others.txtCreditLimit.Text, out numeric))
             {
                 errorProvider.SetError(others.txtCreditLimit, Resources.Common.DigitalNeeded);
                 result = false;
             }
-            else if (!Common.Utility.IsNumeric(others.txtNormalItemDiscount.Text))
+            else if (!decimal.TryParse(others.txtNormalItemDiscount.Text, out numeric))
             {
                 errorProvider.SetError(others.txtNormalItemDiscount, Resources.Common.DigitalNeeded);
                 result = false;
             }
-            else if (!Common.Utility.IsNumeric(others.txtPaymentDiscount.Text))
+            else if (!decimal.TryParse(others.txtPaymentDiscount.Text, out numeric))
             {
                 errorProvider.SetError(others.txtPaymentDiscount, Resources.Common.DigitalNeeded);
                 result = false;
             }
-            else if (!Common.Utility.IsNumeric(others.txtPromotionItemDiscount.Text))
+            else if (!decimal.TryParse(others.txtPromotionItemDiscount.Text, out numeric))
             {
                 errorProvider.SetError(others.txtPromotionItemDiscount, Resources.Common.DigitalNeeded);
                 result = false;
             }
-            else if (!Common.Utility.IsNumeric(others.txtStaffQuota.Text))
+            else if (!decimal.TryParse(others.txtStaffQuota.Text, out numeric))
             {
                 errorProvider.SetError(others.txtStaffQuota, Resources.Common.DigitalNeeded);
                 result = false;
@@ -365,10 +367,10 @@ namespace RT2020.Member
                             oMember = new EF6.Member();
 
                             oMember.MemberNumber = txtMemberNumber.Text;
-                            oMember.Status = Convert.ToInt32(Common.Enums.Status.Active.ToString("d"));
+                            oMember.Status = Convert.ToInt32(EnumHelper.Status.Active.ToString("d"));
                             isNew = true;
 
-                            oMember.CreatedBy = Common.Config.CurrentUserId;
+                            oMember.CreatedBy = ConfigHelper.CurrentUserId;
                             oMember.CreatedOn = DateTime.Now;
 
                             ctx.Member.Add(oMember);
@@ -393,10 +395,10 @@ namespace RT2020.Member
 
                         if (!isNew)
                         {
-                            oMember.Status = Convert.ToInt32(Common.Enums.Status.Modified.ToString("d"));
+                            oMember.Status = Convert.ToInt32(EnumHelper.Status.Modified.ToString("d"));
                         }
 
-                        oMember.ModifiedBy = Common.Config.CurrentUserId;
+                        oMember.ModifiedBy = ConfigHelper.CurrentUserId;
                         oMember.ModifiedOn = DateTime.Now;
                         ctx.SaveChanges();
                         #endregion
@@ -912,15 +914,15 @@ namespace RT2020.Member
                 main.txtLastUpdatedBy.Text = ModelEx.StaffEx.GetStaffNumberById(oMember.ModifiedBy);
                 main.txtLastUpdatedOn.Text = RT2020.SystemInfo.Settings.DateTimeToString(oMember.ModifiedOn, false);
                 main.txtCreatedOn.Text = RT2020.SystemInfo.Settings.DateTimeToString(oMember.CreatedOn, false);
-                main.txtStatus.Text = Enum.GetName(typeof(Common.Enums.Status), oMember.Status);
+                main.txtStatus.Text = Enum.GetName(typeof(EnumHelper.Status), oMember.Status);
 
                 LoadSmartTag(oMember.MemberId);
                 LoadAddress();
                 LoadVipData();
 
                 #region Disable edit when status is Inactive (-2) or Deleted (-1)
-                if (oMember.Status == Convert.ToInt32(Common.Enums.Status.Deleted.ToString("d")) ||
-                    oMember.Status == Convert.ToInt32(Common.Enums.Status.Inactive.ToString("d")))
+                if (oMember.Status == Convert.ToInt32(EnumHelper.Status.Deleted.ToString("d")) ||
+                    oMember.Status == Convert.ToInt32(EnumHelper.Status.Inactive.ToString("d")))
                 {
                     this.cboLineOfOperation.Enabled = false;
                     main.cboSalutation.Enabled = false;
@@ -1250,7 +1252,7 @@ namespace RT2020.Member
                 var oMember = ctx.Member.Find(this.MemberId);
                 if (oMember != null)
                 {
-                    oMember.Status = Convert.ToInt32(Common.Enums.Status.Deleted.ToString("d"));
+                    oMember.Status = Convert.ToInt32(EnumHelper.Status.Deleted.ToString("d"));
                     oMember.DownloadToPOS = true;
 
                     ctx.SaveChanges();

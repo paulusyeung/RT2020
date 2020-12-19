@@ -11,8 +11,9 @@ using Gizmox.WebGUI.Common;
 using Gizmox.WebGUI.Common.Resources;
 using Gizmox.WebGUI.Forms;
 using RT2020.Product;
-using RT2020.DAL;
+
 using RT2020.Inventory;
+using RT2020.Helper;
 
 #endregion
 
@@ -41,17 +42,17 @@ namespace RT2020.Inventory.Transfer
             ddlNew.MenuItems.Add(new MenuItem("-"));
 
             MenuItem auth = new MenuItem(RT2020.Controls.Utility.Dictionary.GetWord("Transfer - Authorization"), string.Empty, "Transfer_Authorization");
-            auth.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(Common.Enums.Permission.Posting);
+            auth.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Posting);
             ddlNew.MenuItems.Add(auth);
 
             MenuItem confirm = new MenuItem(RT2020.Controls.Utility.Dictionary.GetWord("Transfer - Confirmation"), string.Empty, "Transfer_Confirmation");
-            confirm.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(Common.Enums.Permission.Posting);
+            confirm.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Posting);
             ddlNew.MenuItems.Add(confirm);
 
             ToolBarButton cmdNew = new ToolBarButton("New", RT2020.Controls.Utility.Dictionary.GetWord("New"));
             cmdNew.Style = ToolBarButtonStyle.DropDownButton;
             cmdNew.Image = new IconResourceHandle("16x16.ico_16_3.gif");
-            cmdNew.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(Common.Enums.Permission.Write);
+            cmdNew.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Write);
             cmdNew.DropDownMenu = ddlNew;
 
             this.atsTransfer.Buttons.Add(cmdNew);
@@ -65,7 +66,7 @@ namespace RT2020.Inventory.Transfer
             ToolBarButton cmdImport = new ToolBarButton("Import", RT2020.Controls.Utility.Dictionary.GetWord("Import"));
             cmdImport.Style = ToolBarButtonStyle.DropDownButton;
             cmdImport.Image = new IconResourceHandle("16x16.ico_16_4407.gif");
-            cmdImport.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(Common.Enums.Permission.Write);
+            cmdImport.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Write);
             cmdImport.DropDownMenu = ddlImport;
 
             this.atsTransfer.Buttons.Add(cmdImport);
@@ -78,7 +79,7 @@ namespace RT2020.Inventory.Transfer
             ToolBarButton cmdExport = new ToolBarButton("Export", RT2020.Controls.Utility.Dictionary.GetWord("Export"));
             cmdExport.Style = ToolBarButtonStyle.DropDownButton;
             cmdExport.Image = new IconResourceHandle("16x16.ico_16_4407.gif");
-            cmdExport.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(Common.Enums.Permission.Write);
+            cmdExport.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Write);
             cmdExport.DropDownMenu = ddlExport;
 
             atsTransfer.Buttons.Add(cmdExport);
@@ -100,7 +101,7 @@ namespace RT2020.Inventory.Transfer
                     ToolBarButton cmdReports1 = new ToolBarButton("Reports", RT2020.Controls.Utility.Dictionary.GetWord("Reports"));
                     cmdReports1.Style = ToolBarButtonStyle.DropDownButton;
                     cmdReports1.Image = new IconResourceHandle("16x16.16_reports.gif");
-                    cmdReports1.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(Common.Enums.Permission.Write);
+                    cmdReports1.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Write);
                     cmdReports1.DropDownMenu = ddlReports1;
 
                     this.atsTransfer.Buttons.Add(cmdReports1);
@@ -117,7 +118,7 @@ namespace RT2020.Inventory.Transfer
                     ToolBarButton cmdReports = new ToolBarButton("Reports", RT2020.Controls.Utility.Dictionary.GetWord("Reports"));
                     cmdReports.Style = ToolBarButtonStyle.DropDownButton;
                     cmdReports.Image = new IconResourceHandle("16x16.16_reports.gif");
-                    cmdReports.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(Common.Enums.Permission.Write);
+                    cmdReports.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Write);
                     cmdReports.DropDownMenu = ddlReports;
 
                     this.atsTransfer.Buttons.Add(cmdReports);
@@ -136,11 +137,11 @@ namespace RT2020.Inventory.Transfer
                 switch (e.MenuItem.Tag.ToString().ToLower())
                 {
                     case "transfer":
-                        RT2020.Inventory.Transfer.Wizard wizTxfer = new RT2020.Inventory.Transfer.Wizard(Common.Enums.TxType.TXF);
+                        RT2020.Inventory.Transfer.Wizard wizTxfer = new RT2020.Inventory.Transfer.Wizard(EnumHelper.TxType.TXF);
                         wizTxfer.ShowDialog();
                         break;
                     case "transfer_picking_note":
-                        RT2020.Inventory.Transfer.Wizard wizTxfer_PNQ = new RT2020.Inventory.Transfer.Wizard(Common.Enums.TxType.PNQ);
+                        RT2020.Inventory.Transfer.Wizard wizTxfer_PNQ = new RT2020.Inventory.Transfer.Wizard(EnumHelper.TxType.PNQ);
                         wizTxfer_PNQ.ShowDialog();
                         break;
                     case "transfer_picking_note_fast":

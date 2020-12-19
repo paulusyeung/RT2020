@@ -15,7 +15,7 @@ using Gizmox.WebGUI.Common.Interfaces;
 using FileHelpers.DataLink;
 using FileHelpers.MasterDetail;
 
-using RT2020.DAL;
+
 using System.Configuration;
 using RT2020.Controls;
 using RT2020.Helper;
@@ -35,7 +35,7 @@ namespace RT2020.Inventory.Transfer.Reports
             dtpTxDateFrom.Value = Convert.ToDateTime(RT2020.SystemInfo.CurrentInfo.Default.LastMonthEnd.Insert(4, "-") + "-01");
             dtpTxDateTo.Value = DateTime.Now;
 
-            InvtUtility.ShowCriteria(ref txtTxNumberFrom, ref txtTxNumberTo, "vwRptSubLedgerTXF", Common.Enums.TxType.TXF, dtpTxDateFrom.Value, dtpTxDateTo.Value);
+            InvtUtility.ShowCriteria(ref txtTxNumberFrom, ref txtTxNumberTo, "vwRptSubLedgerTXF", EnumHelper.TxType.TXF, dtpTxDateFrom.Value, dtpTxDateTo.Value);
         }
 
         #region IGatewayControl Members
@@ -133,7 +133,7 @@ namespace RT2020.Inventory.Transfer.Reports
                 { "FromTxDate", this.dtpTxDateFrom.Value.ToString(RT2020.SystemInfo.Settings.GetDateFormat()) },
                 { "ToTxDate", this.dtpTxDateTo.Value.ToString(RT2020.SystemInfo.Settings.GetDateFormat()) },
                 { "PrintedOn", DateTime.Now.ToString(RT2020.SystemInfo.Settings.GetDateTimeFormat()) },
-                { "PrintedBy", ModelEx.StaffEx.GetStaffNameById(Common.Config.CurrentUserId) },
+                { "PrintedBy", ModelEx.StaffEx.GetStaffNameById(ConfigHelper.CurrentUserId) },
                 { "DateFormat", RT2020.SystemInfo.Settings.GetDateFormat() },
                 { "CompanyName", RT2020.SystemInfo.CurrentInfo.Default.CompanyName},
                     { "StockCode", RT2020.SystemInfo.Settings.GetSystemLabelByKey("STKCODE") },
@@ -155,7 +155,7 @@ namespace RT2020.Inventory.Transfer.Reports
 
         private void btnFindFromTxNumber_Click(object sender, EventArgs e)
         {
-            RT2020.Controls.InvtTxSearcher findFromTxNumber = RT2020.Controls.InvtUtility.ShowTxSearcher("vwRptSubLedgerTXF", Common.Enums.TxType.TXF);
+            RT2020.Controls.InvtTxSearcher findFromTxNumber = RT2020.Controls.InvtUtility.ShowTxSearcher("vwRptSubLedgerTXF", EnumHelper.TxType.TXF);
             findFromTxNumber.Closed += new EventHandler(findFromTxNumber_Closed);
             findFromTxNumber.ShowDialog();
         }
@@ -172,7 +172,7 @@ namespace RT2020.Inventory.Transfer.Reports
 
         private void btnFindToTxNumber_Click(object sender, EventArgs e)
         {
-            RT2020.Controls.InvtTxSearcher findToTxNumber = RT2020.Controls.InvtUtility.ShowTxSearcher("vwRptSubLedgerTXF", Common.Enums.TxType.TXF);
+            RT2020.Controls.InvtTxSearcher findToTxNumber = RT2020.Controls.InvtUtility.ShowTxSearcher("vwRptSubLedgerTXF", EnumHelper.TxType.TXF);
             findToTxNumber.Closed += new EventHandler(findToTxNumber_Closed);
             findToTxNumber.ShowDialog();
         }

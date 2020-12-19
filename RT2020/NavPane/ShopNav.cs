@@ -9,6 +9,7 @@ using System.Text;
 
 using Gizmox.WebGUI.Common;
 using Gizmox.WebGUI.Forms;
+using RT2020.Helper;
 
 #endregion
 
@@ -67,13 +68,13 @@ namespace RT2020.NavPane
                 switch (Tag.ToLower())
                 {
                     case "shop.sales":
-                        RT2020.EmulatedPoS.DefaultList oSalesInputList = new RT2020.EmulatedPoS.DefaultList(controls[0], RT2020.DAL.Common.Enums.TxType.CAS);
+                        RT2020.EmulatedPoS.DefaultList oSalesInputList = new RT2020.EmulatedPoS.DefaultList(controls[0], EnumHelper.TxType.CAS);
                         oSalesInputList.DockPadding.All = 6;
                         oSalesInputList.Dock = DockStyle.Fill;
                         wspPane.Controls.Add(oSalesInputList);
                         break;
                     case "shop.return":
-                        RT2020.EmulatedPoS.DefaultList oSalesReturnList = new RT2020.EmulatedPoS.DefaultList(controls[0], RT2020.DAL.Common.Enums.TxType.CRT);
+                        RT2020.EmulatedPoS.DefaultList oSalesReturnList = new RT2020.EmulatedPoS.DefaultList(controls[0], EnumHelper.TxType.CRT);
                         oSalesReturnList.DockPadding.All = 6;
                         oSalesReturnList.Dock = DockStyle.Fill;
                         wspPane.Controls.Add(oSalesReturnList);

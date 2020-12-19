@@ -12,7 +12,7 @@ using Gizmox.WebGUI.Forms;
 using Gizmox.WebGUI.Common.Resources;
 using Gizmox.WebGUI.Common.Interfaces;
 
-using RT2020.DAL;
+
 using RT2020.Controls;
 using RT2020.Helper;
 
@@ -194,7 +194,7 @@ namespace RT2020.Inventory.GoodsReturn
             ToolBarButton cmdSave = new ToolBarButton("Save", Utility.Dictionary.GetWord("Save"));
             cmdSave.Tag = "Save";
             cmdSave.Image = new IconResourceHandle("16x16.16_L_save.gif");
-            cmdSave.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(Common.Enums.Permission.Write);
+            cmdSave.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Write);
 
             this.tbWizardAction.Buttons.Add(cmdSave);
 
@@ -202,7 +202,7 @@ namespace RT2020.Inventory.GoodsReturn
             ToolBarButton cmdSaveNew = new ToolBarButton("Save & New", HttpUtility.UrlDecode(Utility.Dictionary.GetWord("Save_New")));
             cmdSaveNew.Tag = "Save & New";
             cmdSaveNew.Image = new IconResourceHandle("16x16.16_L_saveOpen.gif");
-            cmdSaveNew.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(Common.Enums.Permission.Write);
+            cmdSaveNew.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Write);
 
             this.tbWizardAction.Buttons.Add(cmdSaveNew);
 
@@ -210,7 +210,7 @@ namespace RT2020.Inventory.GoodsReturn
             ToolBarButton cmdSaveClose = new ToolBarButton("Save & Close", HttpUtility.UrlDecode(Utility.Dictionary.GetWord("Save_close")));
             cmdSaveClose.Tag = "Save & Close";
             cmdSaveClose.Image = new IconResourceHandle("16x16.16_saveClose.gif");
-            cmdSaveClose.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(Common.Enums.Permission.Write);
+            cmdSaveClose.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Write);
 
             this.tbWizardAction.Buttons.Add(cmdSaveClose);
             this.tbWizardAction.Buttons.Add(sep);
@@ -232,8 +232,8 @@ namespace RT2020.Inventory.GoodsReturn
             }
             else
             {
-                cmdDelete.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(Common.Enums.Permission.Delete);
-                cmdPrint.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(Common.Enums.Permission.Write);
+                cmdDelete.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Delete);
+                cmdPrint.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Write);
             }
 
             this.tbWizardAction.Buttons.Add(cmdDelete);
@@ -278,13 +278,13 @@ SELECT TOP 100 PERCENT *
 FROM vwRptBatchCAP
 WHERE	TxNumber BETWEEN '" + this.txtTxNumber.Text.Trim() + @"' AND '" + this.txtTxNumber.Text.Trim() + @"' AND
         CONVERT(VARCHAR(10), TxDate, 126) BETWEEN '" + this.dtpRecvDate.Value.ToString("yyyy-MM-dd") + @"' AND '" + this.dtpRecvDate.Value.ToString("yyyy/MM/dd") + @"' AND
-        TxType = '" + Common.Enums.TxType.REJ.ToString() + @"' 
+        TxType = '" + EnumHelper.TxType.REJ.ToString() + @"' 
 ORDER BY TxNumber, TxDate, LineNumber
 ";
 
             System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand();
             cmd.CommandText = sql;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = CommandType.Text;
 
             using (DataSet dataset = SqlHelper.Default.ExecuteDataSet(cmd))
@@ -301,7 +301,7 @@ ORDER BY TxNumber, TxDate, LineNumber
                 { "FromTxDate", this.dtpRecvDate.Value.ToString(RT2020.SystemInfo.Settings.GetDateFormat()) },
                 { "ToTxDate", this.dtpRecvDate.Value.ToString(RT2020.SystemInfo.Settings.GetDateFormat()) },
                 { "PrintedOn", DateTime.Now.ToString(RT2020.SystemInfo.Settings.GetDateTimeFormat()) },
-                { "PrintedBy", ModelEx.StaffEx.GetStaffNameById(Common.Config.CurrentUserId) },
+                { "PrintedBy", ModelEx.StaffEx.GetStaffNameById(ConfigHelper.CurrentUserId) },
                 { "StockCode", RT2020.SystemInfo.Settings.GetSystemLabelByKey("STKCODE") },
                 { "Appendix1", RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX1") },
                 { "Appendix2", RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX2") },
@@ -338,7 +338,7 @@ ORDER BY TxNumber, TxDate, LineNumber
         {
             ModelEx.StaffEx.LoadCombo(ref cboOperatorCode, "StaffNumber", false);
 
-            cboOperatorCode.SelectedValue = Common.Config.CurrentUserId;
+            cboOperatorCode.SelectedValue = ConfigHelper.CurrentUserId;
         }
 
         private void FillSupplierList()
@@ -378,11 +378,11 @@ ORDER BY TxNumber, TxDate, LineNumber
                             #region add new InvtBatchCAP_Header
                             oHeader = new EF6.InvtBatchCAP_Header();
                             oHeader.HeaderId = Guid.NewGuid();
-                            txtTxNumber.Text = RT2020.SystemInfo.Settings.QueuingTxNumber(Common.Enums.TxType.REJ);
+                            txtTxNumber.Text = RT2020.SystemInfo.Settings.QueuingTxNumber(EnumHelper.TxType.REJ);
                             oHeader.TxNumber = txtTxNumber.Text;
-                            oHeader.TxType = Common.Enums.TxType.REJ.ToString();
+                            oHeader.TxType = EnumHelper.TxType.REJ.ToString();
 
-                            oHeader.CreatedBy = Common.Config.CurrentUserId;
+                            oHeader.CreatedBy = ConfigHelper.CurrentUserId;
                             oHeader.CreatedOn = DateTime.Now;
 
                             ctx.InvtBatchCAP_Header.Add(oHeader);
@@ -390,7 +390,7 @@ ORDER BY TxNumber, TxDate, LineNumber
                         }
                         #region InvtBatchCAP_Header core data
                         oHeader.TxDate = dtpRecvDate.Value;
-                        oHeader.Status = Convert.ToInt32(cboStatus.Text == "HOLD" ? Common.Enums.Status.Draft.ToString("d") : Common.Enums.Status.Active.ToString("d"));
+                        oHeader.Status = Convert.ToInt32(cboStatus.Text == "HOLD" ? EnumHelper.Status.Draft.ToString("d") : EnumHelper.Status.Active.ToString("d"));
 
                         oHeader.WorkplaceId = new Guid(cboWorkplace.SelectedValue.ToString());
                         oHeader.StaffId = new Guid(cboOperatorCode.SelectedValue.ToString());
@@ -400,11 +400,13 @@ ORDER BY TxNumber, TxDate, LineNumber
                         oHeader.Reference = txtRefNumber.Text;
                         oHeader.LinkToAP = chkAPLink.Checked;
 
-                        oHeader.ModifiedBy = Common.Config.CurrentUserId;
+                        oHeader.ModifiedBy = ConfigHelper.CurrentUserId;
                         oHeader.ModifiedOn = DateTime.Now;
                         #endregion
 
-                        oHeader.TotalAmount = Convert.ToDecimal(Common.Utility.IsNumeric(txtTotalAmount.Text) ? txtTotalAmount.Text : "0");
+                        decimal totlaAmount = 0;
+                        decimal.TryParse(txtTotalAmount.Text, out totlaAmount);
+                        oHeader.TotalAmount = totlaAmount;
 
                         ctx.SaveChanges();
 
@@ -660,7 +662,7 @@ ORDER BY TxNumber, TxDate, LineNumber
 
             System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand();
             cmd.CommandText = sql.ToString();
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = CommandType.Text;
 
             using (SqlDataReader reader = SqlHelper.Default.ExecuteReader(cmd))
@@ -732,11 +734,12 @@ ORDER BY TxNumber, TxDate, LineNumber
         {
             if (lvDetailsList.SelectedItem != null)
             {
-                if (Common.Utility.IsGUID(lvItem.Text))
+                Guid id = Guid.Empty;
+                if (Guid.TryParse(lvItem.Text, out id))
                 {
                     this.ValidSelection = true;
 
-                    this.REJDetailId = new Guid(lvItem.Text);
+                    this.REJDetailId = id;  // new Guid(lvItem.Text);
                     this.SelectedIndex = lvDetailsList.SelectedIndex;
 
                     txtDescription.Text = lvItem.SubItems[7].Text;
@@ -907,19 +910,23 @@ ORDER BY TxNumber, TxDate, LineNumber
 
                     if (lvItem.SubItems[11].Text == e.ProductId.ToString())
                     {
-                        if (lvItem.Text != System.Guid.Empty.ToString() && Common.Utility.IsGUID(lvItem.Text))
+                        Guid id = Guid.Empty;
+                        if (Guid.TryParse(lvItem.Text, out id))
                         {
-                            if (iCount == 0)
+                            if (id != Guid.Empty)
                             {
-                                txtQty.Text = lvItem.SubItems[8].Text;
+                                if (iCount == 0)
+                                {
+                                    txtQty.Text = lvItem.SubItems[8].Text;
 
-                                this.ProductId = e.ProductId;
-                                this.REJDetailId = new Guid(lvItem.Text);
-                                this.SelectedIndex = lvItem.Index;
-                                lvItem.Selected = true;
+                                    this.ProductId = e.ProductId;
+                                    this.REJDetailId = id;  // new Guid(lvItem.Text);
+                                    this.SelectedIndex = lvItem.Index;
+                                    lvItem.Selected = true;
+                                }
+
+                                iCount++;
                             }
-
-                            iCount++;
                         }
                     }
                 }
@@ -988,8 +995,11 @@ ORDER BY TxNumber, TxDate, LineNumber
                 if (lvItem.SubItems[3].Text.Trim() == STKCODE)
                 {
                     Guid prodId = new Guid(lvItem.SubItems[11].Text);
-                    decimal unitPrice = Convert.ToDecimal(Common.Utility.IsNumeric(lvItem.SubItems[9].Text.Trim()) ? lvItem.SubItems[9].Text.Trim() : "0"); // UnitAmountInForeignCurrency
-                    decimal qty = Convert.ToDecimal(Common.Utility.IsNumeric(lvItem.SubItems[8].Text.Trim()) ? lvItem.SubItems[8].Text.Trim() : "0");
+                    //decimal unitPrice = Convert.ToDecimal(Common.Utility.IsNumeric(lvItem.SubItems[9].Text.Trim()) ? lvItem.SubItems[9].Text.Trim() : "0"); // UnitAmountInForeignCurrency
+                    //decimal qty = Convert.ToDecimal(Common.Utility.IsNumeric(lvItem.SubItems[8].Text.Trim()) ? lvItem.SubItems[8].Text.Trim() : "0");
+                    decimal unitPrice = 0, qty = 0;
+                    decimal.TryParse(lvItem.SubItems[9].Text.Trim(), out unitPrice);
+                    decimal.TryParse(lvItem.SubItems[8].Text.Trim(), out qty);
 
                     RT2020.Controls.ProductSearcher.DetailData detail = ResultList.Find(d => d.ProductId == prodId);
 

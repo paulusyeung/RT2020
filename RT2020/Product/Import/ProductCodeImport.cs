@@ -9,7 +9,7 @@ using System.Text;
 
 using Gizmox.WebGUI.Common;
 using Gizmox.WebGUI.Forms;
-using RT2020.DAL;
+
 using System.IO;
 using Gizmox.WebGUI.Common.Resources;
 using Gizmox.WebGUI.Common.Interfaces;
@@ -559,13 +559,13 @@ namespace RT2020.Product.Import
                     oA1.Appendix1Code = appendix1Value;
                     oA1.Appendix1Initial = appendix1Value;
 
-                    oA1.CreatedBy = Common.Config.CurrentUserId;
+                    oA1.CreatedBy = ConfigHelper.CurrentUserId;
                     oA1.CreatedOn = DateTime.Now;
 
                     ctx.ProductAppendix1.Add(oA1);
                 }
 
-                oA1.ModifiedBy = Common.Config.CurrentUserId;
+                oA1.ModifiedBy = ConfigHelper.CurrentUserId;
                 oA1.ModifiedOn = DateTime.Now;
 
                 ctx.SaveChanges();
@@ -590,13 +590,13 @@ namespace RT2020.Product.Import
                     oA2.Appendix2Code = appendix2Value;
                     oA2.Appendix2Initial = appendix2Value;
 
-                    oA2.CreatedBy = Common.Config.CurrentUserId;
+                    oA2.CreatedBy = ConfigHelper.CurrentUserId;
                     oA2.CreatedOn = DateTime.Now;
 
                     ctx.ProductAppendix2.Add(oA2);
                 }
 
-                oA2.ModifiedBy = Common.Config.CurrentUserId;
+                oA2.ModifiedBy = ConfigHelper.CurrentUserId;
                 oA2.ModifiedOn = DateTime.Now;
 
                 ctx.SaveChanges();
@@ -621,13 +621,13 @@ namespace RT2020.Product.Import
                     oA3.Appendix3Code = appendix3Value;
                     oA3.Appendix3Initial = appendix3Value;
 
-                    oA3.CreatedBy = Common.Config.CurrentUserId;
+                    oA3.CreatedBy = ConfigHelper.CurrentUserId;
                     oA3.CreatedOn = DateTime.Now;
 
                     ctx.ProductAppendix3.Add(oA3);
                 }
 
-                oA3.ModifiedBy = Common.Config.CurrentUserId;
+                oA3.ModifiedBy = ConfigHelper.CurrentUserId;
                 oA3.ModifiedOn = DateTime.Now;
 
                 ctx.SaveChanges();
@@ -652,13 +652,13 @@ namespace RT2020.Product.Import
                     oC1.Class1Code = class1Value;
                     oC1.Class1Initial = class1Value;
 
-                    oC1.CreatedBy = Common.Config.CurrentUserId;
+                    oC1.CreatedBy = ConfigHelper.CurrentUserId;
                     oC1.CreatedOn = DateTime.Now;
 
                     ctx.ProductClass1.Add(oC1);
                 }
 
-                oC1.ModifiedBy = Common.Config.CurrentUserId;
+                oC1.ModifiedBy = ConfigHelper.CurrentUserId;
                 oC1.ModifiedOn = DateTime.Now;
 
                 ctx.SaveChanges();
@@ -683,13 +683,13 @@ namespace RT2020.Product.Import
                     oC2.Class2Code = class2Value;
                     oC2.Class2Initial = class2Value;
 
-                    oC2.CreatedBy = Common.Config.CurrentUserId;
+                    oC2.CreatedBy = ConfigHelper.CurrentUserId;
                     oC2.CreatedOn = DateTime.Now;
 
                     ctx.ProductClass2.Add(oC2);
                 }
 
-                oC2.ModifiedBy = Common.Config.CurrentUserId;
+                oC2.ModifiedBy = ConfigHelper.CurrentUserId;
                 oC2.ModifiedOn = DateTime.Now;
 
                 ctx.SaveChanges();
@@ -714,13 +714,13 @@ namespace RT2020.Product.Import
                     oC3.Class3Code = class3Value;
                     oC3.Class3Initial = class3Value;
 
-                    oC3.CreatedBy = Common.Config.CurrentUserId;
+                    oC3.CreatedBy = ConfigHelper.CurrentUserId;
                     oC3.CreatedOn = DateTime.Now;
 
                     ctx.ProductClass3.Add(oC3);
                 }
 
-                oC3.ModifiedBy = Common.Config.CurrentUserId;
+                oC3.ModifiedBy = ConfigHelper.CurrentUserId;
                 oC3.ModifiedOn = DateTime.Now;
 
                 ctx.SaveChanges();
@@ -745,13 +745,13 @@ namespace RT2020.Product.Import
                     oC4.Class4Code = class4Value;
                     oC4.Class4Initial = class4Value;
 
-                    oC4.CreatedBy = Common.Config.CurrentUserId;
+                    oC4.CreatedBy = ConfigHelper.CurrentUserId;
                     oC4.CreatedOn = DateTime.Now;
 
                     ctx.ProductClass4.Add(oC4);
                 }
 
-                oC4.ModifiedBy = Common.Config.CurrentUserId;
+                oC4.ModifiedBy = ConfigHelper.CurrentUserId;
                 oC4.ModifiedOn = DateTime.Now;
 
                 ctx.SaveChanges();
@@ -776,13 +776,13 @@ namespace RT2020.Product.Import
                     oC5.Class5Code = class5Value;
                     oC5.Class5Initial = class5Value;
 
-                    oC5.CreatedBy = Common.Config.CurrentUserId;
+                    oC5.CreatedBy = ConfigHelper.CurrentUserId;
                     oC5.CreatedOn = DateTime.Now;
 
                     ctx.ProductClass5.Add(oC5);
                 }
 
-                oC5.ModifiedBy = Common.Config.CurrentUserId;
+                oC5.ModifiedBy = ConfigHelper.CurrentUserId;
                 oC5.ModifiedOn = DateTime.Now;
 
                 ctx.SaveChanges();
@@ -807,13 +807,13 @@ namespace RT2020.Product.Import
                     oC6.Class6Code = class6Value;
                     oC6.Class6Initial = class6Value;
 
-                    oC6.CreatedBy = Common.Config.CurrentUserId;
+                    oC6.CreatedBy = ConfigHelper.CurrentUserId;
                     oC6.CreatedOn = DateTime.Now;
 
                     ctx.ProductClass6.Add(oC6);
                 }
 
-                oC6.ModifiedBy = Common.Config.CurrentUserId;
+                oC6.ModifiedBy = ConfigHelper.CurrentUserId;
                 oC6.ModifiedOn = DateTime.Now;
 
                 ctx.SaveChanges();
@@ -862,13 +862,13 @@ namespace RT2020.Product.Import
                     oItem.DownloadToPOS = chkSetRetailItem.Checked;
                     //oItem.NatureId = System.Guid.Empty;
 
-                    oItem.CreatedBy = Common.Config.CurrentUserId;
+                    oItem.CreatedBy = ConfigHelper.CurrentUserId;
                     oItem.CreatedOn = DateTime.Now;
 
                     ctx.Product.Add(oItem);
                 }
 
-                oItem.ModifiedBy = Common.Config.CurrentUserId;
+                oItem.ModifiedBy = ConfigHelper.CurrentUserId;
                 oItem.ModifiedOn = DateTime.Now;
 
                 ctx.SaveChanges();
@@ -973,10 +973,10 @@ namespace RT2020.Product.Import
 
         private void ImportProductPrice(Guid productId, StockCodeRec oRec)
         {
-            ImportProductPrice(productId, Common.Enums.ProductPriceType.BASPRC.ToString(), "HKD", oRec.BASPRC);
-            ImportProductPrice(productId, Common.Enums.ProductPriceType.ORIPRC.ToString(), "HKD", "0");
-            ImportProductPrice(productId, Common.Enums.ProductPriceType.VPRC.ToString(), oRec.VCURR, oRec.VPRC);
-            ImportProductPrice(productId, Common.Enums.ProductPriceType.WHLPRC.ToString(), "HKD", "0");
+            ImportProductPrice(productId, EnumHelper.ProductPriceType.BASPRC.ToString(), "HKD", oRec.BASPRC);
+            ImportProductPrice(productId, EnumHelper.ProductPriceType.ORIPRC.ToString(), "HKD", "0");
+            ImportProductPrice(productId, EnumHelper.ProductPriceType.VPRC.ToString(), oRec.VCURR, oRec.VPRC);
+            ImportProductPrice(productId, EnumHelper.ProductPriceType.WHLPRC.ToString(), "HKD", "0");
         }
 
         private void ImportProductPrice(Guid productId, string priceType, string currencyCode, string price)

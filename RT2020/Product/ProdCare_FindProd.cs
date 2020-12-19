@@ -10,7 +10,7 @@ using System.Text;
 using Gizmox.WebGUI.Common;
 using Gizmox.WebGUI.Forms;
 using System.Data.SqlClient;
-using RT2020.DAL;
+
 using System.Configuration;
 using RT2020.Helper;
 
@@ -90,7 +90,7 @@ namespace RT2020.Product
 
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = sql;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType= CommandType.Text;
 
             using (SqlDataReader reader = SqlHelper.Default.ExecuteReader(cmd))
@@ -156,10 +156,11 @@ namespace RT2020.Product
         {
             if (lvProductList.SelectedItem != null)
             {
-                if (Common.Utility.IsGUID(lvProductList.SelectedItem.Text))
+                Guid id = Guid.Empty;
+                if (Guid.TryParse(lvProductList.SelectedItem.Text, out id))
                 {
                     this.IsCompleted = true;
-                    this.ProductId = new Guid(lvProductList.SelectedItem.Text);
+                    this.ProductId = id;
                     this.Close();
                 }
             }

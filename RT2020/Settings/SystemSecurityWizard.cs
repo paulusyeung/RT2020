@@ -10,8 +10,9 @@ using System.Text;
 
 using Gizmox.WebGUI.Common;
 using Gizmox.WebGUI.Forms;
-using RT2020.DAL;
+
 using Gizmox.WebGUI.Common.Resources;
+using RT2020.Helper;
 
 #endregion
 
@@ -174,7 +175,7 @@ namespace RT2020.Settings
                         if (oStaff.GroupId != new Guid(cboGrade.SelectedValue.ToString()))
                         {
                             oStaff.GroupId = new Guid(cboGrade.SelectedValue.ToString());
-                            oStaff.ModifiedBy = Common.Config.CurrentUserId;
+                            oStaff.ModifiedBy = ConfigHelper.CurrentUserId;
                             oStaff.ModifiedOn = DateTime.Now;
 
                             ctx.SaveChanges();

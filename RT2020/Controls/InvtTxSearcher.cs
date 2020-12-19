@@ -10,7 +10,7 @@ using System.Text;
 
 using Gizmox.WebGUI.Common;
 using Gizmox.WebGUI.Forms;
-using RT2020.DAL;
+
 using System.Data.SqlClient;
 using System.Configuration;
 using RT2020.Helper;
@@ -31,7 +31,7 @@ namespace RT2020.Controls
         /// </summary>
         public string SqlQuery { get; set; }
 
-        public Common.Enums.TxType TxType { get; set; }
+        public EnumHelper.TxType TxType { get; set; }
 
         public string SelectedTxNumber { get; set; }
         public DateTime SelectedTxDate { get; set; }
@@ -101,7 +101,7 @@ namespace RT2020.Controls
 
                 SqlCommand cmd = new SqlCommand();
                 cmd.CommandText = SqlQuery;
-                cmd.CommandTimeout = Common.Config.CommandTimeout;
+                cmd.CommandTimeout = ConfigHelper.CommandTimeout;
                 cmd.CommandType = CommandType.Text;
 
                 using (SqlDataReader reader = SqlHelper.Default.ExecuteReader(cmd))
@@ -112,7 +112,7 @@ namespace RT2020.Controls
                         lvItem.SubItems.Add(iCount.ToString());
                         lvItem.SubItems.Add(reader.GetString(1));
                         lvItem.SubItems.Add(TxType.ToString());
-                        lvItem.SubItems.Add(reader.GetDateTime(3).ToString(Common.DateTimeHelper.GetDateFormat()));
+                        lvItem.SubItems.Add(reader.GetDateTime(3).ToString(DateTimeHelper.GetDateFormat()));
 
                         iCount++;
                     }

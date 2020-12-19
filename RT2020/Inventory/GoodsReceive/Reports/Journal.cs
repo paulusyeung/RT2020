@@ -10,7 +10,7 @@ using System.Text;
 
 using Gizmox.WebGUI.Common;
 using Gizmox.WebGUI.Forms;
-using RT2020.DAL;
+
 using Gizmox.WebGUI.Common.Interfaces;
 using System.IO;
 using FileHelpers.DataLink;
@@ -107,11 +107,11 @@ SELECT * FROM dbo.vwJournalCAPList
 WHERE (STKCODE >= '" + txtFromStockCode.Text.Trim() + "') AND (STKCODE <= '" + txtToStockCode.Text.Trim() + @"') AND 
         TxDate >= CAST('" + this.dtpTxDateFrom.Value.ToString("yyyy-MM-dd 00:00:00") + @"' AS Datetime) AND 
         TxDate <= CAST('" + this.dtpTxDateTo.Value.ToString("yyyy-MM-dd 23:59:59") + @"' AS Datetime) AND 
-        TxType ='" + Common.Enums.TxType.CAP + "' AND LocationCode = '" + Shop + "'";
+        TxType ='" + EnumHelper.TxType.CAP + "' AND LocationCode = '" + Shop + "'";
 
             System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand();
             cmd.CommandText = sql;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = CommandType.Text;
 
             using (DataSet dataset = SqlHelper.Default.ExecuteDataSet(cmd))

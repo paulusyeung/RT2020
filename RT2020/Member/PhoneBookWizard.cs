@@ -11,7 +11,7 @@ using Gizmox.WebGUI.Common;
 using Gizmox.WebGUI.Forms;
 using Gizmox.WebGUI.Common.Resources;
 using System.Data.SqlClient;
-using RT2020.DAL;
+
 using System.Configuration;
 using System.Linq;
 using RT2020.Helper;
@@ -61,7 +61,7 @@ namespace RT2020.Member
             // cmdSave
             ToolBarButton cmdSave = new ToolBarButton("Save", "Save");
             cmdSave.Tag = "Save";
-            cmdSave.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(Common.Enums.Permission.Write);
+            cmdSave.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Write);
             cmdSave.Image = new IconResourceHandle("16x16.16_L_save.gif");
 
             this.tbWizardAction.Buttons.Add(cmdSave);
@@ -78,7 +78,7 @@ namespace RT2020.Member
             }
             else
             {
-                cmdDelete.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(Common.Enums.Permission.Delete);
+                cmdDelete.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Delete);
             }
 
             this.tbWizardAction.Buttons.Add(cmdDelete);
@@ -118,7 +118,7 @@ namespace RT2020.Member
 
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = sql.ToString();
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType= CommandType.Text;
 
             using (var ctx = new EF6.RT2020Entities())
@@ -158,7 +158,7 @@ namespace RT2020.Member
                 var oMember = ctx.Member.Find(this.MemberId);
                 if (oMember != null)
                 {
-                    oMember.ModifiedBy = Common.Config.CurrentUserId;
+                    oMember.ModifiedBy = ConfigHelper.CurrentUserId;
                     oMember.ModifiedOn = DateTime.Now;
                     ctx.SaveChanges();
 

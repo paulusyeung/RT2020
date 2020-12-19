@@ -9,7 +9,7 @@ using System.Text;
 
 using Gizmox.WebGUI.Common;
 using Gizmox.WebGUI.Forms;
-using RT2020.DAL;
+
 using System.Data.SqlClient;
 using System.Configuration;
 using System.Linq;
@@ -107,7 +107,7 @@ namespace RT2020.Inventory.StockTake
             string query = "SELECT DISTINCT STKCODE FROM Product WHERE Retired = 0 ORDER BY STKCODE";
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = query;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = CommandType.Text;
 
             using (SqlDataReader reader = SqlHelper.Default.ExecuteReader(cmd))
@@ -418,15 +418,16 @@ namespace RT2020.Inventory.StockTake
 
             foreach (ListViewItem lvItem in lvLocationList.Items)
             {
-                if (lvItem.Checked && Common.Utility.IsGUID(lvItem.Text))
+                Guid wpId = Guid.Empty;
+                if (lvItem.Checked && Guid.TryParse(lvItem.Text, out wpId))
                 {
-                    System.Guid wpId = new Guid(lvItem.Text);
-                    string stkNum = RT2020.SystemInfo.Settings.QueuingTxNumber(Common.Enums.TxType.STK);
+                    //System.Guid wpId = new Guid(lvItem.Text);
+                    string stkNum = RT2020.SystemInfo.Settings.QueuingTxNumber(EnumHelper.TxType.STK);
 
-                    System.Guid headerId = CreateSTK(stkNum, wpId);
+                    Guid headerId = CreateSTK(stkNum, wpId);
                     SetProgress(iCount, "Creating Transaction# " + stkNum);
 
-                    if (headerId != System.Guid.Empty)
+                    if (headerId != Guid.Empty)
                     {
                         CreateSTKDetails(headerId, stkNum, wpId);
 
@@ -458,18 +459,18 @@ namespace RT2020.Inventory.StockTake
                     stkHeader.TxNumber = txNumber;
                     stkHeader.TxDate = DateTime.Now;
 
-                    stkHeader.CreatedBy = Common.Config.CurrentUserId;
+                    stkHeader.CreatedBy = ConfigHelper.CurrentUserId;
                     stkHeader.CreatedOn = DateTime.Now;
 
                     ctx.StockTakeHeader.Add(stkHeader);
                 }
                 stkHeader.WorkplaceId = workplaceId;
-                stkHeader.Status = (int)Common.Enums.Status.Draft;
+                stkHeader.Status = (int)EnumHelper.Status.Draft;
                 stkHeader.CapturedAmount = 0;
                 stkHeader.CapturedOn = DateTime.Now;
                 stkHeader.CapturedQty = 0;
 
-                stkHeader.ModifiedBy = Common.Config.CurrentUserId;
+                stkHeader.ModifiedBy = ConfigHelper.CurrentUserId;
                 stkHeader.ModifiedOn = DateTime.Now;
 
                 ctx.SaveChanges();
@@ -515,7 +516,7 @@ namespace RT2020.Inventory.StockTake
                                 stkDetail.CapturedQty = wpItem.CDQTY;
                                 stkDetail.AverageCost = avgCost;
 
-                                stkDetail.ModifiedBy = Common.Config.CurrentUserId;
+                                stkDetail.ModifiedBy = ConfigHelper.CurrentUserId;
                                 stkDetail.ModifiedOn = DateTime.Now;
 
                                 ctx.StockTakeDetails.Add(stkDetail);

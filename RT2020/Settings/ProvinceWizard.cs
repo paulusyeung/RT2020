@@ -10,7 +10,7 @@ using System.Text;
 using Gizmox.WebGUI.Common;
 using Gizmox.WebGUI.Forms;
 using Gizmox.WebGUI.Common.Resources;
-using RT2020.DAL;
+
 using System.Data.SqlClient;
 using System.Configuration;
 using RT2020.Helper;
@@ -439,26 +439,23 @@ namespace RT2020.Settings
         {
             if (lvProvinceList.SelectedItem != null)
             {
-                if (Common.Utility.IsGUID(lvProvinceList.SelectedItem.Text))
+                var id = Guid.NewGuid();
+                if (Guid.TryParse(lvProvinceList.SelectedItem.Text, out id))
                 {
-                    var id = Guid.NewGuid();
-                    if (Guid.TryParse(lvProvinceList.SelectedItem.Text, out id))
+                    this.ProvinceId = id;
+                    using (var ctx = new EF6.RT2020Entities())
                     {
-                        this.ProvinceId = id;
-                        using (var ctx = new EF6.RT2020Entities())
+                        var province = ctx.Province.Find(this.ProvinceId);
+                        if (province != null)
                         {
-                            var province = ctx.Province.Find(this.ProvinceId);
-                            if (province != null)
-                            {
-                                txtProvinceCode.Text = province.ProvinceCode;
-                                txtProvinceName.Text = province.ProvinceName;
-                                txtProvinceNameAlt1.Text = province.ProvinceName_Chs;
-                                txtProvinceNameAlt2.Text = province.ProvinceName_Cht;
-                                cboCountry.SelectedValue = province.CountryId;
+                            txtProvinceCode.Text = province.ProvinceCode;
+                            txtProvinceName.Text = province.ProvinceName;
+                            txtProvinceNameAlt1.Text = province.ProvinceName_Chs;
+                            txtProvinceNameAlt2.Text = province.ProvinceName_Cht;
+                            cboCountry.SelectedValue = province.CountryId;
 
-                                SetCtrlEditable();
-                                SetFormToolBar();
-                            }
+                            SetCtrlEditable();
+                            SetFormToolBar();
                         }
                     }
                 }

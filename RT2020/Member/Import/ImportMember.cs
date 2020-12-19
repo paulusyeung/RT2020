@@ -12,9 +12,10 @@ using Gizmox.WebGUI.Forms;
 using System.IO;
 using RT2020.Controls;
 using FileHelpers;
-using RT2020.DAL;
+
 using System.Linq;
 using System.Data.Entity;
+using RT2020.Helper;
 
 #endregion
 
@@ -268,7 +269,7 @@ namespace RT2020.Member.Import
                             oMember.MemberId = Guid.NewGuid();
                             oMember.MemberNumber = member.VIPNO;
 
-                            oMember.CreatedBy = Common.Config.CurrentUserId;
+                            oMember.CreatedBy = ConfigHelper.CurrentUserId;
                             oMember.CreatedOn = DateTime.Now;
 
                             ctx.Member.Add(oMember);
@@ -288,9 +289,9 @@ namespace RT2020.Member.Import
                         oMember.AssignedTo = System.Guid.Empty;
                         oMember.Remarks = member.REMARKS;
                         oMember.NormalDiscount = member.NRDISC;
-                        oMember.Status = Convert.ToInt32(Common.Enums.Status.Active.ToString("d"));
+                        oMember.Status = Convert.ToInt32(EnumHelper.Status.Active.ToString("d"));
 
-                        oMember.ModifiedBy = Common.Config.CurrentUserId;
+                        oMember.ModifiedBy = ConfigHelper.CurrentUserId;
                         oMember.ModifiedOn = DateTime.Now;
                         ctx.SaveChanges();
                         #endregion

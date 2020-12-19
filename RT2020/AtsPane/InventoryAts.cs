@@ -11,7 +11,6 @@ using Gizmox.WebGUI.Common;
 using Gizmox.WebGUI.Common.Resources;
 using Gizmox.WebGUI.Forms;
 using RT2020.Product;
-using RT2020.DAL;
 using RT2020.Inventory;
 
 #endregion

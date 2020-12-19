@@ -12,7 +12,7 @@ using System.Text;
 using Gizmox.WebGUI.Common;
 using Gizmox.WebGUI.Forms;
 
-using RT2020.DAL;
+
 using RT2020.Helper;
 #endregion
 
@@ -20,13 +20,13 @@ namespace RT2020.EmulatedPoS.Reports
 {
     public partial class Worksheet : Form
     {
-        public RT2020.DAL.Common.Enums.TxType SalesType { get; set; }
+        public EnumHelper.TxType SalesType { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Worksheet"/> class.
         /// </summary>
         /// <param name="salesType">Type of the sales.</param>
-        public Worksheet(RT2020.DAL.Common.Enums.TxType salesType)
+        public Worksheet(EnumHelper.TxType salesType)
         {
             InitializeComponent();
 
@@ -82,7 +82,7 @@ namespace RT2020.EmulatedPoS.Reports
             
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = sql;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = CommandType.Text;
 
             using (DataSet dataset = SqlHelper.Default.ExecuteDataSet(cmd))
@@ -112,7 +112,7 @@ namespace RT2020.EmulatedPoS.Reports
             if (CheckValid())
             {
                 string title = "";
-                if (this.SalesType == Common.Enums.TxType.CAS)
+                if (this.SalesType == EnumHelper.TxType.CAS)
                 {
                     title = "Sales Input Worksheet";
                 }

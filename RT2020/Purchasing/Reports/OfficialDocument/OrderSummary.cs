@@ -14,7 +14,7 @@ namespace RT2020.Purchasing.Reports.OfficialDocument
     using Gizmox.WebGUI.Common.Resources;
     using Gizmox.WebGUI.Forms;
 
-    using RT2020.DAL;
+    
     using System.Collections;
     using System.IO;
     using System.Configuration;
@@ -33,7 +33,7 @@ namespace RT2020.Purchasing.Reports.OfficialDocument
             InitializeComponent();
 
             this.FillCboList();
-            this.BindingList(Common.Enums.Status.Draft); //// Holding
+            this.BindingList(EnumHelper.Status.Draft); //// Holding
         }
 
         #region Fill Combo List
@@ -84,7 +84,7 @@ namespace RT2020.Purchasing.Reports.OfficialDocument
 
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = sql;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = CommandType.Text;
 
             return SqlHelper.Default.ExecuteReader(cmd);
@@ -94,10 +94,10 @@ namespace RT2020.Purchasing.Reports.OfficialDocument
         /// Bindings the list.
         /// </summary>
         /// <param name="status">The status.</param>
-        private void BindingList(Common.Enums.Status status)
+        private void BindingList(EnumHelper.Status status)
         {
             SqlDataReader reader;
-            reader = this.DataSource(Common.Enums.Status.Draft.ToString("d"), false);
+            reader = this.DataSource(EnumHelper.Status.Draft.ToString("d"), false);
             this.BindingHoldingList(reader);
         }
 
@@ -464,7 +464,7 @@ WorkplaceId IN (" + locations + ") ";
 
             System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand();
             cmd.CommandText = sql;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = CommandType.Text;
 
             using (DataSet dataset = SqlHelper.Default.ExecuteDataSet(cmd))
@@ -472,7 +472,7 @@ WorkplaceId IN (" + locations + ") ";
                 DataTable dtblPurchaseOrder = dataset.Tables[0];
                 foreach (DataRow row in dtblPurchaseOrder.Rows)
                 {
-                    //row["POTxType"] = Enum.GetName(typeof(RT2020.DAL.Common.Enums.POType), Convert.ToInt32(row["OrderType"].ToString())).ToString();
+                    //row["POTxType"] = Enum.GetName(typeof(RT2020.DAL.EnumHelper.POType), Convert.ToInt32(row["OrderType"].ToString())).ToString();
                     if (row["Photo"].ToString().Length != 0 && !string.IsNullOrEmpty(Context.Config.GetDirectory("RTImages")))
                     {
                         row["Photo"] = "file:///" + Path.Combine(Path.Combine(Context.Config.GetDirectory("RTImages"), "Product"), row["Photo"].ToString());

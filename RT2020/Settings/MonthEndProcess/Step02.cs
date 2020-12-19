@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Data.SqlClient;
 using System.Configuration;
-using RT2020.DAL;
+
 using RT2020.Controls;
 using RT2020.Helper;
 
@@ -47,7 +47,7 @@ FROM (SELECT ProductId, SUM(CDQTY) AS CDQty, SUM(BFQTY) AS BFQty
 
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = query;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = System.Data.CommandType.Text;
 
             SqlHelper.Default.ExecuteNonQuery(cmd);
@@ -63,7 +63,7 @@ FROM (SELECT ProductId, SUM(CDQTY) AS CDQty, SUM(BFQTY) AS BFQty
             string query = "UPDATE ProductCurrentSummary SET BFQty = 0, CDQty = 0";
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = query;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = System.Data.CommandType.Text;
 
             SqlHelper.Default.ExecuteNonQuery(cmd);

@@ -10,7 +10,7 @@ using System.Text;
 using Gizmox.WebGUI.Common;
 using Gizmox.WebGUI.Forms;
 using Gizmox.WebGUI.Common.Resources;
-using RT2020.DAL;
+
 using System.IO;
 using System.Linq;
 using System.Data.Entity;
@@ -79,7 +79,7 @@ namespace RT2020.Product
             ToolBarButton cmdSave = new ToolBarButton("Save", "Save");
             cmdSave.Tag = "Save";
             cmdSave.Image = new IconResourceHandle("16x16.16_L_save.gif");
-            cmdSave.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(Common.Enums.Permission.Write);
+            cmdSave.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Write);
 
             this.tbWizardAction.Buttons.Add(cmdSave);
 
@@ -87,7 +87,7 @@ namespace RT2020.Product
             ToolBarButton cmdSaveNew = new ToolBarButton("Save & New", "Save & New");
             cmdSaveNew.Tag = "Save & New";
             cmdSaveNew.Image = new IconResourceHandle("16x16.16_L_saveOpen.gif");
-            cmdSaveNew.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(Common.Enums.Permission.Write);
+            cmdSaveNew.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Write);
 
             this.tbWizardAction.Buttons.Add(cmdSaveNew);
 
@@ -95,7 +95,7 @@ namespace RT2020.Product
             ToolBarButton cmdSaveClose = new ToolBarButton("Save & Close", "Save & Close");
             cmdSaveClose.Tag = "Save & Close";
             cmdSaveClose.Image = new IconResourceHandle("16x16.16_saveClose.gif");
-            cmdSaveClose.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(Common.Enums.Permission.Write);
+            cmdSaveClose.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Write);
 
             this.tbWizardAction.Buttons.Add(cmdSaveClose);
             this.tbWizardAction.Buttons.Add(sep);
@@ -111,7 +111,7 @@ namespace RT2020.Product
             }
             else
             {
-                cmdDelete.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(Common.Enums.Permission.Delete);
+                cmdDelete.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Delete);
             }
 
             this.tbWizardAction.Buttons.Add(cmdDelete);
@@ -404,10 +404,10 @@ namespace RT2020.Product
                                 oProduct.APPENDIX2 = cboAppendix2.Text.Trim();
                                 oProduct.APPENDIX3 = cboAppendix3.Text.Trim();
 
-                                oProduct.Status = Convert.ToInt32(Common.Enums.Status.Active.ToString("d"));
+                                oProduct.Status = Convert.ToInt32(EnumHelper.Status.Active.ToString("d"));
                                 isNew = true;
 
-                                oProduct.CreatedBy = Common.Config.CurrentUserId;
+                                oProduct.CreatedBy = ConfigHelper.CurrentUserId;
                                 oProduct.CreatedOn = DateTime.Now;
 
                                 ctx.Product.Add(oProduct);
@@ -445,11 +445,11 @@ namespace RT2020.Product
                             // If the item existed, change the status to Modified.
                             if (!isNew)
                             {
-                                oProduct.Status = Convert.ToInt32(Common.Enums.Status.Modified.ToString("d"));
+                                oProduct.Status = Convert.ToInt32(EnumHelper.Status.Modified.ToString("d"));
                             }
 
                             oProduct.MaxOnLoanQty = Convert.ToDecimal((quantity.txtMaxOLNQty.Text == string.Empty) ? "0" : quantity.txtMaxOLNQty.Text);
-                            oProduct.ModifiedBy = Common.Config.CurrentUserId;
+                            oProduct.ModifiedBy = ConfigHelper.CurrentUserId;
                             oProduct.ModifiedOn = DateTime.Now;
 
                             // SaveOrderInfo();
@@ -562,10 +562,10 @@ namespace RT2020.Product
                             #endregion
 
                             //SaveProductPrice(oProduct.ProductId);
-                            #region SaveProductPrice(productId, Common.Enums.ProductPriceType.BASPRC.ToString(), general.txtCurrentRetailCurrency.Text, general.txtCurrentRetailPrice.Text);
+                            #region SaveProductPrice(productId, EnumHelper.ProductPriceType.BASPRC.ToString(), general.txtCurrentRetailCurrency.Text, general.txtCurrentRetailPrice.Text);
                             var price = general.txtCurrentRetailPrice.Text;
                             var currencyCode = general.txtCurrentRetailCurrency.Text;
-                            var priceType = Common.Enums.ProductPriceType.BASPRC.ToString();
+                            var priceType = EnumHelper.ProductPriceType.BASPRC.ToString();
                             var priceTypeId = ModelEx.ProductPriceTypeEx.GetIdByPriceType(priceType);
 
                             var oBPrice = ctx.ProductPrice.Where(x => x.ProductId == productId && x.PriceTypeId == priceTypeId).FirstOrDefault();
@@ -582,10 +582,10 @@ namespace RT2020.Product
                             ctx.SaveChanges();
                             #endregion
                             //
-                            #region SaveProductPrice(productId, Common.Enums.ProductPriceType.ORIPRC.ToString(), general.txtOriginalRetailCurrency.Text, general.txtOriginalRetailPrice.Text);
+                            #region SaveProductPrice(productId, EnumHelper.ProductPriceType.ORIPRC.ToString(), general.txtOriginalRetailCurrency.Text, general.txtOriginalRetailPrice.Text);
                             price = general.txtOriginalRetailPrice.Text;
                             currencyCode = general.txtOriginalRetailCurrency.Text;
-                            priceType = Common.Enums.ProductPriceType.ORIPRC.ToString();
+                            priceType = EnumHelper.ProductPriceType.ORIPRC.ToString();
                             priceTypeId = ModelEx.ProductPriceTypeEx.GetIdByPriceType(priceType);
 
                             var oOPrice = ctx.ProductPrice.Where(x => x.ProductId == productId && x.PriceTypeId == priceTypeId).FirstOrDefault();
@@ -602,10 +602,10 @@ namespace RT2020.Product
                             ctx.SaveChanges();
                             #endregion
                             //
-                            #region SaveProductPrice(productId, Common.Enums.ProductPriceType.VPRC.ToString(), general.cboVendorCurrency.Text, general.txtVendorPrice.Text);
+                            #region SaveProductPrice(productId, EnumHelper.ProductPriceType.VPRC.ToString(), general.cboVendorCurrency.Text, general.txtVendorPrice.Text);
                             price = general.txtVendorPrice.Text;
                             currencyCode = general.cboVendorCurrency.Text;
-                            priceType = Common.Enums.ProductPriceType.VPRC.ToString();
+                            priceType = EnumHelper.ProductPriceType.VPRC.ToString();
                             priceTypeId = ModelEx.ProductPriceTypeEx.GetIdByPriceType(priceType);
 
                             var oVPrice = ctx.ProductPrice.Where(x => x.ProductId == productId && x.PriceTypeId == priceTypeId).FirstOrDefault();
@@ -622,10 +622,10 @@ namespace RT2020.Product
                             ctx.SaveChanges();
                             #endregion
                             //
-                            #region SaveProductPrice(productId, Common.Enums.ProductPriceType.WHLPRC.ToString(), general.txtWholesalesCurrency.Text, general.txtWholesalesPrice.Text);
+                            #region SaveProductPrice(productId, EnumHelper.ProductPriceType.WHLPRC.ToString(), general.txtWholesalesCurrency.Text, general.txtWholesalesPrice.Text);
                             price = general.txtWholesalesPrice.Text;
                             currencyCode = general.txtWholesalesCurrency.Text;
-                            priceType = Common.Enums.ProductPriceType.WHLPRC.ToString();
+                            priceType = EnumHelper.ProductPriceType.WHLPRC.ToString();
                             priceTypeId = ModelEx.ProductPriceTypeEx.GetIdByPriceType(priceType);
 
                             var oWPrice = ctx.ProductPrice.Where(x => x.ProductId == productId && x.PriceTypeId == priceTypeId).FirstOrDefault();
@@ -743,8 +743,8 @@ namespace RT2020.Product
                             oProduct.APPENDIX2 = cboAppendix2.Text.Trim();
                             oProduct.APPENDIX3 = cboAppendix3.Text.Trim();
 
-                            oProduct.Status = Convert.ToInt32(Common.Enums.Status.Active.ToString("d"));
-                            oProduct.CreatedBy = Common.Config.CurrentUserId;
+                            oProduct.Status = Convert.ToInt32(EnumHelper.Status.Active.ToString("d"));
+                            oProduct.CreatedBy = ConfigHelper.CurrentUserId;
                             oProduct.CreatedOn = DateTime.Now;
 
                             ctx.Product.Add(oProduct);
@@ -782,9 +782,9 @@ namespace RT2020.Product
                         oProduct.DownloadToCounter = general.chkCounterItem.Checked;
 
                         // If the item existed, change the status to Modified.
-                        if (!isNew) oProduct.Status = Convert.ToInt32(Common.Enums.Status.Modified.ToString("d"));
+                        if (!isNew) oProduct.Status = Convert.ToInt32(EnumHelper.Status.Modified.ToString("d"));
 
-                        oProduct.ModifiedBy = Common.Config.CurrentUserId;
+                        oProduct.ModifiedBy = ConfigHelper.CurrentUserId;
                         oProduct.ModifiedOn = DateTime.Now;
 
                         ctx.SaveChanges();
@@ -886,10 +886,10 @@ namespace RT2020.Product
                         #endregion
                         //
                         //SaveProductPrice(oProduct.ProductId);
-                        #region SaveProductPrice(productId, Common.Enums.ProductPriceType.BASPRC.ToString(), general.txtCurrentRetailCurrency.Text, general.txtCurrentRetailPrice.Text);
+                        #region SaveProductPrice(productId, EnumHelper.ProductPriceType.BASPRC.ToString(), general.txtCurrentRetailCurrency.Text, general.txtCurrentRetailPrice.Text);
                         var price = general.txtCurrentRetailPrice.Text;
                         var currencyCode = general.txtCurrentRetailCurrency.Text;
-                        var priceType = Common.Enums.ProductPriceType.BASPRC.ToString();
+                        var priceType = EnumHelper.ProductPriceType.BASPRC.ToString();
                         var priceTypeId = ModelEx.ProductPriceTypeEx.GetIdByPriceType(priceType);
 
                         var oBPrice = ctx.ProductPrice.Where(x => x.ProductId == productId && x.PriceTypeId == priceTypeId).FirstOrDefault();
@@ -906,10 +906,10 @@ namespace RT2020.Product
                         ctx.SaveChanges();
                         #endregion
                         //
-                        #region SaveProductPrice(productId, Common.Enums.ProductPriceType.ORIPRC.ToString(), general.txtOriginalRetailCurrency.Text, general.txtOriginalRetailPrice.Text);
+                        #region SaveProductPrice(productId, EnumHelper.ProductPriceType.ORIPRC.ToString(), general.txtOriginalRetailCurrency.Text, general.txtOriginalRetailPrice.Text);
                         price = general.txtOriginalRetailPrice.Text;
                         currencyCode = general.txtOriginalRetailCurrency.Text;
-                        priceType = Common.Enums.ProductPriceType.ORIPRC.ToString();
+                        priceType = EnumHelper.ProductPriceType.ORIPRC.ToString();
                         priceTypeId = ModelEx.ProductPriceTypeEx.GetIdByPriceType(priceType);
 
                         var oOPrice = ctx.ProductPrice.Where(x => x.ProductId == productId && x.PriceTypeId == priceTypeId).FirstOrDefault();
@@ -926,10 +926,10 @@ namespace RT2020.Product
                         ctx.SaveChanges();
                         #endregion
                         //
-                        #region SaveProductPrice(productId, Common.Enums.ProductPriceType.VPRC.ToString(), general.cboVendorCurrency.Text, general.txtVendorPrice.Text);
+                        #region SaveProductPrice(productId, EnumHelper.ProductPriceType.VPRC.ToString(), general.cboVendorCurrency.Text, general.txtVendorPrice.Text);
                         price = general.txtVendorPrice.Text;
                         currencyCode = general.cboVendorCurrency.Text;
-                        priceType = Common.Enums.ProductPriceType.VPRC.ToString();
+                        priceType = EnumHelper.ProductPriceType.VPRC.ToString();
                         priceTypeId = ModelEx.ProductPriceTypeEx.GetIdByPriceType(priceType);
 
                         var oVPrice = ctx.ProductPrice.Where(x => x.ProductId == productId && x.PriceTypeId == priceTypeId).FirstOrDefault();
@@ -946,10 +946,10 @@ namespace RT2020.Product
                         ctx.SaveChanges();
                         #endregion
                         //
-                        #region SaveProductPrice(productId, Common.Enums.ProductPriceType.WHLPRC.ToString(), general.txtWholesalesCurrency.Text, general.txtWholesalesPrice.Text);
+                        #region SaveProductPrice(productId, EnumHelper.ProductPriceType.WHLPRC.ToString(), general.txtWholesalesCurrency.Text, general.txtWholesalesPrice.Text);
                         price = general.txtWholesalesPrice.Text;
                         currencyCode = general.txtWholesalesCurrency.Text;
-                        priceType = Common.Enums.ProductPriceType.WHLPRC.ToString();
+                        priceType = EnumHelper.ProductPriceType.WHLPRC.ToString();
                         priceTypeId = ModelEx.ProductPriceTypeEx.GetIdByPriceType(priceType);
 
                         var oWPrice = ctx.ProductPrice.Where(x => x.ProductId == productId && x.PriceTypeId == priceTypeId).FirstOrDefault();
@@ -1082,7 +1082,7 @@ namespace RT2020.Product
             {
                 oItem.MaxOnLoanQty = Convert.ToDecimal((quantity.txtMaxOLNQty.Text == string.Empty) ? "0" : quantity.txtMaxOLNQty.Text);
 
-                oItem.ModifiedBy = Common.Config.CurrentUserId;
+                oItem.ModifiedBy = ConfigHelper.CurrentUserId;
                 oItem.ModifiedOn = DateTime.Now;
                 oItem.Save();
             }
@@ -1097,7 +1097,7 @@ namespace RT2020.Product
                 oItem.ReorderLevel = Convert.ToDecimal((order.txtReorderLevel.Text == string.Empty) ? "0" : order.txtReorderLevel.Text);
                 oItem.ReorderQty = Convert.ToDecimal((order.txtReorderQuantity.Text == string.Empty) ? "0" : order.txtReorderQuantity.Text);
 
-                oItem.ModifiedBy = Common.Config.CurrentUserId;
+                oItem.ModifiedBy = ConfigHelper.CurrentUserId;
                 oItem.ModifiedOn = DateTime.Now;
                 oItem.Save();
             }
@@ -1165,10 +1165,10 @@ namespace RT2020.Product
         
         private void SaveProductPrice(Guid productId)
         {
-            SaveProductPrice(productId, Common.Enums.ProductPriceType.BASPRC.ToString(), general.txtCurrentRetailCurrency.Text, general.txtCurrentRetailPrice.Text);
-            SaveProductPrice(productId, Common.Enums.ProductPriceType.ORIPRC.ToString(), general.txtOriginalRetailCurrency.Text, general.txtOriginalRetailPrice.Text);
-            SaveProductPrice(productId, Common.Enums.ProductPriceType.VPRC.ToString(), general.cboVendorCurrency.Text, general.txtVendorPrice.Text);
-            SaveProductPrice(productId, Common.Enums.ProductPriceType.WHLPRC.ToString(), general.txtWholesalesCurrency.Text, general.txtWholesalesPrice.Text);
+            SaveProductPrice(productId, EnumHelper.ProductPriceType.BASPRC.ToString(), general.txtCurrentRetailCurrency.Text, general.txtCurrentRetailPrice.Text);
+            SaveProductPrice(productId, EnumHelper.ProductPriceType.ORIPRC.ToString(), general.txtOriginalRetailCurrency.Text, general.txtOriginalRetailPrice.Text);
+            SaveProductPrice(productId, EnumHelper.ProductPriceType.VPRC.ToString(), general.cboVendorCurrency.Text, general.txtVendorPrice.Text);
+            SaveProductPrice(productId, EnumHelper.ProductPriceType.WHLPRC.ToString(), general.txtWholesalesCurrency.Text, general.txtWholesalesPrice.Text);
         }
 
         private void SaveProductPrice(Guid productId, string priceType, string currencyCode, string price)
@@ -1301,8 +1301,8 @@ namespace RT2020.Product
 
                     // Product Price
                     #region LoadProductBasicPrice();
-                    //string sql = "ProductId = '" + this.ProductId.ToString() + "' AND PriceTypeId = '" + GetPriceType(Common.Enums.ProductPriceType.BASPRC.ToString()) + "'";
-                    var priceTypeId = ModelEx.ProductPriceTypeEx.GetIdByPriceType(Common.Enums.ProductPriceType.BASPRC.ToString());
+                    //string sql = "ProductId = '" + this.ProductId.ToString() + "' AND PriceTypeId = '" + GetPriceType(EnumHelper.ProductPriceType.BASPRC.ToString()) + "'";
+                    var priceTypeId = ModelEx.ProductPriceTypeEx.GetIdByPriceType(EnumHelper.ProductPriceType.BASPRC.ToString());
                     var oBPrice = ctx.ProductPrice.Where(x => x.ProductId == this.ProductId && x.PriceTypeId == priceTypeId).AsNoTracking().FirstOrDefault();
                     if (oBPrice != null)
                     {
@@ -1312,7 +1312,7 @@ namespace RT2020.Product
                     #endregion
 
                     #region LoadProductOriginalPrice();
-                    priceTypeId = ModelEx.ProductPriceTypeEx.GetIdByPriceType(Common.Enums.ProductPriceType.ORIPRC.ToString());
+                    priceTypeId = ModelEx.ProductPriceTypeEx.GetIdByPriceType(EnumHelper.ProductPriceType.ORIPRC.ToString());
                     //string sql = "ProductId = '" + this.ProductId.ToString() + "' AND PriceTypeId = '" + priceTypeId.ToString() + "'";
                     var oOPrice = ctx.ProductPrice.Where(x => x.ProductId == this.ProductId && x.PriceTypeId == priceTypeId).AsNoTracking().FirstOrDefault();
                     if (oOPrice != null)
@@ -1323,8 +1323,8 @@ namespace RT2020.Product
                     #endregion
 
                     #region LoadProductVendorPrice();
-                    //string sql = "ProductId = '" + this.ProductId.ToString() + "' AND PriceTypeId = '" + GetPriceType(Common.Enums.ProductPriceType.VPRC.ToString()) + "'";
-                    priceTypeId = ModelEx.ProductPriceTypeEx.GetIdByPriceType(Common.Enums.ProductPriceType.VPRC.ToString());
+                    //string sql = "ProductId = '" + this.ProductId.ToString() + "' AND PriceTypeId = '" + GetPriceType(EnumHelper.ProductPriceType.VPRC.ToString()) + "'";
+                    priceTypeId = ModelEx.ProductPriceTypeEx.GetIdByPriceType(EnumHelper.ProductPriceType.VPRC.ToString());
                     var oVPrice = ctx.ProductPrice.Where(x => x.ProductId == this.ProductId && x.PriceTypeId == priceTypeId).AsNoTracking().FirstOrDefault();
                     if (oVPrice != null)
                     {
@@ -1334,8 +1334,8 @@ namespace RT2020.Product
                     #endregion
 
                     #region LoadProductWholesalesPrice();
-                    //string sql = "ProductId = '" + this.ProductId.ToString() + "' AND PriceTypeId = '" + GetPriceType(Common.Enums.ProductPriceType.WHLPRC.ToString()) + "'";
-                    priceTypeId = ModelEx.ProductPriceTypeEx.GetIdByPriceType(Common.Enums.ProductPriceType.WHLPRC.ToString());
+                    //string sql = "ProductId = '" + this.ProductId.ToString() + "' AND PriceTypeId = '" + GetPriceType(EnumHelper.ProductPriceType.WHLPRC.ToString()) + "'";
+                    priceTypeId = ModelEx.ProductPriceTypeEx.GetIdByPriceType(EnumHelper.ProductPriceType.WHLPRC.ToString());
                     var oWPrice = ctx.ProductPrice.Where(x => x.ProductId == this.ProductId && x.PriceTypeId == priceTypeId).AsNoTracking().FirstOrDefault();
                     if (oWPrice != null)
                     {

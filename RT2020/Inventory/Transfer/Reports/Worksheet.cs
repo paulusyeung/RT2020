@@ -15,7 +15,7 @@ using Gizmox.WebGUI.Common.Interfaces;
 using FileHelpers.DataLink;
 using FileHelpers.MasterDetail;
 
-using RT2020.DAL;
+
 using RT2020.Helper;
 
 namespace RT2020.Inventory.Transfer.Reports
@@ -48,7 +48,7 @@ namespace RT2020.Inventory.Transfer.Reports
             cboFrom.Items.Clear();
 
             string[] orderBy = { "TxNumber" };
-            //string sql = "TxType = '" + Common.Enums.TxType.TXF.ToString() + "'";
+            //string sql = "TxType = '" + EnumHelper.TxType.TXF.ToString() + "'";
 
             //InvtBatchTXF_HeaderCollection headerList = InvtBatchTXF_Header.LoadCollection(sql, orderBy, true);
             InvtBatchTXF_HeaderCollection headerList = InvtBatchTXF_Header.LoadCollection(orderBy, true);
@@ -65,7 +65,7 @@ namespace RT2020.Inventory.Transfer.Reports
             cboTo.Items.Clear();
 
             string[] orderBy = { "TxNumber" };
-            //string sql = "TxType = '" + Common.Enums.TxType.TXF.ToString() + "'";
+            //string sql = "TxType = '" + EnumHelper.TxType.TXF.ToString() + "'";
 
             //InvtBatchTXF_HeaderCollection headerList = InvtBatchTXF_Header.LoadCollection(sql, orderBy, true);
             InvtBatchTXF_HeaderCollection headerList = InvtBatchTXF_Header.LoadCollection(orderBy, true);
@@ -154,7 +154,7 @@ namespace RT2020.Inventory.Transfer.Reports
 
             System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand();
             cmd.CommandText = sql;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = CommandType.Text;
 
             using (DataSet dataset = SqlHelper.Default.ExecuteDataSet(cmd))
@@ -175,7 +175,7 @@ namespace RT2020.Inventory.Transfer.Reports
                     {"ToTxNumber",this.cboTo.Text.Trim()},
                     {"FromTxDate",this.dtpTxDateFrom.Value.ToString(RT2020.SystemInfo.Settings.GetDateFormat())},
                     {"ToTxDate",this.dtpTxDateTo.Value.ToString(RT2020.SystemInfo.Settings.GetDateFormat())},
-                    {"PrintedBy",ModelEx.StaffEx.GetStaffNameById(Common.Config.CurrentUserId) },
+                    {"PrintedBy",ModelEx.StaffEx.GetStaffNameById(ConfigHelper.CurrentUserId) },
                     {"PrintedOn",DateTime.Now.ToString(RT2020.SystemInfo.Settings.GetDateFormat())},
                     {"DateFormat",RT2020.SystemInfo.Settings.GetDateFormat()},
                     {"CompanyName",RT2020.SystemInfo.CurrentInfo.Default.CompanyName},

@@ -9,7 +9,6 @@ using System.Text;
 
 using Gizmox.WebGUI.Common;
 using Gizmox.WebGUI.Forms;
-using RT2020.DAL;
 using Gizmox.WebGUI.Common.Resources;
 using System.Collections;
 using System.Linq;
@@ -23,8 +22,8 @@ namespace RT2020.Product
     public partial class ProductAppendixWizard : Form
     {
         #region public properties
-        private CommonHelper.EditMode _EditMode = CommonHelper.EditMode.None;
-        public CommonHelper.EditMode EditMode
+        private EnumHelper.EditMode _EditMode = EnumHelper.EditMode.None;
+        public EnumHelper.EditMode EditMode
         {
             get { return _EditMode; }
             set { _EditMode = value; }
@@ -60,10 +59,10 @@ namespace RT2020.Product
 
             switch (_EditMode)
             {
-                case CommonHelper.EditMode.Add:
+                case EnumHelper.EditMode.Add:
                     break;
-                case CommonHelper.EditMode.Edit:
-                case CommonHelper.EditMode.Delete:
+                case EnumHelper.EditMode.Edit:
+                case EnumHelper.EditMode.Delete:
                     break;
             }
         }
@@ -111,7 +110,7 @@ namespace RT2020.Product
             ToolBarButton cmdNew = new ToolBarButton("New", "New");
             cmdNew.Tag = "New";
             cmdNew.Image = new IconResourceHandle("16x16.ico_16_3.gif");
-            cmdNew.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(Common.Enums.Permission.Write);
+            cmdNew.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Write);
 
             this.tbWizardAction.Buttons.Add(cmdNew);
 
@@ -119,7 +118,7 @@ namespace RT2020.Product
             ToolBarButton cmdSave = new ToolBarButton("Save", "Save");
             cmdSave.Tag = "Save";
             cmdSave.Image = new IconResourceHandle("16x16.16_L_save.gif");
-            cmdSave.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(Common.Enums.Permission.Write);
+            cmdSave.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Write);
 
             this.tbWizardAction.Buttons.Add(cmdSave);
 
@@ -142,7 +141,7 @@ namespace RT2020.Product
             }
             else
             {
-                cmdDelete.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(Common.Enums.Permission.Delete);
+                cmdDelete.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Delete);
             }
 
             this.tbWizardAction.Buttons.Add(cmdDelete);
@@ -297,16 +296,16 @@ namespace RT2020.Product
                 EF6.ProductAppendix1 item = null;
                 switch (_EditMode)
                 {
-                    case CommonHelper.EditMode.Add:
+                    case EnumHelper.EditMode.Add:
                         item = new EF6.ProductAppendix1();
                         item.Appendix1Id = Guid.NewGuid();
                         item.Appendix1Code = txtCode.Text;
-                        item.CreatedBy = Common.Config.CurrentUserId;
+                        item.CreatedBy = ConfigHelper.CurrentUserId;
                         item.CreatedOn = DateTime.Now;
 
                         ctx.ProductAppendix1.Add(item);
                         break;
-                    case CommonHelper.EditMode.Edit:
+                    case EnumHelper.EditMode.Edit:
                         item = ctx.ProductAppendix1.Find(_AppendixId);
                         break;
                 }
@@ -316,7 +315,7 @@ namespace RT2020.Product
                 item.Appendix1Name_Cht = txtNameCht.Text;
                 item.ParentAppendix = (cboParentAppendix.SelectedValue == null) ? System.Guid.Empty : new System.Guid(cboParentAppendix.SelectedValue.ToString());
 
-                item.ModifiedBy = Common.Config.CurrentUserId;
+                item.ModifiedBy = ConfigHelper.CurrentUserId;
                 item.ModifiedOn = DateTime.Now;
 
                 ctx.SaveChanges();
@@ -338,16 +337,16 @@ namespace RT2020.Product
                 EF6.ProductAppendix2 item = null;
                 switch (_EditMode)
                 {
-                    case CommonHelper.EditMode.Add:
+                    case EnumHelper.EditMode.Add:
                         item = new EF6.ProductAppendix2();
                         item.Appendix2Id = Guid.NewGuid();
                         item.Appendix2Code = txtCode.Text;
-                        item.CreatedBy = Common.Config.CurrentUserId;
+                        item.CreatedBy = ConfigHelper.CurrentUserId;
                         item.CreatedOn = DateTime.Now;
 
                         ctx.ProductAppendix2.Add(item);
                         break;
-                    case CommonHelper.EditMode.Edit:
+                    case EnumHelper.EditMode.Edit:
                         item = ctx.ProductAppendix2.Find(_AppendixId);
                         break;
                 }
@@ -357,7 +356,7 @@ namespace RT2020.Product
                 item.Appendix2Name_Cht = txtNameCht.Text;
                 item.ParentAppendix = (cboParentAppendix.SelectedValue == null) ? System.Guid.Empty : new System.Guid(cboParentAppendix.SelectedValue.ToString());
 
-                item.ModifiedBy = Common.Config.CurrentUserId;
+                item.ModifiedBy = ConfigHelper.CurrentUserId;
                 item.ModifiedOn = DateTime.Now;
 
                 ctx.SaveChanges();
@@ -379,16 +378,16 @@ namespace RT2020.Product
                 EF6.ProductAppendix3 item = null;
                 switch (_EditMode)
                 {
-                    case CommonHelper.EditMode.Add:
+                    case EnumHelper.EditMode.Add:
                         item = new EF6.ProductAppendix3();
                         item.Appendix3Id = Guid.NewGuid();
                         item.Appendix3Code = txtCode.Text;
-                        item.CreatedBy = Common.Config.CurrentUserId;
+                        item.CreatedBy = ConfigHelper.CurrentUserId;
                         item.CreatedOn = DateTime.Now;
 
                         ctx.ProductAppendix3.Add(item);
                         break;
-                    case CommonHelper.EditMode.Edit:
+                    case EnumHelper.EditMode.Edit:
                         item = ctx.ProductAppendix3.Find(_AppendixId);
                         break;
                 }
@@ -398,7 +397,7 @@ namespace RT2020.Product
                 item.Appendix3Name_Cht = txtNameCht.Text;
                 item.ParentAppendix = (cboParentAppendix.SelectedValue == null) ? System.Guid.Empty : new System.Guid(cboParentAppendix.SelectedValue.ToString());
 
-                item.ModifiedBy = Common.Config.CurrentUserId;
+                item.ModifiedBy = ConfigHelper.CurrentUserId;
                 item.ModifiedOn = DateTime.Now;
 
                 ctx.SaveChanges();

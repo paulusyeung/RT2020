@@ -9,7 +9,7 @@ using System.Text;
 
 using Gizmox.WebGUI.Common;
 using Gizmox.WebGUI.Forms;
-using RT2020.DAL;
+
 using System.Data.SqlClient;
 using System.Configuration;
 using RT2020.Helper;
@@ -83,7 +83,7 @@ namespace RT2020.Inventory.Transfer
 
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = sql.ToString();
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType= CommandType.Text;
 
             using (SqlDataReader reader = SqlHelper.Default.ExecuteReader(cmd))
@@ -121,7 +121,7 @@ namespace RT2020.Inventory.Transfer
 
             System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand();
             cmd.CommandText = sql.ToString();
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = CommandType.Text;
 
             using (SqlDataReader reader = SqlHelper.Default.ExecuteReader(cmd))
@@ -312,10 +312,11 @@ namespace RT2020.Inventory.Transfer
         {
             if (lvDetailsList.SelectedItem != null)
             {
-                if (Common.Utility.IsGUID(lvDetailsList.SelectedItem.Text))
+                Guid id = Guid.Empty;
+                if (Guid.TryParse(lvDetailsList.SelectedItem.Text, out id))
                 {
-                    LoadTxferDetailsInfo(new Guid(lvDetailsList.SelectedItem.Text));
-                    this.TxferDetailId = new Guid(lvDetailsList.SelectedItem.Text);
+                    LoadTxferDetailsInfo(id);
+                    this.TxferDetailId = id;
                     this.SelectedIndex = lvDetailsList.SelectedIndex;
                     this.txtRemarks_Detail.Text = lvDetailsList.SelectedItem.SubItems[9].Text;
                 }

@@ -13,7 +13,8 @@ using FileHelpers;
 using System.IO;
 using RT2020.Controls;
 using FileHelpers.MasterDetail;
-using RT2020.DAL;
+using RT2020.Helper;
+
 
 #endregion
 
@@ -182,14 +183,14 @@ namespace RT2020.Inventory.Transfer.Import
                     {
                         for (int i = 0; i < md.Length; i++)
                         {
-                            string txNumber = RT2020.SystemInfo.Settings.QueuingTxNumber(Common.Enums.TxType.TXF);
+                            string txNumber = RT2020.SystemInfo.Settings.QueuingTxNumber(EnumHelper.TxType.TXF);
 
                             #region Guid headerId = ImportTxferHeader(md[i].Master as TxferTxtIEMaster, txNumber);
                             var master = md[i].Master as TxferTxtIEMaster;
 
                             var oHeader = new EF6.InvtBatchTXF_Header();
                             oHeader.HeaderId = Guid.NewGuid();
-                            oHeader.TxType = Common.Enums.TxType.TXF.ToString();
+                            oHeader.TxType = EnumHelper.TxType.TXF.ToString();
                             oHeader.TxNumber = txNumber;
                             oHeader.TxDate = master.TxDate;
                             oHeader.TransferredOn = master.TxferDate;
@@ -197,13 +198,13 @@ namespace RT2020.Inventory.Transfer.Import
                             oHeader.FromLocation = ModelEx.WorkplaceEx.GetWorkplaceIdByCode(master.FromLocation);
                             oHeader.ToLocation = ModelEx.WorkplaceEx.GetWorkplaceIdByCode(master.ToLocation);
                             oHeader.StaffId = ModelEx.StaffEx.GetStaffIdByStaffNumber(master.Operator);
-                            oHeader.Status = Convert.ToInt32(Common.Enums.Status.Draft.ToString("d"));
+                            oHeader.Status = Convert.ToInt32(EnumHelper.Status.Draft.ToString("d"));
                             oHeader.Reference = master.RefNumber;
                             oHeader.Remarks = master.Remarks;
 
-                            oHeader.CreatedBy = Common.Config.CurrentUserId;
+                            oHeader.CreatedBy = ConfigHelper.CurrentUserId;
                             oHeader.CreatedOn = DateTime.Now;
-                            oHeader.ModifiedBy = Common.Config.CurrentUserId;
+                            oHeader.ModifiedBy = ConfigHelper.CurrentUserId;
                             oHeader.ModifiedOn = DateTime.Now;
 
                             ctx.InvtBatchTXF_Header.Add(oHeader);
@@ -234,7 +235,7 @@ namespace RT2020.Inventory.Transfer.Import
                                             oDetail.HeaderId = headerId;
                                             oDetail.LineNumber = j + 1;
                                             oDetail.TxNumber = txNumber;
-                                            oDetail.TxType = Common.Enums.TxType.TXF.ToString();
+                                            oDetail.TxType = EnumHelper.TxType.TXF.ToString();
                                             oDetail.QtyConfirmed = 0;
                                             oDetail.QtyHHT = 0;
                                             oDetail.QtyManualInput = 0;
@@ -274,7 +275,7 @@ namespace RT2020.Inventory.Transfer.Import
             {
                 var oHeader = new EF6.InvtBatchTXF_Header();
                 oHeader.HeaderId = Guid.NewGuid();
-                oHeader.TxType = Common.Enums.TxType.TXF.ToString();
+                oHeader.TxType = EnumHelper.TxType.TXF.ToString();
                 oHeader.TxNumber = txNumber;
                 oHeader.TxDate = master.TxDate;
                 oHeader.TransferredOn = master.TxferDate;
@@ -282,13 +283,13 @@ namespace RT2020.Inventory.Transfer.Import
                 oHeader.FromLocation = ModelEx.WorkplaceEx.GetWorkplaceIdByCode(master.FromLocation);
                 oHeader.ToLocation = ModelEx.WorkplaceEx.GetWorkplaceIdByCode(master.ToLocation);
                 oHeader.StaffId = ModelEx.StaffEx.GetStaffIdByStaffNumber(master.Operator);
-                oHeader.Status = Convert.ToInt32(Common.Enums.Status.Draft.ToString("d"));
+                oHeader.Status = Convert.ToInt32(EnumHelper.Status.Draft.ToString("d"));
                 oHeader.Reference = master.RefNumber;
                 oHeader.Remarks = master.Remarks;
 
-                oHeader.CreatedBy = Common.Config.CurrentUserId;
+                oHeader.CreatedBy = ConfigHelper.CurrentUserId;
                 oHeader.CreatedOn = DateTime.Now;
-                oHeader.ModifiedBy = Common.Config.CurrentUserId;
+                oHeader.ModifiedBy = ConfigHelper.CurrentUserId;
                 oHeader.ModifiedOn = DateTime.Now;
 
                 ctx.InvtBatchTXF_Header.Add(oHeader);
@@ -316,7 +317,7 @@ namespace RT2020.Inventory.Transfer.Import
                     oDetail.HeaderId = headerId;
                     oDetail.LineNumber = i + 1;
                     oDetail.TxNumber = txNumber;
-                    oDetail.TxType = Common.Enums.TxType.TXF.ToString();
+                    oDetail.TxType = EnumHelper.TxType.TXF.ToString();
                     oDetail.QtyConfirmed = 0;
                     oDetail.QtyHHT = 0;
                     oDetail.QtyManualInput = 0;

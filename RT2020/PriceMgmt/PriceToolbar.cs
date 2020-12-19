@@ -6,7 +6,7 @@ using System.Xml.Linq;
 
 using Gizmox.WebGUI.Forms;
 using Gizmox.WebGUI.Common.Resources;
-using RT2020.DAL;
+using RT2020.Helper;
 
 namespace RT2020.PriceMgmt
 {
@@ -37,7 +37,7 @@ namespace RT2020.PriceMgmt
             ddlNew.MenuItems.Add(new MenuItem("Price Change - Worksheet", string.Empty, "PriceChange_Worksheet"));
 
             MenuItem priceAuth = new MenuItem("Price Change - Authorization", string.Empty, "PriceChange_Authorization");
-            priceAuth.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(Common.Enums.Permission.Posting);
+            priceAuth.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Posting);
             ddlNew.MenuItems.Add(priceAuth);
 
             ddlNew.MenuItems.Add(new MenuItem("-"));
@@ -45,7 +45,7 @@ namespace RT2020.PriceMgmt
             ddlNew.MenuItems.Add(new MenuItem("Discount Change - Worksheet", string.Empty, "DiscChange_Worksheet"));
 
             MenuItem discAuth = new MenuItem("Discount Change - Authorization", string.Empty, "DiscChange_Authorization");
-            discAuth.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(Common.Enums.Permission.Posting);
+            discAuth.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Posting);
             ddlNew.MenuItems.Add(discAuth);
 
             ddlNew.MenuItems.Add(new MenuItem("-"));
@@ -54,7 +54,7 @@ namespace RT2020.PriceMgmt
             ToolBarButton cmdNew = new ToolBarButton("New", "New");
             cmdNew.Style = ToolBarButtonStyle.DropDownButton;
             cmdNew.Image = new IconResourceHandle("16x16.ico_16_3.gif");
-            cmdNew.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(Common.Enums.Permission.Write);
+            cmdNew.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Write);
             cmdNew.DropDownMenu = ddlNew;
 
             cmdNew.MenuClick += new MenuEventHandler(cmdMenuClick);
@@ -77,7 +77,7 @@ namespace RT2020.PriceMgmt
             cmdReport.Style = ToolBarButtonStyle.DropDownButton;
             cmdReport.Image = new IconResourceHandle("16x16.16_reports.gif");
             cmdReport.DropDownMenu = ddlReport;
-            cmdReport.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(Common.Enums.Permission.Write);
+            cmdReport.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Write);
 
             cmdReport.MenuClick += new MenuEventHandler(cmdMenuClick);
             atsPriceMgmt.Buttons.Add(cmdReport);

@@ -16,7 +16,7 @@ namespace RT2020.Purchasing.Reports.PurchaseOrder
     using Gizmox.WebGUI.Common.Interfaces;
     using Gizmox.WebGUI.Forms;
 
-    using RT2020.DAL;
+    
     using Helper;
 
     /// <summary>
@@ -370,7 +370,7 @@ WHERE	OrderNumber BETWEEN '" + this.cboFrom.Text.Trim() + @"' AND '" + this.cboT
 
             System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand();
             cmd.CommandText = sql;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = CommandType.Text;
 
             using (DataSet dataset = SqlHelper.Default.ExecuteDataSet(cmd))
@@ -402,7 +402,7 @@ WHERE	SupplierCode BETWEEN '" + this.cboSuppFrom.Text.Trim() + @"' AND '" + this
 
             System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand();
             cmd.CommandText = sql;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = CommandType.Text;
 
             using (DataSet dataset = SqlHelper.Default.ExecuteDataSet(cmd))
@@ -433,7 +433,7 @@ WHERE	OrderOn BETWEEN '" + this.dtpOrderDateFrom.Value.ToString("MM/dd/yyyy 00:0
 
             System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand();
             cmd.CommandText = sql;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = CommandType.Text;
 
             using (DataSet dataset = SqlHelper.Default.ExecuteDataSet(cmd))

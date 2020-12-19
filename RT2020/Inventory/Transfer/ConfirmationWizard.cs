@@ -12,7 +12,7 @@ using Gizmox.WebGUI.Forms;
 using Gizmox.WebGUI.Common.Resources;
 using Gizmox.WebGUI.Common.Interfaces;
 
-using RT2020.DAL;
+
 using System.Linq;
 using RT2020.Helper;
 
@@ -138,7 +138,7 @@ namespace RT2020.Inventory.Transfer
             ToolBarButton cmdSave = new ToolBarButton("Save", "Save");
             cmdSave.Tag = "Save";
             cmdSave.Image = new IconResourceHandle("16x16.16_L_save.gif");
-            cmdSave.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(Common.Enums.Permission.Write);
+            cmdSave.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Write);
 
             this.tbWizardAction.Buttons.Add(cmdSave);
 
@@ -154,7 +154,7 @@ namespace RT2020.Inventory.Transfer
             ToolBarButton cmdSaveClose = new ToolBarButton("Save & Close", "Save & Close");
             cmdSaveClose.Tag = "Save & Close";
             cmdSaveClose.Image = new IconResourceHandle("16x16.16_saveClose.gif");
-            cmdSaveClose.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(Common.Enums.Permission.Write);
+            cmdSaveClose.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Write);
 
             this.tbWizardAction.Buttons.Add(cmdSaveClose);
             this.tbWizardAction.Buttons.Add(sep);
@@ -169,7 +169,7 @@ namespace RT2020.Inventory.Transfer
             ToolBarButton cmdPrint = new ToolBarButton("Print", "Print");
             cmdPrint.Tag = "Print";
             cmdPrint.Image = new IconResourceHandle("16x16.16_print.gif");
-            cmdPrint.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(Common.Enums.Permission.Write);
+            cmdPrint.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Write);
 
             this.tbWizardAction.Buttons.Add(cmdDelete);
             this.tbWizardAction.Buttons.Add(sep);
@@ -342,9 +342,9 @@ namespace RT2020.Inventory.Transfer
 
                                 oSubTXF.CONFIRM_TRF = this.IsConfirmedTransaction;
                                 oSubTXF.CONFIRM_TRF_LASTUPDATE = DateTime.Now;
-                                oSubTXF.CONFIRM_TRF_LASTUSER = Common.Config.CurrentUserId;
+                                oSubTXF.CONFIRM_TRF_LASTUSER = ConfigHelper.CurrentUserId;
 
-                                oSubTXF.ModifiedBy = Common.Config.CurrentUserId;
+                                oSubTXF.ModifiedBy = ConfigHelper.CurrentUserId;
                                 oSubTXF.ModifiedOn = DateTime.Now;
 
                                 ctx.SaveChanges();
@@ -381,9 +381,9 @@ namespace RT2020.Inventory.Transfer
 
                                 oLedgerHeader.CONFIRM_TRF = this.IsConfirmedTransaction;
                                 oLedgerHeader.CONFIRM_TRF_LASTUPDATE = DateTime.Now;
-                                oLedgerHeader.CONFIRM_TRF_LASTUSER = ModelEx.StaffEx.GetStaffNumberById(Common.Config.CurrentUserId);
+                                oLedgerHeader.CONFIRM_TRF_LASTUSER = ModelEx.StaffEx.GetStaffNumberById(ConfigHelper.CurrentUserId);
 
-                                oLedgerHeader.ModifiedBy = Common.Config.CurrentUserId;
+                                oLedgerHeader.ModifiedBy = ConfigHelper.CurrentUserId;
                                 oLedgerHeader.ModifiedOn = DateTime.Now;
                                 ctx.SaveChanges();
                             }
@@ -447,8 +447,8 @@ namespace RT2020.Inventory.Transfer
 
                             oHeader.CONFIRM_TRF = this.IsConfirmedTransaction;
                             oHeader.CONFIRM_TRF_LASTUPDATE = DateTime.Now;
-                            oHeader.CONFIRM_TRF_LASTUSER = Common.Config.CurrentUserId;
-                            oHeader.ModifiedBy = Common.Config.CurrentUserId;
+                            oHeader.CONFIRM_TRF_LASTUSER = ConfigHelper.CurrentUserId;
+                            oHeader.ModifiedBy = ConfigHelper.CurrentUserId;
                             oHeader.ModifiedOn = DateTime.Now;
 
                             ctx.SaveChanges();
@@ -478,9 +478,9 @@ namespace RT2020.Inventory.Transfer
 
                     oSubTXF.CONFIRM_TRF = this.IsConfirmedTransaction;
                     oSubTXF.CONFIRM_TRF_LASTUPDATE = DateTime.Now;
-                    oSubTXF.CONFIRM_TRF_LASTUSER = Common.Config.CurrentUserId;
+                    oSubTXF.CONFIRM_TRF_LASTUSER = ConfigHelper.CurrentUserId;
 
-                    oSubTXF.ModifiedBy = Common.Config.CurrentUserId;
+                    oSubTXF.ModifiedBy = ConfigHelper.CurrentUserId;
                     oSubTXF.ModifiedOn = DateTime.Now;
 
                     ctx.SaveChanges();
@@ -522,9 +522,9 @@ namespace RT2020.Inventory.Transfer
 
                 oLedgerHeader.CONFIRM_TRF = this.IsConfirmedTransaction;
                 oLedgerHeader.CONFIRM_TRF_LASTUPDATE = DateTime.Now;
-                oLedgerHeader.CONFIRM_TRF_LASTUSER = ModelEx.StaffEx.GetStaffNumberById(Common.Config.CurrentUserId);
+                oLedgerHeader.CONFIRM_TRF_LASTUSER = ModelEx.StaffEx.GetStaffNumberById(ConfigHelper.CurrentUserId);
 
-                oLedgerHeader.ModifiedBy = Common.Config.CurrentUserId;
+                oLedgerHeader.ModifiedBy = ConfigHelper.CurrentUserId;
                 oLedgerHeader.ModifiedOn = DateTime.Now;
                 oLedgerHeader.Save();
             }
@@ -564,9 +564,9 @@ namespace RT2020.Inventory.Transfer
 
                 oFepHeader.CONFIRM_TRF = this.IsConfirmedTransaction;
                 oFepHeader.CONFIRM_TRF_LASTUPDATE = DateTime.Now;
-                oFepHeader.CONFIRM_TRF_LASTUSER = ModelEx.StaffEx.GetStaffNumberById(Common.Config.CurrentUserId);
+                oFepHeader.CONFIRM_TRF_LASTUSER = ModelEx.StaffEx.GetStaffNumberById(ConfigHelper.CurrentUserId);
 
-                oFepHeader.ModifiedBy = Common.Config.CurrentUserId;
+                oFepHeader.ModifiedBy = ConfigHelper.CurrentUserId;
                 oFepHeader.ModifiedOn = DateTime.Now;
                 oFepHeader.Save();
             }
@@ -874,7 +874,7 @@ namespace RT2020.Inventory.Transfer
 
             System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand();
             cmd.CommandText = sql.ToString();
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = CommandType.Text;
 
             using (SqlDataReader reader = SqlHelper.Default.ExecuteReader(cmd))
@@ -993,7 +993,7 @@ namespace RT2020.Inventory.Transfer
 
             System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand();
             cmd.CommandText = sql.ToString();
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = CommandType.Text;
 
             using (SqlDataReader reader = SqlHelper.Default.ExecuteReader(cmd))
@@ -1060,7 +1060,8 @@ namespace RT2020.Inventory.Transfer
         {
             if (lvDetailsList.SelectedItem != null)
             {
-                if (Common.Utility.IsNumeric(txtConfirmedQty.Text.Trim()))
+                decimal numeric = 0;
+                if (decimal.TryParse(txtConfirmedQty.Text.Trim(), out numeric))
                 {
                     ConfirmItem(lvDetailsList.SelectedItem, false);
                 }
@@ -1102,9 +1103,10 @@ namespace RT2020.Inventory.Transfer
         {
             if (lvDetailsList.SelectedItem != null)
             {
-                if (Common.Utility.IsGUID(lvDetailsList.SelectedItem.Text))
+                Guid id = Guid.Empty;
+                if (Guid.TryParse(lvDetailsList.SelectedItem.Text, out id))
                 {
-                    _TxferDetailId = new Guid(lvDetailsList.SelectedItem.Text);
+                    _TxferDetailId = id;    // new Guid(lvDetailsList.SelectedItem.Text);
                     _SelectedIndex = lvDetailsList.SelectedIndex;
 
                     //LoadTxferDetailsInfo(_TxferDetailId);

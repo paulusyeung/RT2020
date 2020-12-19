@@ -9,7 +9,7 @@ using System.Text;
 
 using Gizmox.WebGUI.Common;
 using Gizmox.WebGUI.Forms;
-using RT2020.DAL;
+
 using System.Data.SqlClient;
 using RT2020.Helper;
 
@@ -471,13 +471,14 @@ ORDER BY p.STKCODE, p.APPENDIX1, p.APPENDIX2, p.APPENDIX3
         {
             ListViewItem lvItem = lvItemList.SelectedItem;
 
-            if (Common.Utility.IsGUID(lvItem.Text))
+            Guid detailId = Guid.Empty, productId = Guid.Empty;
+            if (Guid.TryParse(lvItem.Text, out detailId))
             {
-                this.DetailId = new Guid(lvItem.Text);
+                this.DetailId = detailId;
 
-                if (Common.Utility.IsGUID(lvItem.SubItems[27].Text))
+                if (Guid.TryParse(lvItem.SubItems[27].Text, out productId))
                 {
-                    this.ProductId = new Guid(lvItem.SubItems[27].Text);
+                    this.ProductId = productId;
                 }
 
                 this.txtSTKCODE.Text = lvItem.SubItems[2].Text + " " + lvItem.SubItems[3].Text + " " + lvItem.SubItems[4].Text + " " + lvItem.SubItems[5].Text;

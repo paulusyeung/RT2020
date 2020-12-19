@@ -10,7 +10,7 @@ using System.Text;
 using Gizmox.WebGUI.Common;
 using Gizmox.WebGUI.Forms;
 using Gizmox.WebGUI.Common.Resources;
-using RT2020.DAL;
+
 using System.Data.SqlClient;
 using System.Configuration;
 using RT2020.Helper;
@@ -147,7 +147,7 @@ namespace RT2020.Settings
             
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = sql.ToString();
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType= CommandType.Text;
 
             using (SqlDataReader reader = SqlHelper.Default.ExecuteReader(cmd))
@@ -178,32 +178,33 @@ namespace RT2020.Settings
         
         private bool Save()
         {
+            decimal numeric = 0;
             if (txtPosTenderTypeCode.Text.Length == 0)
             {
                 errorProvider.SetError(txtPosTenderTypeCode, "Cannot be blank!");
                 return false;
             }
-            else if (!Common.Utility.IsNumeric(txtExchangeRate.Text))
+            else if (!decimal.TryParse(txtExchangeRate.Text, out numeric))
             {
                 errorProvider.SetError(txtExchangeRate, Resources.Common.DigitalNeeded);
                 return false;
             }
-            else if (!Common.Utility.IsNumeric(txtChargeRate.Text))
+            else if (!decimal.TryParse(txtChargeRate.Text, out numeric))
             {
                 errorProvider.SetError(txtChargeRate, Resources.Common.DigitalNeeded);
                 return false;
             }
-            else if (!Common.Utility.IsNumeric(txtChargeAmount.Text))
+            else if (!decimal.TryParse(txtChargeAmount.Text, out numeric))
             {
                 errorProvider.SetError(txtChargeAmount, Resources.Common.DigitalNeeded);
                 return false;
             }
-            else if (!Common.Utility.IsNumeric(txtAdditionalMonthlyCharge.Text))
+            else if (!decimal.TryParse(txtAdditionalMonthlyCharge.Text, out numeric))
             {
                 errorProvider.SetError(txtAdditionalMonthlyCharge, Resources.Common.DigitalNeeded);
                 return false;
             }
-            else if (!Common.Utility.IsNumeric(txtMinimumMonthlyCharge.Text))
+            else if (!decimal.TryParse(txtMinimumMonthlyCharge.Text, out numeric))
             {
                 errorProvider.SetError(txtMinimumMonthlyCharge, Resources.Common.DigitalNeeded);
                 return false;
@@ -232,7 +233,7 @@ namespace RT2020.Settings
                         else
                         {
                             oPosTenderType.TypeCode = txtPosTenderTypeCode.Text;
-                            oPosTenderType.CreatedBy = Common.Config.CurrentUserId;
+                            oPosTenderType.CreatedBy = ConfigHelper.CurrentUserId;
                             oPosTenderType.CreatedOn = DateTime.Now;
                             errorProvider.SetError(txtPosTenderTypeCode, string.Empty);
                         }
@@ -250,7 +251,7 @@ namespace RT2020.Settings
                     oPosTenderType.AdditionalMonthlyCharge = (txtAdditionalMonthlyCharge.Text.Length == 0) ? 0 : Convert.ToDecimal(txtAdditionalMonthlyCharge.Text);
                     oPosTenderType.MinimumMonthlyCharge = (txtMinimumMonthlyCharge.Text.Length == 0) ? 0 : Convert.ToDecimal(txtMinimumMonthlyCharge.Text);
 
-                    oPosTenderType.ModifiedBy = Common.Config.CurrentUserId;
+                    oPosTenderType.ModifiedBy = ConfigHelper.CurrentUserId;
                     oPosTenderType.ModifiedOn = DateTime.Now;
 
                     ctx.SaveChanges();

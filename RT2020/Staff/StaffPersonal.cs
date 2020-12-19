@@ -10,7 +10,6 @@ using System.Text;
 using Gizmox.WebGUI.Common;
 using Gizmox.WebGUI.Forms;
 
-using RT2020.DAL;
 using RT2020.Controls;  
 #endregion
 
@@ -96,9 +95,10 @@ namespace RT2020.Staff
         {
             if (cmbCountry.SelectedValue != null)
             {
-                if (Common.Utility.IsGUID(cmbCountry.SelectedValue.ToString()))
+                Guid id = Guid.Empty;
+                if (Guid.TryParse(cmbCountry.SelectedValue.ToString(), out id))
                 {
-                    FillProvince(new System.Guid(cmbCountry.SelectedValue.ToString()));
+                    FillProvince(id);
                 }
             }
         }
@@ -107,9 +107,10 @@ namespace RT2020.Staff
         {
             if (cmbProvince.SelectedValue != null)
             {
-                if (Common.Utility.IsGUID(cmbProvince.SelectedValue.ToString()))
+                Guid id = Guid.Empty;
+                if (Guid.TryParse(cmbProvince.SelectedValue.ToString(), out id))
                 {
-                    FillCity(new System.Guid(cmbProvince.SelectedValue.ToString()));
+                    FillCity(id);
                 }
             }
         }

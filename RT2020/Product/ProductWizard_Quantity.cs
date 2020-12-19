@@ -8,7 +8,7 @@ using System.Text;
 using Gizmox.WebGUI.Common;
 using Gizmox.WebGUI.Forms;
 
-using RT2020.DAL;
+
 using System.Data.SqlClient;
 using System.Collections;
 using System.Configuration;
@@ -173,7 +173,7 @@ namespace RT2020.Product
 
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "apProductQtyByWorkplaceCode";
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType= CommandType.StoredProcedure;
             cmd.Parameters.AddRange(paramList.ToArray());
 

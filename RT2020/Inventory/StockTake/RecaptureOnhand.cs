@@ -9,9 +9,10 @@ using System.Text;
 
 using Gizmox.WebGUI.Common;
 using Gizmox.WebGUI.Forms;
-using RT2020.DAL;
+
 using System.Linq;
 using System.Data.Entity;
+using RT2020.Helper;
 
 #endregion
 
@@ -117,7 +118,7 @@ namespace RT2020.Inventory.StockTake
                                 stkDetail.CapturedQty = 0;
                             }
 
-                            stkDetail.ModifiedBy = Common.Config.CurrentUserId;
+                            stkDetail.ModifiedBy = ConfigHelper.CurrentUserId;
                             stkDetail.ModifiedOn = DateTime.Now;
 
                             ctx.SaveChanges();
@@ -140,7 +141,7 @@ namespace RT2020.Inventory.StockTake
                             stkHeader.CapturedQty = qty;
                             stkHeader.TotalQty = totalQty;
                             stkHeader.TotalAmount = totalAmt;
-                            stkHeader.ModifiedBy = Common.Config.CurrentUserId;
+                            stkHeader.ModifiedBy = ConfigHelper.CurrentUserId;
                             stkHeader.ModifiedOn = DateTime.Now;
 
                             ctx.SaveChanges();

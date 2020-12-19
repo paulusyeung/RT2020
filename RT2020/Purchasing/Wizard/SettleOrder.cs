@@ -13,7 +13,7 @@ namespace RT2020.Purchasing.Wizard
     using Gizmox.WebGUI.Common.Resources;
     using Gizmox.WebGUI.Forms;
 
-    using RT2020.DAL;
+    
     using System.Linq;
     using System.Data.Entity;
     using Helper;
@@ -54,7 +54,7 @@ namespace RT2020.Purchasing.Wizard
             this.cboStatus.SelectedIndex = 0;
             this.cboPartialShipment.SelectedIndex = 0;
             this.txtPurchaseOrderNo.Text = "Auto-Generated";
-            this.InitCurrency(!Common.Utility.IsGUID(this.cboCurrency.SelectedValue.ToString()) ? System.Guid.Empty : new System.Guid(this.cboCurrency.SelectedValue.ToString()));
+            this.InitCurrency((Guid)this.cboCurrency.SelectedValue);
         }
 
         /// <summary>
@@ -111,7 +111,7 @@ namespace RT2020.Purchasing.Wizard
         /// </summary>
         private void LoadLastName()
         {
-            this.txtLastUser.Text = ModelEx.StaffEx.GetStaffNumberById(Common.Config.CurrentUserId);
+            this.txtLastUser.Text = ModelEx.StaffEx.GetStaffNumberById(ConfigHelper.CurrentUserId);
         }
 
         /// <summary>
@@ -154,7 +154,8 @@ namespace RT2020.Purchasing.Wizard
                 }
                 else
                 {
-                    this.InitCurrency(Common.Utility.IsGUID(this.cboCurrency.SelectedValue.ToString()) ? System.Guid.Empty : new System.Guid(this.cboCurrency.SelectedValue.ToString()));
+                    //this.InitCurrency(Common.Utility.IsGUID(this.cboCurrency.SelectedValue.ToString()) ? System.Guid.Empty : new System.Guid(this.cboCurrency.SelectedValue.ToString()));
+                    this.InitCurrency((Guid)this.cboCurrency.SelectedValue);
                 }
             }
         }
@@ -476,7 +477,7 @@ namespace RT2020.Purchasing.Wizard
                     objHeader.Settled = this.cboSettled.SelectedItem.ToString() == "YES" ? true : false;
                     objHeader.SettledOn = DateTime.Now;
 
-                    objHeader.ModifiedBy = Common.Config.CurrentUserId;
+                    objHeader.ModifiedBy = ConfigHelper.CurrentUserId;
                     objHeader.ModifiedOn = DateTime.Now;
 
                     ctx.SaveChanges();
@@ -502,14 +503,14 @@ namespace RT2020.Purchasing.Wizard
                     switch (objHeader.OrderType)
                     {
                         case 1:
-                            strType = Common.Enums.POType.LPO.ToString();
+                            strType = EnumHelper.POType.LPO.ToString();
                             break;
                         case 2:
-                            strType = Common.Enums.POType.OPO.ToString();
+                            strType = EnumHelper.POType.OPO.ToString();
                             break;
                         case 0:
                         default:
-                            strType = Common.Enums.POType.FPO.ToString();
+                            strType = EnumHelper.POType.FPO.ToString();
                             break;
                     }
                     #endregion
@@ -570,7 +571,7 @@ namespace RT2020.Purchasing.Wizard
 
                     SqlCommand cmd = new SqlCommand();
                     cmd.CommandText = sql.ToString();
-                    cmd.CommandTimeout = Common.Config.CommandTimeout;
+                    cmd.CommandTimeout = ConfigHelper.CommandTimeout;
                     cmd.CommandType = CommandType.Text;
 
                     using (SqlDataReader reader = SqlHelper.Default.ExecuteReader(cmd))
@@ -609,7 +610,7 @@ namespace RT2020.Purchasing.Wizard
 
                     SqlCommand cmd2 = new SqlCommand();
                     cmd2.CommandText = sql2.ToString();
-                    cmd2.CommandTimeout = Common.Config.CommandTimeout;
+                    cmd2.CommandTimeout = ConfigHelper.CommandTimeout;
                     cmd2.CommandType = CommandType.Text;
 
                     using (SqlDataReader reader = SqlHelper.Default.ExecuteReader(cmd2))
@@ -643,7 +644,7 @@ namespace RT2020.Purchasing.Wizard
 
             System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand();
             cmd.CommandText = sql.ToString();
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = CommandType.Text;
 
             using (SqlDataReader reader = SqlHelper.Default.ExecuteReader(cmd))
@@ -686,7 +687,7 @@ namespace RT2020.Purchasing.Wizard
 
             System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand();
             cmd.CommandText = sql.ToString();
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = CommandType.Text;
 
             using (SqlDataReader reader = SqlHelper.Default.ExecuteReader(cmd))

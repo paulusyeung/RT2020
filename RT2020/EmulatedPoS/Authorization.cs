@@ -14,7 +14,7 @@ using Gizmox.WebGUI.Forms;
 using System.Text.RegularExpressions;
 using Gizmox.WebGUI.Common.Resources;
 
-using RT2020.DAL;
+
 using System.Configuration;
 using RT2020.Helper;
 
@@ -24,22 +24,22 @@ namespace RT2020.EmulatedPoS
 {
     public partial class Authorization : Form
     {
-        public RT2020.DAL.Common.Enums.TxType SalesType { get; set; }
+        public EnumHelper.TxType SalesType { get; set; }
         private RT2020.Controls.InvtUtility.PostingStatus postStatus = RT2020.Controls.InvtUtility.PostingStatus.Ready;
         DataTable oTable;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Authorization"/> class.
         /// </summary>
-        public Authorization(RT2020.DAL.Common.Enums.TxType salesType)
+        public Authorization(EnumHelper.TxType salesType)
         {
             InitializeComponent();
             InitComboBox();
 
             this.SalesType = salesType;
 
-            BindingList(Common.Enums.Status.Active); // Posting
-            BindingList(Common.Enums.Status.Draft); // Holding
+            BindingList(EnumHelper.Status.Active); // Posting
+            BindingList(EnumHelper.Status.Draft); // Holding
         }
 
         /// <summary>
@@ -69,7 +69,7 @@ namespace RT2020.EmulatedPoS
 
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = sql;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = System.Data.CommandType.Text;
 
             using (SqlDataReader reader = SqlHelper.Default.ExecuteReader(cmd))
@@ -82,17 +82,17 @@ namespace RT2020.EmulatedPoS
         /// Bindings the list.
         /// </summary>
         /// <param name="status">The status.</param>
-        private void BindingList(Common.Enums.Status status)
+        private void BindingList(EnumHelper.Status status)
         {
             SqlDataReader reader;
             switch (status)
             {
-                case Common.Enums.Status.Draft: // Holding
-                    reader = DataSource(Common.Enums.Status.Draft.ToString("d"), false);
+                case EnumHelper.Status.Draft: // Holding
+                    reader = DataSource(EnumHelper.Status.Draft.ToString("d"), false);
                     BindingHoldingList(reader);
                     break;
-                case Common.Enums.Status.Active: // Posting
-                    reader = DataSource(Common.Enums.Status.Active.ToString("d"), true);
+                case EnumHelper.Status.Active: // Posting
+                    reader = DataSource(EnumHelper.Status.Active.ToString("d"), true);
                     BindingPostingList(reader);
                     break;
             }
@@ -525,7 +525,8 @@ namespace RT2020.EmulatedPoS
             {
                 foreach (ListViewItem oItem in lvPostTransaction.CheckedItems)
                 {
-                    if (Common.Utility.IsGUID(oItem.Text) && oItem.Checked)
+                    Guid headerId = Guid.Empty;
+                    if (Guid.TryParse(oItem.Text, out headerId) && oItem.Checked)
                     {
                         if (!HasError(oItem.Text))
                         {
@@ -536,9 +537,9 @@ namespace RT2020.EmulatedPoS
 
                             if (chkCheckQty.Visible)// option check qty
                             {
-                                if (CheckQty(new Guid(oItem.Text)))
+                                if (CheckQty(headerId))
                                 {
-                                    CreatePosTx(new Guid(oItem.Text), ref iCount);
+                                    CreatePosTx(headerId, ref iCount);
                                 }
                                 else
                                 {
@@ -653,7 +654,7 @@ namespace RT2020.EmulatedPoS
                             oSubHeader.MemberId = oBatchHeader.MemberId.Value;
                             oSubHeader.Reference = oBatchHeader.Reference;
                             oSubHeader.Remarks = oBatchHeader.Remarks;
-                            oSubHeader.Status = Convert.ToInt32(Common.Enums.Status.Active.ToString("d"));
+                            oSubHeader.Status = Convert.ToInt32(EnumHelper.Status.Active.ToString("d"));
 
                             oSubHeader.SEX = oBatchHeader.SEX;
                             oSubHeader.RACE = oBatchHeader.RACE;
@@ -672,12 +673,12 @@ namespace RT2020.EmulatedPoS
                             oSubHeader.ANALYSIS_CODE09 = oBatchHeader.ANALYSIS_CODE09;
                             oSubHeader.ANALYSIS_CODE10 = oBatchHeader.ANALYSIS_CODE10;
 
-                            oSubHeader.CreatedBy = Common.Config.CurrentUserId;
+                            oSubHeader.CreatedBy = ConfigHelper.CurrentUserId;
                             oSubHeader.CreatedOn = DateTime.Now;
-                            oSubHeader.ModifiedBy = Common.Config.CurrentUserId;
+                            oSubHeader.ModifiedBy = ConfigHelper.CurrentUserId;
                             oSubHeader.ModifiedOn = DateTime.Now;
                             oSubHeader.Posted = true;
-                            oSubHeader.PostedBy = Common.Config.CurrentUserId;
+                            oSubHeader.PostedBy = ConfigHelper.CurrentUserId;
                             oSubHeader.PostedOn = DateTime.Now;
 
                             ctx.EPOSSubLedgerHeader.Add(oSubHeader);
@@ -763,17 +764,17 @@ namespace RT2020.EmulatedPoS
                             oLedgerHeader.MemberId = oBatchHeader.MemberId;
                             oLedgerHeader.Reference = oBatchHeader.Reference;
                             oLedgerHeader.Remarks = oBatchHeader.Remarks;
-                            oLedgerHeader.Status = Convert.ToInt32(Common.Enums.Status.Active.ToString("d"));
+                            oLedgerHeader.Status = Convert.ToInt32(EnumHelper.Status.Active.ToString("d"));
 
                             oLedgerHeader.SEX = oBatchHeader.SEX;
                             oLedgerHeader.RACE = oBatchHeader.RACE;
                             oLedgerHeader.EVT_CODE = oBatchHeader.EVT_CODE;
 
-                            oLedgerHeader.CreatedBy = Common.Config.CurrentUserId;
+                            oLedgerHeader.CreatedBy = ConfigHelper.CurrentUserId;
                             oLedgerHeader.CreatedOn = DateTime.Now;
-                            oLedgerHeader.ModifiedBy = Common.Config.CurrentUserId;
+                            oLedgerHeader.ModifiedBy = ConfigHelper.CurrentUserId;
                             oLedgerHeader.ModifiedOn = DateTime.Now;
-                            oLedgerHeader.PostedBy = Common.Config.CurrentUserId;
+                            oLedgerHeader.PostedBy = ConfigHelper.CurrentUserId;
                             oLedgerHeader.PostedOn = DateTime.Now;
 
                             ctx.PosLedgerHeader.Add(oLedgerHeader);
@@ -855,7 +856,7 @@ namespace RT2020.EmulatedPoS
                             #endregion
 
                             // Update Batch Header Info
-                            oBatchHeader.ModifiedBy = Common.Config.CurrentUserId;
+                            oBatchHeader.ModifiedBy = ConfigHelper.CurrentUserId;
                             oBatchHeader.ModifiedOn = DateTime.Now;
 
                             ctx.SaveChanges();
@@ -941,7 +942,7 @@ namespace RT2020.EmulatedPoS
             oSubHeader.MemberId = oBatchHeader.MemberId;
             oSubHeader.Reference = oBatchHeader.Reference;
             oSubHeader.Remarks = oBatchHeader.Remarks;
-            oSubHeader.Status = Convert.ToInt32(Common.Enums.Status.Active.ToString("d"));
+            oSubHeader.Status = Convert.ToInt32(EnumHelper.Status.Active.ToString("d"));
 
             oSubHeader.SEX = oBatchHeader.SEX;
             oSubHeader.RACE = oBatchHeader.RACE;
@@ -960,12 +961,12 @@ namespace RT2020.EmulatedPoS
             oSubHeader.ANALYSIS_CODE09 = oBatchHeader.ANALYSIS_CODE09;
             oSubHeader.ANALYSIS_CODE10 = oBatchHeader.ANALYSIS_CODE10;
 
-            oSubHeader.CreatedBy = Common.Config.CurrentUserId;
+            oSubHeader.CreatedBy = ConfigHelper.CurrentUserId;
             oSubHeader.CreatedOn = DateTime.Now;
-            oSubHeader.ModifiedBy = Common.Config.CurrentUserId;
+            oSubHeader.ModifiedBy = ConfigHelper.CurrentUserId;
             oSubHeader.ModifiedOn = DateTime.Now;
             oSubHeader.Posted = true;
-            oSubHeader.PostedBy = Common.Config.CurrentUserId;
+            oSubHeader.PostedBy = ConfigHelper.CurrentUserId;
             oSubHeader.PostedOn = DateTime.Now;
 
             oSubHeader.Save();
@@ -1065,17 +1066,17 @@ namespace RT2020.EmulatedPoS
             oLedgerHeader.MemberId = oBatchHeader.MemberId;
             oLedgerHeader.Reference = oBatchHeader.Reference;
             oLedgerHeader.Remarks = oBatchHeader.Remarks;
-            oLedgerHeader.Status = Convert.ToInt32(Common.Enums.Status.Active.ToString("d"));
+            oLedgerHeader.Status = Convert.ToInt32(EnumHelper.Status.Active.ToString("d"));
 
             oLedgerHeader.SEX = oBatchHeader.SEX;
             oLedgerHeader.RACE = oBatchHeader.RACE;
             oLedgerHeader.EVT_CODE = oBatchHeader.EVT_CODE;
 
-            oLedgerHeader.CreatedBy = Common.Config.CurrentUserId;
+            oLedgerHeader.CreatedBy = ConfigHelper.CurrentUserId;
             oLedgerHeader.CreatedOn = DateTime.Now;
-            oLedgerHeader.ModifiedBy = Common.Config.CurrentUserId;
+            oLedgerHeader.ModifiedBy = ConfigHelper.CurrentUserId;
             oLedgerHeader.ModifiedOn = DateTime.Now;
-            oLedgerHeader.PostedBy = Common.Config.CurrentUserId;
+            oLedgerHeader.PostedBy = ConfigHelper.CurrentUserId;
             oLedgerHeader.PostedOn = DateTime.Now;
 
             oLedgerHeader.Save();
@@ -1269,13 +1270,13 @@ namespace RT2020.EmulatedPoS
                 var oHeader = ModelEx.EPOSBatchHeaderEx.Get(sql);                
                 if (oHeader != null)
                 {
-                    Common.Enums.Status oStatus = (Common.Enums.Status)Enum.Parse(typeof(Common.Enums.Status), oHeader.Status.ToString());
+                    EnumHelper.Status oStatus = (EnumHelper.Status)Enum.Parse(typeof(EnumHelper.Status), oHeader.Status.ToString());
                     switch (oStatus)
                     {
-                        case Common.Enums.Status.Draft: // Holding
+                        case EnumHelper.Status.Draft: // Holding
                             tabPosAuthorization.SelectedIndex = 1;
                             break;
-                        case Common.Enums.Status.Active: // Posting
+                        case EnumHelper.Status.Active: // Posting
                             tabPosAuthorization.SelectedIndex = 0;
                             break;
                     }
@@ -1345,7 +1346,7 @@ namespace RT2020.EmulatedPoS
 
             if (VerifyDate())
             {
-                BindingList(Common.Enums.Status.Active); // Posting
+                BindingList(EnumHelper.Status.Active); // Posting
 
                 if (this.lvPostTransaction.Items.Count == 0)
                 {

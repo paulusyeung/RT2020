@@ -11,7 +11,7 @@ using Gizmox.WebGUI.Common;
 using Gizmox.WebGUI.Forms;
 using System.Data.SqlClient;
 using System.Text.RegularExpressions;
-using RT2020.DAL;
+
 using Gizmox.WebGUI.Common.Resources;
 using System.Configuration;
 using System.Linq;
@@ -49,7 +49,7 @@ namespace RT2020.Inventory.Replenishment
         private void FillComboBox()
         {
             ModelEx.StaffEx.LoadCombo(ref cboStaff, "StaffNumber", false);
-            cboStaff.SelectedValue = Common.Config.CurrentUserId;
+            cboStaff.SelectedValue = ConfigHelper.CurrentUserId;
         }
         #endregion
 
@@ -59,11 +59,11 @@ namespace RT2020.Inventory.Replenishment
             lvPostTxList.Items.Clear();
 
             int iCount = 1;
-            string sql = BuildSqlQueryString(Common.Enums.Status.Active.ToString("d"), true);
+            string sql = BuildSqlQueryString(EnumHelper.Status.Active.ToString("d"), true);
 
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = sql;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = CommandType.Text;
 
             using (SqlDataReader reader = SqlHelper.Default.ExecuteReader(cmd))
@@ -201,13 +201,13 @@ namespace RT2020.Inventory.Replenishment
                 var oHeader = ModelEx.InvtBatchRPL_HeaderEx.Get(sql);
                 if (oHeader != null)
                 {
-                    Common.Enums.Status oStatus = (Common.Enums.Status)Enum.Parse(typeof(Common.Enums.Status), oHeader.Status.ToString());
+                    EnumHelper.Status oStatus = (EnumHelper.Status)Enum.Parse(typeof(EnumHelper.Status), oHeader.Status.ToString());
                     switch (oStatus)
                     {
-                        case Common.Enums.Status.Draft: // Holding
+                        case EnumHelper.Status.Draft: // Holding
                             tabREJAuthorization.SelectedIndex = 1;
                             break;
-                        case Common.Enums.Status.Active: // Posting
+                        case EnumHelper.Status.Active: // Posting
                             tabREJAuthorization.SelectedIndex = 0;
                             break;
                     }
@@ -283,9 +283,10 @@ namespace RT2020.Inventory.Replenishment
         {
             bool isPostable = true;
 
-            if (Common.Utility.IsGUID(headerId))
+            Guid id = Guid.Empty;
+            if (Guid.TryParse(headerId, out id))
             {
-                var oBatchHeader = ModelEx.InvtBatchRPL_HeaderEx.Get(new Guid(headerId));
+                var oBatchHeader = ModelEx.InvtBatchRPL_HeaderEx.Get(id);
                 if (oBatchHeader != null)
                 {
                     if (!CheckTxDate(oBatchHeader.TxDate.Value))
@@ -322,7 +323,7 @@ namespace RT2020.Inventory.Replenishment
                         isPostable = isPostable & false;
                     }
 
-                    if (oBatchHeader.Posted && oBatchHeader.Status == (int)Common.Enums.Status.Active)
+                    if (oBatchHeader.Posted && oBatchHeader.Status == (int)EnumHelper.Status.Active)
                     {
                         DataRow row = errorTable.NewRow();
                         row["HeaderId"] = oBatchHeader.HeaderId.ToString();
@@ -420,7 +421,8 @@ namespace RT2020.Inventory.Replenishment
                 {
                     foreach (ListViewItem oItem in lvPostTxList.CheckedItems)
                     {
-                        if (Common.Utility.IsGUID(oItem.Text) && oItem.Checked)
+                        Guid id = Guid.Empty;
+                        if (Guid.TryParse(oItem.Text, out id) && oItem.Checked)
                         {
                             if (!HasError(oItem.Text))
                             {
@@ -456,9 +458,9 @@ namespace RT2020.Inventory.Replenishment
                         {
                             #region Update Batch Header Info
                             oBatchHeader.Posted = true;
-                            oBatchHeader.PostedBy = Common.Config.CurrentUserId;
+                            oBatchHeader.PostedBy = ConfigHelper.CurrentUserId;
                             oBatchHeader.PostedOn = DateTime.Now;
-                            oBatchHeader.ModifiedBy = Common.Config.CurrentUserId;
+                            oBatchHeader.ModifiedBy = ConfigHelper.CurrentUserId;
                             oBatchHeader.ModifiedOn = DateTime.Now;
                             #endregion
 
@@ -476,7 +478,7 @@ namespace RT2020.Inventory.Replenishment
                             oSubRPL.ToLocation = oBatchHeader.ToLocation;
                             oSubRPL.Remarks = oBatchHeader.Remarks + " \t " + oBatchHeader.TxNumber;
                             oSubRPL.StaffId = oBatchHeader.StaffId;
-                            oSubRPL.Status = (int)Common.Enums.Status.Active;
+                            oSubRPL.Status = (int)EnumHelper.Status.Active;
                             oSubRPL.CompletedOn = oBatchHeader.CompletedOn;
                             oSubRPL.SpecialRequest = oBatchHeader.SpecialRequest;
                             oSubRPL.TXFNumber = oBatchHeader.TXFNumber;
@@ -488,9 +490,9 @@ namespace RT2020.Inventory.Replenishment
                             oSubRPL.PostedBy = oBatchHeader.PostedBy;
                             oSubRPL.PostedOn = oBatchHeader.PostedOn;
 
-                            oSubRPL.CreatedBy = Common.Config.CurrentUserId;
+                            oSubRPL.CreatedBy = ConfigHelper.CurrentUserId;
                             oSubRPL.CreatedOn = DateTime.Now;
-                            oSubRPL.ModifiedBy = Common.Config.CurrentUserId;
+                            oSubRPL.ModifiedBy = ConfigHelper.CurrentUserId;
                             oSubRPL.ModifiedOn = DateTime.Now;
 
                             ctx.InvtSubLedgerRPL_Header.Add(oSubRPL);
@@ -531,10 +533,10 @@ namespace RT2020.Inventory.Replenishment
                                 #region string txfNumber = CreateTXFBatchHeader(oBatchHeader);
                                 var oHeader = new EF6.InvtBatchTXF_Header();
                                 oHeader.HeaderId = Guid.NewGuid();
-                                oHeader.TxNumber = RT2020.SystemInfo.Settings.QueuingTxNumber(Common.Enums.TxType.TXF);
-                                oHeader.TxType = Common.Enums.TxType.TXF.ToString();
+                                oHeader.TxNumber = RT2020.SystemInfo.Settings.QueuingTxNumber(EnumHelper.TxType.TXF);
+                                oHeader.TxType = EnumHelper.TxType.TXF.ToString();
 
-                                oHeader.Status = (int)Common.Enums.Status.Active;
+                                oHeader.Status = (int)EnumHelper.Status.Active;
 
                                 oHeader.FromLocation = ModelEx.WorkplaceEx.GetWorkplaceIdByCode(oBatchHeader.FromLocation);
                                 oHeader.ToLocation = ModelEx.WorkplaceEx.GetWorkplaceIdByCode(oBatchHeader.ToLocation);
@@ -546,7 +548,7 @@ namespace RT2020.Inventory.Replenishment
                                 oHeader.Reference = oBatchHeader.TxNumber;
                                 oHeader.ReadOnly = true;
 
-                                oHeader.CreatedBy = Common.Config.CurrentUserId;
+                                oHeader.CreatedBy = ConfigHelper.CurrentUserId;
                                 oHeader.CreatedOn = DateTime.Now;
 
                                 oHeader.ModifiedBy = oBatchHeader.ModifiedBy;
@@ -650,7 +652,7 @@ namespace RT2020.Inventory.Replenishment
             oSubRPL.ToLocation = oBatchHeader.ToLocation;
             oSubRPL.Remarks = oBatchHeader.Remarks + " \t " + oBatchHeader.TxNumber;
             oSubRPL.StaffId = oBatchHeader.StaffId;
-            oSubRPL.Status = (int)Common.Enums.Status.Active;
+            oSubRPL.Status = (int)EnumHelper.Status.Active;
             oSubRPL.CompletedOn = oBatchHeader.CompletedOn;
             oSubRPL.SpecialRequest = oBatchHeader.SpecialRequest;
             oSubRPL.TXFNumber = oBatchHeader.TXFNumber;
@@ -662,9 +664,9 @@ namespace RT2020.Inventory.Replenishment
             oSubRPL.PostedBy = oBatchHeader.PostedBy;
             oSubRPL.PostedOn = oBatchHeader.PostedOn;
 
-            oSubRPL.CreatedBy = Common.Config.CurrentUserId;
+            oSubRPL.CreatedBy = ConfigHelper.CurrentUserId;
             oSubRPL.CreatedOn = DateTime.Now;
-            oSubRPL.ModifiedBy = Common.Config.CurrentUserId;
+            oSubRPL.ModifiedBy = ConfigHelper.CurrentUserId;
             oSubRPL.ModifiedOn = DateTime.Now;
 
             oSubRPL.Save();
@@ -700,10 +702,10 @@ namespace RT2020.Inventory.Replenishment
         {
             InvtBatchTXF_Header oHeader = new InvtBatchTXF_Header();
 
-            oHeader.TxNumber = RT2020.SystemInfo.Settings.QueuingTxNumber(Common.Enums.TxType.TXF);
-            oHeader.TxType = Common.Enums.TxType.TXF.ToString();
+            oHeader.TxNumber = RT2020.SystemInfo.Settings.QueuingTxNumber(EnumHelper.TxType.TXF);
+            oHeader.TxType = EnumHelper.TxType.TXF.ToString();
 
-            oHeader.Status = (int)Common.Enums.Status.Active;
+            oHeader.Status = (int)EnumHelper.Status.Active;
 
             oHeader.FromLocation = ModelEx.WorkplaceEx.GetWorkplaceIdByCode(oBatchHeader.FromLocation);
             oHeader.ToLocation = ModelEx.WorkplaceEx.GetWorkplaceIdByCode(oBatchHeader.ToLocation);
@@ -715,7 +717,7 @@ namespace RT2020.Inventory.Replenishment
             oHeader.Reference = oBatchHeader.TxNumber;
             oHeader.ReadOnly = true;
 
-            oHeader.CreatedBy = Common.Config.CurrentUserId;
+            oHeader.CreatedBy = ConfigHelper.CurrentUserId;
             oHeader.CreatedOn = DateTime.Now;
 
             oHeader.ModifiedBy = oBatchHeader.ModifiedBy;
@@ -979,7 +981,7 @@ namespace RT2020.Inventory.Replenishment
 
                         if (consolidatedList.Count > 0)
                         {
-                            string txNumber = RT2020.SystemInfo.Settings.QueuingTxNumber(Common.Enums.TxType.TXF);
+                            string txNumber = RT2020.SystemInfo.Settings.QueuingTxNumber(EnumHelper.TxType.TXF);
                             var headerId = Guid.Empty;
                             #region Guid headerId = ConsolidatedTXFBatchHeader(txNumber, fromLoc, toLoc, consolidatedTxNumber);
                             var fromLocation = ModelEx.WorkplaceEx.GetWorkplaceIdByCode(fromLoc);
@@ -990,9 +992,9 @@ namespace RT2020.Inventory.Replenishment
                                 var oHeader = new EF6.InvtBatchTXF_Header();
                                 oHeader.HeaderId = Guid.NewGuid();
                                 oHeader.TxNumber = txNumber;
-                                oHeader.TxType = Common.Enums.TxType.TXF.ToString();
+                                oHeader.TxType = EnumHelper.TxType.TXF.ToString();
 
-                                oHeader.Status = (int)Common.Enums.Status.Active;
+                                oHeader.Status = (int)EnumHelper.Status.Active;
 
                                 oHeader.FromLocation = fromLocation;
                                 oHeader.ToLocation = toLocation;
@@ -1004,10 +1006,10 @@ namespace RT2020.Inventory.Replenishment
                                 oHeader.Reference = string.Empty;
                                 oHeader.ReadOnly = true;
 
-                                oHeader.CreatedBy = Common.Config.CurrentUserId;
+                                oHeader.CreatedBy = ConfigHelper.CurrentUserId;
                                 oHeader.CreatedOn = DateTime.Now;
 
-                                oHeader.ModifiedBy = Common.Config.CurrentUserId;
+                                oHeader.ModifiedBy = ConfigHelper.CurrentUserId;
                                 oHeader.ModifiedOn = DateTime.Now;
 
                                 ctx.InvtBatchTXF_Header.Add(oHeader);
@@ -1040,7 +1042,7 @@ namespace RT2020.Inventory.Replenishment
                                                 oDetail.DetailsId = Guid.NewGuid();
                                                 oDetail.HeaderId = txfHeaderId;
                                                 oDetail.TxNumber = txfTxNumber;
-                                                oDetail.TxType = Common.Enums.TxType.TXF.ToString();
+                                                oDetail.TxType = EnumHelper.TxType.TXF.ToString();
                                                 oDetail.LineNumber = 1;
                                                 oDetail.ProductId = rplDetail.ProductId;
 
@@ -1123,9 +1125,9 @@ namespace RT2020.Inventory.Replenishment
                 InvtBatchTXF_Header oHeader = new InvtBatchTXF_Header();
 
                 oHeader.TxNumber = txNumber;
-                oHeader.TxType = Common.Enums.TxType.TXF.ToString();
+                oHeader.TxType = EnumHelper.TxType.TXF.ToString();
 
-                oHeader.Status = (int)Common.Enums.Status.Active;
+                oHeader.Status = (int)EnumHelper.Status.Active;
 
                 oHeader.FromLocation = fromLocation;
                 oHeader.ToLocation = toLocation;
@@ -1137,10 +1139,10 @@ namespace RT2020.Inventory.Replenishment
                 oHeader.Reference = string.Empty;
                 oHeader.ReadOnly = true;
 
-                oHeader.CreatedBy = Common.Config.CurrentUserId;
+                oHeader.CreatedBy = ConfigHelper.CurrentUserId;
                 oHeader.CreatedOn = DateTime.Now;
 
-                oHeader.ModifiedBy = Common.Config.CurrentUserId;
+                oHeader.ModifiedBy = ConfigHelper.CurrentUserId;
                 oHeader.ModifiedOn = DateTime.Now;
 
                 oHeader.Save();
@@ -1165,7 +1167,7 @@ namespace RT2020.Inventory.Replenishment
                     oDetail = new InvtBatchTXF_Details();
                     oDetail.HeaderId = txfHeaderId;
                     oDetail.TxNumber = txfTxNumber;
-                    oDetail.TxType = Common.Enums.TxType.TXF.ToString();
+                    oDetail.TxType = EnumHelper.TxType.TXF.ToString();
                     oDetail.LineNumber = 1;
                     oDetail.ProductId = rplDetail.ProductId;
                 }

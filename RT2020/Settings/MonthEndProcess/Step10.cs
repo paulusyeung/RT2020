@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using RT2020.DAL;
+
 using RT2020.Controls;
+using RT2020.Helper;
 
 namespace RT2020.Settings.MonthEndProcess
 {
@@ -40,7 +41,7 @@ namespace RT2020.Settings.MonthEndProcess
             log.Append("COMPANY: ").Append(SystemInfo.CurrentInfo.Default.CompanyName).AppendLine();
             log.Append("MONTH: ").Append(SystemInfo.CurrentInfo.Default.CurrentSystemDate.ToString("MMMM yyyy")).AppendLine();
             log.Append("Reset Service Item's CDQty = 0: ").Append(ResetSerivceItemsCDQty ? "YES" : "NO").AppendLine();
-            log.Append("USER: ").Append(ModelEx.StaffEx.GetStaffNumberById(Common.Config.CurrentUserId)).AppendLine();
+            log.Append("USER: ").Append(ModelEx.StaffEx.GetStaffNumberById(ConfigHelper.CurrentUserId)).AppendLine();
             log.Append("START TIME: ").Append(StartOn.ToString("dd/MM/yyyy HH:mm:ss")).AppendLine();
             log.Append("STOP TIME: ").Append(EndOn.ToString("dd/MM/yyyy HH:mm:ss")).AppendLine();
             log.Append("RESULT: ").Append(PostedErrorMsg).AppendLine();

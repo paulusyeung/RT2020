@@ -16,7 +16,7 @@ namespace RT2020.Purchasing.Wizard
     using Gizmox.WebGUI.Common.Resources;
     using Gizmox.WebGUI.Forms;
 
-    using RT2020.DAL;
+    
     using System.Linq;
     using System.Data.Entity;
     using Helper;
@@ -59,8 +59,9 @@ namespace RT2020.Purchasing.Wizard
             this.txtPaymentTerm.Text = "0";
             this.cboStatus.SelectedIndex = 0;
             this.cboPartialShipment.SelectedIndex = 0;
-            this.txtPurchaseOrderNo.Text = "Auto-Generated"; 
-            this.InitCurrency(!Common.Utility.IsGUID(this.cboCurrency.SelectedValue.ToString()) ? System.Guid.Empty : new System.Guid(this.cboCurrency.SelectedValue.ToString()));
+            this.txtPurchaseOrderNo.Text = "Auto-Generated";
+            //this.InitCurrency(!Common.Utility.IsGUID(this.cboCurrency.SelectedValue.ToString()) ? System.Guid.Empty : new System.Guid(this.cboCurrency.SelectedValue.ToString()));
+            this.InitCurrency((Guid)this.cboCurrency.SelectedValue);
         }
 
         /// <summary>
@@ -126,13 +127,13 @@ namespace RT2020.Purchasing.Wizard
                     switch (objHeader.OrderType)
                     {
                         case 0:
-                            orderType = Common.Enums.POType.FPO.ToString();
+                            orderType = EnumHelper.POType.FPO.ToString();
                             break;
                         case 1:
-                            orderType = Common.Enums.POType.LPO.ToString();
+                            orderType = EnumHelper.POType.LPO.ToString();
                             break;
                         case 2:
-                            orderType = Common.Enums.POType.OPO.ToString();
+                            orderType = EnumHelper.POType.OPO.ToString();
                             break;
                     }
 
@@ -232,7 +233,7 @@ namespace RT2020.Purchasing.Wizard
 
             System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand();
             cmd.CommandText = sql.ToString();
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = CommandType.Text;
 
             using (SqlDataReader reader = SqlHelper.Default.ExecuteReader(cmd))
@@ -258,7 +259,7 @@ namespace RT2020.Purchasing.Wizard
         /// </summary>
         private void LoadLastName()
         {
-            var objStaff = ModelEx.StaffEx.GetByStaffId(Common.Config.CurrentUserId);
+            var objStaff = ModelEx.StaffEx.GetByStaffId(ConfigHelper.CurrentUserId);
             if (objStaff != null)
             {
                 this.txtLastUser.Text = objStaff.StaffNumber;
@@ -290,7 +291,8 @@ namespace RT2020.Purchasing.Wizard
                 }
                 else
                 {
-                    this.InitCurrency(Common.Utility.IsGUID(this.cboCurrency.SelectedValue.ToString()) ? System.Guid.Empty : new System.Guid(this.cboCurrency.SelectedValue.ToString()));
+                    //this.InitCurrency(Common.Utility.IsGUID(this.cboCurrency.SelectedValue.ToString()) ? System.Guid.Empty : new System.Guid(this.cboCurrency.SelectedValue.ToString()));
+                    this.InitCurrency((Guid)this.cboCurrency.SelectedValue);
                 }
             }
         }
@@ -322,10 +324,11 @@ namespace RT2020.Purchasing.Wizard
         {
             if (this.lvDetailsList.SelectedItem != null)
             {
-                if (Common.Utility.IsGUID(this.lvDetailsList.SelectedItem.Text))
+                Guid id = Guid.Empty;
+                if (Guid.TryParse(this.lvDetailsList.SelectedItem.Text, out id))
                 {
-                    this.LoadPurchaseOrderDetailsInfo(new Guid(this.lvDetailsList.SelectedItem.Text));
-                    this.orderDetailId = new Guid(this.lvDetailsList.SelectedItem.Text);
+                    this.LoadPurchaseOrderDetailsInfo(id);
+                    this.orderDetailId = id;
                     this.selectedIndex = this.lvDetailsList.SelectedIndex;
                 }
             }
@@ -722,16 +725,16 @@ namespace RT2020.Purchasing.Wizard
                         {
                             case "FPO":
                             default:
-                                this.txtPurchaseOrderNo.Text = RT2020.SystemInfo.Settings.QueuingTxNumber(Common.Enums.POType.FPO);
-                                type = Convert.ToInt32(Common.Enums.POType.FPO);
+                                this.txtPurchaseOrderNo.Text = RT2020.SystemInfo.Settings.QueuingTxNumber(EnumHelper.POType.FPO);
+                                type = Convert.ToInt32(EnumHelper.POType.FPO);
                                 break;
                             case "LPO":
-                                this.txtPurchaseOrderNo.Text = RT2020.SystemInfo.Settings.QueuingTxNumber(Common.Enums.POType.LPO);
-                                type = Convert.ToInt32(Common.Enums.POType.LPO);
+                                this.txtPurchaseOrderNo.Text = RT2020.SystemInfo.Settings.QueuingTxNumber(EnumHelper.POType.LPO);
+                                type = Convert.ToInt32(EnumHelper.POType.LPO);
                                 break;
                             case "OPO":
-                                this.txtPurchaseOrderNo.Text = RT2020.SystemInfo.Settings.QueuingTxNumber(Common.Enums.POType.OPO);
-                                type = Convert.ToInt32(Common.Enums.POType.OPO);
+                                this.txtPurchaseOrderNo.Text = RT2020.SystemInfo.Settings.QueuingTxNumber(EnumHelper.POType.OPO);
+                                type = Convert.ToInt32(EnumHelper.POType.OPO);
                                 break;
                         }
                         #endregion
@@ -741,7 +744,7 @@ namespace RT2020.Purchasing.Wizard
                             objHeader = new EF6.PurchaseOrderHeader();
 
                             objHeader.OrderHeaderId = Guid.NewGuid();
-                            objHeader.CreatedBy = Common.Config.CurrentUserId;
+                            objHeader.CreatedBy = ConfigHelper.CurrentUserId;
                             objHeader.CreatedOn = DateTime.Now;
 
                             objHeader.OrderNumber = this.txtPurchaseOrderNo.Text;
@@ -769,7 +772,7 @@ namespace RT2020.Purchasing.Wizard
                         objHeader.PartialShipment = this.cboPartialShipment.SelectedItem.ToString().ToUpper() == "YES" ? true : false;
                         objHeader.ShipmentMethod = this.cboShipmentMethod.SelectedIndex == -1 ? String.Empty : this.cboShipmentMethod.Text;
                         objHeader.ShipmentRemarks = this.txtShipmentRemark.Text;
-                        objHeader.Status = Convert.ToInt32(this.cboStatus.Text == "HOLD" ? Common.Enums.Status.Draft.ToString("d") : Common.Enums.Status.Active.ToString("d"));
+                        objHeader.Status = Convert.ToInt32(this.cboStatus.Text == "HOLD" ? EnumHelper.Status.Draft.ToString("d") : EnumHelper.Status.Active.ToString("d"));
 
                         objHeader.ExchangeRate = PurchasingUtils.Convert.ToDecimal(this.txtXRate.Text);
                         objHeader.TotalCost = PurchasingUtils.Convert.ToDecimal(this.txtOrderAmount.Text);
@@ -795,7 +798,7 @@ namespace RT2020.Purchasing.Wizard
                         objHeader.Remarks2 = this.txtPoRemark2.Text;
                         objHeader.Remarks3 = this.txtPoRemark3.Text;
 
-                        objHeader.ModifiedBy = Common.Config.CurrentUserId;
+                        objHeader.ModifiedBy = ConfigHelper.CurrentUserId;
                         objHeader.ModifiedOn = DateTime.Now;
                         #endregion
 
@@ -996,7 +999,7 @@ namespace RT2020.Purchasing.Wizard
 
             System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand();
             cmd.CommandText = sql.ToString();
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = CommandType.Text;
 
             using (SqlDataReader reader = SqlHelper.Default.ExecuteReader(cmd))
@@ -1115,7 +1118,7 @@ WHERE	OrderHeaderId = '" + this.OrderHeaderId.ToString() + "'";
 
             System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand();
             cmd.CommandText = sql;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = CommandType.Text;
 
             using (DataSet dataset = SqlHelper.Default.ExecuteDataSet(cmd))
@@ -1167,7 +1170,8 @@ WHERE	OrderHeaderId = '" + this.OrderHeaderId.ToString() + "'";
         /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
         private void CboCurrency_SelectedIndexChanged(object sender, EventArgs e)
         {
-            this.InitCurrency(!Common.Utility.IsGUID(this.cboCurrency.SelectedValue.ToString()) ? System.Guid.Empty : new System.Guid(this.cboCurrency.SelectedValue.ToString()));
+            //this.InitCurrency(!Common.Utility.IsGUID(this.cboCurrency.SelectedValue.ToString()) ? System.Guid.Empty : new System.Guid(this.cboCurrency.SelectedValue.ToString()));
+            this.InitCurrency((Guid)this.cboCurrency.SelectedValue);
         }
     }
 }

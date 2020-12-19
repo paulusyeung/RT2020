@@ -102,7 +102,7 @@ namespace RT2020.Settings.SuperUser
 
             // 2020.11.13 paulus: 改用 Bot Server，Hangefire 以 background job 完成
             //DoPhoneGen();
-            var result = BotHelper.PostSuperUser_GenPhonenumbers(DAL.Common.Config.CurrentUserId);
+            var result = BotHelper.PostSuperUser_GenPhonenumbers(ConfigHelper.CurrentUserId);
             var msg = result ?
                 "Successfully sent to Bot Server" + Environment.NewLine + "Process takes time...Please check Member record later, say, next day." :
                 "Failed sending to Bot Server" + Environment.NewLine + "Job aborted...Please check";

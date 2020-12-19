@@ -6,11 +6,12 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data;
 using System.Data.SqlClient;
-using RT2020.DAL;
+
 using DevExpress.Web.ASPxPivotGrid;
 using System.IO;
 using DevExpress.Utils;
 using System.Collections;
+using RT2020.Helper;
 
 namespace RT2020.Inventory.Olap
 {
@@ -383,7 +384,7 @@ namespace RT2020.Inventory.Olap
 
         protected void olapSQLSource_OnSelecting(object sender, SqlDataSourceSelectingEventArgs e)
         {
-            e.Command.CommandTimeout = Common.Config.CommandTimeout;
+            e.Command.CommandTimeout = ConfigHelper.CommandTimeout;
         }
 
         #region Properties

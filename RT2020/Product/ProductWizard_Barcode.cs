@@ -10,7 +10,7 @@ using System.Text;
 using Gizmox.WebGUI.Common;
 using Gizmox.WebGUI.Forms;
 using Gizmox.WebGUI.Common.Resources;
-using RT2020.DAL;
+
 using RT2020.Controls;
 using DevExpress.Web;
 using System.Data.SqlClient;
@@ -118,7 +118,7 @@ namespace RT2020.Product
 
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = sql.ToString();
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType= CommandType.Text;
 
             using (SqlDataReader reader = SqlHelper.Default.ExecuteReader(cmd))
@@ -426,9 +426,10 @@ namespace RT2020.Product
         {
             if (lvBarcodeList.SelectedItem != null)
             {
-                if (Common.Utility.IsGUID(lvBarcodeList.SelectedItem.Text))
+                Guid id = Guid.Empty;
+                if (Guid.TryParse(lvBarcodeList.SelectedItem.Text, out id))
                 {
-                    this.BarcodeId = new Guid(lvBarcodeList.SelectedItem.Text);
+                    this.BarcodeId = id;
 
                     txtBarcode.Text = lvBarcodeList.SelectedItem.SubItems[3].Text;
                     cboBarcodeType.Text = lvBarcodeList.SelectedItem.SubItems[4].Text.Contains("INTER") ? "INTERNAL (128B)" : lvBarcodeList.SelectedItem.SubItems[4].Text;

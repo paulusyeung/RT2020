@@ -9,10 +9,11 @@ using System.Text;
 
 using Gizmox.WebGUI.Common;
 using Gizmox.WebGUI.Forms;
-using RT2020.DAL;
+
 using DevExpress.Web;
 using Gizmox.WebGUI.Common.Resources;
 using System.Linq;
+using RT2020.Helper;
 
 #endregion
 
@@ -56,7 +57,7 @@ namespace RT2020.Inventory.Transfer
         {
             ModelEx.StaffEx.LoadCombo(ref cboOperatorCode, "StaffNumber", false);
 
-            cboOperatorCode.SelectedValue = Common.Config.CurrentUserId;
+            cboOperatorCode.SelectedValue = ConfigHelper.CurrentUserId;
         }
 
         #endregion
@@ -185,34 +186,34 @@ namespace RT2020.Inventory.Transfer
                         if (verified)
                         {
                             DataGridViewTextBoxCell idCell = (DataGridViewTextBoxCell)(dgvToLocation.Rows[i].Cells[dataGridViewTextBoxColumn1.Name]);
-                            System.Guid id = System.Guid.Empty;
-                            if (Common.Utility.IsGUID(idCell.Value.ToString()))
+                            Guid id = Guid.Empty;
+                            if (Guid.TryParse(idCell.Value.ToString(), out id))
                             {
                                 DataGridViewTextBoxCell pnqCell = (DataGridViewTextBoxCell)(dgvToLocation.Rows[i].Cells[dataGridViewTextBoxColumn4.Name]);
                                 int pnq = pnqCell.Value == null ? 0 : Convert.ToInt32(pnqCell.Value.ToString());
 
-                                #region InvtBatchTXF_Header header = GeneratePNQ(new Guid(idCell.Value.ToString()), pnq);
-                                Guid toLocation = new Guid(idCell.Value.ToString());
+                                #region InvtBatchTXF_Header header = GeneratePNQ(id, pnq);
+                                Guid toLocation = id;
                                 int pickingNumber = pnq;
 
                                 var oHeader = new EF6.InvtBatchTXF_Header();
                                 oHeader.HeaderId = Guid.NewGuid();
-                                oHeader.TxNumber = RT2020.SystemInfo.Settings.QueuingTxNumber(Common.Enums.TxType.PNQ);
-                                oHeader.TxType = Common.Enums.TxType.PNQ.ToString();
+                                oHeader.TxNumber = RT2020.SystemInfo.Settings.QueuingTxNumber(EnumHelper.TxType.PNQ);
+                                oHeader.TxType = EnumHelper.TxType.PNQ.ToString();
                                 oHeader.TxDate = dtpTxDate.Value;
 
-                                oHeader.CreatedBy = Common.Config.CurrentUserId;
+                                oHeader.CreatedBy = ConfigHelper.CurrentUserId;
                                 oHeader.CreatedOn = DateTime.Now;
 
-                                oHeader.FromLocation = new Guid(cboFromLocation.SelectedValue.ToString());
+                                oHeader.FromLocation = (Guid)cboFromLocation.SelectedValue; // new Guid(cboFromLocation.SelectedValue.ToString());
                                 oHeader.ToLocation = toLocation;
-                                oHeader.StaffId = new Guid(cboOperatorCode.SelectedValue.ToString());
+                                oHeader.StaffId = (Guid)cboOperatorCode.SelectedValue;  // new Guid(cboOperatorCode.SelectedValue.ToString());
                                 oHeader.TransferredOn = dtpTxferDate.Value;
                                 oHeader.CompletedOn = dtpCompDate.Value;
                                 oHeader.Remarks = txtRemarks.Text;
                                 oHeader.Picked = true;
 
-                                oHeader.ModifiedBy = Common.Config.CurrentUserId;
+                                oHeader.ModifiedBy = ConfigHelper.CurrentUserId;
                                 oHeader.ModifiedOn = DateTime.Now;
 
                                 ctx.InvtBatchTXF_Header.Add(oHeader);
@@ -244,11 +245,11 @@ namespace RT2020.Inventory.Transfer
             System.Guid headerId = System.Guid.Empty;
             InvtBatchTXF_Header oHeader = new InvtBatchTXF_Header();
 
-            oHeader.TxNumber = RT2020.SystemInfo.Settings.QueuingTxNumber(Common.Enums.TxType.PNQ);
-            oHeader.TxType = Common.Enums.TxType.PNQ.ToString();
+            oHeader.TxNumber = RT2020.SystemInfo.Settings.QueuingTxNumber(EnumHelper.TxType.PNQ);
+            oHeader.TxType = EnumHelper.TxType.PNQ.ToString();
             oHeader.TxDate = dtpTxDate.Value;
 
-            oHeader.CreatedBy = Common.Config.CurrentUserId;
+            oHeader.CreatedBy = ConfigHelper.CurrentUserId;
             oHeader.CreatedOn = DateTime.Now;
 
             oHeader.FromLocation = new Guid(cboFromLocation.SelectedValue.ToString());
@@ -259,7 +260,7 @@ namespace RT2020.Inventory.Transfer
             oHeader.Remarks = txtRemarks.Text;
             oHeader.Picked = true;
 
-            oHeader.ModifiedBy = Common.Config.CurrentUserId;
+            oHeader.ModifiedBy = ConfigHelper.CurrentUserId;
             oHeader.ModifiedOn = DateTime.Now;
 
             oHeader.Save();
@@ -400,10 +401,11 @@ namespace RT2020.Inventory.Transfer
 
         private void cboFromLocation_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cboFromLocation.SelectedValue != null && Common.Utility.IsGUID(cboFromLocation.SelectedValue.ToString()))
+            Guid id = Guid.Empty;
+            if (cboFromLocation.SelectedValue != null && Guid.TryParse(cboFromLocation.SelectedValue.ToString(), out id))
             {
                 dgvToLocation.Rows.Clear();
-                FillWorkplaceList(new System.Guid(cboFromLocation.SelectedValue.ToString()));
+                FillWorkplaceList(id);
                 BindWorkplaceList();
             }
         }

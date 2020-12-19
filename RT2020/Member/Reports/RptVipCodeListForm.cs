@@ -11,7 +11,7 @@ using Gizmox.WebGUI.Common;
 using Gizmox.WebGUI.Forms;
 using Gizmox.WebGUI.Common.Interfaces;
 using System.Web;
-using RT2020.DAL;
+
 using System.Data.SqlClient;
 using System.Configuration;
 using System.Linq;
@@ -62,7 +62,7 @@ namespace RT2020.Member.Reports
 
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = sql;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = System.Data.CommandType.Text;
 
             using (DataSet dataset = SqlHelper.Default.ExecuteDataSet(cmd))

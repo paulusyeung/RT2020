@@ -14,7 +14,7 @@ namespace RT2020.Purchasing.Wizard
     using Gizmox.WebGUI.Common.Resources;
     using Gizmox.WebGUI.Forms;
 
-    using RT2020.DAL;
+    
     using System.Linq;
     using System.Data.Entity;
     using Helper;
@@ -368,10 +368,10 @@ namespace RT2020.Purchasing.Wizard
                 {
                     objHeader = new EF6.PurchaseOrderReceiveHeader();
                     objHeader.ReceiveHeaderId = Guid.NewGuid();
-                    objHeader.CreatedBy = Common.Config.CurrentUserId;
+                    objHeader.CreatedBy = ConfigHelper.CurrentUserId;
                     objHeader.CreatedOn = DateTime.Now;
 
-                    this.txtTRNo.Text = RT2020.SystemInfo.Settings.QueuingTxNumber(Common.Enums.TxType.REC);
+                    this.txtTRNo.Text = RT2020.SystemInfo.Settings.QueuingTxNumber(EnumHelper.TxType.REC);
                     objHeader.TxNumber = this.txtTRNo.Text;
 
                     ctx.PurchaseOrderReceiveHeader.Add(objHeader);
@@ -382,7 +382,7 @@ namespace RT2020.Purchasing.Wizard
                 objHeader.TxDate = this.dtpReceivingDate.Value;
                 objHeader.OrderHeaderId = this.OrderHeaderId;
                 objHeader.WorkplaceId = PurchasingUtils.Convert.ToGuid(this.cboLocation.SelectedValue.ToString());
-                objHeader.StaffId = Common.Config.CurrentUserId;
+                objHeader.StaffId = ConfigHelper.CurrentUserId;
                 objHeader.ExchangeRate = PurchasingUtils.Convert.ToDecimal(this.txtXRate.Text);
                 objHeader.TotalCost = PurchasingUtils.Convert.ToDecimal(this.txtRecAmount.Text);
                 ////objHeader.TotalQty = PurchasingUtils.Convert.ToDecimal(this.txtTotalQty.Text);
@@ -398,14 +398,14 @@ namespace RT2020.Purchasing.Wizard
                 objHeader.GroupDiscount1 = PurchasingUtils.Convert.ToDecimal(this.txtGroupDiscount1.Text);
                 objHeader.GroupDiscount2 = PurchasingUtils.Convert.ToDecimal(this.txtGroupDiscount2.Text);
                 objHeader.GroupDiscount3 = PurchasingUtils.Convert.ToDecimal(this.txtGroupDiscount3.Text);
-                objHeader.Status = PurchasingUtils.Convert.ToInt32(this.cboStatus.Text == "HOLD" ? Common.Enums.Status.Draft.ToString("d") : Common.Enums.Status.Active.ToString("d"));
+                objHeader.Status = PurchasingUtils.Convert.ToInt32(this.cboStatus.Text == "HOLD" ? EnumHelper.Status.Draft.ToString("d") : EnumHelper.Status.Active.ToString("d"));
 
                 //// detail
 
                 //// other
                 objHeader.SupplierInvoiceNumber = this.txtSuppINV.Text;
 
-                objHeader.ModifiedBy = Common.Config.CurrentUserId;
+                objHeader.ModifiedBy = ConfigHelper.CurrentUserId;
                 objHeader.ModifiedOn = DateTime.Now;
 
                 ctx.SaveChanges();
@@ -587,7 +587,7 @@ WHERE ReceiveHeaderId = '" + this.ReceivingHeaderId.ToString() + "'";
 
             System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand();
             cmd.CommandText = sql;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = CommandType.Text;
 
             using (DataSet dataset = SqlHelper.Default.ExecuteDataSet(cmd))
@@ -835,10 +835,11 @@ WHERE ReceiveHeaderId = '" + this.ReceivingHeaderId.ToString() + "'";
         {
             if (this.lvDetailsList.SelectedItem != null)
             {
-                if (Common.Utility.IsGUID(this.lvDetailsList.SelectedItem.Text))
+                Guid id = Guid.Empty;
+                if (Guid.TryParse(this.lvDetailsList.SelectedItem.Text, out id))
                 {
-                    this.LoadReceivingDetailInfo(new Guid(this.lvDetailsList.SelectedItem.Text));
-                    this.ReceivingDetailId = new Guid(this.lvDetailsList.SelectedItem.Text);
+                    this.LoadReceivingDetailInfo(id);
+                    this.ReceivingDetailId = id;
                     this.selectedIndex = this.lvDetailsList.SelectedIndex;
                 }
             }
@@ -986,14 +987,14 @@ WHERE ReceiveHeaderId = '" + this.ReceivingHeaderId.ToString() + "'";
                     switch (objHeader.OrderType)
                     {
                         case 1:
-                            strPoType = Common.Enums.POType.LPO.ToString();
+                            strPoType = EnumHelper.POType.LPO.ToString();
                             break;
                         case 2:
-                            strPoType = Common.Enums.POType.OPO.ToString();
+                            strPoType = EnumHelper.POType.OPO.ToString();
                             break;
                         case 0:
                         default:
-                            strPoType = Common.Enums.POType.FPO.ToString();
+                            strPoType = EnumHelper.POType.FPO.ToString();
                             break;
                     }
                     #endregion
@@ -1059,7 +1060,7 @@ WHERE ReceiveHeaderId = '" + this.ReceivingHeaderId.ToString() + "'";
 
                 System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand();
                 cmd.CommandText = sql.ToString();
-                cmd.CommandTimeout = Common.Config.CommandTimeout;
+                cmd.CommandTimeout = ConfigHelper.CommandTimeout;
                 cmd.CommandType = CommandType.Text;
 
                 using (SqlDataReader reader = SqlHelper.Default.ExecuteReader(cmd))
@@ -1101,7 +1102,7 @@ WHERE ReceiveHeaderId = '" + this.ReceivingHeaderId.ToString() + "'";
 
                 System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand();
                 cmd.CommandText = sql.ToString();
-                cmd.CommandTimeout = Common.Config.CommandTimeout;
+                cmd.CommandTimeout = ConfigHelper.CommandTimeout;
                 cmd.CommandType = CommandType.Text;
 
                 using (SqlDataReader reader = SqlHelper.Default.ExecuteReader(cmd))

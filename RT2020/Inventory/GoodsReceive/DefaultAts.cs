@@ -11,8 +11,9 @@ using Gizmox.WebGUI.Common;
 using Gizmox.WebGUI.Common.Resources;
 using Gizmox.WebGUI.Forms;
 using RT2020.Product;
-using RT2020.DAL;
+
 using RT2020.Inventory;
+using RT2020.Helper;
 
 #endregion
 
@@ -38,13 +39,13 @@ namespace RT2020.Inventory.GoodsReceive
             ddlNew.MenuItems.Add(new MenuItem(RT2020.Controls.Utility.Dictionary.GetWord("Goods Receive"), string.Empty, "Goods_Receive"));
 
             MenuItem rec = new MenuItem(RT2020.Controls.Utility.Dictionary.GetWord("Goods Receive (Authorization)"), string.Empty, "Goods_Receive_Authorization");
-            rec.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(Common.Enums.Permission.Posting);
+            rec.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Posting);
             ddlNew.MenuItems.Add(rec);
 
             ToolBarButton cmdNew = new ToolBarButton("New", RT2020.Controls.Utility.Dictionary.GetWord("New"));
             cmdNew.Style = ToolBarButtonStyle.DropDownButton;
             cmdNew.Image = new IconResourceHandle("16x16.ico_16_3.gif");
-            cmdNew.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(Common.Enums.Permission.Write);
+            cmdNew.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Write);
             cmdNew.DropDownMenu = ddlNew;
 
             this.atsGoodsReceive.Buttons.Add(cmdNew);
@@ -59,7 +60,7 @@ namespace RT2020.Inventory.GoodsReceive
             ToolBarButton cmdImport = new ToolBarButton("Import", RT2020.Controls.Utility.Dictionary.GetWord("Import"));
             cmdImport.Style = ToolBarButtonStyle.DropDownButton;
             cmdImport.Image = new IconResourceHandle("16x16.ico_16_4407.gif");
-            cmdImport.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(Common.Enums.Permission.Write);
+            cmdImport.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Write);
             cmdImport.DropDownMenu = ddlImport;
 
             this.atsGoodsReceive.Buttons.Add(cmdImport);
@@ -72,7 +73,7 @@ namespace RT2020.Inventory.GoodsReceive
             ToolBarButton cmdExport = new ToolBarButton("Export", RT2020.Controls.Utility.Dictionary.GetWord("Export"));
             cmdExport.Style = ToolBarButtonStyle.DropDownButton;
             cmdExport.Image = new IconResourceHandle("16x16.ico_16_4407.gif");
-            cmdExport.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(Common.Enums.Permission.Write);
+            cmdExport.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Write);
             cmdExport.DropDownMenu = ddlExport;
 
             atsGoodsReceive.Buttons.Add(cmdExport);
@@ -91,7 +92,7 @@ namespace RT2020.Inventory.GoodsReceive
             ToolBarButton cmdReports = new ToolBarButton("Reports", RT2020.Controls.Utility.Dictionary.GetWord("Reports"));
             cmdReports.Style = ToolBarButtonStyle.DropDownButton;
             cmdReports.Image = new IconResourceHandle("16x16.16_reports.gif");
-            cmdReports.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(Common.Enums.Permission.Write);
+            cmdReports.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Write);
             cmdReports.DropDownMenu = ddlReports;
 
             this.atsGoodsReceive.Buttons.Add(cmdReports);

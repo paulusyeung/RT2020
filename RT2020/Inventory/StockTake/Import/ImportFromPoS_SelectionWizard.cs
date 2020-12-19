@@ -14,8 +14,9 @@ using System.IO;
 using RT2020.Controls;
 using System.Web.Configuration;
 using FileHelpers.DataLink;
-using RT2020.DAL;
+
 using System.Data.Entity;
+using RT2020.Helper;
 
 #endregion
 
@@ -319,7 +320,7 @@ namespace RT2020.Inventory.StockTake.Import
                 {
                     hhtHeader = new EF6.StocktakeHeader_HHT();
                     hhtHeader.HeaderId = Guid.NewGuid();
-                    hhtHeader.CreatedBy = Common.Config.CurrentUserId;
+                    hhtHeader.CreatedBy = ConfigHelper.CurrentUserId;
                     hhtHeader.CreatedOn = DateTime.Now;
 
                     ctx.StocktakeHeader_HHT.Add(hhtHeader);
@@ -334,8 +335,8 @@ namespace RT2020.Inventory.StockTake.Import
                 hhtHeader.MissingQty = 0;
                 hhtHeader.MissingRows = 0;
                 hhtHeader.Remarks = this.Remarks;
-                hhtHeader.Status = (int)Common.Enums.Status.Draft;
-                hhtHeader.ModifiedBy = Common.Config.CurrentUserId;
+                hhtHeader.Status = (int)EnumHelper.Status.Draft;
+                hhtHeader.ModifiedBy = ConfigHelper.CurrentUserId;
                 hhtHeader.ModifiedOn = DateTime.Now;
 
                 ctx.SaveChanges();

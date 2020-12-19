@@ -8,8 +8,9 @@ using System.Xml.Serialization;
 
 using Gizmox.WebGUI.Common;
 using Gizmox.WebGUI.Forms;
-using RT2020.DAL;
+
 using Gizmox.WebGUI.Common.Resources;
+using RT2020.Helper;
 
 namespace RT2020.Controls
 {
@@ -42,7 +43,7 @@ namespace RT2020.Controls
         private string preferredView = string.Empty;
         private Guid pageId = Guid.Empty;
 
-        private string sql = "StaffId = '" + Common.Config.CurrentUserId.ToString() + "' AND PageId = '{0}'";
+        private string sql = "StaffId = '" + ConfigHelper.CurrentUserId.ToString() + "' AND PageId = '{0}'";
 
         #endregion
 

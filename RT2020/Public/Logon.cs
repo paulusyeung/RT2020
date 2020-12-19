@@ -12,7 +12,7 @@ using Gizmox.WebGUI.Forms;
 using Gizmox.WebGUI.Forms.Authentication;
 using System.Web.Security;
 using Gizmox.WebGUI.Common.Interfaces;
-using RT2020.DAL;
+
 using System.Reflection;
 using RT2020.Controls;
 using System.Configuration;
@@ -47,7 +47,7 @@ namespace RT2020.Public
             this.Context.CurrentTheme = ThemeHelper.CurrentThemeVWGName;
             this.Context.Session.IsLoggedOn = false;
 
-            Common.Config.CurrentUserId = Guid.Empty;
+            ConfigHelper.CurrentUserId = Guid.Empty;
 
             SetAttributes();
             FillZoneList();
@@ -79,8 +79,8 @@ namespace RT2020.Public
         {
             ModelEx.WorkplaceZoneEx.LoadCombo(ref cboZone, "ZoneName", true);
 
-            if (Common.Config.CurrentZoneId != Guid.Empty)
-                cboZone.SelectedValue = Common.Config.CurrentZoneId;
+            if (ConfigHelper.CurrentZoneId != Guid.Empty)
+                cboZone.SelectedValue = ConfigHelper.CurrentZoneId;
         }
 
         /// <summary>
@@ -136,15 +136,15 @@ namespace RT2020.Public
                     var oStaff = ModelEx.StaffEx.GetByStaffId(oUser.UserSid);
                     if (oStaff != null)
                     {
-                        if (oStaff.Status > Convert.ToInt32(Common.Enums.Status.Inactive.ToString("d")))
+                        if (oStaff.Status > Convert.ToInt32(EnumHelper.Status.Inactive.ToString("d")))
                         {
                             if (!oStaff.Retired)
                             {
                                 this.Context.Session.IsLoggedOn = true;
 
-                                Common.Config.CurrentUserId = oStaff.StaffId;
-                                Common.Config.CurrentZoneId = new Guid(cboZone.SelectedValue.ToString());
-                                Common.Config.CurrentUserType = oUser.UserType.Value;
+                                ConfigHelper.CurrentUserId = oStaff.StaffId;
+                                ConfigHelper.CurrentZoneId = new Guid(cboZone.SelectedValue.ToString());
+                                ConfigHelper.CurrentUserType = oUser.UserType.Value;
 
                                 // The below code will logout the loggedin user when idle for the time specified
                                 if (ConfigurationManager.AppSettings["sessionTimeout"] != null)

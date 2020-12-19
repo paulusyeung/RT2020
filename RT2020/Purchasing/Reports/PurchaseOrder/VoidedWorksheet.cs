@@ -16,7 +16,7 @@ namespace RT2020.Purchasing.Reports.PurchaseOrder
     using Gizmox.WebGUI.Common.Interfaces;
     using Gizmox.WebGUI.Forms;
 
-    using RT2020.DAL;
+    
     using Helper;
 
     /// <summary>
@@ -215,7 +215,7 @@ ORDER BY OrderNumber, OrderOn
 ";
             System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand();
             cmd.CommandText = sql;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = CommandType.Text;
 
             using (DataSet dataset = SqlHelper.Default.ExecuteDataSet(cmd))

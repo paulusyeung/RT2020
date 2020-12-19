@@ -5,7 +5,7 @@ using System.Text;
 using System.Data.SqlClient;
 using System.Data;
 using System.Configuration;
-using RT2020.DAL;
+
 using RT2020.Controls;
 using RT2020.Helper;
 
@@ -40,7 +40,7 @@ FROM MonthEndWorkplaceSummary ";
 
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = query;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = CommandType.Text;
 
             SqlHelper.Default.ExecuteNonQuery(cmd);
@@ -56,7 +56,7 @@ FROM MonthEndSummary ";
 
             cmd = new SqlCommand();
             cmd.CommandText = query;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = CommandType.Text;
 
             SqlHelper.Default.ExecuteNonQuery(cmd);

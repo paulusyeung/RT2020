@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Data.SqlClient;
 using System.Configuration;
-using RT2020.DAL;
+
 using RT2020.Controls;
 using RT2020.Helper;
 
@@ -57,7 +57,7 @@ namespace RT2020.Settings.MonthEndProcess
 
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = sql;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = System.Data.CommandType.Text;
 
             using (SqlDataReader reader = SqlHelper.Default.ExecuteReader(cmd))
@@ -124,21 +124,21 @@ namespace RT2020.Settings.MonthEndProcess
                 {
                     objHeader = new EF6.InvtSubLedgerADJ_Header();
                     objHeader.HeaderId = Guid.NewGuid();
-                    objHeader.TxNumber = SystemInfo.Settings.QueuingTxNumber(RT2020.DAL.Common.Enums.TxType.ADJ);
-                    objHeader.TxType = RT2020.DAL.Common.Enums.TxType.ADJ.ToString();
+                    objHeader.TxNumber = SystemInfo.Settings.QueuingTxNumber(EnumHelper.TxType.ADJ);
+                    objHeader.TxType = EnumHelper.TxType.ADJ.ToString();
                     objHeader.TxDate = txDate;
                     objHeader.WorkplaceId = workplaceId;
                     objHeader.TotalAmount = 0;
                     objHeader.Reference = string.Empty;
                     objHeader.Remarks = "GENERATED FROM MONTH END.";
-                    objHeader.Status = (int)RT2020.DAL.Common.Enums.Status.Active;
-                    objHeader.StaffId = Common.Config.CurrentUserId;
-                    objHeader.PostedBy = Common.Config.CurrentUserId;
+                    objHeader.Status = (int)EnumHelper.Status.Active;
+                    objHeader.StaffId = ConfigHelper.CurrentUserId;
+                    objHeader.PostedBy = ConfigHelper.CurrentUserId;
                     objHeader.PostedOn = DateTime.Now;
 
-                    objHeader.CreatedBy = Common.Config.CurrentUserId;
+                    objHeader.CreatedBy = ConfigHelper.CurrentUserId;
                     objHeader.CreatedOn = DateTime.Now;
-                    objHeader.ModifiedBy = Common.Config.CurrentUserId;
+                    objHeader.ModifiedBy = ConfigHelper.CurrentUserId;
                     objHeader.ModifiedOn = DateTime.Now;
 
                     ctx.InvtSubLedgerADJ_Header.Add(objHeader);
@@ -164,7 +164,7 @@ namespace RT2020.Settings.MonthEndProcess
                 objDetail.HeaderId = headerId;
                 objDetail.TxNumber = txNumber;
                 objDetail.LineNumber = 0;
-                objDetail.TxType = RT2020.DAL.Common.Enums.TxType.ADJ.ToString();
+                objDetail.TxType = EnumHelper.TxType.ADJ.ToString();
                 objDetail.ProductId = productId;
                 objDetail.Qty = Math.Abs(cdQty) * (-1);
                 objDetail.AverageCost = ModelEx.ProductCurrentSummaryEx.GetAverageCode(productId);
@@ -232,11 +232,11 @@ namespace RT2020.Settings.MonthEndProcess
                         objHeader.Reference = objSubHeader.Reference;
                         objHeader.Remarks = objSubHeader.Remarks;
                         objHeader.StaffId = objSubHeader.StaffId;
-                        objHeader.Status = (int)RT2020.DAL.Common.Enums.Status.Active;
+                        objHeader.Status = (int)EnumHelper.Status.Active;
 
-                        objHeader.CreatedBy = Common.Config.CurrentUserId;
+                        objHeader.CreatedBy = ConfigHelper.CurrentUserId;
                         objHeader.CreatedOn = DateTime.Now;
-                        objHeader.ModifiedBy = Common.Config.CurrentUserId;
+                        objHeader.ModifiedBy = ConfigHelper.CurrentUserId;
                         objHeader.ModifiedOn = DateTime.Now;
 
                         ctx.InvtLedgerHeader.Add(objHeader);
@@ -278,7 +278,7 @@ namespace RT2020.Settings.MonthEndProcess
                             objDetail.ProductId = detail.ProductId;
                             objDetail.SHOP = ModelEx.WorkplaceEx.GetWorkplaceCodeById(workplaceId);
                             objDetail.TxDate = txDate;
-                            objDetail.OPERATOR = ModelEx.StaffEx.GetStaffNumberById(Common.Config.CurrentUserId);
+                            objDetail.OPERATOR = ModelEx.StaffEx.GetStaffNumberById(ConfigHelper.CurrentUserId);
                             objDetail.Qty = detail.Qty;
                             objDetail.AverageCost = detail.AverageCost;
                             objDetail.UnitAmount = detail.AverageCost;

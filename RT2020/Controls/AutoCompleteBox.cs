@@ -10,7 +10,7 @@ using System.Text;
 using Gizmox.WebGUI.Common;
 using Gizmox.WebGUI.Forms;
 using System.Data.SqlClient;
-using RT2020.DAL;
+
 using System.Configuration;
 using RT2020.Helper;
 
@@ -137,7 +137,7 @@ namespace RT2020.Controls
 
                 SqlCommand cmd = new SqlCommand();
                 cmd.CommandText = query;
-                cmd.CommandTimeout = Common.Config.CommandTimeout;
+                cmd.CommandTimeout = ConfigHelper.CommandTimeout;
                 cmd.CommandType = CommandType.Text;
 
                 using (SqlDataReader reader = SqlHelper.Default.ExecuteReader(cmd))

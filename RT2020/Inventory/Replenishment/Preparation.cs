@@ -9,7 +9,7 @@ using System.Text;
 
 using Gizmox.WebGUI.Common;
 using Gizmox.WebGUI.Forms;
-using RT2020.DAL;
+
 using System.Data.SqlClient;
 using System.Configuration;
 using System.Linq;
@@ -271,7 +271,7 @@ namespace RT2020.Inventory.Replenishment
 
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = sql;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = CommandType.Text;
 
             using (DataSet ds = SqlHelper.Default.ExecuteDataSet(cmd))
@@ -305,7 +305,7 @@ namespace RT2020.Inventory.Replenishment
                     {
                         #region single item
                         DateTime txDate = DateTime.Now;
-                        string txNumber = RT2020.SystemInfo.Settings.QueuingTxNumber(Common.Enums.TxType.RPL);
+                        string txNumber = RT2020.SystemInfo.Settings.QueuingTxNumber(EnumHelper.TxType.RPL);
                         #region Guid headerId = CreateRPLHeader(txNumber, txDate, cboFromWorkplace.Text, cboToWorkplace.Text, sRemarks);
                         string fromLocation = cboFromWorkplace.Text, toLocation = cboToWorkplace.Text;
 
@@ -315,14 +315,14 @@ namespace RT2020.Inventory.Replenishment
                         oHeader.TxDate = txDate;
                         oHeader.FromLocation = fromLocation;
                         oHeader.ToLocation = toLocation;
-                        oHeader.StaffId = Common.Config.CurrentUserId;
+                        oHeader.StaffId = ConfigHelper.CurrentUserId;
                         oHeader.Remarks = sRemarks;
 
-                        oHeader.CreatedBy = Common.Config.CurrentUserId;
+                        oHeader.CreatedBy = ConfigHelper.CurrentUserId;
                         oHeader.CreatedOn = DateTime.Now;
-                        oHeader.ModifiedBy = Common.Config.CurrentUserId;
+                        oHeader.ModifiedBy = ConfigHelper.CurrentUserId;
                         oHeader.ModifiedOn = DateTime.Now;
-                        oHeader.Status = Convert.ToInt32(Common.Enums.Status.Draft.ToString("d"));
+                        oHeader.Status = Convert.ToInt32(EnumHelper.Status.Draft.ToString("d"));
 
                         ctx.InvtBatchRPL_Header.Add(oHeader);
                         ctx.SaveChanges();
@@ -441,7 +441,7 @@ namespace RT2020.Inventory.Replenishment
                             if (listItem.Checked)
                             {
                                 DateTime txDate = DateTime.Now;
-                                string txNumber = RT2020.SystemInfo.Settings.QueuingTxNumber(Common.Enums.TxType.RPL);
+                                string txNumber = RT2020.SystemInfo.Settings.QueuingTxNumber(EnumHelper.TxType.RPL);
                                 #region Guid headerId = CreateRPLHeader(txNumber, txDate, cboFromWorkplace.Text, listItem.SubItems[2].Text, sRemarks);
                                 string fromLocation = cboFromWorkplace.Text, toLocation = cboToWorkplace.Text;
 
@@ -451,14 +451,14 @@ namespace RT2020.Inventory.Replenishment
                                 oHeader.TxDate = txDate;
                                 oHeader.FromLocation = fromLocation;
                                 oHeader.ToLocation = toLocation;
-                                oHeader.StaffId = Common.Config.CurrentUserId;
+                                oHeader.StaffId = ConfigHelper.CurrentUserId;
                                 oHeader.Remarks = sRemarks;
 
-                                oHeader.CreatedBy = Common.Config.CurrentUserId;
+                                oHeader.CreatedBy = ConfigHelper.CurrentUserId;
                                 oHeader.CreatedOn = DateTime.Now;
-                                oHeader.ModifiedBy = Common.Config.CurrentUserId;
+                                oHeader.ModifiedBy = ConfigHelper.CurrentUserId;
                                 oHeader.ModifiedOn = DateTime.Now;
-                                oHeader.Status = Convert.ToInt32(Common.Enums.Status.Draft.ToString("d"));
+                                oHeader.Status = Convert.ToInt32(EnumHelper.Status.Draft.ToString("d"));
 
                                 ctx.InvtBatchRPL_Header.Add(oHeader);
                                 ctx.SaveChanges();
@@ -585,14 +585,14 @@ namespace RT2020.Inventory.Replenishment
             oHeader.TxDate = txDate;
             oHeader.FromLocation = fromLocation;
             oHeader.ToLocation = toLocation;
-            oHeader.StaffId = Common.Config.CurrentUserId;
+            oHeader.StaffId = ConfigHelper.CurrentUserId;
             oHeader.Remarks = remarks;
 
-            oHeader.CreatedBy = Common.Config.CurrentUserId;
+            oHeader.CreatedBy = ConfigHelper.CurrentUserId;
             oHeader.CreatedOn = DateTime.Now;
-            oHeader.ModifiedBy = Common.Config.CurrentUserId;
+            oHeader.ModifiedBy = ConfigHelper.CurrentUserId;
             oHeader.ModifiedOn = DateTime.Now;
-            oHeader.Status = Convert.ToInt32(Common.Enums.Status.Draft.ToString("d"));
+            oHeader.Status = Convert.ToInt32(EnumHelper.Status.Draft.ToString("d"));
 
             oHeader.Save();
 
@@ -830,7 +830,8 @@ namespace RT2020.Inventory.Replenishment
         {
             foreach (ListViewItem listItem in lvToWorkplaceList.Items)
             {
-                if (Common.Utility.IsGUID(listItem.Text))
+                Guid id = Guid.Empty;
+                if (Guid.TryParse(listItem.Text, out id))
                 {
                     if (btnSelectAll.Text.Contains("Select"))
                     {
@@ -849,17 +850,19 @@ namespace RT2020.Inventory.Replenishment
 
         private void cboFromWorkplace_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (Common.Utility.IsGUID(cboFromWorkplace.SelectedValue.ToString()))
+            Guid id = Guid.Empty;
+            if (Guid.TryParse(cboFromWorkplace.SelectedValue.ToString(), out id))
             {
-                txtSelectedFromWorkplace.Text = ModelEx.WorkplaceEx.GetWorkplaceNameById((Guid)cboFromWorkplace.SelectedValue);
+                txtSelectedFromWorkplace.Text = ModelEx.WorkplaceEx.GetWorkplaceNameById(id);
             }
         }
 
         private void cboToWorkplace_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (Common.Utility.IsGUID(cboToWorkplace.SelectedValue.ToString()))
+            Guid id = Guid.Empty;
+            if (Guid.TryParse(cboToWorkplace.SelectedValue.ToString(), out id))
             {
-                txtSelectedToWorkplace.Text = ModelEx.WorkplaceEx.GetWorkplaceNameById((Guid)cboToWorkplace.SelectedValue);
+                txtSelectedToWorkplace.Text = ModelEx.WorkplaceEx.GetWorkplaceNameById(id);
             }
         }
     }

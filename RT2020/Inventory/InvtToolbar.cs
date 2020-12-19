@@ -6,7 +6,7 @@ using System.Xml.Linq;
 
 using Gizmox.WebGUI.Forms;
 using Gizmox.WebGUI.Common.Resources;
-using RT2020.DAL;
+using RT2020.Helper;
 
 namespace RT2020.Inventory
 {
@@ -15,7 +15,7 @@ namespace RT2020.Inventory
         private Control atsPaneCtrl;
         private FormType fType;
 
-        nxStudio.BaseClass.WordDict oDict = new nxStudio.BaseClass.WordDict(Common.Config.CurrentWordDict, Common.Config.CurrentLanguageId);
+        nxStudio.BaseClass.WordDict oDict = new nxStudio.BaseClass.WordDict(ConfigHelper.CurrentWordDict, ConfigHelper.CurrentLanguageId);
 
         public enum FormType
         {
@@ -50,7 +50,7 @@ namespace RT2020.Inventory
             menu.MenuItems.Add(new MenuItem(oDict.GetWord("Goods Receive"), string.Empty, "Goods_Receive"));
 
             MenuItem rec = new MenuItem(oDict.GetWord("Goods Receive (Authorization)"), string.Empty, "Goods_Receive_Authorization");
-            rec.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(Common.Enums.Permission.Posting);
+            rec.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Posting);
 
             menu.MenuItems.Add(rec);
 
@@ -63,7 +63,7 @@ namespace RT2020.Inventory
             menu.MenuItems.Add(new MenuItem(oDict.GetWord("Goods Return"), string.Empty, "Goods_Return"));
 
             MenuItem rej = new MenuItem(oDict.GetWord("Goods Return (Authorization)"), string.Empty, "Goods_Return_Authorization");
-            rej.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(Common.Enums.Permission.Posting);
+            rej.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Posting);
 
             menu.MenuItems.Add(rej);
             return menu;
@@ -84,7 +84,7 @@ namespace RT2020.Inventory
             menu.MenuItems.Add(new MenuItem(oDict.GetWord("Adjustment"), string.Empty, "Adjustment"));
 
             MenuItem adj = new MenuItem(oDict.GetWord("Adjustment (Authorization)"), string.Empty, "Adjustment_Authorization");
-            adj.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(Common.Enums.Permission.Posting);
+            adj.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Posting);
             menu.MenuItems.Add(adj);
             return menu;
         }
@@ -97,11 +97,11 @@ namespace RT2020.Inventory
             //menu.MenuItems.Add(new MenuItem("Replenishment (Advance)", string.Empty, "Replenishment_Advance"));
 
             MenuItem confirm = new MenuItem(oDict.GetWord("Replenishment (Confirmation)"), string.Empty, "Replenishment_Confirmation");
-            confirm.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(Common.Enums.Permission.Posting);
+            confirm.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Posting);
             menu.MenuItems.Add(confirm);
 
             MenuItem auth = new MenuItem(oDict.GetWord("Replenishment (Authorization)"), string.Empty, "Replenishment_Authorization");
-            auth.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(Common.Enums.Permission.Posting);
+            auth.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Posting);
             menu.MenuItems.Add(auth);
             return menu;
         }
@@ -115,11 +115,11 @@ namespace RT2020.Inventory
             menu.MenuItems.Add(new MenuItem(oDict.GetWord("Re-Capture On-Hand Quantity"), string.Empty, "Recapture_OnHand_Quantity"));
 
             MenuItem approval = new MenuItem(oDict.GetWord("Stock Take - Approval"), string.Empty, "StockTake_Approval");
-            approval.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(Common.Enums.Permission.Posting);
+            approval.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Posting);
             menu.MenuItems.Add(approval);
 
             MenuItem auth = new MenuItem(oDict.GetWord("Stock Take (Authorization)"), string.Empty, "StockTake_Authorization");
-            auth.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(Common.Enums.Permission.Posting);
+            auth.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Posting);
             menu.MenuItems.Add(auth);
             return menu;
         }
@@ -181,7 +181,7 @@ namespace RT2020.Inventory
             cmdNew.Style = ToolBarButtonStyle.DropDownButton;
             cmdNew.Image = new IconResourceHandle("16x16.ico_16_3.gif");
             cmdNew.DropDownMenu = ddlNew;
-            cmdNew.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(Common.Enums.Permission.Write);
+            cmdNew.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Write);
 
             atsInvt.Buttons.Add(cmdNew);
             cmdNew.MenuClick += new MenuEventHandler(cmdMenuClick);
@@ -212,7 +212,7 @@ namespace RT2020.Inventory
             ToolBarButton cmdImport = new ToolBarButton("Import", oDict.GetWord("Import"));
             cmdImport.Style = ToolBarButtonStyle.DropDownButton;
             cmdImport.Image = new IconResourceHandle("16x16.ico_16_4407.gif");
-            cmdImport.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(Common.Enums.Permission.Write);
+            cmdImport.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Write);
             cmdImport.DropDownMenu = ddlImport;
 
             atsInvt.Buttons.Add(cmdImport);
@@ -240,7 +240,7 @@ namespace RT2020.Inventory
             ToolBarButton cmdExport = new ToolBarButton("Export", oDict.GetWord("Export"));
             cmdExport.Style = ToolBarButtonStyle.DropDownButton;
             cmdExport.Image = new IconResourceHandle("16x16.ico_16_4407_up.gif");
-            cmdExport.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(Common.Enums.Permission.Write);
+            cmdExport.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Write);
             cmdExport.DropDownMenu = ddlExport;
 
             atsInvt.Buttons.Add(cmdExport);
@@ -266,7 +266,7 @@ namespace RT2020.Inventory
                     cmdStockStatus.Style = ToolBarButtonStyle.DropDownButton;
                     cmdStockStatus.Image = new IconResourceHandle("16x16.16_reports.gif");
                     cmdStockStatus.DropDownMenu = ddlStockStatus;
-                    cmdStockStatus.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(Common.Enums.Permission.Write);
+                    cmdStockStatus.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Write);
 
                     atsInvt.Buttons.Add(cmdStockStatus);
                     cmdStockStatus.MenuClick += new MenuEventHandler(cmdMenuClick);
@@ -303,11 +303,11 @@ namespace RT2020.Inventory
                         wizAuthRej.ShowDialog();
                         break;
                     case "transfer":
-                        RT2020.Inventory.Transfer.Wizard wizTxfer = new RT2020.Inventory.Transfer.Wizard(Common.Enums.TxType.TXF);
+                        RT2020.Inventory.Transfer.Wizard wizTxfer = new RT2020.Inventory.Transfer.Wizard(EnumHelper.TxType.TXF);
                         wizTxfer.ShowDialog();
                         break;
                     case "transfer_picking_note":
-                        RT2020.Inventory.Transfer.Wizard wizTxfer_PNQ = new RT2020.Inventory.Transfer.Wizard(Common.Enums.TxType.PNQ);
+                        RT2020.Inventory.Transfer.Wizard wizTxfer_PNQ = new RT2020.Inventory.Transfer.Wizard(EnumHelper.TxType.PNQ);
                         wizTxfer_PNQ.ShowDialog();
                         break;
                     case "transfer_picking_note_fast":

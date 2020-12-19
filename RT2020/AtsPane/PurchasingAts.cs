@@ -2,8 +2,8 @@
 
 using Gizmox.WebGUI.Common.Resources;
 using Gizmox.WebGUI.Forms;
-using RT2020.DAL;
 using RT2020.Controls;
+using RT2020.Helper;
 
 #endregion Using
 
@@ -20,7 +20,7 @@ namespace RT2020.AtsPane
 
         private void SetAtsPurchase()
         {
-            nxStudio.BaseClass.WordDict oDict = new nxStudio.BaseClass.WordDict(Common.Config.CurrentWordDict, Common.Config.CurrentLanguageId);
+            nxStudio.BaseClass.WordDict oDict = new nxStudio.BaseClass.WordDict(ConfigHelper.CurrentWordDict, ConfigHelper.CurrentLanguageId);
 
             this.atsPurchase.MenuHandle = false;
             this.atsPurchase.DragHandle = false;
@@ -31,21 +31,21 @@ namespace RT2020.AtsPane
             ddlNew.MenuItems.Add(new MenuItem(oDict.GetWord("Purchase Orders"), string.Empty, "PurPurchaseOrders"));
 
             MenuItem poAuth = new MenuItem(oDict.GetWord("P.O. Authentication"), string.Empty, "PurPurchaseOrders_Auth");
-            poAuth.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(Common.Enums.Permission.Posting);
+            poAuth.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Posting);
             ddlNew.MenuItems.Add(poAuth);
 
             ddlNew.MenuItems.Add(new MenuItem("-"));
             ddlNew.MenuItems.Add(new MenuItem(oDict.GetWord("P.O. Receiving"), string.Empty, "PurGoodsReceive"));
 
             MenuItem recAuth = new MenuItem(oDict.GetWord("Receiving Authentication"), string.Empty, "PurGoodsReceive_Auth");
-            recAuth.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(Common.Enums.Permission.Posting);
+            recAuth.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Posting);
             ddlNew.MenuItems.Add(recAuth);
             //ddlNew.MenuItems.Add(new MenuItem("Settle Orders", string.Empty, "PurSettleOrders"));
 
             ToolBarButton cmdNew = new ToolBarButton("New", oDict.GetWord("New"));
             cmdNew.Style = ToolBarButtonStyle.DropDownButton;
             cmdNew.Image = new IconResourceHandle("16x16.ico_16_3.gif");
-            cmdNew.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(Common.Enums.Permission.Write);
+            cmdNew.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Write);
             cmdNew.DropDownMenu = ddlNew;
 
             this.atsPurchase.Buttons.Add(cmdNew);
@@ -61,7 +61,7 @@ namespace RT2020.AtsPane
             ToolBarButton cmdImport = new ToolBarButton("Import", oDict.GetWord("Import"));
             cmdImport.Style = ToolBarButtonStyle.DropDownButton;
             cmdImport.Image = new IconResourceHandle("16x16.ico_16_4407.gif");
-            cmdImport.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(Common.Enums.Permission.Write);
+            cmdImport.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Write);
             cmdImport.DropDownMenu = ddlImport;
 
             this.atsPurchase.Buttons.Add(cmdImport);
@@ -74,7 +74,7 @@ namespace RT2020.AtsPane
             ToolBarButton cmdExport = new ToolBarButton("Export", oDict.GetWord("Export"));
             cmdExport.Style = ToolBarButtonStyle.DropDownButton;
             cmdExport.Image = new IconResourceHandle("16x16.ico_16_exportCustomizations.gif");
-            cmdExport.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(Common.Enums.Permission.Write);
+            cmdExport.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Write);
             cmdExport.DropDownMenu = ddlExport;
 
             this.atsPurchase.Buttons.Add(cmdExport);
@@ -101,7 +101,7 @@ namespace RT2020.AtsPane
             ToolBarButton cmdReport = new ToolBarButton("Report", oDict.GetWord("Reports"));
             cmdReport.Style = ToolBarButtonStyle.DropDownButton;
             cmdReport.Image = new IconResourceHandle("16x16.16_reports.gif");
-            cmdReport.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(Common.Enums.Permission.Write);
+            cmdReport.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Write);
             cmdReport.DropDownMenu = ddlReport;
 
             this.atsPurchase.Buttons.Add(cmdReport);

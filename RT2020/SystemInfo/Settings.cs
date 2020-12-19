@@ -9,9 +9,9 @@ using System.Xml.Linq;
 using Gizmox.WebGUI.Server;
 using Gizmox.WebGUI.Forms;
 
-using RT2020.DAL;
 using RT2020.Controls;
 using System.Drawing;
+using RT2020.Helper;
 
 namespace RT2020.SystemInfo
 {
@@ -25,16 +25,16 @@ namespace RT2020.SystemInfo
         /// </summary>
         /// <param name="txType">Type of the transactions.</param>
         /// <returns></returns>
-        public static string QueuingTxNumber(Common.Enums.TxType txType)
+        public static string QueuingTxNumber(EnumHelper.TxType txType)
         {
-            return QueuingTxNumber<Common.Enums.TxType>(txType);
+            return QueuingTxNumber<EnumHelper.TxType>(txType);
         }
 
         /// <summary>
         /// Queuings the tx number.
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="typeName">Name of the type. Enums: Common.Enums.TxType, Common.Enums.POType</param>
+        /// <param name="typeName">Name of the type. Enums: EnumHelper.TxType, EnumHelper.POType</param>
         /// <returns>TxNumber</returns>
         public static string QueuingTxNumber<T>(T typeName)
         {
@@ -44,12 +44,12 @@ namespace RT2020.SystemInfo
             switch (typeName.GetType().Name)
             {
                 case "TxType":
-                    Common.Enums.TxType txType = (Common.Enums.TxType)Convert.ChangeType(typeName, typeof(Common.Enums.TxType));
+                    EnumHelper.TxType txType = (EnumHelper.TxType)Convert.ChangeType(typeName, typeof(EnumHelper.TxType));
                     query = "QueuingType = '" + txType.ToString() + "'";
                     queuingType = txType.ToString();
                     break;
                 case "POType":
-                    Common.Enums.POType poType = (Common.Enums.POType)Convert.ChangeType(typeName, typeof(Common.Enums.POType));
+                    EnumHelper.POType poType = (EnumHelper.POType)Convert.ChangeType(typeName, typeof(EnumHelper.POType));
                     query = "QueuingType = '" + poType.ToString() + "'";
                     queuingType = poType.ToString();
                     break;
@@ -108,7 +108,7 @@ namespace RT2020.SystemInfo
         {
             string result = key;
 
-            var oLabel = ModelEx.SystemLabelEx.GetByLanguageCode(Common.Config.CurrentLanguageCode);
+            var oLabel = ModelEx.SystemLabelEx.GetByLanguageCode(ConfigHelper.CurrentLanguageCode);
             if (oLabel != null)
             {
                 PropertyInfo pi = oLabel.GetType().GetProperty(key.Trim().ToUpper());

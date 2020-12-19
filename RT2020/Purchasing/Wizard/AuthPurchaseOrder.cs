@@ -13,7 +13,7 @@ namespace RT2020.Purchasing.Wizard
     using Gizmox.WebGUI.Common;
     using Gizmox.WebGUI.Forms;
 
-    using RT2020.DAL;
+    
     using System.Linq;
     using System.Data.Entity;
     using Helper;
@@ -30,8 +30,8 @@ namespace RT2020.Purchasing.Wizard
         {
             this.InitializeComponent();
             this.InitComboBox();
-            this.BindingList(Common.Enums.Status.Active); //// Posting
-            this.BindingList(Common.Enums.Status.Draft); //// Holding
+            this.BindingList(EnumHelper.Status.Active); //// Posting
+            this.BindingList(EnumHelper.Status.Draft); //// Holding
         }
 
         #region Init
@@ -59,7 +59,7 @@ namespace RT2020.Purchasing.Wizard
         {
             if (this.VerifyDate())
             {
-                this.BindingList(Common.Enums.Status.Active); //// Posting
+                this.BindingList(EnumHelper.Status.Active); //// Posting
             }
         }
 
@@ -111,7 +111,7 @@ namespace RT2020.Purchasing.Wizard
         {
             if (((Form)sender).DialogResult == DialogResult.OK)
             {
-                this.BindingList(Common.Enums.Status.Active); //// Posting
+                this.BindingList(EnumHelper.Status.Active); //// Posting
             }
         }
 
@@ -232,9 +232,9 @@ namespace RT2020.Purchasing.Wizard
                     if (objHeader != null)
                     {
                         objHeader.PostedOn = DateTime.Now;
-                        objHeader.PostedBy = Common.Config.CurrentUserId;
+                        objHeader.PostedBy = ConfigHelper.CurrentUserId;
 
-                        objHeader.ModifiedBy = Common.Config.CurrentUserId;
+                        objHeader.ModifiedBy = ConfigHelper.CurrentUserId;
                         objHeader.ModifiedOn = DateTime.Now;
                         ctx.SaveChanges();
 
@@ -262,13 +262,13 @@ namespace RT2020.Purchasing.Wizard
                     var objHeader = ctx.PurchaseOrderHeader.Where(x => x.OrderNumber.Contains(this.txtOrderNumber.Text.Trim())).AsNoTracking().FirstOrDefault();
                     if (objHeader != null)
                     {
-                        Common.Enums.Status objStatus = (Common.Enums.Status)Enum.Parse(typeof(Common.Enums.Status), objHeader.Status.ToString());
+                        EnumHelper.Status objStatus = (EnumHelper.Status)Enum.Parse(typeof(EnumHelper.Status), objHeader.Status.ToString());
                         switch (objStatus)
                         {
-                            case Common.Enums.Status.Draft: // Holding
+                            case EnumHelper.Status.Draft: // Holding
                                 this.tabREJAuthorization.SelectedIndex = 1;
                                 break;
-                            case Common.Enums.Status.Active: // Posting
+                            case EnumHelper.Status.Active: // Posting
                                 this.tabREJAuthorization.SelectedIndex = 0;
                                 break;
                         }
@@ -301,7 +301,7 @@ namespace RT2020.Purchasing.Wizard
 
             System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand();
             cmd.CommandText = sql;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = CommandType.Text;
 
             SqlDataReader reader = SqlHelper.Default.ExecuteReader(cmd);
@@ -314,17 +314,17 @@ namespace RT2020.Purchasing.Wizard
         /// Bindings the list.
         /// </summary>
         /// <param name="status">The status.</param>
-        private void BindingList(Common.Enums.Status status)
+        private void BindingList(EnumHelper.Status status)
         {
             SqlDataReader reader;
             switch (status)
             {
-                case Common.Enums.Status.Draft: //// Holding
-                    reader = this.DataSource(Common.Enums.Status.Draft.ToString("d"), false);
+                case EnumHelper.Status.Draft: //// Holding
+                    reader = this.DataSource(EnumHelper.Status.Draft.ToString("d"), false);
                     this.BindingHoldingList(reader);
                     break;
-                case Common.Enums.Status.Active: //// Posting
-                    reader = this.DataSource(Common.Enums.Status.Active.ToString("d"), true);
+                case EnumHelper.Status.Active: //// Posting
+                    reader = this.DataSource(EnumHelper.Status.Active.ToString("d"), true);
                     this.BindingPostingList(reader);
                     break;
                 default:
@@ -348,13 +348,13 @@ namespace RT2020.Purchasing.Wizard
                 switch (reader.GetInt32(1))
                 {
                     case 0:
-                        orderType = Common.Enums.POType.FPO.ToString();
+                        orderType = EnumHelper.POType.FPO.ToString();
                         break;
                     case 1:
-                        orderType = Common.Enums.POType.LPO.ToString();
+                        orderType = EnumHelper.POType.LPO.ToString();
                         break;
                     case 2:
-                        orderType = Common.Enums.POType.OPO.ToString();
+                        orderType = EnumHelper.POType.OPO.ToString();
                         break;
                 }
 
@@ -392,13 +392,13 @@ namespace RT2020.Purchasing.Wizard
                 switch (reader.GetInt32(1))
                 {
                     case 0:
-                        orderType = Common.Enums.POType.FPO.ToString();
+                        orderType = EnumHelper.POType.FPO.ToString();
                         break;
                     case 1:
-                        orderType = Common.Enums.POType.LPO.ToString();
+                        orderType = EnumHelper.POType.LPO.ToString();
                         break;
                     case 2:
-                        orderType = Common.Enums.POType.OPO.ToString();
+                        orderType = EnumHelper.POType.OPO.ToString();
                         break;
                 }
 

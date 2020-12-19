@@ -9,7 +9,7 @@ using System.Text;
 
 using Gizmox.WebGUI.Common;
 using Gizmox.WebGUI.Forms;
-using RT2020.DAL;
+
 using RT2020.Controls;
 using System.Linq;
 using System.Data.Entity;
@@ -137,10 +137,11 @@ namespace RT2020.Member
         {
             if (cboAddressType.SelectedValue != null)
             {
-            if (Common.Utility.IsGUID(cboAddressType.SelectedValue.ToString()))
-            {
-                LoadAddress(new Guid(cboAddressType.SelectedValue.ToString()));
-            }
+                //if (Common.Utility.IsGUID(cboAddressType.SelectedValue.ToString()))
+                //{
+                //    LoadAddress(new Guid(cboAddressType.SelectedValue.ToString()));
+                //}
+                LoadAddress((Guid)cboAddressType.SelectedValue);
             }
         }
 
@@ -148,10 +149,11 @@ namespace RT2020.Member
         {
             if (cboCountry.SelectedValue != null)
             {
-                if (Common.Utility.IsGUID(cboCountry.SelectedValue.ToString()))
-                {
-                    FillProvinceList(new System.Guid(cboCountry.SelectedValue.ToString()));
-                }
+                //if (Common.Utility.IsGUID(cboCountry.SelectedValue.ToString()))
+                //{
+                //    FillProvinceList(new System.Guid(cboCountry.SelectedValue.ToString()));
+                //}
+                FillProvinceList((Guid)cboCountry.SelectedValue);
             }
         }
 
@@ -159,10 +161,11 @@ namespace RT2020.Member
         {
             if (cboProvince.SelectedValue != null)
             {
-                if (Common.Utility.IsGUID(cboProvince.SelectedValue.ToString()))
-                {
-                    FillCityList(new System.Guid(cboProvince.SelectedValue.ToString()));
-                }
+                //if (Common.Utility.IsGUID(cboProvince.SelectedValue.ToString()))
+                //{
+                //    FillCityList(new System.Guid(cboProvince.SelectedValue.ToString()));
+                //}
+                FillCityList((Guid)cboProvince.SelectedValue);
             }
         }
     }

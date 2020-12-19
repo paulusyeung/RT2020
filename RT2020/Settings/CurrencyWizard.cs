@@ -10,7 +10,7 @@ using System.Text;
 using Gizmox.WebGUI.Common;
 using Gizmox.WebGUI.Forms;
 using Gizmox.WebGUI.Common.Resources;
-using RT2020.DAL;
+
 using System.Data.SqlClient;
 using System.Configuration;
 using RT2020.Helper;
@@ -231,7 +231,7 @@ namespace RT2020.Settings
 
         private bool IsValid()
         {
-            bool result = true;
+            bool result = true; decimal numeric = 0;
 
             #region CountryCode 唔可以吉
             errorProvider.SetError(txtCurrencyCode, string.Empty);
@@ -251,12 +251,12 @@ namespace RT2020.Settings
             }
             #endregion
 
-            if (!Common.Utility.IsNumeric(txtUnicodeDecimal.Text))
+            if (!decimal.TryParse(txtUnicodeDecimal.Text, out numeric))
             {
                 errorProvider.SetError(txtUnicodeDecimal, Resources.Common.DigitalNeeded);
                 result = false;
             }
-            else if (!Common.Utility.IsNumeric(txtExchangeRate.Text))
+            else if (!decimal.TryParse(txtExchangeRate.Text, out numeric))
             {
                 errorProvider.SetError(txtExchangeRate, Resources.Common.DigitalNeeded);
                 result = false;
@@ -277,7 +277,7 @@ namespace RT2020.Settings
                 {
                     currency = new EF6.Currency();
                     currency.CurrencyId = new Guid();
-                    currency.CreatedBy = Common.Config.CurrentUserId;
+                    currency.CreatedBy = ConfigHelper.CurrentUserId;
                     currency.CreatedOn = DateTime.Now;
 
                     ctx.Currency.Add(currency);
@@ -286,7 +286,7 @@ namespace RT2020.Settings
                 currency.CountryName = txtCurrencyName.Text;
                 currency.UnicodeDecimal = Convert.ToInt32((txtUnicodeDecimal.Text == string.Empty) ? "0" : txtUnicodeDecimal.Text);
                 currency.ExchangeRate = Convert.ToDecimal((txtExchangeRate.Text == string.Empty) ? "0" : txtExchangeRate.Text);
-                currency.ModifiedBy = Common.Config.CurrentUserId;
+                currency.ModifiedBy = ConfigHelper.CurrentUserId;
                 currency.ModifiedOn = DateTime.Now;
 
                 ctx.SaveChanges();

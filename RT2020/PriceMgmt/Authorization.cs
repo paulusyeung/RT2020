@@ -9,7 +9,7 @@ using System.Text;
 
 using Gizmox.WebGUI.Common;
 using Gizmox.WebGUI.Forms;
-using RT2020.DAL;
+
 using System.Text.RegularExpressions;
 using System.Data.SqlClient;
 using System.Configuration;
@@ -104,7 +104,7 @@ namespace RT2020.PriceMgmt
             
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = sql;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType= CommandType.Text;
 
             using (SqlDataReader reader = SqlHelper.Default.ExecuteReader(cmd))
@@ -389,7 +389,7 @@ namespace RT2020.PriceMgmt
                                         destHeader.Remarks = srcHeader.Remarks;
                                         destHeader.SEGMENT_LOCATION = srcHeader.SEGMENT_LOCATION;
                                         destHeader.Posted = true;
-                                        destHeader.PostedBy = Common.Config.CurrentUserId;
+                                        destHeader.PostedBy = ConfigHelper.CurrentUserId;
                                         destHeader.PostedOn = DateTime.Now;
                                         destHeader.CreatedOn = srcHeader.CreatedOn;
                                         destHeader.CreatedBy = srcHeader.CreatedBy;
@@ -401,9 +401,9 @@ namespace RT2020.PriceMgmt
 
                                         // Update the posted detail (batch)
                                         srcHeader.Posted = true;
-                                        srcHeader.PostedBy = Common.Config.CurrentUserId;
+                                        srcHeader.PostedBy = ConfigHelper.CurrentUserId;
                                         srcHeader.PostedOn = DateTime.Now;
-                                        srcHeader.ModifiedBy = Common.Config.CurrentUserId;
+                                        srcHeader.ModifiedBy = ConfigHelper.CurrentUserId;
                                         srcHeader.ModifiedOn = DateTime.Now;
 
                                         ctx.SaveChanges();
@@ -449,8 +449,8 @@ namespace RT2020.PriceMgmt
                                                 }
 
                                                 oProduct.DownloadToPOS = true;
-                                                oProduct.Status = (int)Common.Enums.Status.Modified;
-                                                oProduct.ModifiedBy = Common.Config.CurrentUserId;
+                                                oProduct.Status = (int)EnumHelper.Status.Modified;
+                                                oProduct.ModifiedBy = ConfigHelper.CurrentUserId;
                                                 oProduct.ModifiedOn = DateTime.Now;
 
                                                 ctx.SaveChanges();
@@ -517,7 +517,7 @@ namespace RT2020.PriceMgmt
                 destHeader.Remarks = srcHeader.Remarks;
                 destHeader.SEGMENT_LOCATION = srcHeader.SEGMENT_LOCATION;
                 destHeader.Posted = true;
-                destHeader.PostedBy = Common.Config.CurrentUserId;
+                destHeader.PostedBy = ConfigHelper.CurrentUserId;
                 destHeader.PostedOn = DateTime.Now;
                 destHeader.CreatedOn = srcHeader.CreatedOn;
                 destHeader.CreatedBy = srcHeader.CreatedBy;
@@ -529,9 +529,9 @@ namespace RT2020.PriceMgmt
 
                 // Update the posted detail (batch)
                 srcHeader.Posted = true;
-                srcHeader.PostedBy = Common.Config.CurrentUserId;
+                srcHeader.PostedBy = ConfigHelper.CurrentUserId;
                 srcHeader.PostedOn = DateTime.Now;
-                srcHeader.ModifiedBy = Common.Config.CurrentUserId;
+                srcHeader.ModifiedBy = ConfigHelper.CurrentUserId;
                 srcHeader.ModifiedOn = DateTime.Now;
                 srcHeader.Save();
             }
@@ -613,8 +613,8 @@ namespace RT2020.PriceMgmt
                     }
 
                     oProduct.DownloadToPOS = true;
-                    oProduct.Status = (int)Common.Enums.Status.Modified;
-                    oProduct.ModifiedBy = Common.Config.CurrentUserId;
+                    oProduct.Status = (int)EnumHelper.Status.Modified;
+                    oProduct.ModifiedBy = ConfigHelper.CurrentUserId;
                     oProduct.ModifiedOn = DateTime.Now;
 
                     ctx.SaveChanges();

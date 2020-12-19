@@ -5,7 +5,7 @@ using System.Text;
 using System.Data.SqlClient;
 using System.Data;
 using System.Configuration;
-using RT2020.DAL;
+
 using RT2020.Controls;
 using RT2020.Helper;
 
@@ -47,7 +47,7 @@ namespace RT2020.Settings.MonthEndProcess
 
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = query;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = CommandType.Text;
 
             SqlHelper.Default.ExecuteNonQuery(cmd);
@@ -58,7 +58,7 @@ namespace RT2020.Settings.MonthEndProcess
 
             cmd = new SqlCommand();
             cmd.CommandText = query;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = CommandType.Text;
 
             SqlHelper.Default.ExecuteNonQuery(cmd);
@@ -89,7 +89,7 @@ GROUP BY fep.ProductId, fep.WorkplaceId, pw.ProductId HAVING (pw.ProductId Is Nu
 
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = query;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = CommandType.Text;
 
             SqlHelper.Default.ExecuteNonQuery(cmd);
@@ -115,7 +115,7 @@ WHERE (fh.TxType IN ('CRT', 'VOD', 'TXI') AND fh.[STATUS]<>'P') ";
 
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = query;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = CommandType.Text;
 
             SqlHelper.Default.ExecuteNonQuery(cmd);
@@ -140,7 +140,7 @@ WHERE (fh.TxType IN ('CAS', 'TXO') AND fh.[STATUS]<>'P') ";
 
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = query;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = CommandType.Text;
 
             SqlHelper.Default.ExecuteNonQuery(cmd);
@@ -169,7 +169,7 @@ WHERE (fep.TxType = 'TXO') ";
 
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = query;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = CommandType.Text;
 
             SqlHelper.Default.ExecuteNonQuery(cmd);
@@ -196,7 +196,7 @@ WHERE (fep.TxType = 'TXI') ";
 
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = query;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = CommandType.Text;
 
             SqlHelper.Default.ExecuteNonQuery(cmd);

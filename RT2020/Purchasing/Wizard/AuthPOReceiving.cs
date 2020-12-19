@@ -13,7 +13,7 @@ namespace RT2020.Purchasing.Wizard
     using Gizmox.WebGUI.Common;
     using Gizmox.WebGUI.Forms;
 
-    using RT2020.DAL;
+    
     using Helper;
 
     /// <summary>
@@ -28,8 +28,8 @@ namespace RT2020.Purchasing.Wizard
         {
             this.InitializeComponent();
             this.InitComboBox();
-            this.BindingList(Common.Enums.Status.Active); //// Posting
-            this.BindingList(Common.Enums.Status.Draft); //// Holding
+            this.BindingList(EnumHelper.Status.Active); //// Posting
+            this.BindingList(EnumHelper.Status.Draft); //// Holding
         }
 
         /// <summary>
@@ -41,7 +41,7 @@ namespace RT2020.Purchasing.Wizard
         {
             if (this.VerifyDate())
             {
-                this.BindingList(Common.Enums.Status.Active); //// Posting
+                this.BindingList(EnumHelper.Status.Active); //// Posting
             }
         }
 
@@ -89,7 +89,7 @@ namespace RT2020.Purchasing.Wizard
         {
             if (((Form)sender).DialogResult == DialogResult.OK)
             {
-                this.BindingList(Common.Enums.Status.Active); //// Posting
+                this.BindingList(EnumHelper.Status.Active); //// Posting
             }
         }
 
@@ -175,7 +175,7 @@ namespace RT2020.Purchasing.Wizard
 
             System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand();
             cmd.CommandText = sql;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = CommandType.Text;
 
             using (SqlDataReader reader = SqlHelper.Default.ExecuteReader(cmd))
@@ -188,17 +188,17 @@ namespace RT2020.Purchasing.Wizard
         /// Bindings the list.
         /// </summary>
         /// <param name="status">The status.</param>
-        private void BindingList(Common.Enums.Status status)
+        private void BindingList(EnumHelper.Status status)
         {
             SqlDataReader reader;
             switch (status)
             {
-                case Common.Enums.Status.Draft: //// Holding
-                    reader = this.DataSource(Common.Enums.Status.Draft.ToString("d"), false);
+                case EnumHelper.Status.Draft: //// Holding
+                    reader = this.DataSource(EnumHelper.Status.Draft.ToString("d"), false);
                     this.BindingHoldingList(reader);
                     break;
-                case Common.Enums.Status.Active: //// Posting
-                    reader = this.DataSource(Common.Enums.Status.Active.ToString("d"), true);
+                case EnumHelper.Status.Active: //// Posting
+                    reader = this.DataSource(EnumHelper.Status.Active.ToString("d"), true);
                     this.BindingPostingList(reader);
                     break;
                 default:
@@ -442,9 +442,9 @@ namespace RT2020.Purchasing.Wizard
                     if (objHeader != null)
                     {
                         objHeader.PostedOn = DateTime.Now;
-                        objHeader.PostedBy = Common.Config.CurrentUserId;
+                        objHeader.PostedBy = ConfigHelper.CurrentUserId;
 
-                        objHeader.ModifiedBy = Common.Config.CurrentUserId;
+                        objHeader.ModifiedBy = ConfigHelper.CurrentUserId;
                         objHeader.ModifiedOn = DateTime.Now;
 
                         ctx.SaveChanges();

@@ -13,9 +13,10 @@ using Gizmox.WebGUI.Common.Interfaces;
 using System.Diagnostics;
 using System.Reflection;
 using RT2020.Controls;
-using RT2020.DAL;
+
 using System.Web.Caching;
 using RT2020.Components.Layout;
+using RT2020.Helper;
 
 #endregion
 
@@ -37,7 +38,7 @@ namespace RT2020
 
         private void SetAttributes()
         {
-            nxStudio.BaseClass.WordDict oDict = new nxStudio.BaseClass.WordDict(Common.Config.CurrentWordDict, Common.Config.CurrentLanguageId);
+            nxStudio.BaseClass.WordDict oDict = new nxStudio.BaseClass.WordDict(ConfigHelper.CurrentWordDict, ConfigHelper.CurrentLanguageId);
 
             amsFile.Text = oDict.GetWord("file_main_menu");
             amsView.Text = oDict.GetWord("view_main_menu");
@@ -139,7 +140,7 @@ namespace RT2020
 
         private void Shutdown()
         {
-            DAL.Common.Config.CurrentUserId = System.Guid.Empty;
+            ConfigHelper.CurrentUserId = System.Guid.Empty;
 
             RT2020.Controls.Log4net.LogInfo(RT2020.Controls.Log4net.LogAction.Logout, this.ToString());
 
@@ -164,7 +165,7 @@ namespace RT2020
                     case "amsFileExit":
                     case "File.Exit":
                     case "RT2020.Quit":
-                        //RT2020.DAL.Common.Config.CurrentUserId = System.Guid.Empty;
+                        //RT2020.ConfigHelper.CurrentUserId = System.Guid.Empty;
                         // While setting the IsLoggedOn to false, will redirect to Logon Page.
                         //this.Context.Session.IsLoggedOn = false;
                         // VWGContext.Current.HttpContext.Session.Abandon();

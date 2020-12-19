@@ -13,10 +13,11 @@ using System.IO;
 using RT2020.Controls;
 using FileHelpers;
 using FileHelpers.DataLink;
-using RT2020.DAL;
+
 using System.Text.RegularExpressions;
 using Gizmox.WebGUI.Common.Interfaces;
 using System.Web;
+using RT2020.Helper;
 
 #endregion
 
@@ -210,7 +211,7 @@ namespace RT2020.Member.Export
 
         private void LoadData()
         {
-            storage.ConnectionString = Common.Config.ConnectionString;
+            storage.ConnectionString = ConfigHelper.ConnectionString;
 
             if (rbtnExportNewRecords.Checked)
             {

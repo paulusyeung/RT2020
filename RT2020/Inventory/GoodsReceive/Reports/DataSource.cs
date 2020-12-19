@@ -11,7 +11,7 @@ using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Xml.Linq;
 
-using RT2020.DAL;
+
 using RT2020.Helper;
 
 namespace RT2020.Inventory.GoodsReceive.Reports
@@ -34,12 +34,12 @@ FROM    dbo.InvtBatchCAP_Header AS h INNER JOIN
         dbo.Supplier AS v ON h.SupplierId = v.SupplierId
 WHERE	h.TxNumber BETWEEN '" + FromTxNumber.Trim() + @"' AND '" + ToTxNumber.Trim() + @"' AND
         CONVERT(VARCHAR(10), h.TxDate, 126) BETWEEN '" + FromTxDate.ToString("yyyy-MM-dd") + @"' AND '" + ToTxDate.ToString("yyyy-MM-dd") + @"' AND
-        h.TxType = '" + Common.Enums.TxType.CAP.ToString() + @"'
+        h.TxType = '" + EnumHelper.TxType.CAP.ToString() + @"'
 ORDER BY h.TxNumber, h.TxDate;
 ";
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = sql;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = System.Data.CommandType.Text;
 
             using (DataSet dataset = SqlHelper.Default.ExecuteDataSet(cmd))
@@ -66,7 +66,7 @@ ORDER BY d.TxNumber, d.LineNumber
 ";
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = sql;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = System.Data.CommandType.Text;
 
             using (DataSet dataset = SqlHelper.Default.ExecuteDataSet(cmd))
@@ -91,12 +91,12 @@ FROM    dbo.InvtSubLedgerCAP_Header AS h INNER JOIN
         dbo.Supplier AS v ON h.SupplierId = v.SupplierId
 WHERE	h.TxNumber BETWEEN '" + FromTxNumber.Trim() + @"' AND '" + ToTxNumber.Trim() + @"' AND
         CONVERT(VARCHAR(10), h.TxDate, 126) BETWEEN '" + FromTxDate.ToString("yyyy-MM-dd") + @"' AND '" + ToTxDate.ToString("yyyy-MM-dd") + @"' AND
-        h.TxType = '" + Common.Enums.TxType.CAP.ToString() + @"'
+        h.TxType = '" + EnumHelper.TxType.CAP.ToString() + @"'
 ORDER BY h.TxNumber, h.TxDate;
 ";
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = sql;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = System.Data.CommandType.Text;
 
             using (DataSet dataset = SqlHelper.Default.ExecuteDataSet(cmd))
@@ -123,7 +123,7 @@ ORDER BY d.TxNumber, d.LineNumber
 ";
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = sql;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = System.Data.CommandType.Text;
 
             using (DataSet dataset = SqlHelper.Default.ExecuteDataSet(cmd))

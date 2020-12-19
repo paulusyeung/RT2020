@@ -14,7 +14,7 @@ using FileHelpers;
 using RT2020.Controls;
 using System.Data.SqlClient;
 using System.Configuration;
-using RT2020.DAL;
+
 using RT2020.Helper;
 
 #endregion
@@ -60,7 +60,7 @@ DROP TABLE [dbo].[TxferAdvanceImportSummary] ";
 
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = query;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = CommandType.Text;
 
             SqlHelper.Default.ExecuteNonQuery(cmd);
@@ -72,7 +72,7 @@ DROP TABLE [dbo].[TxferAdvanceImport] ";
 
             cmd = new SqlCommand();
             cmd.CommandText = query;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = CommandType.Text;
 
             SqlHelper.Default.ExecuteNonQuery(cmd);
@@ -96,7 +96,7 @@ CREATE TABLE [dbo].[TxferAdvanceImportSummary](
 
             cmd = new SqlCommand();
             cmd.CommandText = query;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = CommandType.Text;
 
             SqlHelper.Default.ExecuteNonQuery(cmd);
@@ -115,7 +115,7 @@ CREATE TABLE [dbo].[TxferAdvanceImport](
 
             cmd = new SqlCommand();
             cmd.CommandText = query;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = CommandType.Text;
 
             SqlHelper.Default.ExecuteNonQuery(cmd);
@@ -130,7 +130,7 @@ DROP TABLE [dbo].[TxferAdvanceImportSummary] ";
 
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = query;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = CommandType.Text;
 
             SqlHelper.Default.ExecuteNonQuery(cmd);
@@ -142,7 +142,7 @@ DROP TABLE [dbo].[TxferAdvanceImport] ";
 
             cmd = new SqlCommand();
             cmd.CommandText = query;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = CommandType.Text;
 
             SqlHelper.Default.ExecuteNonQuery(cmd);
@@ -165,7 +165,7 @@ GROUP BY TRF.TxNumber, TRF.BARCODE, p.STKCODE, p.APPENDIX1, p.APPENDIX2, p.APPEN
 
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = query;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = CommandType.Text;
 
             SqlHelper.Default.ExecuteNonQuery(cmd);
@@ -180,7 +180,7 @@ WHERE (p.ProductId IS NOT NULL) ";
 
             cmd = new SqlCommand();
             cmd.CommandText = query;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = CommandType.Text;
 
             SqlHelper.Default.ExecuteNonQuery(cmd);
@@ -195,7 +195,7 @@ WHERE (p.ProductId IS NULL) ";
 
             cmd = new SqlCommand();
             cmd.CommandText = query;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = CommandType.Text;
 
             SqlHelper.Default.ExecuteNonQuery(cmd);
@@ -214,7 +214,7 @@ WHERE (p.ProductId IS NOT NULL) ";
 
             cmd = new SqlCommand();
             cmd.CommandText = query;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = CommandType.Text;
 
             SqlHelper.Default.ExecuteNonQuery(cmd);
@@ -233,7 +233,7 @@ WHERE (p.ProductId IS NULL)  ";
 
             cmd = new SqlCommand();
             cmd.CommandText = query;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = CommandType.Text;
 
             SqlHelper.Default.ExecuteNonQuery(cmd);
@@ -247,7 +247,7 @@ WHERE TRF.TxNumber = '' OR TRF.TxNumber IS NULL";
 
             cmd = new SqlCommand();
             cmd.CommandText = query;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = CommandType.Text;
 
             SqlHelper.Default.ExecuteNonQuery(cmd);
@@ -262,7 +262,7 @@ ORDER BY TxNumber, NotInMatch";
 
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = query;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = CommandType.Text;
 
             using (SqlDataReader reader = SqlHelper.Default.ExecuteReader(cmd))
@@ -367,7 +367,7 @@ ORDER BY S.TxNumber, S.STKCODE, S.APPENDIX1, S.APPENDIX2, S.APPENDIX3, S.BARCODE
 
                                 SqlCommand initCmd = new SqlCommand();
                                 initCmd.CommandText = sql;
-                                initCmd.CommandTimeout = Common.Config.CommandTimeout;
+                                initCmd.CommandTimeout = ConfigHelper.CommandTimeout;
                                 initCmd.CommandType = CommandType.Text;
 
                                 SqlHelper.Default.ExecuteNonQuery(initCmd);
@@ -390,7 +390,7 @@ ORDER BY S.TxNumber, S.STKCODE, S.APPENDIX1, S.APPENDIX2, S.APPENDIX3, S.BARCODE
 
                                     SqlCommand cmd = new SqlCommand();
                                     cmd.CommandText = query;
-                                    cmd.CommandTimeout = Common.Config.CommandTimeout;
+                                    cmd.CommandTimeout = ConfigHelper.CommandTimeout;
                                     cmd.CommandType = CommandType.Text;
 
                                     SqlHelper.Default.ExecuteNonQuery(cmd);

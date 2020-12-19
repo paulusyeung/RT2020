@@ -858,7 +858,10 @@
     <Compile Include="Helper\BotHelper.cs" />
     <Compile Include="Helper\ComboBoxHelper.cs" />
     <Compile Include="Helper\CommonHelper.cs" />
+    <Compile Include="Helper\ConfigHelper.cs" />
     <Compile Include="Helper\CookieHelper.cs" />
+    <Compile Include="Helper\DateTimeHelper.cs" />
+    <Compile Include="Helper\EnumHelper.cs" />
     <Compile Include="Helper\GenData\ChinaData.cs" />
     <Compile Include="Helper\GenData\TaiwanData.cs" />
     <Compile Include="Helper\GenData\MacaoData.cs" />

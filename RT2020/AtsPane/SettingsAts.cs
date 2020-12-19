@@ -2,8 +2,9 @@
 
 using Gizmox.WebGUI.Common.Resources;
 using Gizmox.WebGUI.Forms;
-using RT2020.DAL;
+
 using RT2020.Controls;
+using RT2020.Helper;
 
 #endregion Using
 
@@ -20,7 +21,7 @@ namespace RT2020.AtsPane
 
         private void SetAtsSettings()
         {
-            nxStudio.BaseClass.WordDict oDict = new nxStudio.BaseClass.WordDict(Common.Config.CurrentWordDict, Common.Config.CurrentLanguageId);
+            nxStudio.BaseClass.WordDict oDict = new nxStudio.BaseClass.WordDict(ConfigHelper.CurrentWordDict, ConfigHelper.CurrentLanguageId);
 
             this.atsSettings.MenuHandle = false;
             this.atsSettings.DragHandle = false;
@@ -60,7 +61,7 @@ namespace RT2020.AtsPane
             ToolBarButton cmdNew = new ToolBarButton("New", oDict.GetWord("New"));
             cmdNew.Style = ToolBarButtonStyle.DropDownButton;
             cmdNew.Image = new IconResourceHandle("16x16.ico_16_3.gif");
-            cmdNew.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(Common.Enums.Permission.Write);
+            cmdNew.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Write);
             cmdNew.DropDownMenu = ddlNew;
 
             this.atsSettings.Buttons.Add(cmdNew);
@@ -74,7 +75,7 @@ namespace RT2020.AtsPane
             ToolBarButton cmdReports = new ToolBarButton("Reports", oDict.GetWord("Reports"));
             cmdReports.Style = ToolBarButtonStyle.DropDownButton;
             cmdReports.Image = new IconResourceHandle("16x16.16_reports.gif");
-            cmdReports.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(Common.Enums.Permission.Write);
+            cmdReports.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Write);
             cmdReports.DropDownMenu = ddlReports;
 
             this.atsSettings.Buttons.Add(cmdReports);

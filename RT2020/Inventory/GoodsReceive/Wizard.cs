@@ -12,7 +12,7 @@ using Gizmox.WebGUI.Forms;
 using Gizmox.WebGUI.Common.Resources;
 using Gizmox.WebGUI.Common.Interfaces;
 
-using RT2020.DAL;
+
 using RT2020.Controls;
 using System.Linq;
 using RT2020.Helper;
@@ -211,7 +211,8 @@ namespace RT2020.Inventory.GoodsReceive
                 }
                 else
                 {
-                    InitCurrency(Common.Utility.IsGUID(cboCurrency.SelectedValue.ToString()) ? System.Guid.Empty : new System.Guid(cboCurrency.SelectedValue.ToString()));
+                    //InitCurrency(Common.Utility.IsGUID(cboCurrency.SelectedValue.ToString()) ? System.Guid.Empty : new System.Guid(cboCurrency.SelectedValue.ToString()));
+                    InitCurrency((Guid)cboCurrency.SelectedValue);
                 }
             }
         }
@@ -231,7 +232,8 @@ namespace RT2020.Inventory.GoodsReceive
 
                     txtCoefficient.Text = oCny.ExchangeRate.Value.ToString("n4");
 
-                    decimal unitPrice = Convert.ToDecimal(Common.Utility.IsNumeric(txtUnitPrice_1.Text) ? txtUnitPrice_1.Text : "0");
+                    decimal unitPrice = 0;
+                    decimal.TryParse(txtUnitPrice_1.Text, out unitPrice);
                     txtUnitPrice_2.Text = (unitPrice * oCny.ExchangeRate.Value).ToString("n2");
 
                     GetSummaryCost(this.ProductId);
@@ -315,7 +317,7 @@ namespace RT2020.Inventory.GoodsReceive
             ToolBarButton cmdSave = new ToolBarButton("Save", Utility.Dictionary.GetWord("Save"));
             cmdSave.Tag = "Save";
             cmdSave.Image = new IconResourceHandle("16x16.16_L_save.gif");
-            cmdSave.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(Common.Enums.Permission.Write);
+            cmdSave.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Write);
 
             this.tbWizardAction.Buttons.Add(cmdSave);
 
@@ -323,7 +325,7 @@ namespace RT2020.Inventory.GoodsReceive
             ToolBarButton cmdSaveNew = new ToolBarButton("Save & New", HttpUtility.UrlDecode(Utility.Dictionary.GetWord("Save_New")));
             cmdSaveNew.Tag = "Save & New";
             cmdSaveNew.Image = new IconResourceHandle("16x16.16_L_saveOpen.gif");
-            cmdSaveNew.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(Common.Enums.Permission.Write);
+            cmdSaveNew.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Write);
 
             this.tbWizardAction.Buttons.Add(cmdSaveNew);
 
@@ -331,7 +333,7 @@ namespace RT2020.Inventory.GoodsReceive
             ToolBarButton cmdSaveClose = new ToolBarButton("Save & Close", HttpUtility.UrlDecode(Utility.Dictionary.GetWord("Save_close")));
             cmdSaveClose.Tag = "Save & Close";
             cmdSaveClose.Image = new IconResourceHandle("16x16.16_saveClose.gif");
-            cmdSaveClose.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(Common.Enums.Permission.Write);
+            cmdSaveClose.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Write);
 
             this.tbWizardAction.Buttons.Add(cmdSaveClose);
             this.tbWizardAction.Buttons.Add(sep);
@@ -353,8 +355,8 @@ namespace RT2020.Inventory.GoodsReceive
             }
             else
             {
-                cmdDelete.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(Common.Enums.Permission.Delete);
-                cmdPrint.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(Common.Enums.Permission.Write);
+                cmdDelete.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Delete);
+                cmdPrint.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Write);
             }
 
             this.tbWizardAction.Buttons.Add(cmdDelete);
@@ -399,13 +401,13 @@ namespace RT2020.Inventory.GoodsReceive
                             WHERE	TxNumber BETWEEN '" + this.txtTxNumber.Text.Trim() + @"' AND '" + this.txtTxNumber.Text.Trim() + @"' 
                               AND CONVERT(VARCHAR(10), TxDate, 126) BETWEEN '" + this.dtpRecvDate.Value.ToString("yyyy-MM-dd") + @"' 
                                                                         AND '" + this.dtpRecvDate.Value.ToString("yyyy-MM-dd") + @"' 
-                              AND TxType = '" + Common.Enums.TxType.CAP.ToString() + @"' 
+                              AND TxType = '" + EnumHelper.TxType.CAP.ToString() + @"' 
                             ORDER BY TxNumber, TxDate, LineNumber
                           ";
 
             System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand();
             cmd.CommandText = sql;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = CommandType.Text;
 
             using (DataSet dataset = SqlHelper.Default.ExecuteDataSet(cmd))
@@ -422,7 +424,7 @@ namespace RT2020.Inventory.GoodsReceive
                 { "FromTxDate", this.dtpRecvDate.Value.ToString(RT2020.SystemInfo.Settings.GetDateFormat()) },
                 { "ToTxDate", this.dtpRecvDate.Value.ToString(RT2020.SystemInfo.Settings.GetDateFormat()) },
                 { "PrintedOn", DateTime.Now.ToString(RT2020.SystemInfo.Settings.GetDateTimeFormat()) },
-                { "PrintedBy", ModelEx.StaffEx.GetStaffNameById(Common.Config.CurrentUserId) },
+                { "PrintedBy", ModelEx.StaffEx.GetStaffNameById(ConfigHelper.CurrentUserId) },
                 { "StockCode", RT2020.SystemInfo.Settings.GetSystemLabelByKey("STKCODE") },
                 { "Appendix1", RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX1") },
                 { "Appendix2", RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX2") },
@@ -461,7 +463,7 @@ namespace RT2020.Inventory.GoodsReceive
         {
             ModelEx.StaffEx.LoadCombo(ref cboOperatorCode, "StaffNumber", false);
 
-            cboOperatorCode.SelectedValue = Common.Config.CurrentUserId;
+            cboOperatorCode.SelectedValue = ConfigHelper.CurrentUserId;
         }
 
         private void FillSupplierList()
@@ -513,13 +515,13 @@ namespace RT2020.Inventory.GoodsReceive
                             #region add new InvtBatchCAP_Header
                             oHeader = new EF6.InvtBatchCAP_Header();
 
-                            txtTxNumber.Text = RT2020.SystemInfo.Settings.QueuingTxNumber(Common.Enums.TxType.CAP);
+                            txtTxNumber.Text = RT2020.SystemInfo.Settings.QueuingTxNumber(EnumHelper.TxType.CAP);
 
                             oHeader.HeaderId = Guid.NewGuid();
                             oHeader.TxNumber = txtTxNumber.Text;
-                            oHeader.TxType = Common.Enums.TxType.CAP.ToString();
+                            oHeader.TxType = EnumHelper.TxType.CAP.ToString();
 
-                            oHeader.CreatedBy = Common.Config.CurrentUserId;
+                            oHeader.CreatedBy = ConfigHelper.CurrentUserId;
                             oHeader.CreatedOn = DateTime.Now;
 
                             ctx.InvtBatchCAP_Header.Add(oHeader);
@@ -527,7 +529,7 @@ namespace RT2020.Inventory.GoodsReceive
                         }
                         #region InvtBatchCAP_Header core data
                         oHeader.TxDate = dtpRecvDate.Value;
-                        oHeader.Status = Convert.ToInt32(cboStatus.Text == "HOLD" ? Common.Enums.Status.Draft.ToString("d") : Common.Enums.Status.Active.ToString("d"));
+                        oHeader.Status = Convert.ToInt32(cboStatus.Text == "HOLD" ? EnumHelper.Status.Draft.ToString("d") : EnumHelper.Status.Active.ToString("d"));
 
                         oHeader.WorkplaceId = new Guid(cboWorkplace.SelectedValue.ToString());
                         oHeader.StaffId = new Guid(cboOperatorCode.SelectedValue.ToString());
@@ -539,11 +541,13 @@ namespace RT2020.Inventory.GoodsReceive
                         oHeader.ExchangeRate = Convert.ToDecimal(txtCoefficient.Text.Length == 0 ? "1" : txtCoefficient.Text);
                         oHeader.LinkToAP = chkAPLink.Checked;
 
-                        oHeader.ModifiedBy = Common.Config.CurrentUserId;
+                        oHeader.ModifiedBy = ConfigHelper.CurrentUserId;
                         oHeader.ModifiedOn = DateTime.Now;
                         #endregion
 
-                        oHeader.TotalAmount = Convert.ToDecimal(Common.Utility.IsNumeric(txtTotalAmount.Text) ? txtTotalAmount.Text : "0");
+                        decimal totalAmount = 0;
+                        decimal.TryParse(txtTotalAmount.Text, out totalAmount);
+                        oHeader.TotalAmount = totalAmount;
 
                         ctx.SaveChanges();
 
@@ -859,7 +863,7 @@ namespace RT2020.Inventory.GoodsReceive
 
             System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand();
             cmd.CommandText = sql.ToString();
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = CommandType.Text;
 
             using (SqlDataReader reader = SqlHelper.Default.ExecuteReader(cmd))
@@ -930,16 +934,20 @@ namespace RT2020.Inventory.GoodsReceive
         {
             if (lvDetailsList.SelectedItem != null && lvDetailsList.SelectedItem.SubItems[2].Text != "REMOVED")
             {
-                if (Common.Utility.IsGUID(lvDetailsList.SelectedItem.SubItems[12].Text))
+                Guid prodId = Guid.Empty;
+                if (Guid.TryParse(lvDetailsList.SelectedItem.SubItems[12].Text, out prodId))
                 {
                     this.ValidSelection = true;
-
                     this.SelectedIndex = lvDetailsList.SelectedIndex;
 
-                    Guid prodId = new Guid(lvDetailsList.SelectedItem.SubItems[12].Text);
-                    decimal unitPrice = Convert.ToDecimal(Common.Utility.IsNumeric(lvDetailsList.SelectedItem.SubItems[9].Text.Trim()) ? lvDetailsList.SelectedItem.SubItems[9].Text.Trim() : "0"); // UnitAmountInForeignCurrency
-                    decimal qty = Convert.ToDecimal(Common.Utility.IsNumeric(lvDetailsList.SelectedItem.SubItems[8].Text.Trim()) ? lvDetailsList.SelectedItem.SubItems[8].Text.Trim() : "0");
-                    decimal xchgRate = Convert.ToDecimal(Common.Utility.IsNumeric(txtCoefficient.Text) ? txtCoefficient.Text : "1");
+                    //Guid prodId = new Guid(lvDetailsList.SelectedItem.SubItems[12].Text);
+                    //decimal unitPrice = Convert.ToDecimal(Common.Utility.IsNumeric(lvDetailsList.SelectedItem.SubItems[9].Text.Trim()) ? lvDetailsList.SelectedItem.SubItems[9].Text.Trim() : "0"); // UnitAmountInForeignCurrency
+                    //decimal qty = Convert.ToDecimal(Common.Utility.IsNumeric(lvDetailsList.SelectedItem.SubItems[8].Text.Trim()) ? lvDetailsList.SelectedItem.SubItems[8].Text.Trim() : "0");
+                    //decimal xchgRate = Convert.ToDecimal(Common.Utility.IsNumeric(txtCoefficient.Text) ? txtCoefficient.Text : "1");
+                    decimal unitPrice = 0, qty = 0, xchgRate = 0;
+                    decimal.TryParse(lvDetailsList.SelectedItem.SubItems[9].Text.Trim(), out unitPrice);
+                    decimal.TryParse(lvDetailsList.SelectedItem.SubItems[8].Text.Trim(), out qty);
+                    decimal.TryParse(txtCoefficient.Text, out xchgRate);
 
                     txtDescription.Text = lvDetailsList.SelectedItem.SubItems[7].Text;
 
@@ -1173,7 +1181,8 @@ namespace RT2020.Inventory.GoodsReceive
         #region Get Product Summary Cost
         private void GetSummaryCost(Guid productId)
         {
-            decimal xchgrate = Convert.ToDecimal(Common.Utility.IsNumeric(txtCoefficient.Text.Trim()) ? txtCoefficient.Text.Trim() : "1");
+            decimal xchgrate = 0;
+            decimal.TryParse(txtCoefficient.Text.Trim(), out xchgrate);
 
             var oSummary = ModelEx.ProductCurrentSummaryEx.GetByProductCode(productId);
             if (oSummary != null)
@@ -1201,7 +1210,8 @@ namespace RT2020.Inventory.GoodsReceive
 
         private void cboCurrency_SelectedIndexChanged(object sender, EventArgs e)
         {
-            InitCurrency(!Common.Utility.IsGUID(cboCurrency.SelectedValue.ToString()) ? System.Guid.Empty : new System.Guid(cboCurrency.SelectedValue.ToString()));
+            //InitCurrency(!Common.Utility.IsGUID(cboCurrency.SelectedValue.ToString()) ? System.Guid.Empty : new System.Guid(cboCurrency.SelectedValue.ToString()));
+            InitCurrency((Guid)cboCurrency.SelectedValue);
         }
 
         private void txtBarcode_TextChanged(object sender, EventArgs e)
@@ -1247,24 +1257,28 @@ namespace RT2020.Inventory.GoodsReceive
 
                     if (lvItem.SubItems[12].Text == e.ProductId.ToString())
                     {
-                        if (lvItem.Text != System.Guid.Empty.ToString() && Common.Utility.IsGUID(lvItem.Text))
+                        Guid detailId = Guid.Empty;
+                        if (Guid.TryParse(lvItem.Text, out detailId))
                         {
-                            if (iCount == 0)
+                            if (detailId != Guid.Empty)
                             {
-                                txtQty.Text = lvItem.SubItems[8].Text;
+                                if (iCount == 0)
+                                {
+                                    txtQty.Text = lvItem.SubItems[8].Text;
 
-                                txtLastCost_1.Text = txtUnitPrice_1.Text;
-                                txtLastCost_2.Text = txtUnitPrice_2.Text;
-                                txtAvrCost_1.Text = txtUnitPrice_1.Text;
-                                txtAvrCost_2.Text = txtUnitPrice_2.Text;
+                                    txtLastCost_1.Text = txtUnitPrice_1.Text;
+                                    txtLastCost_2.Text = txtUnitPrice_2.Text;
+                                    txtAvrCost_1.Text = txtUnitPrice_1.Text;
+                                    txtAvrCost_2.Text = txtUnitPrice_2.Text;
 
-                                this.ProductId = e.ProductId;
-                                this.CAPDetailId = new Guid(lvItem.Text);
-                                this.SelectedIndex = lvItem.Index;
-                                lvItem.Selected = true;
+                                    this.ProductId = e.ProductId;
+                                    this.CAPDetailId = detailId;  // new Guid(lvItem.Text);
+                                    this.SelectedIndex = lvItem.Index;
+                                    lvItem.Selected = true;
+                                }
+
+                                iCount++;
                             }
-
-                            iCount++;
                         }
                     }
                 }
@@ -1372,16 +1386,22 @@ namespace RT2020.Inventory.GoodsReceive
 
         private void txtUnitPrice_1_TextChanged(object sender, EventArgs e)
         {
-            decimal uamt = Convert.ToDecimal(Common.Utility.IsNumeric(txtUnitPrice_1.Text.Trim()) ? txtUnitPrice_1.Text.Trim() : "0");
-            decimal xchgrate = Convert.ToDecimal(Common.Utility.IsNumeric(txtCoefficient.Text.Trim()) ? txtCoefficient.Text.Trim() : "1");
+            //decimal uamt = Convert.ToDecimal(Common.Utility.IsNumeric(txtUnitPrice_1.Text.Trim()) ? txtUnitPrice_1.Text.Trim() : "0");
+            //decimal xchgrate = Convert.ToDecimal(Common.Utility.IsNumeric(txtCoefficient.Text.Trim()) ? txtCoefficient.Text.Trim() : "1");
+            decimal uamt = 0, xchgrate = 0;
+            decimal.TryParse(txtUnitPrice_1.Text.Trim(), out uamt);
+            decimal.TryParse(txtCoefficient.Text.Trim(), out xchgrate);
 
             txtUnitPrice_2.Text = (uamt * xchgrate).ToString("n2");
         }
 
         private void txtCoefficient_TextChanged(object sender, EventArgs e)
         {
-            decimal uamt = Convert.ToDecimal(Common.Utility.IsNumeric(txtUnitPrice_1.Text.Trim()) ? txtUnitPrice_1.Text.Trim() : "0");
-            decimal xchgrate = Convert.ToDecimal(Common.Utility.IsNumeric(txtCoefficient.Text.Trim()) ? txtCoefficient.Text.Trim() : "1");
+            //decimal uamt = Convert.ToDecimal(Common.Utility.IsNumeric(txtUnitPrice_1.Text.Trim()) ? txtUnitPrice_1.Text.Trim() : "0");
+            //decimal xchgrate = Convert.ToDecimal(Common.Utility.IsNumeric(txtCoefficient.Text.Trim()) ? txtCoefficient.Text.Trim() : "1");
+            decimal uamt = 0, xchgrate = 0;
+            decimal.TryParse(txtUnitPrice_1.Text.Trim(), out uamt);
+            decimal.TryParse(txtCoefficient.Text.Trim(), out xchgrate);
 
             txtUnitPrice_2.Text = (uamt * xchgrate).ToString("n2");
 
@@ -1456,8 +1476,11 @@ namespace RT2020.Inventory.GoodsReceive
                 if (lvItem.SubItems[3].Text.Trim() == STKCODE)
                 {
                     Guid prodId = new Guid(lvItem.SubItems[12].Text);
-                    decimal unitPrice = Convert.ToDecimal(Common.Utility.IsNumeric(lvItem.SubItems[9].Text.Trim()) ? lvItem.SubItems[9].Text.Trim() : "0"); // UnitAmountInForeignCurrency
-                    decimal qty = Convert.ToDecimal(Common.Utility.IsNumeric(lvItem.SubItems[8].Text.Trim()) ? lvItem.SubItems[8].Text.Trim() : "0");
+                    //decimal unitPrice = Convert.ToDecimal(Common.Utility.IsNumeric(lvItem.SubItems[9].Text.Trim()) ? lvItem.SubItems[9].Text.Trim() : "0"); // UnitAmountInForeignCurrency
+                    //decimal qty = Convert.ToDecimal(Common.Utility.IsNumeric(lvItem.SubItems[8].Text.Trim()) ? lvItem.SubItems[8].Text.Trim() : "0");
+                    decimal unitPrice = 0, qty = 0;
+                    decimal.TryParse(lvItem.SubItems[9].Text.Trim(), out unitPrice);
+                    decimal.TryParse(lvItem.SubItems[8].Text.Trim(), out qty);
 
                     RT2020.Controls.ProductSearcher.DetailData detail = ResultList.Find(d => d.ProductId == prodId);
 

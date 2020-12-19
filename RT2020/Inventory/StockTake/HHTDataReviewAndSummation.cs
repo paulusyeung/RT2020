@@ -12,7 +12,7 @@ using Gizmox.WebGUI.Common;
 using Gizmox.WebGUI.Forms;
 using System.Data.SqlClient;
 using System.Configuration;
-using RT2020.DAL;
+
 using RT2020.Helper;
 
 #endregion
@@ -54,7 +54,7 @@ namespace RT2020.Inventory.StockTake
 
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = sql;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = CommandType.Text;
 
             using (DataSet dataset = SqlHelper.Default.ExecuteDataSet(cmd))
@@ -96,11 +96,11 @@ namespace RT2020.Inventory.StockTake
 
         private void dgvDataList_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            string headerId = dgvDataList.Rows[e.RowIndex].Cells[0].Value.ToString();
-            if (RT2020.DAL.Common.Utility.IsGUID(headerId))
+            Guid headerId = Guid.Empty;
+            if (Guid.TryParse(dgvDataList.Rows[e.RowIndex].Cells[0].Value.ToString(), out headerId))
             {
                 HHTDataReviewWizard wizReviewData = new HHTDataReviewWizard();
-                wizReviewData.HHTHeaderId = new Guid(headerId);
+                wizReviewData.HHTHeaderId = headerId;
                 wizReviewData.ShowDialog();
             }
         }
@@ -113,17 +113,17 @@ namespace RT2020.Inventory.StockTake
             {
                 bool canPost = Convert.ToBoolean(row.Cells[postColumnIndex].Value);
                 bool canDelete = Convert.ToBoolean(row.Cells[deleteColumnIndex].Value);
-                string headerId = row.Cells[0].Value.ToString();
+                Guid headerId = Guid.Empty;
 
-                if (RT2020.DAL.Common.Utility.IsGUID(headerId))
+                if (Guid.TryParse(row.Cells[0].Value.ToString(), out headerId))
                 {
                     if (canPost)
                     {
-                        PostHHTRecord(new Guid(headerId));
+                        PostHHTRecord(headerId);
                     }
                     else if (canDelete)
                     {
-                        DeleteHHTRecord(new Guid(headerId));
+                        DeleteHHTRecord(headerId);
                     }
                 }
             }
@@ -185,10 +185,10 @@ namespace RT2020.Inventory.StockTake
                                 stkHeader.TxNumber = hhtHeader.TxNumber;
                                 stkHeader.TxDate = DateTime.Now;
                                 stkHeader.WorkplaceId = hhtHeader.WorkplaceId.Value;
-                                stkHeader.Status = (int)Common.Enums.Status.Draft;
-                                stkHeader.CreatedBy = Common.Config.CurrentUserId;
+                                stkHeader.Status = (int)EnumHelper.Status.Draft;
+                                stkHeader.CreatedBy = ConfigHelper.CurrentUserId;
                                 stkHeader.CreatedOn = DateTime.Now;
-                                stkHeader.ModifiedBy = Common.Config.CurrentUserId;
+                                stkHeader.ModifiedBy = ConfigHelper.CurrentUserId;
                                 stkHeader.ModifiedOn = DateTime.Now;
 
                                 ctx.StockTakeHeader.Add(stkHeader);
@@ -213,7 +213,7 @@ namespace RT2020.Inventory.StockTake
                     if (hhtHeader != null)
                     {
                         hhtHeader.PostedOn = DateTime.Now;
-                        hhtHeader.Status = (int)Common.Enums.Status.Active;
+                        hhtHeader.Status = (int)EnumHelper.Status.Active;
                         ctx.SaveChanges();
 
                         CheckDetails(hhtHeaderId, stkHeaderId, hhtHeader.WorkplaceId.Value);
@@ -284,9 +284,9 @@ namespace RT2020.Inventory.StockTake
                 if (hhtHeader != null)
                 {
                     hhtHeader.PostedOn = DateTime.Now;
-                    hhtHeader.Status = (int)Common.Enums.Status.Draft;
+                    hhtHeader.Status = (int)EnumHelper.Status.Draft;
                     hhtHeader.Retired = true;
-                    hhtHeader.RetiredBy = Common.Config.CurrentUserId;
+                    hhtHeader.RetiredBy = ConfigHelper.CurrentUserId;
                     hhtHeader.RetiredOn = DateTime.Now;
 
                     ctx.SaveChanges();

@@ -10,7 +10,7 @@ using System.Text;
 using Gizmox.WebGUI.Common;
 using Gizmox.WebGUI.Forms;
 using System.Data.SqlClient;
-using RT2020.DAL;
+
 using System.Text.RegularExpressions;
 using System.Configuration;
 using RT2020.Helper;
@@ -44,11 +44,11 @@ namespace RT2020.Inventory.Replenishment
             lvPostTxList.Items.Clear();
 
             int iCount = 1;
-            string sql = BuildSqlQueryString(Common.Enums.Status.Active.ToString("d"), true);
+            string sql = BuildSqlQueryString(EnumHelper.Status.Active.ToString("d"), true);
 
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = sql;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = System.Data.CommandType.Text;
 
             using (SqlDataReader reader = SqlHelper.Default.ExecuteReader(cmd))
@@ -212,10 +212,10 @@ namespace RT2020.Inventory.Replenishment
                         if (oHeader != null)
                         {
                             oHeader.Confirmed = true;
-                            oHeader.ConfirmedBy = Common.Config.CurrentUserId;
+                            oHeader.ConfirmedBy = ConfigHelper.CurrentUserId;
                             oHeader.ConfirmedOn = DateTime.Now;
 
-                            oHeader.ModifiedBy = Common.Config.CurrentUserId;
+                            oHeader.ModifiedBy = ConfigHelper.CurrentUserId;
                             oHeader.ModifiedOn = DateTime.Now;
 
                             ctx.SaveChanges();

@@ -9,7 +9,7 @@ using System.Text;
 
 using Gizmox.WebGUI.Common;
 using Gizmox.WebGUI.Forms;
-using RT2020.DAL;
+
 using System.Data.SqlClient;
 using System.Text.RegularExpressions;
 using System.Configuration;
@@ -47,11 +47,11 @@ namespace RT2020.Inventory.StockTake
             lvPostTxList.Items.Clear();
 
             int iCount = 1;
-            string sql = BuildSqlQueryString(Common.Enums.Status.Draft.ToString("d"));
+            string sql = BuildSqlQueryString(EnumHelper.Status.Draft.ToString("d"));
             
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = sql;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = System.Data.CommandType.Text;
 
             using (SqlDataReader reader = SqlHelper.Default.ExecuteReader(cmd))
@@ -220,9 +220,9 @@ namespace RT2020.Inventory.StockTake
                         var oHeader = ctx.StockTakeHeader.Find(id);
                         if (oHeader != null)
                         {
-                            oHeader.Status = Convert.ToInt32(Common.Enums.Status.Active.ToString("d"));
+                            oHeader.Status = Convert.ToInt32(EnumHelper.Status.Active.ToString("d"));
 
-                            oHeader.ModifiedBy = Common.Config.CurrentUserId;
+                            oHeader.ModifiedBy = ConfigHelper.CurrentUserId;
                             oHeader.ModifiedOn = DateTime.Now;
 
                             ctx.SaveChanges();

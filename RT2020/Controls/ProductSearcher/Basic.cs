@@ -9,8 +9,9 @@ using System.Text;
 
 using Gizmox.WebGUI.Common;
 using Gizmox.WebGUI.Forms;
-using RT2020.DAL;
+
 using System.Linq;
+using RT2020.Helper;
 
 #endregion
 
@@ -97,7 +98,7 @@ namespace RT2020.Controls.ProductSearcher
             }
         }
 
-        public Common.Enums.TxType TxType { get; set; }
+        public EnumHelper.TxType TxType { get; set; }
 
         #endregion
 
@@ -108,7 +109,8 @@ namespace RT2020.Controls.ProductSearcher
             List<KeyValuePair<Guid, string>> itemList = new List<KeyValuePair<Guid, string>>();
 
             string sql = string.Empty;
-            if (Common.Utility.IsGUID(value))
+            Guid id = Guid.Empty;
+            if (Guid.TryParse(value, out id))
             {
                 sql = "ProductId = '" + value + "'";
             }

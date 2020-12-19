@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using RT2020.DAL;
+
 using RT2020.Controls;
 
 namespace RT2020.Settings.MonthEndProcess

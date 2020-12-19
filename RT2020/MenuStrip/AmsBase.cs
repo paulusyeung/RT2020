@@ -9,8 +9,9 @@ using System.Xml;
 using Gizmox.WebGUI.Common;
 using Gizmox.WebGUI.Common.Resources;
 using Gizmox.WebGUI.Forms;
-using RT2020.DAL;
+
 using System.Collections.Generic;
+using RT2020.Helper;
 
 namespace RT2020.MenuStrip
 {
@@ -21,19 +22,19 @@ namespace RT2020.MenuStrip
             MenuItem result = new MenuItem();
             XmlDocument oXmlDoc = new XmlDocument();
 
-            nxStudio.BaseClass.WordDict oDict = new nxStudio.BaseClass.WordDict(Common.Config.CurrentWordDict, Common.Config.CurrentLanguageId);
+            nxStudio.BaseClass.WordDict oDict = new nxStudio.BaseClass.WordDict(ConfigHelper.CurrentWordDict, ConfigHelper.CurrentLanguageId);
 
             string source = String.Empty;
 
             #region 2012.04.21 paulus: Load external Menu.xml
-            if (Common.Config.UseNetSqlAzMan)
+            if (ConfigHelper.UseNetSqlAzMan)
             {   // 使用 NetSqlAzMan 時祇需要一個 Menu.xml
                 source = System.Web.HttpContext.Current.Server.MapPath("~/Resources/Menu/NavMenu.xml");
             }
             else
             {   // 舊式辦法
                 #region 根據用戶級別選用不同的 Menu.xml
-                //if (RT2020.Controls.Utility.Staff.IsAccessAllowed(Common.Enums.UserGroup.Senior))
+                //if (RT2020.Controls.Utility.Staff.IsAccessAllowed(EnumHelper.UserGroup.Senior))
                 //{
                 //    source = System.Web.HttpContext.Current.Server.MapPath("~/Resources/Menu/NavMenu.xml");
                 //}
@@ -103,14 +104,14 @@ namespace RT2020.MenuStrip
 
         private static Gizmox.WebGUI.Forms.MenuItem CreateMenuItemFromXmlNode(XmlNode node, String navPaneName)
         {
-            nxStudio.BaseClass.WordDict oDict = new nxStudio.BaseClass.WordDict(Common.Config.CurrentWordDict, Common.Config.CurrentLanguageId);
+            nxStudio.BaseClass.WordDict oDict = new nxStudio.BaseClass.WordDict(ConfigHelper.CurrentWordDict, ConfigHelper.CurrentLanguageId);
 
             MenuItem tmptreenode = null;
 
             bool buildNode = true;
 
             #region 2012.04.21 paulus: 如果有採用 NetSqlAzMan，就要用 IsAccessAuthorized check 下這位 user 是否有 permission
-            if (Common.Config.UseNetSqlAzMan)
+            if (ConfigHelper.UseNetSqlAzMan)
             {
                 String tagName = String.Empty;
                 if (node.Attributes["Tag"] != null)

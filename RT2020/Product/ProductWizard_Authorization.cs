@@ -11,7 +11,7 @@ using System.Text.RegularExpressions;
 using Gizmox.WebGUI.Common;
 using Gizmox.WebGUI.Forms;
 using System.Data.SqlClient;
-using RT2020.DAL;
+
 using Gizmox.WebGUI.Common.Interfaces;
 using System.Web;
 using System.Configuration;
@@ -52,7 +52,7 @@ namespace RT2020.Product
             
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = sql;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = System.Data.CommandType.Text;
 
             using (SqlDataReader reader = SqlHelper.Default.ExecuteReader(cmd))
@@ -214,7 +214,7 @@ namespace RT2020.Product
 
             System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand();
             cmd.CommandText = sql;
-            cmd.CommandTimeout = Common.Config.CommandTimeout;
+            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
             cmd.CommandType = CommandType.Text;
 
             using (DataSet dataset = SqlHelper.Default.ExecuteDataSet(cmd))
@@ -390,9 +390,10 @@ namespace RT2020.Product
                         string a2 = listItem.SubItems[4].Text.Trim();
                         string a3 = listItem.SubItems[5].Text.Trim();
 
-                        System.Guid a1Id = (Common.Utility.IsGUID(listItem.SubItems[6].Text)) ? new Guid(listItem.SubItems[6].Text) : System.Guid.Empty;
-                        System.Guid a2Id = (Common.Utility.IsGUID(listItem.SubItems[7].Text)) ? new Guid(listItem.SubItems[7].Text) : System.Guid.Empty;
-                        System.Guid a3Id = (Common.Utility.IsGUID(listItem.SubItems[8].Text)) ? new Guid(listItem.SubItems[8].Text) : System.Guid.Empty;
+                        Guid a1Id = Guid.Empty, a2Id = Guid.Empty, a3Id = Guid.Empty;
+                        Guid.TryParse(listItem.SubItems[6].Text, out a1Id);
+                        Guid.TryParse(listItem.SubItems[7].Text, out a2Id);
+                        Guid.TryParse(listItem.SubItems[8].Text, out a3Id);
 
                         string prodCode = listItem.SubItems[2].Text + a1 + a2 + a3;
                         if (prodCode.Length <= 22)
@@ -416,7 +417,7 @@ namespace RT2020.Product
                                 oItem.APPENDIX2 = a2;
                                 oItem.APPENDIX3 = a3;
 
-                                oItem.Status = Convert.ToInt32(Common.Enums.Status.Active.ToString("d"));
+                                oItem.Status = Convert.ToInt32(EnumHelper.Status.Active.ToString("d"));
 
                                 oItem.CLASS1 = oBatch.CLASS1;
                                 oItem.CLASS2 = oBatch.CLASS2;
@@ -436,9 +437,9 @@ namespace RT2020.Product
 
                                 oItem.FixedPriceItem = false;
 
-                                oItem.CreatedBy = Common.Config.CurrentUserId;
+                                oItem.CreatedBy = ConfigHelper.CurrentUserId;
                                 oItem.CreatedOn = DateTime.Now;
-                                oItem.ModifiedBy = Common.Config.CurrentUserId;
+                                oItem.ModifiedBy = ConfigHelper.CurrentUserId;
                                 oItem.ModifiedOn = DateTime.Now;
 
                                 ctx.Product.Add(oItem);
@@ -515,10 +516,10 @@ namespace RT2020.Product
                                 #endregion
 
                                 #region SaveProductPrice(oBatch, oItem.ProductId);
-                                SaveProductPrice(productId, Common.Enums.ProductPriceType.BASPRC.ToString(), "HKD", oBatch.BASPRC.ToString());
-                                SaveProductPrice(productId, Common.Enums.ProductPriceType.ORIPRC.ToString(), "HKD", oBatch.ORIPRC.ToString());
-                                SaveProductPrice(productId, Common.Enums.ProductPriceType.VPRC.ToString(), oBatch.VCURR, oBatch.VPRC.ToString());
-                                SaveProductPrice(productId, Common.Enums.ProductPriceType.WHLPRC.ToString(), "HKD", oBatch.WHLPRC.ToString());
+                                SaveProductPrice(productId, EnumHelper.ProductPriceType.BASPRC.ToString(), "HKD", oBatch.BASPRC.ToString());
+                                SaveProductPrice(productId, EnumHelper.ProductPriceType.ORIPRC.ToString(), "HKD", oBatch.ORIPRC.ToString());
+                                SaveProductPrice(productId, EnumHelper.ProductPriceType.VPRC.ToString(), oBatch.VCURR, oBatch.VPRC.ToString());
+                                SaveProductPrice(productId, EnumHelper.ProductPriceType.WHLPRC.ToString(), "HKD", oBatch.WHLPRC.ToString());
                                 #endregion
 
                                 // Remarks
@@ -661,10 +662,10 @@ namespace RT2020.Product
 
         private void SaveProductPrice(ProductBatch oBatch, Guid productId)
         {
-            SaveProductPrice(productId, Common.Enums.ProductPriceType.BASPRC.ToString(), "HKD", oBatch.BASPRC.ToString());
-            SaveProductPrice(productId, Common.Enums.ProductPriceType.ORIPRC.ToString(), "HKD", oBatch.ORIPRC.ToString());
-            SaveProductPrice(productId, Common.Enums.ProductPriceType.VPRC.ToString(), oBatch.VCURR, oBatch.VPRC.ToString());
-            SaveProductPrice(productId, Common.Enums.ProductPriceType.WHLPRC.ToString(), "HKD", oBatch.WHLPRC.ToString());
+            SaveProductPrice(productId, EnumHelper.ProductPriceType.BASPRC.ToString(), "HKD", oBatch.BASPRC.ToString());
+            SaveProductPrice(productId, EnumHelper.ProductPriceType.ORIPRC.ToString(), "HKD", oBatch.ORIPRC.ToString());
+            SaveProductPrice(productId, EnumHelper.ProductPriceType.VPRC.ToString(), oBatch.VCURR, oBatch.VPRC.ToString());
+            SaveProductPrice(productId, EnumHelper.ProductPriceType.WHLPRC.ToString(), "HKD", oBatch.WHLPRC.ToString());
         }
 
         private void SaveProductRemarks(ProductBatch oBatch, Guid productId)
