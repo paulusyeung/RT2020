@@ -473,6 +473,9 @@
     <Compile Include="UserProfile.cs">
       <DependentUpon>RT2020Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="vwPhonebookList.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
     <Compile Include="Workplace.cs">
       <DependentUpon>RT2020Model.tt</DependentUpon>
     </Compile>

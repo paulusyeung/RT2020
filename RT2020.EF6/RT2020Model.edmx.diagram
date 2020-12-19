@@ -354,6 +354,7 @@
         <AssociationConnector Association="RT2020Model.FK_WorkplaceZone_Workplace" ManuallyRouted="false" />
         <AssociationConnector Association="RT2020Model.FK_WorkplaceNature_WorkplaceNature" ManuallyRouted="false" />
         <AssociationConnector Association="RT2020Model.FK_WorkplaceZone_WorkplaceZone" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="RT2020Model.vwPhonebookList" Width="1.5" PointX="21.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

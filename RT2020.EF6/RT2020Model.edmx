@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="RT2020Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="RT2020Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="City">
           <Key>
             <PropertyRef Name="CityId" />
@@ -3087,6 +3087,28 @@ warning 6002: The table/view 'RT2020.dbo.TxferAdvanceImportSummary' does not hav
           <Property Name="PromaryZone" Type="bit" Nullable="false" />
           <Property Name="MetadataXml" Type="xml" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'RT2020.dbo.vwPhonebookList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vwPhonebookList">
+          <Key>
+            <PropertyRef Name="MemberId" />
+            <PropertyRef Name="AddressTypeId" />
+          </Key>
+          <Property Name="MemberId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="AddressTypeId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="AddressTypeCode" Type="nvarchar" MaxLength="10" />
+          <Property Name="VipNumber" Type="varchar" MaxLength="13" />
+          <Property Name="PhoneBook" Type="nvarchar" MaxLength="10" />
+          <Property Name="Phone_W" Type="nvarchar" MaxLength="64" />
+          <Property Name="Phone_H" Type="nvarchar" MaxLength="64" />
+          <Property Name="Phone_P" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="Fax" Type="nvarchar" MaxLength="64" />
+          <Property Name="Phone_Other" Type="nvarchar" MaxLength="64" />
+          <Property Name="CreatedOn" Type="datetime" Nullable="false" />
+          <Property Name="CreatedBy" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ModifiedOn" Type="datetime" Nullable="false" />
+          <Property Name="ModifiedBy" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
         <Association Name="FK_City_MemberAddress">
           <End Role="City" Type="Self.City" Multiplicity="0..1" />
           <End Role="MemberAddress" Type="Self.MemberAddress" Multiplicity="*" />
@@ -5776,6 +5798,24 @@ warning 6002: The table/view 'RT2020.dbo.TxferAdvanceImportSummary' does not hav
     [TxferAdvanceImportSummary].[NotInMatch] AS [NotInMatch]
     FROM [dbo].[TxferAdvanceImportSummary] AS [TxferAdvanceImportSummary]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="vwPhonebookList" EntityType="Self.vwPhonebookList" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vwPhonebookList].[MemberId] AS [MemberId], 
+    [vwPhonebookList].[AddressTypeId] AS [AddressTypeId], 
+    [vwPhonebookList].[AddressTypeCode] AS [AddressTypeCode], 
+    [vwPhonebookList].[VipNumber] AS [VipNumber], 
+    [vwPhonebookList].[PhoneBook] AS [PhoneBook], 
+    [vwPhonebookList].[Phone_W] AS [Phone_W], 
+    [vwPhonebookList].[Phone_H] AS [Phone_H], 
+    [vwPhonebookList].[Phone_P] AS [Phone_P], 
+    [vwPhonebookList].[Fax] AS [Fax], 
+    [vwPhonebookList].[Phone_Other] AS [Phone_Other], 
+    [vwPhonebookList].[CreatedOn] AS [CreatedOn], 
+    [vwPhonebookList].[CreatedBy] AS [CreatedBy], 
+    [vwPhonebookList].[ModifiedOn] AS [ModifiedOn], 
+    [vwPhonebookList].[ModifiedBy] AS [ModifiedBy]
+    FROM [dbo].[vwPhonebookList] AS [vwPhonebookList]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="FK_City_MemberAddress" Association="Self.FK_City_MemberAddress">
             <End Role="City" EntitySet="City" />
             <End Role="MemberAddress" EntitySet="MemberAddress" />
@@ -6613,8 +6653,7 @@ warning 6002: The table/view 'RT2020.dbo.TxferAdvanceImportSummary' does not hav
             <End Role="WorkplaceZone1" EntitySet="WorkplaceZone" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="RT2020Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -13597,7 +13636,28 @@ warning 6002: The table/view 'RT2020.dbo.TxferAdvanceImportSummary' does not hav
             <End Role="WorkplaceZone" EntitySet="WorkplaceZone" />
             <End Role="WorkplaceZone1" EntitySet="WorkplaceZone" />
           </AssociationSet>
+          <EntitySet Name="vwPhonebookList" EntityType="RT2020Model.vwPhonebookList" />
         </EntityContainer>
+        <EntityType Name="vwPhonebookList">
+          <Key>
+            <PropertyRef Name="MemberId" />
+            <PropertyRef Name="AddressTypeId" />
+          </Key>
+          <Property Name="MemberId" Type="Guid" Nullable="false" />
+          <Property Name="AddressTypeId" Type="Guid" Nullable="false" />
+          <Property Name="AddressTypeCode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="VipNumber" Type="String" MaxLength="13" FixedLength="false" Unicode="false" />
+          <Property Name="PhoneBook" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Phone_W" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="Phone_H" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="Phone_P" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="Fax" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="Phone_Other" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedBy" Type="Guid" Nullable="false" />
+          <Property Name="ModifiedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifiedBy" Type="Guid" Nullable="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -16809,6 +16869,26 @@ warning 6002: The table/view 'RT2020.dbo.TxferAdvanceImportSummary' does not hav
                 <ScalarProperty Name="MatchedRequired" ColumnName="MatchedRequired" />
                 <ScalarProperty Name="UnMatchedRequired" ColumnName="UnMatchedRequired" />
                 <ScalarProperty Name="NotInMatch" ColumnName="NotInMatch" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vwPhonebookList">
+            <EntityTypeMapping TypeName="RT2020Model.vwPhonebookList">
+              <MappingFragment StoreEntitySet="vwPhonebookList">
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="Phone_Other" ColumnName="Phone_Other" />
+                <ScalarProperty Name="Fax" ColumnName="Fax" />
+                <ScalarProperty Name="Phone_P" ColumnName="Phone_P" />
+                <ScalarProperty Name="Phone_H" ColumnName="Phone_H" />
+                <ScalarProperty Name="Phone_W" ColumnName="Phone_W" />
+                <ScalarProperty Name="PhoneBook" ColumnName="PhoneBook" />
+                <ScalarProperty Name="VipNumber" ColumnName="VipNumber" />
+                <ScalarProperty Name="AddressTypeCode" ColumnName="AddressTypeCode" />
+                <ScalarProperty Name="AddressTypeId" ColumnName="AddressTypeId" />
+                <ScalarProperty Name="MemberId" ColumnName="MemberId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

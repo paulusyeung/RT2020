@@ -165,5 +165,6 @@ namespace RT2020.EF6
         public virtual DbSet<Localizations_Backup> Localizations_Backup { get; set; }
         public virtual DbSet<TxferAdvanceImport> TxferAdvanceImport { get; set; }
         public virtual DbSet<TxferAdvanceImportSummary> TxferAdvanceImportSummary { get; set; }
+        public virtual DbSet<vwPhonebookList> vwPhonebookList { get; set; }
     }
 }
