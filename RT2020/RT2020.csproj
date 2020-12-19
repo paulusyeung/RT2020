@@ -4800,10 +4800,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\RT2020.DAL\RT2020.DAL.csproj">
-      <Project>{c3765763-db6e-4dde-af69-fc99c86f4f2b}</Project>
-      <Name>RT2020.DAL</Name>
-    </ProjectReference>
     <ProjectReference Include="..\RT2020.EF6\RT2020.EF6.csproj">
       <Project>{80747ba9-d766-4dca-b58a-e8426bf72ace}</Project>
       <Name>RT2020.EF6</Name>
