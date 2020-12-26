@@ -377,6 +377,9 @@
     <Compile Include="SmartTag4Member.cs">
       <DependentUpon>RT2020Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="SmartTag4Member_Options.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
     <Compile Include="SmartTag4Staff.cs">
       <DependentUpon>RT2020Model.tt</DependentUpon>
     </Compile>

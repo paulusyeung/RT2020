@@ -2458,6 +2458,17 @@ warning 6002: The table/view 'RT2020.dbo.Localizations_Backup' does not have a p
           <Property Name="TagName_Cht" Type="nvarchar" MaxLength="64" />
           <Property Name="Priority" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="SmartTag4Member_Options">
+          <Key>
+            <PropertyRef Name="OptionId" />
+          </Key>
+          <Property Name="OptionId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="TagId" Type="uniqueidentifier" />
+          <Property Name="OptionCode" Type="nvarchar" MaxLength="10" />
+          <Property Name="OptionName" Type="nvarchar" MaxLength="64" />
+          <Property Name="OptionName_Alt1" Type="nvarchar" MaxLength="64" />
+          <Property Name="OptionName_Alt2" Type="nvarchar" MaxLength="64" />
+        </EntityType>
         <EntityType Name="SmartTag4Staff">
           <Key>
             <PropertyRef Name="TagId" />
@@ -3093,6 +3104,11 @@ warning 6002: The table/view 'RT2020.dbo.vwPhonebookList' does not have a primar
           <Key>
             <PropertyRef Name="MemberId" />
             <PropertyRef Name="AddressTypeId" />
+            
+            
+            
+            
+            
           </Key>
           <Property Name="MemberId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="AddressTypeId" Type="uniqueidentifier" Nullable="false" />
@@ -4717,6 +4733,18 @@ warning 6002: The table/view 'RT2020.dbo.vwPhonebookList' does not have a primar
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_SmartTag4Member_SmartTag4Member_Options">
+          <End Role="SmartTag4Member" Type="Self.SmartTag4Member" Multiplicity="0..1" />
+          <End Role="SmartTag4Member_Options" Type="Self.SmartTag4Member_Options" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SmartTag4Member">
+              <PropertyRef Name="TagId" />
+            </Principal>
+            <Dependent Role="SmartTag4Member_Options">
+              <PropertyRef Name="TagId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_SmartTag4Staff_StaffSmartTag">
           <End Role="SmartTag4Staff" Type="Self.SmartTag4Staff" Multiplicity="1" />
           <End Role="StaffSmartTag" Type="Self.StaffSmartTag" Multiplicity="*" />
@@ -5720,6 +5748,7 @@ warning 6002: The table/view 'RT2020.dbo.vwPhonebookList' does not have a primar
           <EntitySet Name="Salutation" EntityType="Self.Salutation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ShipmentMethod" EntityType="Self.ShipmentMethod" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SmartTag4Member" EntityType="Self.SmartTag4Member" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SmartTag4Member_Options" EntityType="Self.SmartTag4Member_Options" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SmartTag4Staff" EntityType="Self.SmartTag4Staff" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SmartTag4Supplier" EntityType="Self.SmartTag4Supplier" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SmartTag4Workplace" EntityType="Self.SmartTag4Workplace" Schema="dbo" store:Type="Tables" />
@@ -6351,6 +6380,10 @@ warning 6002: The table/view 'RT2020.dbo.vwPhonebookList' does not have a primar
           <AssociationSet Name="FK_SmartTag4Member_MemberSmartTag" Association="Self.FK_SmartTag4Member_MemberSmartTag">
             <End Role="SmartTag4Member" EntitySet="SmartTag4Member" />
             <End Role="MemberSmartTag" EntitySet="MemberSmartTag" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SmartTag4Member_SmartTag4Member_Options" Association="Self.FK_SmartTag4Member_SmartTag4Member_Options">
+            <End Role="SmartTag4Member" EntitySet="SmartTag4Member" />
+            <End Role="SmartTag4Member_Options" EntitySet="SmartTag4Member_Options" />
           </AssociationSet>
           <AssociationSet Name="FK_SmartTag4Staff_StaffSmartTag" Association="Self.FK_SmartTag4Staff_StaffSmartTag">
             <End Role="SmartTag4Staff" EntitySet="SmartTag4Staff" />
@@ -9383,6 +9416,7 @@ warning 6002: The table/view 'RT2020.dbo.vwPhonebookList' does not have a primar
           <Property Name="TagName_Cht" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
           <Property Name="Priority" Type="Int32" Nullable="false" />
           <NavigationProperty Name="MemberSmartTag" Relationship="Self.FK_SmartTag4Member_MemberSmartTag" FromRole="SmartTag4Member" ToRole="MemberSmartTag" />
+          <NavigationProperty Name="SmartTag4Member_Options" Relationship="RT2020Model.FK_SmartTag4Member_SmartTag4Member_Options" FromRole="SmartTag4Member" ToRole="SmartTag4Member_Options" />
         </EntityType>
         <EntityType Name="SmartTag4Staff">
           <Key>
@@ -13637,6 +13671,11 @@ warning 6002: The table/view 'RT2020.dbo.vwPhonebookList' does not have a primar
             <End Role="WorkplaceZone1" EntitySet="WorkplaceZone" />
           </AssociationSet>
           <EntitySet Name="vwPhonebookList" EntityType="RT2020Model.vwPhonebookList" />
+          <EntitySet Name="SmartTag4Member_Options" EntityType="RT2020Model.SmartTag4Member_Options" />
+          <AssociationSet Name="FK_SmartTag4Member_SmartTag4Member_Options" Association="RT2020Model.FK_SmartTag4Member_SmartTag4Member_Options">
+            <End Role="SmartTag4Member" EntitySet="SmartTag4Member" />
+            <End Role="SmartTag4Member_Options" EntitySet="SmartTag4Member_Options" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="vwPhonebookList">
           <Key>
@@ -13658,6 +13697,30 @@ warning 6002: The table/view 'RT2020.dbo.vwPhonebookList' does not have a primar
           <Property Name="ModifiedOn" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="ModifiedBy" Type="Guid" Nullable="false" />
         </EntityType>
+        <EntityType Name="SmartTag4Member_Options">
+          <Key>
+            <PropertyRef Name="OptionId" />
+          </Key>
+          <Property Name="OptionId" Type="Guid" Nullable="false" />
+          <Property Name="TagId" Type="Guid" />
+          <Property Name="OptionCode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="OptionName" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="OptionName_Alt1" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="OptionName_Alt2" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="SmartTag4Member" Relationship="RT2020Model.FK_SmartTag4Member_SmartTag4Member_Options" FromRole="SmartTag4Member_Options" ToRole="SmartTag4Member" />
+        </EntityType>
+        <Association Name="FK_SmartTag4Member_SmartTag4Member_Options">
+          <End Type="RT2020Model.SmartTag4Member" Role="SmartTag4Member" Multiplicity="0..1" />
+          <End Type="RT2020Model.SmartTag4Member_Options" Role="SmartTag4Member_Options" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SmartTag4Member">
+              <PropertyRef Name="TagId" />
+            </Principal>
+            <Dependent Role="SmartTag4Member_Options">
+              <PropertyRef Name="TagId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -16889,6 +16952,18 @@ warning 6002: The table/view 'RT2020.dbo.vwPhonebookList' does not have a primar
                 <ScalarProperty Name="AddressTypeCode" ColumnName="AddressTypeCode" />
                 <ScalarProperty Name="AddressTypeId" ColumnName="AddressTypeId" />
                 <ScalarProperty Name="MemberId" ColumnName="MemberId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SmartTag4Member_Options">
+            <EntityTypeMapping TypeName="RT2020Model.SmartTag4Member_Options">
+              <MappingFragment StoreEntitySet="SmartTag4Member_Options">
+                <ScalarProperty Name="OptionName_Alt2" ColumnName="OptionName_Alt2" />
+                <ScalarProperty Name="OptionName_Alt1" ColumnName="OptionName_Alt1" />
+                <ScalarProperty Name="OptionName" ColumnName="OptionName" />
+                <ScalarProperty Name="OptionCode" ColumnName="OptionCode" />
+                <ScalarProperty Name="TagId" ColumnName="TagId" />
+                <ScalarProperty Name="OptionId" ColumnName="OptionId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
