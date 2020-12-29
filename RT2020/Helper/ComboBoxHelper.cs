@@ -10,8 +10,8 @@ namespace RT2020.Helper
     {
         public class ComboBoxItem
         {
-            public Guid Key;
-            public string Value;
+            public Guid Key { get; set; }
+            public string Value { get; set;}
 
             /// <summary>
             /// 吉嘅 ComboBox Item：Key Value pair (Guid.Empty, String.Empty)

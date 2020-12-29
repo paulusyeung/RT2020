@@ -90,35 +90,21 @@ namespace RT2020.Public
         public bool Verify()
         {
             bool result = true;
-            if (txtStaffNumber.Text.Length == 0)
+            errorProvider.SetError(txtStaffNumber, string.Empty);
+            errorProvider.SetError(txtPassword, string.Empty);
+
+            if (txtStaffNumber.Text.Trim() == string.Empty)
             {
                 errorProvider.SetError(txtStaffNumber, RT2020.Controls.Utility.Dictionary.GetWord("err_cannot_blank"));
-            }
-            else
-            {
-                errorProvider.SetError(txtStaffNumber, string.Empty);
-                result = result & true;
+                result = false;
             }
 
-            if (txtPassword.Text.Length == 0)
+            if (txtPassword.Text.Trim() == string.Empty)
             {
                 errorProvider.SetError(txtPassword, RT2020.Controls.Utility.Dictionary.GetWord("err_cannot_blank"));
-            }
-            else
-            {
-                errorProvider.SetError(txtPassword, string.Empty);
-                result = result & true;
+                result = false;
             }
 
-            if (cboZone.Text.Length == 0)
-            {
-                errorProvider.SetError(cboZone, RT2020.Controls.Utility.Dictionary.GetWord("err_must_select"));
-            }
-            else
-            {
-                errorProvider.SetError(cboZone, string.Empty);
-                result = result & true;
-            }
             return result;
         }
 
@@ -205,6 +191,24 @@ namespace RT2020.Public
         private void Logon_Load(object sender, EventArgs e)
         {
             txtStaffNumber.Focus();
+        }
+
+        private void txtPassword_EnterKeyDown(object objSender, KeyEventArgs objArgs)
+        {
+            if (AuthLogon())
+            {
+                // Close the Logon form
+                this.Close();
+            }
+        }
+
+        private void txtStaffNumber_EnterKeyDown(object objSender, KeyEventArgs objArgs)
+        {
+            if (AuthLogon())
+            {
+                // Close the Logon form
+                this.Close();
+            }
         }
     }
 }

@@ -126,6 +126,7 @@ namespace RT2020.AtsPane
                 {
                     case "memberwizard":
                         RT2020.Member.MemberWizard wizMember = new RT2020.Member.MemberWizard();
+                        wizMember.EditMode = EnumHelper.EditMode.Add;
                         wizMember.ShowDialog();
                         break;
                     case "memberwizard_massupdate":
@@ -153,7 +154,7 @@ namespace RT2020.AtsPane
                         wizMemberGroup.ShowDialog();
                         break;
                     case "smarttag4member":
-                        RT2020.Settings.SmartTag4MemberWizard wizSmartTag4Member = new RT2020.Settings.SmartTag4MemberWizard();
+                        RT2020.Member.SmartTag4MemberWizard wizSmartTag4Member = new RT2020.Member.SmartTag4MemberWizard();
                         wizSmartTag4Member.ShowDialog();
                         break;
                     case "tempmember4web":

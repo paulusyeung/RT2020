@@ -5,6 +5,7 @@ using System.Web;
 
 using Gizmox.WebGUI.Forms;
 using RT2020.Helper;
+using System.Data.Entity;
 
 namespace RT2020.ModelEx
 {
@@ -31,6 +32,25 @@ namespace RT2020.ModelEx
             {
                 var item = ctx.Salutation.Where(x => x.SalutationCode == code).FirstOrDefault();
                 if (item != null) result = true;
+            }
+
+            return result;
+        }
+
+        public static string GetParentName(EF6.Salutation target)
+        {
+            var result = "";
+
+            if (target.ParentSalutation.HasValue)
+            {
+                using (var ctx = new EF6.RT2020Entities())
+                {
+                    var item = ctx.Salutation.Where(x => x.SalutationId == target.ParentSalutation.Value).AsNoTracking().FirstOrDefault();
+                    if (item != null) result = CookieHelper.CurrentLocaleId == LanguageHelper.AlternateLanguage2.Key ?
+                        item.SalutationName_Cht : CookieHelper.CurrentLocaleId == LanguageHelper.AlternateLanguage1.Key ?
+                        item.SalutationName_Chs :
+                        item.SalutationName;
+                }
             }
 
             return result;

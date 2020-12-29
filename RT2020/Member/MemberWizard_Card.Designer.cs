@@ -1,6 +1,6 @@
 namespace RT2020.Member
 {
-    partial class MemberWizard_CardInfo
+    partial class MemberWizard_Card
     {
         /// <summary>
         /// Required designer variable.
@@ -124,7 +124,7 @@ namespace RT2020.Member
             this.txtFormerPPNumber.Location = new System.Drawing.Point(174, 15);
             this.txtFormerPPNumber.Name = "txtFormerPPNumber";
             this.txtFormerPPNumber.ReadOnly = true;
-            this.txtFormerPPNumber.Size = new System.Drawing.Size(82, 20);
+            this.txtFormerPPNumber.Size = new System.Drawing.Size(100, 20);
             this.txtFormerPPNumber.TabIndex = 0;
             this.txtFormerPPNumber.TabStop = false;
             // 
@@ -164,7 +164,7 @@ namespace RT2020.Member
             this.dtpCommencementDate.Format = Gizmox.WebGUI.Forms.DateTimePickerFormat.Custom;
             this.dtpCommencementDate.Location = new System.Drawing.Point(174, 38);
             this.dtpCommencementDate.Name = "dtpCommencementDate";
-            this.dtpCommencementDate.Size = new System.Drawing.Size(82, 20);
+            this.dtpCommencementDate.Size = new System.Drawing.Size(100, 20);
             this.dtpCommencementDate.TabIndex = 3;
             // 
             // dtpMigrationDate
@@ -174,7 +174,7 @@ namespace RT2020.Member
             this.dtpMigrationDate.Format = Gizmox.WebGUI.Forms.DateTimePickerFormat.Custom;
             this.dtpMigrationDate.Location = new System.Drawing.Point(174, 61);
             this.dtpMigrationDate.Name = "dtpMigrationDate";
-            this.dtpMigrationDate.Size = new System.Drawing.Size(82, 20);
+            this.dtpMigrationDate.Size = new System.Drawing.Size(100, 20);
             this.dtpMigrationDate.TabIndex = 4;
             // 
             // dtpIssuedOn
@@ -184,7 +184,7 @@ namespace RT2020.Member
             this.dtpIssuedOn.Format = Gizmox.WebGUI.Forms.DateTimePickerFormat.Custom;
             this.dtpIssuedOn.Location = new System.Drawing.Point(174, 84);
             this.dtpIssuedOn.Name = "dtpIssuedOn";
-            this.dtpIssuedOn.Size = new System.Drawing.Size(82, 20);
+            this.dtpIssuedOn.Size = new System.Drawing.Size(100, 20);
             this.dtpIssuedOn.TabIndex = 5;
             // 
             // dtpCardExpiredOn
@@ -194,7 +194,7 @@ namespace RT2020.Member
             this.dtpCardExpiredOn.Format = Gizmox.WebGUI.Forms.DateTimePickerFormat.Custom;
             this.dtpCardExpiredOn.Location = new System.Drawing.Point(174, 107);
             this.dtpCardExpiredOn.Name = "dtpCardExpiredOn";
-            this.dtpCardExpiredOn.Size = new System.Drawing.Size(82, 20);
+            this.dtpCardExpiredOn.Size = new System.Drawing.Size(100, 20);
             this.dtpCardExpiredOn.TabIndex = 6;
             // 
             // MemberWizard_CardInfo

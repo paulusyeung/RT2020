@@ -28,140 +28,122 @@ namespace RT2020.Member
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.splitContainer = new Gizmox.WebGUI.Forms.SplitContainer();
-            this.lvMemberClassList = new Gizmox.WebGUI.Forms.ListView();
-            this.colMemberClassId = new Gizmox.WebGUI.Forms.ColumnHeader();
-            this.colLN = new Gizmox.WebGUI.Forms.ColumnHeader();
-            this.colMemberClassCode = new Gizmox.WebGUI.Forms.ColumnHeader();
-            this.colMemberClassName = new Gizmox.WebGUI.Forms.ColumnHeader();
-            this.colMemberClassNameChs = new Gizmox.WebGUI.Forms.ColumnHeader();
-            this.colMemberClassNameCht = new Gizmox.WebGUI.Forms.ColumnHeader();
+            this.lvClassList = new Gizmox.WebGUI.Forms.ListView();
+            this.colClassId = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colLN = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colClassCode = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colClassName = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colClassNameAlt1 = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colClassNameAlt2 = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
             this.cboParentClass = new Gizmox.WebGUI.Forms.ComboBox();
             this.lblParentClass = new Gizmox.WebGUI.Forms.Label();
             this.tbWizardAction = new Gizmox.WebGUI.Forms.ToolBar();
-            this.txtMemberClassNameCht = new Gizmox.WebGUI.Forms.TextBox();
-            this.txtMemberClassNameChs = new Gizmox.WebGUI.Forms.TextBox();
-            this.txtMemberClassName = new Gizmox.WebGUI.Forms.TextBox();
-            this.lblMemberClassNameCht = new Gizmox.WebGUI.Forms.Label();
-            this.lblMemberClassNameChs = new Gizmox.WebGUI.Forms.Label();
-            this.lblMemberClassName = new Gizmox.WebGUI.Forms.Label();
-            this.txtMemberClassCode = new Gizmox.WebGUI.Forms.TextBox();
-            this.lblMemberClassCode = new Gizmox.WebGUI.Forms.Label();
-            this.errorProvider = new Gizmox.WebGUI.Forms.ErrorProvider();
+            this.txtClassNameAlt2 = new Gizmox.WebGUI.Forms.TextBox();
+            this.txtClassNameAlt1 = new Gizmox.WebGUI.Forms.TextBox();
+            this.txtClassName = new Gizmox.WebGUI.Forms.TextBox();
+            this.lblClassNameAlt2 = new Gizmox.WebGUI.Forms.Label();
+            this.lblClassNameAlt1 = new Gizmox.WebGUI.Forms.Label();
+            this.lblClassName = new Gizmox.WebGUI.Forms.Label();
+            this.txtClassCode = new Gizmox.WebGUI.Forms.TextBox();
+            this.lblClassCode = new Gizmox.WebGUI.Forms.Label();
+            this.errorProvider = new Gizmox.WebGUI.Forms.ErrorProvider(this.components);
+            this.colParentClass = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
             this.SuspendLayout();
             // 
             // splitContainer
             // 
-            this.splitContainer.Anchor = Gizmox.WebGUI.Forms.AnchorStyles.None;
+            this.splitContainer.AutoValidate = Gizmox.WebGUI.Forms.AutoValidate.EnablePreventFocusChange;
             this.splitContainer.BorderStyle = Gizmox.WebGUI.Forms.BorderStyle.Clear;
             this.splitContainer.Dock = Gizmox.WebGUI.Forms.DockStyle.Fill;
-            this.splitContainer.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
             this.splitContainer.FixedPanel = Gizmox.WebGUI.Forms.FixedPanel.Panel1;
             this.splitContainer.Location = new System.Drawing.Point(0, 0);
             this.splitContainer.Name = "splitContainer";
-            this.splitContainer.Orientation = Gizmox.WebGUI.Forms.Orientation.Vertical;
             // 
             // splitContainer.Panel1
             // 
-            this.splitContainer.Panel1.Controls.Add(this.lvMemberClassList);
-            this.splitContainer.Panel1.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
+            this.splitContainer.Panel1.Controls.Add(this.lvClassList);
             // 
             // splitContainer.Panel2
             // 
             this.splitContainer.Panel2.Controls.Add(this.cboParentClass);
             this.splitContainer.Panel2.Controls.Add(this.lblParentClass);
             this.splitContainer.Panel2.Controls.Add(this.tbWizardAction);
-            this.splitContainer.Panel2.Controls.Add(this.txtMemberClassNameCht);
-            this.splitContainer.Panel2.Controls.Add(this.txtMemberClassNameChs);
-            this.splitContainer.Panel2.Controls.Add(this.txtMemberClassName);
-            this.splitContainer.Panel2.Controls.Add(this.lblMemberClassNameCht);
-            this.splitContainer.Panel2.Controls.Add(this.lblMemberClassNameChs);
-            this.splitContainer.Panel2.Controls.Add(this.lblMemberClassName);
-            this.splitContainer.Panel2.Controls.Add(this.txtMemberClassCode);
-            this.splitContainer.Panel2.Controls.Add(this.lblMemberClassCode);
-            this.splitContainer.Panel2.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
+            this.splitContainer.Panel2.Controls.Add(this.txtClassNameAlt2);
+            this.splitContainer.Panel2.Controls.Add(this.txtClassNameAlt1);
+            this.splitContainer.Panel2.Controls.Add(this.txtClassName);
+            this.splitContainer.Panel2.Controls.Add(this.lblClassNameAlt2);
+            this.splitContainer.Panel2.Controls.Add(this.lblClassNameAlt1);
+            this.splitContainer.Panel2.Controls.Add(this.lblClassName);
+            this.splitContainer.Panel2.Controls.Add(this.txtClassCode);
+            this.splitContainer.Panel2.Controls.Add(this.lblClassCode);
             this.splitContainer.Size = new System.Drawing.Size(806, 506);
             this.splitContainer.SplitterDistance = 500;
             this.splitContainer.TabIndex = 0;
             // 
-            // lvMemberClassList
+            // lvClassList
             // 
-            this.lvMemberClassList.Anchor = Gizmox.WebGUI.Forms.AnchorStyles.None;
-            this.lvMemberClassList.Columns.AddRange(new Gizmox.WebGUI.Forms.ColumnHeader[] {
-            this.colMemberClassId,
+            this.lvClassList.Columns.AddRange(new Gizmox.WebGUI.Forms.ColumnHeader[] {
+            this.colClassId,
             this.colLN,
-            this.colMemberClassCode,
-            this.colMemberClassName,
-            this.colMemberClassNameChs,
-            this.colMemberClassNameCht});
-            this.lvMemberClassList.DataMember = null;
-            this.lvMemberClassList.Dock = Gizmox.WebGUI.Forms.DockStyle.Fill;
-            this.lvMemberClassList.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.lvMemberClassList.ItemsPerPage = 20;
-            this.lvMemberClassList.Location = new System.Drawing.Point(0, 0);
-            this.lvMemberClassList.Name = "lvMemberClassList";
-            this.lvMemberClassList.Size = new System.Drawing.Size(499, 506);
-            this.lvMemberClassList.TabIndex = 0;
-            this.lvMemberClassList.UseInternalPaging = true;
-            this.lvMemberClassList.SelectedIndexChanged += new System.EventHandler(this.lvMemberClassList_SelectedIndexChanged);
+            this.colClassCode,
+            this.colClassName,
+            this.colClassNameAlt1,
+            this.colClassNameAlt2,
+            this.colParentClass});
+            this.lvClassList.DataMember = null;
+            this.lvClassList.Dock = Gizmox.WebGUI.Forms.DockStyle.Fill;
+            this.lvClassList.Location = new System.Drawing.Point(0, 0);
+            this.lvClassList.Name = "lvClassList";
+            this.lvClassList.Size = new System.Drawing.Size(499, 506);
+            this.lvClassList.TabIndex = 0;
+            this.lvClassList.UseInternalPaging = true;
+            this.lvClassList.SelectedIndexChanged += new System.EventHandler(this.lvMemberClassList_SelectedIndexChanged);
             // 
-            // colMemberClassId
+            // colClassId
             // 
-            this.colMemberClassId.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.colMemberClassId.Image = null;
-            this.colMemberClassId.Text = "MemberClassId";
-            this.colMemberClassId.Visible = false;
-            this.colMemberClassId.Width = 150;
+            this.colClassId.Text = "MemberClassId";
+            this.colClassId.Visible = false;
+            this.colClassId.Width = 150;
             // 
             // colLN
             // 
-            this.colLN.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.colLN.Image = null;
             this.colLN.Text = "LN";
             this.colLN.Width = 30;
             // 
-            // colMemberClassCode
+            // colClassCode
             // 
-            this.colMemberClassCode.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.colMemberClassCode.Image = null;
-            this.colMemberClassCode.Text = "Class Code";
-            this.colMemberClassCode.Width = 80;
+            this.colClassCode.Text = "Class Code";
+            this.colClassCode.Width = 80;
             // 
-            // colMemberClassName
+            // colClassName
             // 
-            this.colMemberClassName.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.colMemberClassName.Image = null;
-            this.colMemberClassName.Text = "Class Name";
-            this.colMemberClassName.Width = 120;
+            this.colClassName.Text = "Class Name";
+            this.colClassName.Width = 120;
             // 
-            // colMemberClassNameChs
+            // colClassNameAlt1
             // 
-            this.colMemberClassNameChs.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.colMemberClassNameChs.Image = null;
-            this.colMemberClassNameChs.Text = "Class Name Chs";
-            this.colMemberClassNameChs.Width = 120;
+            this.colClassNameAlt1.Text = "Class Name Chs";
+            this.colClassNameAlt1.Width = 120;
             // 
-            // colMemberClassNameCht
+            // colClassNameAlt2
             // 
-            this.colMemberClassNameCht.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.colMemberClassNameCht.Image = null;
-            this.colMemberClassNameCht.Text = "Class Name Cht";
-            this.colMemberClassNameCht.Width = 120;
+            this.colClassNameAlt2.Text = "Class Name Cht";
+            this.colClassNameAlt2.Width = 120;
             // 
             // cboParentClass
             // 
             this.cboParentClass.BorderStyle = Gizmox.WebGUI.Forms.BorderStyle.Fixed3D;
-            this.cboParentClass.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
             this.cboParentClass.DropDownStyle = Gizmox.WebGUI.Forms.ComboBoxStyle.DropDownList;
             this.cboParentClass.DropDownWidth = 142;
-            this.cboParentClass.Location = new System.Drawing.Point(122, 129);
+            this.cboParentClass.Location = new System.Drawing.Point(152, 129);
             this.cboParentClass.Name = "cboParentClass";
-            this.cboParentClass.Size = new System.Drawing.Size(142, 21);
+            this.cboParentClass.Size = new System.Drawing.Size(138, 21);
             this.cboParentClass.TabIndex = 5;
             // 
             // lblParentClass
             // 
-            this.lblParentClass.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
             this.lblParentClass.Location = new System.Drawing.Point(16, 132);
             this.lblParentClass.Name = "lblParentClass";
             this.lblParentClass.Size = new System.Drawing.Size(100, 23);
@@ -170,95 +152,86 @@ namespace RT2020.Member
             // 
             // tbWizardAction
             // 
-            this.tbWizardAction.Anchor = Gizmox.WebGUI.Forms.AnchorStyles.None;
-            this.tbWizardAction.Appearance = Gizmox.WebGUI.Forms.ToolBarAppearance.Normal;
-            this.tbWizardAction.Dock = Gizmox.WebGUI.Forms.DockStyle.Top;
+            this.tbWizardAction.ButtonSize = new System.Drawing.Size(20, 20);
             this.tbWizardAction.DragHandle = true;
-            this.tbWizardAction.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.tbWizardAction.DropDownArrows = false;
-            this.tbWizardAction.ImageList = null;
+            this.tbWizardAction.DropDownArrows = true;
+            this.tbWizardAction.ImageSize = new System.Drawing.Size(16, 16);
             this.tbWizardAction.Location = new System.Drawing.Point(0, 0);
             this.tbWizardAction.MenuHandle = true;
             this.tbWizardAction.Name = "tbWizardAction";
-            //this.tbWizardAction.RightToLeft = false;
             this.tbWizardAction.ShowToolTips = true;
+            this.tbWizardAction.Size = new System.Drawing.Size(302, 26);
             this.tbWizardAction.TabIndex = 8;
             // 
-            // txtMemberClassNameCht
+            // txtClassNameAlt2
             // 
-            this.txtMemberClassNameCht.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.txtMemberClassNameCht.Location = new System.Drawing.Point(122, 106);
-            this.txtMemberClassNameCht.Name = "txtMemberClassNameCht";
-            this.txtMemberClassNameCht.Size = new System.Drawing.Size(142, 20);
-            this.txtMemberClassNameCht.TabIndex = 4;
+            this.txtClassNameAlt2.Location = new System.Drawing.Point(152, 106);
+            this.txtClassNameAlt2.Name = "txtClassNameAlt2";
+            this.txtClassNameAlt2.Size = new System.Drawing.Size(138, 20);
+            this.txtClassNameAlt2.TabIndex = 4;
             // 
-            // txtMemberClassNameChs
+            // txtClassNameAlt1
             // 
-            this.txtMemberClassNameChs.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.txtMemberClassNameChs.Location = new System.Drawing.Point(122, 83);
-            this.txtMemberClassNameChs.Name = "txtMemberClassNameChs";
-            this.txtMemberClassNameChs.Size = new System.Drawing.Size(142, 20);
-            this.txtMemberClassNameChs.TabIndex = 3;
+            this.txtClassNameAlt1.Location = new System.Drawing.Point(152, 83);
+            this.txtClassNameAlt1.Name = "txtClassNameAlt1";
+            this.txtClassNameAlt1.Size = new System.Drawing.Size(138, 20);
+            this.txtClassNameAlt1.TabIndex = 3;
             // 
-            // txtMemberClassName
+            // txtClassName
             // 
-            this.txtMemberClassName.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.txtMemberClassName.Location = new System.Drawing.Point(122, 60);
-            this.txtMemberClassName.Name = "txtMemberClassName";
-            this.txtMemberClassName.Size = new System.Drawing.Size(142, 20);
-            this.txtMemberClassName.TabIndex = 2;
+            this.txtClassName.Location = new System.Drawing.Point(152, 60);
+            this.txtClassName.Name = "txtClassName";
+            this.txtClassName.Size = new System.Drawing.Size(138, 20);
+            this.txtClassName.TabIndex = 2;
             // 
-            // lblMemberClassNameCht
+            // lblClassNameAlt2
             // 
-            this.lblMemberClassNameCht.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.lblMemberClassNameCht.Location = new System.Drawing.Point(16, 109);
-            this.lblMemberClassNameCht.Name = "lblMemberClassNameCht";
-            this.lblMemberClassNameCht.Size = new System.Drawing.Size(100, 23);
-            this.lblMemberClassNameCht.TabIndex = 4;
-            this.lblMemberClassNameCht.Text = "Class Name Cht";
+            this.lblClassNameAlt2.Location = new System.Drawing.Point(25, 109);
+            this.lblClassNameAlt2.Name = "lblClassNameAlt2";
+            this.lblClassNameAlt2.Size = new System.Drawing.Size(124, 23);
+            this.lblClassNameAlt2.TabIndex = 4;
+            this.lblClassNameAlt2.Text = "Class Name Cht";
             // 
-            // lblMemberClassNameChs
+            // lblClassNameAlt1
             // 
-            this.lblMemberClassNameChs.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.lblMemberClassNameChs.Location = new System.Drawing.Point(16, 86);
-            this.lblMemberClassNameChs.Name = "lblMemberClassNameChs";
-            this.lblMemberClassNameChs.Size = new System.Drawing.Size(100, 23);
-            this.lblMemberClassNameChs.TabIndex = 3;
-            this.lblMemberClassNameChs.Text = "Class Name Chs:";
+            this.lblClassNameAlt1.Location = new System.Drawing.Point(25, 86);
+            this.lblClassNameAlt1.Name = "lblClassNameAlt1";
+            this.lblClassNameAlt1.Size = new System.Drawing.Size(124, 23);
+            this.lblClassNameAlt1.TabIndex = 3;
+            this.lblClassNameAlt1.Text = "Class Name Chs:";
             // 
-            // lblMemberClassName
+            // lblClassName
             // 
-            this.lblMemberClassName.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.lblMemberClassName.Location = new System.Drawing.Point(16, 63);
-            this.lblMemberClassName.Name = "lblMemberClassName";
-            this.lblMemberClassName.Size = new System.Drawing.Size(100, 23);
-            this.lblMemberClassName.TabIndex = 2;
-            this.lblMemberClassName.Text = "Class Name:";
+            this.lblClassName.Location = new System.Drawing.Point(16, 63);
+            this.lblClassName.Name = "lblClassName";
+            this.lblClassName.Size = new System.Drawing.Size(100, 23);
+            this.lblClassName.TabIndex = 2;
+            this.lblClassName.Text = "Class Name:";
             // 
-            // txtMemberClassCode
+            // txtClassCode
             // 
-            this.txtMemberClassCode.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.txtMemberClassCode.Location = new System.Drawing.Point(122, 37);
-            this.txtMemberClassCode.MaxLength = 10;
-            this.txtMemberClassCode.Name = "txtMemberClassCode";
-            this.txtMemberClassCode.Size = new System.Drawing.Size(142, 20);
-            this.txtMemberClassCode.TabIndex = 1;
+            this.txtClassCode.Location = new System.Drawing.Point(152, 37);
+            this.txtClassCode.MaxLength = 10;
+            this.txtClassCode.Name = "txtClassCode";
+            this.txtClassCode.Size = new System.Drawing.Size(138, 20);
+            this.txtClassCode.TabIndex = 1;
             // 
-            // lblMemberClassCode
+            // lblClassCode
             // 
-            this.lblMemberClassCode.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.lblMemberClassCode.Location = new System.Drawing.Point(16, 40);
-            this.lblMemberClassCode.Name = "lblMemberClassCode";
-            this.lblMemberClassCode.Size = new System.Drawing.Size(100, 23);
-            this.lblMemberClassCode.TabIndex = 0;
-            this.lblMemberClassCode.Text = "Class Code:";
+            this.lblClassCode.Location = new System.Drawing.Point(16, 40);
+            this.lblClassCode.Name = "lblClassCode";
+            this.lblClassCode.Size = new System.Drawing.Size(100, 23);
+            this.lblClassCode.TabIndex = 0;
+            this.lblClassCode.Text = "Class Code:";
             // 
             // errorProvider
             // 
             this.errorProvider.BlinkRate = 3;
-            this.errorProvider.BlinkStyle = Gizmox.WebGUI.Forms.ErrorBlinkStyle.BlinkIfDifferentError;
-            this.errorProvider.DataMember = "";
-            this.errorProvider.DataSource = "";
+            // 
+            // colParentClass
+            // 
+            this.colParentClass.Text = "Parent Class";
+            this.colParentClass.Width = 100;
             // 
             // MemberClassWizard
             // 
@@ -268,6 +241,7 @@ namespace RT2020.Member
             this.Size = new System.Drawing.Size(806, 506);
             this.StartPosition = Gizmox.WebGUI.Forms.FormStartPosition.CenterParent;
             this.Text = "MemberClass Wizard";
+            this.Load += new System.EventHandler(this.MemberClassWizard_Load);
             this.ResumeLayout(false);
 
         }
@@ -275,26 +249,25 @@ namespace RT2020.Member
         #endregion
 
         private Gizmox.WebGUI.Forms.SplitContainer splitContainer;
-        private Gizmox.WebGUI.Forms.ListView lvMemberClassList;
-        private Gizmox.WebGUI.Forms.ColumnHeader colMemberClassId;
+        private Gizmox.WebGUI.Forms.ListView lvClassList;
+        private Gizmox.WebGUI.Forms.ColumnHeader colClassId;
         private Gizmox.WebGUI.Forms.ColumnHeader colLN;
-        private Gizmox.WebGUI.Forms.ColumnHeader colMemberClassCode;
-        private Gizmox.WebGUI.Forms.ColumnHeader colMemberClassName;
-        private Gizmox.WebGUI.Forms.ColumnHeader colMemberClassNameChs;
-        private Gizmox.WebGUI.Forms.ColumnHeader colMemberClassNameCht;
-        private Gizmox.WebGUI.Forms.TextBox txtMemberClassNameCht;
-        private Gizmox.WebGUI.Forms.TextBox txtMemberClassNameChs;
-        private Gizmox.WebGUI.Forms.TextBox txtMemberClassName;
-        private Gizmox.WebGUI.Forms.Label lblMemberClassNameCht;
-        private Gizmox.WebGUI.Forms.Label lblMemberClassNameChs;
-        private Gizmox.WebGUI.Forms.Label lblMemberClassName;
-        private Gizmox.WebGUI.Forms.TextBox txtMemberClassCode;
-        private Gizmox.WebGUI.Forms.Label lblMemberClassCode;
+        private Gizmox.WebGUI.Forms.ColumnHeader colClassCode;
+        private Gizmox.WebGUI.Forms.ColumnHeader colClassName;
+        private Gizmox.WebGUI.Forms.ColumnHeader colClassNameAlt1;
+        private Gizmox.WebGUI.Forms.ColumnHeader colClassNameAlt2;
+        private Gizmox.WebGUI.Forms.TextBox txtClassNameAlt2;
+        private Gizmox.WebGUI.Forms.TextBox txtClassNameAlt1;
+        private Gizmox.WebGUI.Forms.TextBox txtClassName;
+        private Gizmox.WebGUI.Forms.Label lblClassNameAlt2;
+        private Gizmox.WebGUI.Forms.Label lblClassNameAlt1;
+        private Gizmox.WebGUI.Forms.Label lblClassName;
+        private Gizmox.WebGUI.Forms.TextBox txtClassCode;
+        private Gizmox.WebGUI.Forms.Label lblClassCode;
         private Gizmox.WebGUI.Forms.ToolBar tbWizardAction;
         private Gizmox.WebGUI.Forms.ErrorProvider errorProvider;
         private Gizmox.WebGUI.Forms.ComboBox cboParentClass;
         private Gizmox.WebGUI.Forms.Label lblParentClass;
-
-
+        private Gizmox.WebGUI.Forms.ColumnHeader colParentClass;
     }
 }

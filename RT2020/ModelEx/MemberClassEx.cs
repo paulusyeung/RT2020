@@ -44,6 +44,25 @@ namespace RT2020.ModelEx
             return result;
         }
 
+        public static string GetParentName(EF6.MemberClass target)
+        {
+            var result = "";
+
+            if (target.ParentClass.HasValue)
+            {
+                using (var ctx = new EF6.RT2020Entities())
+                {
+                    var item = ctx.MemberClass.Where(x => x.ClassId == target.ParentClass.Value).AsNoTracking().FirstOrDefault();
+                    if (item != null) result = CookieHelper.CurrentLocaleId == LanguageHelper.AlternateLanguage2.Key ?
+                        item.ClassName_Cht : CookieHelper.CurrentLocaleId == LanguageHelper.AlternateLanguage1.Key ?
+                        item.ClassName_Chs :
+                        item.ClassName;
+                }
+            }
+
+            return result;
+        }
+
         /// <summary>
         /// Get a EF6.MemberClass object from the database using the given ClassId
         /// </summary>

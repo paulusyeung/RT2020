@@ -1,6 +1,6 @@
 namespace RT2020.Member
 {
-    partial class MemberWizard_OthersInfo
+    partial class MemberWizard_Others
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@ namespace RT2020.Member
         /// </summary>
         private void InitializeComponent()
         {
-            Gizmox.WebGUI.Common.Resources.IconResourceHandle iconResourceHandle1 = new Gizmox.WebGUI.Common.Resources.IconResourceHandle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MemberWizard_Others));
             this.lblCreditLimit = new Gizmox.WebGUI.Forms.Label();
             this.lblCreditTerms = new Gizmox.WebGUI.Forms.Label();
             this.lblPaymentDiscount = new Gizmox.WebGUI.Forms.Label();
@@ -59,6 +59,8 @@ namespace RT2020.Member
             this.lblRemarks3 = new Gizmox.WebGUI.Forms.Label();
             this.lblRemarks2 = new Gizmox.WebGUI.Forms.Label();
             this.lblRemarks1 = new Gizmox.WebGUI.Forms.Label();
+            this.groupBox1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // lblCreditLimit
@@ -67,7 +69,6 @@ namespace RT2020.Member
             this.lblCreditLimit.Name = "lblCreditLimit";
             this.lblCreditLimit.Size = new System.Drawing.Size(100, 23);
             this.lblCreditLimit.TabIndex = 0;
-            this.lblCreditLimit.TabStop = false;
             this.lblCreditLimit.Text = "Credit Limit:";
             // 
             // lblCreditTerms
@@ -76,7 +77,6 @@ namespace RT2020.Member
             this.lblCreditTerms.Name = "lblCreditTerms";
             this.lblCreditTerms.Size = new System.Drawing.Size(100, 23);
             this.lblCreditTerms.TabIndex = 0;
-            this.lblCreditTerms.TabStop = false;
             this.lblCreditTerms.Text = "Credit Terms:";
             // 
             // lblPaymentDiscount
@@ -85,7 +85,6 @@ namespace RT2020.Member
             this.lblPaymentDiscount.Name = "lblPaymentDiscount";
             this.lblPaymentDiscount.Size = new System.Drawing.Size(100, 23);
             this.lblPaymentDiscount.TabIndex = 0;
-            this.lblPaymentDiscount.TabStop = false;
             this.lblPaymentDiscount.Text = "Payment Discount:";
             // 
             // lblCustomerInfo
@@ -94,7 +93,6 @@ namespace RT2020.Member
             this.lblCustomerInfo.Name = "lblCustomerInfo";
             this.lblCustomerInfo.Size = new System.Drawing.Size(100, 23);
             this.lblCustomerInfo.TabIndex = 0;
-            this.lblCustomerInfo.TabStop = false;
             this.lblCustomerInfo.Text = "Customer Info:";
             // 
             // groupBox1
@@ -124,11 +122,11 @@ namespace RT2020.Member
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(760, 193);
             this.groupBox1.TabIndex = 0;
+            this.groupBox1.TabStop = false;
             // 
             // btnFindCustomer
             // 
-            iconResourceHandle1.File = "16x16.16_find.gif";
-            this.btnFindCustomer.Image = iconResourceHandle1;
+            this.btnFindCustomer.Image = new Gizmox.WebGUI.Common.Resources.IconResourceHandle(resources.GetString("btnFindCustomer.Image"));
             this.btnFindCustomer.Location = new System.Drawing.Point(272, 82);
             this.btnFindCustomer.Name = "btnFindCustomer";
             this.btnFindCustomer.Size = new System.Drawing.Size(37, 23);
@@ -149,7 +147,6 @@ namespace RT2020.Member
             this.lblPromotionItemDiscountPcn.Name = "lblPromotionItemDiscountPcn";
             this.lblPromotionItemDiscountPcn.Size = new System.Drawing.Size(100, 23);
             this.lblPromotionItemDiscountPcn.TabIndex = 0;
-            this.lblPromotionItemDiscountPcn.TabStop = false;
             this.lblPromotionItemDiscountPcn.Text = "%(Promotion Item)";
             // 
             // lblNormalItemDiscountPcn
@@ -158,7 +155,6 @@ namespace RT2020.Member
             this.lblNormalItemDiscountPcn.Name = "lblNormalItemDiscountPcn";
             this.lblNormalItemDiscountPcn.Size = new System.Drawing.Size(100, 23);
             this.lblNormalItemDiscountPcn.TabIndex = 0;
-            this.lblNormalItemDiscountPcn.TabStop = false;
             this.lblNormalItemDiscountPcn.Text = "%(Normal Item)";
             // 
             // txtStaffQuota
@@ -194,8 +190,8 @@ namespace RT2020.Member
             this.lblStaffQuota.Name = "lblStaffQuota";
             this.lblStaffQuota.Size = new System.Drawing.Size(100, 23);
             this.lblStaffQuota.TabIndex = 0;
-            this.lblStaffQuota.TabStop = false;
             this.lblStaffQuota.Text = "Staff Quota:";
+            this.lblStaffQuota.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // lblAddOnDiscount
             // 
@@ -203,8 +199,8 @@ namespace RT2020.Member
             this.lblAddOnDiscount.Name = "lblAddOnDiscount";
             this.lblAddOnDiscount.Size = new System.Drawing.Size(100, 23);
             this.lblAddOnDiscount.TabIndex = 0;
-            this.lblAddOnDiscount.TabStop = false;
             this.lblAddOnDiscount.Text = "Add on Disc:";
+            this.lblAddOnDiscount.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // lblDiscount
             // 
@@ -212,8 +208,8 @@ namespace RT2020.Member
             this.lblDiscount.Name = "lblDiscount";
             this.lblDiscount.Size = new System.Drawing.Size(100, 23);
             this.lblDiscount.TabIndex = 0;
-            this.lblDiscount.TabStop = false;
             this.lblDiscount.Text = "Discount:";
+            this.lblDiscount.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // txtCustomerInfo3
             // 
@@ -261,15 +257,11 @@ namespace RT2020.Member
             // 
             // chkAddOnDiscount
             // 
-            this.chkAddOnDiscount.Checked = false;
-            this.chkAddOnDiscount.CheckState = Gizmox.WebGUI.Forms.CheckState.Unchecked;
-            this.chkAddOnDiscount.FlatStyle = Gizmox.WebGUI.Forms.FlatStyle.Standard;
-            this.chkAddOnDiscount.Location = new System.Drawing.Point(434, 63);
+            this.chkAddOnDiscount.Location = new System.Drawing.Point(434, 59);
             this.chkAddOnDiscount.Name = "chkAddOnDiscount";
             this.chkAddOnDiscount.Size = new System.Drawing.Size(104, 24);
             this.chkAddOnDiscount.TabIndex = 0;
             this.chkAddOnDiscount.TabStop = false;
-            this.chkAddOnDiscount.ThreeState = false;
             // 
             // groupBox2
             // 
@@ -286,6 +278,7 @@ namespace RT2020.Member
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(760, 174);
             this.groupBox2.TabIndex = 1;
+            this.groupBox2.TabStop = false;
             // 
             // cboNature
             // 
@@ -332,7 +325,6 @@ namespace RT2020.Member
             this.lblNature.Name = "lblNature";
             this.lblNature.Size = new System.Drawing.Size(100, 23);
             this.lblNature.TabIndex = 0;
-            this.lblNature.TabStop = false;
             this.lblNature.Text = "Nature:";
             // 
             // lblRemarks3
@@ -341,7 +333,6 @@ namespace RT2020.Member
             this.lblRemarks3.Name = "lblRemarks3";
             this.lblRemarks3.Size = new System.Drawing.Size(100, 23);
             this.lblRemarks3.TabIndex = 0;
-            this.lblRemarks3.TabStop = false;
             this.lblRemarks3.Text = "Remarks 3:";
             // 
             // lblRemarks2
@@ -350,7 +341,6 @@ namespace RT2020.Member
             this.lblRemarks2.Name = "lblRemarks2";
             this.lblRemarks2.Size = new System.Drawing.Size(100, 23);
             this.lblRemarks2.TabIndex = 0;
-            this.lblRemarks2.TabStop = false;
             this.lblRemarks2.Text = "Remarks 2:";
             // 
             // lblRemarks1
@@ -359,15 +349,16 @@ namespace RT2020.Member
             this.lblRemarks1.Name = "lblRemarks1";
             this.lblRemarks1.Size = new System.Drawing.Size(100, 23);
             this.lblRemarks1.TabIndex = 0;
-            this.lblRemarks1.TabStop = false;
             this.lblRemarks1.Text = "Remarks 1:";
             // 
-            // MemberWizard_OthersInfo
+            // MemberWizard_Others
             // 
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Size = new System.Drawing.Size(766, 379);
             this.Text = "MemberWizard_OthersInfo";
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox2.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

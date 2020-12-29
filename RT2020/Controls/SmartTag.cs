@@ -1,4 +1,4 @@
-#region Using
+ï»¿#region Using
 
 using System;
 using System.Collections.Generic;
@@ -102,19 +102,22 @@ namespace RT2020.Controls
 
         private void SetSmartTag(string key, object tag, string name, string name_chs, string name_cht)
         {
-            switch (ConfigHelper.CurrentLanguageId)
+            #region displayName æ ¹æ“š locale æ”¹è®Š
+            var displayName = "";
+            switch (LanguageHelper.CurrentLanguageMode)
             {
-                case 2: // chs, zh-chs, zh-cn
-                    name_chs = name_chs + "£º";
+                case LanguageHelper.LanguageMode.Alt1:
+                    displayName = name_chs + "ï¼š";
                     break;
-                case 3: // cht, zh-cht, zh-hk, zh-tw
-                    name_cht = name_cht + "£º";
+                case LanguageHelper.LanguageMode.Alt2:
+                    displayName = name_cht + "ï¼š";
                     break;
-                case 1: // en, en-us
+                case LanguageHelper.LanguageMode.Default:
                 default:
-                    name = name + ":";
+                    displayName = name + ":";
                     break;
             }
+            #endregion
 
             Control Ctrl = null;
             for (int i = 0; i < upCtrl.Controls.Count; i++)
@@ -128,7 +131,7 @@ namespace RT2020.Controls
                         if (Ctrl.GetType().Equals(typeof(Label)))
                         {
                             Label lblTag = Ctrl as Label;
-                            lblTag.Text = name;
+                            lblTag.Text = displayName;
                             lblTag.Visible = true;
                         }
 

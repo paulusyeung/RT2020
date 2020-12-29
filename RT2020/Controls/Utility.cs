@@ -738,135 +738,6 @@ namespace RT2020.Controls
         }
     }
 
-    public class Preference
-    {
-        public static void Save(ListView lvwList)
-        {
-            // 把每個 ColumnHeader 的資料保存在 MetadataXml 中
-            var user = ModelEx.UserProfileEx.GetByUserSid(ConfigHelper.CurrentUserId);
-            if (user != null)
-            {
-                /**
-                var sql = String.Format("UserId = '{0}' AND PreferenceObjectId = '{1}'", user.UserId.ToString(), ((Guid)lvwList.Tag).ToString());
-
-                UserPreference userPref = UserPreference.LoadWhere(sql);
-                
-                if (userPref == null)
-                {
-                    userPref = new UserPreference();
-                    userPref.UserId = user.UserId;
-                    userPref.PreferenceObjectId = (Guid)lvwList.Tag;
-                }
-
-                userPref.MetadataXml = new Dictionary<string, UserPreference.MetadataAttributes>();     // 首先清空舊的 Metadata.
-
-                foreach (ColumnHeader col in lvwList.Columns)
-                {
-                    UserPreference.MetadataAttributes attrs = new UserPreference.MetadataAttributes();
-
-                    attrs.Add(new UserPreference.MetadataAttribute("Name", col.Name));
-                    //attrs.Add(new UserPreference.MetadataAttribute("Position", col.Position.ToString()));
-                    attrs.Add(new UserPreference.MetadataAttribute("SortOrder", col.SortOrder.ToString()));
-                    attrs.Add(new UserPreference.MetadataAttribute("SortPosition", col.SortPosition.ToString()));
-                    attrs.Add(new UserPreference.MetadataAttribute("Text", col.Text));                  // 為咗方便睇 SQL 紀錄，Text 會 save 不過不需要 load
-                    attrs.Add(new UserPreference.MetadataAttribute("Visible", col.Visible.ToString()));
-                    attrs.Add(new UserPreference.MetadataAttribute("Width", col.Width.ToString()));
-                    if (col.Image != null)
-                        attrs.Add(new UserPreference.MetadataAttribute("ImageFile", col.Image.File));
-                    else
-                        attrs.Add(new UserPreference.MetadataAttribute("ImageFile", String.Empty));
-
-                    userPref.SetMetadata(col.Index.ToString(), attrs);                                  // 採用 ColumnHeader.Index 作為 key
-                }
-
-                userPref.Save();
-                */
-                ModelEx.UserPreferenceEx.Save(user.UserId, ref lvwList);
-            }
-        }
-
-        public static void Delete(ListView lvwList)
-        {
-            var userId = ModelEx.UserProfileEx.GetUserIdBySid(ConfigHelper.CurrentUserId);
-            if (userId != Guid.Empty)
-            {
-                ModelEx.UserPreferenceEx.Delete(userId, (Guid)lvwList.Tag);
-            }
-        }
-
-        public static void Load(ref ListView lvwList)
-        {
-            var user = ModelEx.UserProfileEx.GetByUserSid(ConfigHelper.CurrentUserId);
-            if (user != null)
-            {
-                /**
-                var userId = ModelEx.UserProfileEx.GetUserIdBySid(ConfigHelper.CurrentUserId);
-                if (userId != Guid.Empty)
-                {
-                    // 2012.04.18 paulus:
-                    // 首先用 SuperUser 個 Id 試下，搵唔到才用自己個 Id，於是 SuperUser 可以設定 ListView 的 Layout 給所有用戶
-                    var sql = String.Format("UserId = '{0}' AND PreferenceObjectId = '{1}'", RT2020.Controls.UserProfile.GetSuperUserId().ToString(), ((Guid)lvwList.Tag).ToString());
-                    UserPreference userPref = UserPreference.LoadWhere(sql);
-                    if (userPref == null)
-                    {
-                        sql = String.Format("UserId = '{0}' AND PreferenceObjectId = '{1}'", userId.ToString(), ((Guid)lvwList.Tag).ToString());
-                        userPref = UserPreference.LoadWhere(sql);
-                    }
-
-                    #region 搵到就根據 UserPreference 的資料更改 ColumnHeader
-                    if (userPref != null)
-                    {
-                        Dictionary<string, RT2020.DAL.UserPreference.MetadataAttributes> metadata = userPref.MetadataXml;
-                        foreach (KeyValuePair<string, RT2020.DAL.UserPreference.MetadataAttributes> col in metadata)
-                        {
-                            int colIndex = int.Parse(col.Key);      // col.Key 等於 ColumnHeader.Index
-
-                            foreach (RT2020.DAL.UserPreference.MetadataAttribute item in col.Value)
-                            {
-                                int position = 0, sortPosition = 0, width = 0;
-                                bool visible = false;
-
-                                switch (item.Key)
-                                {
-                                    case "Name":
-                                        lvwList.Columns[colIndex].Name = item.Value;
-                                        break;
-                                    case "Position":
-                                        int.TryParse(item.Value, out position);
-                                        //lvwList.Columns[colIndex]..Position = position;
-                                        break;
-                                    case "SortOrder":
-                                        if (item.Value == Gizmox.WebGUI.Forms.SortOrder.Ascending.ToString("g"))
-                                            lvwList.Columns[colIndex].SortOrder = Gizmox.WebGUI.Forms.SortOrder.Ascending;
-                                        else if (item.Value == Gizmox.WebGUI.Forms.SortOrder.Descending.ToString("g"))
-                                            lvwList.Columns[colIndex].SortOrder = Gizmox.WebGUI.Forms.SortOrder.Descending;
-                                        else if (item.Value == Gizmox.WebGUI.Forms.SortOrder.None.ToString("g"))
-                                            lvwList.Columns[colIndex].SortOrder = Gizmox.WebGUI.Forms.SortOrder.None;
-                                        break;
-                                    case "SortPosition":
-                                        int.TryParse(item.Value, out sortPosition);
-                                        lvwList.Columns[colIndex].SortPosition = sortPosition;
-                                        break;
-                                    case "Visible":
-                                        bool.TryParse(item.Value, out visible);
-                                        lvwList.Columns[colIndex].Visible = visible;
-                                        break;
-                                    case "Width":
-                                        int.TryParse(item.Value, out width);
-                                        lvwList.Columns[colIndex].Width = width;
-                                        break;
-                                }
-                            }
-                        }
-                    }
-                    #endregion
-                }
-                */
-                ModelEx.UserPreferenceEx.Load(user.UserId, ref lvwList);
-            }
-        }
-    }
-
     public class Staff
     {
         public static bool DeleteRec(Guid userId)
@@ -1121,7 +992,11 @@ namespace RT2020.Controls
             String shop = "3";
             if (ModelEx.WorkplaceNatureEx.IsNatureCodeInUse("3"))
             {
-                ModelEx.WorkplaceEx.LoadCombo(ref target, "WorkplaceCode", false, true, String.Empty, String.Empty);
+                string[] textField = { "WorkplaceCode", "WorkplaceName" };
+                string pattern = "{0} - {1}";
+                string[] orderBy = { "WorkplaceCode" };
+
+                ModelEx.WorkplaceEx.LoadCombo(ref target, textField, pattern, true, true, String.Empty, String.Empty, orderBy);
             }
         }
     }

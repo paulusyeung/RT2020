@@ -7,6 +7,7 @@ using System.Reflection;
 using Gizmox.WebGUI.Forms;
 
 using RT2020.Helper;
+using System.ComponentModel;
 
 namespace RT2020.ModelEx
 {
@@ -252,13 +253,19 @@ namespace RT2020.ModelEx
                 }
                 #endregion
 
-                ddList.DataSource = list;
-                ddList.ValueMember = "AddressTypeId";
-                ddList.DisplayMember = !SwitchLocale ? TextField :
-                    CookieHelper.CurrentLocaleId == LanguageHelper.AlternateLanguage2.Key ?
-                    "AddressTypeName_Cht" : CookieHelper.CurrentLocaleId == LanguageHelper.AlternateLanguage1.Key ?
-                    "AddressTypeName_Chs" :
-                    "AddressTypeName";
+                BindingList<KeyValuePair<Guid, string>> kvpList = new BindingList<KeyValuePair<Guid, string>>();
+                foreach (var item in list)
+                {
+                    var text = !SwitchLocale ?
+                        item.GetType().GetProperty(TextField).GetValue(item, null).ToString() : CookieHelper.CurrentLocaleId == LanguageHelper.AlternateLanguage2.Key ?
+                        item.AddressTypeName_Cht : CookieHelper.CurrentLocaleId == LanguageHelper.AlternateLanguage1.Key ?
+                        item.AddressTypeName_Chs :
+                        item.AddressTypeName;
+                    kvpList.Add(new KeyValuePair<Guid, string>(item.AddressTypeId, text));
+                }
+                ddList.DataSource = kvpList;
+                ddList.ValueMember = "Key";
+                ddList.DisplayMember = "Value";
             }
             if (ddList.Items.Count > 0) ddList.SelectedIndex = 0;
         }
@@ -338,16 +345,16 @@ namespace RT2020.ModelEx
                 }
                 #endregion
 
-                Dictionary<Guid, string> data = new Dictionary<Guid, string>();
+                BindingList<KeyValuePair<Guid, string>> data = new BindingList<KeyValuePair<Guid, string>>();
                 foreach (var item in list)
                 {
                     var text = GetFormatedText(item, TextField, TextFormatString);
-                    data.Add(item.AddressTypeId, text);
+                    data.Add(new KeyValuePair<Guid, string>(item.AddressTypeId, text));
                 }
 
                 ddList.DataSource = data;
-                ddList.ValueMember = "Value";
-                ddList.DisplayMember = "Key";
+                ddList.ValueMember = "Key";
+                ddList.DisplayMember = "Value";
             }
             if (ddList.Items.Count > 0) ddList.SelectedIndex = 0;
         }

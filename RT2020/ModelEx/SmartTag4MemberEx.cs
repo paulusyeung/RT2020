@@ -5,6 +5,7 @@ using System.Web;
 
 using Gizmox.WebGUI.Forms;
 using RT2020.Helper;
+using System.Data.Entity;
 
 namespace RT2020.ModelEx
 {
@@ -92,6 +93,108 @@ namespace RT2020.ModelEx
                     ))
                     .AsNoTracking()
                     .ToList();
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Get a EF6.SmartTag4Member object from the database using the given TagId
+        /// </summary>
+        /// <param name="tagId">The primary key value</param>
+        /// <returns>A EF6.SmartTag4Member object</returns>
+        public static EF6.SmartTag4Member Get(Guid tagId)
+        {
+            EF6.SmartTag4Member result = null;
+
+            using (var ctx = new EF6.RT2020Entities())
+            {
+                result = ctx.SmartTag4Member.Where(x => x.TagId == tagId).AsNoTracking().FirstOrDefault();
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Get a EF6.SmartTag4Member object from the database using the given QueryString
+        /// </summary>
+        /// <param name="tagId">The primary key value</param>
+        /// <returns>A EF6.SmartTag4Member object</returns>
+        public static EF6.SmartTag4Member Get(string whereClause)
+        {
+            EF6.SmartTag4Member result = null;
+
+            using (var ctx = new EF6.RT2020Entities())
+            {
+                result = ctx.SmartTag4Member
+                    .SqlQuery(string.Format("Select * from SmartTag4Member Where {0}", whereClause))
+                    .AsNoTracking()
+                    .FirstOrDefault();
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Get a list of SmartTag4Member objects from the database
+        /// </summary>
+        /// <returns>A list containing all of the SmartTag4Member objects in the database.</returns>
+        public static List<EF6.SmartTag4Member> GetList()
+        {
+            var whereClause = "1 = 1";
+            return GetList(whereClause);
+        }
+
+        /// <summary>
+        /// Get a list of SmartTag4Member objects from the database
+        /// ordered by primary key
+        /// </summary>
+        /// <returns>A list containing all of the SmartTag4Member objects in the database ordered by the columns specified.</returns>
+        public static List<EF6.SmartTag4Member> GetList(string whereClause)
+        {
+            var orderBy = new string[] { "TagId" };
+            return GetList(whereClause, orderBy);
+        }
+
+        /// <summary>
+        /// Get a list of SmartTag4Member objects from the database.
+        /// ordered accordingly, example { "FieldName1", "FieldName2 DESC" }
+        /// </summary>
+        /// <returns>A list containing all of the SmartTag4Member objects in the database.</returns>
+        public static List<EF6.SmartTag4Member> GetList(string whereClause, string[] orderBy)
+        {
+            List<EF6.SmartTag4Member> result = new List<EF6.SmartTag4Member>();
+
+            var orderby = String.Join(",", orderBy.Select(x => x));
+
+            using (var ctx = new EF6.RT2020Entities())
+            {
+                result = ctx.SmartTag4Member
+                    .SqlQuery(string.Format("Select * from SmartTag4Member Where {0} Order By {1}", whereClause, orderby))
+                    .AsNoTracking()
+                    .ToList();
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Deletes a EF6.SmartTag4Member object from the database.
+        /// </summary>
+        /// <param name="tagId">The primary key value</param>
+        public static bool Delete(Guid tagId)
+        {
+            bool result = false;
+
+            using (var ctx = new EF6.RT2020Entities())
+            {
+                var item = ctx.SmartTag4Member.Find(tagId);
+                if (item != null)
+                {
+                    ctx.SmartTag4Member.Remove(item);
+                    ctx.SaveChanges();
+                    result = true;
+                }
             }
 
             return result;

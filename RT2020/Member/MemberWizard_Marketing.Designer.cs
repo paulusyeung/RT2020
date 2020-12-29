@@ -1,6 +1,6 @@
 namespace RT2020.Member
 {
-    partial class MemberWizard_MarketingInfo
+    partial class MemberWizard_Marketing
     {
         /// <summary>
         /// Required designer variable.

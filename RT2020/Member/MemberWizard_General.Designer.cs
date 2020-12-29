@@ -1,6 +1,6 @@
 namespace RT2020.Member
 {
-    partial class MemberWizard_MainInfo
+    partial class MemberWizard_General
     {
         /// <summary>
         /// Required designer variable.
@@ -28,10 +28,7 @@ namespace RT2020.Member
         /// </summary>
         private void InitializeComponent()
         {
-            Gizmox.WebGUI.Common.Resources.IconResourceHandle iconResourceHandle1 = new Gizmox.WebGUI.Common.Resources.IconResourceHandle();
-            Gizmox.WebGUI.Common.Resources.IconResourceHandle iconResourceHandle2 = new Gizmox.WebGUI.Common.Resources.IconResourceHandle();
-            Gizmox.WebGUI.Common.Resources.IconResourceHandle iconResourceHandle3 = new Gizmox.WebGUI.Common.Resources.IconResourceHandle();
-            Gizmox.WebGUI.Common.Resources.IconResourceHandle iconResourceHandle4 = new Gizmox.WebGUI.Common.Resources.IconResourceHandle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MemberWizard_General));
             this.lblSalutation = new Gizmox.WebGUI.Forms.Label();
             this.cboSalutation = new Gizmox.WebGUI.Forms.ComboBox();
             this.lblSmartTag10 = new Gizmox.WebGUI.Forms.Label();
@@ -62,7 +59,6 @@ namespace RT2020.Member
             this.lblSmartTag2 = new Gizmox.WebGUI.Forms.Label();
             this.lblSmartTag3 = new Gizmox.WebGUI.Forms.Label();
             this.lblSmartTag4 = new Gizmox.WebGUI.Forms.Label();
-            this.txtSmartTag1 = new Gizmox.WebGUI.Forms.TextBox();
             this.lblSmartTag5 = new Gizmox.WebGUI.Forms.Label();
             this.lblSmartTag6 = new Gizmox.WebGUI.Forms.Label();
             this.lblSmartTag7 = new Gizmox.WebGUI.Forms.Label();
@@ -91,15 +87,15 @@ namespace RT2020.Member
             this.dtpSmartTag9 = new Gizmox.WebGUI.Forms.DateTimePicker();
             this.cboWorkplace = new Gizmox.WebGUI.Forms.ComboBox();
             this.lblWorkplace = new Gizmox.WebGUI.Forms.Label();
+            this.cboSmartTag1 = new Gizmox.WebGUI.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // lblSalutation
             // 
             this.lblSalutation.Location = new System.Drawing.Point(16, 18);
             this.lblSalutation.Name = "lblSalutation";
-            this.lblSalutation.Size = new System.Drawing.Size(100, 23);
+            this.lblSalutation.Size = new System.Drawing.Size(100, 18);
             this.lblSalutation.TabIndex = 0;
-            this.lblSalutation.TabStop = false;
             this.lblSalutation.Text = "Salutation:";
             // 
             // cboSalutation
@@ -107,16 +103,15 @@ namespace RT2020.Member
             this.cboSalutation.DropDownWidth = 121;
             this.cboSalutation.Location = new System.Drawing.Point(122, 15);
             this.cboSalutation.Name = "cboSalutation";
-            this.cboSalutation.Size = new System.Drawing.Size(121, 21);
+            this.cboSalutation.Size = new System.Drawing.Size(100, 21);
             this.cboSalutation.TabIndex = 1;
             // 
             // lblSmartTag10
             // 
             this.lblSmartTag10.Location = new System.Drawing.Point(258, 18);
             this.lblSmartTag10.Name = "lblSmartTag10";
-            this.lblSmartTag10.Size = new System.Drawing.Size(80, 23);
+            this.lblSmartTag10.Size = new System.Drawing.Size(83, 18);
             this.lblSmartTag10.TabIndex = 2;
-            this.lblSmartTag10.TabStop = false;
             this.lblSmartTag10.Text = "SmartTag 10:";
             this.lblSmartTag10.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
@@ -129,9 +124,8 @@ namespace RT2020.Member
             // 
             // btnFindHKID
             // 
-            iconResourceHandle1.File = "16x16.16_find.gif";
-            this.btnFindHKID.Image = iconResourceHandle1;
-            this.btnFindHKID.Location = new System.Drawing.Point(450, 13);
+            this.btnFindHKID.Image = new Gizmox.WebGUI.Common.Resources.IconResourceHandle(resources.GetString("btnFindHKID.Image"));
+            this.btnFindHKID.Location = new System.Drawing.Point(444, 13);
             this.btnFindHKID.Name = "btnFindHKID";
             this.btnFindHKID.Size = new System.Drawing.Size(29, 23);
             this.btnFindHKID.TabIndex = 4;
@@ -144,7 +138,6 @@ namespace RT2020.Member
             this.lblNickName.Name = "lblNickName";
             this.lblNickName.Size = new System.Drawing.Size(100, 23);
             this.lblNickName.TabIndex = 5;
-            this.lblNickName.TabStop = false;
             this.lblNickName.Text = "Nick Name:";
             // 
             // txtNickName
@@ -160,7 +153,6 @@ namespace RT2020.Member
             this.lblFirstName.Name = "lblFirstName";
             this.lblFirstName.Size = new System.Drawing.Size(100, 23);
             this.lblFirstName.TabIndex = 8;
-            this.lblFirstName.TabStop = false;
             this.lblFirstName.Text = "First Name:";
             // 
             // txtFirstName
@@ -176,7 +168,6 @@ namespace RT2020.Member
             this.lblLastName.Name = "lblLastName";
             this.lblLastName.Size = new System.Drawing.Size(100, 23);
             this.lblLastName.TabIndex = 11;
-            this.lblLastName.TabStop = false;
             this.lblLastName.Text = "Last Name:";
             // 
             // txtLastName
@@ -192,7 +183,6 @@ namespace RT2020.Member
             this.lblChineseName.Name = "lblChineseName";
             this.lblChineseName.Size = new System.Drawing.Size(100, 23);
             this.lblChineseName.TabIndex = 14;
-            this.lblChineseName.TabStop = false;
             this.lblChineseName.Text = "Chinese Name:";
             // 
             // txtChineseName
@@ -208,16 +198,14 @@ namespace RT2020.Member
             this.lblJobTitle.Name = "lblJobTitle";
             this.lblJobTitle.Size = new System.Drawing.Size(100, 23);
             this.lblJobTitle.TabIndex = 16;
-            this.lblJobTitle.TabStop = false;
             this.lblJobTitle.Text = "Title:";
             // 
             // lblSmartTag13
             // 
             this.lblSmartTag13.Location = new System.Drawing.Point(16, 156);
             this.lblSmartTag13.Name = "lblSmartTag13";
-            this.lblSmartTag13.Size = new System.Drawing.Size(100, 23);
+            this.lblSmartTag13.Size = new System.Drawing.Size(103, 23);
             this.lblSmartTag13.TabIndex = 18;
-            this.lblSmartTag13.TabStop = false;
             this.lblSmartTag13.Text = "SmartTag13:";
             // 
             // txtSmartTag13
@@ -231,9 +219,8 @@ namespace RT2020.Member
             // 
             this.lblSmartTag14.Location = new System.Drawing.Point(16, 179);
             this.lblSmartTag14.Name = "lblSmartTag14";
-            this.lblSmartTag14.Size = new System.Drawing.Size(100, 23);
+            this.lblSmartTag14.Size = new System.Drawing.Size(103, 23);
             this.lblSmartTag14.TabIndex = 20;
-            this.lblSmartTag14.TabStop = false;
             this.lblSmartTag14.Text = "SmartTag 14:";
             // 
             // txtSmartTag14
@@ -247,9 +234,8 @@ namespace RT2020.Member
             // 
             this.lblSmartTag11.Location = new System.Drawing.Point(16, 202);
             this.lblSmartTag11.Name = "lblSmartTag11";
-            this.lblSmartTag11.Size = new System.Drawing.Size(100, 23);
+            this.lblSmartTag11.Size = new System.Drawing.Size(103, 23);
             this.lblSmartTag11.TabIndex = 22;
-            this.lblSmartTag11.TabStop = false;
             this.lblSmartTag11.Text = "SmartTag 11:";
             // 
             // cboSmartTag11
@@ -273,7 +259,6 @@ namespace RT2020.Member
             this.lblRemarks.Name = "lblRemarks";
             this.lblRemarks.Size = new System.Drawing.Size(100, 23);
             this.lblRemarks.TabIndex = 26;
-            this.lblRemarks.TabStop = false;
             this.lblRemarks.Text = "Remarks:";
             // 
             // txtRemarks
@@ -285,9 +270,8 @@ namespace RT2020.Member
             // 
             // btnFindNickName
             // 
-            iconResourceHandle2.File = "16x16.16_find.gif";
-            this.btnFindNickName.Image = iconResourceHandle2;
-            this.btnFindNickName.Location = new System.Drawing.Point(450, 36);
+            this.btnFindNickName.Image = new Gizmox.WebGUI.Common.Resources.IconResourceHandle(resources.GetString("btnFindNickName.Image"));
+            this.btnFindNickName.Location = new System.Drawing.Point(444, 36);
             this.btnFindNickName.Name = "btnFindNickName";
             this.btnFindNickName.Size = new System.Drawing.Size(29, 23);
             this.btnFindNickName.TabIndex = 7;
@@ -296,9 +280,8 @@ namespace RT2020.Member
             // 
             // btnFindFirstName
             // 
-            iconResourceHandle3.File = "16x16.16_find.gif";
-            this.btnFindFirstName.Image = iconResourceHandle3;
-            this.btnFindFirstName.Location = new System.Drawing.Point(450, 59);
+            this.btnFindFirstName.Image = new Gizmox.WebGUI.Common.Resources.IconResourceHandle(resources.GetString("btnFindFirstName.Image"));
+            this.btnFindFirstName.Location = new System.Drawing.Point(444, 59);
             this.btnFindFirstName.Name = "btnFindFirstName";
             this.btnFindFirstName.Size = new System.Drawing.Size(29, 23);
             this.btnFindFirstName.TabIndex = 10;
@@ -307,9 +290,8 @@ namespace RT2020.Member
             // 
             // btnFindLastName
             // 
-            iconResourceHandle4.File = "16x16.16_find.gif";
-            this.btnFindLastName.Image = iconResourceHandle4;
-            this.btnFindLastName.Location = new System.Drawing.Point(450, 82);
+            this.btnFindLastName.Image = new Gizmox.WebGUI.Common.Resources.IconResourceHandle(resources.GetString("btnFindLastName.Image"));
+            this.btnFindLastName.Location = new System.Drawing.Point(444, 82);
             this.btnFindLastName.Name = "btnFindLastName";
             this.btnFindLastName.Size = new System.Drawing.Size(29, 23);
             this.btnFindLastName.TabIndex = 13;
@@ -322,7 +304,6 @@ namespace RT2020.Member
             this.lblGroup.Name = "lblGroup";
             this.lblGroup.Size = new System.Drawing.Size(100, 23);
             this.lblGroup.TabIndex = 57;
-            this.lblGroup.TabStop = false;
             this.lblGroup.Text = "Group:";
             this.lblGroup.Visible = false;
             // 
@@ -330,92 +311,76 @@ namespace RT2020.Member
             // 
             this.lblSmartTag1.Location = new System.Drawing.Point(16, 294);
             this.lblSmartTag1.Name = "lblSmartTag1";
-            this.lblSmartTag1.Size = new System.Drawing.Size(100, 23);
+            this.lblSmartTag1.Size = new System.Drawing.Size(100, 16);
             this.lblSmartTag1.TabIndex = 30;
-            this.lblSmartTag1.TabStop = false;
             this.lblSmartTag1.Text = "SmartTag 1:";
             // 
             // lblSmartTag2
             // 
             this.lblSmartTag2.Location = new System.Drawing.Point(16, 317);
             this.lblSmartTag2.Name = "lblSmartTag2";
-            this.lblSmartTag2.Size = new System.Drawing.Size(100, 23);
+            this.lblSmartTag2.Size = new System.Drawing.Size(100, 20);
             this.lblSmartTag2.TabIndex = 32;
-            this.lblSmartTag2.TabStop = false;
             this.lblSmartTag2.Text = "SmartTag 2:";
             // 
             // lblSmartTag3
             // 
             this.lblSmartTag3.Location = new System.Drawing.Point(16, 340);
             this.lblSmartTag3.Name = "lblSmartTag3";
-            this.lblSmartTag3.Size = new System.Drawing.Size(100, 23);
+            this.lblSmartTag3.Size = new System.Drawing.Size(100, 20);
             this.lblSmartTag3.TabIndex = 34;
-            this.lblSmartTag3.TabStop = false;
             this.lblSmartTag3.Text = "SmartTag 3:";
             // 
             // lblSmartTag4
             // 
             this.lblSmartTag4.Location = new System.Drawing.Point(16, 363);
             this.lblSmartTag4.Name = "lblSmartTag4";
-            this.lblSmartTag4.Size = new System.Drawing.Size(100, 23);
+            this.lblSmartTag4.Size = new System.Drawing.Size(100, 20);
             this.lblSmartTag4.TabIndex = 36;
-            this.lblSmartTag4.TabStop = false;
             this.lblSmartTag4.Text = "SmartTag 4:";
-            // 
-            // txtSmartTag1
-            // 
-            this.txtSmartTag1.Location = new System.Drawing.Point(122, 291);
-            this.txtSmartTag1.Name = "txtSmartTag1";
-            this.txtSmartTag1.Size = new System.Drawing.Size(100, 20);
-            this.txtSmartTag1.TabIndex = 31;
             // 
             // lblSmartTag5
             // 
-            this.lblSmartTag5.Location = new System.Drawing.Point(228, 271);
+            this.lblSmartTag5.Location = new System.Drawing.Point(241, 271);
             this.lblSmartTag5.Name = "lblSmartTag5";
-            this.lblSmartTag5.Size = new System.Drawing.Size(100, 23);
+            this.lblSmartTag5.Size = new System.Drawing.Size(100, 18);
             this.lblSmartTag5.TabIndex = 38;
-            this.lblSmartTag5.TabStop = false;
             this.lblSmartTag5.Text = "SmartTag 5:";
             this.lblSmartTag5.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // lblSmartTag6
             // 
-            this.lblSmartTag6.Location = new System.Drawing.Point(228, 294);
+            this.lblSmartTag6.Location = new System.Drawing.Point(241, 294);
             this.lblSmartTag6.Name = "lblSmartTag6";
-            this.lblSmartTag6.Size = new System.Drawing.Size(100, 23);
+            this.lblSmartTag6.Size = new System.Drawing.Size(100, 18);
             this.lblSmartTag6.TabIndex = 40;
-            this.lblSmartTag6.TabStop = false;
             this.lblSmartTag6.Text = "SmartTag 6:";
             this.lblSmartTag6.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // lblSmartTag7
             // 
-            this.lblSmartTag7.Location = new System.Drawing.Point(228, 317);
+            this.lblSmartTag7.Location = new System.Drawing.Point(241, 317);
             this.lblSmartTag7.Name = "lblSmartTag7";
-            this.lblSmartTag7.Size = new System.Drawing.Size(100, 23);
+            this.lblSmartTag7.Size = new System.Drawing.Size(100, 18);
             this.lblSmartTag7.TabIndex = 42;
-            this.lblSmartTag7.TabStop = false;
             this.lblSmartTag7.Text = "SmartTag 7:";
             this.lblSmartTag7.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // lblSmartTag8
             // 
-            this.lblSmartTag8.Location = new System.Drawing.Point(228, 340);
+            this.lblSmartTag8.Location = new System.Drawing.Point(241, 340);
             this.lblSmartTag8.Name = "lblSmartTag8";
-            this.lblSmartTag8.Size = new System.Drawing.Size(100, 23);
+            this.lblSmartTag8.Size = new System.Drawing.Size(100, 18);
             this.lblSmartTag8.TabIndex = 44;
-            this.lblSmartTag8.TabStop = false;
             this.lblSmartTag8.Text = "SmartTag 8:";
             this.lblSmartTag8.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // lblSmartTag9
             // 
-            this.lblSmartTag9.Location = new System.Drawing.Point(228, 363);
+            this.lblSmartTag9.Location = new System.Drawing.Point(241, 363);
             this.lblSmartTag9.Name = "lblSmartTag9";
-            this.lblSmartTag9.Size = new System.Drawing.Size(100, 23);
+            this.lblSmartTag9.Size = new System.Drawing.Size(100, 18);
             this.lblSmartTag9.TabIndex = 46;
-            this.lblSmartTag9.TabStop = false;
             this.lblSmartTag9.Text = "SmartTag 9:";
             this.lblSmartTag9.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
@@ -442,11 +407,10 @@ namespace RT2020.Member
             // 
             // lblPhoneBook
             // 
-            this.lblPhoneBook.Location = new System.Drawing.Point(502, 18);
+            this.lblPhoneBook.Location = new System.Drawing.Point(505, 18);
             this.lblPhoneBook.Name = "lblPhoneBook";
             this.lblPhoneBook.Size = new System.Drawing.Size(100, 23);
             this.lblPhoneBook.TabIndex = 48;
-            this.lblPhoneBook.TabStop = false;
             this.lblPhoneBook.Text = "Phone Book:";
             // 
             // cboPhoneBook
@@ -460,11 +424,10 @@ namespace RT2020.Member
             // 
             // lblLastUpdated
             // 
-            this.lblLastUpdated.Location = new System.Drawing.Point(502, 64);
+            this.lblLastUpdated.Location = new System.Drawing.Point(505, 64);
             this.lblLastUpdated.Name = "lblLastUpdated";
             this.lblLastUpdated.Size = new System.Drawing.Size(100, 23);
             this.lblLastUpdated.TabIndex = 50;
-            this.lblLastUpdated.TabStop = false;
             this.lblLastUpdated.Text = "Last Updated";
             // 
             // txtLastUpdatedOn
@@ -489,11 +452,10 @@ namespace RT2020.Member
             // 
             // lblCreatedOn
             // 
-            this.lblCreatedOn.Location = new System.Drawing.Point(502, 110);
+            this.lblCreatedOn.Location = new System.Drawing.Point(505, 110);
             this.lblCreatedOn.Name = "lblCreatedOn";
             this.lblCreatedOn.Size = new System.Drawing.Size(100, 23);
             this.lblCreatedOn.TabIndex = 53;
-            this.lblCreatedOn.TabStop = false;
             this.lblCreatedOn.Text = "Creation Date";
             // 
             // txtCreatedOn
@@ -508,11 +470,10 @@ namespace RT2020.Member
             // 
             // lblStatus
             // 
-            this.lblStatus.Location = new System.Drawing.Point(502, 156);
+            this.lblStatus.Location = new System.Drawing.Point(505, 156);
             this.lblStatus.Name = "lblStatus";
             this.lblStatus.Size = new System.Drawing.Size(100, 23);
             this.lblStatus.TabIndex = 55;
-            this.lblStatus.TabStop = false;
             this.lblStatus.Text = "Status";
             // 
             // txtStatus
@@ -601,14 +562,12 @@ namespace RT2020.Member
             // 
             this.lblSmartTag12.Location = new System.Drawing.Point(16, 225);
             this.lblSmartTag12.Name = "lblSmartTag12";
-            this.lblSmartTag12.Size = new System.Drawing.Size(100, 23);
+            this.lblSmartTag12.Size = new System.Drawing.Size(103, 23);
             this.lblSmartTag12.TabIndex = 24;
-            this.lblSmartTag12.TabStop = false;
             this.lblSmartTag12.Text = "SmartTag 12:";
             // 
             // dtpSmartTag8
             // 
-            this.dtpSmartTag8.CalendarFirstDayOfWeek = Gizmox.WebGUI.Forms.Day.Default;
             this.dtpSmartTag8.CustomFormat = "dd/MM/yyyy";
             this.dtpSmartTag8.Format = Gizmox.WebGUI.Forms.DateTimePickerFormat.Custom;
             this.dtpSmartTag8.Location = new System.Drawing.Point(344, 337);
@@ -620,7 +579,6 @@ namespace RT2020.Member
             // 
             // dtpSmartTag9
             // 
-            this.dtpSmartTag9.CalendarFirstDayOfWeek = Gizmox.WebGUI.Forms.Day.Default;
             this.dtpSmartTag9.CustomFormat = "dd/MM/yyyy";
             this.dtpSmartTag9.Format = Gizmox.WebGUI.Forms.DateTimePickerFormat.Custom;
             this.dtpSmartTag9.Location = new System.Drawing.Point(344, 360);
@@ -643,11 +601,23 @@ namespace RT2020.Member
             this.lblWorkplace.Name = "lblWorkplace";
             this.lblWorkplace.Size = new System.Drawing.Size(100, 23);
             this.lblWorkplace.TabIndex = 28;
-            this.lblWorkplace.TabStop = false;
             this.lblWorkplace.Text = "Shop:";
             // 
-            // MemberWizard_MainInfo
+            // cboSmartTag1
             // 
+            this.cboSmartTag1.DropDownWidth = 100;
+            this.cboSmartTag1.Items.AddRange(new object[] {
+            "Female",
+            "Male"});
+            this.cboSmartTag1.Location = new System.Drawing.Point(122, 291);
+            this.cboSmartTag1.Name = "cboSmartTag1";
+            this.cboSmartTag1.Size = new System.Drawing.Size(100, 21);
+            this.cboSmartTag1.TabIndex = 33;
+            // 
+            // MemberWizard_General
+            // 
+            this.Controls.Add(this.lblSmartTag1);
+            this.Controls.Add(this.lblSmartTag10);
             this.Controls.Add(this.lblWorkplace);
             this.Controls.Add(this.cboWorkplace);
             this.Controls.Add(this.dtpSmartTag9);
@@ -676,11 +646,9 @@ namespace RT2020.Member
             this.Controls.Add(this.lblSmartTag7);
             this.Controls.Add(this.lblSmartTag6);
             this.Controls.Add(this.lblSmartTag5);
-            this.Controls.Add(this.txtSmartTag1);
             this.Controls.Add(this.lblSmartTag4);
             this.Controls.Add(this.lblSmartTag3);
             this.Controls.Add(this.lblSmartTag2);
-            this.Controls.Add(this.lblSmartTag1);
             this.Controls.Add(this.lblGroup);
             this.Controls.Add(this.btnFindLastName);
             this.Controls.Add(this.btnFindFirstName);
@@ -704,9 +672,9 @@ namespace RT2020.Member
             this.Controls.Add(this.lblNickName);
             this.Controls.Add(this.btnFindHKID);
             this.Controls.Add(this.txtSmartTag10);
-            this.Controls.Add(this.lblSmartTag10);
             this.Controls.Add(this.cboSalutation);
             this.Controls.Add(this.lblSalutation);
+            this.Controls.Add(this.cboSmartTag1);
             this.Size = new System.Drawing.Size(766, 384);
             this.Text = "MemberWizard_MainInfo";
             this.ResumeLayout(false);
@@ -754,7 +722,6 @@ namespace RT2020.Member
         public Gizmox.WebGUI.Forms.TextBox txtSmartTag14;
         public Gizmox.WebGUI.Forms.ComboBox cboSmartTag11;
         public Gizmox.WebGUI.Forms.TextBox txtRemarks;
-        public Gizmox.WebGUI.Forms.TextBox txtSmartTag1;
         public Gizmox.WebGUI.Forms.TextBox txtSmartTag5;
         public Gizmox.WebGUI.Forms.TextBox txtSmartTag6;
         public Gizmox.WebGUI.Forms.TextBox txtSmartTag7;
@@ -774,7 +741,6 @@ namespace RT2020.Member
         public Gizmox.WebGUI.Forms.DateTimePicker dtpSmartTag9;
         public Gizmox.WebGUI.Forms.ComboBox cboWorkplace;
         private Gizmox.WebGUI.Forms.Label lblWorkplace;
-
-
+        public Gizmox.WebGUI.Forms.ComboBox cboSmartTag1;
     }
 }

@@ -14,6 +14,8 @@ using Gizmox.WebGUI.Common.Resources;
 using System.Data.SqlClient;
 using System.Configuration;
 using RT2020.Helper;
+using System.Linq;
+using System.Data.Entity;
 
 #endregion
 
@@ -21,14 +23,96 @@ namespace RT2020.Member
 {
     public partial class MemberClassWizard : Form
     {
+        #region Properties
+        private Guid _ClassId = System.Guid.Empty;
+        public Guid MemberClassId
+        {
+            get { return _ClassId; }
+            set { _ClassId = value; }
+        }
+        #endregion
+
         public MemberClassWizard()
         {
             InitializeComponent();
+        }
+
+        private void MemberClassWizard_Load(object sender, EventArgs e)
+        {
+            SetCaptions();
+            SetAttributes();
+
             SetToolBar();
             FillParentClassList();
             BindMemberClassList();
             SetCtrlEditable();
         }
+
+        #region SetCaptions SetAttributes
+
+        private void SetCaptions()
+        {
+            this.Text = WestwindHelper.GetWord("memberClass.setup", "Model");
+
+            colLN.Text = WestwindHelper.GetWord("listview.line", "Tools");
+
+            colParentClass.Text = WestwindHelper.GetWord("memberClass.parent", "Model");
+            colClassCode.Text = WestwindHelper.GetWord("memberClass.code", "Model");
+            //colPriority.Text = WestwindHelper.GetWord("smartTag4Member.priority", "Model");
+            colClassName.Text = WestwindHelper.GetWord("memberClass.name", "Model");
+            colClassNameAlt1.Text = WestwindHelper.GetWord(String.Format("language.{0}", LanguageHelper.AlternateLanguage1.Key.ToLower()), "Menu");
+            colClassNameAlt2.Text = WestwindHelper.GetWord(String.Format("language.{0}", LanguageHelper.AlternateLanguage2.Key.ToLower()), "Menu");
+
+            lblClassCode.Text = WestwindHelper.GetWordWithColon("memberClass.code", "Model");
+            lblClassName.Text = WestwindHelper.GetWordWithColon("memberClass.name", "Model");
+            lblClassNameAlt1.Text = WestwindHelper.GetWordWithColon(String.Format("language.{0}", LanguageHelper.AlternateLanguage1.Key.ToLower()), "Menu");
+            lblClassNameAlt2.Text = WestwindHelper.GetWordWithColon(String.Format("language.{0}", LanguageHelper.AlternateLanguage2.Key.ToLower()), "Menu");
+
+            lblParentClass.Text = WestwindHelper.GetWordWithColon("memberClass.parent", "Model");
+        }
+
+        private void SetAttributes()
+        {
+            lvClassList.Dock = DockStyle.Fill;
+
+            colLN.TextAlign = HorizontalAlignment.Center;
+            colParentClass.TextAlign = HorizontalAlignment.Left;
+            colParentClass.ContentAlign = ExtendedHorizontalAlignment.Center;
+            colClassCode.TextAlign = HorizontalAlignment.Left;
+            colClassCode.ContentAlign = ExtendedHorizontalAlignment.Center;
+            colClassName.TextAlign = HorizontalAlignment.Left;
+            colClassName.ContentAlign = ExtendedHorizontalAlignment.Center;
+            colClassNameAlt1.TextAlign = HorizontalAlignment.Left;
+            colClassNameAlt1.ContentAlign = ExtendedHorizontalAlignment.Center;
+            colClassNameAlt2.TextAlign = HorizontalAlignment.Left;
+            colClassNameAlt2.ContentAlign = ExtendedHorizontalAlignment.Center;
+
+            switch (LanguageHelper.AlternateLanguagesUsed)
+            {
+                case 1:
+                    // hide alt2
+                    lblClassNameAlt2.Visible = txtClassNameAlt2.Visible = false;
+                    colClassNameAlt2.Visible = false;
+                    // push parent dept. up
+                    lblParentClass.Location = new Point(lblParentClass.Location.X, lblClassNameAlt1.Location.Y);
+                    cboParentClass.Location = new Point(cboParentClass.Location.X, txtClassNameAlt2.Location.Y);
+                    break;
+                case 2:
+                    // do nothing
+                    break;
+                case 0:
+                default:
+                    // hide alt1 & alt2
+                    lblClassNameAlt1.Visible = lblClassNameAlt2.Visible = txtClassNameAlt2.Visible = false;
+                    colClassNameAlt1.Visible = colClassNameAlt2.Visible = false;
+                    // push parent dept up
+                    cboParentClass.Location = new Point(lblParentClass.Location.X, lblClassNameAlt1.Location.Y);
+                    cboParentClass.Location = new Point(cboParentClass.Location.X, txtClassNameAlt1.Location.Y);
+                    break;
+            }
+        }
+
+        #endregion
 
         #region ToolBar
         private void SetToolBar()
@@ -43,7 +127,7 @@ namespace RT2020.Member
             sep.Style = ToolBarButtonStyle.Separator;
 
             // cmdSave
-            ToolBarButton cmdNew = new ToolBarButton("New", "New");
+            ToolBarButton cmdNew = new ToolBarButton("New", WestwindHelper.GetWord("edit.new", "General"));
             cmdNew.Tag = "New";
             cmdNew.Image = new IconResourceHandle("16x16.ico_16_3.gif");
             cmdNew.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Write);
@@ -51,7 +135,7 @@ namespace RT2020.Member
             this.tbWizardAction.Buttons.Add(cmdNew);
 
             // cmdSave
-            ToolBarButton cmdSave = new ToolBarButton("Save", "Save");
+            ToolBarButton cmdSave = new ToolBarButton("Save", WestwindHelper.GetWord("edit.save", "General"));
             cmdSave.Tag = "Save";
             cmdSave.Image = new IconResourceHandle("16x16.16_L_save.gif");
             cmdSave.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Write);
@@ -59,7 +143,7 @@ namespace RT2020.Member
             this.tbWizardAction.Buttons.Add(cmdSave);
 
             // cmdSaveNew
-            ToolBarButton cmdRefresh = new ToolBarButton("Refresh", "Refresh");
+            ToolBarButton cmdRefresh = new ToolBarButton("Refresh", WestwindHelper.GetWord("edit.refresh", "General"));
             cmdRefresh.Tag = "refresh";
             cmdRefresh.Image = new IconResourceHandle("16x16.16_L_refresh.gif");
 
@@ -67,11 +151,11 @@ namespace RT2020.Member
             this.tbWizardAction.Buttons.Add(sep);
 
             // cmdDelete
-            ToolBarButton cmdDelete = new ToolBarButton("Delete", "Delete");
+            ToolBarButton cmdDelete = new ToolBarButton("Delete", WestwindHelper.GetWord("edit.delete", "General"));
             cmdDelete.Tag = "Delete";
             cmdDelete.Image = new IconResourceHandle("16x16.16_L_remove.gif");
 
-            if (MemberClassId == System.Guid.Empty)
+            if (_ClassId == Guid.Empty)
             {
                 cmdDelete.Enabled = false;
             }
@@ -93,7 +177,6 @@ namespace RT2020.Member
                 {
                     case "new":
                         Clear();
-                        SetCtrlEditable();
                         break;
                     case "save":
                         if (IsValid())
@@ -105,6 +188,7 @@ namespace RT2020.Member
                         }
                         break;
                     case "refresh":
+                        Clear();
                         BindMemberClassList();
                         this.Update();
                         break;
@@ -116,68 +200,63 @@ namespace RT2020.Member
         }
         #endregion
 
-        #region MemberClass Code
+        #region Clear/ set
         private void SetCtrlEditable()
         {
-            txtMemberClassCode.BackColor = (this.MemberClassId == System.Guid.Empty) ? Color.LightSkyBlue : Color.LightYellow;
-            txtMemberClassCode.ReadOnly = (this.MemberClassId != System.Guid.Empty);
+            txtClassCode.BackColor = (_ClassId == Guid.Empty) ? Color.LightSkyBlue : Color.LightYellow;
+            txtClassCode.ReadOnly = (_ClassId != Guid.Empty);
 
             ClearError();
         }
 
         private void ClearError()
         {
-            errorProvider.SetError(txtMemberClassCode, string.Empty);
+            errorProvider.SetError(txtClassCode, string.Empty);
+        }
+
+        private void Clear()
+        {
+            txtClassCode.Text = txtClassName.Text = txtClassNameAlt1.Text = txtClassNameAlt2.Text = String.Empty;
+            cboParentClass.SelectedIndex = 0;
+
+            _ClassId = Guid.Empty;
+
+            SetCtrlEditable();
+            FillParentClassList();
         }
         #endregion
 
         #region Fill Combo List
         private void FillParentClassList()
         {
-            cboParentClass.DataSource = null;
-            cboParentClass.Items.Clear();
-
-            string sql = "ClassId NOT IN ('" + this.MemberClassId.ToString() + "')";
+            string sql = "ClassId NOT IN ('" + _ClassId.ToString() + "')";
             string[] orderBy = new string[] { "ClassCode" };
 
-            /**
-            MemberClassCollection oMemberClassList = MemberClass.LoadCollection(sql, orderBy, true);
-            oMemberClassList.Add(new MemberClass(System.Guid.Empty, System.Guid.Empty, string.Empty, string.Empty, string.Empty, string.Empty));
-            cboParentClass.DataSource = oMemberClassList;
-            cboParentClass.DisplayMember = "ClassCode";
-            cboParentClass.ValueMember = "ClassId";
-            */
-            cboParentClass.SelectedIndex = cboParentClass.Items.Count - 1;
+            ModelEx.MemberClassEx.LoadCombo(ref cboParentClass, "ClassName", true, true, "", sql, orderBy);
         }
         #endregion
 
         #region Binding
         private void BindMemberClassList()
         {
-            this.lvMemberClassList.ListViewItemSorter = new ListViewItemSorter(lvMemberClassList);
-            this.lvMemberClassList.Items.Clear();
+            this.lvClassList.ListViewItemSorter = new ListViewItemSorter(lvClassList);
+            this.lvClassList.Items.Clear();
 
             int iCount = 1;
-            StringBuilder sql = new StringBuilder();
-            sql.Append("SELECT ClassId,  ROW_NUMBER() OVER (ORDER BY ClassCode) AS rownum, ");
-            sql.Append(" ClassCode, ClassName, ClassName_Chs, ClassName_Cht ");
-            sql.Append(" FROM MemberClass ");
-            
-            SqlCommand cmd = new SqlCommand();
-            cmd.CommandText = sql.ToString();
-            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
-            cmd.CommandType= CommandType.Text;
-
-            using (SqlDataReader reader = SqlHelper.Default.ExecuteReader(cmd))
+            using (var ctx = new EF6.RT2020Entities())
             {
-                while (reader.Read())
+                var list = ctx.MemberClass.OrderBy(x => x.ClassCode).AsNoTracking().ToList();
+                foreach (var item in list)
                 {
-                    ListViewItem objItem = this.lvMemberClassList.Items.Add(reader.GetGuid(0).ToString()); // MemberClassId
+                    var parent = ModelEx.MemberClassEx.GetParentName(item);
+
+                    ListViewItem objItem = this.lvClassList.Items.Add(item.ClassId.ToString());
                     objItem.SubItems.Add(iCount.ToString()); // Line Number
-                    objItem.SubItems.Add(reader.GetString(2)); // MemberClassCode
-                    objItem.SubItems.Add(reader.GetString(3)); // MemberClass Name
-                    objItem.SubItems.Add(reader.GetString(4)); // MemberClass Name Chs
-                    objItem.SubItems.Add(reader.GetString(5)); // MemberClass Name Cht
+                    objItem.SubItems.Add(item.ClassCode);
+                    objItem.SubItems.Add(item.ClassName);
+                    objItem.SubItems.Add(item.ClassName_Chs);
+                    objItem.SubItems.Add(item.ClassName_Cht);
+                    objItem.SubItems.Add(parent);
 
                     iCount++;
                 }
@@ -192,19 +271,19 @@ namespace RT2020.Member
             bool result = true;
 
             #region Class Code 唔可以吉
-            errorProvider.SetError(txtMemberClassCode, string.Empty);
-            if (txtMemberClassCode.Text.Length == 0)
+            errorProvider.SetError(txtClassCode, string.Empty);
+            if (txtClassCode.Text.Length == 0)
             {
-                errorProvider.SetError(txtMemberClassCode, "Cannot be blank!");
+                errorProvider.SetError(txtClassCode, "Cannot be blank!");
                 return false;
             }
             #endregion
 
             #region 新增，要 check Class Code 係咪 in use
-            errorProvider.SetError(txtMemberClassCode, string.Empty);
-            if (this.MemberClassId == System.Guid.Empty && ModelEx.MemberGroupEx.IsGroupCodeInUse(txtMemberClassCode.Text.Trim()))
+            errorProvider.SetError(txtClassCode, string.Empty);
+            if (_ClassId == Guid.Empty && ModelEx.MemberGroupEx.IsGroupCodeInUse(txtClassCode.Text.Trim()))
             {
-                errorProvider.SetError(txtMemberClassCode, "Class Code in use");
+                errorProvider.SetError(txtClassCode, "Class Code in use");
                 return false;
             }
             #endregion
@@ -218,49 +297,26 @@ namespace RT2020.Member
 
             using (var ctx = new EF6.RT2020Entities())
             {
-                var item = ctx.MemberClass.Find(this.MemberClassId);
+                var item = ctx.MemberClass.Find(_ClassId);
 
                 if (item == null)
                 {
                     item = new EF6.MemberClass();
                     item.ClassId = new Guid();
-                    item.ClassCode = txtMemberClassCode.Text;
+                    item.ClassCode = txtClassCode.Text;
 
                     ctx.MemberClass.Add(item);
                 }
-                item.ClassName = txtMemberClassName.Text;
-                item.ClassName_Chs = txtMemberClassNameChs.Text;
-                item.ClassName_Cht = txtMemberClassNameCht.Text;
-                item.ParentClass = (cboParentClass.SelectedValue == null) ? System.Guid.Empty : new System.Guid(cboParentClass.SelectedValue.ToString());
+                item.ClassName = txtClassName.Text;
+                item.ClassName_Chs = txtClassNameAlt1.Text;
+                item.ClassName_Cht = txtClassNameAlt2.Text;
+                item.ParentClass = (cboParentClass.SelectedValue == null) ? Guid.Empty : new Guid(cboParentClass.SelectedValue.ToString());
 
                 ctx.SaveChanges();
                 result = true;
             }
 
             return result;
-        }
-
-        private void Clear()
-        {
-            this.Close();
-
-            MemberClassWizard wizClass = new MemberClassWizard();
-            wizClass.ShowDialog();
-        }
-        #endregion
-
-        #region Properties
-        private Guid countryId = System.Guid.Empty;
-        public Guid MemberClassId
-        {
-            get
-            {
-                return countryId;
-            }
-            set
-            {
-                countryId = value;
-            }
         }
         #endregion
 
@@ -269,7 +325,7 @@ namespace RT2020.Member
         {
             using (var ctx = new EF6.RT2020Entities())
             {
-                var oMemberClass = ctx.MemberClass.Find(this.MemberClassId);
+                var oMemberClass = ctx.MemberClass.Find(_ClassId);
                 if (oMemberClass != null)
                 {
                     try
@@ -288,23 +344,23 @@ namespace RT2020.Member
 
         private void lvMemberClassList_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (lvMemberClassList.SelectedItem != null)
+            if (lvClassList.SelectedItem != null)
             {
                 Guid id = Guid.Empty;
-                if (Guid.TryParse(lvMemberClassList.SelectedItem.Text, out id))
+                if (Guid.TryParse(lvClassList.SelectedItem.Text, out id))
                 {
                     var oMemberClass = ModelEx.MemberClassEx.Get(id);
                     if (oMemberClass != null)
                     {
-                        this.MemberClassId = oMemberClass.ClassId;
+                        _ClassId = oMemberClass.ClassId;
 
                         FillParentClassList();
 
-                        txtMemberClassCode.Text = oMemberClass.ClassCode;
-                        txtMemberClassName.Text = oMemberClass.ClassName;
-                        txtMemberClassNameChs.Text = oMemberClass.ClassName_Chs;
-                        txtMemberClassNameCht.Text = oMemberClass.ClassName_Cht;
-                        cboParentClass.SelectedValue = oMemberClass.ParentClass;
+                        txtClassCode.Text = oMemberClass.ClassCode;
+                        txtClassName.Text = oMemberClass.ClassName;
+                        txtClassNameAlt1.Text = oMemberClass.ClassName_Chs;
+                        txtClassNameAlt2.Text = oMemberClass.ClassName_Cht;
+                        cboParentClass.SelectedValue = oMemberClass.ParentClass.HasValue ? oMemberClass.ParentClass.Value : Guid.Empty;
 
                         SetCtrlEditable();
                         SetToolBar();

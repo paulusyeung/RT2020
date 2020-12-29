@@ -43,15 +43,15 @@ namespace RT2020.Member
             this.lblLineOfOperation = new Gizmox.WebGUI.Forms.Label();
             this.cboLineOfOperation = new Gizmox.WebGUI.Forms.ComboBox();
             this.chkVIP = new Gizmox.WebGUI.Forms.CheckBox();
+            ((System.ComponentModel.ISupportInitialize)(this.tabMember)).BeginInit();
+            this.tabMember.SuspendLayout();
             this.SuspendLayout();
             // 
             // errorProvider
             // 
             this.errorProvider.BlinkRate = 3;
-            this.errorProvider.BlinkStyle = Gizmox.WebGUI.Forms.ErrorBlinkStyle.BlinkIfDifferentError;
             this.errorProvider.DataMember = "\"\"";
-            this.errorProvider.DataSource = global::RT2020.Admin.Localization.App_LocalResource.default_aspx.ErrorMessage;
-            this.errorProvider.Icon = null;
+            this.errorProvider.DataSource = null;
             // 
             // tabMember
             // 
@@ -62,12 +62,11 @@ namespace RT2020.Member
             this.tabMember.Controls.Add(this.tpMiscInfo);
             this.tabMember.Controls.Add(this.tpMarketingInfo);
             this.tabMember.Location = new System.Drawing.Point(12, 83);
-            this.tabMember.Multiline = false;
             this.tabMember.Name = "tabMember";
             this.tabMember.SelectedIndex = 0;
-            this.tabMember.ShowCloseButton = false;
             this.tabMember.Size = new System.Drawing.Size(774, 421);
             this.tabMember.TabIndex = 2;
+            this.tabMember.SelectedIndexChanged += new System.EventHandler(this.tabMember_SelectedIndexChanged);
             // 
             // tpMainInfo
             // 
@@ -129,22 +128,18 @@ namespace RT2020.Member
             this.lblMemberNumber.Name = "lblMemberNumber";
             this.lblMemberNumber.Size = new System.Drawing.Size(61, 23);
             this.lblMemberNumber.TabIndex = 0;
-            this.lblMemberNumber.TabStop = false;
             this.lblMemberNumber.Text = "Member #:";
             // 
             // tbWizardAction
             // 
-            this.tbWizardAction.Anchor = Gizmox.WebGUI.Forms.AnchorStyles.None;
-            this.tbWizardAction.Appearance = Gizmox.WebGUI.Forms.ToolBarAppearance.Normal;
-            this.tbWizardAction.Dock = Gizmox.WebGUI.Forms.DockStyle.Top;
             this.tbWizardAction.DragHandle = true;
-            this.tbWizardAction.DropDownArrows = false;
-            this.tbWizardAction.ImageList = null;
+            this.tbWizardAction.DropDownArrows = true;
+            this.tbWizardAction.ImageSize = new System.Drawing.Size(16, 16);
             this.tbWizardAction.Location = new System.Drawing.Point(0, 0);
             this.tbWizardAction.MenuHandle = true;
             this.tbWizardAction.Name = "tbWizardAction";
-            //this.tbWizardAction.RightToLeft = false;
             this.tbWizardAction.ShowToolTips = true;
+            this.tbWizardAction.Size = new System.Drawing.Size(100, 22);
             this.tbWizardAction.TabIndex = 0;
             // 
             // txtMemberNumber
@@ -159,10 +154,10 @@ namespace RT2020.Member
             // 
             this.lblLineOfOperation.Location = new System.Drawing.Point(257, 46);
             this.lblLineOfOperation.Name = "lblLineOfOperation";
-            this.lblLineOfOperation.Size = new System.Drawing.Size(100, 23);
+            this.lblLineOfOperation.Size = new System.Drawing.Size(98, 23);
             this.lblLineOfOperation.TabIndex = 0;
-            this.lblLineOfOperation.TabStop = false;
             this.lblLineOfOperation.Text = "Line Of Operation:";
+            this.lblLineOfOperation.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // cboLineOfOperation
             // 
@@ -176,15 +171,11 @@ namespace RT2020.Member
             // 
             // chkVIP
             // 
-            this.chkVIP.Checked = false;
-            this.chkVIP.CheckState = Gizmox.WebGUI.Forms.CheckState.Unchecked;
-            this.chkVIP.FlatStyle = Gizmox.WebGUI.Forms.FlatStyle.Standard;
             this.chkVIP.Location = new System.Drawing.Point(567, 41);
             this.chkVIP.Name = "chkVIP";
             this.chkVIP.Size = new System.Drawing.Size(215, 24);
             this.chkVIP.TabIndex = 3;
             this.chkVIP.Text = "Upgrade to VIP";
-            this.chkVIP.ThreeState = false;
             this.chkVIP.Click += new System.EventHandler(this.chkVIP_Click);
             // 
             // MemberWizard
@@ -200,6 +191,9 @@ namespace RT2020.Member
             this.MinimizeBox = false;
             this.Size = new System.Drawing.Size(798, 516);
             this.Text = "Member Wizard";
+            this.Load += new System.EventHandler(this.MemberWizard_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.tabMember)).EndInit();
+            this.tabMember.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

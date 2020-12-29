@@ -1,4 +1,4 @@
-#region Using
+﻿#region Using
 
 using System;
 using System.Collections.Generic;
@@ -9,6 +9,7 @@ using System.Text;
 
 using Gizmox.WebGUI.Common;
 using Gizmox.WebGUI.Forms;
+using RT2020.Helper;
 
 #endregion
 
@@ -61,9 +62,11 @@ namespace RT2020.Controls
             // All Control
             Button btnAllCtrl = new Button();
             btnAllCtrl.Name = "btnAll";
-            btnAllCtrl.Text = "All";
+            btnAllCtrl.Text = WestwindHelper.GetWord("glossary.all", "General");
             btnAllCtrl.Tag = "All";
             btnAllCtrl.Size = new Size(24, 20);
+            // 2020.12.21 paulus: 中文字要大啲先睇倒
+            btnAllCtrl.AutoSize = LanguageHelper.CurrentLanguageMode != LanguageHelper.LanguageMode.Default;
             btnAllCtrl.Click += new EventHandler(btnCtrl_Click);
 
             flowLayoutPanel.Controls.Add(btnAllCtrl);

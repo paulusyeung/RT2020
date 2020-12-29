@@ -37,6 +37,7 @@ namespace RT2020.Settings
             this.colPhoneName = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
             this.colPhoneNameAlt1 = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
             this.colPhoneNameAlt2 = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colPriority = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
             this.txtPriority = new Gizmox.WebGUI.Forms.TextBox();
             this.lblPriority = new Gizmox.WebGUI.Forms.Label();
             this.tbWizardAction = new Gizmox.WebGUI.Forms.ToolBar();
@@ -49,7 +50,6 @@ namespace RT2020.Settings
             this.txtPhoneCode = new Gizmox.WebGUI.Forms.TextBox();
             this.lblPhoneCode = new Gizmox.WebGUI.Forms.Label();
             this.errorProvider = new Gizmox.WebGUI.Forms.ErrorProvider(this.components);
-            this.colPriority = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
             this.SuspendLayout();
             // 
             // splitContainer
@@ -88,10 +88,10 @@ namespace RT2020.Settings
             this.colPhoneId,
             this.colLN,
             this.colPhoneCode,
+            this.colPriority,
             this.colPhoneName,
             this.colPhoneNameAlt1,
-            this.colPhoneNameAlt2,
-            this.colPriority});
+            this.colPhoneNameAlt2});
             this.lvPhoneList.DataMember = null;
             this.lvPhoneList.Dock = Gizmox.WebGUI.Forms.DockStyle.Fill;
             this.lvPhoneList.Location = new System.Drawing.Point(0, 0);
@@ -100,6 +100,7 @@ namespace RT2020.Settings
             this.lvPhoneList.TabIndex = 0;
             this.lvPhoneList.UseInternalPaging = true;
             this.lvPhoneList.SelectedIndexChanged += new System.EventHandler(this.lvPhoneList_SelectedIndexChanged);
+            this.lvPhoneList.ColumnClick += new Gizmox.WebGUI.Forms.ColumnClickEventHandler(this.lvPhoneList_ColumnClick);
             // 
             // colPhoneId
             // 
@@ -131,6 +132,12 @@ namespace RT2020.Settings
             // 
             this.colPhoneNameAlt2.Text = "Phone Name Cht";
             this.colPhoneNameAlt2.Width = 120;
+            // 
+            // colPriority
+            // 
+            this.colPriority.Tag = "Numeric";
+            this.colPriority.Text = "Priority";
+            this.colPriority.Width = 60;
             // 
             // txtPriority
             // 
@@ -224,11 +231,6 @@ namespace RT2020.Settings
             // errorProvider
             // 
             this.errorProvider.BlinkRate = 3;
-            // 
-            // colPriority
-            // 
-            this.colPriority.Text = "Priority";
-            this.colPriority.Width = 60;
             // 
             // PhoneTagWizard
             // 

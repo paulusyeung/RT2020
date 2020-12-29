@@ -85,7 +85,7 @@ namespace RT2020.ModelEx
                         }
 
                         target.SetAttributeValue("Index", col.Index.ToString());
-                        target.SetAttributeValue("DisplayIndex", col.Index.ToString());
+                        target.SetAttributeValue("DisplayIndex", col.DisplayIndex.ToString());
                         target.SetAttributeValue("SortOrder", col.SortOrder.ToString("g"));
                         target.SetAttributeValue("SortPosition", col.SortPosition.ToString());
                         target.SetAttributeValue("Text", col.Text);

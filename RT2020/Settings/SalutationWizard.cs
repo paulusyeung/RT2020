@@ -14,6 +14,8 @@ using Gizmox.WebGUI.Common.Resources;
 using System.Data.SqlClient;
 using System.Configuration;
 using RT2020.Helper;
+using System.Linq;
+using System.Data.Entity;
 
 #endregion
 
@@ -21,14 +23,98 @@ namespace RT2020.Settings
 {
     public partial class SalutationWizard : Form
     {
+        #region Properties
+        private Guid _SalutationId = System.Guid.Empty;
+        public Guid SalutationId
+        {
+            get { return _SalutationId; }
+            set { _SalutationId = value; }
+        }
+        #endregion
+
         public SalutationWizard()
         {
             InitializeComponent();
+        }
+
+        private void SalutationWizard_Load(object sender, EventArgs e)
+        {
+            SetCaptions();
+            SetAttributes();
+
             SetToolBar();
             FillParentSalutationList();
             BindSalutationList();
             SetCtrlEditable();
         }
+
+        #region SetCaptions SetAttributes
+
+        private void SetCaptions()
+        {
+            this.Text = WestwindHelper.GetWord("salutation.setup", "Model");
+
+            colLN.Text = WestwindHelper.GetWord("listview.line", "Tools");
+
+            colParent.Text = WestwindHelper.GetWord("salutation.parent", "Model");
+            colSalutationCode.Text = WestwindHelper.GetWord("salutation.code", "Model");
+            colSalutationName.Text = WestwindHelper.GetWord("salutation.name", "Model");
+            colSalutationNameAlt1.Text = WestwindHelper.GetWord(String.Format("language.{0}", LanguageHelper.AlternateLanguage1.Key.ToLower()), "Menu");
+            colSalutationNameAlt2.Text = WestwindHelper.GetWord(String.Format("language.{0}", LanguageHelper.AlternateLanguage2.Key.ToLower()), "Menu");
+
+            lblSalutationCode.Text = WestwindHelper.GetWordWithColon("salutation.code", "Model");
+            lblSalutationName.Text = WestwindHelper.GetWordWithColon("salutation.name", "Model");
+            lblSalutationNameAlt1.Text = WestwindHelper.GetWordWithColon(String.Format("language.{0}", LanguageHelper.AlternateLanguage1.Key.ToLower()), "Menu");
+            lblSalutationNameAlt2.Text = WestwindHelper.GetWordWithColon(String.Format("language.{0}", LanguageHelper.AlternateLanguage2.Key.ToLower()), "Menu");
+
+            lblParentSalutation.Text = WestwindHelper.GetWordWithColon("salutation.parent", "Model");
+        }
+
+        private void SetAttributes()
+        {
+            lvSalutationList.Dock = DockStyle.Fill;
+
+            colLN.TextAlign = HorizontalAlignment.Center;
+            colParent.TextAlign = HorizontalAlignment.Left;
+            colParent.ContentAlign = ExtendedHorizontalAlignment.Center;
+            colSalutationCode.TextAlign = HorizontalAlignment.Left;
+            colSalutationCode.ContentAlign = ExtendedHorizontalAlignment.Center;
+            colSalutationName.TextAlign = HorizontalAlignment.Left;
+            colSalutationName.ContentAlign = ExtendedHorizontalAlignment.Center;
+            colSalutationNameAlt1.TextAlign = HorizontalAlignment.Left;
+            colSalutationNameAlt1.ContentAlign = ExtendedHorizontalAlignment.Center;
+            colSalutationNameAlt2.TextAlign = HorizontalAlignment.Left;
+            colSalutationNameAlt2.ContentAlign = ExtendedHorizontalAlignment.Center;
+
+            switch (LanguageHelper.AlternateLanguagesUsed)
+            {
+                case 1:
+                    // hide alt2
+                    lblSalutationNameAlt2.Visible = txtSalutationNameAlt2.Visible = false;
+                    colSalutationNameAlt2.Visible = false;
+                    // push parent dept. up
+                    lblParentSalutation.Location = new Point(lblParentSalutation.Location.X, lblSalutationNameAlt1.Location.Y);
+                    cboParentSalutation.Location = new Point(cboParentSalutation.Location.X, txtSalutationNameAlt2.Location.Y);
+                    break;
+                case 2:
+                    // do nothing
+                    break;
+                case 0:
+                default:
+                    // hide alt1 & alt2
+                    lblSalutationNameAlt1.Visible = lblSalutationNameAlt2.Visible = txtSalutationNameAlt2.Visible = false;
+                    colSalutationNameAlt1.Visible = colSalutationNameAlt2.Visible = false;
+                    // push parent dept up
+                    cboParentSalutation.Location = new Point(lblParentSalutation.Location.X, lblSalutationNameAlt1.Location.Y);
+                    cboParentSalutation.Location = new Point(cboParentSalutation.Location.X, txtSalutationNameAlt1.Location.Y);
+                    break;
+            }
+
+            // 2020.12.29 paulus: 唔使咁複雜
+            lblParentSalutation.Visible = cboParentSalutation.Visible = colParent.Visible = false;
+        }
+
+        #endregion
 
         #region ToolBar
         private void SetToolBar()
@@ -43,21 +129,21 @@ namespace RT2020.Settings
             sep.Style = ToolBarButtonStyle.Separator;
 
             // cmdSave
-            ToolBarButton cmdNew = new ToolBarButton("New", "New");
+            ToolBarButton cmdNew = new ToolBarButton("New", WestwindHelper.GetWord("edit.new", "General"));
             cmdNew.Tag = "New";
             cmdNew.Image = new IconResourceHandle("16x16.ico_16_3.gif");
 
             this.tbWizardAction.Buttons.Add(cmdNew);
 
             // cmdSave
-            ToolBarButton cmdSave = new ToolBarButton("Save", "Save");
+            ToolBarButton cmdSave = new ToolBarButton("Save", WestwindHelper.GetWord("edit.save", "General"));
             cmdSave.Tag = "Save";
             cmdSave.Image = new IconResourceHandle("16x16.16_L_save.gif");
 
             this.tbWizardAction.Buttons.Add(cmdSave);
 
             // cmdSaveNew
-            ToolBarButton cmdRefresh = new ToolBarButton("Refresh", "Refresh");
+            ToolBarButton cmdRefresh = new ToolBarButton("Refresh", WestwindHelper.GetWord("edit.refresh", "General"));
             cmdRefresh.Tag = "refresh";
             cmdRefresh.Image = new IconResourceHandle("16x16.16_L_refresh.gif");
 
@@ -65,11 +151,11 @@ namespace RT2020.Settings
             this.tbWizardAction.Buttons.Add(sep);
 
             // cmdDelete
-            ToolBarButton cmdDelete = new ToolBarButton("Delete", "Delete");
+            ToolBarButton cmdDelete = new ToolBarButton("Delete", WestwindHelper.GetWord("edit.delete", "General"));
             cmdDelete.Tag = "Delete";
             cmdDelete.Image = new IconResourceHandle("16x16.16_L_remove.gif");
 
-            if (SalutationId == System.Guid.Empty)
+            if (_SalutationId == Guid.Empty)
             {
                 cmdDelete.Enabled = false;
             }
@@ -91,7 +177,6 @@ namespace RT2020.Settings
                 {
                     case "new":
                         Clear();
-                        SetCtrlEditable();
                         break;
                     case "save":
                         if (IsValid())
@@ -103,6 +188,7 @@ namespace RT2020.Settings
                         }
                         break;
                     case "refresh":
+                        Clear();
                         BindSalutationList();
                         this.Update();
                         break;
@@ -114,11 +200,11 @@ namespace RT2020.Settings
         }
         #endregion
 
-        #region Salutation Code
+        #region Clear/ Set
         private void SetCtrlEditable()
         {
-            txtSalutationCode.BackColor = (this.SalutationId == System.Guid.Empty) ? Color.LightSkyBlue : Color.LightYellow;
-            txtSalutationCode.ReadOnly = (this.SalutationId != System.Guid.Empty);
+            txtSalutationCode.BackColor = (_SalutationId == System.Guid.Empty) ? Color.LightSkyBlue : Color.LightYellow;
+            txtSalutationCode.ReadOnly = (_SalutationId != System.Guid.Empty);
 
             ClearError();
         }
@@ -127,12 +213,21 @@ namespace RT2020.Settings
         {
             errorProvider.SetError(txtSalutationCode, string.Empty);
         }
+
+        private void Clear()
+        {
+            txtSalutationCode.Text = txtSalutationName.Text = txtSalutationNameAlt1.Text = txtSalutationNameAlt2.Text = string.Empty;
+            _SalutationId = Guid.Empty;
+
+            FillParentSalutationList();
+            SetCtrlEditable();
+        }
         #endregion
 
         #region Fill Combo List
         private void FillParentSalutationList()
         {
-            string sql = "SalutationId NOT IN ('" + this.SalutationId.ToString() + "')";
+            string sql = "SalutationId NOT IN ('" + _SalutationId.ToString() + "')";
             string[] orderBy = new string[] { "SalutationCode" };
             ModelEx.SalutationEx.LoadCombo(ref cboParentSalutation, "SalutationCode", false, true, "", sql, orderBy);
         }
@@ -145,26 +240,21 @@ namespace RT2020.Settings
             this.lvSalutationList.Items.Clear();
 
             int iCount = 1;
-            StringBuilder sql = new StringBuilder();
-            sql.Append("SELECT SalutationId,  ROW_NUMBER() OVER (ORDER BY SalutationCode) AS rownum, ");
-            sql.Append(" SalutationCode, SalutationName, SalutationName_Chs, SalutationName_Cht ");
-            sql.Append(" FROM Salutation ");
-            
-            SqlCommand cmd = new SqlCommand();
-            cmd.CommandText = sql.ToString();
-            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
-            cmd.CommandType= CommandType.Text;
 
-            using (SqlDataReader reader = SqlHelper.Default.ExecuteReader(cmd))
+            using (var ctx = new EF6.RT2020Entities())
             {
-                while (reader.Read())
+                var list = ctx.Salutation.OrderBy(x => x.SalutationCode).AsNoTracking().ToList();
+                foreach (var item in list)
                 {
-                    ListViewItem objItem = this.lvSalutationList.Items.Add(reader.GetGuid(0).ToString()); // SalutationId
+                    var parent = ModelEx.SalutationEx.GetParentName(item);
+
+                    ListViewItem objItem = this.lvSalutationList.Items.Add(item.SalutationId.ToString());
                     objItem.SubItems.Add(iCount.ToString()); // Line Number
-                    objItem.SubItems.Add(reader.GetString(2)); // SalutationCode
-                    objItem.SubItems.Add(reader.GetString(3)); // Salutation Name
-                    objItem.SubItems.Add(reader.GetString(4)); // Salutation Name Chs
-                    objItem.SubItems.Add(reader.GetString(5)); // Salutation Name Cht
+                    objItem.SubItems.Add(item.SalutationCode);
+                    objItem.SubItems.Add(item.SalutationName);
+                    objItem.SubItems.Add(item.SalutationName_Chs);
+                    objItem.SubItems.Add(item.SalutationName_Cht);
+                    objItem.SubItems.Add(parent);
 
                     iCount++;
                 }
@@ -189,7 +279,7 @@ namespace RT2020.Settings
 
             #region 新增，要 check Salutation Code 係咪 in use
             errorProvider.SetError(txtSalutationCode, string.Empty);
-            if (this.SalutationId == Guid.Empty && ModelEx.SalutationEx.IsSalutationCodeInUse(txtSalutationCode.Text.Trim()))
+            if (_SalutationId == Guid.Empty && ModelEx.SalutationEx.IsSalutationCodeInUse(txtSalutationCode.Text.Trim()))
             {
                 errorProvider.SetError(txtSalutationCode, "Salutation Code in use");
                 return false;
@@ -205,7 +295,7 @@ namespace RT2020.Settings
 
             using (var ctx = new EF6.RT2020Entities())
             {
-                var item = ctx.Salutation.Find(this.SalutationId);
+                var item = ctx.Salutation.Find(_SalutationId);
 
                 if (item == null)
                 {
@@ -216,8 +306,8 @@ namespace RT2020.Settings
                     ctx.Salutation.Add(item);
                 }
                 item.SalutationName = txtSalutationName.Text;
-                item.SalutationName_Chs = txtSalutationNameChs.Text;
-                item.SalutationName_Cht = txtSalutationNameCht.Text;
+                item.SalutationName_Chs = txtSalutationNameAlt1.Text;
+                item.SalutationName_Cht = txtSalutationNameAlt2.Text;
                 if ((Guid)cboParentSalutation.SelectedValue == Guid.Empty) item.ParentSalutation = (Guid)cboParentSalutation.SelectedValue;
 
                 ctx.SaveChanges();
@@ -225,29 +315,6 @@ namespace RT2020.Settings
             }
 
             return result; ;
-        }
-
-        private void Clear()
-        {
-            this.Close();
-
-            SalutationWizard wizSalutation = new SalutationWizard();
-            wizSalutation.ShowDialog();
-        }
-        #endregion
-
-        #region Properties
-        private Guid countryId = System.Guid.Empty;
-        public Guid SalutationId
-        {
-            get
-            {
-                return countryId;
-            }
-            set
-            {
-                countryId = value;
-            }
         }
         #endregion
 
@@ -257,7 +324,7 @@ namespace RT2020.Settings
             {
                 try
                 {
-                    var item = ctx.Salutation.Find(this.SalutationId);
+                    var item = ctx.Salutation.Find(_SalutationId);
                     if (item != null)
                     {
                         ctx.Salutation.Remove(item);
@@ -278,19 +345,19 @@ namespace RT2020.Settings
                 var id = Guid.NewGuid();
                 if (Guid.TryParse(lvSalutationList.SelectedItem.Text, out id))
                 {
-                    this.SalutationId = id;
+                    _SalutationId = id;
                     using (var ctx = new EF6.RT2020Entities())
                     {
-                        var item = ctx.Salutation.Find(this.SalutationId);
+                        var item = ctx.Salutation.Find(_SalutationId);
                         if (item != null)
                         {
                             FillParentSalutationList();
 
                             txtSalutationCode.Text = item.SalutationCode;
                             txtSalutationName.Text = item.SalutationName;
-                            txtSalutationNameChs.Text = item.SalutationName_Chs;
-                            txtSalutationNameCht.Text = item.SalutationName_Cht;
-                            cboParentSalutation.SelectedValue = item.ParentSalutation;
+                            txtSalutationNameAlt1.Text = item.SalutationName_Chs;
+                            txtSalutationNameAlt2.Text = item.SalutationName_Cht;
+                            cboParentSalutation.SelectedValue = item.ParentSalutation.HasValue ? item.ParentSalutation.Value : Guid.Empty;
 
                             SetCtrlEditable();
                             SetToolBar();

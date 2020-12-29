@@ -1,6 +1,6 @@
 namespace RT2020.Member
 {
-    partial class MemberWizard_AddressInfo
+    partial class MemberWizard_Address
     {
         /// <summary>
         /// Required designer variable.

@@ -1,4 +1,4 @@
-#region Using
+ï»¿#region Using
 
 using System;
 using System.Collections.Generic;
@@ -49,10 +49,10 @@ namespace RT2020.Controls
             switch (ConfigHelper.CurrentLanguageId)
             {
                 case 2: // chs, zh-chs, zh-cn
-                    name_chs = name_chs + "£º";
+                    name = name_chs + "ï¼š";
                     break;
                 case 3: // cht, zh-cht, zh-hk, zh-tw
-                    name_cht = name_cht + "£º";
+                    name = name_cht + "ï¼š";
                     break;
                 case 1: // en, en-us
                 default:

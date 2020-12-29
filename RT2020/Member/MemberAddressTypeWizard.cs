@@ -1,4 +1,4 @@
-#region Using
+﻿#region Using
 
 using System;
 using System.Collections.Generic;
@@ -15,6 +15,7 @@ using System.Data.SqlClient;
 using System.Configuration;
 using RT2020.Helper;
 using System.Linq;
+using System.Data.Entity;
 
 #endregion
 
@@ -22,13 +23,97 @@ namespace RT2020.Member
 {
     public partial class MemberAddressTypeWizard : Form
     {
+        #region Properties
+        private Guid _AddressTypeId = System.Guid.Empty;
+        public Guid AddressTypeId
+        {
+            get
+            {
+                return _AddressTypeId;
+            }
+            set
+            {
+                _AddressTypeId = value;
+            }
+        }
+        #endregion
+
         public MemberAddressTypeWizard()
         {
             InitializeComponent();
+
+            SetCaptions();
+            SetAttributes();
+
             SetCtrlEditable();
             SetToolBar();
             BindAddressTypeList();
         }
+
+        #region SetCaptions SetAttributes
+
+        private void SetCaptions()
+        {
+            this.Text = WestwindHelper.GetWord("memberAddressType.setup", "Model");
+
+            colLN.Text = WestwindHelper.GetWord("listview.line", "Tools");
+
+            colAddressTypeCode.Text = WestwindHelper.GetWord("memberAddressType.code", "Model");
+            colPriority.Text = WestwindHelper.GetWord("memberAddressType.priority", "Model");
+            colAddressTypeName.Text = WestwindHelper.GetWord("memberAddressType.name", "Model");
+            colAddressTypeNameAlt1.Text = WestwindHelper.GetWord(String.Format("language.{0}", LanguageHelper.AlternateLanguage1.Key.ToLower()), "Menu");
+            colAddressTypeNameAlt2.Text = WestwindHelper.GetWord(String.Format("language.{0}", LanguageHelper.AlternateLanguage2.Key.ToLower()), "Menu");
+
+            lblAddressTypeCode.Text = WestwindHelper.GetWordWithColon("memberAddressType.code", "Model");
+            lblAddressTypeName.Text = WestwindHelper.GetWordWithColon("memberAddressType.name", "Model");
+            lblAddressTypeNameAlt1.Text = WestwindHelper.GetWordWithColon(String.Format("language.{0}", LanguageHelper.AlternateLanguage1.Key.ToLower()), "Menu");
+            lblAddressTypeNameAlt2.Text = WestwindHelper.GetWordWithColon(String.Format("language.{0}", LanguageHelper.AlternateLanguage2.Key.ToLower()), "Menu");
+
+            lblPriority.Text = WestwindHelper.GetWordWithColon("memberAddressType.priority", "Model");
+        }
+
+        private void SetAttributes()
+        {
+            lvAddressTypeList.Dock = DockStyle.Fill;
+
+            colLN.TextAlign = HorizontalAlignment.Center;
+            colAddressTypeCode.TextAlign = HorizontalAlignment.Left;
+            colAddressTypeCode.ContentAlign = ExtendedHorizontalAlignment.Center;
+            colPriority.TextAlign = HorizontalAlignment.Center;
+            colPriority.ContentAlign = ExtendedHorizontalAlignment.Center;
+            colAddressTypeName.TextAlign = HorizontalAlignment.Left;
+            colAddressTypeName.ContentAlign = ExtendedHorizontalAlignment.Center;
+            colAddressTypeNameAlt1.TextAlign = HorizontalAlignment.Left;
+            colAddressTypeNameAlt1.ContentAlign = ExtendedHorizontalAlignment.Center;
+            colAddressTypeNameAlt2.TextAlign = HorizontalAlignment.Left;
+            colAddressTypeNameAlt2.ContentAlign = ExtendedHorizontalAlignment.Center;
+
+            switch (LanguageHelper.AlternateLanguagesUsed)
+            {
+                case 1:
+                    // hide alt2
+                    lblAddressTypeNameAlt2.Visible = txtAddressTypeNameAlt2.Visible = false;
+                    colAddressTypeNameAlt2.Visible = false;
+                    // push parent dept. up
+                    lblPriority.Location = new Point(lblPriority.Location.X, lblAddressTypeNameAlt1.Location.Y);
+                    txtPriority.Location = new Point(txtPriority.Location.X, txtAddressTypeNameAlt2.Location.Y);
+                    break;
+                case 2:
+                    // do nothing
+                    break;
+                case 0:
+                default:
+                    // hide alt1 & alt2
+                    lblAddressTypeNameAlt1.Visible = lblAddressTypeNameAlt2.Visible = txtAddressTypeNameAlt2.Visible = false;
+                    colAddressTypeNameAlt1.Visible = colAddressTypeNameAlt2.Visible = false;
+                    // push parent dept up
+                    lblPriority.Location = new Point(lblPriority.Location.X, lblAddressTypeNameAlt1.Location.Y);
+                    txtPriority.Location = new Point(txtPriority.Location.X, txtAddressTypeNameAlt1.Location.Y);
+                    break;
+            }
+        }
+
+        #endregion
 
         #region ToolBar
         private void SetToolBar()
@@ -43,7 +128,7 @@ namespace RT2020.Member
             sep.Style = ToolBarButtonStyle.Separator;
 
             // cmdSave
-            ToolBarButton cmdNew = new ToolBarButton("New", "New");
+            ToolBarButton cmdNew = new ToolBarButton("New", WestwindHelper.GetWord("edit.new", "General"));
             cmdNew.Tag = "New";
             cmdNew.Image = new IconResourceHandle("16x16.ico_16_3.gif");
             cmdNew.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Write);
@@ -51,7 +136,7 @@ namespace RT2020.Member
             this.tbWizardAction.Buttons.Add(cmdNew);
 
             // cmdSave
-            ToolBarButton cmdSave = new ToolBarButton("Save", "Save");
+            ToolBarButton cmdSave = new ToolBarButton("Save", WestwindHelper.GetWord("edit.save", "General"));
             cmdSave.Tag = "Save";
             cmdSave.Image = new IconResourceHandle("16x16.16_L_save.gif");
             cmdSave.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Write);
@@ -59,7 +144,7 @@ namespace RT2020.Member
             this.tbWizardAction.Buttons.Add(cmdSave);
 
             // cmdSaveNew
-            ToolBarButton cmdRefresh = new ToolBarButton("Refresh", "Refresh");
+            ToolBarButton cmdRefresh = new ToolBarButton("Refresh", WestwindHelper.GetWord("edit.refresh", "General"));
             cmdRefresh.Tag = "refresh";
             cmdRefresh.Image = new IconResourceHandle("16x16.16_L_refresh.gif");
 
@@ -67,11 +152,11 @@ namespace RT2020.Member
             this.tbWizardAction.Buttons.Add(sep);
 
             // cmdDelete
-            ToolBarButton cmdDelete = new ToolBarButton("Delete", "Delete");
+            ToolBarButton cmdDelete = new ToolBarButton("Delete", WestwindHelper.GetWord("edit.delete", "General"));
             cmdDelete.Tag = "Delete";
             cmdDelete.Image = new IconResourceHandle("16x16.16_L_remove.gif");
 
-            if (AddressTypeId == System.Guid.Empty)
+            if (_AddressTypeId == System.Guid.Empty)
             {
                 cmdDelete.Enabled = false;
             }
@@ -93,7 +178,6 @@ namespace RT2020.Member
                 {
                     case "new":
                         Clear();
-                        SetCtrlEditable();
                         break;
                     case "save":
                         if (Verify())
@@ -105,7 +189,8 @@ namespace RT2020.Member
                         }
                         break;
                     case "refresh":
-                        BindAddressTypeList();
+                        Clear();
+                        //BindAddressTypeList();
                         this.Update();
                         break;
                     case "delete":
@@ -119,8 +204,8 @@ namespace RT2020.Member
         #region MemberAddressType Code
         private void SetCtrlEditable()
         {
-            txtAddressTypeCode.BackColor = (this.AddressTypeId == System.Guid.Empty) ? SystemInfo.ControlBackColor.RequiredBox : SystemInfo.ControlBackColor.DisabledBox;
-            txtAddressTypeCode.ReadOnly = (this.AddressTypeId != System.Guid.Empty);
+            txtAddressTypeCode.BackColor = (_AddressTypeId == System.Guid.Empty) ? SystemInfo.ControlBackColor.RequiredBox : SystemInfo.ControlBackColor.DisabledBox;
+            txtAddressTypeCode.ReadOnly = (_AddressTypeId != System.Guid.Empty);
 
             ClearError();
         }
@@ -130,35 +215,38 @@ namespace RT2020.Member
             errorProvider.SetError(txtAddressTypeCode, string.Empty);
             errorProvider.SetError(txtPriority, string.Empty);
         }
+
+        private void Clear()
+        {
+            txtAddressTypeCode.Text = txtAddressTypeName.Text = txtAddressTypeNameAlt1.Text = txtAddressTypeNameAlt2.Text = txtPriority.Text = string.Empty;
+
+            _AddressTypeId = Guid.Empty;
+            SetCtrlEditable();
+        }
         #endregion
 
         #region Binding
         private void BindAddressTypeList()
         {
-            this.lvAddressTypeList.ListViewItemSorter = new ListViewItemSorter(lvAddressTypeList);
+            //this.lvAddressTypeList.ListViewItemSorter = new ListViewItemSorter(lvAddressTypeList);
+            this.lvAddressTypeList.ListViewItemSorter = new Sorter();   // 參考：https://stackoverflow.com/a/1214333
             this.lvAddressTypeList.Items.Clear();
 
             int iCount = 1;
-            StringBuilder sql = new StringBuilder();
-            sql.Append("SELECT AddressTypeId,  ROW_NUMBER() OVER (ORDER BY AddressTypeCode) AS rownum, ");
-            sql.Append(" AddressTypeCode, AddressTypeName, AddressTypeName_Chs, AddressTypeName_Cht ");
-            sql.Append(" FROM MemberAddressType ");
-            
-            SqlCommand cmd = new SqlCommand();
-            cmd.CommandText = sql.ToString();
-            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
-            cmd.CommandType= CommandType.Text;
 
-            using (SqlDataReader reader = SqlHelper.Default.ExecuteReader(cmd))
+            using (var ctx = new EF6.RT2020Entities())
             {
-                while (reader.Read())
+                var list = ctx.MemberAddressType.OrderBy(x => x.Priority).AsNoTracking().ToList();
+
+                foreach (var item in list)
                 {
-                    ListViewItem objItem = this.lvAddressTypeList.Items.Add(reader.GetGuid(0).ToString()); // AddressTypeId
+                    ListViewItem objItem = this.lvAddressTypeList.Items.Add(item.AddressTypeId.ToString());
                     objItem.SubItems.Add(iCount.ToString()); // Line Number
-                    objItem.SubItems.Add(reader.GetString(2)); // AddressTypeCode
-                    objItem.SubItems.Add(reader.GetString(3)); // MemberAddressType Name
-                    objItem.SubItems.Add(reader.GetString(4)); // MemberAddressType Name Chs
-                    objItem.SubItems.Add(reader.GetString(5)); // MemberAddressType Name Cht
+                    objItem.SubItems.Add(item.AddressTypeCode);
+                    objItem.SubItems.Add(item.Priority.ToString());
+                    objItem.SubItems.Add(item.AddressTypeName);
+                    objItem.SubItems.Add(item.AddressTypeName_Chs);
+                    objItem.SubItems.Add(item.AddressTypeName_Cht);
 
                     iCount++;
                 }
@@ -203,7 +291,7 @@ namespace RT2020.Member
 
             using (var ctx = new EF6.RT2020Entities())
             {
-                var oAddressType = ctx.MemberAddressType.Find(this.AddressTypeId);
+                var oAddressType = ctx.MemberAddressType.Find(_AddressTypeId);
                 if (oAddressType == null)
                 {
                     oAddressType = new EF6.MemberAddressType();
@@ -213,8 +301,8 @@ namespace RT2020.Member
                     ctx.MemberAddressType.Add(oAddressType);
                 }
                 oAddressType.AddressTypeName = txtAddressTypeName.Text;
-                oAddressType.AddressTypeName_Chs = txtAddressTypeNameChs.Text;
-                oAddressType.AddressTypeName_Cht = txtAddressTypeNameCht.Text;
+                oAddressType.AddressTypeName_Chs = txtAddressTypeNameAlt1.Text;
+                oAddressType.AddressTypeName_Cht = txtAddressTypeNameAlt2.Text;
                 oAddressType.Priority = Convert.ToInt32(txtPriority.Text);
 
                 ctx.SaveChanges();
@@ -224,29 +312,6 @@ namespace RT2020.Member
 
             return result;
         }
-
-        private void Clear()
-        {
-            this.Close();
-
-            MemberAddressTypeWizard wizType = new MemberAddressTypeWizard();
-            wizType.ShowDialog();
-        }
-        #endregion
-
-        #region Properties
-        private Guid countryId = System.Guid.Empty;
-        public Guid AddressTypeId
-        {
-            get
-            {
-                return countryId;
-            }
-            set
-            {
-                countryId = value;
-            }
-        }
         #endregion
 
         #region Delete
@@ -254,7 +319,7 @@ namespace RT2020.Member
         {
             using (var ctx = new EF6.RT2020Entities())
             {
-                var oAddressType = ctx.MemberAddressType.Find(this.AddressTypeId);
+                var oAddressType = ctx.MemberAddressType.Find(_AddressTypeId);
                 if (oAddressType != null)
                 {
                     try
@@ -277,16 +342,16 @@ namespace RT2020.Member
                 Guid id = Guid.Empty;
                 if (Guid.TryParse(lvAddressTypeList.SelectedItem.Text, out id))
                 {
+                    _AddressTypeId = id;
+
                     var oAddressType = ModelEx.MemberAddressTypeEx.Get(id);
                     if (oAddressType != null)
                     {
                         txtAddressTypeCode.Text = oAddressType.AddressTypeCode;
                         txtAddressTypeName.Text = oAddressType.AddressTypeName;
-                        txtAddressTypeNameChs.Text = oAddressType.AddressTypeName_Chs;
-                        txtAddressTypeNameCht.Text = oAddressType.AddressTypeName_Cht;
+                        txtAddressTypeNameAlt1.Text = oAddressType.AddressTypeName_Chs;
+                        txtAddressTypeNameAlt2.Text = oAddressType.AddressTypeName_Cht;
                         txtPriority.Text = oAddressType.Priority.ToString();
-
-                        this.AddressTypeId = oAddressType.AddressTypeId;
 
                         SetCtrlEditable();
                         SetToolBar();
@@ -305,6 +370,23 @@ namespace RT2020.Member
                 Clear();
                 SetCtrlEditable();
             }
+        }
+
+        private void lvAddressTypeList_ColumnClick(object sender, ColumnClickEventArgs e)
+        {
+            // 參考：https://stackoverflow.com/a/1214333
+            Sorter s = (Sorter)lvAddressTypeList.ListViewItemSorter;
+            s.Column = e.Column;
+
+            if (s.Order == Gizmox.WebGUI.Forms.SortOrder.Ascending)
+            {
+                s.Order = Gizmox.WebGUI.Forms.SortOrder.Descending;
+            }
+            else
+            {
+                s.Order = Gizmox.WebGUI.Forms.SortOrder.Ascending;
+            }
+            lvAddressTypeList.Sort();
         }
     }
 }

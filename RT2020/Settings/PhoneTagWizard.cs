@@ -23,6 +23,15 @@ namespace RT2020.Settings
 {
     public partial class PhoneTagWizard : Form
     {
+        #region Properties
+        private Guid _PhoneId = System.Guid.Empty;
+        public Guid PhoneId
+        {
+            get { return _PhoneId; }
+            set { _PhoneId = value; }
+        }
+        #endregion
+
         public PhoneTagWizard()
         {
             InitializeComponent();
@@ -133,7 +142,7 @@ namespace RT2020.Settings
             cmdDelete.Tag = "Delete";
             cmdDelete.Image = new IconResourceHandle("16x16.16_L_remove.gif");
 
-            if (PhoneId == System.Guid.Empty)
+            if (_PhoneId == System.Guid.Empty)
             {
                 cmdDelete.Enabled = false;
             }
@@ -155,7 +164,6 @@ namespace RT2020.Settings
                 {
                     case "new":
                         Clear();
-                        SetCtrlEditable();
                         break;
                     case "save":
                         if (IsValid())
@@ -167,8 +175,7 @@ namespace RT2020.Settings
                         }
                         break;
                     case "refresh":
-                        BindPhoneList();
-                        this.Update();
+                        Clear();
                         break;
                     case "delete":
                         MessageBox.Show("Delete Record?", "Delete Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question, new EventHandler(DeleteConfirmationHandler));
@@ -181,8 +188,8 @@ namespace RT2020.Settings
         #region PhoneTag Code
         private void SetCtrlEditable()
         {
-            txtPhoneCode.BackColor = (this.PhoneId == System.Guid.Empty) ? Color.LightSkyBlue : Color.LightYellow;
-            txtPhoneCode.ReadOnly = (this.PhoneId != System.Guid.Empty);
+            txtPhoneCode.BackColor = (_PhoneId == System.Guid.Empty) ? Color.LightSkyBlue : Color.LightYellow;
+            txtPhoneCode.ReadOnly = (_PhoneId != System.Guid.Empty);
 
             ClearError();
         }
@@ -192,28 +199,37 @@ namespace RT2020.Settings
             errorProvider.SetError(txtPhoneCode, string.Empty);
             errorProvider.SetError(txtPriority, string.Empty);
         }
+
+        private void Clear()
+        {
+            txtPhoneCode.Text = txtPhoneName.Text = txtPhoneNameAlt1.Text = txtPhoneNameAlt2.Text = txtPriority.Text = string.Empty;
+
+            _PhoneId = Guid.Empty;
+            SetCtrlEditable();
+        }
         #endregion
 
         #region Binding
         private void BindPhoneList()
         {
-            this.lvPhoneList.ListViewItemSorter = new ListViewItemSorter(lvPhoneList);
+            //this.lvPhoneList.ListViewItemSorter = new ListViewItemSorter(lvPhoneList);
+            this.lvPhoneList.ListViewItemSorter = new Sorter();   // 參考：https://stackoverflow.com/a/1214333
             this.lvPhoneList.Items.Clear();
 
             int iCount = 1;
 
             using (var ctx = new EF6.RT2020Entities())
             {
-                var list = ctx.PhoneTag.OrderBy(x => x.PhoneCode).AsNoTracking().ToList();
+                var list = ctx.PhoneTag.OrderBy(x => x.Priority).AsNoTracking().ToList();
                 foreach (var item in list)
                 {
                     var objItem = this.lvPhoneList.Items.Add(item.PhoneTagId.ToString());
                     objItem.SubItems.Add(iCount.ToString());
                     objItem.SubItems.Add(item.PhoneCode);
+                    objItem.SubItems.Add(item.Priority.ToString());
                     objItem.SubItems.Add(item.PhoneName);
                     objItem.SubItems.Add(item.PhoneName_Chs);
                     objItem.SubItems.Add(item.PhoneName_Cht);
-                    objItem.SubItems.Add(item.Priority.ToString("#"));
 
                     iCount++;
                 }
@@ -238,7 +254,7 @@ namespace RT2020.Settings
 
             #region 新增，要 check TagCode 係咪 in use
             errorProvider.SetError(txtPhoneCode, string.Empty);
-            if (this.PhoneId == Guid.Empty && ModelEx.PhoneTagEx.IsPhoneTagCodeInUse(txtPhoneCode.Text.Trim()))
+            if (_PhoneId == Guid.Empty && ModelEx.PhoneTagEx.IsPhoneTagCodeInUse(txtPhoneCode.Text.Trim()))
             {
                 errorProvider.SetError(txtPhoneCode, "Tag Code in use");
                 return false;
@@ -254,7 +270,7 @@ namespace RT2020.Settings
 
             using (var ctx = new EF6.RT2020Entities())
             {
-                var tag = ctx.PhoneTag.Find(this.PhoneId);
+                var tag = ctx.PhoneTag.Find(_PhoneId);
 
                 if (tag == null)
                 {
@@ -275,29 +291,6 @@ namespace RT2020.Settings
 
             return result;
         }
-
-        private void Clear()
-        {
-            this.Close();
-
-            PhoneTagWizard wizTag = new PhoneTagWizard();
-            wizTag.ShowDialog();
-        }
-        #endregion
-
-        #region Properties
-        private Guid countryId = System.Guid.Empty;
-        public Guid PhoneId
-        {
-            get
-            {
-                return countryId;
-            }
-            set
-            {
-                countryId = value;
-            }
-        }
         #endregion
 
         private void Delete()
@@ -306,7 +299,7 @@ namespace RT2020.Settings
             {
                 try
                 {
-                    var tag = ctx.PhoneTag.Find(this.PhoneId);
+                    var tag = ctx.PhoneTag.Find(_PhoneId);
                     if (tag != null)
                     {
                         ctx.PhoneTag.Remove(tag);
@@ -327,10 +320,10 @@ namespace RT2020.Settings
                 var id = Guid.NewGuid();
                 if (Guid.TryParse(lvPhoneList.SelectedItem.Text, out id))
                 {
-                    this.PhoneId = id;
+                    _PhoneId = id;
                     using (var ctx = new EF6.RT2020Entities())
                     {
-                        var tag = ctx.PhoneTag.Find(this.PhoneId);
+                        var tag = ctx.PhoneTag.Find(_PhoneId);
                         if (tag != null)
                         {
                             txtPhoneCode.Text = tag.PhoneCode;
@@ -357,6 +350,23 @@ namespace RT2020.Settings
                 Clear();
                 SetCtrlEditable();
             }
+        }
+
+        private void lvPhoneList_ColumnClick(object sender, ColumnClickEventArgs e)
+        {
+            // 參考：https://stackoverflow.com/a/1214333
+            Sorter s = (Sorter)lvPhoneList.ListViewItemSorter;
+            s.Column = e.Column;
+
+            if (s.Order == Gizmox.WebGUI.Forms.SortOrder.Ascending)
+            {
+                s.Order = Gizmox.WebGUI.Forms.SortOrder.Descending;
+            }
+            else
+            {
+                s.Order = Gizmox.WebGUI.Forms.SortOrder.Ascending;
+            }
+            lvPhoneList.Sort();
         }
     }
 }

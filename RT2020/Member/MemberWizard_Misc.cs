@@ -13,33 +13,44 @@ using System.IO;
 using RT2020.Controls;
 using Gizmox.WebGUI.Common.Resources;
 using System.Security.AccessControl;
+using RT2020.Helper;
 
 #endregion
 
 namespace RT2020.Member
 {
-    public partial class MemberWizard_MiscInfo : UserControl
+    public partial class MemberWizard_Misc : UserControl
     {
         string mstrDirectory = string.Empty;
 
-        public MemberWizard_MiscInfo()
+        #region Properties
+        private Guid _MemberId = System.Guid.Empty;
+        public Guid MemberId
+        {
+            get { return _MemberId; }
+            set { _MemberId = value; }
+        }
+        #endregion
+
+        public MemberWizard_Misc()
         {
             InitializeComponent();
+
+            SetCaptions();
             mstrDirectory = Path.Combine(Context.Config.GetDirectory("RTImages"), "Member");
         }
 
-        #region Properties
-        private Guid memberId = System.Guid.Empty;
-        public Guid MemberId
+        #region SetCaptions & SetAttributes
+        private void SetCaptions()
         {
-            get
-            {
-                return memberId;
-            }
-            set
-            {
-                memberId = value;
-            }
+            lblMemo.Text = WestwindHelper.GetWordWithColon("member.misc.memo", "Model");
+            lblPicFileName.Text = WestwindHelper.GetWordWithColon("member.misc.pictureFileName", "Model");
+            gbPicture.Text = WestwindHelper.GetWord("member.misc.picture", "Model");
+        }
+
+        private void SetAttributes()
+        {
+
         }
         #endregion
 

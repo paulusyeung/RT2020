@@ -1628,6 +1628,12 @@
     <Compile Include="Member\Reports\VipCodeListRpt_Pdf.designer.cs">
       <DependentUpon>VipCodeListRpt_Pdf.cs</DependentUpon>
     </Compile>
+    <Compile Include="Member\SmartTag4Member_OptionsWizard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Member\SmartTag4Member_OptionsWizard.Designer.cs">
+      <DependentUpon>SmartTag4Member_OptionsWizard.cs</DependentUpon>
+    </Compile>
     <Compile Include="MenuStrip\AmsBase.cs" />
     <Compile Include="MenuStrip\FileAms.cs" />
     <Compile Include="MenuStrip\HelpAms.cs" />
@@ -1691,6 +1697,7 @@
     <Compile Include="ModelEx\PurchaseOrderHeaderEx.cs" />
     <Compile Include="ModelEx\SalutationEx.cs" />
     <Compile Include="ModelEx\SmartTag4MemberEx.cs" />
+    <Compile Include="ModelEx\SmartTag4Member_OptionsEx.cs" />
     <Compile Include="ModelEx\SmartTag4StaffEx.cs" />
     <Compile Include="ModelEx\SmartTag4SupplierEx.cs" />
     <Compile Include="ModelEx\SmartTag4WorkplaceEx.cs" />
@@ -1861,41 +1868,41 @@
     <Compile Include="Member\MemberWizard.Designer.cs">
       <DependentUpon>MemberWizard.cs</DependentUpon>
     </Compile>
-    <Compile Include="Member\MemberWizard_AddressInfo.cs">
+    <Compile Include="Member\MemberWizard_Address.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Member\MemberWizard_AddressInfo.Designer.cs">
-      <DependentUpon>MemberWizard_AddressInfo.cs</DependentUpon>
+    <Compile Include="Member\MemberWizard_Address.Designer.cs">
+      <DependentUpon>MemberWizard_Address.cs</DependentUpon>
     </Compile>
-    <Compile Include="Member\MemberWizard_CardInfo.cs">
+    <Compile Include="Member\MemberWizard_Card.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Member\MemberWizard_CardInfo.Designer.cs">
-      <DependentUpon>MemberWizard_CardInfo.cs</DependentUpon>
+    <Compile Include="Member\MemberWizard_Card.Designer.cs">
+      <DependentUpon>MemberWizard_Card.cs</DependentUpon>
     </Compile>
-    <Compile Include="Member\MemberWizard_MainInfo.cs">
+    <Compile Include="Member\MemberWizard_General.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Member\MemberWizard_MainInfo.Designer.cs">
-      <DependentUpon>MemberWizard_MainInfo.cs</DependentUpon>
+    <Compile Include="Member\MemberWizard_General.Designer.cs">
+      <DependentUpon>MemberWizard_General.cs</DependentUpon>
     </Compile>
-    <Compile Include="Member\MemberWizard_MarketingInfo.cs">
+    <Compile Include="Member\MemberWizard_Marketing.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Member\MemberWizard_MarketingInfo.Designer.cs">
-      <DependentUpon>MemberWizard_MarketingInfo.cs</DependentUpon>
+    <Compile Include="Member\MemberWizard_Marketing.Designer.cs">
+      <DependentUpon>MemberWizard_Marketing.cs</DependentUpon>
     </Compile>
-    <Compile Include="Member\MemberWizard_MiscInfo.cs">
+    <Compile Include="Member\MemberWizard_Misc.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Member\MemberWizard_MiscInfo.Designer.cs">
-      <DependentUpon>MemberWizard_MiscInfo.cs</DependentUpon>
+    <Compile Include="Member\MemberWizard_Misc.Designer.cs">
+      <DependentUpon>MemberWizard_Misc.cs</DependentUpon>
     </Compile>
-    <Compile Include="Member\MemberWizard_OthersInfo.cs">
+    <Compile Include="Member\MemberWizard_Others.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Member\MemberWizard_OthersInfo.Designer.cs">
-      <DependentUpon>MemberWizard_OthersInfo.cs</DependentUpon>
+    <Compile Include="Member\MemberWizard_Others.Designer.cs">
+      <DependentUpon>MemberWizard_Others.cs</DependentUpon>
     </Compile>
     <Compile Include="Member\PhoneBookWizard.cs">
       <SubType>Form</SubType>
@@ -2840,10 +2847,10 @@
     <Compile Include="Settings\SmartTag4SupplierWizard.Designer.cs">
       <DependentUpon>SmartTag4SupplierWizard.cs</DependentUpon>
     </Compile>
-    <Compile Include="Settings\SmartTag4MemberWizard.cs">
+    <Compile Include="Member\SmartTag4MemberWizard.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Settings\SmartTag4MemberWizard.Designer.cs">
+    <Compile Include="Member\SmartTag4MemberWizard.Designer.cs">
       <DependentUpon>SmartTag4MemberWizard.cs</DependentUpon>
     </Compile>
     <Compile Include="Settings\SmartTag4WorkplaceWizard.cs">
@@ -3930,6 +3937,10 @@
     <EmbeddedResource Include="Member\Reports\VipSummaryListFormAppendix1..3Rdl.rdlc" />
     <EmbeddedResource Include="Member\Reports\VipSummaryListFormRdl.rdlc" />
     <EmbeddedResource Include="Member\Reports\VipVendorSpendingFormRdl.rdlc" />
+    <EmbeddedResource Include="Member\SmartTag4Member_OptionsWizard.resx">
+      <DependentUpon>SmartTag4Member_OptionsWizard.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="NavPane\PurchasingNav.resx">
       <DependentUpon>PurchasingNav.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -4010,28 +4021,28 @@
       <DependentUpon>MemberWizard.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Member\MemberWizard_AddressInfo.resx">
-      <DependentUpon>MemberWizard_AddressInfo.cs</DependentUpon>
+    <EmbeddedResource Include="Member\MemberWizard_Address.resx">
+      <DependentUpon>MemberWizard_Address.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Member\MemberWizard_CardInfo.resx">
-      <DependentUpon>MemberWizard_CardInfo.cs</DependentUpon>
+    <EmbeddedResource Include="Member\MemberWizard_Card.resx">
+      <DependentUpon>MemberWizard_Card.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Member\MemberWizard_MainInfo.resx">
-      <DependentUpon>MemberWizard_MainInfo.cs</DependentUpon>
+    <EmbeddedResource Include="Member\MemberWizard_General.resx">
+      <DependentUpon>MemberWizard_General.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Member\MemberWizard_MarketingInfo.resx">
-      <DependentUpon>MemberWizard_MarketingInfo.cs</DependentUpon>
+    <EmbeddedResource Include="Member\MemberWizard_Marketing.resx">
+      <DependentUpon>MemberWizard_Marketing.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Member\MemberWizard_MiscInfo.resx">
-      <DependentUpon>MemberWizard_MiscInfo.cs</DependentUpon>
+    <EmbeddedResource Include="Member\MemberWizard_Misc.resx">
+      <DependentUpon>MemberWizard_Misc.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Member\MemberWizard_OthersInfo.resx">
-      <DependentUpon>MemberWizard_OthersInfo.cs</DependentUpon>
+    <EmbeddedResource Include="Member\MemberWizard_Others.resx">
+      <DependentUpon>MemberWizard_Others.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Member\PhoneBookWizard.resx">
@@ -4709,7 +4720,7 @@
       <DependentUpon>SmartTag4SupplierWizard.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Settings\SmartTag4MemberWizard.resx">
+    <EmbeddedResource Include="Member\SmartTag4MemberWizard.resx">
       <DependentUpon>SmartTag4MemberWizard.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
