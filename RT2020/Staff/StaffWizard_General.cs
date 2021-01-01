@@ -33,6 +33,13 @@ namespace RT2020.Staff
             get { return _StaffId; }
             set { _StaffId = value; }
         }
+
+        private string _StaffNumber = "";
+        public string StaffNumber
+        {
+            get { return _StaffNumber; }
+            set { _StaffNumber = value; }
+        }
         #endregion
 
         public StaffWizard_General()
@@ -506,6 +513,7 @@ namespace RT2020.Staff
                         #region add new dbo.Staff
                         staff = new EF6.Staff();
                         staff.StaffId = Guid.NewGuid();
+                        staff.StaffNumber = _StaffNumber;
                         staff.CreatedOn = DateTime.Now;
                         staff.CreatedBy = ConfigHelper.CurrentUserId;
                         staff.Status = Convert.ToInt32(EnumHelper.Status.Active.ToString("d"));
