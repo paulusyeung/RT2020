@@ -261,10 +261,10 @@ namespace RT2020.Staff
         private bool IsValid()
         {
             bool result = true;
+            errorProvider.SetError(txtStaffGroupCode, string.Empty);
 
             #region DeptCode 唔可以吉
-            errorProvider.SetError(txtStaffGroupCode, string.Empty);
-            if (txtStaffGroupCode.Text.Length == 0)
+            if (txtStaffGroupCode.Text.Trim() == string.Empty)
             {
                 errorProvider.SetError(txtStaffGroupCode, "Cannot be blank!");
                 return false;
@@ -272,11 +272,13 @@ namespace RT2020.Staff
             #endregion
 
             #region 新增，要 check CityCode 係咪 in use
-            errorProvider.SetError(txtStaffGroupCode, string.Empty);
-            if (ModelEx.StaffGroupEx.IsGradeCodeInUse(txtStaffGroupCode.Text.Trim()))
+            if (_GroupId == Guid.Empty)
             {
-                errorProvider.SetError(txtStaffGroupCode, "Grade Code in use");
-                return false;
+                if (ModelEx.StaffGroupEx.IsGradeCodeInUse(txtStaffGroupCode.Text.Trim()))
+                {
+                    errorProvider.SetError(txtStaffGroupCode, "Grade Code in use");
+                    return false;
+                }
             }
             #endregion
 
