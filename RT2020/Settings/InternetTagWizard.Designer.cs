@@ -34,6 +34,7 @@ namespace RT2020.Settings
             this.colInternetTagId = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
             this.colLN = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
             this.colInternetTagCode = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colPriority = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
             this.colInternetTagName = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
             this.colInternetTagNameAlt1 = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
             this.colInternetTagNameAlt2 = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
@@ -79,6 +80,7 @@ namespace RT2020.Settings
             this.splitContainer.Panel2.Controls.Add(this.lblInternetTagCode);
             this.splitContainer.Size = new System.Drawing.Size(806, 506);
             this.splitContainer.SplitterDistance = 500;
+            this.splitContainer.SplitterWidth = 2;
             this.splitContainer.TabIndex = 0;
             // 
             // lvInternetTagList
@@ -87,6 +89,7 @@ namespace RT2020.Settings
             this.colInternetTagId,
             this.colLN,
             this.colInternetTagCode,
+            this.colPriority,
             this.colInternetTagName,
             this.colInternetTagNameAlt1,
             this.colInternetTagNameAlt2});
@@ -98,12 +101,13 @@ namespace RT2020.Settings
             this.lvInternetTagList.TabIndex = 0;
             this.lvInternetTagList.UseInternalPaging = true;
             this.lvInternetTagList.SelectedIndexChanged += new System.EventHandler(this.lvInternetTagList_SelectedIndexChanged);
+            this.lvInternetTagList.ColumnClick += new Gizmox.WebGUI.Forms.ColumnClickEventHandler(this.lvInternetTagList_ColumnClick);
             // 
             // colInternetTagId
             // 
             this.colInternetTagId.Text = "InternetTagId";
             this.colInternetTagId.Visible = false;
-            this.colInternetTagId.Width = 150;
+            this.colInternetTagId.Width = 100;
             // 
             // colLN
             // 
@@ -114,6 +118,12 @@ namespace RT2020.Settings
             // 
             this.colInternetTagCode.Text = "Tag Code";
             this.colInternetTagCode.Width = 80;
+            // 
+            // colPriority
+            // 
+            this.colPriority.Tag = "Numeric";
+            this.colPriority.Text = "Priority";
+            this.colPriority.Width = 60;
             // 
             // colInternetTagName
             // 
@@ -155,7 +165,7 @@ namespace RT2020.Settings
             this.tbWizardAction.MenuHandle = true;
             this.tbWizardAction.Name = "tbWizardAction";
             this.tbWizardAction.ShowToolTips = true;
-            this.tbWizardAction.Size = new System.Drawing.Size(302, 26);
+            this.tbWizardAction.Size = new System.Drawing.Size(304, 26);
             this.tbWizardAction.TabIndex = 8;
             // 
             // txtInternetTagNameAlt2
@@ -258,7 +268,6 @@ namespace RT2020.Settings
         private Gizmox.WebGUI.Forms.ErrorProvider errorProvider;
         private Gizmox.WebGUI.Forms.Label lblPriority;
         private Gizmox.WebGUI.Forms.TextBox txtPriority;
-
-
+        private Gizmox.WebGUI.Forms.ColumnHeader colPriority;
     }
 }

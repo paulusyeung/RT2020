@@ -19,20 +19,32 @@ using System.Data.Entity;
 
 #endregion
 
-namespace RT2020.Member
+namespace RT2020.Staff
 {
-    public partial class SmartTag4MemberWizard : Form
+    public partial class SmartTag4Staff_OptionsWizard : Form
     {
-        #region private Properties
+        #region public properties
         private Guid _SmartTagId = Guid.Empty;
+        public Guid SmartTagId
+        {
+            get { return _SmartTagId; }
+            set { _SmartTagId = value; }
+        }
+
+        private Guid _OptionId = Guid.Empty;
+        public Guid OptionId
+        {
+            get { return _OptionId; }
+            set { _OptionId = value; }
+        }
         #endregion
 
-        public SmartTag4MemberWizard()
+        public SmartTag4Staff_OptionsWizard()
         {
             InitializeComponent();
         }
 
-        private void SmartTag4MemberWizard_Load(object sender, EventArgs e)
+        private void SmartTag4StaffWizard_Load(object sender, EventArgs e)
         {
             SetCaptions();
             SetAttributes();
@@ -46,25 +58,22 @@ namespace RT2020.Member
 
         private void SetCaptions()
         {
-            this.Text = WestwindHelper.GetWord("smartTag4Member.setup", "Model");
+            this.Text = WestwindHelper.GetWord("smartTagOptions.setup", "Model");
 
             colLN.Text = WestwindHelper.GetWord("listview.line", "Tools");
 
             //colParentDept.Text = WestwindHelper.GetWord("department.parent", "Model");
-            colTagCode.Text = WestwindHelper.GetWord("smartTag4Member.code", "Model");
-            colPriority.Text = WestwindHelper.GetWord("smartTag4Member.priority", "Model");
-            colTagName.Text = WestwindHelper.GetWord("smartTag4Member.name", "Model");
-            colTagNameAlt1.Text = WestwindHelper.GetWord(String.Format("language.{0}", LanguageHelper.AlternateLanguage1.Key.ToLower()), "Menu");
-            colTagNameAlt2.Text = WestwindHelper.GetWord(String.Format("language.{0}", LanguageHelper.AlternateLanguage2.Key.ToLower()), "Menu");
+            colOptionCode.Text = WestwindHelper.GetWord("smartTagOptions.code", "Model");
 
-            lblTagCode.Text = WestwindHelper.GetWordWithColon("smartTag4Member.code", "Model");
-            lblTagName.Text = WestwindHelper.GetWordWithColon("smartTag4Member.name", "Model");
-            lblTagNameAlt1.Text = WestwindHelper.GetWordWithColon(String.Format("language.{0}", LanguageHelper.AlternateLanguage1.Key.ToLower()), "Menu");
-            lblTagNameAlt2.Text = WestwindHelper.GetWordWithColon(String.Format("language.{0}", LanguageHelper.AlternateLanguage2.Key.ToLower()), "Menu");
+            colOptionName.Text = WestwindHelper.GetWord("smartTagOptions.name", "Model");
+            colOptionNameAlt1.Text = WestwindHelper.GetWord(String.Format("language.{0}", LanguageHelper.AlternateLanguage1.Key.ToLower()), "Menu");
+            colOptionNameAlt2.Text = WestwindHelper.GetWord(String.Format("language.{0}", LanguageHelper.AlternateLanguage2.Key.ToLower()), "Menu");
 
-            lblPriority.Text = WestwindHelper.GetWordWithColon("smartTag4Member.priority", "Model");
+            lblOptionCode.Text = WestwindHelper.GetWordWithColon("smartTagOptions.code", "Model");
+            lblOptionName.Text = WestwindHelper.GetWordWithColon("smartTagOptions.name", "Model");
+            lblOptionNameAlt1.Text = WestwindHelper.GetWordWithColon(String.Format("language.{0}", LanguageHelper.AlternateLanguage1.Key.ToLower()), "Menu");
+            lblOptionNameAlt2.Text = WestwindHelper.GetWordWithColon(String.Format("language.{0}", LanguageHelper.AlternateLanguage2.Key.ToLower()), "Menu");
 
-            lnkOptions.Text = WestwindHelper.GetWord("smartTagOptions", "Model");
         }
 
         private void SetAttributes()
@@ -74,26 +83,24 @@ namespace RT2020.Member
             colLN.TextAlign = HorizontalAlignment.Center;
             //colParentDept.TextAlign = HorizontalAlignment.Left;
             //colParentDept.ContentAlign = ExtendedHorizontalAlignment.Center;
-            colTagCode.TextAlign = HorizontalAlignment.Left;
-            colTagCode.ContentAlign = ExtendedHorizontalAlignment.Center;
-            colPriority.TextAlign = HorizontalAlignment.Center;
-            colPriority.ContentAlign = ExtendedHorizontalAlignment.Center;
-            colTagName.TextAlign = HorizontalAlignment.Left;
-            colTagName.ContentAlign = ExtendedHorizontalAlignment.Center;
-            colTagNameAlt1.TextAlign = HorizontalAlignment.Left;
-            colTagNameAlt1.ContentAlign = ExtendedHorizontalAlignment.Center;
-            colTagNameAlt2.TextAlign = HorizontalAlignment.Left;
-            colTagNameAlt2.ContentAlign = ExtendedHorizontalAlignment.Center;
+            colOptionCode.TextAlign = HorizontalAlignment.Left;
+            colOptionCode.ContentAlign = ExtendedHorizontalAlignment.Center;
+            colOptionName.TextAlign = HorizontalAlignment.Left;
+            colOptionName.ContentAlign = ExtendedHorizontalAlignment.Center;
+            colOptionNameAlt1.TextAlign = HorizontalAlignment.Left;
+            colOptionNameAlt1.ContentAlign = ExtendedHorizontalAlignment.Center;
+            colOptionNameAlt2.TextAlign = HorizontalAlignment.Left;
+            colOptionNameAlt2.ContentAlign = ExtendedHorizontalAlignment.Center;
 
             switch (LanguageHelper.AlternateLanguagesUsed)
             {
                 case 1:
                     // hide alt2
-                    lblTagNameAlt2.Visible = txtTagNameAlt2.Visible = false;
-                    colTagNameAlt2.Visible = false;
+                    lblOptionNameAlt2.Visible = txtOptionNameAlt2.Visible = false;
+                    colOptionNameAlt2.Visible = false;
                     // push parent dept. up
-                    lblPriority.Location = new Point(lblPriority.Location.X, lblTagNameAlt1.Location.Y);
-                    txtPriority.Location = new Point(txtPriority.Location.X, txtTagNameAlt2.Location.Y);
+                    //lblPriority.Location = new Point(lblPriority.Location.X, lblTagNameAlt1.Location.Y);
+                    //txtPriority.Location = new Point(txtPriority.Location.X, txtTagNameAlt2.Location.Y);
                     break;
                 case 2:
                     // do nothing
@@ -101,15 +108,13 @@ namespace RT2020.Member
                 case 0:
                 default:
                     // hide alt1 & alt2
-                    lblTagNameAlt1.Visible = lblTagNameAlt2.Visible = txtTagNameAlt2.Visible = false;
-                    colTagNameAlt1.Visible = colTagNameAlt2.Visible = false;
+                    lblOptionNameAlt1.Visible = lblOptionNameAlt2.Visible = txtOptionNameAlt2.Visible = false;
+                    colOptionNameAlt1.Visible = colOptionNameAlt2.Visible = false;
                     // push parent dept up
-                    lblPriority.Location = new Point(lblPriority.Location.X, lblTagNameAlt1.Location.Y);
-                    txtPriority.Location = new Point(txtPriority.Location.X, txtTagNameAlt1.Location.Y);
+                    //lblPriority.Location = new Point(lblPriority.Location.X, lblTagNameAlt1.Location.Y);
+                    //txtPriority.Location = new Point(txtPriority.Location.X, txtTagNameAlt1.Location.Y);
                     break;
             }
-
-            lnkOptions.Visible = _SmartTagId != Guid.Empty;
         }
 
         #endregion
@@ -153,7 +158,7 @@ namespace RT2020.Member
             cmdDelete.Tag = "Delete";
             cmdDelete.Image = new IconResourceHandle("16x16.16_L_remove.gif");
 
-            if (_SmartTagId == Guid.Empty)
+            if (_OptionId == Guid.Empty)
             {
                 cmdDelete.Enabled = false;
             }
@@ -174,19 +179,20 @@ namespace RT2020.Member
                 switch (e.Button.Tag.ToString().ToLower())
                 {
                     case "new":
-                        Clear();
+                        ClearEntries();
                         break;
                     case "save":
                         if (IsValid())
                         {
                             Save();
-                            Clear();
+                            ClearEntries();
                             BindTagList();
                             this.Update();
                         }
                         break;
                     case "refresh":
-                        Clear();
+                        ClearEntries();
+                        this.Update();
                         break;
                     case "delete":
                         MessageBox.Show("Delete Record?", "Delete Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question, new EventHandler(DeleteConfirmationHandler));
@@ -199,25 +205,23 @@ namespace RT2020.Member
         #region SmartTag4Member Code
         private void SetCtrlEditable()
         {
-            txtTagCode.BackColor = (_SmartTagId == Guid.Empty) ? Color.LightSkyBlue : Color.LightYellow;
-            txtTagCode.ReadOnly = (_SmartTagId != Guid.Empty);
+            txtOptionCode.BackColor = (_OptionId == Guid.Empty) ? Color.LightSkyBlue : Color.LightYellow;
+            txtOptionCode.ReadOnly = (_OptionId != Guid.Empty);
 
             ClearError();
-
-            lnkOptions.Visible = _SmartTagId != Guid.Empty;
         }
 
         private void ClearError()
         {
-            errorProvider.SetError(txtTagCode, string.Empty);
-            errorProvider.SetError(txtPriority, string.Empty);
+            errorProvider.SetError(txtOptionCode, string.Empty);
+            //errorProvider.SetError(txtPriority, string.Empty);
         }
 
-        private void Clear()
+        private void ClearEntries()
         {
-            txtTagCode.Text = txtTagName.Text = txtTagNameAlt1.Text = txtTagNameAlt2.Text = txtPriority.Text = string.Empty;
+            txtOptionCode.Text = txtOptionName.Text = txtOptionNameAlt1.Text = txtOptionNameAlt2.Text = String.Empty;
+            _OptionId = Guid.Empty;
 
-            _SmartTagId = Guid.Empty;
             SetCtrlEditable();
         }
         #endregion
@@ -225,24 +229,23 @@ namespace RT2020.Member
         #region Binding
         private void BindTagList()
         {
-            this.lvTagList.ListViewItemSorter = new Sorter();   // 參考：https://stackoverflow.com/a/1214333
+            this.lvTagList.ListViewItemSorter = new ListViewItemSorter(lvTagList);
             this.lvTagList.Items.Clear();
 
             int iCount = 1;
 
             using (var ctx = new EF6.RT2020Entities())
             {
-                var list = ctx.SmartTag4Member.OrderBy(x => x.Priority).AsNoTracking().ToList();
+                var list = ctx.SmartTag4Staff_Options.Where(x => x.TagId == _SmartTagId).OrderBy(x => x.OptionCode).AsNoTracking().ToList();
 
                 foreach (var item in list)
                 {
-                    ListViewItem objItem = this.lvTagList.Items.Add(item.TagId.ToString());
+                    ListViewItem objItem = this.lvTagList.Items.Add(item.OptionId.ToString());
                     objItem.SubItems.Add(iCount.ToString()); // Line Number
-                    objItem.SubItems.Add(item.TagCode);
-                    objItem.SubItems.Add(item.Priority.ToString());
-                    objItem.SubItems.Add(item.TagName);
-                    objItem.SubItems.Add(item.TagName_Chs);
-                    objItem.SubItems.Add(item.TagName_Cht);
+                    objItem.SubItems.Add(item.OptionCode);
+                    objItem.SubItems.Add(item.OptionName);
+                    objItem.SubItems.Add(item.OptionName_Alt1);
+                    objItem.SubItems.Add(item.OptionName_Alt2);
 
                     iCount++;
                 }
@@ -257,19 +260,19 @@ namespace RT2020.Member
             bool result = true;
 
             #region Tag Code 唔可以吉
-            errorProvider.SetError(txtTagCode, string.Empty);
-            if (txtTagCode.Text.Length == 0)
+            errorProvider.SetError(txtOptionCode, string.Empty);
+            if (txtOptionCode.Text.Length == 0)
             {
-                errorProvider.SetError(txtTagCode, "Cannot be blank!");
+                errorProvider.SetError(txtOptionCode, "Cannot be blank!");
                 return false;
             }
             #endregion
 
             #region 新增，要 check Tag Code 係咪 in use
-            errorProvider.SetError(txtTagCode, string.Empty);
-            if (_SmartTagId == Guid.Empty && ModelEx.SmartTag4MemberEx.IsTagCodeInUse(txtTagCode.Text.Trim()))
+            errorProvider.SetError(txtOptionCode, string.Empty);
+            if (_OptionId == Guid.Empty && ModelEx.SmartTag4Staff_OptionsEx.IsTagCodeInUse(_SmartTagId, txtOptionCode.Text.Trim()))
             {
-                errorProvider.SetError(txtTagCode, "Tag Code in use");
+                errorProvider.SetError(txtOptionCode, "Option Code in use");
                 return false;
             }
             #endregion
@@ -283,22 +286,24 @@ namespace RT2020.Member
 
             using (var ctx = new EF6.RT2020Entities())
             {
-                var item = ctx.SmartTag4Member.Find(_SmartTagId);
+                var item = ctx.SmartTag4Staff_Options.Find(_OptionId);
 
                 if (item == null)
                 {
-                    item = new EF6.SmartTag4Member();
-                    item.TagId = Guid.NewGuid();
-                    item.TagCode = txtTagCode.Text;
+                    item = new EF6.SmartTag4Staff_Options();
+                    item.OptionId = Guid.NewGuid();
+                    item.TagId = _SmartTagId;
+                    item.OptionCode = txtOptionCode.Text;
 
-                    ctx.SmartTag4Member.Add(item);
+                    ctx.SmartTag4Staff_Options.Add(item);
                 }
-                item.TagName = txtTagName.Text;
-                item.TagName_Chs = txtTagNameAlt1.Text;
-                item.TagName_Cht = txtTagNameAlt2.Text;
-                item.Priority = Convert.ToInt32(txtPriority.Text);
+                item.OptionName = txtOptionName.Text;
+                item.OptionName_Alt1 = txtOptionNameAlt1.Text;
+                item.OptionName_Alt2 = txtOptionNameAlt2.Text;
 
                 ctx.SaveChanges();
+
+                _OptionId = item.OptionId;
                 result = true;
             }
 
@@ -312,10 +317,10 @@ namespace RT2020.Member
             {
                 try
                 {
-                    var item = ctx.SmartTag4Member.Find(_SmartTagId);
+                    var item = ctx.SmartTag4Staff_Options.Find(_OptionId);
                     if (item != null)
                     {
-                        ctx.SmartTag4Member.Remove(item);
+                        ctx.SmartTag4Staff_Options.Remove(item);
                         ctx.SaveChanges();
                     }
                 }
@@ -333,17 +338,16 @@ namespace RT2020.Member
                 var id = Guid.NewGuid();
                 if (Guid.TryParse(lvTagList.SelectedItem.Text, out id))
                 {
-                    _SmartTagId = id;
+                    _OptionId = id;
                     using (var ctx = new EF6.RT2020Entities())
                     {
-                        var oTag = ctx.SmartTag4Member.Find(id);
-                        if (oTag != null)
+                        var item = ctx.SmartTag4Staff_Options.Find(id);
+                        if (item != null)
                         {
-                            txtTagCode.Text = oTag.TagCode;
-                            txtTagName.Text = oTag.TagName;
-                            txtTagNameAlt1.Text = oTag.TagName_Chs;
-                            txtTagNameAlt2.Text = oTag.TagName_Cht;
-                            txtPriority.Text = oTag.Priority.ToString();
+                            txtOptionCode.Text = item.OptionCode;
+                            txtOptionName.Text = item.OptionName;
+                            txtOptionNameAlt1.Text = item.OptionName_Alt1;
+                            txtOptionNameAlt2.Text = item.OptionName_Alt2;
 
                             SetCtrlEditable();
                             SetToolBar();
@@ -359,33 +363,9 @@ namespace RT2020.Member
             {
                 Delete();
                 BindTagList();
-                Clear();
+                ClearEntries();
                 SetCtrlEditable();
             }
-        }
-
-        private void lvTagList_ColumnClick(object sender, ColumnClickEventArgs e)
-        {
-            // 參考：https://stackoverflow.com/a/1214333
-            Sorter s = (Sorter)lvTagList.ListViewItemSorter;
-            s.Column = e.Column;
-
-            if (s.Order == Gizmox.WebGUI.Forms.SortOrder.Ascending)
-            {
-                s.Order = Gizmox.WebGUI.Forms.SortOrder.Descending;
-            }
-            else
-            {
-                s.Order = Gizmox.WebGUI.Forms.SortOrder.Ascending;
-            }
-            lvTagList.Sort();
-        }
-
-        private void lnkOptions_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            var options = new SmartTag4Member_OptionsWizard();
-            options.SmartTagId = _SmartTagId;
-            options.ShowDialog();
         }
     }
 }

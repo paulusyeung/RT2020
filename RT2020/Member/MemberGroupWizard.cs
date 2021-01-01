@@ -21,14 +21,94 @@ namespace RT2020.Member
 {
     public partial class MemberGroupWizard : Form
     {
+        #region Properties
+        private Guid _GroupId = System.Guid.Empty;
+        public Guid MemberGroupId
+        {
+            get { return _GroupId; }
+            set { _GroupId = value; }
+        }
+        #endregion
+
         public MemberGroupWizard()
         {
             InitializeComponent();
+        }
+
+        private void MemberGroupWizard_Load(object sender, EventArgs e)
+        {
+            SetCaptions();
+            SetAttributes();
+
             SetToolBar();
             FillParentGroupList();
             BindMemberGroupList();
             SetCtrlEditable();
         }
+
+        #region SetCaptions SetAttributes
+
+        private void SetCaptions()
+        {
+            this.Text = WestwindHelper.GetWord("memberGroup.setup", "Model");
+
+            colLN.Text = WestwindHelper.GetWord("listview.line", "Tools");
+
+            colGroupCode.Text = WestwindHelper.GetWord("memberGroup.code", "Model");
+            colGroupName.Text = WestwindHelper.GetWord("memberGroup.name", "Model");
+            colGroupNameAlt1.Text = WestwindHelper.GetWord(String.Format("language.{0}", LanguageHelper.AlternateLanguage1.Key.ToLower()), "Menu");
+            colGroupNameAlt2.Text = WestwindHelper.GetWord(String.Format("language.{0}", LanguageHelper.AlternateLanguage2.Key.ToLower()), "Menu");
+
+            lblGroupCode.Text = WestwindHelper.GetWordWithColon("memberGroup.code", "Model");
+            lblGroupName.Text = WestwindHelper.GetWordWithColon("memberGroup.name", "Model");
+            lblGroupNameAlt1.Text = WestwindHelper.GetWordWithColon(String.Format("language.{0}", LanguageHelper.AlternateLanguage1.Key.ToLower()), "Menu");
+            lblGroupNameAlt2.Text = WestwindHelper.GetWordWithColon(String.Format("language.{0}", LanguageHelper.AlternateLanguage2.Key.ToLower()), "Menu");
+
+            lblParentGroup.Text = WestwindHelper.GetWordWithColon("memberGroup.parent", "Model");
+        }
+
+        private void SetAttributes()
+        {
+            lvMemberGroupList.Dock = DockStyle.Fill;
+
+            colLN.TextAlign = HorizontalAlignment.Center;
+            //colParentClass.TextAlign = HorizontalAlignment.Left;
+            //colParentClass.ContentAlign = ExtendedHorizontalAlignment.Center;
+            colGroupCode.TextAlign = HorizontalAlignment.Left;
+            colGroupCode.ContentAlign = ExtendedHorizontalAlignment.Center;
+            colGroupName.TextAlign = HorizontalAlignment.Left;
+            colGroupName.ContentAlign = ExtendedHorizontalAlignment.Center;
+            colGroupNameAlt1.TextAlign = HorizontalAlignment.Left;
+            colGroupNameAlt1.ContentAlign = ExtendedHorizontalAlignment.Center;
+            colGroupNameAlt2.TextAlign = HorizontalAlignment.Left;
+            colGroupNameAlt2.ContentAlign = ExtendedHorizontalAlignment.Center;
+
+            switch (LanguageHelper.AlternateLanguagesUsed)
+            {
+                case 1:
+                    // hide alt2
+                    lblGroupNameAlt2.Visible = txtGroupNameAlt2.Visible = false;
+                    colGroupNameAlt2.Visible = false;
+                    // push parent dept. up
+                    lblParentGroup.Location = new Point(lblParentGroup.Location.X, lblGroupNameAlt1.Location.Y);
+                    cboParentGroup.Location = new Point(cboParentGroup.Location.X, txtGroupNameAlt2.Location.Y);
+                    break;
+                case 2:
+                    // do nothing
+                    break;
+                case 0:
+                default:
+                    // hide alt1 & alt2
+                    lblGroupNameAlt1.Visible = lblGroupNameAlt2.Visible = txtGroupNameAlt2.Visible = false;
+                    colGroupNameAlt1.Visible = colGroupNameAlt2.Visible = false;
+                    // push parent dept up
+                    cboParentGroup.Location = new Point(lblParentGroup.Location.X, lblGroupNameAlt1.Location.Y);
+                    cboParentGroup.Location = new Point(cboParentGroup.Location.X, txtGroupNameAlt1.Location.Y);
+                    break;
+            }
+        }
+
+        #endregion
 
         #region ToolBar
         private void SetToolBar()
@@ -43,7 +123,7 @@ namespace RT2020.Member
             sep.Style = ToolBarButtonStyle.Separator;
 
             // cmdSave
-            ToolBarButton cmdNew = new ToolBarButton("New", "New");
+            ToolBarButton cmdNew = new ToolBarButton("New", WestwindHelper.GetWord("edit.new", "General"));
             cmdNew.Tag = "New";
             cmdNew.Image = new IconResourceHandle("16x16.ico_16_3.gif");
             cmdNew.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Write);
@@ -51,7 +131,7 @@ namespace RT2020.Member
             this.tbWizardAction.Buttons.Add(cmdNew);
 
             // cmdSave
-            ToolBarButton cmdSave = new ToolBarButton("Save", "Save");
+            ToolBarButton cmdSave = new ToolBarButton("Save", WestwindHelper.GetWord("edit.save", "General"));
             cmdSave.Tag = "Save";
             cmdSave.Image = new IconResourceHandle("16x16.16_L_save.gif");
             cmdSave.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Write);
@@ -59,7 +139,7 @@ namespace RT2020.Member
             this.tbWizardAction.Buttons.Add(cmdSave);
 
             // cmdSaveNew
-            ToolBarButton cmdRefresh = new ToolBarButton("Refresh", "Refresh");
+            ToolBarButton cmdRefresh = new ToolBarButton("Refresh", WestwindHelper.GetWord("edit.refresh", "General"));
             cmdRefresh.Tag = "refresh";
             cmdRefresh.Image = new IconResourceHandle("16x16.16_L_refresh.gif");
 
@@ -67,11 +147,11 @@ namespace RT2020.Member
             this.tbWizardAction.Buttons.Add(sep);
 
             // cmdDelete
-            ToolBarButton cmdDelete = new ToolBarButton("Delete", "Delete");
+            ToolBarButton cmdDelete = new ToolBarButton("Delete", WestwindHelper.GetWord("edit.delete", "General"));
             cmdDelete.Tag = "Delete";
             cmdDelete.Image = new IconResourceHandle("16x16.16_L_remove.gif");
 
-            if (MemberGroupId == System.Guid.Empty)
+            if (_GroupId == System.Guid.Empty)
             {
                 cmdDelete.Enabled = false;
             }
@@ -93,7 +173,6 @@ namespace RT2020.Member
                 {
                     case "new":
                         Clear();
-                        SetCtrlEditable();
                         break;
                     case "save":
                         if (IsValid())
@@ -105,8 +184,7 @@ namespace RT2020.Member
                         }
                         break;
                     case "refresh":
-                        BindMemberGroupList();
-                        this.Update();
+                        Clear();
                         break;
                     case "delete":
                         MessageBox.Show("Delete Record?", "Delete Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question, new EventHandler(DeleteConfirmationHandler));
@@ -119,15 +197,24 @@ namespace RT2020.Member
         #region MemberGroup Code
         private void SetCtrlEditable()
         {
-            txtMemberGroupCode.BackColor = (this.MemberGroupId == System.Guid.Empty) ? SystemInfo.ControlBackColor.RequiredBox : SystemInfo.ControlBackColor.DisabledBox;
-            txtMemberGroupCode.ReadOnly = (this.MemberGroupId != System.Guid.Empty);
+            txtGroupCode.BackColor = (_GroupId == Guid.Empty) ? SystemInfo.ControlBackColor.RequiredBox : SystemInfo.ControlBackColor.DisabledBox;
+            txtGroupCode.ReadOnly = (_GroupId != Guid.Empty);
 
             ClearError();
         }
 
         private void ClearError()
         {
-            errorProvider.SetError(txtMemberGroupCode, string.Empty);
+            errorProvider.SetError(txtGroupCode, string.Empty);
+        }
+
+        private void Clear()
+        {
+            txtGroupCode.Text = txtGroupName.Text = txtGroupNameAlt1.Text = txtGroupNameAlt2.Text = string.Empty;
+            cboParentGroup.SelectedIndex = 0;
+
+            _GroupId = Guid.Empty;
+            SetCtrlEditable();
         }
         #endregion
 
@@ -137,7 +224,7 @@ namespace RT2020.Member
             //cboParentGroup.DataSource = null;
             //cboParentGroup.Items.Clear();
 
-            string sql = "GroupId NOT IN ('" + this.MemberGroupId.ToString() + "')";
+            string sql = "GroupId NOT IN ('" + _GroupId.ToString() + "')";
             string[] orderBy = new string[] { "GroupCode" };
 
             ModelEx.MemberGroupEx.LoadCombo(ref cboParentGroup, "GroupCode", true, true, "", sql, orderBy);
@@ -193,19 +280,19 @@ namespace RT2020.Member
             bool result = true;
 
             #region Group Code 唔可以吉
-            errorProvider.SetError(txtMemberGroupCode, string.Empty);
-            if (txtMemberGroupCode.Text.Length == 0)
+            errorProvider.SetError(txtGroupCode, string.Empty);
+            if (txtGroupCode.Text.Length == 0)
             {
-                errorProvider.SetError(txtMemberGroupCode, "Cannot be blank!");
+                errorProvider.SetError(txtGroupCode, "Cannot be blank!");
                 return false;
             }
             #endregion
 
             #region 新增，要 check Group Code 係咪 in use
-            errorProvider.SetError(txtMemberGroupCode, string.Empty);
-            if (this.MemberGroupId == System.Guid.Empty && ModelEx.MemberGroupEx.IsGroupCodeInUse(txtMemberGroupCode.Text.Trim()))
+            errorProvider.SetError(txtGroupCode, string.Empty);
+            if (_GroupId == System.Guid.Empty && ModelEx.MemberGroupEx.IsGroupCodeInUse(txtGroupCode.Text.Trim()))
             {
-                errorProvider.SetError(txtMemberGroupCode, "Groud Code in use");
+                errorProvider.SetError(txtGroupCode, "Groud Code in use");
                 return false;
             }
             #endregion
@@ -219,49 +306,26 @@ namespace RT2020.Member
 
             using (var ctx = new EF6.RT2020Entities())
             {
-                var item = ctx.MemberGroup.Find(this.MemberGroupId);
+                var item = ctx.MemberGroup.Find(_GroupId);
 
                 if (item == null)
                 {
                     item = new EF6.MemberGroup();
                     item.GroupId = new Guid();
-                    item.GroupCode = txtMemberGroupCode.Text;
+                    item.GroupCode = txtGroupCode.Text;
 
                     ctx.MemberGroup.Add(item);
                 }
-                item.GroupName = txtMemberGroupName.Text;
-                item.GroupName_Chs = txtMemberGroupNameChs.Text;
-                item.GroupName_Cht = txtMemberGroupNameCht.Text;
-                item.ParentGroup = (cboParentGroup.SelectedValue == null) ? System.Guid.Empty : new System.Guid(cboParentGroup.SelectedValue.ToString());
+                item.GroupName = txtGroupName.Text;
+                item.GroupName_Chs = txtGroupNameAlt1.Text;
+                item.GroupName_Cht = txtGroupNameAlt2.Text;
+                if ((Guid)cboParentGroup.SelectedValue != Guid.Empty) item.ParentGroup = (Guid)cboParentGroup.SelectedValue;
 
                 ctx.SaveChanges();
                 result = true;
             }
 
             return result; ;
-        }
-
-        private void Clear()
-        {
-            this.Close();
-
-            MemberGroupWizard wizGroup = new MemberGroupWizard();
-            wizGroup.ShowDialog();
-        }
-        #endregion
-
-        #region Properties
-        private Guid countryId = System.Guid.Empty;
-        public Guid MemberGroupId
-        {
-            get
-            {
-                return countryId;
-            }
-            set
-            {
-                countryId = value;
-            }
         }
         #endregion
 
@@ -270,7 +334,7 @@ namespace RT2020.Member
         {
             using (var ctx = new EF6.RT2020Entities())
             {
-                var oMemberGroup = ctx.MemberGroup.Find(this.MemberGroupId);
+                var oMemberGroup = ctx.MemberGroup.Find(_GroupId);
                 if (oMemberGroup != null)
                 {
                     try
@@ -297,15 +361,15 @@ namespace RT2020.Member
                     var oMemberGroup = ModelEx.MemberGroupEx.Get(id);
                     if (oMemberGroup != null)
                     {
-                        this.MemberGroupId = oMemberGroup.GroupId;
+                        _GroupId = oMemberGroup.GroupId;
 
                         FillParentGroupList();
 
-                        txtMemberGroupCode.Text = oMemberGroup.GroupCode;
-                        txtMemberGroupName.Text = oMemberGroup.GroupName;
-                        txtMemberGroupNameChs.Text = oMemberGroup.GroupName_Chs;
-                        txtMemberGroupNameCht.Text = oMemberGroup.GroupName_Cht;
-                        cboParentGroup.SelectedValue = oMemberGroup.ParentGroup;
+                        txtGroupCode.Text = oMemberGroup.GroupCode;
+                        txtGroupName.Text = oMemberGroup.GroupName;
+                        txtGroupNameAlt1.Text = oMemberGroup.GroupName_Chs;
+                        txtGroupNameAlt2.Text = oMemberGroup.GroupName_Cht;
+                        cboParentGroup.SelectedValue = oMemberGroup.ParentGroup.HasValue ? oMemberGroup.ParentGroup : Guid.Empty;
 
                         SetCtrlEditable();
                         SetToolBar();

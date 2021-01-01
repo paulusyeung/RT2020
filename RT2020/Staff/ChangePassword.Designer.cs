@@ -40,40 +40,33 @@ namespace RT2020.Staff
             // 
             // lblOldPwd
             // 
-            this.lblOldPwd.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
             this.lblOldPwd.Location = new System.Drawing.Point(57, 35);
             this.lblOldPwd.Name = "lblOldPwd";
             this.lblOldPwd.Size = new System.Drawing.Size(150, 23);
             this.lblOldPwd.TabIndex = 0;
-            this.lblOldPwd.TabStop = false;
             this.lblOldPwd.Text = "Old Password:";
             this.lblOldPwd.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // lblNewpwd
             // 
-            this.lblNewpwd.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
             this.lblNewpwd.Location = new System.Drawing.Point(57, 73);
             this.lblNewpwd.Name = "lblNewpwd";
             this.lblNewpwd.Size = new System.Drawing.Size(150, 23);
             this.lblNewpwd.TabIndex = 0;
-            this.lblNewpwd.TabStop = false;
             this.lblNewpwd.Text = "New Password:";
             this.lblNewpwd.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // lblComPwd
             // 
-            this.lblComPwd.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
             this.lblComPwd.Location = new System.Drawing.Point(57, 113);
             this.lblComPwd.Name = "lblComPwd";
             this.lblComPwd.Size = new System.Drawing.Size(150, 23);
             this.lblComPwd.TabIndex = 0;
-            this.lblComPwd.TabStop = false;
             this.lblComPwd.Text = "Confirm New Password:";
             this.lblComPwd.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // txtOldPwd
             // 
-            this.txtOldPwd.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
             this.txtOldPwd.Location = new System.Drawing.Point(213, 35);
             this.txtOldPwd.Name = "txtOldPwd";
             this.txtOldPwd.PasswordChar = '*';
@@ -82,7 +75,6 @@ namespace RT2020.Staff
             // 
             // txtNewPwd
             // 
-            this.txtNewPwd.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
             this.txtNewPwd.Location = new System.Drawing.Point(213, 75);
             this.txtNewPwd.Name = "txtNewPwd";
             this.txtNewPwd.PasswordChar = '*';
@@ -92,7 +84,6 @@ namespace RT2020.Staff
             // 
             // txtCNewPwd
             // 
-            this.txtCNewPwd.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
             this.txtCNewPwd.Location = new System.Drawing.Point(213, 115);
             this.txtCNewPwd.Name = "txtCNewPwd";
             this.txtCNewPwd.PasswordChar = '*';
@@ -102,24 +93,20 @@ namespace RT2020.Staff
             // 
             // btnAccept
             // 
-            this.btnAccept.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
             this.btnAccept.Location = new System.Drawing.Point(213, 163);
             this.btnAccept.Name = "btnAccept";
             this.btnAccept.Size = new System.Drawing.Size(75, 23);
             this.btnAccept.TabIndex = 4;
             this.btnAccept.Text = "Accept";
-            this.btnAccept.TextImageRelation = Gizmox.WebGUI.Forms.TextImageRelation.Overlay;
             this.btnAccept.Click += new System.EventHandler(this.btnAccept_Click);
             // 
             // btnCancel
             // 
-            this.btnCancel.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
             this.btnCancel.Location = new System.Drawing.Point(294, 163);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 5;
             this.btnCancel.Text = "Cancel";
-            this.btnCancel.TextImageRelation = Gizmox.WebGUI.Forms.TextImageRelation.Overlay;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
             // ChangePassword
@@ -136,6 +123,7 @@ namespace RT2020.Staff
             this.MinimizeBox = false;
             this.Size = new System.Drawing.Size(419, 232);
             this.Text = "ChangePassword";
+            this.Load += new System.EventHandler(this.ChangePassword_Load);
             this.ResumeLayout(false);
 
         }

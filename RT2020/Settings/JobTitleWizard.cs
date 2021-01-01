@@ -23,6 +23,15 @@ namespace RT2020.Settings
 {
     public partial class JobTitleWizard : Form
     {
+        #region Properties
+        private Guid _JobTitleId = System.Guid.Empty;
+        public Guid JobTitleId
+        {
+            get { return _JobTitleId; }
+            set { _JobTitleId = value; }
+        }
+        #endregion
+
         public JobTitleWizard()
         {
             InitializeComponent();
@@ -57,7 +66,7 @@ namespace RT2020.Settings
             lblJobTitleNameAlt1.Text = WestwindHelper.GetWordWithColon(String.Format("language.{0}", LanguageHelper.AlternateLanguage1.Key.ToLower()), "Menu");
             lblJobTitleNameAlt2.Text = WestwindHelper.GetWordWithColon(String.Format("language.{0}", LanguageHelper.AlternateLanguage2.Key.ToLower()), "Menu");
 
-            lblParentJobTitle.Text = WestwindHelper.GetWord("jobTitle.parent", "Model");
+            lblParentJobTitle.Text = WestwindHelper.GetWordWithColon("jobTitle.parent", "Model");
         }
 
         private void SetAttributes()
@@ -132,7 +141,7 @@ namespace RT2020.Settings
             cmdDelete.Tag = "Delete";
             cmdDelete.Image = new IconResourceHandle("16x16.16_L_remove.gif");
 
-            if (JobTitleId == System.Guid.Empty)
+            if (_JobTitleId == System.Guid.Empty)
             {
                 cmdDelete.Enabled = false;
             }
@@ -154,7 +163,6 @@ namespace RT2020.Settings
                 {
                     case "new":
                         Clear();
-                        SetCtrlEditable();
                         break;
                     case "save":
                         if (IsValid())
@@ -166,8 +174,7 @@ namespace RT2020.Settings
                         }
                         break;
                     case "refresh":
-                        BindJobTitleList();
-                        this.Update();
+                        Clear();
                         break;
                     case "delete":
                         MessageBox.Show("Delete Record?", "Delete Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question, new EventHandler(DeleteConfirmationHandler));
@@ -180,8 +187,8 @@ namespace RT2020.Settings
         #region JobTitle Code
         private void SetCtrlEditable()
         {
-            txtJobTitleCode.BackColor = (this.JobTitleId == System.Guid.Empty) ? Color.LightSkyBlue : Color.LightYellow;
-            txtJobTitleCode.ReadOnly = (this.JobTitleId != System.Guid.Empty);
+            txtJobTitleCode.BackColor = (_JobTitleId == Guid.Empty) ? Color.LightSkyBlue : Color.LightYellow;
+            txtJobTitleCode.ReadOnly = (_JobTitleId != Guid.Empty);
 
             ClearError();
         }
@@ -190,12 +197,21 @@ namespace RT2020.Settings
         {
             errorProvider.SetError(txtJobTitleCode, string.Empty);
         }
+
+        private void Clear()
+        {
+            txtJobTitleCode.Text = txtJobTitleName.Text = txtJobTitleNameAlt1.Text = txtJobTitleNameAlt2.Text = string.Empty;
+            cboParentJobTitle.SelectedIndex = 0;
+
+            _JobTitleId = Guid.Empty;
+            SetCtrlEditable();
+        }
         #endregion
 
         #region Fill Combo List
         private void FillParentJobTitleList()
         {
-            string sql = "JobTitleId NOT IN ('" + this.JobTitleId.ToString() + "')";
+            string sql = "JobTitleId NOT IN ('" + _JobTitleId.ToString() + "')";
             ModelEx.JobTitleEx.LoadCombo(ref cboParentJobTitle, "JobTitleCode", true, true, "", sql);
         }
         #endregion
@@ -231,10 +247,11 @@ namespace RT2020.Settings
         private bool IsValid()
         {
             bool result = true;
-
-            #region CountryCode 唔可以吉
             errorProvider.SetError(txtJobTitleCode, string.Empty);
-            if (txtJobTitleCode.Text.Length == 0)
+            errorProvider.SetError(txtJobTitleCode, string.Empty);
+
+            #region Job Title Code 唔可以吉
+            if (txtJobTitleCode.Text.Trim() == string.Empty)
             {
                 errorProvider.SetError(txtJobTitleCode, "Cannot be blank!");
                 result = false;
@@ -242,11 +259,13 @@ namespace RT2020.Settings
             #endregion
 
             #region 新增，要 check CountryCode 係咪 in use
-            errorProvider.SetError(txtJobTitleCode, string.Empty);
-            if (this.JobTitleId == System.Guid.Empty && ModelEx.JobTitleEx.IsJobTitleCodeInUse(txtJobTitleCode.Text.Trim()))
+            if (_JobTitleId == Guid.Empty)
             {
-                errorProvider.SetError(txtJobTitleCode, "Job Title Code in use");
-                result = false;
+                if (ModelEx.JobTitleEx.IsJobTitleCodeInUse(txtJobTitleCode.Text.Trim()))
+                {
+                    errorProvider.SetError(txtJobTitleCode, "Job Title Code in use");
+                    result = false;
+                }
             }
             #endregion
 
@@ -259,7 +278,7 @@ namespace RT2020.Settings
 
             using (var ctx = new EF6.RT2020Entities())
             {
-                var jt = ctx.JobTitle.Find(this.JobTitleId);
+                var jt = ctx.JobTitle.Find(_JobTitleId);
 
                 if (jt == null)
                 {
@@ -272,36 +291,13 @@ namespace RT2020.Settings
                 jt.JobTitleName = txtJobTitleName.Text;
                 jt.JobTitleName_Chs = txtJobTitleNameAlt1.Text;
                 jt.JobTitleName_Cht = txtJobTitleNameAlt2.Text;
-                jt.ParentJobTitle = (cboParentJobTitle.SelectedValue == null) ? Guid.Empty : new Guid(cboParentJobTitle.SelectedValue.ToString());
+                if ((Guid)cboParentJobTitle.SelectedValue != Guid.Empty) jt.ParentJobTitle = (Guid)cboParentJobTitle.SelectedValue;
 
                 ctx.SaveChanges();
                 result = true;
             }
 
             return result;
-        }
-
-        private void Clear()
-        {
-            this.Close();
-
-            JobTitleWizard wizJobTitle = new JobTitleWizard();
-            wizJobTitle.ShowDialog();
-        }
-        #endregion
-
-        #region Properties
-        private Guid countryId = System.Guid.Empty;
-        public Guid JobTitleId
-        {
-            get
-            {
-                return countryId;
-            }
-            set
-            {
-                countryId = value;
-            }
         }
         #endregion
 
@@ -313,7 +309,7 @@ namespace RT2020.Settings
             {
                 try
                 {
-                    var jt = ctx.JobTitle.Find(this.JobTitleId);
+                    var jt = ctx.JobTitle.Find(_JobTitleId);
                     if (jt != null)
                     {
                         ctx.JobTitle.Remove(jt);
@@ -338,10 +334,10 @@ namespace RT2020.Settings
                 var id = Guid.NewGuid();
                 if (Guid.TryParse(lvJobTitleList.SelectedItem.Text, out id))
                 {
-                    this.JobTitleId = id;
+                    _JobTitleId = id;
                     using (var ctx = new EF6.RT2020Entities())
                     {
-                        var jt = ctx.JobTitle.Find(this.JobTitleId);
+                        var jt = ctx.JobTitle.Find(_JobTitleId);
                         if (jt != null)
                         {
                             FillParentJobTitleList();
@@ -351,7 +347,7 @@ namespace RT2020.Settings
                             txtJobTitleNameAlt1.Text = jt.JobTitleName_Chs;
                             txtJobTitleNameAlt2.Text = jt.JobTitleName_Cht;
 
-                            cboParentJobTitle.SelectedValue = jt.ParentJobTitle;
+                            cboParentJobTitle.SelectedValue = jt.ParentJobTitle.HasValue ? jt.ParentJobTitle.Value : Guid.Empty;
 
                             SetCtrlEditable();
                             SetToolBar();

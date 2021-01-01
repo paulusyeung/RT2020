@@ -95,5 +95,37 @@ namespace RT2020.Helper
 
             return result;
         }
+
+        /// <summary>
+        /// HACK: 喺度搞咩呢？似乎係將 dd/MM/yyyy or MM/dd/yyyy 轉為 yyyy-MM-dd
+        ///       如果係 10/09/2020 會變成 10 月，其實係 9 月點算？
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static string ReformatDateTime(string value)
+        {
+            int index = value.IndexOf(" ");
+            if (index > 0)
+            {
+                value = value.Remove(index);
+                index = value.IndexOf("/");
+                if (index > 0)
+                {
+                    string[] values = value.Split('/');
+                    if (values.Length == 3)
+                    {
+                        if (Convert.ToInt32(values[1]) > 12)
+                        {
+                            value = values[2].Trim() + "-" + values[0].Trim() + "-" + values[1].Trim();
+                        }
+                        else
+                        {
+                            value = values[2].Trim() + "-" + values[1].Trim() + "-" + values[0].Trim();
+                        }
+                    }
+                }
+            }
+            return value;
+        }
     }
 }

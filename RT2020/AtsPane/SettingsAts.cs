@@ -100,7 +100,8 @@ namespace RT2020.AtsPane
                 switch (e.MenuItem.Tag.ToString().ToLower())
                 {
                     case "staff":
-                        Staff.StaffCode staffCode = new RT2020.Staff.StaffCode();
+                        Staff.StaffWizard staffCode = new RT2020.Staff.StaffWizard();
+                        staffCode.EditMode = EnumHelper.EditMode.Add;
                         staffCode.ShowDialog();
                         break;
                     case "staffdept":
@@ -116,7 +117,7 @@ namespace RT2020.AtsPane
                         wizStaffJobTitle.ShowDialog();
                         break;
                     case "smarttag4staffe":
-                        RT2020.Settings.SmartTag4StaffWizard wizSmartTag4Staffe = new RT2020.Settings.SmartTag4StaffWizard();
+                        RT2020.Staff.SmartTag4StaffWizard wizSmartTag4Staffe = new RT2020.Staff.SmartTag4StaffWizard();
                         wizSmartTag4Staffe.ShowDialog();
                         break;
                     case "workplace":

@@ -22,6 +22,15 @@ namespace RT2020.Staff
 {
     public partial class StaffDeptWizard : Form
     {
+        #region Properties
+        private Guid _DeptId = System.Guid.Empty;
+        public Guid StaffDeptId
+        {
+            get { return _DeptId; }
+            set { _DeptId = value; }
+        }
+        #endregion
+
         public StaffDeptWizard()
         {
             InitializeComponent();
@@ -40,7 +49,7 @@ namespace RT2020.Staff
         {
             this.Text = WestwindHelper.GetWord("department.setup", "Model");
 
-            colLN.Text = WestwindHelper.GetWord("tools.listview.line", "Tools");
+            colLN.Text = WestwindHelper.GetWord("listview.line", "Tools");
 
             colParentDept.Text = WestwindHelper.GetWord("department.parent", "Model");
             colStaffDeptCode.Text = WestwindHelper.GetWord("department.code", "Model");
@@ -136,7 +145,7 @@ namespace RT2020.Staff
             cmdDelete.Tag = "Delete";
             cmdDelete.Image = new IconResourceHandle("16x16.16_L_remove.gif");
 
-            if (StaffDeptId == System.Guid.Empty)
+            if (_DeptId == System.Guid.Empty)
             {
                 cmdDelete.Enabled = false;
             }
@@ -158,19 +167,18 @@ namespace RT2020.Staff
                 {
                     case "new":
                         Clear();
-                        SetCtrlEditable();
                         break;
                     case "save":
-                        if (Save())
+                        if (IsValid())
                         {
+                            Save();
                             Clear();
                             BindStaffDeptList();
                             this.Update();
                         }
                         break;
                     case "refresh":
-                        BindStaffDeptList();
-                        this.Update();
+                        Clear();
                         break;
                     case "delete":
                         MessageBox.Show("Delete Record?", "Delete Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question, new EventHandler(DeleteConfirmationHandler));
@@ -183,8 +191,8 @@ namespace RT2020.Staff
         #region StaffDept Code
         private void SetCtrlEditable()
         {
-            txtStaffDeptCode.BackColor = (this.StaffDeptId == System.Guid.Empty) ? Color.LightSkyBlue : Color.LightYellow;
-            txtStaffDeptCode.ReadOnly = (this.StaffDeptId != System.Guid.Empty);
+            txtStaffDeptCode.BackColor = (_DeptId == System.Guid.Empty) ? Color.LightSkyBlue : Color.LightYellow;
+            txtStaffDeptCode.ReadOnly = (_DeptId != System.Guid.Empty);
 
             ClearError();
         }
@@ -192,6 +200,15 @@ namespace RT2020.Staff
         private void ClearError()
         {
             errorProvider.SetError(txtStaffDeptCode, string.Empty);
+        }
+
+        private void Clear()
+        {
+            txtStaffDeptCode.Text = txtStaffDeptName.Text = txtStaffDeptNameAlt1.Text = txtStaffDeptNameAlt2.Text = string.Empty;
+            cboParentDept.SelectedIndex = 0;
+
+            _DeptId = Guid.Empty;
+            SetCtrlEditable();
         }
         #endregion
 
@@ -264,7 +281,7 @@ namespace RT2020.Staff
 
             using (var ctx = new EF6.RT2020Entities())
             {
-                var dept = ctx.StaffDept.Find(this.StaffDeptId);
+                var dept = ctx.StaffDept.Find(_DeptId);
 
                 if (dept == null)
                 {
@@ -285,29 +302,6 @@ namespace RT2020.Staff
 
             return result;
         }
-
-        private void Clear()
-        {
-            this.Close();
-
-            StaffDeptWizard wizDept = new StaffDeptWizard();
-            wizDept.ShowDialog();
-        }
-        #endregion
-
-        #region Properties
-        private Guid countryId = System.Guid.Empty;
-        public Guid StaffDeptId
-        {
-            get
-            {
-                return countryId;
-            }
-            set
-            {
-                countryId = value;
-            }
-        }
         #endregion
 
         private void Delete()
@@ -316,7 +310,7 @@ namespace RT2020.Staff
             {
                 try
                 {
-                    var dept = ctx.StaffDept.Find(this.StaffDeptId);
+                    var dept = ctx.StaffDept.Find(_DeptId);
                     if (dept != null)
                     {
                         ctx.StaffDept.Remove(dept);
@@ -337,17 +331,17 @@ namespace RT2020.Staff
                 var id = Guid.NewGuid();
                 if (Guid.TryParse(lvStaffDeptList.SelectedItem.Text, out id))
                 {
-                    this.StaffDeptId = id;
+                    _DeptId = id;
                     using (var ctx = new EF6.RT2020Entities())
                     {
-                        var dept = ctx.StaffDept.Find(this.StaffDeptId);
+                        var dept = ctx.StaffDept.Find(_DeptId);
                         if (dept != null)
                         {
                             txtStaffDeptCode.Text = dept.DeptCode;
                             txtStaffDeptName.Text = dept.DeptName;
                             txtStaffDeptNameAlt1.Text = dept.DeptName_Chs;
                             txtStaffDeptNameAlt2.Text = dept.DeptName_Cht;
-                            cboParentDept.SelectedValue = dept.ParentDept;
+                            cboParentDept.SelectedValue = dept.ParentDept.HasValue ? dept.ParentDept.Value : Guid.Empty ;
 
                             SetCtrlEditable();
                             SetToolBar();

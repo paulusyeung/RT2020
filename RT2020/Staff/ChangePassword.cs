@@ -9,6 +9,7 @@ using System.Text;
 
 using Gizmox.WebGUI.Common;
 using Gizmox.WebGUI.Forms;
+using RT2020.Helper;
 
 #endregion
 
@@ -16,19 +17,53 @@ namespace RT2020.Staff
 {
     public partial class ChangePassword : Form
     {
-        private System.Guid staffID = System.Guid.Empty; 
+        #region public Properties
+        private bool _IsCompleted = false;
+        public bool IsCompleted
+        {
+            get
+            {
+                return _IsCompleted;
+            }
+            set
+            {
+                _IsCompleted = value;
+            }
+        }
+
+        private string _Password = string.Empty;
+        public string Password
+        {
+            get
+            {
+                return _Password;
+            }
+            set
+            {
+                _Password = value;
+            }
+        }
+
+        private Guid _StaffId = System.Guid.Empty; 
+        public Guid StaffId
+        {
+            get { return _StaffId; }
+            set { _StaffId = value; }
+        }
+        #endregion
+
         public ChangePassword()
         {
             InitializeComponent();
         }
-        public ChangePassword(System.Guid StaffID)
-        {
-            InitializeComponent();
 
-            staffID = StaffID;
-            if (staffID != System.Guid.Empty)
+        private void ChangePassword_Load(object sender, EventArgs e)
+        {
+            SetCaptions();
+
+            if (_StaffId != Guid.Empty)
             {
-                var Staff = ModelEx.StaffEx.GetByStaffId(staffID);
+                var Staff = ModelEx.StaffEx.GetByStaffId(_StaffId);
                 if (Staff != null)
                 {
                     this.Password = Staff.Password;
@@ -37,9 +72,22 @@ namespace RT2020.Staff
 
             txtOldPwd.Focus();
         }
+
+        private void SetCaptions()
+        {
+            this.Text = WestwindHelper.GetWord("password.setup", "General");
+
+            lblOldPwd.Text = WestwindHelper.GetWordWithColon("password.old", "General");
+            lblNewpwd.Text = WestwindHelper.GetWordWithColon("password.new", "General");
+            lblComPwd.Text = WestwindHelper.GetWordWithColon("password.confirm", "General");
+
+            btnAccept.Text = WestwindHelper.GetWordWithColon("dialog.accept", "General");
+            btnCancel.Text = WestwindHelper.GetWordWithColon("dialog.cancel", "General");
+        }
+
         private void btnAccept_Click(object sender, EventArgs e)
         {
-            if (staffID == System.Guid.Empty)
+            if (_StaffId == System.Guid.Empty)
             {
                 if (txtNewPwd.Text.Trim() == txtCNewPwd.Text.Trim())
                 {
@@ -54,7 +102,7 @@ namespace RT2020.Staff
             }
             else
             {
-                if (txtOldPwd.Text.Trim().Equals(password))
+                if (txtOldPwd.Text.Trim().Equals(_Password))
                 {
                     if (txtNewPwd.Text.Trim() == txtCNewPwd.Text.Trim())
                     {
@@ -77,35 +125,6 @@ namespace RT2020.Staff
             }
 
         }
-
-        #region Properties
-
-        private bool isCompleted = false;
-        public bool IsCompleted
-        {
-            get
-            {
-                return isCompleted;
-            }
-            set
-            {
-                isCompleted = value;
-            }
-        }
-
-        private string password = string.Empty;
-        public string Password
-        {
-            get
-            {
-                return password;
-            }
-            set
-            {
-                password = value;
-            }
-        }
-        #endregion
 
         private void btnCancel_Click(object sender, EventArgs e)
         {

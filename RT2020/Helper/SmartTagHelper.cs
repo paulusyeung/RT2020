@@ -14,13 +14,13 @@ using RT2020.Helper;
 
 #endregion
 
-namespace RT2020.Controls
+namespace RT2020.Helper
 {
-    public class SmartTag
+    public class SmartTagHelper
     {
         Control upCtrl = null;
 
-        public SmartTag(Control ctrl)
+        public SmartTagHelper(Control ctrl)
         {
             upCtrl = ctrl;
         }
@@ -35,6 +35,10 @@ namespace RT2020.Controls
         #endregion
 
         #region Set SmartTag Labels and TextBox Tags
+        /// <summary>
+        /// 根據 Smart Tag 的 Prioirty 設置 Control.Tag = TagId, Control.Text = TagName_Locale
+        /// Control.Tag 將於 Load Data 和 SaveData 中用到
+        /// </summary>
         public void SetSmartTags()
         {
             if (MemberSmartTagList != null)

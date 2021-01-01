@@ -167,5 +167,6 @@ namespace RT2020.EF6
         public virtual DbSet<TxferAdvanceImportSummary> TxferAdvanceImportSummary { get; set; }
         public virtual DbSet<vwPhonebookList> vwPhonebookList { get; set; }
         public virtual DbSet<SmartTag4Member_Options> SmartTag4Member_Options { get; set; }
+        public virtual DbSet<SmartTag4Staff_Options> SmartTag4Staff_Options { get; set; }
     }
 }

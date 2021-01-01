@@ -1697,6 +1697,7 @@
     <Compile Include="ModelEx\PurchaseOrderHeaderEx.cs" />
     <Compile Include="ModelEx\SalutationEx.cs" />
     <Compile Include="ModelEx\SmartTag4MemberEx.cs" />
+    <Compile Include="ModelEx\SmartTag4Staff_OptionsEx.cs" />
     <Compile Include="ModelEx\SmartTag4Member_OptionsEx.cs" />
     <Compile Include="ModelEx\SmartTag4StaffEx.cs" />
     <Compile Include="ModelEx\SmartTag4SupplierEx.cs" />
@@ -2663,17 +2664,23 @@
     <Compile Include="Staff\Reports\StaffListRpt_Xls.designer.cs">
       <DependentUpon>StaffListRpt_Xls.cs</DependentUpon>
     </Compile>
-    <Compile Include="Staff\StaffCode.cs">
+    <Compile Include="Staff\SmartTag4Staff_OptionsWizard.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Staff\StaffCode.Designer.cs">
-      <DependentUpon>StaffCode.cs</DependentUpon>
+    <Compile Include="Staff\SmartTag4Staff_OptionsWizard.Designer.cs">
+      <DependentUpon>SmartTag4Staff_OptionsWizard.cs</DependentUpon>
     </Compile>
-    <Compile Include="Staff\StaffGeneral.cs">
+    <Compile Include="Staff\StaffWizard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Staff\StaffWizard.Designer.cs">
+      <DependentUpon>StaffWizard.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Staff\StaffWizard_General.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Staff\StaffGeneral.Designer.cs">
-      <DependentUpon>StaffGeneral.cs</DependentUpon>
+    <Compile Include="Staff\StaffWizard_General.Designer.cs">
+      <DependentUpon>StaffWizard_General.cs</DependentUpon>
     </Compile>
     <Compile Include="Staff\StaffJobTitleWizard.cs">
       <SubType>Form</SubType>
@@ -2693,11 +2700,11 @@
     <Compile Include="Staff\StaffDeptWizard.Designer.cs">
       <DependentUpon>StaffDeptWizard.cs</DependentUpon>
     </Compile>
-    <Compile Include="Staff\StaffPersonal.cs">
+    <Compile Include="Staff\StaffWizard_Personal.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Staff\StaffPersonal.Designer.cs">
-      <DependentUpon>StaffPersonal.cs</DependentUpon>
+    <Compile Include="Staff\StaffWizard_Personal.Designer.cs">
+      <DependentUpon>StaffWizard_Personal.cs</DependentUpon>
     </Compile>
     <Compile Include="Supplier\DefaultList.cs">
       <SubType>UserControl</SubType>
@@ -2776,7 +2783,7 @@
     <Compile Include="Controls\RTImage.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Controls\SmartTag.cs">
+    <Compile Include="Helper\SmartTagHelper.cs">
     </Compile>
     <Compile Include="SystemInfo\CurrentInfo.cs" />
     <Compile Include="Controls\PagePreference.cs" />
@@ -2859,10 +2866,10 @@
     <Compile Include="Settings\SmartTag4WorkplaceWizard.Designer.cs">
       <DependentUpon>SmartTag4WorkplaceWizard.cs</DependentUpon>
     </Compile>
-    <Compile Include="Settings\SmartTag4StaffWizard.cs">
+    <Compile Include="Staff\SmartTag4StaffWizard.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Settings\SmartTag4StaffWizard.Designer.cs">
+    <Compile Include="Staff\SmartTag4StaffWizard.Designer.cs">
       <DependentUpon>SmartTag4StaffWizard.cs</DependentUpon>
     </Compile>
     <Compile Include="Settings\PhoneTagWizard.cs">
@@ -4602,12 +4609,16 @@
       <DependentUpon>StaffListRpt_Xls.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Staff\StaffCode.resx">
-      <DependentUpon>StaffCode.cs</DependentUpon>
+    <EmbeddedResource Include="Staff\SmartTag4Staff_OptionsWizard.resx">
+      <DependentUpon>SmartTag4Staff_OptionsWizard.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Staff\StaffGeneral.resx">
-      <DependentUpon>StaffGeneral.cs</DependentUpon>
+    <EmbeddedResource Include="Staff\StaffWizard.resx">
+      <DependentUpon>StaffWizard.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Staff\StaffWizard_General.resx">
+      <DependentUpon>StaffWizard_General.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Staff\StaffJobTitleWizard.resx">
@@ -4622,8 +4633,8 @@
       <DependentUpon>StaffDeptWizard.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Staff\StaffPersonal.resx">
-      <DependentUpon>StaffPersonal.cs</DependentUpon>
+    <EmbeddedResource Include="Staff\StaffWizard_Personal.resx">
+      <DependentUpon>StaffWizard_Personal.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Supplier\DefaultList.resx">
@@ -4728,7 +4739,7 @@
       <DependentUpon>SmartTag4WorkplaceWizard.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Settings\SmartTag4StaffWizard.resx">
+    <EmbeddedResource Include="Staff\SmartTag4StaffWizard.resx">
       <DependentUpon>SmartTag4StaffWizard.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>

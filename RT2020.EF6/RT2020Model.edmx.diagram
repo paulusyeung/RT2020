@@ -357,6 +357,8 @@
         <EntityTypeShape EntityType="RT2020Model.vwPhonebookList" Width="1.5" PointX="21.375" PointY="0.75" />
         <EntityTypeShape EntityType="RT2020Model.SmartTag4Member_Options" Width="1.5" PointX="4.125" PointY="153.625" />
         <AssociationConnector Association="RT2020Model.FK_SmartTag4Member_SmartTag4Member_Options" />
+        <EntityTypeShape EntityType="RT2020Model.SmartTag4Staff_Options" Width="1.5" PointX="6.75" PointY="39.125" />
+        <AssociationConnector Association="RT2020Model.FK_SmartTag4Staff_SmartTag4Staff_Options" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

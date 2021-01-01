@@ -22,14 +22,93 @@ namespace RT2020.Staff
 {
     public partial class StaffGroupWizard : Form
     {
+        #region Properties
+        private Guid _GroupId = Guid.Empty;
+        public Guid StaffGroupId
+        {
+            get { return _GroupId; }
+            set { _GroupId = value; }
+        }
+        #endregion
+
         public StaffGroupWizard()
         {
             InitializeComponent();
+
+            SetCaptions();
+            SetAttributes();
+
             SetToolBar();
             FillParentGradeList();
             BindStaffGroupList();
             SetCtrlEditable();
         }
+
+        #region SetCaptions SetAttributes
+        private void SetCaptions()
+        {
+            this.Text = WestwindHelper.GetWord("staffGroup.setup", "Model");
+
+            lblStaffGroupCode.Text = WestwindHelper.GetWordWithColon("staffGroup.code", "Model");
+            lblStaffGroupName.Text = WestwindHelper.GetWordWithColon("staffGroup.name", "Model");
+            lblStaffGroupNameAlt1.Text = WestwindHelper.GetWordWithColon(String.Format("language.{0}", LanguageHelper.AlternateLanguage1.Key.ToLower()), "Menu");
+            lblStaffGroupNameAlt2.Text = WestwindHelper.GetWordWithColon(String.Format("language.{0}", LanguageHelper.AlternateLanguage2.Key.ToLower()), "Menu");
+
+            lblParentGrade.Text = WestwindHelper.GetWordWithColon("staffGroup.parent", "Model");
+
+            chkCanRead.Text = WestwindHelper.GetWord("security.read", "General");
+            chkCanWrite.Text = WestwindHelper.GetWord("security.write", "General");
+            chkCanDelete.Text = WestwindHelper.GetWord("security.delete", "General");
+            chkCanPost.Text = WestwindHelper.GetWord("security.post", "General");
+
+            //colParentDept.Text = WestwindHelper.GetWord("department.parent", "Model");
+            colStaffGroupCode.Text = WestwindHelper.GetWord("staffGroup.code", "Model");
+            colStaffGroupName.Text = WestwindHelper.GetWord("staffGroup.name", "Model");
+            colStaffGroupNameAlt1.Text = WestwindHelper.GetWord(String.Format("language.{0}", LanguageHelper.AlternateLanguage1.Key.ToLower()), "Menu");
+            colStaffGroupNameAlt2.Text = WestwindHelper.GetWord(String.Format("language.{0}", LanguageHelper.AlternateLanguage2.Key.ToLower()), "Menu");
+        }
+
+        private void SetAttributes()
+        {
+            lvStaffGroupList.Dock = DockStyle.Fill;
+
+            colLN.TextAlign = HorizontalAlignment.Center;
+            //colParentDept.TextAlign = HorizontalAlignment.Left;
+            //colParentDept.ContentAlign = ExtendedHorizontalAlignment.Center;
+            colStaffGroupCode.TextAlign = HorizontalAlignment.Left;
+            colStaffGroupCode.ContentAlign = ExtendedHorizontalAlignment.Center;
+            colStaffGroupName.TextAlign = HorizontalAlignment.Left;
+            colStaffGroupName.ContentAlign = ExtendedHorizontalAlignment.Center;
+            colStaffGroupNameAlt1.TextAlign = HorizontalAlignment.Left;
+            colStaffGroupNameAlt1.ContentAlign = ExtendedHorizontalAlignment.Center;
+            colStaffGroupNameAlt2.TextAlign = HorizontalAlignment.Left;
+            colStaffGroupNameAlt2.ContentAlign = ExtendedHorizontalAlignment.Center;
+
+            switch (LanguageHelper.AlternateLanguagesUsed)
+            {
+                case 1:
+                    // hide alt2
+                    lblStaffGroupNameAlt2.Visible = txtStaffGroupNameAlt2.Visible = false;
+                    colStaffGroupNameAlt2.Visible = false;
+                    // push parent dept. up
+                    lblParentGrade.Location = new Point(lblParentGrade.Location.X, lblStaffGroupNameAlt1.Location.Y);
+                    cboParentGrade.Location = new Point(cboParentGrade.Location.X, txtStaffGroupNameAlt2.Location.Y);
+                    break;
+                case 2:
+                    // do nothing
+                    break;
+                case 0:
+                default:
+                    // hide alt1 & alt2
+                    lblStaffGroupNameAlt1.Visible = lblStaffGroupNameAlt2.Visible = txtStaffGroupNameAlt2.Visible = false;
+                    colStaffGroupNameAlt1.Visible = colStaffGroupNameAlt2.Visible = false;
+                    // push parent dept up
+                    lblParentGrade.Location = new Point(lblParentGrade.Location.X, lblStaffGroupNameAlt1.Location.Y);
+                    cboParentGrade.Location = new Point(cboParentGrade.Location.X, txtStaffGroupNameAlt1.Location.Y);
+                    break;
+            }
+        }
+        #endregion
 
         #region ToolBar
         private void SetToolBar()
@@ -44,21 +123,21 @@ namespace RT2020.Staff
             sep.Style = ToolBarButtonStyle.Separator;
 
             // cmdSave
-            ToolBarButton cmdNew = new ToolBarButton("New", "New");
+            ToolBarButton cmdNew = new ToolBarButton("New", WestwindHelper.GetWord("edit.new", "General"));
             cmdNew.Tag = "New";
             cmdNew.Image = new IconResourceHandle("16x16.ico_16_3.gif");
 
             this.tbWizardAction.Buttons.Add(cmdNew);
 
             // cmdSave
-            ToolBarButton cmdSave = new ToolBarButton("Save", "Save");
+            ToolBarButton cmdSave = new ToolBarButton("Save", WestwindHelper.GetWord("edit.save", "General"));
             cmdSave.Tag = "Save";
             cmdSave.Image = new IconResourceHandle("16x16.16_L_save.gif");
 
             this.tbWizardAction.Buttons.Add(cmdSave);
 
             // cmdSaveNew
-            ToolBarButton cmdRefresh = new ToolBarButton("Refresh", "Refresh");
+            ToolBarButton cmdRefresh = new ToolBarButton("Refresh", WestwindHelper.GetWord("edit.refresh", "General"));
             cmdRefresh.Tag = "refresh";
             cmdRefresh.Image = new IconResourceHandle("16x16.16_L_refresh.gif");
 
@@ -66,7 +145,7 @@ namespace RT2020.Staff
             this.tbWizardAction.Buttons.Add(sep);
 
             // cmdDelete
-            ToolBarButton cmdDelete = new ToolBarButton("Delete", "Delete");
+            ToolBarButton cmdDelete = new ToolBarButton("Delete", WestwindHelper.GetWord("edit.delete", "General"));
             cmdDelete.Tag = "Delete";
             cmdDelete.Image = new IconResourceHandle("16x16.16_L_remove.gif");
 
@@ -92,7 +171,6 @@ namespace RT2020.Staff
                 {
                     case "new":
                         Clear();
-                        SetCtrlEditable();
                         break;
                     case "save":
                         if (IsValid())
@@ -104,8 +182,7 @@ namespace RT2020.Staff
                         }
                         break;
                     case "refresh":
-                        BindStaffGroupList();
-                        this.Update();
+                        Clear();
                         break;
                     case "delete":
                         MessageBox.Show("Delete Record?", "Delete Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question, new EventHandler(DeleteConfirmationHandler));
@@ -128,14 +205,27 @@ namespace RT2020.Staff
         {
             errorProvider.SetError(txtStaffGroupCode, string.Empty);
         }
+
+        private void Clear()
+        {
+            txtStaffGroupCode.Text = txtStaffGroupName.Text = txtStaffGroupNameAlt1.Text = txtStaffGroupNameAlt2.Text = string.Empty;
+            chkCanRead.Checked = chkCanWrite.Checked = chkCanDelete.Checked = chkCanPost.Checked = false;
+            cboParentGrade.SelectedIndex = 0;
+
+            _GroupId = Guid.Empty;
+            SetCtrlEditable();
+        }
         #endregion
 
         #region Fill Combo List
         private void FillParentGradeList()
         {
-            string sql = "GroupId NOT IN ('" + this.StaffGroupId.ToString() + "')";
-            string[] orderBy = new string[] { "GradeCode" };
-            ModelEx.StaffGroupEx.LoadCombo(ref cboParentGrade, "GroupCode", false, false, "", sql, orderBy);
+            var textFields = new string[] { "GradeCode", "GradeName" };
+            var pattern = "{0} - {1}";
+            var sql = "GroupId NOT IN ('" + this.StaffGroupId.ToString() + "')";
+            var orderBy = new string[] { "GradeCode" };
+
+            ModelEx.StaffGroupEx.LoadCombo(ref cboParentGrade, textFields, pattern, true, true, "", sql, orderBy);
         }
         #endregion
 
@@ -146,26 +236,19 @@ namespace RT2020.Staff
             this.lvStaffGroupList.Items.Clear();
 
             int iCount = 1;
-            StringBuilder sql = new StringBuilder();
-            sql.Append("SELECT GroupId,  ROW_NUMBER() OVER (ORDER BY GradeCode) AS rownum, ");
-            sql.Append(" GradeCode, GradeName, GradeName_Chs, GradeName_Cht ");
-            sql.Append(" FROM StaffGroup ");
-            
-            SqlCommand cmd = new SqlCommand();
-            cmd.CommandText = sql.ToString();
-            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
-            cmd.CommandType= CommandType.Text;
 
-            using (SqlDataReader reader = SqlHelper.Default.ExecuteReader(cmd))
+            using (var ctx = new EF6.RT2020Entities())
             {
-                while (reader.Read())
+                var list = ctx.StaffGroup.OrderBy(x => x.GradeCode).AsNoTracking().ToList();
+
+                foreach (var item in list)
                 {
-                    ListViewItem objItem = this.lvStaffGroupList.Items.Add(reader.GetGuid(0).ToString()); // StaffGroupId
-                    objItem.SubItems.Add(iCount.ToString()); // Line Number
-                    objItem.SubItems.Add(reader.GetString(2)); // StaffGroupCode
-                    objItem.SubItems.Add(reader.GetString(3)); // StaffGroup Name
-                    objItem.SubItems.Add(reader.GetString(4)); // StaffGroup Name Chs
-                    objItem.SubItems.Add(reader.GetString(5)); // StaffGroup Name Cht
+                    var oItem = this.lvStaffGroupList.Items.Add(item.GroupId.ToString());
+                    oItem.SubItems.Add(iCount.ToString());
+                    oItem.SubItems.Add(item.GradeCode);
+                    oItem.SubItems.Add(item.GradeName);
+                    oItem.SubItems.Add(item.GradeName_Chs);
+                    oItem.SubItems.Add(item.GradeName_Cht);
 
                     iCount++;
                 }
@@ -190,7 +273,7 @@ namespace RT2020.Staff
 
             #region 新增，要 check CityCode 係咪 in use
             errorProvider.SetError(txtStaffGroupCode, string.Empty);
-            if (ModelEx.StaffDeptEx.IsDeptCodeInUse(txtStaffGroupCode.Text.Trim()))
+            if (ModelEx.StaffGroupEx.IsGradeCodeInUse(txtStaffGroupCode.Text.Trim()))
             {
                 errorProvider.SetError(txtStaffGroupCode, "Grade Code in use");
                 return false;
@@ -217,9 +300,9 @@ namespace RT2020.Staff
                     ctx.StaffGroup.Add(sg);
                 }
                 sg.GradeName = txtStaffGroupName.Text;
-                sg.GradeName_Chs = txtStaffGroupNameChs.Text;
-                sg.GradeName_Cht = txtStaffGroupNameCht.Text;
-                sg.ParentGrade = ((Guid)cboParentGrade.SelectedValue == Guid.Empty) ? Guid.Empty : (Guid)cboParentGrade.SelectedValue;
+                sg.GradeName_Chs = txtStaffGroupNameAlt1.Text;
+                sg.GradeName_Cht = txtStaffGroupNameAlt2.Text;
+                if ((Guid)cboParentGrade.SelectedValue != Guid.Empty) sg.ParentGrade = (Guid)cboParentGrade.SelectedValue;
 
                 sg.CanRead = chkCanRead.Checked;
                 sg.CanWrite = chkCanWrite.Checked;
@@ -231,29 +314,6 @@ namespace RT2020.Staff
             }
 
             return result;
-        }
-
-        private void Clear()
-        {
-            this.Close();
-
-            StaffGroupWizard wizGroup = new StaffGroupWizard();
-            wizGroup.ShowDialog();
-        }
-        #endregion
-
-        #region Properties
-        private Guid countryId = System.Guid.Empty;
-        public Guid StaffGroupId
-        {
-            get
-            {
-                return countryId;
-            }
-            set
-            {
-                countryId = value;
-            }
         }
         #endregion
 
@@ -283,9 +343,9 @@ namespace RT2020.Staff
 
                             txtStaffGroupCode.Text = sg.GradeCode;
                             txtStaffGroupName.Text = sg.GradeName;
-                            txtStaffGroupNameChs.Text = sg.GradeName_Chs;
-                            txtStaffGroupNameCht.Text = sg.GradeName_Cht;
-                            cboParentGrade.SelectedValue = sg.ParentGrade;
+                            txtStaffGroupNameAlt1.Text = sg.GradeName_Chs;
+                            txtStaffGroupNameAlt2.Text = sg.GradeName_Cht;
+                            cboParentGrade.SelectedValue = sg.ParentGrade.HasValue ? sg.ParentGrade.Value : Guid.Empty;
 
                             chkCanRead.Checked = sg.CanRead.Value;
                             chkCanWrite.Checked = sg.CanWrite.Value;

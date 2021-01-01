@@ -6,6 +6,8 @@ using System.Web;
 using Gizmox.WebGUI.Forms;
 using RT2020.Helper;
 using System.Reflection;
+using System.ComponentModel;
+using System.Data.Entity;
 
 namespace RT2020.ModelEx
 {
@@ -120,6 +122,108 @@ namespace RT2020.ModelEx
             return result;
         }
 
+        /// <summary>
+        /// Get a EF6.Staff object from the database using the given StaffId
+        /// </summary>
+        /// <param name="staffId">The primary key value</param>
+        /// <returns>A EF6.Staff object</returns>
+        public static EF6.Staff Get(Guid staffId)
+        {
+            EF6.Staff result = null;
+
+            using (var ctx = new EF6.RT2020Entities())
+            {
+                result = ctx.Staff.Where(x => x.StaffId == staffId).AsNoTracking().FirstOrDefault();
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Get a EF6.Staff object from the database using the given QueryString
+        /// </summary>
+        /// <param name="staffId">The primary key value</param>
+        /// <returns>A EF6.Staff object</returns>
+        public static EF6.Staff Get(string whereClause)
+        {
+            EF6.Staff result = null;
+
+            using (var ctx = new EF6.RT2020Entities())
+            {
+                result = ctx.Staff
+                    .SqlQuery(string.Format("Select * from Staff Where {0}", whereClause))
+                    .AsNoTracking()
+                    .FirstOrDefault();
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Get a list of Staff objects from the database
+        /// </summary>
+        /// <returns>A list containing all of the Staff objects in the database.</returns>
+        public static List<EF6.Staff> GetList()
+        {
+            var whereClause = "1 = 1";
+            return GetList(whereClause);
+        }
+
+        /// <summary>
+        /// Get a list of Staff objects from the database
+        /// ordered by primary key
+        /// </summary>
+        /// <returns>A list containing all of the Staff objects in the database ordered by the columns specified.</returns>
+        public static List<EF6.Staff> GetList(string whereClause)
+        {
+            var orderBy = new string[] { "StaffId" };
+            return GetList(whereClause, orderBy);
+        }
+
+        /// <summary>
+        /// Get a list of Staff objects from the database.
+        /// ordered accordingly, example { "FieldName1", "FieldName2 DESC" }
+        /// </summary>
+        /// <returns>A list containing all of the Staff objects in the database.</returns>
+        public static List<EF6.Staff> GetList(string whereClause, string[] orderBy)
+        {
+            List<EF6.Staff> result = new List<EF6.Staff>();
+
+            var orderby = String.Join(",", orderBy.Select(x => x));
+
+            using (var ctx = new EF6.RT2020Entities())
+            {
+                result = ctx.Staff
+                    .SqlQuery(string.Format("Select * from Staff Where {0} Order By {1}", whereClause, orderby))
+                    .AsNoTracking()
+                    .ToList();
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Deletes a EF6.Staff object from the database.
+        /// </summary>
+        /// <param name="staffId">The primary key value</param>
+        public static bool Delete(Guid staffId)
+        {
+            bool result = false;
+
+            using (var ctx = new EF6.RT2020Entities())
+            {
+                var item = ctx.Staff.Find(staffId);
+                if (item != null)
+                {
+                    ctx.Staff.Remove(item);
+                    ctx.SaveChanges();
+                    result = true;
+                }
+            }
+
+            return result;
+        }
+
         #region Load ComboBox
         /// <summary>
         /// Only support the ComboBox control from WinForm/Visual WebGUI
@@ -190,50 +294,41 @@ namespace RT2020.ModelEx
             ddList.Items.Clear();
 
             #region 轉換 orderby：方便 SQL Server 做 sorting，中文字排序可參考：https://dotblogs.com.tw/jamesfu/2013/06/04/collation
-            //if (SwitchLocale && TextField[0] == OrderBy[0] && OrderBy.Length == 1)
-            if (SwitchLocale && TextField == OrderBy[0] && OrderBy.Length == 1)
+            if (SwitchLocale)
             {
-                OrderBy[0] = CookieHelper.CurrentLocaleId == LanguageHelper.AlternateLanguage2.Key ?
-                    "FullName_Cht" : CookieHelper.CurrentLocaleId == LanguageHelper.AlternateLanguage1.Key ?
-                    "FullName_Chs" :
-                    "FullName";
+                for (int i = 0; i < OrderBy.Length; i++)
+                {
+                    if (OrderBy[i] == "FullName")
+                    {
+                        OrderBy[i] = CookieHelper.CurrentLocaleId == LanguageHelper.AlternateLanguage2.Key ?
+                            "FullName_Cht" : CookieHelper.CurrentLocaleId == LanguageHelper.AlternateLanguage1.Key ?
+                            "FullName_Chs" :
+                            "FullName";
+                    }
+                }
             }
             var orderby = String.Join(",", OrderBy.Select(x => "[" + x + "]"));
             #endregion
 
             using (var ctx = new EF6.RT2020Entities())
             {
-                var list = ctx.Staff.SqlQuery(
-                    String.Format(
-                        "Select * from Staff Where {0} Order By {1}",
-                        String.IsNullOrEmpty(WhereClause) ? "1 = 1" : WhereClause,
-                        orderby
-                    ))
-                    .AsNoTracking()
-                    .ToList();
-
-                #region BlankLine? 加個 blank item，置頂
-                if (BlankLine)
-                {
-                    list.Insert(0, new EF6.Staff()
-                    {
-                        StaffId = Guid.Empty,
-                        StaffCode = "",
-                        StaffNumber = "",
-                        FullName = BlankLineText,
-                        FullName_Chs = BlankLineText,
-                        FullName_Cht = BlankLineText,
-                    });
-                }
-                #endregion
-
-                ddList.DataSource = list;
-                ddList.ValueMember = "StaffId";
-                ddList.DisplayMember = !SwitchLocale ? TextField :
-                    CookieHelper.CurrentLocaleId == LanguageHelper.AlternateLanguage2.Key ?
+                var displayField = !SwitchLocale ?
+                    TextField : CookieHelper.CurrentLocaleId == LanguageHelper.AlternateLanguage2.Key ?
                     "FullName_Cht" : CookieHelper.CurrentLocaleId == LanguageHelper.AlternateLanguage1.Key ?
                     "FullName_Chs" :
                     "FullName";
+                var kvpList = ctx.Database.SqlQuery<ComboBoxHelper.ComboBoxItem>(
+                    string.Format(
+                        "Select StaffId as [Key], {0} as [Value] from Staff Where {1} Order By {2}",
+                        displayField, string.IsNullOrEmpty(WhereClause) ? "1 = 1" : WhereClause,
+                        orderby
+                    ))
+                    .ToDictionary(x => x.Key, x => x.Value)
+                    .ToList();
+                if (BlankLine) kvpList.Insert(0, new KeyValuePair<Guid, string>(Guid.Empty, ""));
+                ddList.DataSource = kvpList;
+                ddList.ValueMember = "Key";
+                ddList.DisplayMember = "Value";
             }
             if (ddList.Items.Count > 0) ddList.SelectedIndex = 0;
         }
@@ -299,26 +394,13 @@ namespace RT2020.ModelEx
                     .AsNoTracking()
                     .ToList();
 
-                #region BlankLine? 加個 blank item，置頂
-                if (BlankLine)
-                {
-                    list.Insert(0, new EF6.Staff()
-                    {
-                        StaffId = Guid.Empty,
-                        StaffCode = "",
-                        StaffNumber = "",
-                        FullName = BlankLineText,
-                        FullName_Chs = BlankLineText,
-                        FullName_Cht = BlankLineText,
-                    });
-                }
-                #endregion
+                BindingList<KeyValuePair<Guid, string>> data = new BindingList<KeyValuePair<Guid, string>>();
+                if (BlankLine) data.Insert(0, new KeyValuePair<Guid, string>(Guid.Empty, ""));
 
-                Dictionary<Guid, string> data = new Dictionary<Guid, string>();
                 foreach (var item in list)
                 {
                     var text = GetFormatedText(item, TextField, TextFormatString);
-                    data.Add(item.StaffId, text);
+                    data.Add(new KeyValuePair<Guid, string>(item.StaffId, text));
                 }
 
                 ddList.DataSource = data.ToList();

@@ -1,6 +1,6 @@
 namespace RT2020.Staff
 {
-    partial class StaffCode
+    partial class StaffWizard
     {
         /// <summary>
         /// Required designer variable.
@@ -29,10 +29,7 @@ namespace RT2020.Staff
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            Gizmox.WebGUI.Common.Resources.IconResourceHandle iconResourceHandle1 = new Gizmox.WebGUI.Common.Resources.IconResourceHandle();
-            Gizmox.WebGUI.Common.Resources.IconResourceHandle iconResourceHandle2 = new Gizmox.WebGUI.Common.Resources.IconResourceHandle();
-            Gizmox.WebGUI.Common.Resources.IconResourceHandle iconResourceHandle3 = new Gizmox.WebGUI.Common.Resources.IconResourceHandle();
-            Gizmox.WebGUI.Common.Resources.IconResourceHandle iconResourceHandle4 = new Gizmox.WebGUI.Common.Resources.IconResourceHandle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(StaffWizard));
             this.toolBar = new Gizmox.WebGUI.Forms.ToolBar();
             this.toolBarSave = new Gizmox.WebGUI.Forms.ToolBarButton();
             this.toolSaveNew = new Gizmox.WebGUI.Forms.ToolBarButton();
@@ -42,44 +39,37 @@ namespace RT2020.Staff
             this.tabStaff = new Gizmox.WebGUI.Forms.TabControl();
             this.tabGeneral = new Gizmox.WebGUI.Forms.TabPage();
             this.tabPersonal = new Gizmox.WebGUI.Forms.TabPage();
-            this.lblLoc = new Gizmox.WebGUI.Forms.Label();
+            this.lblStaffNumber = new Gizmox.WebGUI.Forms.Label();
             this.txtStaffNumber = new Gizmox.WebGUI.Forms.TextBox();
             this.errorProvider = new Gizmox.WebGUI.Forms.ErrorProvider(this.components);
+            ((System.ComponentModel.ISupportInitialize)(this.tabStaff)).BeginInit();
+            this.tabStaff.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolBar
             // 
-            this.toolBar.Anchor = Gizmox.WebGUI.Forms.AnchorStyles.None;
-            this.toolBar.Appearance = Gizmox.WebGUI.Forms.ToolBarAppearance.Normal;
             this.toolBar.Buttons.AddRange(new Gizmox.WebGUI.Forms.ToolBarButton[] {
             this.toolBarSave,
             this.toolSaveNew,
             this.toolBarSaveClose,
             this.toolBarButton1,
             this.toolBarDelete});
-            this.toolBar.ClientAction = null;
-            this.toolBar.Dock = Gizmox.WebGUI.Forms.DockStyle.Top;
-            this.toolBar.DragHandle = false;
-            this.toolBar.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.toolBar.DropDownArrows = false;
-            this.toolBar.ImageList = null;
+            this.toolBar.DragHandle = true;
+            this.toolBar.DropDownArrows = true;
+            this.toolBar.ImageSize = new System.Drawing.Size(16, 16);
             this.toolBar.Location = new System.Drawing.Point(0, 0);
-            this.toolBar.MenuHandle = false;
+            this.toolBar.MenuHandle = true;
             this.toolBar.Name = "toolBar";
-            //this.toolBar.RightToLeft = false;
             this.toolBar.ShowToolTips = true;
+            this.toolBar.Size = new System.Drawing.Size(100, 22);
             this.toolBar.TabIndex = 100;
             this.toolBar.ButtonClick += new Gizmox.WebGUI.Forms.ToolBarButtonClickEventHandler(this.toolBar_ButtonClick);
             // 
             // toolBarSave
             // 
-            this.toolBarSave.ClientAction = null;
             this.toolBarSave.CustomStyle = "";
-            this.toolBarSave.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            iconResourceHandle1.File = "16x16.16_save.gif";
-            this.toolBarSave.Image = iconResourceHandle1;
-            this.toolBarSave.ImageIndex = 2;
-            this.toolBarSave.ImageKey = null;
+            this.toolBarSave.Font = new System.Drawing.Font("Tahoma", 8.25F);
+            this.toolBarSave.Image = new Gizmox.WebGUI.Common.Resources.IconResourceHandle(resources.GetString("toolBarSave.Image"));
             this.toolBarSave.Name = "toolBarSave";
             this.toolBarSave.Pushed = true;
             this.toolBarSave.Size = 24;
@@ -89,13 +79,9 @@ namespace RT2020.Staff
             // 
             // toolSaveNew
             // 
-            this.toolSaveNew.ClientAction = null;
             this.toolSaveNew.CustomStyle = "";
-            this.toolSaveNew.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            iconResourceHandle2.File = "16x16.16_L_saveOpen.gif";
-            this.toolSaveNew.Image = iconResourceHandle2;
-            this.toolSaveNew.ImageIndex = 1;
-            this.toolSaveNew.ImageKey = null;
+            this.toolSaveNew.Font = new System.Drawing.Font("Tahoma", 8.25F);
+            this.toolSaveNew.Image = new Gizmox.WebGUI.Common.Resources.IconResourceHandle(resources.GetString("toolSaveNew.Image"));
             this.toolSaveNew.Name = "toolSaveNew";
             this.toolSaveNew.Pushed = true;
             this.toolSaveNew.Size = 24;
@@ -105,12 +91,9 @@ namespace RT2020.Staff
             // 
             // toolBarSaveClose
             // 
-            this.toolBarSaveClose.ClientAction = null;
             this.toolBarSaveClose.CustomStyle = "";
-            this.toolBarSaveClose.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            iconResourceHandle3.File = "16x16.16_saveClose.gif";
-            this.toolBarSaveClose.Image = iconResourceHandle3;
-            this.toolBarSaveClose.ImageKey = null;
+            this.toolBarSaveClose.Font = new System.Drawing.Font("Tahoma", 8.25F);
+            this.toolBarSaveClose.Image = new Gizmox.WebGUI.Common.Resources.IconResourceHandle(resources.GetString("toolBarSaveClose.Image"));
             this.toolBarSaveClose.Name = "toolBarSaveClose";
             this.toolBarSaveClose.Pushed = true;
             this.toolBarSaveClose.Size = 24;
@@ -120,10 +103,8 @@ namespace RT2020.Staff
             // 
             // toolBarButton1
             // 
-            this.toolBarButton1.ClientAction = null;
             this.toolBarButton1.CustomStyle = "";
-            this.toolBarButton1.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.toolBarButton1.ImageKey = null;
+            this.toolBarButton1.Font = new System.Drawing.Font("Tahoma", 8.25F);
             this.toolBarButton1.Name = "toolBarButton1";
             this.toolBarButton1.Pushed = true;
             this.toolBarButton1.Size = 24;
@@ -132,12 +113,9 @@ namespace RT2020.Staff
             // 
             // toolBarDelete
             // 
-            this.toolBarDelete.ClientAction = null;
             this.toolBarDelete.CustomStyle = "";
-            this.toolBarDelete.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            iconResourceHandle4.File = "16x16.16_L_remove.gif";
-            this.toolBarDelete.Image = iconResourceHandle4;
-            this.toolBarDelete.ImageKey = null;
+            this.toolBarDelete.Font = new System.Drawing.Font("Tahoma", 8.25F);
+            this.toolBarDelete.Image = new Gizmox.WebGUI.Common.Resources.IconResourceHandle(resources.GetString("toolBarDelete.Image"));
             this.toolBarDelete.Name = "toolBarDelete";
             this.toolBarDelete.Pushed = true;
             this.toolBarDelete.Size = 24;
@@ -147,22 +125,18 @@ namespace RT2020.Staff
             // 
             // tabStaff
             // 
-            this.tabStaff.ClientAction = null;
             this.tabStaff.Controls.Add(this.tabGeneral);
             this.tabStaff.Controls.Add(this.tabPersonal);
-            this.tabStaff.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
             this.tabStaff.Location = new System.Drawing.Point(12, 91);
-            this.tabStaff.Multiline = false;
             this.tabStaff.Name = "tabStaff";
             this.tabStaff.SelectedIndex = 0;
-            this.tabStaff.ShowCloseButton = false;
             this.tabStaff.Size = new System.Drawing.Size(766, 397);
             this.tabStaff.TabIndex = 101;
+            this.tabStaff.SelectedIndexChanged += new System.EventHandler(this.tabStaff_SelectedIndexChanged);
             // 
             // tabGeneral
             // 
-            this.tabGeneral.ClientAction = null;
-            this.tabGeneral.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
+            this.tabGeneral.Dock = Gizmox.WebGUI.Forms.DockStyle.Fill;
             this.tabGeneral.Location = new System.Drawing.Point(4, 22);
             this.tabGeneral.Name = "tabGeneral";
             this.tabGeneral.Size = new System.Drawing.Size(758, 371);
@@ -171,32 +145,26 @@ namespace RT2020.Staff
             // 
             // tabPersonal
             // 
-            this.tabPersonal.ClientAction = null;
-            this.tabPersonal.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
+            this.tabPersonal.Dock = Gizmox.WebGUI.Forms.DockStyle.Fill;
             this.tabPersonal.Location = new System.Drawing.Point(4, 22);
             this.tabPersonal.Name = "tabPersonal";
             this.tabPersonal.Size = new System.Drawing.Size(758, 371);
             this.tabPersonal.TabIndex = 0;
             this.tabPersonal.Text = "Personal";
             // 
-            // lblLoc
+            // lblStaffNumber
             // 
-            this.lblLoc.ClientAction = null;
-            this.lblLoc.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.lblLoc.Location = new System.Drawing.Point(22, 44);
-            this.lblLoc.Name = "lblLoc";
-            this.lblLoc.Size = new System.Drawing.Size(57, 21);
-            this.lblLoc.TabIndex = 0;
-            this.lblLoc.Text = "Staff #";
-            this.lblLoc.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblStaffNumber.Location = new System.Drawing.Point(18, 55);
+            this.lblStaffNumber.Name = "lblStaffNumber";
+            this.lblStaffNumber.Size = new System.Drawing.Size(82, 21);
+            this.lblStaffNumber.TabIndex = 0;
+            this.lblStaffNumber.Text = "Staff #";
+            this.lblStaffNumber.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // txtStaffNumber
             // 
             this.txtStaffNumber.BackColor = System.Drawing.Color.LightYellow;
-            this.txtStaffNumber.CharacterCasing = Gizmox.WebGUI.Forms.CharacterCasing.Normal;
-            this.txtStaffNumber.ClientAction = null;
-            this.txtStaffNumber.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.txtStaffNumber.Location = new System.Drawing.Point(85, 44);
+            this.txtStaffNumber.Location = new System.Drawing.Point(100, 55);
             this.txtStaffNumber.MaxLength = 4;
             this.txtStaffNumber.Name = "txtStaffNumber";
             this.txtStaffNumber.ReadOnly = true;
@@ -206,15 +174,11 @@ namespace RT2020.Staff
             // errorProvider
             // 
             this.errorProvider.BlinkRate = 3;
-            this.errorProvider.BlinkStyle = Gizmox.WebGUI.Forms.ErrorBlinkStyle.BlinkIfDifferentError;
-            this.errorProvider.DataMember = "";
-            this.errorProvider.DataSource = "";
-            this.errorProvider.Icon = null;
             // 
-            // StaffCode
+            // StaffWizard
             // 
             this.Controls.Add(this.txtStaffNumber);
-            this.Controls.Add(this.lblLoc);
+            this.Controls.Add(this.lblStaffNumber);
             this.Controls.Add(this.tabStaff);
             this.Controls.Add(this.toolBar);
             this.MaximizeBox = false;
@@ -222,6 +186,8 @@ namespace RT2020.Staff
             this.Size = new System.Drawing.Size(790, 500);
             this.Text = "StaffCode";
             this.Load += new System.EventHandler(this.StaffCode_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.tabStaff)).EndInit();
+            this.tabStaff.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -237,7 +203,7 @@ namespace RT2020.Staff
         private Gizmox.WebGUI.Forms.TabControl tabStaff;
         private Gizmox.WebGUI.Forms.TabPage tabGeneral;
         private Gizmox.WebGUI.Forms.TabPage tabPersonal;
-        private Gizmox.WebGUI.Forms.Label lblLoc;
+        private Gizmox.WebGUI.Forms.Label lblStaffNumber;
         private Gizmox.WebGUI.Forms.TextBox txtStaffNumber;
         private Gizmox.WebGUI.Forms.ErrorProvider errorProvider;
 

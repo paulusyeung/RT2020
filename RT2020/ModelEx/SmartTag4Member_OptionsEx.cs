@@ -48,7 +48,6 @@ namespace RT2020.ModelEx
             LoadCombo(ref target, textField, pattern, true, true, "", where, orderBy);
         }
 
-
         /// <summary>
         /// Get a EF6.SmartTag4Member_Options object from the database using the given OptionId
         /// </summary>

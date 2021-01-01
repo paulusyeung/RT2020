@@ -23,6 +23,32 @@ namespace RT2020.ModelEx
             return result;
         }
 
+        public static Guid GetIdByPriority(int priority)
+        {
+            Guid result = Guid.Empty;
+
+            using (var ctx = new EF6.RT2020Entities())
+            {
+                var item = ctx.SmartTag4Staff.Where(x => x.Priority == priority).FirstOrDefault();
+                if (item != null) result = item.TagId;
+            }
+
+            return result;
+        }
+
+        public static Guid GetIdByTagCodeAndPriority(string code, int priority)
+        {
+            Guid result = Guid.Empty;
+
+            using (var ctx = new EF6.RT2020Entities())
+            {
+                var item = ctx.SmartTag4Staff.Where(x => x.TagCode == code && x.Priority == priority).FirstOrDefault();
+                if (item != null) result = item.TagId;
+            }
+
+            return result;
+        }
+
         public static EF6.SmartTag4Staff GetByTagCode(string code)
         {
             EF6.SmartTag4Staff result = null;
@@ -61,7 +87,7 @@ namespace RT2020.ModelEx
 
                 result = ctx.SmartTag4Staff.SqlQuery(
                     String.Format(
-                        "Select * from SmartTag4Staff Order By {1}",
+                        "Select * from SmartTag4Staff Order By {0}",
                         order
                     ))
                     .AsNoTracking()
