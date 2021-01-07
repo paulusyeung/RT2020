@@ -254,10 +254,14 @@ namespace RT2020.Settings
 
             #region 新增，要 check TagCode 係咪 in use
             errorProvider.SetError(txtPhoneCode, string.Empty);
-            if (_PhoneId == Guid.Empty && ModelEx.PhoneTagEx.IsPhoneTagCodeInUse(txtPhoneCode.Text.Trim()))
+            if (_PhoneId == Guid.Empty)
             {
-                errorProvider.SetError(txtPhoneCode, "Tag Code in use");
-                return false;
+                if (ModelEx.PhoneTagEx.IsPhoneTagCodeInUse(txtPhoneCode.Text.Trim()))
+                {
+                    errorProvider.SetError(txtPhoneCode, "Tag Code in use");
+                    errorProvider.SetIconAlignment(txtPhoneCode, ErrorIconAlignment.TopLeft);
+                    return false;
+                }
             }
             #endregion
 
@@ -270,23 +274,28 @@ namespace RT2020.Settings
 
             using (var ctx = new EF6.RT2020Entities())
             {
-                var tag = ctx.PhoneTag.Find(_PhoneId);
-
-                if (tag == null)
+                int priority = 0;
+                if (int.TryParse(txtPriority.Text, out priority))
                 {
-                    tag = new EF6.PhoneTag();
-                    tag.PhoneTagId = new Guid();
+                    var tag = ctx.PhoneTag.Find(_PhoneId);
 
-                    ctx.PhoneTag.Add(tag);
-                    tag.PhoneCode = txtPhoneCode.Text;
+                    if (tag == null)
+                    {
+                        tag = new EF6.PhoneTag();
+                        tag.PhoneTagId = Guid.NewGuid();
+                        tag.PhoneCode = txtPhoneCode.Text;
+
+                        ctx.PhoneTag.Add(tag);
+                        _PhoneId = tag.PhoneTagId;
+                    }
+                    tag.PhoneName = txtPhoneName.Text;
+                    tag.PhoneName_Chs = txtPhoneNameAlt1.Text;
+                    tag.PhoneName_Cht = txtPhoneNameAlt2.Text;
+                    tag.Priority = priority;
+
+                    ctx.SaveChanges();
+                    result = true;
                 }
-                tag.PhoneName = txtPhoneName.Text;
-                tag.PhoneName_Chs = txtPhoneNameAlt1.Text;
-                tag.PhoneName_Cht = txtPhoneNameAlt2.Text;
-                tag.Priority = Convert.ToInt32(txtPriority.Text);
-
-                ctx.SaveChanges();
-                result = true;
             }
 
             return result;

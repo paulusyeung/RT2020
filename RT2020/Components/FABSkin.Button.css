@@ -1,0 +1,76 @@
+.Button-Control .Button-FontData
+{
+	[Skin.FontNormal];
+	[Skin.ForegroundNormal];
+}
+
+.Button-Control_Enter .Button-FontData
+{
+	[Skin.FontHover];
+	[Skin.ForegroundHover];
+}
+
+.Button-Control_Down .Button-FontData
+{
+	[Skin.FontPressed];
+	[Skin.ForegroundPressed];
+}
+
+.Button-Control_Focus .Button-FontData
+{
+	[Skin.FontFocused];
+	[Skin.ForegroundFocused];
+}
+
+.Button-Control_Disabled .Button-FontData
+{
+	[Skin.FontDisabled];
+	[Skin.ForegroundDisabled];
+}
+
+.Button-Content
+{
+	[Skin.ContentPadding];
+}
+
+.Button-Control
+{
+	[Skin.Border];
+	[Skin.Background];
+	[Skin.VisualEffect]
+}
+
+.Button-Control .Button-Center
+{
+	[Skin.CenterNormalStyle];
+}
+
+.Button-Control_Enter .Button-Center
+{
+	[Skin.CenterHoverStyle];
+}
+
+.Button-Control_Down .Button-Center
+{
+	[Skin.CenterPressedStyle];
+}
+
+.Button-Control_Focus .Button-Center
+{
+	[Skin.CenterFocusedStyle]; 
+}
+
+.Button-Control_Disabled .Button-Center
+{
+	[Skin.CenterDisabledStyle];
+}
+
+.Button-Control_Disabled
+{
+    [Skin.ControlDisabledStyle];
+}
+
+.Button-Control_Focus
+{
+    [Skin.ControlFocusedStyle];
+}

@@ -34,15 +34,17 @@ namespace RT2020.Supplier
             this.tbWizardAction = new Gizmox.WebGUI.Forms.ToolBar();
             this.tabSupplier = new Gizmox.WebGUI.Forms.TabControl();
             this.tabGeneral = new Gizmox.WebGUI.Forms.TabPage();
-            this.tabPersonal = new Gizmox.WebGUI.Forms.TabPage();
+            this.tabAddress = new Gizmox.WebGUI.Forms.TabPage();
             this.tabContact = new Gizmox.WebGUI.Forms.TabPage();
-            this.tabFinancial = new Gizmox.WebGUI.Forms.TabPage();
+            this.tabFinance = new Gizmox.WebGUI.Forms.TabPage();
             this.errorProvider = new Gizmox.WebGUI.Forms.ErrorProvider(this.components);
+            ((System.ComponentModel.ISupportInitialize)(this.tabSupplier)).BeginInit();
+            this.tabSupplier.SuspendLayout();
             this.SuspendLayout();
             // 
             // txtSupplierCode
             // 
-            this.txtSupplierCode.Location = new System.Drawing.Point(101, 40);
+            this.txtSupplierCode.Location = new System.Drawing.Point(122, 40);
             this.txtSupplierCode.MaxLength = 6;
             this.txtSupplierCode.Name = "txtSupplierCode";
             this.txtSupplierCode.Size = new System.Drawing.Size(100, 20);
@@ -50,58 +52,55 @@ namespace RT2020.Supplier
             // 
             // lblSupplierNumber
             // 
-            this.lblSupplierNumber.Location = new System.Drawing.Point(34, 43);
+            this.lblSupplierNumber.Location = new System.Drawing.Point(19, 43);
             this.lblSupplierNumber.Name = "lblSupplierNumber";
-            this.lblSupplierNumber.Size = new System.Drawing.Size(61, 23);
+            this.lblSupplierNumber.Size = new System.Drawing.Size(103, 23);
             this.lblSupplierNumber.TabIndex = 8;
             this.lblSupplierNumber.Text = "Supplier #:";
             // 
             // tbWizardAction
             // 
-            this.tbWizardAction.Anchor = Gizmox.WebGUI.Forms.AnchorStyles.None;
-            this.tbWizardAction.Appearance = Gizmox.WebGUI.Forms.ToolBarAppearance.Normal;
-            this.tbWizardAction.Dock = Gizmox.WebGUI.Forms.DockStyle.Top;
+            this.tbWizardAction.ButtonSize = new System.Drawing.Size(20, 20);
             this.tbWizardAction.DragHandle = true;
-            this.tbWizardAction.DropDownArrows = false;
-            this.tbWizardAction.ImageList = null;
+            this.tbWizardAction.DropDownArrows = true;
+            this.tbWizardAction.ImageSize = new System.Drawing.Size(16, 16);
             this.tbWizardAction.Location = new System.Drawing.Point(0, 0);
             this.tbWizardAction.MenuHandle = true;
             this.tbWizardAction.Name = "tbWizardAction";
-            //this.tbWizardAction.RightToLeft = false;
             this.tbWizardAction.ShowToolTips = true;
+            this.tbWizardAction.Size = new System.Drawing.Size(806, 26);
             this.tbWizardAction.TabIndex = 0;
             // 
             // tabSupplier
             // 
             this.tabSupplier.Controls.Add(this.tabGeneral);
-            this.tabSupplier.Controls.Add(this.tabPersonal);
+            this.tabSupplier.Controls.Add(this.tabAddress);
             this.tabSupplier.Controls.Add(this.tabContact);
-            this.tabSupplier.Controls.Add(this.tabFinancial);
-            this.tabSupplier.Location = new System.Drawing.Point(12, 83);
-            this.tabSupplier.Multiline = false;
+            this.tabSupplier.Controls.Add(this.tabFinance);
+            this.tabSupplier.Location = new System.Drawing.Point(12, 76);
             this.tabSupplier.Name = "tabSupplier";
             this.tabSupplier.SelectedIndex = 0;
-            this.tabSupplier.ShowCloseButton = false;
-            this.tabSupplier.Size = new System.Drawing.Size(774, 405);
+            this.tabSupplier.Size = new System.Drawing.Size(785, 421);
             this.tabSupplier.TabIndex = 9;
+            this.tabSupplier.SelectedIndexChanged += new System.EventHandler(this.tabSupplier_SelectedIndexChanged);
             // 
             // tabGeneral
             // 
             this.tabGeneral.Dock = Gizmox.WebGUI.Forms.DockStyle.Fill;
             this.tabGeneral.Location = new System.Drawing.Point(4, 22);
             this.tabGeneral.Name = "tabGeneral";
-            this.tabGeneral.Size = new System.Drawing.Size(766, 379);
+            this.tabGeneral.Size = new System.Drawing.Size(586, 310);
             this.tabGeneral.TabIndex = 0;
             this.tabGeneral.Text = "General";
             // 
-            // tabPersonal
+            // tabAddress
             // 
-            this.tabPersonal.Dock = Gizmox.WebGUI.Forms.DockStyle.Fill;
-            this.tabPersonal.Location = new System.Drawing.Point(4, 22);
-            this.tabPersonal.Name = "tabPersonal";
-            this.tabPersonal.Size = new System.Drawing.Size(766, 379);
-            this.tabPersonal.TabIndex = 0;
-            this.tabPersonal.Text = "Personal";
+            this.tabAddress.Dock = Gizmox.WebGUI.Forms.DockStyle.Fill;
+            this.tabAddress.Location = new System.Drawing.Point(4, 22);
+            this.tabAddress.Name = "tabAddress";
+            this.tabAddress.Size = new System.Drawing.Size(766, 379);
+            this.tabAddress.TabIndex = 1;
+            this.tabAddress.Text = "Address";
             // 
             // tabContact
             // 
@@ -111,24 +110,21 @@ namespace RT2020.Supplier
             this.tabContact.Size = new System.Drawing.Size(766, 379);
             this.tabContact.TabIndex = 2;
             this.tabContact.Text = "Contact";
-            this.tabContact.Visible = false;
             // 
-            // tabFinancial
+            // tabFinance
             // 
-            this.tabFinancial.Dock = Gizmox.WebGUI.Forms.DockStyle.Fill;
-            this.tabFinancial.Location = new System.Drawing.Point(4, 22);
-            this.tabFinancial.Name = "tabFinancial";
-            this.tabFinancial.Size = new System.Drawing.Size(766, 379);
-            this.tabFinancial.TabIndex = 1;
-            this.tabFinancial.Text = "Financial";
+            this.tabFinance.Dock = Gizmox.WebGUI.Forms.DockStyle.Fill;
+            this.tabFinance.Location = new System.Drawing.Point(4, 22);
+            this.tabFinance.Name = "tabFinance";
+            this.tabFinance.Size = new System.Drawing.Size(766, 379);
+            this.tabFinance.TabIndex = 3;
+            this.tabFinance.Text = "Finance";
             // 
             // errorProvider
             // 
             this.errorProvider.BlinkRate = 3;
-            this.errorProvider.BlinkStyle = Gizmox.WebGUI.Forms.ErrorBlinkStyle.BlinkIfDifferentError;
             this.errorProvider.DataMember = " ";
             this.errorProvider.DataSource = " ";
-            this.errorProvider.Icon = null;
             // 
             // SupplierWizard
             // 
@@ -138,8 +134,11 @@ namespace RT2020.Supplier
             this.Controls.Add(this.txtSupplierCode);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Size = new System.Drawing.Size(798, 500);
+            this.Size = new System.Drawing.Size(806, 506);
             this.Text = "SupplierWizard";
+            this.Load += new System.EventHandler(this.SupplierWizard_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.tabSupplier)).EndInit();
+            this.tabSupplier.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -151,8 +150,8 @@ namespace RT2020.Supplier
         private Gizmox.WebGUI.Forms.ToolBar tbWizardAction;
         private Gizmox.WebGUI.Forms.TabControl tabSupplier;
         private Gizmox.WebGUI.Forms.TabPage tabGeneral;
-        private Gizmox.WebGUI.Forms.TabPage tabPersonal;
-        private Gizmox.WebGUI.Forms.TabPage tabFinancial;
+        private Gizmox.WebGUI.Forms.TabPage tabAddress;
+        private Gizmox.WebGUI.Forms.TabPage tabFinance;
         private Gizmox.WebGUI.Forms.ErrorProvider errorProvider;
         private Gizmox.WebGUI.Forms.TabPage tabContact;
 

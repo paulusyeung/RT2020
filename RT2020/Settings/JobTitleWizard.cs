@@ -283,10 +283,11 @@ namespace RT2020.Settings
                 if (jt == null)
                 {
                     jt = new EF6.JobTitle();
-                    jt.JobTitleId = new Guid();
+                    jt.JobTitleId = Guid.NewGuid();
+                    jt.JobTitleCode = txtJobTitleCode.Text;
 
                     ctx.JobTitle.Add(jt);
-                    jt.JobTitleCode = txtJobTitleCode.Text;
+                    _JobTitleId = jt.JobTitleId;
                 }
                 jt.JobTitleName = txtJobTitleName.Text;
                 jt.JobTitleName_Chs = txtJobTitleNameAlt1.Text;

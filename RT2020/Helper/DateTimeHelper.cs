@@ -1,6 +1,7 @@
 ﻿using Gizmox.WebGUI.Forms;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 
@@ -56,19 +57,21 @@ namespace RT2020.Helper
         {
             string result = String.Empty;
 
-            switch (VWGContext.Current.CurrentUICulture.ToString())
+            switch (LanguageHelper.CurrentLanguageMode)
             {
-                case "zh-CHS":
+                case LanguageHelper.LanguageMode.Alt1:
                     result = "yyyy-MM-dd";
                     break;
-                case "zh-CHT":
+                case LanguageHelper.LanguageMode.Alt2:
                     result = "dd/MM/yyyy";
                     break;
-                case "en-US":
+                case LanguageHelper.LanguageMode.Default:
                 default:
                     result = "dd/MM/yyyy";
                     break;
             }
+
+            //! HACK: UniversalSortableDateTimePattern, comment-out if you want locale format
             result = "yyyy-MM-dd";
 
             return result;
@@ -78,19 +81,21 @@ namespace RT2020.Helper
         {
             string result = String.Empty;
 
-            switch (VWGContext.Current.CurrentUICulture.ToString())
+            switch (LanguageHelper.CurrentLanguageMode)
             {
-                case "zh-CHS":
+                case LanguageHelper.LanguageMode.Alt1:
                     result = "yyyy-MM-dd HH:mm";
                     break;
-                case "zh-CHT":
+                case LanguageHelper.LanguageMode.Alt2:
                     result = "dd/MM/yyyy HH:mm";
                     break;
-                case "en-US":
+                case LanguageHelper.LanguageMode.Default:
                 default:
                     result = "dd/MM/yyyy HH:mm";
                     break;
             }
+
+            //! HACK: UniversalSortableDateTimePattern, comment-out if you want locale format
             result = "yyyy-MM-dd HH:mm";
 
             return result;

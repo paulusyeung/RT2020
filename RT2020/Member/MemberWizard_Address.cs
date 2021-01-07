@@ -39,13 +39,13 @@ namespace RT2020.Member
             SetCaptions();
             SetAttributes();
 
-            InitialPhoneTag();
+            SetPhoneTag();
             FillComboList();
 
             _FormLoaded = true;
         }
 
-        #region SetCaptions & SetAttributes
+        #region SetCaptions, SetAttributes & SetPhoneTag
         private void SetCaptions()
         {
             lblAddressType.Text = WestwindHelper.GetWordWithColon("memberAddressType", "Model");
@@ -132,19 +132,19 @@ namespace RT2020.Member
                 var dialog = new Settings.PhoneTagWizard();
                 dialog.FormClosed += (sender, eventArgs) =>     // 關閉後 refresh 個 combo box items
                 {
-                    InitialPhoneTag();
+                    SetPhoneTag();
                 };
                 dialog.ShowDialog();
             };
             #endregion
         }
-        #endregion
 
-        private void InitialPhoneTag()
+        private void SetPhoneTag()
         {
-            RT2020.Controls.PhoneTag oTag = new RT2020.Controls.PhoneTag(this);
+            var oTag = new PhoneTagHelper(this);
             oTag.SetPhoneTag();
         }
+        #endregion
 
         #region Fill Combo list
         private void FillComboList()

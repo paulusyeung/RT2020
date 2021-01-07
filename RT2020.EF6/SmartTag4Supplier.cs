@@ -18,6 +18,7 @@ namespace RT2020.EF6
         public SmartTag4Supplier()
         {
             this.SupplierSmartTag = new HashSet<SupplierSmartTag>();
+            this.SmartTag4Supplier_Options = new HashSet<SmartTag4Supplier_Options>();
         }
     
         public System.Guid TagId { get; set; }
@@ -29,5 +30,7 @@ namespace RT2020.EF6
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SupplierSmartTag> SupplierSmartTag { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SmartTag4Supplier_Options> SmartTag4Supplier_Options { get; set; }
     }
 }

@@ -190,8 +190,6 @@ namespace RT2020.Member
                         break;
                     case "refresh":
                         Clear();
-                        //BindAddressTypeList();
-                        this.Update();
                         break;
                     case "delete":
                         MessageBox.Show("Delete Record?", "Delete Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question, new EventHandler(DeleteConfirmationHandler));

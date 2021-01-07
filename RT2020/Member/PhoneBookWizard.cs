@@ -34,7 +34,7 @@ namespace RT2020.Member
 
         private void InitialPhoneTag()
         {
-            RT2020.Controls.PhoneTag oTag = new RT2020.Controls.PhoneTag(this);
+            var oTag = new PhoneTagHelper(this);
             oTag.SetPhoneTag();
         }
 

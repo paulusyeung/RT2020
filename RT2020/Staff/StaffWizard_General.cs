@@ -54,7 +54,7 @@ namespace RT2020.Staff
             cboSmartTag8.SelectedIndex = 0;
         }
 
-        #region SetCaptions, SetAttributes & SetAttributes
+        #region SetCaptions, SetAttributes & SetSmartTags
         private void SetCaptions()
         {
             lblInitial.Text = WestwindHelper.GetWordWithColon("staff.initial", "Model");
@@ -494,16 +494,6 @@ namespace RT2020.Staff
 
             try
             {
-                #region SaveSmartTagValues
-                foreach (Control Ctrl in Controls)
-                {
-                    if (Ctrl.Name.Contains("SmartTag") && !Ctrl.Name.StartsWith("lbl"))
-                    {
-                        ModelEx.StaffSmartTagEx.SaveSmartTagValue(_StaffId, Ctrl);
-                    }
-                }
-                #endregion
-
                 using (var ctx = new EF6.RT2020Entities())
                 {
                     #region save core data
@@ -579,6 +569,17 @@ namespace RT2020.Staff
                     ctx.SaveChanges();
                     #endregion
                 }
+
+                #region SaveSmartTagValues
+                foreach (Control Ctrl in Controls)
+                {
+                    if (Ctrl.Name.Contains("SmartTag") && !Ctrl.Name.StartsWith("lbl"))
+                    {
+                        ModelEx.StaffSmartTagEx.SaveSmartTagValue(_StaffId, Ctrl);
+                    }
+                }
+                #endregion
+
                 result = true;
             }
             catch (Exception ex)

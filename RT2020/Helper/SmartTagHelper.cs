@@ -19,24 +19,26 @@ namespace RT2020.Helper
     public class SmartTagHelper
     {
         Control upCtrl = null;
+        string key = "SmartTag{0}";
+
+        #region declare Smart Tag List
+        public List<EF6.SmartTag4Member> MemberSmartTagList = null;
+        public List<EF6.SmartTag4Staff> StaffSmartTagList = null;
+        public List<EF6.SmartTag4Supplier> SupplierSmartTagList = null;
+        public List<EF6.SmartTag4Workplace> WorkplaceSmartTagList = null;
+        #endregion
 
         public SmartTagHelper(Control ctrl)
         {
             upCtrl = ctrl;
         }
 
-        #region SmartTags
-
-        public List<EF6.SmartTag4Member> MemberSmartTagList = null;
-        public List<EF6.SmartTag4Staff> StaffSmartTagList = null;
-        public List<EF6.SmartTag4Supplier> SupplierSmartTagList = null;
-        public List<EF6.SmartTag4Workplace> WorkplaceSmartTagList = null;
-
-        #endregion
-
-        #region Set SmartTag Labels and TextBox Tags
+        #region SetSmartTag Labels and TextBox Tags
         /// <summary>
-        /// 根據 Smart Tag 的 Prioirty 設置 Control.Tag = TagId, Control.Text = TagName_Locale
+        /// 根據 Smart Tag 的 Prioirty 設置
+        /// 如果係 Label，Label.Text = TagName_Locale，
+        /// 如果係其他（TextBox/MaskedTetBox/ComboBox/DateTimePicker），Control.Tag = TagId
+        /// 
         /// Control.Tag 將於 Load Data 和 SaveData 中用到
         /// </summary>
         public void SetSmartTags()
@@ -61,8 +63,6 @@ namespace RT2020.Helper
                 SetWorkplaceSmartTag();
             }
         }
-
-        string key = "SmartTag{0}";
 
         private void SetMemberSmartTag()
         {
@@ -132,40 +132,50 @@ namespace RT2020.Helper
                 {
                     if (Ctrl.Name.Contains(key))
                     {
+                        #region typeof Label
                         if (Ctrl.GetType().Equals(typeof(Label)))
                         {
                             Label lblTag = Ctrl as Label;
                             lblTag.Text = displayName;
                             lblTag.Visible = true;
                         }
+                        #endregion
 
+                        #region typeof TextBox
                         if (Ctrl.GetType().Equals(typeof(TextBox)))
                         {
                             TextBox txtTag = Ctrl as TextBox;
                             txtTag.Tag = tag;
                             txtTag.Visible = true;
                         }
+                        #endregion
 
+                        #region typeof MaskedTextBox
                         if (Ctrl.GetType().Equals(typeof(MaskedTextBox)))
                         {
                             MaskedTextBox txtTag = Ctrl as MaskedTextBox;
                             txtTag.Tag = tag;
                             txtTag.Visible = true;
                         }
+                        #endregion
 
+                        #region typeof ComboBox
                         if (Ctrl.GetType().Equals(typeof(ComboBox)))
                         {
                             ComboBox cboTag = Ctrl as ComboBox;
                             cboTag.Tag = tag;
                             cboTag.Visible = true;
                         }
+                        #endregion
 
+                        #region typeof DateTimePicker
                         if (Ctrl.GetType().Equals(typeof(DateTimePicker)))
                         {
                             DateTimePicker dtpTag = Ctrl as DateTimePicker;
                             dtpTag.Tag = tag;
                             dtpTag.Visible = true;
                         }
+                        #endregion
                     }
                 }
             }

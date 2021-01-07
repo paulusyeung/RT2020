@@ -146,6 +146,7 @@ namespace RT2020.AtsPane
                         break;
                     case "supplier":
                         RT2020.Supplier.SupplierWizard wizSupplier = new RT2020.Supplier.SupplierWizard();
+                        wizSupplier.EditMode = EnumHelper.EditMode.Add;
                         wizSupplier.ShowDialog();
                         break;
                     case "supplieraddresstype":
@@ -157,7 +158,7 @@ namespace RT2020.AtsPane
                         wizTerms.ShowDialog();
                         break;
                     case "smarttag4supplier":
-                        RT2020.Settings.SmartTag4SupplierWizard wizSmartTag4Supplier = new RT2020.Settings.SmartTag4SupplierWizard();
+                        RT2020.Supplier.SmartTag4SupplierWizard wizSmartTag4Supplier = new RT2020.Supplier.SmartTag4SupplierWizard();
                         wizSmartTag4Supplier.ShowDialog();
                         break;
                     case "currency":
@@ -197,7 +198,7 @@ namespace RT2020.AtsPane
                         wizLOO.ShowDialog();
                         break;
                     case "marketsector":
-                        RT2020.Settings.MarketSectorWizard wizMarketSector = new RT2020.Settings.MarketSectorWizard();
+                        RT2020.Supplier.MarketSectorWizard wizMarketSector = new RT2020.Supplier.MarketSectorWizard();
                         wizMarketSector.ShowDialog();
                         break;
                     case "salutation":

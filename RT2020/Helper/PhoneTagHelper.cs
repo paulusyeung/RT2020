@@ -16,18 +16,25 @@ using RT2020.Helper;
 
 #endregion
 
-namespace RT2020.Controls
+namespace RT2020.Helper
 {
-    public class PhoneTag
+    public class PhoneTagHelper
     {
         Control upCtrl = null;
         string key = "PhoneTag{0}";
 
-        public PhoneTag(Control ctrl)
+        public PhoneTagHelper(Control ctrl)
         {
             upCtrl = ctrl;
         }
 
+        /// <summary>
+        /// 根據 Smart Tag 的 Prioirty 設置
+        /// 如果係 Label，Label.Text = TagName_Locale，
+        /// 如果係其他（TextBox/MaskedTetBox/ComboBox/DateTimePicker），Control.Tag = TagId
+        /// 
+        /// Control.Tag 將於 Load Data 和 SaveData 中用到
+        /// </summary>
         public void SetPhoneTag()
         {
             int iCount = 1;
@@ -46,19 +53,22 @@ namespace RT2020.Controls
 
         private void SetPhoneTagLabel(string key, object tag, string name, string name_chs, string name_cht)
         {
-            switch (ConfigHelper.CurrentLanguageId)
+            #region displayName 根據 locale 改變
+            var displayName = "";
+            switch (LanguageHelper.CurrentLanguageMode)
             {
-                case 2: // chs, zh-chs, zh-cn
-                    name = name_chs + "：";
+                case LanguageHelper.LanguageMode.Alt1:
+                    displayName = name_chs + "：";
                     break;
-                case 3: // cht, zh-cht, zh-hk, zh-tw
-                    name = name_cht + "：";
+                case LanguageHelper.LanguageMode.Alt2:
+                    displayName = name_cht + "：";
                     break;
-                case 1: // en, en-us
+                case LanguageHelper.LanguageMode.Default:
                 default:
-                    name = name + ":";
+                    displayName = name + ":";
                     break;
             }
+            #endregion
 
             Control Ctrl = null;
             for (int i = 0; i < upCtrl.Controls.Count; i++)
@@ -67,40 +77,50 @@ namespace RT2020.Controls
 
                 if (Ctrl != null && Ctrl.Name.Contains(key))
                 {
+                    #region typeof Label
                     if (Ctrl.GetType().Equals(typeof(Label)))
                     {
                         Label lblTag = Ctrl as Label;
-                        lblTag.Text = name;
+                        lblTag.Text = displayName;
                         lblTag.Visible = true;
                     }
+                    #endregion
 
+                    #region typeof TextBox
                     if (Ctrl.GetType().Equals(typeof(TextBox)))
                     {
                         TextBox txtTag = Ctrl as TextBox;
                         txtTag.Tag = tag;
                         txtTag.Visible = true;
                     }
+                    #endregion
 
+                    #region typeof MaskedTextBox
                     if (Ctrl.GetType().Equals(typeof(MaskedTextBox)))
                     {
                         MaskedTextBox txtTag = Ctrl as MaskedTextBox;
                         txtTag.Tag = tag;
                         txtTag.Visible = true;
                     }
+                    #endregion
 
+                    #region typeof ComboBox
                     if (Ctrl.GetType().Equals(typeof(ComboBox)))
                     {
                         ComboBox cboTag = Ctrl as ComboBox;
                         cboTag.Tag = tag;
                         cboTag.Visible = true;
                     }
+                    #endregion
 
+                    #region typeof DateTimePicker
                     if (Ctrl.GetType().Equals(typeof(DateTimePicker)))
                     {
                         DateTimePicker dtpTag = Ctrl as DateTimePicker;
                         dtpTag.Tag = tag;
                         dtpTag.Visible = true;
                     }
+                    #endregion
                 }
             }
         }

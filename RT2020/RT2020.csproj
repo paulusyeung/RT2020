@@ -274,6 +274,21 @@
     <Content Include="App_Themes\Glass\GridView\gvParentGroupRows.gif" />
     <Content Include="App_Themes\Glass\GridView\Loading.gif" />
     <Content Include="App_Themes\Glass\GridView\styles.css" />
+    <Content Include="Components\FABSkin.Button.BI.xslt">
+      <DependentUpon>FABSkin.cs</DependentUpon>
+    </Content>
+    <Content Include="Components\FABSkin.Button.css">
+      <DependentUpon>FABSkin.cs</DependentUpon>
+    </Content>
+    <Content Include="Components\FABSkin.Button.NBI.css">
+      <DependentUpon>FABSkin.cs</DependentUpon>
+    </Content>
+    <Content Include="Components\FABSkin.Button.NBI.xslt">
+      <DependentUpon>FABSkin.cs</DependentUpon>
+    </Content>
+    <Content Include="Components\FABSkin.Button.xslt">
+      <DependentUpon>FABSkin.cs</DependentUpon>
+    </Content>
     <Content Include="Default.aspx" />
     <Content Include="LocalizationAdmin\app\app.js" />
     <Content Include="LocalizationAdmin\app\createClassController.js" />
@@ -691,6 +706,12 @@
     <Compile Include="AtsPane\SettingsAts.designer.cs">
       <DependentUpon>SettingsAts.cs</DependentUpon>
     </Compile>
+    <Compile Include="Components\FAB.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Components\FABSkin.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Components\Layout\TopPane.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -709,6 +730,7 @@
     <Compile Include="Controls\AutoCompleteBox.Designer.cs">
       <DependentUpon>AutoCompleteBox.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\FABControl.cs" />
     <Compile Include="Controls\FileDownloadGateway.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -866,6 +888,7 @@
     <Compile Include="Helper\GenData\TaiwanData.cs" />
     <Compile Include="Helper\GenData\MacaoData.cs" />
     <Compile Include="Helper\GenData\HongKongData.cs" />
+    <Compile Include="Helper\GlobalVars.cs" />
     <Compile Include="Helper\LanguageHelper.cs" />
     <Compile Include="Helper\ListViewHelper.cs" />
     <Compile Include="Helper\NetSqlAzManHelper.cs" />
@@ -1701,6 +1724,7 @@
     <Compile Include="ModelEx\SmartTag4Member_OptionsEx.cs" />
     <Compile Include="ModelEx\SmartTag4StaffEx.cs" />
     <Compile Include="ModelEx\SmartTag4SupplierEx.cs" />
+    <Compile Include="ModelEx\SmartTag4Supplier_OptionsEx.cs" />
     <Compile Include="ModelEx\SmartTag4WorkplaceEx.cs" />
     <Compile Include="ModelEx\ShipmentMethodEx.cs" />
     <Compile Include="ModelEx\MemberSmartTagEx.cs" />
@@ -2730,6 +2754,12 @@
     <Compile Include="Supplier\Reports\SupplierListRpt_Xls.designer.cs">
       <DependentUpon>SupplierListRpt_Xls.cs</DependentUpon>
     </Compile>
+    <Compile Include="Supplier\SmartTag4Supplier_OptionsWizard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Supplier\SmartTag4Supplier_OptionsWizard.Designer.cs">
+      <DependentUpon>SmartTag4Supplier_OptionsWizard.cs</DependentUpon>
+    </Compile>
     <Compile Include="Supplier\SupplierAddressTypeWizard.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -2754,11 +2784,11 @@
     <Compile Include="Supplier\SupplierWizard_Contact.Designer.cs">
       <DependentUpon>SupplierWizard_Contact.cs</DependentUpon>
     </Compile>
-    <Compile Include="Supplier\SupplierWizard_Financial.cs">
+    <Compile Include="Supplier\SupplierWizard_Finance.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Supplier\SupplierWizard_Financial.Designer.cs">
-      <DependentUpon>SupplierWizard_Financial.cs</DependentUpon>
+    <Compile Include="Supplier\SupplierWizard_Finance.Designer.cs">
+      <DependentUpon>SupplierWizard_Finance.cs</DependentUpon>
     </Compile>
     <Compile Include="Supplier\SupplierWizard_General.cs">
       <SubType>UserControl</SubType>
@@ -2766,11 +2796,11 @@
     <Compile Include="Supplier\SupplierWizard_General.Designer.cs">
       <DependentUpon>SupplierWizard_General.cs</DependentUpon>
     </Compile>
-    <Compile Include="Supplier\SupplierWizard_Personal.cs">
+    <Compile Include="Supplier\SupplierWizard_Address.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Supplier\SupplierWizard_Personal.Designer.cs">
-      <DependentUpon>SupplierWizard_Personal.cs</DependentUpon>
+    <Compile Include="Supplier\SupplierWizard_Address.Designer.cs">
+      <DependentUpon>SupplierWizard_Address.cs</DependentUpon>
     </Compile>
     <Compile Include="Member\MemberAddressTypeWizard.cs">
       <SubType>Form</SubType>
@@ -2779,7 +2809,7 @@
       <DependentUpon>MemberAddressTypeWizard.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\IRTList.cs" />
-    <Compile Include="Controls\PhoneTag.cs" />
+    <Compile Include="Helper\PhoneTagHelper.cs" />
     <Compile Include="Controls\RTImage.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -2848,10 +2878,10 @@
     <Compile Include="Settings\ZoneWizard.Designer.cs">
       <DependentUpon>ZoneWizard.cs</DependentUpon>
     </Compile>
-    <Compile Include="Settings\SmartTag4SupplierWizard.cs">
+    <Compile Include="Supplier\SmartTag4SupplierWizard.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Settings\SmartTag4SupplierWizard.Designer.cs">
+    <Compile Include="Supplier\SmartTag4SupplierWizard.Designer.cs">
       <DependentUpon>SmartTag4SupplierWizard.cs</DependentUpon>
     </Compile>
     <Compile Include="Member\SmartTag4MemberWizard.cs">
@@ -2890,10 +2920,10 @@
     <Compile Include="Member\MemberClassWizard.Designer.cs">
       <DependentUpon>MemberClassWizard.cs</DependentUpon>
     </Compile>
-    <Compile Include="Settings\MarketSectorWizard.cs">
+    <Compile Include="Supplier\MarketSectorWizard.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Settings\MarketSectorWizard.Designer.cs">
+    <Compile Include="Supplier\MarketSectorWizard.Designer.cs">
       <DependentUpon>MarketSectorWizard.cs</DependentUpon>
     </Compile>
     <Compile Include="Settings\LineOfOperationWizard.cs">
@@ -3338,6 +3368,10 @@
     </EmbeddedResource>
     <EmbeddedResource Include="AtsPane\SettingsAts.resx">
       <DependentUpon>SettingsAts.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Components\FABSkin.resx">
+      <DependentUpon>FABSkin.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Components\Layout\TopPane.resx">
@@ -4654,6 +4688,10 @@
       <DependentUpon>SupplierListRpt_Xls.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Supplier\SmartTag4Supplier_OptionsWizard.resx">
+      <DependentUpon>SmartTag4Supplier_OptionsWizard.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Supplier\SupplierAddressTypeWizard.resx">
       <DependentUpon>SupplierAddressTypeWizard.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -4670,16 +4708,16 @@
       <DependentUpon>SupplierWizard_Contact.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Supplier\SupplierWizard_Financial.resx">
-      <DependentUpon>SupplierWizard_Financial.cs</DependentUpon>
+    <EmbeddedResource Include="Supplier\SupplierWizard_Finance.resx">
+      <DependentUpon>SupplierWizard_Finance.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Supplier\SupplierWizard_General.resx">
       <DependentUpon>SupplierWizard_General.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Supplier\SupplierWizard_Personal.resx">
-      <DependentUpon>SupplierWizard_Personal.cs</DependentUpon>
+    <EmbeddedResource Include="Supplier\SupplierWizard_Address.resx">
+      <DependentUpon>SupplierWizard_Address.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Member\MemberAddressTypeWizard.resx">
@@ -4727,7 +4765,7 @@
       <DependentUpon>ZoneWizard.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Settings\SmartTag4SupplierWizard.resx">
+    <EmbeddedResource Include="Supplier\SmartTag4SupplierWizard.resx">
       <DependentUpon>SmartTag4SupplierWizard.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -4755,7 +4793,7 @@
       <DependentUpon>MemberClassWizard.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Settings\MarketSectorWizard.resx">
+    <EmbeddedResource Include="Supplier\MarketSectorWizard.resx">
       <DependentUpon>MarketSectorWizard.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>

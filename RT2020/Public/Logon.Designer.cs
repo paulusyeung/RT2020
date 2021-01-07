@@ -67,7 +67,6 @@ namespace RT2020.Public
             this.txtStaffNumber.Anchor = Gizmox.WebGUI.Forms.AnchorStyles.Top;
             resources.ApplyResources(this.txtStaffNumber, "txtStaffNumber");
             this.txtStaffNumber.Name = "txtStaffNumber";
-            this.txtStaffNumber.EnterKeyDown += new Gizmox.WebGUI.Forms.KeyEventHandler(this.txtStaffNumber_EnterKeyDown);
             // 
             // txtPassword
             // 
@@ -75,7 +74,6 @@ namespace RT2020.Public
             resources.ApplyResources(this.txtPassword, "txtPassword");
             this.txtPassword.Name = "txtPassword";
             this.txtPassword.PasswordChar = '*';
-            this.txtPassword.EnterKeyDown += new Gizmox.WebGUI.Forms.KeyEventHandler(this.txtPassword_EnterKeyDown);
             // 
             // btnLogon
             // 

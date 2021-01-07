@@ -1,0 +1,207 @@
+.Button-Control .Button-TopLeft
+{
+	[Skin.LeftTopNormalStyle];
+}
+
+.Button-Control .Button-Left
+{
+	[Skin.LeftNormalStyle];
+}
+
+.Button-Control .Button-BottomLeft
+{
+	[Skin.LeftBottomNormalStyle]; 
+}
+
+.Button-Control .Button-CenterTransparent
+{
+	[Skin.CenterNormalStyle];
+	background-color:transparent;
+	background-image:none;
+}
+
+.Button-Control .Button-TopRight
+{
+	[Skin.RightTopNormalStyle]; 
+}
+
+.Button-Control .Button-Right
+{
+	[Skin.RightNormalStyle]; 
+}
+
+.Button-Control .Button-BottomRight
+{
+	[Skin.RightBottomNormalStyle];  
+}
+
+.Button-Control .Button-Top
+{
+	[Skin.TopNormalStyle];
+}
+
+.Button-Control .Button-Bottom
+{
+	[Skin.BottomNormalStyle];
+}
+
+.Button-Control_Enter .Button-TopLeft
+{
+	[Skin.LeftTopHoverStyle]; 
+}
+
+.Button-Control_Enter .Button-Left
+{
+	[Skin.LeftHoverStyle]; 
+}
+
+.Button-Control_Enter .Button-BottomLeft
+{
+	[Skin.LeftBottomHoverStyle]; 
+}
+
+.Button-Control_Enter .Button-TopRight
+{
+	[Skin.RightTopHoverStyle]; 
+}
+
+.Button-Control_Enter .Button-Right
+{
+	[Skin.RightHoverStyle];
+}
+
+.Button-Control_Enter .Button-BottomRight
+{
+	[Skin.RightBottomHoverStyle];
+}
+
+.Button-Control_Enter .Button-Top
+{
+	[Skin.TopHoverStyle]; 
+}
+
+.Button-Control_Enter .Button-Bottom
+{
+	[Skin.BottomHoverStyle]; 
+}
+
+.Button-Control_Down .Button-TopLeft
+{
+	[Skin.LeftTopPressedStyle]; 
+}
+
+.Button-Control_Down .Button-Left
+{
+	[Skin.LeftPressedStyle]; 
+}
+
+.Button-Control_Down .Button-BottomLeft
+{
+	[Skin.LeftBottomPressedStyle];  
+}
+
+.Button-Control_Down .Button-TopRight
+{
+	[Skin.RightTopPressedStyle];
+}
+
+.Button-Control_Down .Button-Right
+{
+	[Skin.RightPressedStyle];
+}
+
+.Button-Control_Down .Button-BottomRight
+{
+	[Skin.RightBottomPressedStyle];
+}
+
+.Button-Control_Down .Button-Top
+{
+	[Skin.TopPressedStyle];
+}
+
+.Button-Control_Down .Button-Bottom
+{
+	[Skin.BottomPressedStyle];
+}
+
+.Button-Control_Focus .Button-TopLeft
+{
+	[Skin.LeftTopFocusedStyle];
+}
+
+.Button-Control_Focus .Button-Left
+{
+	[Skin.LeftFocusedStyle];
+}
+
+.Button-Control_Focus .Button-BottomLeft
+{
+	[Skin.LeftBottomFocusedStyle]; 
+}
+
+.Button-Control_Focus .Button-TopRight
+{
+	[Skin.RightTopFocusedStyle];
+}
+
+.Button-Control_Focus .Button-Right
+{
+	[Skin.RightFocusedStyle]; 
+}
+
+.Button-Control_Focus .Button-BottomRight
+{
+	[Skin.RightBottomFocusedStyle]; 
+}
+
+.Button-Control_Focus .Button-Top
+{
+	[Skin.TopFocusedStyle]; 
+}
+
+.Button-Control_Focus .Button-Bottom
+{
+	[Skin.BottomFocusedStyle]; 
+}
+
+.Button-Control_Disabled .Button-TopLeft
+{
+	[Skin.LeftTopDisabledStyle];
+}
+
+.Button-Control_Disabled .Button-Left
+{
+	[Skin.LeftDisabledStyle];
+}
+
+.Button-Control_Disabled .Button-BottomLeft
+{
+	[Skin.LeftBottomDisabledStyle]; 
+}
+
+.Button-Control_Disabled .Button-TopRight
+{
+	[Skin.RightTopDisabledStyle]; 
+}
+
+.Button-Control_Disabled .Button-Right
+{
+	[Skin.RightDisabledStyle];
+}
+
+.Button-Control_Disabled .Button-BottomRight
+{
+	[Skin.RightBottomDisabledStyle]; 
+}
+
+.Button-Control_Disabled .Button-Top
+{
+	[Skin.TopDisabledStyle];  
+}
+
+.Button-Control_Disabled .Button-Bottom
+{
+	[Skin.BottomDisabledStyle];
+}
+

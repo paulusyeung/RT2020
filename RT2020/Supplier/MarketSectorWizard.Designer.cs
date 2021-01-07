@@ -1,4 +1,4 @@
-namespace RT2020.Settings
+namespace RT2020.Supplier
 {
     partial class MarketSectorWizard
     {
@@ -49,6 +49,7 @@ namespace RT2020.Settings
             this.txtMarketSectorCode = new Gizmox.WebGUI.Forms.TextBox();
             this.lblMarketSectorCode = new Gizmox.WebGUI.Forms.Label();
             this.errorProvider = new Gizmox.WebGUI.Forms.ErrorProvider(this.components);
+            this.colParent = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
             this.SuspendLayout();
             // 
             // splitContainer
@@ -87,6 +88,7 @@ namespace RT2020.Settings
             this.colMarketSectorId,
             this.colLN,
             this.colMarketSectorCode,
+            this.colParent,
             this.colMarketSectorName,
             this.colMarketSectorNameAlt1,
             this.colMarketSectorNameAlt2});
@@ -103,7 +105,7 @@ namespace RT2020.Settings
             // 
             this.colMarketSectorId.Text = "MarketSectorId";
             this.colMarketSectorId.Visible = false;
-            this.colMarketSectorId.Width = 150;
+            this.colMarketSectorId.Width = 100;
             // 
             // colLN
             // 
@@ -226,6 +228,11 @@ namespace RT2020.Settings
             // 
             this.errorProvider.BlinkRate = 3;
             // 
+            // colParent
+            // 
+            this.colParent.Text = "Parent";
+            this.colParent.Width = 100;
+            // 
             // MarketSectorWizard
             // 
             this.Controls.Add(this.splitContainer);
@@ -261,7 +268,6 @@ namespace RT2020.Settings
         private Gizmox.WebGUI.Forms.ErrorProvider errorProvider;
         private Gizmox.WebGUI.Forms.ComboBox cboParentSector;
         private Gizmox.WebGUI.Forms.Label lblParentSector;
-
-
+        private Gizmox.WebGUI.Forms.ColumnHeader colParent;
     }
 }
