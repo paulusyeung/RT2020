@@ -1,6 +1,6 @@
-namespace RT2020.Supplier
+namespace RT2020.Workplace
 {
-    partial class SmartTag4Supplier_OptionsWizard
+    partial class SmartTag4Workplace_OptionsWizard
     {
         /// <summary>
         /// Required designer variable.
@@ -212,7 +212,7 @@ namespace RT2020.Supplier
             this.Size = new System.Drawing.Size(806, 506);
             this.StartPosition = Gizmox.WebGUI.Forms.FormStartPosition.CenterParent;
             this.Text = "Smart Tag for Member Wizard";
-            this.Load += new System.EventHandler(this.SmartTag4SupplierWizard_Load);
+            this.Load += new System.EventHandler(this.SmartTag4WorkplaceWizard_Load);
             this.ResumeLayout(false);
 
         }

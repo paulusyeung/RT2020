@@ -34,10 +34,10 @@ namespace RT2020.Settings
             this.colPhoneId = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
             this.colLN = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
             this.colPhoneCode = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colPriority = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
             this.colPhoneName = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
             this.colPhoneNameAlt1 = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
             this.colPhoneNameAlt2 = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
-            this.colPriority = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
             this.txtPriority = new Gizmox.WebGUI.Forms.TextBox();
             this.lblPriority = new Gizmox.WebGUI.Forms.Label();
             this.tbWizardAction = new Gizmox.WebGUI.Forms.ToolBar();
@@ -50,6 +50,11 @@ namespace RT2020.Settings
             this.txtPhoneCode = new Gizmox.WebGUI.Forms.TextBox();
             this.lblPhoneCode = new Gizmox.WebGUI.Forms.Label();
             this.errorProvider = new Gizmox.WebGUI.Forms.ErrorProvider(this.components);
+            this.lblPrefix = new Gizmox.WebGUI.Forms.Label();
+            this.lblMember = new Gizmox.WebGUI.Forms.Label();
+            this.lblStaff = new Gizmox.WebGUI.Forms.Label();
+            this.lblSupplier = new Gizmox.WebGUI.Forms.Label();
+            this.lblWorkplace = new Gizmox.WebGUI.Forms.Label();
             this.SuspendLayout();
             // 
             // splitContainer
@@ -67,6 +72,11 @@ namespace RT2020.Settings
             // 
             // splitContainer.Panel2
             // 
+            this.splitContainer.Panel2.Controls.Add(this.lblWorkplace);
+            this.splitContainer.Panel2.Controls.Add(this.lblSupplier);
+            this.splitContainer.Panel2.Controls.Add(this.lblStaff);
+            this.splitContainer.Panel2.Controls.Add(this.lblMember);
+            this.splitContainer.Panel2.Controls.Add(this.lblPrefix);
             this.splitContainer.Panel2.Controls.Add(this.txtPriority);
             this.splitContainer.Panel2.Controls.Add(this.lblPriority);
             this.splitContainer.Panel2.Controls.Add(this.tbWizardAction);
@@ -118,6 +128,12 @@ namespace RT2020.Settings
             this.colPhoneCode.Text = "Phone Code";
             this.colPhoneCode.Width = 80;
             // 
+            // colPriority
+            // 
+            this.colPriority.Tag = "Numeric";
+            this.colPriority.Text = "Priority";
+            this.colPriority.Width = 60;
+            // 
             // colPhoneName
             // 
             this.colPhoneName.Text = "Phone Name";
@@ -132,12 +148,6 @@ namespace RT2020.Settings
             // 
             this.colPhoneNameAlt2.Text = "Phone Name Cht";
             this.colPhoneNameAlt2.Width = 120;
-            // 
-            // colPriority
-            // 
-            this.colPriority.Tag = "Numeric";
-            this.colPriority.Text = "Priority";
-            this.colPriority.Width = 60;
             // 
             // txtPriority
             // 
@@ -232,6 +242,47 @@ namespace RT2020.Settings
             // 
             this.errorProvider.BlinkRate = 3;
             // 
+            // lblPrefix
+            // 
+            this.lblPrefix.Location = new System.Drawing.Point(16, 175);
+            this.lblPrefix.Name = "lblPrefix";
+            this.lblPrefix.Size = new System.Drawing.Size(140, 20);
+            this.lblPrefix.TabIndex = 9;
+            this.lblPrefix.Text = "Prefix";
+            // 
+            // lblMember
+            // 
+            this.lblMember.Font = new System.Drawing.Font("Tahoma", 8.25F);
+            this.lblMember.Location = new System.Drawing.Point(52, 195);
+            this.lblMember.Name = "lblMember";
+            this.lblMember.Size = new System.Drawing.Size(140, 20);
+            this.lblMember.TabIndex = 9;
+            this.lblMember.Text = "MBR = Member";
+            // 
+            // lblStaff
+            // 
+            this.lblStaff.Location = new System.Drawing.Point(52, 215);
+            this.lblStaff.Name = "lblStaff";
+            this.lblStaff.Size = new System.Drawing.Size(140, 20);
+            this.lblStaff.TabIndex = 9;
+            this.lblStaff.Text = "STA = Staff";
+            // 
+            // lblSupplier
+            // 
+            this.lblSupplier.Location = new System.Drawing.Point(52, 235);
+            this.lblSupplier.Name = "lblSupplier";
+            this.lblSupplier.Size = new System.Drawing.Size(140, 20);
+            this.lblSupplier.TabIndex = 9;
+            this.lblSupplier.Text = "SUP = Supplier";
+            // 
+            // lblWorkplace
+            // 
+            this.lblWorkplace.Location = new System.Drawing.Point(52, 255);
+            this.lblWorkplace.Name = "lblWorkplace";
+            this.lblWorkplace.Size = new System.Drawing.Size(140, 20);
+            this.lblWorkplace.TabIndex = 9;
+            this.lblWorkplace.Text = "WRK = Workplace";
+            // 
             // PhoneTagWizard
             // 
             this.Controls.Add(this.splitContainer);
@@ -268,5 +319,10 @@ namespace RT2020.Settings
         private Gizmox.WebGUI.Forms.Label lblPriority;
         private Gizmox.WebGUI.Forms.TextBox txtPriority;
         private Gizmox.WebGUI.Forms.ColumnHeader colPriority;
+        private Gizmox.WebGUI.Forms.Label lblWorkplace;
+        private Gizmox.WebGUI.Forms.Label lblSupplier;
+        private Gizmox.WebGUI.Forms.Label lblStaff;
+        private Gizmox.WebGUI.Forms.Label lblMember;
+        private Gizmox.WebGUI.Forms.Label lblPrefix;
     }
 }

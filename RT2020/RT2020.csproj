@@ -1724,6 +1724,7 @@
     <Compile Include="ModelEx\SmartTag4Member_OptionsEx.cs" />
     <Compile Include="ModelEx\SmartTag4StaffEx.cs" />
     <Compile Include="ModelEx\SmartTag4SupplierEx.cs" />
+    <Compile Include="ModelEx\SmartTag4Workplace_OptionsEx.cs" />
     <Compile Include="ModelEx\SmartTag4Supplier_OptionsEx.cs" />
     <Compile Include="ModelEx\SmartTag4WorkplaceEx.cs" />
     <Compile Include="ModelEx\ShipmentMethodEx.cs" />
@@ -2890,10 +2891,16 @@
     <Compile Include="Member\SmartTag4MemberWizard.Designer.cs">
       <DependentUpon>SmartTag4MemberWizard.cs</DependentUpon>
     </Compile>
-    <Compile Include="Settings\SmartTag4WorkplaceWizard.cs">
+    <Compile Include="Workplace\SmartTag4Workplace_OptionsWizard.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Settings\SmartTag4WorkplaceWizard.Designer.cs">
+    <Compile Include="Workplace\SmartTag4Workplace_OptionsWizard.Designer.cs">
+      <DependentUpon>SmartTag4Workplace_OptionsWizard.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Workplace\SmartTag4WorkplaceWizard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Workplace\SmartTag4WorkplaceWizard.Designer.cs">
       <DependentUpon>SmartTag4WorkplaceWizard.cs</DependentUpon>
     </Compile>
     <Compile Include="Staff\SmartTag4StaffWizard.cs">
@@ -3010,11 +3017,11 @@
     <Compile Include="Workplace\Reports\RptWorkplaceList.designer.cs">
       <DependentUpon>RptWorkplaceList.cs</DependentUpon>
     </Compile>
-    <Compile Include="Workplace\WorkplaceCode.cs">
+    <Compile Include="Workplace\WorkplaceWizard.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Workplace\WorkplaceCode.Designer.cs">
-      <DependentUpon>WorkplaceCode.cs</DependentUpon>
+    <Compile Include="Workplace\WorkplaceWizard.Designer.cs">
+      <DependentUpon>WorkplaceWizard.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -4773,7 +4780,11 @@
       <DependentUpon>SmartTag4MemberWizard.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Settings\SmartTag4WorkplaceWizard.resx">
+    <EmbeddedResource Include="Workplace\SmartTag4Workplace_OptionsWizard.resx">
+      <DependentUpon>SmartTag4Workplace_OptionsWizard.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Workplace\SmartTag4WorkplaceWizard.resx">
       <DependentUpon>SmartTag4WorkplaceWizard.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -4854,8 +4865,8 @@
       <DependentUpon>RptWorkplaceList.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Workplace\WorkplaceCode.resx">
-      <DependentUpon>WorkplaceCode.cs</DependentUpon>
+    <EmbeddedResource Include="Workplace\WorkplaceWizard.resx">
+      <DependentUpon>WorkplaceWizard.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>

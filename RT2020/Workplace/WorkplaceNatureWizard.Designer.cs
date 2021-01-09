@@ -28,140 +28,127 @@ namespace RT2020.Workplace
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.splitContainer = new Gizmox.WebGUI.Forms.SplitContainer();
-            this.lvWorkplaceNatureList = new Gizmox.WebGUI.Forms.ListView();
-            this.colWorkplaceNatureId = new Gizmox.WebGUI.Forms.ColumnHeader();
-            this.colLN = new Gizmox.WebGUI.Forms.ColumnHeader();
-            this.colWorkplaceNatureCode = new Gizmox.WebGUI.Forms.ColumnHeader();
-            this.colWorkplaceNatureName = new Gizmox.WebGUI.Forms.ColumnHeader();
-            this.colWorkplaceNatureNameChs = new Gizmox.WebGUI.Forms.ColumnHeader();
-            this.colWorkplaceNatureNameCht = new Gizmox.WebGUI.Forms.ColumnHeader();
+            this.lvNatureList = new Gizmox.WebGUI.Forms.ListView();
+            this.colNatureId = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colLN = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colNatureCode = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colParent = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colNatureName = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colNatureNameAlt1 = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colNatureNameAlt2 = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
             this.cboParentNature = new Gizmox.WebGUI.Forms.ComboBox();
             this.lblParentNature = new Gizmox.WebGUI.Forms.Label();
             this.tbWizardAction = new Gizmox.WebGUI.Forms.ToolBar();
-            this.txtWorkplaceNatureNameCht = new Gizmox.WebGUI.Forms.TextBox();
-            this.txtWorkplaceNatureNameChs = new Gizmox.WebGUI.Forms.TextBox();
-            this.txtWorkplaceNatureName = new Gizmox.WebGUI.Forms.TextBox();
-            this.lblWorkplaceNatureNameCht = new Gizmox.WebGUI.Forms.Label();
-            this.lblWorkplaceNatureNameChs = new Gizmox.WebGUI.Forms.Label();
-            this.lblWorkplaceNatureName = new Gizmox.WebGUI.Forms.Label();
-            this.txtWorkplaceNatureCode = new Gizmox.WebGUI.Forms.TextBox();
-            this.lblWorkplaceNatureCode = new Gizmox.WebGUI.Forms.Label();
-            this.errorProvider = new Gizmox.WebGUI.Forms.ErrorProvider();
+            this.txtNatureNameAlt2 = new Gizmox.WebGUI.Forms.TextBox();
+            this.txtNatureNameAlt1 = new Gizmox.WebGUI.Forms.TextBox();
+            this.txtNatureName = new Gizmox.WebGUI.Forms.TextBox();
+            this.lblNatureNameAlt2 = new Gizmox.WebGUI.Forms.Label();
+            this.lblNatureNameAlt1 = new Gizmox.WebGUI.Forms.Label();
+            this.lblNatureName = new Gizmox.WebGUI.Forms.Label();
+            this.txtNatureCode = new Gizmox.WebGUI.Forms.TextBox();
+            this.lblNatureCode = new Gizmox.WebGUI.Forms.Label();
+            this.errorProvider = new Gizmox.WebGUI.Forms.ErrorProvider(this.components);
             this.SuspendLayout();
             // 
             // splitContainer
             // 
-            this.splitContainer.Anchor = Gizmox.WebGUI.Forms.AnchorStyles.None;
+            this.splitContainer.AutoValidate = Gizmox.WebGUI.Forms.AutoValidate.EnablePreventFocusChange;
             this.splitContainer.BorderStyle = Gizmox.WebGUI.Forms.BorderStyle.Clear;
             this.splitContainer.Dock = Gizmox.WebGUI.Forms.DockStyle.Fill;
-            this.splitContainer.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
             this.splitContainer.FixedPanel = Gizmox.WebGUI.Forms.FixedPanel.Panel1;
             this.splitContainer.Location = new System.Drawing.Point(0, 0);
             this.splitContainer.Name = "splitContainer";
-            this.splitContainer.Orientation = Gizmox.WebGUI.Forms.Orientation.Vertical;
             // 
             // splitContainer.Panel1
             // 
-            this.splitContainer.Panel1.Controls.Add(this.lvWorkplaceNatureList);
-            this.splitContainer.Panel1.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
+            this.splitContainer.Panel1.Controls.Add(this.lvNatureList);
             // 
             // splitContainer.Panel2
             // 
             this.splitContainer.Panel2.Controls.Add(this.cboParentNature);
             this.splitContainer.Panel2.Controls.Add(this.lblParentNature);
             this.splitContainer.Panel2.Controls.Add(this.tbWizardAction);
-            this.splitContainer.Panel2.Controls.Add(this.txtWorkplaceNatureNameCht);
-            this.splitContainer.Panel2.Controls.Add(this.txtWorkplaceNatureNameChs);
-            this.splitContainer.Panel2.Controls.Add(this.txtWorkplaceNatureName);
-            this.splitContainer.Panel2.Controls.Add(this.lblWorkplaceNatureNameCht);
-            this.splitContainer.Panel2.Controls.Add(this.lblWorkplaceNatureNameChs);
-            this.splitContainer.Panel2.Controls.Add(this.lblWorkplaceNatureName);
-            this.splitContainer.Panel2.Controls.Add(this.txtWorkplaceNatureCode);
-            this.splitContainer.Panel2.Controls.Add(this.lblWorkplaceNatureCode);
-            this.splitContainer.Panel2.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
+            this.splitContainer.Panel2.Controls.Add(this.txtNatureNameAlt2);
+            this.splitContainer.Panel2.Controls.Add(this.txtNatureNameAlt1);
+            this.splitContainer.Panel2.Controls.Add(this.txtNatureName);
+            this.splitContainer.Panel2.Controls.Add(this.lblNatureNameAlt2);
+            this.splitContainer.Panel2.Controls.Add(this.lblNatureNameAlt1);
+            this.splitContainer.Panel2.Controls.Add(this.lblNatureName);
+            this.splitContainer.Panel2.Controls.Add(this.txtNatureCode);
+            this.splitContainer.Panel2.Controls.Add(this.lblNatureCode);
             this.splitContainer.Size = new System.Drawing.Size(806, 506);
             this.splitContainer.SplitterDistance = 500;
             this.splitContainer.TabIndex = 0;
             // 
-            // lvWorkplaceNatureList
+            // lvNatureList
             // 
-            this.lvWorkplaceNatureList.Anchor = Gizmox.WebGUI.Forms.AnchorStyles.None;
-            this.lvWorkplaceNatureList.Columns.AddRange(new Gizmox.WebGUI.Forms.ColumnHeader[] {
-            this.colWorkplaceNatureId,
+            this.lvNatureList.Columns.AddRange(new Gizmox.WebGUI.Forms.ColumnHeader[] {
+            this.colNatureId,
             this.colLN,
-            this.colWorkplaceNatureCode,
-            this.colWorkplaceNatureName,
-            this.colWorkplaceNatureNameChs,
-            this.colWorkplaceNatureNameCht});
-            this.lvWorkplaceNatureList.DataMember = null;
-            this.lvWorkplaceNatureList.Dock = Gizmox.WebGUI.Forms.DockStyle.Fill;
-            this.lvWorkplaceNatureList.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.lvWorkplaceNatureList.ItemsPerPage = 20;
-            this.lvWorkplaceNatureList.Location = new System.Drawing.Point(0, 0);
-            this.lvWorkplaceNatureList.Name = "lvWorkplaceNatureList";
-            this.lvWorkplaceNatureList.Size = new System.Drawing.Size(499, 506);
-            this.lvWorkplaceNatureList.TabIndex = 0;
-            this.lvWorkplaceNatureList.UseInternalPaging = true;
-            this.lvWorkplaceNatureList.SelectedIndexChanged += new System.EventHandler(this.lvWorkplaceNatureList_SelectedIndexChanged);
+            this.colNatureCode,
+            this.colParent,
+            this.colNatureName,
+            this.colNatureNameAlt1,
+            this.colNatureNameAlt2});
+            this.lvNatureList.DataMember = null;
+            this.lvNatureList.Dock = Gizmox.WebGUI.Forms.DockStyle.Fill;
+            this.lvNatureList.Location = new System.Drawing.Point(0, 0);
+            this.lvNatureList.Name = "lvNatureList";
+            this.lvNatureList.Size = new System.Drawing.Size(499, 506);
+            this.lvNatureList.TabIndex = 0;
+            this.lvNatureList.UseInternalPaging = true;
+            this.lvNatureList.SelectedIndexChanged += new System.EventHandler(this.lvWorkplaceNatureList_SelectedIndexChanged);
             // 
-            // colWorkplaceNatureId
+            // colNatureId
             // 
-            this.colWorkplaceNatureId.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.colWorkplaceNatureId.Image = null;
-            this.colWorkplaceNatureId.Text = "WorkplaceNatureId";
-            this.colWorkplaceNatureId.Visible = false;
-            this.colWorkplaceNatureId.Width = 150;
+            this.colNatureId.Text = "WorkplaceNatureId";
+            this.colNatureId.Visible = false;
+            this.colNatureId.Width = 100;
             // 
             // colLN
             // 
-            this.colLN.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.colLN.Image = null;
             this.colLN.Text = "LN";
             this.colLN.Width = 30;
             // 
-            // colWorkplaceNatureCode
+            // colNatureCode
             // 
-            this.colWorkplaceNatureCode.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.colWorkplaceNatureCode.Image = null;
-            this.colWorkplaceNatureCode.Text = "Nature Code";
-            this.colWorkplaceNatureCode.Width = 80;
+            this.colNatureCode.Text = "Nature Code";
+            this.colNatureCode.Width = 80;
             // 
-            // colWorkplaceNatureName
+            // colParent
             // 
-            this.colWorkplaceNatureName.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.colWorkplaceNatureName.Image = null;
-            this.colWorkplaceNatureName.Text = "Nature Name";
-            this.colWorkplaceNatureName.Width = 120;
+            this.colParent.Text = "Parent";
+            this.colParent.Width = 80;
             // 
-            // colWorkplaceNatureNameChs
+            // colNatureName
             // 
-            this.colWorkplaceNatureNameChs.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.colWorkplaceNatureNameChs.Image = null;
-            this.colWorkplaceNatureNameChs.Text = "Nature Name Chs";
-            this.colWorkplaceNatureNameChs.Width = 120;
+            this.colNatureName.Text = "Nature Name";
+            this.colNatureName.Width = 120;
             // 
-            // colWorkplaceNatureNameCht
+            // colNatureNameAlt1
             // 
-            this.colWorkplaceNatureNameCht.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.colWorkplaceNatureNameCht.Image = null;
-            this.colWorkplaceNatureNameCht.Text = "Nature Name Cht";
-            this.colWorkplaceNatureNameCht.Width = 120;
+            this.colNatureNameAlt1.Text = "Nature Name Chs";
+            this.colNatureNameAlt1.Width = 120;
+            // 
+            // colNatureNameAlt2
+            // 
+            this.colNatureNameAlt2.Text = "Nature Name Cht";
+            this.colNatureNameAlt2.Width = 120;
             // 
             // cboParentNature
             // 
             this.cboParentNature.BorderStyle = Gizmox.WebGUI.Forms.BorderStyle.Fixed3D;
-            this.cboParentNature.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
             this.cboParentNature.DropDownStyle = Gizmox.WebGUI.Forms.ComboBoxStyle.DropDownList;
             this.cboParentNature.DropDownWidth = 142;
-            this.cboParentNature.Location = new System.Drawing.Point(122, 129);
+            this.cboParentNature.Location = new System.Drawing.Point(159, 129);
             this.cboParentNature.Name = "cboParentNature";
-            this.cboParentNature.Size = new System.Drawing.Size(142, 21);
+            this.cboParentNature.Size = new System.Drawing.Size(130, 21);
             this.cboParentNature.TabIndex = 5;
             // 
             // lblParentNature
             // 
-            this.lblParentNature.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
             this.lblParentNature.Location = new System.Drawing.Point(16, 132);
             this.lblParentNature.Name = "lblParentNature";
             this.lblParentNature.Size = new System.Drawing.Size(100, 23);
@@ -170,95 +157,81 @@ namespace RT2020.Workplace
             // 
             // tbWizardAction
             // 
-            this.tbWizardAction.Anchor = Gizmox.WebGUI.Forms.AnchorStyles.None;
-            this.tbWizardAction.Appearance = Gizmox.WebGUI.Forms.ToolBarAppearance.Normal;
-            this.tbWizardAction.Dock = Gizmox.WebGUI.Forms.DockStyle.Top;
+            this.tbWizardAction.ButtonSize = new System.Drawing.Size(20, 20);
             this.tbWizardAction.DragHandle = true;
-            this.tbWizardAction.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.tbWizardAction.DropDownArrows = false;
-            this.tbWizardAction.ImageList = null;
+            this.tbWizardAction.DropDownArrows = true;
+            this.tbWizardAction.ImageSize = new System.Drawing.Size(16, 16);
             this.tbWizardAction.Location = new System.Drawing.Point(0, 0);
             this.tbWizardAction.MenuHandle = true;
             this.tbWizardAction.Name = "tbWizardAction";
-            //this.tbWizardAction.RightToLeft = false;
             this.tbWizardAction.ShowToolTips = true;
+            this.tbWizardAction.Size = new System.Drawing.Size(302, 26);
             this.tbWizardAction.TabIndex = 8;
             // 
-            // txtWorkplaceNatureNameCht
+            // txtNatureNameAlt2
             // 
-            this.txtWorkplaceNatureNameCht.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.txtWorkplaceNatureNameCht.Location = new System.Drawing.Point(122, 106);
-            this.txtWorkplaceNatureNameCht.Name = "txtWorkplaceNatureNameCht";
-            this.txtWorkplaceNatureNameCht.Size = new System.Drawing.Size(142, 20);
-            this.txtWorkplaceNatureNameCht.TabIndex = 4;
+            this.txtNatureNameAlt2.Location = new System.Drawing.Point(159, 106);
+            this.txtNatureNameAlt2.Name = "txtNatureNameAlt2";
+            this.txtNatureNameAlt2.Size = new System.Drawing.Size(130, 20);
+            this.txtNatureNameAlt2.TabIndex = 4;
             // 
-            // txtWorkplaceNatureNameChs
+            // txtNatureNameAlt1
             // 
-            this.txtWorkplaceNatureNameChs.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.txtWorkplaceNatureNameChs.Location = new System.Drawing.Point(122, 83);
-            this.txtWorkplaceNatureNameChs.Name = "txtWorkplaceNatureNameChs";
-            this.txtWorkplaceNatureNameChs.Size = new System.Drawing.Size(142, 20);
-            this.txtWorkplaceNatureNameChs.TabIndex = 3;
+            this.txtNatureNameAlt1.Location = new System.Drawing.Point(159, 83);
+            this.txtNatureNameAlt1.Name = "txtNatureNameAlt1";
+            this.txtNatureNameAlt1.Size = new System.Drawing.Size(130, 20);
+            this.txtNatureNameAlt1.TabIndex = 3;
             // 
-            // txtWorkplaceNatureName
+            // txtNatureName
             // 
-            this.txtWorkplaceNatureName.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.txtWorkplaceNatureName.Location = new System.Drawing.Point(122, 60);
-            this.txtWorkplaceNatureName.Name = "txtWorkplaceNatureName";
-            this.txtWorkplaceNatureName.Size = new System.Drawing.Size(142, 20);
-            this.txtWorkplaceNatureName.TabIndex = 2;
+            this.txtNatureName.Location = new System.Drawing.Point(159, 60);
+            this.txtNatureName.Name = "txtNatureName";
+            this.txtNatureName.Size = new System.Drawing.Size(130, 20);
+            this.txtNatureName.TabIndex = 2;
             // 
-            // lblWorkplaceNatureNameCht
+            // lblNatureNameAlt2
             // 
-            this.lblWorkplaceNatureNameCht.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.lblWorkplaceNatureNameCht.Location = new System.Drawing.Point(16, 109);
-            this.lblWorkplaceNatureNameCht.Name = "lblWorkplaceNatureNameCht";
-            this.lblWorkplaceNatureNameCht.Size = new System.Drawing.Size(100, 23);
-            this.lblWorkplaceNatureNameCht.TabIndex = 4;
-            this.lblWorkplaceNatureNameCht.Text = "Nature Name Cht";
+            this.lblNatureNameAlt2.Location = new System.Drawing.Point(28, 109);
+            this.lblNatureNameAlt2.Name = "lblNatureNameAlt2";
+            this.lblNatureNameAlt2.Size = new System.Drawing.Size(128, 20);
+            this.lblNatureNameAlt2.TabIndex = 4;
+            this.lblNatureNameAlt2.Text = "Nature Name Cht";
             // 
-            // lblWorkplaceNatureNameChs
+            // lblNatureNameAlt1
             // 
-            this.lblWorkplaceNatureNameChs.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.lblWorkplaceNatureNameChs.Location = new System.Drawing.Point(16, 86);
-            this.lblWorkplaceNatureNameChs.Name = "lblWorkplaceNatureNameChs";
-            this.lblWorkplaceNatureNameChs.Size = new System.Drawing.Size(100, 23);
-            this.lblWorkplaceNatureNameChs.TabIndex = 3;
-            this.lblWorkplaceNatureNameChs.Text = "Nature Name Chs:";
+            this.lblNatureNameAlt1.Location = new System.Drawing.Point(28, 86);
+            this.lblNatureNameAlt1.Name = "lblNatureNameAlt1";
+            this.lblNatureNameAlt1.Size = new System.Drawing.Size(128, 20);
+            this.lblNatureNameAlt1.TabIndex = 3;
+            this.lblNatureNameAlt1.Text = "Nature Name Chs:";
             // 
-            // lblWorkplaceNatureName
+            // lblNatureName
             // 
-            this.lblWorkplaceNatureName.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.lblWorkplaceNatureName.Location = new System.Drawing.Point(16, 63);
-            this.lblWorkplaceNatureName.Name = "lblWorkplaceNatureName";
-            this.lblWorkplaceNatureName.Size = new System.Drawing.Size(100, 23);
-            this.lblWorkplaceNatureName.TabIndex = 2;
-            this.lblWorkplaceNatureName.Text = "Nature Name:";
+            this.lblNatureName.Location = new System.Drawing.Point(16, 63);
+            this.lblNatureName.Name = "lblNatureName";
+            this.lblNatureName.Size = new System.Drawing.Size(100, 23);
+            this.lblNatureName.TabIndex = 2;
+            this.lblNatureName.Text = "Nature Name:";
             // 
-            // txtWorkplaceNatureCode
+            // txtNatureCode
             // 
-            this.txtWorkplaceNatureCode.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.txtWorkplaceNatureCode.Location = new System.Drawing.Point(122, 37);
-            this.txtWorkplaceNatureCode.MaxLength = 10;
-            this.txtWorkplaceNatureCode.Name = "txtWorkplaceNatureCode";
-            this.txtWorkplaceNatureCode.Size = new System.Drawing.Size(142, 20);
-            this.txtWorkplaceNatureCode.TabIndex = 1;
+            this.txtNatureCode.Location = new System.Drawing.Point(159, 37);
+            this.txtNatureCode.MaxLength = 10;
+            this.txtNatureCode.Name = "txtNatureCode";
+            this.txtNatureCode.Size = new System.Drawing.Size(130, 20);
+            this.txtNatureCode.TabIndex = 1;
             // 
-            // lblWorkplaceNatureCode
+            // lblNatureCode
             // 
-            this.lblWorkplaceNatureCode.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.lblWorkplaceNatureCode.Location = new System.Drawing.Point(16, 40);
-            this.lblWorkplaceNatureCode.Name = "lblWorkplaceNatureCode";
-            this.lblWorkplaceNatureCode.Size = new System.Drawing.Size(100, 23);
-            this.lblWorkplaceNatureCode.TabIndex = 0;
-            this.lblWorkplaceNatureCode.Text = "Nature Code:";
+            this.lblNatureCode.Location = new System.Drawing.Point(16, 40);
+            this.lblNatureCode.Name = "lblNatureCode";
+            this.lblNatureCode.Size = new System.Drawing.Size(100, 23);
+            this.lblNatureCode.TabIndex = 0;
+            this.lblNatureCode.Text = "Nature Code:";
             // 
             // errorProvider
             // 
             this.errorProvider.BlinkRate = 3;
-            this.errorProvider.BlinkStyle = Gizmox.WebGUI.Forms.ErrorBlinkStyle.BlinkIfDifferentError;
-            this.errorProvider.DataMember = "";
-            this.errorProvider.DataSource = "";
             // 
             // WorkplaceNatureWizard
             // 
@@ -268,6 +241,7 @@ namespace RT2020.Workplace
             this.Size = new System.Drawing.Size(806, 506);
             this.StartPosition = Gizmox.WebGUI.Forms.FormStartPosition.CenterParent;
             this.Text = "WorkplaceNature Wizard";
+            this.Load += new System.EventHandler(this.WorkplaceNatureWizard_Load);
             this.ResumeLayout(false);
 
         }
@@ -275,26 +249,25 @@ namespace RT2020.Workplace
         #endregion
 
         private Gizmox.WebGUI.Forms.SplitContainer splitContainer;
-        private Gizmox.WebGUI.Forms.ListView lvWorkplaceNatureList;
-        private Gizmox.WebGUI.Forms.ColumnHeader colWorkplaceNatureId;
+        private Gizmox.WebGUI.Forms.ListView lvNatureList;
+        private Gizmox.WebGUI.Forms.ColumnHeader colNatureId;
         private Gizmox.WebGUI.Forms.ColumnHeader colLN;
-        private Gizmox.WebGUI.Forms.ColumnHeader colWorkplaceNatureCode;
-        private Gizmox.WebGUI.Forms.ColumnHeader colWorkplaceNatureName;
-        private Gizmox.WebGUI.Forms.ColumnHeader colWorkplaceNatureNameChs;
-        private Gizmox.WebGUI.Forms.ColumnHeader colWorkplaceNatureNameCht;
-        private Gizmox.WebGUI.Forms.TextBox txtWorkplaceNatureNameCht;
-        private Gizmox.WebGUI.Forms.TextBox txtWorkplaceNatureNameChs;
-        private Gizmox.WebGUI.Forms.TextBox txtWorkplaceNatureName;
-        private Gizmox.WebGUI.Forms.Label lblWorkplaceNatureNameCht;
-        private Gizmox.WebGUI.Forms.Label lblWorkplaceNatureNameChs;
-        private Gizmox.WebGUI.Forms.Label lblWorkplaceNatureName;
-        private Gizmox.WebGUI.Forms.TextBox txtWorkplaceNatureCode;
-        private Gizmox.WebGUI.Forms.Label lblWorkplaceNatureCode;
+        private Gizmox.WebGUI.Forms.ColumnHeader colNatureCode;
+        private Gizmox.WebGUI.Forms.ColumnHeader colNatureName;
+        private Gizmox.WebGUI.Forms.ColumnHeader colNatureNameAlt1;
+        private Gizmox.WebGUI.Forms.ColumnHeader colNatureNameAlt2;
+        private Gizmox.WebGUI.Forms.TextBox txtNatureNameAlt2;
+        private Gizmox.WebGUI.Forms.TextBox txtNatureNameAlt1;
+        private Gizmox.WebGUI.Forms.TextBox txtNatureName;
+        private Gizmox.WebGUI.Forms.Label lblNatureNameAlt2;
+        private Gizmox.WebGUI.Forms.Label lblNatureNameAlt1;
+        private Gizmox.WebGUI.Forms.Label lblNatureName;
+        private Gizmox.WebGUI.Forms.TextBox txtNatureCode;
+        private Gizmox.WebGUI.Forms.Label lblNatureCode;
         private Gizmox.WebGUI.Forms.ToolBar tbWizardAction;
         private Gizmox.WebGUI.Forms.ErrorProvider errorProvider;
         private Gizmox.WebGUI.Forms.ComboBox cboParentNature;
         private Gizmox.WebGUI.Forms.Label lblParentNature;
-
-
+        private Gizmox.WebGUI.Forms.ColumnHeader colParent;
     }
 }

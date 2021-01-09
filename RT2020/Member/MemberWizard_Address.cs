@@ -141,7 +141,7 @@ namespace RT2020.Member
 
         private void SetPhoneTag()
         {
-            var oTag = new PhoneTagHelper(this);
+            var oTag = new PhoneTagHelper(this, "MBR");
             oTag.SetPhoneTag();
         }
         #endregion
@@ -244,12 +244,7 @@ namespace RT2020.Member
         {
             if (cboCountry.SelectedValue != null && _FormLoaded)
             {
-                //if (Common.Utility.IsGUID(cboCountry.SelectedValue.ToString()))
-                //{
-                //    FillProvinceList(new System.Guid(cboCountry.SelectedValue.ToString()));
-                //}
                 FillProvinceList((Guid)cboCountry.SelectedValue);
-                //FillProvinceList(((KeyValuePair<Guid, string>)cboCountry.SelectedValue).Key);
             }
         }
 
@@ -257,11 +252,6 @@ namespace RT2020.Member
         {
             if (cboProvince.SelectedValue != null && _FormLoaded)
             {
-                //if (Common.Utility.IsGUID(cboProvince.SelectedValue.ToString()))
-                //{
-                //    FillCityList(new System.Guid(cboProvince.SelectedValue.ToString()));
-                //}
-                //FillCityList(((KeyValuePair<Guid, string>)cboProvince.SelectedValue).Key);
                 FillCityList((Guid)cboProvince.SelectedValue);
             }
         }

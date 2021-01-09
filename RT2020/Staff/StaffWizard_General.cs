@@ -285,8 +285,8 @@ namespace RT2020.Staff
                     txtNameChs.Text = staff.FullName_Chs;
                     txtNameCht.Text = staff.FullName_Cht;
                     txtPassword.Text = staff.Password;
-                    txtCreationDate.Text = RT2020.SystemInfo.Settings.DateTimeToString(staff.CreatedOn, false);
-                    txtLastUpdate.Text = RT2020.SystemInfo.Settings.DateTimeToString(staff.ModifiedOn, false);
+                    txtCreationDate.Text = DateTimeHelper.DateTimeToString(staff.CreatedOn, false);
+                    txtLastUpdate.Text = DateTimeHelper.DateTimeToString(staff.ModifiedOn, false);
                     txtModified.Text = ModelEx.StaffEx.GetStaffNumberById(staff.ModifiedBy);
                     txtStateOffice.Text = "";
                     txtStateCounter.Text = "";

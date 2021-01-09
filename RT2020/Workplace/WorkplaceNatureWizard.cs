@@ -13,6 +13,8 @@ using Gizmox.WebGUI.Common.Resources;
 using System.Data.SqlClient;
 using System.Configuration;
 using RT2020.Helper;
+using System.Linq;
+using System.Data.Entity;
 
 #endregion
 
@@ -20,14 +22,95 @@ namespace RT2020.Workplace
 {
     public partial class WorkplaceNatureWizard : Form
     {
+        #region Properties
+        private Guid _NatureId = System.Guid.Empty;
+        public Guid WorkplaceNatureId
+        {
+            get { return _NatureId; }
+            set { _NatureId = value; }
+        }
+        #endregion
+
         public WorkplaceNatureWizard()
         {
             InitializeComponent();
+        }
+
+        private void WorkplaceNatureWizard_Load(object sender, EventArgs e)
+        {
+            SetCaptions();
+            SetAttributes();
             SetToolBar();
+
             FillParentNatureList();
             BindWorkplaceNatureList();
             SetCtrlEditable();
         }
+
+        #region SetCaptions SetAttributes
+
+        private void SetCaptions()
+        {
+            this.Text = WestwindHelper.GetWord("workplaceNature.setup", "Model");
+
+            colLN.Text = WestwindHelper.GetWord("listview.line", "Tools");
+
+            colNatureCode.Text = WestwindHelper.GetWord("workplaceNature.code", "Model");
+            colParent.Text = WestwindHelper.GetWord("workplaceNature.parent", "Model");
+            colNatureName.Text = WestwindHelper.GetWord("workplaceNature.name", "Model");
+            colNatureNameAlt1.Text = WestwindHelper.GetWord(String.Format("language.{0}", LanguageHelper.AlternateLanguage1.Key.ToLower()), "Menu");
+            colNatureNameAlt2.Text = WestwindHelper.GetWord(String.Format("language.{0}", LanguageHelper.AlternateLanguage2.Key.ToLower()), "Menu");
+
+            lblNatureCode.Text = WestwindHelper.GetWordWithColon("workplaceNature.code", "Model");
+            lblNatureName.Text = WestwindHelper.GetWordWithColon("workplaceNature.name", "Model");
+            lblNatureNameAlt1.Text = WestwindHelper.GetWordWithColon(String.Format("language.{0}", LanguageHelper.AlternateLanguage1.Key.ToLower()), "Menu");
+            lblNatureNameAlt2.Text = WestwindHelper.GetWordWithColon(String.Format("language.{0}", LanguageHelper.AlternateLanguage2.Key.ToLower()), "Menu");
+
+            lblParentNature.Text = WestwindHelper.GetWordWithColon("workplaceNature.parent", "Model");
+        }
+
+        private void SetAttributes()
+        {
+            lvNatureList.Dock = DockStyle.Fill;
+
+            colLN.TextAlign = HorizontalAlignment.Center;
+            colNatureCode.TextAlign = HorizontalAlignment.Left;
+            colNatureCode.ContentAlign = ExtendedHorizontalAlignment.Center;
+            colParent.TextAlign = HorizontalAlignment.Center;
+            colParent.ContentAlign = ExtendedHorizontalAlignment.Center;
+            colNatureName.TextAlign = HorizontalAlignment.Left;
+            colNatureName.ContentAlign = ExtendedHorizontalAlignment.Center;
+            colNatureNameAlt1.TextAlign = HorizontalAlignment.Left;
+            colNatureNameAlt1.ContentAlign = ExtendedHorizontalAlignment.Center;
+            colNatureNameAlt2.TextAlign = HorizontalAlignment.Left;
+            colNatureNameAlt2.ContentAlign = ExtendedHorizontalAlignment.Center;
+
+            switch (LanguageHelper.AlternateLanguagesUsed)
+            {
+                case 1:
+                    // hide alt2
+                    lblNatureNameAlt2.Visible = txtNatureNameAlt2.Visible = false;
+                    colNatureNameAlt2.Visible = false;
+                    // push parent dept. up
+                    lblParentNature.Location = new Point(lblParentNature.Location.X, lblNatureNameAlt2.Location.Y);
+                    cboParentNature.Location = new Point(cboParentNature.Location.X, txtNatureNameAlt2.Location.Y);
+                    break;
+                case 2:
+                    // do nothing
+                    break;
+                case 0:
+                default:
+                    // hide alt1 & alt2
+                    lblNatureNameAlt1.Visible = lblNatureNameAlt2.Visible = txtNatureNameAlt2.Visible = false;
+                    colNatureNameAlt1.Visible = colNatureNameAlt2.Visible = false;
+                    // push parent dept up
+                    lblParentNature.Location = new Point(lblParentNature.Location.X, lblNatureNameAlt1.Location.Y);
+                    cboParentNature.Location = new Point(cboParentNature.Location.X, txtNatureNameAlt1.Location.Y);
+                    break;
+            }
+        }
+
+        #endregion
 
         #region ToolBar
         private void SetToolBar()
@@ -42,21 +125,21 @@ namespace RT2020.Workplace
             sep.Style = ToolBarButtonStyle.Separator;
 
             // cmdSave
-            ToolBarButton cmdNew = new ToolBarButton("New", "New");
+            ToolBarButton cmdNew = new ToolBarButton("New", WestwindHelper.GetWord("edit.new", "General"));
             cmdNew.Tag = "New";
             cmdNew.Image = new IconResourceHandle("16x16.ico_16_3.gif");
 
             this.tbWizardAction.Buttons.Add(cmdNew);
 
             // cmdSave
-            ToolBarButton cmdSave = new ToolBarButton("Save", "Save");
+            ToolBarButton cmdSave = new ToolBarButton("Save", WestwindHelper.GetWord("edit.save", "General"));
             cmdSave.Tag = "Save";
             cmdSave.Image = new IconResourceHandle("16x16.16_L_save.gif");
 
             this.tbWizardAction.Buttons.Add(cmdSave);
 
             // cmdSaveNew
-            ToolBarButton cmdRefresh = new ToolBarButton("Refresh", "Refresh");
+            ToolBarButton cmdRefresh = new ToolBarButton("Refresh", WestwindHelper.GetWord("edit.save", "General"));
             cmdRefresh.Tag = "refresh";
             cmdRefresh.Image = new IconResourceHandle("16x16.16_L_refresh.gif");
 
@@ -64,11 +147,11 @@ namespace RT2020.Workplace
             this.tbWizardAction.Buttons.Add(sep);
 
             // cmdDelete
-            ToolBarButton cmdDelete = new ToolBarButton("Delete", "Delete");
+            ToolBarButton cmdDelete = new ToolBarButton("Delete", WestwindHelper.GetWord("edit.delete", "General"));
             cmdDelete.Tag = "Delete";
             cmdDelete.Image = new IconResourceHandle("16x16.16_L_remove.gif");
 
-            if (WorkplaceNatureId == System.Guid.Empty)
+            if (_NatureId == Guid.Empty)
             {
                 cmdDelete.Enabled = false;
             }
@@ -90,7 +173,6 @@ namespace RT2020.Workplace
                 {
                     case "new":
                         Clear();
-                        SetCtrlEditable();
                         break;
                     case "save":
                         if (IsValid())
@@ -102,8 +184,7 @@ namespace RT2020.Workplace
                         }
                         break;
                     case "refresh":
-                        BindWorkplaceNatureList();
-                        this.Update();
+                        Clear();
                         break;
                     case "delete":
                         MessageBox.Show("Delete Record?", "Delete Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question, new EventHandler(DeleteConfirmationHandler));
@@ -116,54 +197,63 @@ namespace RT2020.Workplace
         #region WorkplaceNature Code
         private void SetCtrlEditable()
         {
-            txtWorkplaceNatureCode.BackColor = (this.WorkplaceNatureId == System.Guid.Empty) ? Color.LightSkyBlue : Color.LightYellow;
-            txtWorkplaceNatureCode.ReadOnly = (this.WorkplaceNatureId != System.Guid.Empty);
+            txtNatureCode.BackColor = (_NatureId == Guid.Empty) ? Color.LightSkyBlue : Color.LightYellow;
+            txtNatureCode.ReadOnly = (_NatureId != Guid.Empty);
 
             ClearError();
         }
     
         private void ClearError()
         {
-            errorProvider.SetError(txtWorkplaceNatureCode, string.Empty);
+            errorProvider.SetError(txtNatureCode, string.Empty);
+        }
+
+        private void Clear()
+        {
+            txtNatureCode.Text = txtNatureName.Text = txtNatureNameAlt1.Text = txtNatureNameAlt2.Text = string.Empty;
+
+            _NatureId = Guid.Empty;
+            FillParentNatureList();
+            SetCtrlEditable();
         }
         #endregion
 
         #region Fill Combo List
         private void FillParentNatureList()
         {
-            string sql = "NatureId NOT IN ('" + this.WorkplaceNatureId.ToString() + "')";
+            string sql = "NatureId NOT IN ('" + _NatureId.ToString() + "')";
             string[] orderBy = new string[] { "NatureCode" };
-            ModelEx.WorkplaceNatureEx.LoadCombo(ref cboParentNature, "NatureCode", false, false, "", sql, orderBy);
+            ModelEx.WorkplaceNatureEx.LoadCombo(ref cboParentNature, "NatureCode", true, true, "", sql, orderBy);
         }
         #endregion
 
         #region Binding
         private void BindWorkplaceNatureList()
         {
-            this.lvWorkplaceNatureList.ListViewItemSorter = new ListViewItemSorter(lvWorkplaceNatureList);
-            this.lvWorkplaceNatureList.Items.Clear();
+            this.lvNatureList.ListViewItemSorter = new ListViewItemSorter(lvNatureList);
+            this.lvNatureList.Items.Clear();
 
             int iCount = 1;
-            StringBuilder sql = new StringBuilder();
-            sql.Append("SELECT NatureId,  ROW_NUMBER() OVER (ORDER BY NatureCode) AS rownum, ");
-            sql.Append(" NatureCode, NatureName, NatureName_Chs, NatureName_Cht ");
-            sql.Append(" FROM WorkplaceNature ");
-            
-            SqlCommand cmd = new SqlCommand();
-            cmd.CommandText = sql.ToString();
-            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
-            cmd.CommandType= CommandType.Text;
 
-            using (SqlDataReader reader = SqlHelper.Default.ExecuteReader(cmd))
+            using (var ctx = new EF6.RT2020Entities())
             {
-                while (reader.Read())
+                var list = ctx.WorkplaceNature.OrderBy(x => x.NatureCode).AsNoTracking().ToList();
+
+                foreach (var item in list)
                 {
-                    ListViewItem objItem = this.lvWorkplaceNatureList.Items.Add(reader.GetGuid(0).ToString()); // WorkplaceNatureId
+                    var parent = item.ParentNature.HasValue ? ctx.WorkplaceNature.Find(item.ParentNature.Value) : null;
+                    var parentName = parent == null ?
+                        "" : CookieHelper.CurrentLocaleId == LanguageHelper.AlternateLanguage2.Key ?
+                        parent.NatureName_Cht : CookieHelper.CurrentLocaleId == LanguageHelper.AlternateLanguage1.Key ?
+                        parent.NatureName_Chs :
+                        parent.NatureName;
+                    ListViewItem objItem = this.lvNatureList.Items.Add(item.NatureId.ToString());
                     objItem.SubItems.Add(iCount.ToString()); // Line Number
-                    objItem.SubItems.Add(reader.GetString(2)); // WorkplaceNatureCode
-                    objItem.SubItems.Add(reader.GetString(3)); // WorkplaceNature Name
-                    objItem.SubItems.Add(reader.GetString(4)); // WorkplaceNature Name Chs
-                    objItem.SubItems.Add(reader.GetString(5)); // WorkplaceNature Name Cht
+                    objItem.SubItems.Add(item.NatureCode);
+                    objItem.SubItems.Add(parentName);
+                    objItem.SubItems.Add(item.NatureName);
+                    objItem.SubItems.Add(item.NatureName_Chs);
+                    objItem.SubItems.Add(item.NatureName_Cht);
 
                     iCount++;
                 }
@@ -176,22 +266,25 @@ namespace RT2020.Workplace
         private bool IsValid()
         {
             bool result = true;
+            errorProvider.SetError(txtNatureCode, string.Empty);
 
             #region CountryCode 唔可以吉
-            errorProvider.SetError(txtWorkplaceNatureCode, string.Empty);
-            if (txtWorkplaceNatureCode.Text.Length == 0)
+            if (txtNatureCode.Text.Length == 0)
             {
-                errorProvider.SetError(txtWorkplaceNatureCode, "Cannot be blank!");
-                return false;
+                errorProvider.SetError(txtNatureCode, "Cannot be blank!");
+                result = false;
             }
             #endregion
 
             #region 新增，要 check CountryCode 係咪 in use
-            errorProvider.SetError(txtWorkplaceNatureCode, string.Empty);
-            if (this.WorkplaceNatureId == System.Guid.Empty && ModelEx.WorkplaceNatureEx.IsNatureCodeInUse(txtWorkplaceNatureCode.Text.Trim()))
+            if (_NatureId == Guid.Empty)
             {
-                errorProvider.SetError(txtWorkplaceNatureCode, "Nature Code in use");
-                return false;
+                if (ModelEx.WorkplaceNatureEx.IsNatureCodeInUse(txtNatureCode.Text.Trim()))
+                {
+                    errorProvider.SetError(txtNatureCode, "Nature Code in use");
+                    errorProvider.SetIconAlignment(txtNatureCode, ErrorIconAlignment.TopLeft);
+                    result = false;
+                }
             }
             #endregion
 
@@ -204,49 +297,26 @@ namespace RT2020.Workplace
 
             using (var ctx = new EF6.RT2020Entities())
             {
-                var wn = ctx.WorkplaceNature.Find(this.WorkplaceNatureId);
+                var wn = ctx.WorkplaceNature.Find(_NatureId);
 
                 if (wn == null)
                 {
                     wn = new EF6.WorkplaceNature();
-                    wn.NatureId = new Guid();
+                    wn.NatureId = Guid.NewGuid();
+                    wn.NatureCode = txtNatureCode.Text.Trim();
 
                     ctx.WorkplaceNature.Add(wn);
-                    wn.NatureCode = txtWorkplaceNatureCode.Text;
                 }
-                wn.NatureName = txtWorkplaceNatureName.Text;
-                wn.NatureName_Chs = txtWorkplaceNatureNameChs.Text;
-                wn.NatureName_Cht = txtWorkplaceNatureNameCht.Text;
-                wn.ParentNature = (cboParentNature.SelectedValue == null) ? Guid.Empty : new Guid(cboParentNature.SelectedValue.ToString());
+                wn.NatureName = txtNatureName.Text.Trim();
+                wn.NatureName_Chs = txtNatureNameAlt1.Text.Trim();
+                wn.NatureName_Cht = txtNatureNameAlt2.Text.Trim();
+                if ((Guid)cboParentNature.SelectedValue != Guid.Empty) wn.ParentNature = (Guid)cboParentNature.SelectedValue;
 
                 ctx.SaveChanges();
                 result = true;
             }
 
             return result;
-        }
-
-        private void Clear()
-        {
-            this.Close();
-
-            WorkplaceNatureWizard wizNature = new WorkplaceNatureWizard();
-            wizNature.ShowDialog();
-        }
-        #endregion
-
-        #region Properties
-        private Guid countryId = System.Guid.Empty;
-        public Guid WorkplaceNatureId
-        {
-            get
-            {
-                return countryId;
-            }
-            set
-            {
-                countryId = value;
-            }
         }
         #endregion
 
@@ -256,7 +326,7 @@ namespace RT2020.Workplace
             {
                 try
                 {
-                    var m = ctx.WorkplaceNature.Find(this.WorkplaceNatureId);
+                    var m = ctx.WorkplaceNature.Find(_NatureId);
                     if (m != null)
                     {
                         ctx.WorkplaceNature.Remove(m);
@@ -272,24 +342,24 @@ namespace RT2020.Workplace
 
         private void lvWorkplaceNatureList_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (lvWorkplaceNatureList.SelectedItem != null)
+            if (lvNatureList.SelectedItem != null)
             {
                 var id = Guid.NewGuid();
-                if (Guid.TryParse(lvWorkplaceNatureList.SelectedItem.Text, out id))
+                if (Guid.TryParse(lvNatureList.SelectedItem.Text, out id))
                 {
-                    this.WorkplaceNatureId = id;
+                    _NatureId = id;
                     using (var ctx = new EF6.RT2020Entities())
                     {
-                        var w = ctx.WorkplaceNature.Find(this.WorkplaceNatureId);
+                        var w = ctx.WorkplaceNature.Find(_NatureId);
                         if (w != null)
                         {
                             FillParentNatureList();
 
-                            txtWorkplaceNatureCode.Text = w.NatureCode;
-                            txtWorkplaceNatureName.Text = w.NatureName;
-                            txtWorkplaceNatureNameChs.Text = w.NatureName_Chs;
-                            txtWorkplaceNatureNameCht.Text = w.NatureName_Cht;
-                            cboParentNature.SelectedValue = w.ParentNature;
+                            txtNatureCode.Text = w.NatureCode;
+                            txtNatureName.Text = w.NatureName;
+                            txtNatureNameAlt1.Text = w.NatureName_Chs;
+                            txtNatureNameAlt2.Text = w.NatureName_Cht;
+                            cboParentNature.SelectedValue = w.ParentNature.HasValue ? w.ParentNature : Guid.Empty;
 
                             SetCtrlEditable();
                             SetToolBar();

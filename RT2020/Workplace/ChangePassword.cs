@@ -9,6 +9,7 @@ using System.Text;
 
 using Gizmox.WebGUI.Common;
 using Gizmox.WebGUI.Forms;
+using RT2020.Helper;
 
 #endregion
 
@@ -16,37 +17,69 @@ namespace RT2020.Workplace
 {
     public partial class ChangePassword : Form
     {
-        private System.Guid workplaceID = System.Guid.Empty; 
+        #region public properties
+        private Guid _WorkplaceId = Guid.Empty; 
+        public Guid WorkplaceId
+        {
+            get { return _WorkplaceId; }
+            set { _WorkplaceId = value; }
+        }
+
+        private bool _IsCompleted = false;
+        public bool IsCompleted
+        {
+            get { return _IsCompleted; }
+            set { _IsCompleted = value; }
+        }
+
+        private string _Password = string.Empty;
+        public string Password
+        {
+            get { return _Password; }
+            set { _Password = value; }
+        }
+        #endregion
 
         public ChangePassword()
         {
             InitializeComponent();
         }
 
-        public ChangePassword(System.Guid WorkplaceID)
+        private void ChangePassword_Load(object sender, EventArgs e)
         {
-            InitializeComponent();
+            SetCaptions();
 
-            workplaceID = WorkplaceID;
-            if (WorkplaceID != System.Guid.Empty)
+            if (_WorkplaceId != Guid.Empty)
             {
-                var password = ModelEx.WorkplaceEx.GetWorkplacePasswordById(WorkplaceID);
+                var password = ModelEx.WorkplaceEx.GetWorkplacePasswordById(_WorkplaceId);
                 if (password != "")
                 {
-                    this.Password = password;
+                    _Password = password;
                     txtOldPwd.Focus();
                 }
             }
         }
 
+        private void SetCaptions()
+        {
+            this.Text = WestwindHelper.GetWord("password.setup", "General");
+
+            lblOldPwd.Text = WestwindHelper.GetWordWithColon("password.old", "General");
+            lblNewpwd.Text = WestwindHelper.GetWordWithColon("password.new", "General");
+            lblComPwd.Text = WestwindHelper.GetWordWithColon("password.confirm", "General");
+
+            btnAccept.Text = WestwindHelper.GetWord("dialog.accept", "General");
+            btnCancel.Text = WestwindHelper.GetWord("dialog.cancel", "General");
+        }
+
         private void btnAccept_Click(object sender, EventArgs e)
         {
-            if (workplaceID == System.Guid.Empty)
+            if (_WorkplaceId == System.Guid.Empty)
             {
                 if (txtNewPwd.Text.Trim() == txtCNewPwd.Text.Trim())
                 {
-                    this.IsCompleted = true;
-                    this.Password = txtNewPwd.Text.Trim();
+                    _IsCompleted = true;
+                    _Password = txtNewPwd.Text.Trim();
                     this.Close(); 
                 }
                 else
@@ -56,12 +89,12 @@ namespace RT2020.Workplace
             }
             else
             {
-                if (txtOldPwd.Text.Trim().Equals(password))
+                if (txtOldPwd.Text.Trim().Equals(_Password))
                 {
                     if (txtNewPwd.Text.Trim() == txtCNewPwd.Text.Trim())
                     {
-                        this.IsCompleted = true;
-                        this.Password = txtNewPwd.Text.Trim();
+                        _IsCompleted = true;
+                        _Password = txtNewPwd.Text.Trim();
                         this.Close(); 
                     }
                     else
@@ -80,35 +113,6 @@ namespace RT2020.Workplace
 
         }
 
-        #region Properties
-
-        private bool isCompleted = false;
-        public bool IsCompleted
-        {
-            get
-            {
-                return isCompleted;
-            }
-            set
-            {
-                isCompleted = value;
-            }
-        }
-
-        private string password = string.Empty;
-        public string Password
-        {
-            get
-            {
-                return password;
-            }
-            set
-            {
-                password = value;
-            }
-        }
-        #endregion
-
         private void btnCancel_Click(object sender, EventArgs e)
         {
             this.Close(); 
@@ -116,7 +120,7 @@ namespace RT2020.Workplace
 
         private void txtNewPwd_GotFocus(object sender, EventArgs e)
         {
-            if (this.Password.Length > 0)
+            if (_Password.Length > 0)
             {
                 MessageBox.Show("Please input old password before changing it!", "Warning");
                 txtOldPwd.Focus();

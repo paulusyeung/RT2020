@@ -19,9 +19,9 @@ using System.Data.Entity;
 
 #endregion
 
-namespace RT2020.Supplier
+namespace RT2020.Workplace
 {
-    public partial class SmartTag4Supplier_OptionsWizard : Form
+    public partial class SmartTag4Workplace_OptionsWizard : Form
     {
         #region public properties
         private Guid _SmartTagId = Guid.Empty;
@@ -39,12 +39,12 @@ namespace RT2020.Supplier
         }
         #endregion
 
-        public SmartTag4Supplier_OptionsWizard()
+        public SmartTag4Workplace_OptionsWizard()
         {
             InitializeComponent();
         }
 
-        private void SmartTag4SupplierWizard_Load(object sender, EventArgs e)
+        private void SmartTag4WorkplaceWizard_Load(object sender, EventArgs e)
         {
             SetCaptions();
             SetAttributes();
@@ -236,7 +236,7 @@ namespace RT2020.Supplier
 
             using (var ctx = new EF6.RT2020Entities())
             {
-                var list = ctx.SmartTag4Supplier_Options.Where(x => x.TagId == _SmartTagId).OrderBy(x => x.OptionCode).AsNoTracking().ToList();
+                var list = ctx.SmartTag4Workplace_Options.Where(x => x.TagId == _SmartTagId).OrderBy(x => x.OptionCode).AsNoTracking().ToList();
 
                 foreach (var item in list)
                 {
@@ -272,7 +272,7 @@ namespace RT2020.Supplier
             errorProvider.SetError(txtOptionCode, string.Empty);
             if (_OptionId == Guid.Empty)
             {
-                if (ModelEx.SmartTag4Supplier_OptionsEx.IsTagCodeInUse(_SmartTagId, txtOptionCode.Text.Trim()))
+                if (ModelEx.SmartTag4Workplace_OptionsEx.IsTagCodeInUse(_SmartTagId, txtOptionCode.Text.Trim()))
                 {
                     errorProvider.SetError(txtOptionCode, "Option Code in use");
                     errorProvider.SetIconAlignment(txtOptionCode, ErrorIconAlignment.TopLeft);
@@ -290,16 +290,16 @@ namespace RT2020.Supplier
 
             using (var ctx = new EF6.RT2020Entities())
             {
-                var item = ctx.SmartTag4Supplier_Options.Find(_OptionId);
+                var item = ctx.SmartTag4Workplace_Options.Find(_OptionId);
 
                 if (item == null)
                 {
-                    item = new EF6.SmartTag4Supplier_Options();
+                    item = new EF6.SmartTag4Workplace_Options();
                     item.OptionId = Guid.NewGuid();
                     item.TagId = _SmartTagId;
                     item.OptionCode = txtOptionCode.Text;
 
-                    ctx.SmartTag4Supplier_Options.Add(item);
+                    ctx.SmartTag4Workplace_Options.Add(item);
                 }
                 item.OptionName = txtOptionName.Text;
                 item.OptionName_Alt1 = txtOptionNameAlt1.Text;
@@ -321,10 +321,10 @@ namespace RT2020.Supplier
             {
                 try
                 {
-                    var item = ctx.SmartTag4Supplier_Options.Find(_OptionId);
+                    var item = ctx.SmartTag4Workplace_Options.Find(_OptionId);
                     if (item != null)
                     {
-                        ctx.SmartTag4Supplier_Options.Remove(item);
+                        ctx.SmartTag4Workplace_Options.Remove(item);
                         ctx.SaveChanges();
                     }
                 }
@@ -345,7 +345,7 @@ namespace RT2020.Supplier
                     _OptionId = id;
                     using (var ctx = new EF6.RT2020Entities())
                     {
-                        var item = ctx.SmartTag4Supplier_Options.Find(id);
+                        var item = ctx.SmartTag4Workplace_Options.Find(id);
                         if (item != null)
                         {
                             txtOptionCode.Text = item.OptionCode;

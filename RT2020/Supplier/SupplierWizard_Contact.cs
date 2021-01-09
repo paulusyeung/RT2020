@@ -154,7 +154,7 @@ namespace RT2020.Supplier
 
         private void SetPhoneTags()
         {
-            var oTag = new PhoneTagHelper(this);
+            var oTag = new PhoneTagHelper(this, "SUP");
             oTag.SetPhoneTag();
         }
         #endregion

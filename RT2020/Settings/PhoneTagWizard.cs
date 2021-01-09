@@ -67,6 +67,11 @@ namespace RT2020.Settings
             lblPhoneNameAlt2.Text = WestwindHelper.GetWordWithColon(String.Format("language.{0}", LanguageHelper.AlternateLanguage2.Key.ToLower()), "Menu");
 
             lblPriority.Text = WestwindHelper.GetWord("phoneTag.priority", "Model");
+            lblPrefix.Text = WestwindHelper.GetWordWithColon("phoneTag.prefix", "Model");
+            lblMember.Text = lblMember.Text.Replace("Member", WestwindHelper.GetWord("member", "Model"));
+            lblStaff.Text = lblStaff.Text.Replace("Staff", WestwindHelper.GetWord("staff", "Model"));
+            lblSupplier.Text = lblSupplier.Text.Replace("Supplier", WestwindHelper.GetWord("supplier", "Model"));
+            lblWorkplace.Text = lblWorkplace.Text.Replace("Workplace", WestwindHelper.GetWord("wrokplace", "Model"));
         }
 
         private void SetAttributes()
@@ -220,7 +225,7 @@ namespace RT2020.Settings
 
             using (var ctx = new EF6.RT2020Entities())
             {
-                var list = ctx.PhoneTag.OrderBy(x => x.Priority).AsNoTracking().ToList();
+                var list = ctx.PhoneTag.OrderBy(x => x.PhoneCode).ThenBy(x => x.Priority).AsNoTracking().ToList();
                 foreach (var item in list)
                 {
                     var objItem = this.lvPhoneList.Items.Add(item.PhoneTagId.ToString());

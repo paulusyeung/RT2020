@@ -232,7 +232,7 @@ namespace RT2020.Staff
             // 
             // datHiredOn
             // 
-            this.datHiredOn.CustomFormat = "dd/MM/yyyy";
+            this.datHiredOn.CustomFormat = "yyyy-MM-dd";
             this.datHiredOn.Format = Gizmox.WebGUI.Forms.DateTimePickerFormat.Custom;
             this.datHiredOn.Location = new System.Drawing.Point(322, 155);
             this.datHiredOn.Name = "datHiredOn";

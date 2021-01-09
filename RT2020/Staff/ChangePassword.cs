@@ -81,8 +81,8 @@ namespace RT2020.Staff
             lblNewpwd.Text = WestwindHelper.GetWordWithColon("password.new", "General");
             lblComPwd.Text = WestwindHelper.GetWordWithColon("password.confirm", "General");
 
-            btnAccept.Text = WestwindHelper.GetWordWithColon("dialog.accept", "General");
-            btnCancel.Text = WestwindHelper.GetWordWithColon("dialog.cancel", "General");
+            btnAccept.Text = WestwindHelper.GetWord("dialog.accept", "General");
+            btnCancel.Text = WestwindHelper.GetWord("dialog.cancel", "General");
         }
 
         private void btnAccept_Click(object sender, EventArgs e)

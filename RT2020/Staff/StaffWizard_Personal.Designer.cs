@@ -193,7 +193,7 @@ namespace RT2020.Staff
             // 
             // dateofSmartTag2
             // 
-            this.dateofSmartTag2.CustomFormat = "dd/MM/yyyy";
+            this.dateofSmartTag2.CustomFormat = "yyyy-MM-dd";
             this.dateofSmartTag2.Format = Gizmox.WebGUI.Forms.DateTimePickerFormat.Custom;
             this.dateofSmartTag2.Location = new System.Drawing.Point(116, 34);
             this.dateofSmartTag2.Name = "dateofSmartTag2";

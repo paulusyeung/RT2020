@@ -121,7 +121,7 @@ namespace RT2020.AtsPane
                         wizSmartTag4Staffe.ShowDialog();
                         break;
                     case "workplace":
-                        RT2020.Workplace.WorkplaceCode workplace = new RT2020.Workplace.WorkplaceCode();
+                        RT2020.Workplace.WorkplaceWizard workplace = new RT2020.Workplace.WorkplaceWizard();
                         workplace.ShowDialog();
                         break;
                     case "workplacenature":
@@ -129,7 +129,7 @@ namespace RT2020.AtsPane
                         wizWorkplaceNature.ShowDialog();
                         break;
                     case "smarttag4workplace":
-                        RT2020.Settings.SmartTag4WorkplaceWizard wizSmartTag4Workplace = new RT2020.Settings.SmartTag4WorkplaceWizard();
+                        RT2020.Workplace.SmartTag4WorkplaceWizard wizSmartTag4Workplace = new RT2020.Workplace.SmartTag4WorkplaceWizard();
                         wizSmartTag4Workplace.ShowDialog();
                         break;
                     case "workplace reports":

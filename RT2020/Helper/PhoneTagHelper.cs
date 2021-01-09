@@ -22,10 +22,12 @@ namespace RT2020.Helper
     {
         Control upCtrl = null;
         string key = "PhoneTag{0}";
+        private string _Prefix = "";
 
-        public PhoneTagHelper(Control ctrl)
+        public PhoneTagHelper(Control ctrl, string prefix = "")
         {
             upCtrl = ctrl;
+            _Prefix = prefix;
         }
 
         /// <summary>
@@ -42,7 +44,7 @@ namespace RT2020.Helper
 
             using (var ctx = new EF6.RT2020Entities())
             {
-                var list = ctx.PhoneTag.OrderBy(x => x.Priority).AsNoTracking().ToList();
+                var list = ctx.PhoneTag.Where(x => x.PhoneCode.StartsWith(_Prefix)).OrderBy(x => x.Priority).AsNoTracking().ToList();
                 foreach (var item in list)
                 {
                     SetPhoneTagLabel(string.Format(key, iCount.ToString()), item.PhoneTagId, item.PhoneName, item.PhoneName_Chs, item.PhoneName_Cht);

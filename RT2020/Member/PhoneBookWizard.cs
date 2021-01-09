@@ -34,7 +34,7 @@ namespace RT2020.Member
 
         private void InitialPhoneTag()
         {
-            var oTag = new PhoneTagHelper(this);
+            var oTag = new PhoneTagHelper(this, "MBR");
             oTag.SetPhoneTag();
         }
 

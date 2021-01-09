@@ -1,4 +1,4 @@
-namespace RT2020.Settings
+namespace RT2020.Workplace
 {
     partial class SmartTag4WorkplaceWizard
     {
@@ -28,137 +28,128 @@ namespace RT2020.Settings
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.splitContainer = new Gizmox.WebGUI.Forms.SplitContainer();
             this.lvTagList = new Gizmox.WebGUI.Forms.ListView();
-            this.colTagId = new Gizmox.WebGUI.Forms.ColumnHeader();
-            this.colLN = new Gizmox.WebGUI.Forms.ColumnHeader();
-            this.colTagCode = new Gizmox.WebGUI.Forms.ColumnHeader();
-            this.colTagName = new Gizmox.WebGUI.Forms.ColumnHeader();
-            this.colTagNameChs = new Gizmox.WebGUI.Forms.ColumnHeader();
-            this.colTagNameCht = new Gizmox.WebGUI.Forms.ColumnHeader();
+            this.colTagId = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colLN = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colTagCode = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colPriority = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colTagName = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colTagNameAlt1 = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colTagNameAlt2 = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
             this.txtPriority = new Gizmox.WebGUI.Forms.TextBox();
             this.lblPriority = new Gizmox.WebGUI.Forms.Label();
             this.tbWizardAction = new Gizmox.WebGUI.Forms.ToolBar();
-            this.txtTagNameCht = new Gizmox.WebGUI.Forms.TextBox();
-            this.txtTagNameChs = new Gizmox.WebGUI.Forms.TextBox();
+            this.txtTagNameAlt2 = new Gizmox.WebGUI.Forms.TextBox();
+            this.txtTagNameAlt1 = new Gizmox.WebGUI.Forms.TextBox();
             this.txtTagName = new Gizmox.WebGUI.Forms.TextBox();
-            this.lblTagNameCht = new Gizmox.WebGUI.Forms.Label();
-            this.lblTagNameChs = new Gizmox.WebGUI.Forms.Label();
+            this.lblTagNameAlt2 = new Gizmox.WebGUI.Forms.Label();
+            this.lblTagNameAlt1 = new Gizmox.WebGUI.Forms.Label();
             this.lblTagName = new Gizmox.WebGUI.Forms.Label();
             this.txtTagCode = new Gizmox.WebGUI.Forms.TextBox();
             this.lblTagCode = new Gizmox.WebGUI.Forms.Label();
-            this.errorProvider = new Gizmox.WebGUI.Forms.ErrorProvider();
+            this.errorProvider = new Gizmox.WebGUI.Forms.ErrorProvider(this.components);
+            this.lnkOptions = new Gizmox.WebGUI.Forms.LinkLabel();
             this.SuspendLayout();
             // 
             // splitContainer
             // 
-            this.splitContainer.Anchor = Gizmox.WebGUI.Forms.AnchorStyles.None;
+            this.splitContainer.AutoValidate = Gizmox.WebGUI.Forms.AutoValidate.EnablePreventFocusChange;
             this.splitContainer.BorderStyle = Gizmox.WebGUI.Forms.BorderStyle.Clear;
             this.splitContainer.Dock = Gizmox.WebGUI.Forms.DockStyle.Fill;
-            this.splitContainer.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
             this.splitContainer.FixedPanel = Gizmox.WebGUI.Forms.FixedPanel.Panel1;
             this.splitContainer.Location = new System.Drawing.Point(0, 0);
             this.splitContainer.Name = "splitContainer";
-            this.splitContainer.Orientation = Gizmox.WebGUI.Forms.Orientation.Vertical;
             // 
             // splitContainer.Panel1
             // 
             this.splitContainer.Panel1.Controls.Add(this.lvTagList);
-            this.splitContainer.Panel1.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
             // 
             // splitContainer.Panel2
             // 
+            this.splitContainer.Panel2.Controls.Add(this.lnkOptions);
             this.splitContainer.Panel2.Controls.Add(this.txtPriority);
             this.splitContainer.Panel2.Controls.Add(this.lblPriority);
             this.splitContainer.Panel2.Controls.Add(this.tbWizardAction);
-            this.splitContainer.Panel2.Controls.Add(this.txtTagNameCht);
-            this.splitContainer.Panel2.Controls.Add(this.txtTagNameChs);
+            this.splitContainer.Panel2.Controls.Add(this.txtTagNameAlt2);
+            this.splitContainer.Panel2.Controls.Add(this.txtTagNameAlt1);
             this.splitContainer.Panel2.Controls.Add(this.txtTagName);
-            this.splitContainer.Panel2.Controls.Add(this.lblTagNameCht);
-            this.splitContainer.Panel2.Controls.Add(this.lblTagNameChs);
+            this.splitContainer.Panel2.Controls.Add(this.lblTagNameAlt2);
+            this.splitContainer.Panel2.Controls.Add(this.lblTagNameAlt1);
             this.splitContainer.Panel2.Controls.Add(this.lblTagName);
             this.splitContainer.Panel2.Controls.Add(this.txtTagCode);
             this.splitContainer.Panel2.Controls.Add(this.lblTagCode);
-            this.splitContainer.Panel2.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
             this.splitContainer.Size = new System.Drawing.Size(806, 506);
             this.splitContainer.SplitterDistance = 500;
             this.splitContainer.TabIndex = 0;
             // 
             // lvTagList
             // 
-            this.lvTagList.Anchor = Gizmox.WebGUI.Forms.AnchorStyles.None;
             this.lvTagList.Columns.AddRange(new Gizmox.WebGUI.Forms.ColumnHeader[] {
             this.colTagId,
             this.colLN,
             this.colTagCode,
+            this.colPriority,
             this.colTagName,
-            this.colTagNameChs,
-            this.colTagNameCht});
+            this.colTagNameAlt1,
+            this.colTagNameAlt2});
             this.lvTagList.DataMember = null;
             this.lvTagList.Dock = Gizmox.WebGUI.Forms.DockStyle.Fill;
-            this.lvTagList.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.lvTagList.ItemsPerPage = 20;
             this.lvTagList.Location = new System.Drawing.Point(0, 0);
             this.lvTagList.Name = "lvTagList";
             this.lvTagList.Size = new System.Drawing.Size(499, 506);
             this.lvTagList.TabIndex = 0;
             this.lvTagList.UseInternalPaging = true;
             this.lvTagList.SelectedIndexChanged += new System.EventHandler(this.lvTagList_SelectedIndexChanged);
+            this.lvTagList.ColumnClick += new Gizmox.WebGUI.Forms.ColumnClickEventHandler(this.lvTagList_ColumnClick);
             // 
             // colTagId
             // 
-            this.colTagId.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.colTagId.Image = null;
             this.colTagId.Text = "TagId";
             this.colTagId.Visible = false;
-            this.colTagId.Width = 150;
+            this.colTagId.Width = 100;
             // 
             // colLN
             // 
-            this.colLN.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.colLN.Image = null;
             this.colLN.Text = "LN";
             this.colLN.Width = 30;
             // 
             // colTagCode
             // 
-            this.colTagCode.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.colTagCode.Image = null;
             this.colTagCode.Text = "Tag Code";
             this.colTagCode.Width = 80;
             // 
+            // colPriority
+            // 
+            this.colPriority.Tag = "Numeric";
+            this.colPriority.Text = "Priority";
+            this.colPriority.Width = 60;
+            // 
             // colTagName
             // 
-            this.colTagName.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.colTagName.Image = null;
             this.colTagName.Text = "Tag Name";
             this.colTagName.Width = 120;
             // 
-            // colTagNameChs
+            // colTagNameAlt1
             // 
-            this.colTagNameChs.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.colTagNameChs.Image = null;
-            this.colTagNameChs.Text = "Tag Name Chs";
-            this.colTagNameChs.Width = 120;
+            this.colTagNameAlt1.Text = "Tag Name Chs";
+            this.colTagNameAlt1.Width = 120;
             // 
-            // colTagNameCht
+            // colTagNameAlt2
             // 
-            this.colTagNameCht.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.colTagNameCht.Image = null;
-            this.colTagNameCht.Text = "Tag Name Cht";
-            this.colTagNameCht.Width = 120;
+            this.colTagNameAlt2.Text = "Tag Name Cht";
+            this.colTagNameAlt2.Width = 120;
             // 
             // txtPriority
             // 
-            this.txtPriority.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.txtPriority.Location = new System.Drawing.Point(122, 129);
+            this.txtPriority.Location = new System.Drawing.Point(160, 129);
             this.txtPriority.Name = "txtPriority";
-            this.txtPriority.Size = new System.Drawing.Size(142, 20);
+            this.txtPriority.Size = new System.Drawing.Size(130, 20);
             this.txtPriority.TabIndex = 5;
             // 
             // lblPriority
             // 
-            this.lblPriority.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
             this.lblPriority.Location = new System.Drawing.Point(16, 132);
             this.lblPriority.Name = "lblPriority";
             this.lblPriority.Size = new System.Drawing.Size(100, 23);
@@ -167,65 +158,56 @@ namespace RT2020.Settings
             // 
             // tbWizardAction
             // 
-            this.tbWizardAction.Anchor = Gizmox.WebGUI.Forms.AnchorStyles.None;
-            this.tbWizardAction.Appearance = Gizmox.WebGUI.Forms.ToolBarAppearance.Normal;
-            this.tbWizardAction.Dock = Gizmox.WebGUI.Forms.DockStyle.Top;
+            this.tbWizardAction.ButtonSize = new System.Drawing.Size(20, 20);
             this.tbWizardAction.DragHandle = true;
-            this.tbWizardAction.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.tbWizardAction.DropDownArrows = false;
-            this.tbWizardAction.ImageList = null;
+            this.tbWizardAction.DropDownArrows = true;
+            this.tbWizardAction.ImageSize = new System.Drawing.Size(16, 16);
             this.tbWizardAction.Location = new System.Drawing.Point(0, 0);
             this.tbWizardAction.MenuHandle = true;
             this.tbWizardAction.Name = "tbWizardAction";
-            //this.tbWizardAction.RightToLeft = false;
             this.tbWizardAction.ShowToolTips = true;
+            this.tbWizardAction.Size = new System.Drawing.Size(302, 26);
             this.tbWizardAction.TabIndex = 6;
             // 
-            // txtTagNameCht
+            // txtTagNameAlt2
             // 
-            this.txtTagNameCht.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.txtTagNameCht.Location = new System.Drawing.Point(122, 106);
-            this.txtTagNameCht.Name = "txtTagNameCht";
-            this.txtTagNameCht.Size = new System.Drawing.Size(142, 20);
-            this.txtTagNameCht.TabIndex = 4;
+            this.txtTagNameAlt2.Location = new System.Drawing.Point(160, 106);
+            this.txtTagNameAlt2.Name = "txtTagNameAlt2";
+            this.txtTagNameAlt2.Size = new System.Drawing.Size(130, 20);
+            this.txtTagNameAlt2.TabIndex = 4;
             // 
-            // txtTagNameChs
+            // txtTagNameAlt1
             // 
-            this.txtTagNameChs.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.txtTagNameChs.Location = new System.Drawing.Point(122, 83);
-            this.txtTagNameChs.Name = "txtTagNameChs";
-            this.txtTagNameChs.Size = new System.Drawing.Size(142, 20);
-            this.txtTagNameChs.TabIndex = 3;
+            this.txtTagNameAlt1.Location = new System.Drawing.Point(160, 83);
+            this.txtTagNameAlt1.Name = "txtTagNameAlt1";
+            this.txtTagNameAlt1.Size = new System.Drawing.Size(130, 20);
+            this.txtTagNameAlt1.TabIndex = 3;
             // 
             // txtTagName
             // 
-            this.txtTagName.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.txtTagName.Location = new System.Drawing.Point(122, 60);
+            this.txtTagName.Location = new System.Drawing.Point(160, 60);
             this.txtTagName.Name = "txtTagName";
-            this.txtTagName.Size = new System.Drawing.Size(142, 20);
+            this.txtTagName.Size = new System.Drawing.Size(130, 20);
             this.txtTagName.TabIndex = 2;
             // 
-            // lblTagNameCht
+            // lblTagNameAlt2
             // 
-            this.lblTagNameCht.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.lblTagNameCht.Location = new System.Drawing.Point(16, 109);
-            this.lblTagNameCht.Name = "lblTagNameCht";
-            this.lblTagNameCht.Size = new System.Drawing.Size(100, 23);
-            this.lblTagNameCht.TabIndex = 4;
-            this.lblTagNameCht.Text = "Tag Name Cht";
+            this.lblTagNameAlt2.Location = new System.Drawing.Point(29, 109);
+            this.lblTagNameAlt2.Name = "lblTagNameAlt2";
+            this.lblTagNameAlt2.Size = new System.Drawing.Size(128, 20);
+            this.lblTagNameAlt2.TabIndex = 4;
+            this.lblTagNameAlt2.Text = "Tag Name Cht";
             // 
-            // lblTagNameChs
+            // lblTagNameAlt1
             // 
-            this.lblTagNameChs.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.lblTagNameChs.Location = new System.Drawing.Point(16, 86);
-            this.lblTagNameChs.Name = "lblTagNameChs";
-            this.lblTagNameChs.Size = new System.Drawing.Size(100, 23);
-            this.lblTagNameChs.TabIndex = 3;
-            this.lblTagNameChs.Text = "Tag Name Chs:";
+            this.lblTagNameAlt1.Location = new System.Drawing.Point(29, 86);
+            this.lblTagNameAlt1.Name = "lblTagNameAlt1";
+            this.lblTagNameAlt1.Size = new System.Drawing.Size(128, 20);
+            this.lblTagNameAlt1.TabIndex = 3;
+            this.lblTagNameAlt1.Text = "Tag Name Chs:";
             // 
             // lblTagName
             // 
-            this.lblTagName.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
             this.lblTagName.Location = new System.Drawing.Point(16, 63);
             this.lblTagName.Name = "lblTagName";
             this.lblTagName.Size = new System.Drawing.Size(100, 23);
@@ -234,16 +216,14 @@ namespace RT2020.Settings
             // 
             // txtTagCode
             // 
-            this.txtTagCode.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.txtTagCode.Location = new System.Drawing.Point(122, 37);
+            this.txtTagCode.Location = new System.Drawing.Point(160, 37);
             this.txtTagCode.MaxLength = 10;
             this.txtTagCode.Name = "txtTagCode";
-            this.txtTagCode.Size = new System.Drawing.Size(142, 20);
+            this.txtTagCode.Size = new System.Drawing.Size(130, 20);
             this.txtTagCode.TabIndex = 1;
             // 
             // lblTagCode
             // 
-            this.lblTagCode.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
             this.lblTagCode.Location = new System.Drawing.Point(16, 40);
             this.lblTagCode.Name = "lblTagCode";
             this.lblTagCode.Size = new System.Drawing.Size(100, 23);
@@ -253,9 +233,20 @@ namespace RT2020.Settings
             // errorProvider
             // 
             this.errorProvider.BlinkRate = 3;
-            this.errorProvider.BlinkStyle = Gizmox.WebGUI.Forms.ErrorBlinkStyle.BlinkIfDifferentError;
-            this.errorProvider.DataMember = "";
-            this.errorProvider.DataSource = "";
+            // 
+            // lnkOptions
+            // 
+            this.lnkOptions.Anchor = ((Gizmox.WebGUI.Forms.AnchorStyles)(((Gizmox.WebGUI.Forms.AnchorStyles.Top | Gizmox.WebGUI.Forms.AnchorStyles.Left) 
+            | Gizmox.WebGUI.Forms.AnchorStyles.Right)));
+            this.lnkOptions.LinkColor = System.Drawing.Color.Blue;
+            this.lnkOptions.Location = new System.Drawing.Point(90, 195);
+            this.lnkOptions.Name = "lnkOptions";
+            this.lnkOptions.Size = new System.Drawing.Size(144, 23);
+            this.lnkOptions.TabIndex = 10;
+            this.lnkOptions.TabStop = true;
+            this.lnkOptions.Text = "Options";
+            this.lnkOptions.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.lnkOptions.LinkClicked += new Gizmox.WebGUI.Forms.LinkLabelLinkClickedEventHandler(this.lnkOptions_LinkClicked);
             // 
             // SmartTag4WorkplaceWizard
             // 
@@ -265,6 +256,7 @@ namespace RT2020.Settings
             this.Size = new System.Drawing.Size(806, 506);
             this.StartPosition = Gizmox.WebGUI.Forms.FormStartPosition.CenterParent;
             this.Text = "Smart Tag for Workplace Wizard";
+            this.Load += new System.EventHandler(this.SmartTag4WorkplaceWizard_Load);
             this.ResumeLayout(false);
 
         }
@@ -277,13 +269,13 @@ namespace RT2020.Settings
         private Gizmox.WebGUI.Forms.ColumnHeader colLN;
         private Gizmox.WebGUI.Forms.ColumnHeader colTagCode;
         private Gizmox.WebGUI.Forms.ColumnHeader colTagName;
-        private Gizmox.WebGUI.Forms.ColumnHeader colTagNameChs;
-        private Gizmox.WebGUI.Forms.ColumnHeader colTagNameCht;
-        private Gizmox.WebGUI.Forms.TextBox txtTagNameCht;
-        private Gizmox.WebGUI.Forms.TextBox txtTagNameChs;
+        private Gizmox.WebGUI.Forms.ColumnHeader colTagNameAlt1;
+        private Gizmox.WebGUI.Forms.ColumnHeader colTagNameAlt2;
+        private Gizmox.WebGUI.Forms.TextBox txtTagNameAlt2;
+        private Gizmox.WebGUI.Forms.TextBox txtTagNameAlt1;
         private Gizmox.WebGUI.Forms.TextBox txtTagName;
-        private Gizmox.WebGUI.Forms.Label lblTagNameCht;
-        private Gizmox.WebGUI.Forms.Label lblTagNameChs;
+        private Gizmox.WebGUI.Forms.Label lblTagNameAlt2;
+        private Gizmox.WebGUI.Forms.Label lblTagNameAlt1;
         private Gizmox.WebGUI.Forms.Label lblTagName;
         private Gizmox.WebGUI.Forms.TextBox txtTagCode;
         private Gizmox.WebGUI.Forms.Label lblTagCode;
@@ -291,7 +283,7 @@ namespace RT2020.Settings
         private Gizmox.WebGUI.Forms.ErrorProvider errorProvider;
         private Gizmox.WebGUI.Forms.Label lblPriority;
         private Gizmox.WebGUI.Forms.TextBox txtPriority;
-
-
+        private Gizmox.WebGUI.Forms.ColumnHeader colPriority;
+        private Gizmox.WebGUI.Forms.LinkLabel lnkOptions;
     }
 }
