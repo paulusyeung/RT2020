@@ -2524,6 +2524,17 @@ warning 6002: The table/view 'RT2020.dbo.Localizations_Backup' does not have a p
           <Property Name="TagName_Cht" Type="nvarchar" MaxLength="64" />
           <Property Name="Priority" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="SmartTag4Workplace_Options">
+          <Key>
+            <PropertyRef Name="OptionId" />
+          </Key>
+          <Property Name="OptionId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="TagId" Type="uniqueidentifier" />
+          <Property Name="OptionCode" Type="nvarchar" MaxLength="10" />
+          <Property Name="OptionName" Type="nvarchar" MaxLength="64" />
+          <Property Name="OptionName_Alt1" Type="nvarchar" MaxLength="64" />
+          <Property Name="OptionName_Alt2" Type="nvarchar" MaxLength="64" />
+        </EntityType>
         <EntityType Name="Staff">
           <Key>
             <PropertyRef Name="StaffId" />
@@ -3146,6 +3157,62 @@ warning 6002: The table/view 'RT2020.dbo.vwPhonebookList' does not have a primar
           <Property Name="CreatedBy" Type="uniqueidentifier" Nullable="false" />
           <Property Name="ModifiedOn" Type="datetime" Nullable="false" />
           <Property Name="ModifiedBy" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'RT2020.dbo.vwWorkplaceList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vwWorkplaceList">
+          <Key>
+            <PropertyRef Name="WorkplaceId" />
+            <PropertyRef Name="ZoneId" />
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+          </Key>
+          <Property Name="WorkplaceId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ZoneId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="WorkplaceCode" Type="varchar" MaxLength="4" />
+          <Property Name="WorkplaceInitial" Type="nvarchar" MaxLength="10" />
+          <Property Name="WorkplaceName" Type="nvarchar" MaxLength="64" />
+          <Property Name="WorkplaceName_Chs" Type="nvarchar" MaxLength="64" />
+          <Property Name="WorkplaceName_Cht" Type="nvarchar" MaxLength="64" />
+          <Property Name="Email" Type="varchar" MaxLength="50" />
+          <Property Name="BFQTY" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="8" />
+          <Property Name="BFAMT" Type="money" Nullable="false" />
+          <Property Name="CDQTY" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="CDAMT" Type="money" Nullable="false" />
+          <Property Name="NatureId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="LineOfOperationId" Type="uniqueidentifier" />
+          <Property Name="Priority" Type="int" />
+          <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="CreatedOn" Type="datetime" Nullable="false" />
+          <Property Name="CreatedBy" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ModifiedOn" Type="datetime" Nullable="false" />
+          <Property Name="ModifiedBy" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Address" Type="nvarchar" MaxLength="512" />
+          <Property Name="PostalCode" Type="nvarchar" MaxLength="10" />
+          <Property Name="District" Type="nvarchar" MaxLength="32" />
+          <Property Name="CountryId" Type="uniqueidentifier" />
+          <Property Name="ProvinceId" Type="uniqueidentifier" />
+          <Property Name="CityId" Type="uniqueidentifier" />
+          <Property Name="NatureName" Type="nvarchar" MaxLength="64" />
+          <Property Name="ZoneName" Type="nvarchar" MaxLength="64" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="64" />
+          <Property Name="Fax" Type="nvarchar" MaxLength="64" />
+          <Property Name="Tlx" Type="nvarchar" MaxLength="64" />
+          <Property Name="Contact" Type="nvarchar" MaxLength="64" />
+          <Property Name="ALTLOC" Type="nvarchar" MaxLength="64" />
+          <Property Name="LineOfOperationName" Type="nvarchar" MaxLength="64" />
+          <Property Name="CountryName" Type="nvarchar" MaxLength="64" />
+          <Property Name="ProvinceName" Type="nvarchar" MaxLength="64" />
+          <Property Name="CityName" Type="nvarchar" MaxLength="64" />
         </EntityType>
         <Association Name="FK_City_MemberAddress">
           <End Role="City" Type="Self.City" Multiplicity="0..1" />
@@ -4815,6 +4882,18 @@ warning 6002: The table/view 'RT2020.dbo.vwPhonebookList' does not have a primar
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_SmartTag4Workplace_SmartTag4Workplace_Options">
+          <End Role="SmartTag4Workplace" Type="Self.SmartTag4Workplace" Multiplicity="0..1" />
+          <End Role="SmartTag4Workplace_Options" Type="Self.SmartTag4Workplace_Options" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SmartTag4Workplace">
+              <PropertyRef Name="TagId" />
+            </Principal>
+            <Dependent Role="SmartTag4Workplace_Options">
+              <PropertyRef Name="TagId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_SmartTag4Workplace_WorkplaceSmartTag">
           <End Role="SmartTag4Workplace" Type="Self.SmartTag4Workplace" Multiplicity="1" />
           <End Role="WorkplaceSmartTag" Type="Self.WorkplaceSmartTag" Multiplicity="*" />
@@ -5800,6 +5879,7 @@ warning 6002: The table/view 'RT2020.dbo.vwPhonebookList' does not have a primar
           <EntitySet Name="SmartTag4Supplier" EntityType="Self.SmartTag4Supplier" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SmartTag4Supplier_Options" EntityType="Self.SmartTag4Supplier_Options" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SmartTag4Workplace" EntityType="Self.SmartTag4Workplace" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SmartTag4Workplace_Options" EntityType="Self.SmartTag4Workplace_Options" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Staff" EntityType="Self.Staff" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StaffAddress" EntityType="Self.StaffAddress" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StaffDept" EntityType="Self.StaffDept" Schema="dbo" store:Type="Tables" />
@@ -5892,6 +5972,48 @@ warning 6002: The table/view 'RT2020.dbo.vwPhonebookList' does not have a primar
     [vwPhonebookList].[ModifiedOn] AS [ModifiedOn], 
     [vwPhonebookList].[ModifiedBy] AS [ModifiedBy]
     FROM [dbo].[vwPhonebookList] AS [vwPhonebookList]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vwWorkplaceList" EntityType="Self.vwWorkplaceList" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vwWorkplaceList].[WorkplaceId] AS [WorkplaceId], 
+    [vwWorkplaceList].[ZoneId] AS [ZoneId], 
+    [vwWorkplaceList].[WorkplaceCode] AS [WorkplaceCode], 
+    [vwWorkplaceList].[WorkplaceInitial] AS [WorkplaceInitial], 
+    [vwWorkplaceList].[WorkplaceName] AS [WorkplaceName], 
+    [vwWorkplaceList].[WorkplaceName_Chs] AS [WorkplaceName_Chs], 
+    [vwWorkplaceList].[WorkplaceName_Cht] AS [WorkplaceName_Cht], 
+    [vwWorkplaceList].[Email] AS [Email], 
+    [vwWorkplaceList].[BFQTY] AS [BFQTY], 
+    [vwWorkplaceList].[Password] AS [Password], 
+    [vwWorkplaceList].[BFAMT] AS [BFAMT], 
+    [vwWorkplaceList].[CDQTY] AS [CDQTY], 
+    [vwWorkplaceList].[CDAMT] AS [CDAMT], 
+    [vwWorkplaceList].[NatureId] AS [NatureId], 
+    [vwWorkplaceList].[LineOfOperationId] AS [LineOfOperationId], 
+    [vwWorkplaceList].[Priority] AS [Priority], 
+    [vwWorkplaceList].[Status] AS [Status], 
+    [vwWorkplaceList].[CreatedOn] AS [CreatedOn], 
+    [vwWorkplaceList].[CreatedBy] AS [CreatedBy], 
+    [vwWorkplaceList].[ModifiedOn] AS [ModifiedOn], 
+    [vwWorkplaceList].[ModifiedBy] AS [ModifiedBy], 
+    [vwWorkplaceList].[Address] AS [Address], 
+    [vwWorkplaceList].[PostalCode] AS [PostalCode], 
+    [vwWorkplaceList].[District] AS [District], 
+    [vwWorkplaceList].[CountryId] AS [CountryId], 
+    [vwWorkplaceList].[ProvinceId] AS [ProvinceId], 
+    [vwWorkplaceList].[CityId] AS [CityId], 
+    [vwWorkplaceList].[NatureName] AS [NatureName], 
+    [vwWorkplaceList].[ZoneName] AS [ZoneName], 
+    [vwWorkplaceList].[Phone] AS [Phone], 
+    [vwWorkplaceList].[Fax] AS [Fax], 
+    [vwWorkplaceList].[Tlx] AS [Tlx], 
+    [vwWorkplaceList].[Contact] AS [Contact], 
+    [vwWorkplaceList].[ALTLOC] AS [ALTLOC], 
+    [vwWorkplaceList].[LineOfOperationName] AS [LineOfOperationName], 
+    [vwWorkplaceList].[CountryName] AS [CountryName], 
+    [vwWorkplaceList].[ProvinceName] AS [ProvinceName], 
+    [vwWorkplaceList].[CityName] AS [CityName]
+    FROM [dbo].[vwWorkplaceList] AS [vwWorkplaceList]</DefiningQuery>
           </EntitySet>
           <AssociationSet Name="FK_City_MemberAddress" Association="Self.FK_City_MemberAddress">
             <End Role="City" EntitySet="City" />
@@ -6448,6 +6570,10 @@ warning 6002: The table/view 'RT2020.dbo.vwPhonebookList' does not have a primar
           <AssociationSet Name="FK_SmartTag4Supplier_SupplierSmartTag" Association="Self.FK_SmartTag4Supplier_SupplierSmartTag">
             <End Role="SmartTag4Supplier" EntitySet="SmartTag4Supplier" />
             <End Role="SupplierSmartTag" EntitySet="SupplierSmartTag" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SmartTag4Workplace_SmartTag4Workplace_Options" Association="Self.FK_SmartTag4Workplace_SmartTag4Workplace_Options">
+            <End Role="SmartTag4Workplace" EntitySet="SmartTag4Workplace" />
+            <End Role="SmartTag4Workplace_Options" EntitySet="SmartTag4Workplace_Options" />
           </AssociationSet>
           <AssociationSet Name="FK_SmartTag4Workplace_WorkplaceSmartTag" Association="Self.FK_SmartTag4Workplace_WorkplaceSmartTag">
             <End Role="SmartTag4Workplace" EntitySet="SmartTag4Workplace" />
@@ -9511,6 +9637,7 @@ warning 6002: The table/view 'RT2020.dbo.vwPhonebookList' does not have a primar
           <Property Name="TagName_Cht" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
           <Property Name="Priority" Type="Int32" Nullable="false" />
           <NavigationProperty Name="WorkplaceSmartTag" Relationship="Self.FK_SmartTag4Workplace_WorkplaceSmartTag" FromRole="SmartTag4Workplace" ToRole="WorkplaceSmartTag" />
+          <NavigationProperty Name="SmartTag4Workplace_Options" Relationship="RT2020Model.FK_SmartTag4Workplace_SmartTag4Workplace_Options" FromRole="SmartTag4Workplace" ToRole="SmartTag4Workplace_Options" />
         </EntityType>
         <EntityType Name="Staff">
           <Key>
@@ -13744,6 +13871,12 @@ warning 6002: The table/view 'RT2020.dbo.vwPhonebookList' does not have a primar
             <End Role="SmartTag4Supplier" EntitySet="SmartTag4Supplier" />
             <End Role="SmartTag4Supplier_Options" EntitySet="SmartTag4Supplier_Options" />
           </AssociationSet>
+          <EntitySet Name="vwWorkplaceList" EntityType="RT2020Model.vwWorkplaceList" />
+          <EntitySet Name="SmartTag4Workplace_Options" EntityType="RT2020Model.SmartTag4Workplace_Options" />
+          <AssociationSet Name="FK_SmartTag4Workplace_SmartTag4Workplace_Options" Association="RT2020Model.FK_SmartTag4Workplace_SmartTag4Workplace_Options">
+            <End Role="SmartTag4Workplace" EntitySet="SmartTag4Workplace" />
+            <End Role="SmartTag4Workplace_Options" EntitySet="SmartTag4Workplace_Options" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="vwPhonebookList">
           <Key>
@@ -13833,6 +13966,74 @@ warning 6002: The table/view 'RT2020.dbo.vwPhonebookList' does not have a primar
               <PropertyRef Name="TagId" />
             </Principal>
             <Dependent Role="SmartTag4Supplier_Options">
+              <PropertyRef Name="TagId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="vwWorkplaceList">
+          <Key>
+            <PropertyRef Name="WorkplaceId" />
+            <PropertyRef Name="ZoneId" />
+          </Key>
+          <Property Name="WorkplaceId" Type="Guid" Nullable="false" />
+          <Property Name="ZoneId" Type="Guid" Nullable="false" />
+          <Property Name="WorkplaceCode" Type="String" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="WorkplaceInitial" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="WorkplaceName" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="WorkplaceName_Chs" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="WorkplaceName_Cht" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="BFQTY" Type="Decimal" Nullable="false" Precision="18" Scale="4" />
+          <Property Name="Password" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="BFAMT" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="CDQTY" Type="Decimal" Nullable="false" Precision="18" Scale="4" />
+          <Property Name="CDAMT" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="NatureId" Type="Guid" Nullable="false" />
+          <Property Name="LineOfOperationId" Type="Guid" />
+          <Property Name="Priority" Type="Int32" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedBy" Type="Guid" Nullable="false" />
+          <Property Name="ModifiedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifiedBy" Type="Guid" Nullable="false" />
+          <Property Name="Address" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Name="PostalCode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="District" Type="String" MaxLength="32" FixedLength="false" Unicode="true" />
+          <Property Name="CountryId" Type="Guid" />
+          <Property Name="ProvinceId" Type="Guid" />
+          <Property Name="CityId" Type="Guid" />
+          <Property Name="NatureName" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="ZoneName" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="Phone" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="Fax" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="Tlx" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="Contact" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="ALTLOC" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="LineOfOperationName" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="CountryName" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="ProvinceName" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="CityName" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="SmartTag4Workplace_Options">
+          <Key>
+            <PropertyRef Name="OptionId" />
+          </Key>
+          <Property Name="OptionId" Type="Guid" Nullable="false" />
+          <Property Name="TagId" Type="Guid" />
+          <Property Name="OptionCode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="OptionName" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="OptionName_Alt1" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="OptionName_Alt2" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="SmartTag4Workplace" Relationship="RT2020Model.FK_SmartTag4Workplace_SmartTag4Workplace_Options" FromRole="SmartTag4Workplace_Options" ToRole="SmartTag4Workplace" />
+        </EntityType>
+        <Association Name="FK_SmartTag4Workplace_SmartTag4Workplace_Options">
+          <End Type="RT2020Model.SmartTag4Workplace" Role="SmartTag4Workplace" Multiplicity="0..1" />
+          <End Type="RT2020Model.SmartTag4Workplace_Options" Role="SmartTag4Workplace_Options" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SmartTag4Workplace">
+              <PropertyRef Name="TagId" />
+            </Principal>
+            <Dependent Role="SmartTag4Workplace_Options">
               <PropertyRef Name="TagId" />
             </Dependent>
           </ReferentialConstraint>
@@ -17098,6 +17299,62 @@ warning 6002: The table/view 'RT2020.dbo.vwPhonebookList' does not have a primar
           <EntitySetMapping Name="SmartTag4Supplier_Options">
             <EntityTypeMapping TypeName="RT2020Model.SmartTag4Supplier_Options">
               <MappingFragment StoreEntitySet="SmartTag4Supplier_Options">
+                <ScalarProperty Name="OptionName_Alt2" ColumnName="OptionName_Alt2" />
+                <ScalarProperty Name="OptionName_Alt1" ColumnName="OptionName_Alt1" />
+                <ScalarProperty Name="OptionName" ColumnName="OptionName" />
+                <ScalarProperty Name="OptionCode" ColumnName="OptionCode" />
+                <ScalarProperty Name="TagId" ColumnName="TagId" />
+                <ScalarProperty Name="OptionId" ColumnName="OptionId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vwWorkplaceList">
+            <EntityTypeMapping TypeName="RT2020Model.vwWorkplaceList">
+              <MappingFragment StoreEntitySet="vwWorkplaceList">
+                <ScalarProperty Name="CityName" ColumnName="CityName" />
+                <ScalarProperty Name="ProvinceName" ColumnName="ProvinceName" />
+                <ScalarProperty Name="CountryName" ColumnName="CountryName" />
+                <ScalarProperty Name="LineOfOperationName" ColumnName="LineOfOperationName" />
+                <ScalarProperty Name="ALTLOC" ColumnName="ALTLOC" />
+                <ScalarProperty Name="Contact" ColumnName="Contact" />
+                <ScalarProperty Name="Tlx" ColumnName="Tlx" />
+                <ScalarProperty Name="Fax" ColumnName="Fax" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="ZoneName" ColumnName="ZoneName" />
+                <ScalarProperty Name="NatureName" ColumnName="NatureName" />
+                <ScalarProperty Name="CityId" ColumnName="CityId" />
+                <ScalarProperty Name="ProvinceId" ColumnName="ProvinceId" />
+                <ScalarProperty Name="CountryId" ColumnName="CountryId" />
+                <ScalarProperty Name="District" ColumnName="District" />
+                <ScalarProperty Name="PostalCode" ColumnName="PostalCode" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Priority" ColumnName="Priority" />
+                <ScalarProperty Name="LineOfOperationId" ColumnName="LineOfOperationId" />
+                <ScalarProperty Name="NatureId" ColumnName="NatureId" />
+                <ScalarProperty Name="CDAMT" ColumnName="CDAMT" />
+                <ScalarProperty Name="CDQTY" ColumnName="CDQTY" />
+                <ScalarProperty Name="BFAMT" ColumnName="BFAMT" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="BFQTY" ColumnName="BFQTY" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="WorkplaceName_Cht" ColumnName="WorkplaceName_Cht" />
+                <ScalarProperty Name="WorkplaceName_Chs" ColumnName="WorkplaceName_Chs" />
+                <ScalarProperty Name="WorkplaceName" ColumnName="WorkplaceName" />
+                <ScalarProperty Name="WorkplaceInitial" ColumnName="WorkplaceInitial" />
+                <ScalarProperty Name="WorkplaceCode" ColumnName="WorkplaceCode" />
+                <ScalarProperty Name="ZoneId" ColumnName="ZoneId" />
+                <ScalarProperty Name="WorkplaceId" ColumnName="WorkplaceId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SmartTag4Workplace_Options">
+            <EntityTypeMapping TypeName="RT2020Model.SmartTag4Workplace_Options">
+              <MappingFragment StoreEntitySet="SmartTag4Workplace_Options">
                 <ScalarProperty Name="OptionName_Alt2" ColumnName="OptionName_Alt2" />
                 <ScalarProperty Name="OptionName_Alt1" ColumnName="OptionName_Alt1" />
                 <ScalarProperty Name="OptionName" ColumnName="OptionName" />

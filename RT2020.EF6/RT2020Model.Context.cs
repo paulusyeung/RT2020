@@ -169,5 +169,7 @@ namespace RT2020.EF6
         public virtual DbSet<SmartTag4Member_Options> SmartTag4Member_Options { get; set; }
         public virtual DbSet<SmartTag4Staff_Options> SmartTag4Staff_Options { get; set; }
         public virtual DbSet<SmartTag4Supplier_Options> SmartTag4Supplier_Options { get; set; }
+        public virtual DbSet<vwWorkplaceList> vwWorkplaceList { get; set; }
+        public virtual DbSet<SmartTag4Workplace_Options> SmartTag4Workplace_Options { get; set; }
     }
 }
