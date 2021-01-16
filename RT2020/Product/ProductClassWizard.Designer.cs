@@ -54,6 +54,7 @@ namespace RT2020.Product
             // 
             // tbWizardAction
             // 
+            this.tbWizardAction.ButtonSize = new System.Drawing.Size(20, 20);
             this.tbWizardAction.DragHandle = true;
             this.tbWizardAction.DropDownArrows = true;
             this.tbWizardAction.ImageSize = new System.Drawing.Size(16, 16);
@@ -61,7 +62,7 @@ namespace RT2020.Product
             this.tbWizardAction.MenuHandle = true;
             this.tbWizardAction.Name = "tbWizardAction";
             this.tbWizardAction.ShowToolTips = true;
-            this.tbWizardAction.Size = new System.Drawing.Size(100, 22);
+            this.tbWizardAction.Size = new System.Drawing.Size(441, 26);
             this.tbWizardAction.TabIndex = 0;
             // 
             // lblCode
@@ -90,7 +91,7 @@ namespace RT2020.Product
             // 
             // lblNameChs
             // 
-            this.lblNameChs.Location = new System.Drawing.Point(12, 110);
+            this.lblNameChs.Location = new System.Drawing.Point(25, 110);
             this.lblNameChs.Name = "lblNameChs";
             this.lblNameChs.Size = new System.Drawing.Size(100, 23);
             this.lblNameChs.TabIndex = 4;
@@ -98,7 +99,7 @@ namespace RT2020.Product
             // 
             // lblNameCht
             // 
-            this.lblNameCht.Location = new System.Drawing.Point(12, 133);
+            this.lblNameCht.Location = new System.Drawing.Point(25, 133);
             this.lblNameCht.Name = "lblNameCht";
             this.lblNameCht.Size = new System.Drawing.Size(100, 23);
             this.lblNameCht.TabIndex = 5;
@@ -114,7 +115,7 @@ namespace RT2020.Product
             // 
             // txtCode
             // 
-            this.txtCode.Location = new System.Drawing.Point(112, 38);
+            this.txtCode.Location = new System.Drawing.Point(128, 38);
             this.txtCode.MaxLength = 6;
             this.txtCode.Name = "txtCode";
             this.txtCode.Size = new System.Drawing.Size(121, 20);
@@ -122,7 +123,7 @@ namespace RT2020.Product
             // 
             // txtInitial
             // 
-            this.txtInitial.Location = new System.Drawing.Point(112, 61);
+            this.txtInitial.Location = new System.Drawing.Point(128, 61);
             this.txtInitial.MaxLength = 10;
             this.txtInitial.Name = "txtInitial";
             this.txtInitial.Size = new System.Drawing.Size(121, 20);
@@ -130,30 +131,30 @@ namespace RT2020.Product
             // 
             // txtName
             // 
-            this.txtName.Location = new System.Drawing.Point(112, 84);
+            this.txtName.Location = new System.Drawing.Point(128, 84);
             this.txtName.Name = "txtName";
-            this.txtName.Size = new System.Drawing.Size(319, 20);
+            this.txtName.Size = new System.Drawing.Size(303, 20);
             this.txtName.TabIndex = 3;
             // 
             // txtNameChs
             // 
-            this.txtNameChs.Location = new System.Drawing.Point(112, 107);
+            this.txtNameChs.Location = new System.Drawing.Point(128, 107);
             this.txtNameChs.Name = "txtNameChs";
-            this.txtNameChs.Size = new System.Drawing.Size(319, 20);
+            this.txtNameChs.Size = new System.Drawing.Size(303, 20);
             this.txtNameChs.TabIndex = 4;
             // 
             // txtNameCht
             // 
-            this.txtNameCht.Location = new System.Drawing.Point(112, 130);
+            this.txtNameCht.Location = new System.Drawing.Point(128, 130);
             this.txtNameCht.Name = "txtNameCht";
-            this.txtNameCht.Size = new System.Drawing.Size(319, 20);
+            this.txtNameCht.Size = new System.Drawing.Size(303, 20);
             this.txtNameCht.TabIndex = 5;
             // 
             // cboParentClass
             // 
             this.cboParentClass.DropDownStyle = Gizmox.WebGUI.Forms.ComboBoxStyle.DropDownList;
             this.cboParentClass.DropDownWidth = 121;
-            this.cboParentClass.Location = new System.Drawing.Point(112, 176);
+            this.cboParentClass.Location = new System.Drawing.Point(128, 176);
             this.cboParentClass.Name = "cboParentClass";
             this.cboParentClass.Size = new System.Drawing.Size(121, 21);
             this.cboParentClass.TabIndex = 7;
@@ -177,16 +178,16 @@ namespace RT2020.Product
             // txtLastUpdatedBy
             // 
             this.txtLastUpdatedBy.BackColor = System.Drawing.Color.LightYellow;
-            this.txtLastUpdatedBy.Location = new System.Drawing.Point(218, 238);
+            this.txtLastUpdatedBy.Location = new System.Drawing.Point(234, 238);
             this.txtLastUpdatedBy.Name = "txtLastUpdatedBy";
             this.txtLastUpdatedBy.ReadOnly = true;
-            this.txtLastUpdatedBy.Size = new System.Drawing.Size(100, 20);
+            this.txtLastUpdatedBy.Size = new System.Drawing.Size(43, 20);
             this.txtLastUpdatedBy.TabIndex = 15;
             // 
             // txtLastUpdatedOn
             // 
             this.txtLastUpdatedOn.BackColor = System.Drawing.Color.LightYellow;
-            this.txtLastUpdatedOn.Location = new System.Drawing.Point(112, 238);
+            this.txtLastUpdatedOn.Location = new System.Drawing.Point(128, 238);
             this.txtLastUpdatedOn.Name = "txtLastUpdatedOn";
             this.txtLastUpdatedOn.ReadOnly = true;
             this.txtLastUpdatedOn.Size = new System.Drawing.Size(100, 20);
@@ -195,7 +196,7 @@ namespace RT2020.Product
             // txtCreatedOn
             // 
             this.txtCreatedOn.BackColor = System.Drawing.Color.LightYellow;
-            this.txtCreatedOn.Location = new System.Drawing.Point(112, 261);
+            this.txtCreatedOn.Location = new System.Drawing.Point(128, 261);
             this.txtCreatedOn.Name = "txtCreatedOn";
             this.txtCreatedOn.ReadOnly = true;
             this.txtCreatedOn.Size = new System.Drawing.Size(100, 20);
@@ -209,7 +210,7 @@ namespace RT2020.Product
             // 
             this.cboAltClass.DropDownStyle = Gizmox.WebGUI.Forms.ComboBoxStyle.DropDownList;
             this.cboAltClass.DropDownWidth = 121;
-            this.cboAltClass.Location = new System.Drawing.Point(112, 153);
+            this.cboAltClass.Location = new System.Drawing.Point(128, 153);
             this.cboAltClass.Name = "cboAltClass";
             this.cboAltClass.Size = new System.Drawing.Size(121, 21);
             this.cboAltClass.TabIndex = 6;
