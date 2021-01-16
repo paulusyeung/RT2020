@@ -28,76 +28,72 @@ namespace RT2020.Product
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.splitContainer = new Gizmox.WebGUI.Forms.SplitContainer();
             this.lvProductNatureList = new Gizmox.WebGUI.Forms.ListView();
-            this.colProductNatureId = new Gizmox.WebGUI.Forms.ColumnHeader();
-            this.colLN = new Gizmox.WebGUI.Forms.ColumnHeader();
-            this.colProductNatureCode = new Gizmox.WebGUI.Forms.ColumnHeader();
-            this.colProductNatureName = new Gizmox.WebGUI.Forms.ColumnHeader();
-            this.colProductNatureNameChs = new Gizmox.WebGUI.Forms.ColumnHeader();
-            this.colProductNatureNameCht = new Gizmox.WebGUI.Forms.ColumnHeader();
+            this.colNatureId = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colLN = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colNatureCode = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colNatureName = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colNatureNameAlt1 = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colNatureNameAlt2 = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
             this.cboParentNature = new Gizmox.WebGUI.Forms.ComboBox();
             this.lblParentNature = new Gizmox.WebGUI.Forms.Label();
             this.tbWizardAction = new Gizmox.WebGUI.Forms.ToolBar();
-            this.txtProductNatureNameCht = new Gizmox.WebGUI.Forms.TextBox();
-            this.txtProductNatureNameChs = new Gizmox.WebGUI.Forms.TextBox();
-            this.txtProductNatureName = new Gizmox.WebGUI.Forms.TextBox();
-            this.lblProductNatureNameCht = new Gizmox.WebGUI.Forms.Label();
-            this.lblProductNatureNameChs = new Gizmox.WebGUI.Forms.Label();
-            this.lblProductNatureName = new Gizmox.WebGUI.Forms.Label();
-            this.txtProductNatureCode = new Gizmox.WebGUI.Forms.TextBox();
-            this.lblProductNatureCode = new Gizmox.WebGUI.Forms.Label();
-            this.errorProvider = new Gizmox.WebGUI.Forms.ErrorProvider();
+            this.txtNatureNameAlt2 = new Gizmox.WebGUI.Forms.TextBox();
+            this.txtNatureNameAlt1 = new Gizmox.WebGUI.Forms.TextBox();
+            this.txtNatureName = new Gizmox.WebGUI.Forms.TextBox();
+            this.lblNatureNameAlt2 = new Gizmox.WebGUI.Forms.Label();
+            this.lblNatureNameAlt1 = new Gizmox.WebGUI.Forms.Label();
+            this.lblNatureName = new Gizmox.WebGUI.Forms.Label();
+            this.txtNatureCode = new Gizmox.WebGUI.Forms.TextBox();
+            this.lblNatureCode = new Gizmox.WebGUI.Forms.Label();
+            this.errorProvider = new Gizmox.WebGUI.Forms.ErrorProvider(this.components);
+            this.colParent = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
             this.SuspendLayout();
             // 
             // splitContainer
             // 
-            this.splitContainer.Anchor = Gizmox.WebGUI.Forms.AnchorStyles.None;
+            this.splitContainer.AutoValidate = Gizmox.WebGUI.Forms.AutoValidate.EnablePreventFocusChange;
             this.splitContainer.BorderStyle = Gizmox.WebGUI.Forms.BorderStyle.Clear;
             this.splitContainer.Dock = Gizmox.WebGUI.Forms.DockStyle.Fill;
-            this.splitContainer.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
             this.splitContainer.FixedPanel = Gizmox.WebGUI.Forms.FixedPanel.Panel1;
             this.splitContainer.Location = new System.Drawing.Point(0, 0);
             this.splitContainer.Name = "splitContainer";
-            this.splitContainer.Orientation = Gizmox.WebGUI.Forms.Orientation.Vertical;
             // 
             // splitContainer.Panel1
             // 
             this.splitContainer.Panel1.Controls.Add(this.lvProductNatureList);
-            this.splitContainer.Panel1.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
             // 
             // splitContainer.Panel2
             // 
             this.splitContainer.Panel2.Controls.Add(this.cboParentNature);
             this.splitContainer.Panel2.Controls.Add(this.lblParentNature);
             this.splitContainer.Panel2.Controls.Add(this.tbWizardAction);
-            this.splitContainer.Panel2.Controls.Add(this.txtProductNatureNameCht);
-            this.splitContainer.Panel2.Controls.Add(this.txtProductNatureNameChs);
-            this.splitContainer.Panel2.Controls.Add(this.txtProductNatureName);
-            this.splitContainer.Panel2.Controls.Add(this.lblProductNatureNameCht);
-            this.splitContainer.Panel2.Controls.Add(this.lblProductNatureNameChs);
-            this.splitContainer.Panel2.Controls.Add(this.lblProductNatureName);
-            this.splitContainer.Panel2.Controls.Add(this.txtProductNatureCode);
-            this.splitContainer.Panel2.Controls.Add(this.lblProductNatureCode);
-            this.splitContainer.Panel2.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
+            this.splitContainer.Panel2.Controls.Add(this.txtNatureNameAlt2);
+            this.splitContainer.Panel2.Controls.Add(this.txtNatureNameAlt1);
+            this.splitContainer.Panel2.Controls.Add(this.txtNatureName);
+            this.splitContainer.Panel2.Controls.Add(this.lblNatureNameAlt2);
+            this.splitContainer.Panel2.Controls.Add(this.lblNatureNameAlt1);
+            this.splitContainer.Panel2.Controls.Add(this.lblNatureName);
+            this.splitContainer.Panel2.Controls.Add(this.txtNatureCode);
+            this.splitContainer.Panel2.Controls.Add(this.lblNatureCode);
             this.splitContainer.Size = new System.Drawing.Size(806, 506);
             this.splitContainer.SplitterDistance = 500;
             this.splitContainer.TabIndex = 0;
             // 
             // lvProductNatureList
             // 
-            this.lvProductNatureList.Anchor = Gizmox.WebGUI.Forms.AnchorStyles.None;
             this.lvProductNatureList.Columns.AddRange(new Gizmox.WebGUI.Forms.ColumnHeader[] {
-            this.colProductNatureId,
+            this.colNatureId,
             this.colLN,
-            this.colProductNatureCode,
-            this.colProductNatureName,
-            this.colProductNatureNameChs,
-            this.colProductNatureNameCht});
+            this.colNatureCode,
+            this.colParent,
+            this.colNatureName,
+            this.colNatureNameAlt1,
+            this.colNatureNameAlt2});
             this.lvProductNatureList.DataMember = null;
             this.lvProductNatureList.Dock = Gizmox.WebGUI.Forms.DockStyle.Fill;
-            this.lvProductNatureList.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.lvProductNatureList.ItemsPerPage = 20;
             this.lvProductNatureList.Location = new System.Drawing.Point(0, 0);
             this.lvProductNatureList.Name = "lvProductNatureList";
             this.lvProductNatureList.Size = new System.Drawing.Size(499, 506);
@@ -105,63 +101,49 @@ namespace RT2020.Product
             this.lvProductNatureList.UseInternalPaging = true;
             this.lvProductNatureList.SelectedIndexChanged += new System.EventHandler(this.lvProductNatureList_SelectedIndexChanged);
             // 
-            // colProductNatureId
+            // colNatureId
             // 
-            this.colProductNatureId.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.colProductNatureId.Image = null;
-            this.colProductNatureId.Text = "ProductNatureId";
-            this.colProductNatureId.Visible = false;
-            this.colProductNatureId.Width = 150;
+            this.colNatureId.Text = "ProductNatureId";
+            this.colNatureId.Visible = false;
+            this.colNatureId.Width = 100;
             // 
             // colLN
             // 
-            this.colLN.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.colLN.Image = null;
             this.colLN.Text = "LN";
             this.colLN.Width = 30;
             // 
-            // colProductNatureCode
+            // colNatureCode
             // 
-            this.colProductNatureCode.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.colProductNatureCode.Image = null;
-            this.colProductNatureCode.Text = "Nature Code";
-            this.colProductNatureCode.Width = 80;
+            this.colNatureCode.Text = "Nature Code";
+            this.colNatureCode.Width = 80;
             // 
-            // colProductNatureName
+            // colNatureName
             // 
-            this.colProductNatureName.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.colProductNatureName.Image = null;
-            this.colProductNatureName.Text = "Nature Name";
-            this.colProductNatureName.Width = 120;
+            this.colNatureName.Text = "Nature Name";
+            this.colNatureName.Width = 120;
             // 
-            // colProductNatureNameChs
+            // colNatureNameAlt1
             // 
-            this.colProductNatureNameChs.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.colProductNatureNameChs.Image = null;
-            this.colProductNatureNameChs.Text = "Nature Name Chs";
-            this.colProductNatureNameChs.Width = 120;
+            this.colNatureNameAlt1.Text = "Nature Name Chs";
+            this.colNatureNameAlt1.Width = 120;
             // 
-            // colProductNatureNameCht
+            // colNatureNameAlt2
             // 
-            this.colProductNatureNameCht.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.colProductNatureNameCht.Image = null;
-            this.colProductNatureNameCht.Text = "Nature Name Cht";
-            this.colProductNatureNameCht.Width = 120;
+            this.colNatureNameAlt2.Text = "Nature Name Cht";
+            this.colNatureNameAlt2.Width = 120;
             // 
             // cboParentNature
             // 
             this.cboParentNature.BorderStyle = Gizmox.WebGUI.Forms.BorderStyle.Fixed3D;
-            this.cboParentNature.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
             this.cboParentNature.DropDownStyle = Gizmox.WebGUI.Forms.ComboBoxStyle.DropDownList;
             this.cboParentNature.DropDownWidth = 142;
-            this.cboParentNature.Location = new System.Drawing.Point(122, 129);
+            this.cboParentNature.Location = new System.Drawing.Point(158, 129);
             this.cboParentNature.Name = "cboParentNature";
-            this.cboParentNature.Size = new System.Drawing.Size(142, 21);
+            this.cboParentNature.Size = new System.Drawing.Size(130, 21);
             this.cboParentNature.TabIndex = 5;
             // 
             // lblParentNature
             // 
-            this.lblParentNature.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
             this.lblParentNature.Location = new System.Drawing.Point(16, 132);
             this.lblParentNature.Name = "lblParentNature";
             this.lblParentNature.Size = new System.Drawing.Size(100, 23);
@@ -170,95 +152,86 @@ namespace RT2020.Product
             // 
             // tbWizardAction
             // 
-            this.tbWizardAction.Anchor = Gizmox.WebGUI.Forms.AnchorStyles.None;
-            this.tbWizardAction.Appearance = Gizmox.WebGUI.Forms.ToolBarAppearance.Normal;
-            this.tbWizardAction.Dock = Gizmox.WebGUI.Forms.DockStyle.Top;
+            this.tbWizardAction.ButtonSize = new System.Drawing.Size(20, 20);
             this.tbWizardAction.DragHandle = true;
-            this.tbWizardAction.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.tbWizardAction.DropDownArrows = false;
-            this.tbWizardAction.ImageList = null;
+            this.tbWizardAction.DropDownArrows = true;
+            this.tbWizardAction.ImageSize = new System.Drawing.Size(16, 16);
             this.tbWizardAction.Location = new System.Drawing.Point(0, 0);
             this.tbWizardAction.MenuHandle = true;
             this.tbWizardAction.Name = "tbWizardAction";
-            //this.tbWizardAction.RightToLeft = false;
             this.tbWizardAction.ShowToolTips = true;
+            this.tbWizardAction.Size = new System.Drawing.Size(302, 26);
             this.tbWizardAction.TabIndex = 8;
             // 
-            // txtProductNatureNameCht
+            // txtNatureNameAlt2
             // 
-            this.txtProductNatureNameCht.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.txtProductNatureNameCht.Location = new System.Drawing.Point(122, 106);
-            this.txtProductNatureNameCht.Name = "txtProductNatureNameCht";
-            this.txtProductNatureNameCht.Size = new System.Drawing.Size(142, 20);
-            this.txtProductNatureNameCht.TabIndex = 4;
+            this.txtNatureNameAlt2.Location = new System.Drawing.Point(158, 106);
+            this.txtNatureNameAlt2.Name = "txtNatureNameAlt2";
+            this.txtNatureNameAlt2.Size = new System.Drawing.Size(130, 20);
+            this.txtNatureNameAlt2.TabIndex = 4;
             // 
-            // txtProductNatureNameChs
+            // txtNatureNameAlt1
             // 
-            this.txtProductNatureNameChs.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.txtProductNatureNameChs.Location = new System.Drawing.Point(122, 83);
-            this.txtProductNatureNameChs.Name = "txtProductNatureNameChs";
-            this.txtProductNatureNameChs.Size = new System.Drawing.Size(142, 20);
-            this.txtProductNatureNameChs.TabIndex = 3;
+            this.txtNatureNameAlt1.Location = new System.Drawing.Point(158, 83);
+            this.txtNatureNameAlt1.Name = "txtNatureNameAlt1";
+            this.txtNatureNameAlt1.Size = new System.Drawing.Size(130, 20);
+            this.txtNatureNameAlt1.TabIndex = 3;
             // 
-            // txtProductNatureName
+            // txtNatureName
             // 
-            this.txtProductNatureName.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.txtProductNatureName.Location = new System.Drawing.Point(122, 60);
-            this.txtProductNatureName.Name = "txtProductNatureName";
-            this.txtProductNatureName.Size = new System.Drawing.Size(142, 20);
-            this.txtProductNatureName.TabIndex = 2;
+            this.txtNatureName.Location = new System.Drawing.Point(158, 60);
+            this.txtNatureName.Name = "txtNatureName";
+            this.txtNatureName.Size = new System.Drawing.Size(130, 20);
+            this.txtNatureName.TabIndex = 2;
             // 
-            // lblProductNatureNameCht
+            // lblNatureNameAlt2
             // 
-            this.lblProductNatureNameCht.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.lblProductNatureNameCht.Location = new System.Drawing.Point(16, 109);
-            this.lblProductNatureNameCht.Name = "lblProductNatureNameCht";
-            this.lblProductNatureNameCht.Size = new System.Drawing.Size(100, 23);
-            this.lblProductNatureNameCht.TabIndex = 4;
-            this.lblProductNatureNameCht.Text = "Nature Name Cht";
+            this.lblNatureNameAlt2.Location = new System.Drawing.Point(28, 109);
+            this.lblNatureNameAlt2.Name = "lblNatureNameAlt2";
+            this.lblNatureNameAlt2.Size = new System.Drawing.Size(127, 20);
+            this.lblNatureNameAlt2.TabIndex = 4;
+            this.lblNatureNameAlt2.Text = "Nature Name Cht";
             // 
-            // lblProductNatureNameChs
+            // lblNatureNameAlt1
             // 
-            this.lblProductNatureNameChs.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.lblProductNatureNameChs.Location = new System.Drawing.Point(16, 86);
-            this.lblProductNatureNameChs.Name = "lblProductNatureNameChs";
-            this.lblProductNatureNameChs.Size = new System.Drawing.Size(100, 23);
-            this.lblProductNatureNameChs.TabIndex = 3;
-            this.lblProductNatureNameChs.Text = "Nature Name Chs:";
+            this.lblNatureNameAlt1.Location = new System.Drawing.Point(28, 86);
+            this.lblNatureNameAlt1.Name = "lblNatureNameAlt1";
+            this.lblNatureNameAlt1.Size = new System.Drawing.Size(127, 20);
+            this.lblNatureNameAlt1.TabIndex = 3;
+            this.lblNatureNameAlt1.Text = "Nature Name Chs:";
             // 
-            // lblProductNatureName
+            // lblNatureName
             // 
-            this.lblProductNatureName.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.lblProductNatureName.Location = new System.Drawing.Point(16, 63);
-            this.lblProductNatureName.Name = "lblProductNatureName";
-            this.lblProductNatureName.Size = new System.Drawing.Size(100, 23);
-            this.lblProductNatureName.TabIndex = 2;
-            this.lblProductNatureName.Text = "Nature Name:";
+            this.lblNatureName.Location = new System.Drawing.Point(16, 63);
+            this.lblNatureName.Name = "lblNatureName";
+            this.lblNatureName.Size = new System.Drawing.Size(100, 23);
+            this.lblNatureName.TabIndex = 2;
+            this.lblNatureName.Text = "Nature Name:";
             // 
-            // txtProductNatureCode
+            // txtNatureCode
             // 
-            this.txtProductNatureCode.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.txtProductNatureCode.Location = new System.Drawing.Point(122, 37);
-            this.txtProductNatureCode.MaxLength = 10;
-            this.txtProductNatureCode.Name = "txtProductNatureCode";
-            this.txtProductNatureCode.Size = new System.Drawing.Size(142, 20);
-            this.txtProductNatureCode.TabIndex = 1;
+            this.txtNatureCode.Location = new System.Drawing.Point(158, 37);
+            this.txtNatureCode.MaxLength = 10;
+            this.txtNatureCode.Name = "txtNatureCode";
+            this.txtNatureCode.Size = new System.Drawing.Size(130, 20);
+            this.txtNatureCode.TabIndex = 1;
             // 
-            // lblProductNatureCode
+            // lblNatureCode
             // 
-            this.lblProductNatureCode.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.lblProductNatureCode.Location = new System.Drawing.Point(16, 40);
-            this.lblProductNatureCode.Name = "lblProductNatureCode";
-            this.lblProductNatureCode.Size = new System.Drawing.Size(100, 23);
-            this.lblProductNatureCode.TabIndex = 0;
-            this.lblProductNatureCode.Text = "Nature Code:";
+            this.lblNatureCode.Location = new System.Drawing.Point(16, 40);
+            this.lblNatureCode.Name = "lblNatureCode";
+            this.lblNatureCode.Size = new System.Drawing.Size(100, 23);
+            this.lblNatureCode.TabIndex = 0;
+            this.lblNatureCode.Text = "Nature Code:";
             // 
             // errorProvider
             // 
             this.errorProvider.BlinkRate = 3;
-            this.errorProvider.BlinkStyle = Gizmox.WebGUI.Forms.ErrorBlinkStyle.BlinkIfDifferentError;
-            this.errorProvider.DataMember = "";
-            this.errorProvider.DataSource = "";
+            // 
+            // colParent
+            // 
+            this.colParent.Text = "Parent";
+            this.colParent.Width = 80;
             // 
             // ProductNatureWizard
             // 
@@ -268,6 +241,7 @@ namespace RT2020.Product
             this.Size = new System.Drawing.Size(806, 506);
             this.StartPosition = Gizmox.WebGUI.Forms.FormStartPosition.CenterParent;
             this.Text = "ProductNature Wizard";
+            this.Load += new System.EventHandler(this.ProductNatureWizard_Load);
             this.ResumeLayout(false);
 
         }
@@ -276,25 +250,24 @@ namespace RT2020.Product
 
         private Gizmox.WebGUI.Forms.SplitContainer splitContainer;
         private Gizmox.WebGUI.Forms.ListView lvProductNatureList;
-        private Gizmox.WebGUI.Forms.ColumnHeader colProductNatureId;
+        private Gizmox.WebGUI.Forms.ColumnHeader colNatureId;
         private Gizmox.WebGUI.Forms.ColumnHeader colLN;
-        private Gizmox.WebGUI.Forms.ColumnHeader colProductNatureCode;
-        private Gizmox.WebGUI.Forms.ColumnHeader colProductNatureName;
-        private Gizmox.WebGUI.Forms.ColumnHeader colProductNatureNameChs;
-        private Gizmox.WebGUI.Forms.ColumnHeader colProductNatureNameCht;
-        private Gizmox.WebGUI.Forms.TextBox txtProductNatureNameCht;
-        private Gizmox.WebGUI.Forms.TextBox txtProductNatureNameChs;
-        private Gizmox.WebGUI.Forms.TextBox txtProductNatureName;
-        private Gizmox.WebGUI.Forms.Label lblProductNatureNameCht;
-        private Gizmox.WebGUI.Forms.Label lblProductNatureNameChs;
-        private Gizmox.WebGUI.Forms.Label lblProductNatureName;
-        private Gizmox.WebGUI.Forms.TextBox txtProductNatureCode;
-        private Gizmox.WebGUI.Forms.Label lblProductNatureCode;
+        private Gizmox.WebGUI.Forms.ColumnHeader colNatureCode;
+        private Gizmox.WebGUI.Forms.ColumnHeader colNatureName;
+        private Gizmox.WebGUI.Forms.ColumnHeader colNatureNameAlt1;
+        private Gizmox.WebGUI.Forms.ColumnHeader colNatureNameAlt2;
+        private Gizmox.WebGUI.Forms.TextBox txtNatureNameAlt2;
+        private Gizmox.WebGUI.Forms.TextBox txtNatureNameAlt1;
+        private Gizmox.WebGUI.Forms.TextBox txtNatureName;
+        private Gizmox.WebGUI.Forms.Label lblNatureNameAlt2;
+        private Gizmox.WebGUI.Forms.Label lblNatureNameAlt1;
+        private Gizmox.WebGUI.Forms.Label lblNatureName;
+        private Gizmox.WebGUI.Forms.TextBox txtNatureCode;
+        private Gizmox.WebGUI.Forms.Label lblNatureCode;
         private Gizmox.WebGUI.Forms.ToolBar tbWizardAction;
         private Gizmox.WebGUI.Forms.ErrorProvider errorProvider;
         private Gizmox.WebGUI.Forms.ComboBox cboParentNature;
         private Gizmox.WebGUI.Forms.Label lblParentNature;
-
-
+        private Gizmox.WebGUI.Forms.ColumnHeader colParent;
     }
 }

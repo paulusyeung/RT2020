@@ -134,6 +134,7 @@ namespace RT2020.Product
                 {
                     case "product_code":
                         ProductWizard wizProduct = new ProductWizard();
+                        wizProduct.EditMode = EnumHelper.EditMode.Add;
                         wizProduct.ShowDialog();
                         break;
                     case "product_code_fast":

@@ -65,6 +65,26 @@ namespace RT2020.Helper
             VPRC
         }
 
+        public enum ProductClassType
+        {
+            None,
+            Class1,
+            Class2,
+            Class3,
+            Class4,
+            Class5,
+            Class6
+        }
+
+        public enum ProductAppendixType
+        {
+            None,
+            Appendix1,
+            Appendix2,
+            Appendix3
+        }
+
+
         /// <summary>
         /// Transaction Type
         /// </summary>

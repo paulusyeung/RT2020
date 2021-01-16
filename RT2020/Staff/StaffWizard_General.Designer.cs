@@ -28,16 +28,16 @@ namespace RT2020.Staff
         /// </summary>
         private void InitializeComponent()
         {
-            this.cboSmartTag8 = new Gizmox.WebGUI.Forms.ComboBox();
+            this.cboSmartTag2 = new Gizmox.WebGUI.Forms.ComboBox();
             this.cboDeptCode = new Gizmox.WebGUI.Forms.ComboBox();
             this.cboPosition = new Gizmox.WebGUI.Forms.ComboBox();
             this.txtFirstName = new Gizmox.WebGUI.Forms.TextBox();
             this.lblFirstName = new Gizmox.WebGUI.Forms.Label();
             this.lblLastName = new Gizmox.WebGUI.Forms.Label();
             this.txtLastName = new Gizmox.WebGUI.Forms.TextBox();
-            this.lblSmartTag12 = new Gizmox.WebGUI.Forms.Label();
-            this.txtSmartTag12 = new Gizmox.WebGUI.Forms.TextBox();
+            this.lblSmartTag4 = new Gizmox.WebGUI.Forms.Label();
             this.txtSmartTag4 = new Gizmox.WebGUI.Forms.TextBox();
+            this.txtSmartTag3 = new Gizmox.WebGUI.Forms.TextBox();
             this.chkAdministration = new Gizmox.WebGUI.Forms.CheckBox();
             this.chkPunch = new Gizmox.WebGUI.Forms.CheckBox();
             this.lblMedical = new Gizmox.WebGUI.Forms.Label();
@@ -48,19 +48,19 @@ namespace RT2020.Staff
             this.datHiredOn = new Gizmox.WebGUI.Forms.DateTimePicker();
             this.lblDateFormat = new Gizmox.WebGUI.Forms.Label();
             this.lblHiredOn = new Gizmox.WebGUI.Forms.Label();
-            this.cboSmartTag7 = new Gizmox.WebGUI.Forms.ComboBox();
+            this.cboSmartTag6 = new Gizmox.WebGUI.Forms.ComboBox();
             this.lblB = new Gizmox.WebGUI.Forms.Label();
             this.lblA = new Gizmox.WebGUI.Forms.Label();
             this.lblAssistant = new Gizmox.WebGUI.Forms.Label();
-            this.cboSmartTag6 = new Gizmox.WebGUI.Forms.ComboBox();
-            this.lblSmartTag8 = new Gizmox.WebGUI.Forms.Label();
+            this.cboSmartTag5 = new Gizmox.WebGUI.Forms.ComboBox();
+            this.lblSmartTag2 = new Gizmox.WebGUI.Forms.Label();
             this.txtPassword = new Gizmox.WebGUI.Forms.TextBox();
             this.lblPassword = new Gizmox.WebGUI.Forms.Label();
             this.btnChangePassword = new Gizmox.WebGUI.Forms.Button();
             this.lblStaffGrade = new Gizmox.WebGUI.Forms.Label();
             this.cmbStaffGrade = new Gizmox.WebGUI.Forms.ComboBox();
             this.lblPosition = new Gizmox.WebGUI.Forms.Label();
-            this.cboSmartTag5 = new Gizmox.WebGUI.Forms.ComboBox();
+            this.cboSmartTag1 = new Gizmox.WebGUI.Forms.ComboBox();
             this.lblNameCht = new Gizmox.WebGUI.Forms.Label();
             this.txtStateCounter = new Gizmox.WebGUI.Forms.TextBox();
             this.txtStateOffice = new Gizmox.WebGUI.Forms.TextBox();
@@ -70,13 +70,13 @@ namespace RT2020.Staff
             this.txtCreationDate = new Gizmox.WebGUI.Forms.TextBox();
             this.txtLastUpdate = new Gizmox.WebGUI.Forms.TextBox();
             this.lblLastUpdate = new Gizmox.WebGUI.Forms.Label();
-            this.lblSmartTag5 = new Gizmox.WebGUI.Forms.Label();
+            this.lblSmartTag1 = new Gizmox.WebGUI.Forms.Label();
             this.txtNameCht = new Gizmox.WebGUI.Forms.TextBox();
             this.txtNameChs = new Gizmox.WebGUI.Forms.TextBox();
             this.txtName = new Gizmox.WebGUI.Forms.TextBox();
             this.txtInitial = new Gizmox.WebGUI.Forms.TextBox();
             this.lblNameChs = new Gizmox.WebGUI.Forms.Label();
-            this.lblSmartTag4 = new Gizmox.WebGUI.Forms.Label();
+            this.lblSmartTag3 = new Gizmox.WebGUI.Forms.Label();
             this.lblName = new Gizmox.WebGUI.Forms.Label();
             this.lblInitial = new Gizmox.WebGUI.Forms.Label();
             this.gbxTimeCard = new Gizmox.WebGUI.Forms.GroupBox();
@@ -85,18 +85,18 @@ namespace RT2020.Staff
             this.gbxStatus.SuspendLayout();
             this.SuspendLayout();
             // 
-            // cboSmartTag8
+            // cboSmartTag2
             // 
-            this.cboSmartTag8.Items.AddRange(new object[] {
+            this.cboSmartTag2.Items.AddRange(new object[] {
             "N - None",
             "O - Office",
             "S - SHOP",
             "W - Warehouse",
             "M - MIS"});
-            this.cboSmartTag8.Location = new System.Drawing.Point(116, 206);
-            this.cboSmartTag8.Name = "cboSmartTag8";
-            this.cboSmartTag8.Size = new System.Drawing.Size(121, 21);
-            this.cboSmartTag8.TabIndex = 11;
+            this.cboSmartTag2.Location = new System.Drawing.Point(116, 206);
+            this.cboSmartTag2.Name = "cboSmartTag2";
+            this.cboSmartTag2.Size = new System.Drawing.Size(121, 21);
+            this.cboSmartTag2.TabIndex = 11;
             // 
             // cboDeptCode
             // 
@@ -150,28 +150,28 @@ namespace RT2020.Staff
             this.txtLastName.TabIndex = 3;
             this.txtLastName.TextChanged += new System.EventHandler(this.txtLastName_TextChanged);
             // 
-            // lblSmartTag12
+            // lblSmartTag4
             // 
-            this.lblSmartTag12.Location = new System.Drawing.Point(9, 300);
-            this.lblSmartTag12.Name = "lblSmartTag12";
-            this.lblSmartTag12.Size = new System.Drawing.Size(101, 23);
-            this.lblSmartTag12.TabIndex = 1;
-            this.lblSmartTag12.Text = "SmartTag12";
-            this.lblSmartTag12.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // txtSmartTag12
-            // 
-            this.txtSmartTag12.Location = new System.Drawing.Point(116, 300);
-            this.txtSmartTag12.Name = "txtSmartTag12";
-            this.txtSmartTag12.Size = new System.Drawing.Size(327, 21);
-            this.txtSmartTag12.TabIndex = 18;
+            this.lblSmartTag4.Location = new System.Drawing.Point(9, 300);
+            this.lblSmartTag4.Name = "lblSmartTag4";
+            this.lblSmartTag4.Size = new System.Drawing.Size(101, 23);
+            this.lblSmartTag4.TabIndex = 1;
+            this.lblSmartTag4.Text = "SmartTag4";
+            this.lblSmartTag4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // txtSmartTag4
             // 
-            this.txtSmartTag4.Location = new System.Drawing.Point(116, 277);
+            this.txtSmartTag4.Location = new System.Drawing.Point(116, 300);
             this.txtSmartTag4.Name = "txtSmartTag4";
             this.txtSmartTag4.Size = new System.Drawing.Size(327, 21);
-            this.txtSmartTag4.TabIndex = 17;
+            this.txtSmartTag4.TabIndex = 18;
+            // 
+            // txtSmartTag3
+            // 
+            this.txtSmartTag3.Location = new System.Drawing.Point(116, 277);
+            this.txtSmartTag3.Name = "txtSmartTag3";
+            this.txtSmartTag3.Size = new System.Drawing.Size(327, 21);
+            this.txtSmartTag3.TabIndex = 17;
             // 
             // chkAdministration
             // 
@@ -257,13 +257,13 @@ namespace RT2020.Staff
             this.lblHiredOn.Text = "Hired On";
             this.lblHiredOn.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // cboSmartTag7
+            // cboSmartTag6
             // 
-            this.cboSmartTag7.DropDownWidth = 121;
-            this.cboSmartTag7.Location = new System.Drawing.Point(116, 254);
-            this.cboSmartTag7.Name = "cboSmartTag7";
-            this.cboSmartTag7.Size = new System.Drawing.Size(121, 21);
-            this.cboSmartTag7.TabIndex = 15;
+            this.cboSmartTag6.DropDownWidth = 121;
+            this.cboSmartTag6.Location = new System.Drawing.Point(116, 254);
+            this.cboSmartTag6.Name = "cboSmartTag6";
+            this.cboSmartTag6.Size = new System.Drawing.Size(121, 21);
+            this.cboSmartTag6.TabIndex = 15;
             // 
             // lblB
             // 
@@ -292,22 +292,22 @@ namespace RT2020.Staff
             this.lblAssistant.Text = "Assistant#";
             this.lblAssistant.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // cboSmartTag6
+            // cboSmartTag5
             // 
-            this.cboSmartTag6.DropDownWidth = 121;
-            this.cboSmartTag6.Location = new System.Drawing.Point(116, 230);
-            this.cboSmartTag6.Name = "cboSmartTag6";
-            this.cboSmartTag6.Size = new System.Drawing.Size(121, 21);
-            this.cboSmartTag6.TabIndex = 13;
+            this.cboSmartTag5.DropDownWidth = 121;
+            this.cboSmartTag5.Location = new System.Drawing.Point(116, 230);
+            this.cboSmartTag5.Name = "cboSmartTag5";
+            this.cboSmartTag5.Size = new System.Drawing.Size(121, 21);
+            this.cboSmartTag5.TabIndex = 13;
             // 
-            // lblSmartTag8
+            // lblSmartTag2
             // 
-            this.lblSmartTag8.Location = new System.Drawing.Point(9, 205);
-            this.lblSmartTag8.Name = "lblSmartTag8";
-            this.lblSmartTag8.Size = new System.Drawing.Size(79, 23);
-            this.lblSmartTag8.TabIndex = 0;
-            this.lblSmartTag8.Text = "Belongs";
-            this.lblSmartTag8.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblSmartTag2.Location = new System.Drawing.Point(9, 205);
+            this.lblSmartTag2.Name = "lblSmartTag2";
+            this.lblSmartTag2.Size = new System.Drawing.Size(79, 23);
+            this.lblSmartTag2.TabIndex = 0;
+            this.lblSmartTag2.Text = "Smart Tag 2";
+            this.lblSmartTag2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // txtPassword
             // 
@@ -364,13 +364,13 @@ namespace RT2020.Staff
             this.lblPosition.Text = "Position";
             this.lblPosition.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // cboSmartTag5
+            // cboSmartTag1
             // 
-            this.cboSmartTag5.DropDownWidth = 121;
-            this.cboSmartTag5.Location = new System.Drawing.Point(322, 10);
-            this.cboSmartTag5.Name = "cboSmartTag5";
-            this.cboSmartTag5.Size = new System.Drawing.Size(121, 21);
-            this.cboSmartTag5.TabIndex = 2;
+            this.cboSmartTag1.DropDownWidth = 121;
+            this.cboSmartTag1.Location = new System.Drawing.Point(322, 10);
+            this.cboSmartTag1.Name = "cboSmartTag1";
+            this.cboSmartTag1.Size = new System.Drawing.Size(121, 21);
+            this.cboSmartTag1.TabIndex = 2;
             // 
             // lblNameCht
             // 
@@ -455,14 +455,14 @@ namespace RT2020.Staff
             this.lblLastUpdate.Text = "Last Update";
             this.lblLastUpdate.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // lblSmartTag5
+            // lblSmartTag1
             // 
-            this.lblSmartTag5.Location = new System.Drawing.Point(245, 10);
-            this.lblSmartTag5.Name = "lblSmartTag5";
-            this.lblSmartTag5.Size = new System.Drawing.Size(75, 23);
-            this.lblSmartTag5.TabIndex = 0;
-            this.lblSmartTag5.Text = "SmartTag5";
-            this.lblSmartTag5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lblSmartTag1.Location = new System.Drawing.Point(245, 10);
+            this.lblSmartTag1.Name = "lblSmartTag1";
+            this.lblSmartTag1.Size = new System.Drawing.Size(75, 23);
+            this.lblSmartTag1.TabIndex = 0;
+            this.lblSmartTag1.Text = "SmartTag 1";
+            this.lblSmartTag1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // txtNameCht
             // 
@@ -504,14 +504,14 @@ namespace RT2020.Staff
             this.lblNameChs.Text = "Full Name(Chs)";
             this.lblNameChs.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // lblSmartTag4
+            // lblSmartTag3
             // 
-            this.lblSmartTag4.Location = new System.Drawing.Point(9, 277);
-            this.lblSmartTag4.Name = "lblSmartTag4";
-            this.lblSmartTag4.Size = new System.Drawing.Size(101, 23);
-            this.lblSmartTag4.TabIndex = 1;
-            this.lblSmartTag4.Text = "SmartTag4";
-            this.lblSmartTag4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblSmartTag3.Location = new System.Drawing.Point(9, 277);
+            this.lblSmartTag3.Name = "lblSmartTag3";
+            this.lblSmartTag3.Size = new System.Drawing.Size(101, 23);
+            this.lblSmartTag3.TabIndex = 1;
+            this.lblSmartTag3.Text = "SmartTag3";
+            this.lblSmartTag3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // lblName
             // 
@@ -566,10 +566,10 @@ namespace RT2020.Staff
             this.Controls.Add(this.gbxStatus);
             this.Controls.Add(this.gbxTimeCard);
             this.Controls.Add(this.lblInitial);
-            this.Controls.Add(this.cboSmartTag8);
+            this.Controls.Add(this.cboSmartTag2);
             this.Controls.Add(this.lblName);
             this.Controls.Add(this.cboDeptCode);
-            this.Controls.Add(this.lblSmartTag4);
+            this.Controls.Add(this.lblSmartTag3);
             this.Controls.Add(this.cboPosition);
             this.Controls.Add(this.txtFirstName);
             this.Controls.Add(this.txtInitial);
@@ -579,12 +579,12 @@ namespace RT2020.Staff
             this.Controls.Add(this.txtNameChs);
             this.Controls.Add(this.txtLastName);
             this.Controls.Add(this.txtNameCht);
-            this.Controls.Add(this.lblSmartTag5);
-            this.Controls.Add(this.lblSmartTag12);
-            this.Controls.Add(this.cboSmartTag5);
-            this.Controls.Add(this.txtSmartTag12);
-            this.Controls.Add(this.lblPosition);
+            this.Controls.Add(this.lblSmartTag1);
+            this.Controls.Add(this.lblSmartTag4);
+            this.Controls.Add(this.cboSmartTag1);
             this.Controls.Add(this.txtSmartTag4);
+            this.Controls.Add(this.lblPosition);
+            this.Controls.Add(this.txtSmartTag3);
             this.Controls.Add(this.cmbStaffGrade);
             this.Controls.Add(this.lblMedical);
             this.Controls.Add(this.lblStaffGrade);
@@ -595,14 +595,14 @@ namespace RT2020.Staff
             this.Controls.Add(this.lblEmploymen);
             this.Controls.Add(this.txtPassword);
             this.Controls.Add(this.lblDept);
-            this.Controls.Add(this.lblSmartTag8);
+            this.Controls.Add(this.lblSmartTag2);
             this.Controls.Add(this.datHiredOn);
-            this.Controls.Add(this.cboSmartTag6);
+            this.Controls.Add(this.cboSmartTag5);
             this.Controls.Add(this.lblDateFormat);
             this.Controls.Add(this.lblAssistant);
             this.Controls.Add(this.lblHiredOn);
             this.Controls.Add(this.lblA);
-            this.Controls.Add(this.cboSmartTag7);
+            this.Controls.Add(this.cboSmartTag6);
             this.Controls.Add(this.lblB);
             this.Controls.Add(this.lblNameChs);
             this.Controls.Add(this.lblNameCht);
@@ -620,15 +620,15 @@ namespace RT2020.Staff
         private Gizmox.WebGUI.Forms.Label lblStatus;
         private Gizmox.WebGUI.Forms.Label lblCreationDate;
         private Gizmox.WebGUI.Forms.Label lblLastUpdate;
-        private Gizmox.WebGUI.Forms.Label lblSmartTag5;
+        private Gizmox.WebGUI.Forms.Label lblSmartTag1;
         private Gizmox.WebGUI.Forms.Label lblNameChs;
-        private Gizmox.WebGUI.Forms.Label lblSmartTag4;
+        private Gizmox.WebGUI.Forms.Label lblSmartTag3;
         private Gizmox.WebGUI.Forms.Label lblName;
         private Gizmox.WebGUI.Forms.Label lblInitial;
         private Gizmox.WebGUI.Forms.Label lblStaffGrade;
         private Gizmox.WebGUI.Forms.Label lblPosition;
         private Gizmox.WebGUI.Forms.Label lblAssistant;
-        private Gizmox.WebGUI.Forms.Label lblSmartTag8;
+        private Gizmox.WebGUI.Forms.Label lblSmartTag2;
         private Gizmox.WebGUI.Forms.Label lblPassword;
         private Gizmox.WebGUI.Forms.Button btnChangePassword;
         private Gizmox.WebGUI.Forms.Label lblA;
@@ -638,7 +638,7 @@ namespace RT2020.Staff
         private Gizmox.WebGUI.Forms.Label lblMedical;
         private Gizmox.WebGUI.Forms.Label lblEmploymen;
         private Gizmox.WebGUI.Forms.Label lblDept;
-        private Gizmox.WebGUI.Forms.Label lblSmartTag12;
+        private Gizmox.WebGUI.Forms.Label lblSmartTag4;
         private Gizmox.WebGUI.Forms.Label lblLastName;
         private Gizmox.WebGUI.Forms.Label lblFirstName;
         public Gizmox.WebGUI.Forms.TextBox txtLastName;
@@ -647,18 +647,18 @@ namespace RT2020.Staff
         public Gizmox.WebGUI.Forms.TextBox txtNameChs;
         public Gizmox.WebGUI.Forms.TextBox txtName;
         public Gizmox.WebGUI.Forms.TextBox txtInitial;
-        public Gizmox.WebGUI.Forms.ComboBox cboSmartTag5;
+        public Gizmox.WebGUI.Forms.ComboBox cboSmartTag1;
         public Gizmox.WebGUI.Forms.ComboBox cmbStaffGrade;
-        public Gizmox.WebGUI.Forms.ComboBox cboSmartTag6;
+        public Gizmox.WebGUI.Forms.ComboBox cboSmartTag5;
         public Gizmox.WebGUI.Forms.TextBox txtPassword;
-        public Gizmox.WebGUI.Forms.ComboBox cboSmartTag7;
+        public Gizmox.WebGUI.Forms.ComboBox cboSmartTag6;
         public Gizmox.WebGUI.Forms.DateTimePicker datHiredOn;
         public Gizmox.WebGUI.Forms.TextBox txtMedical;
         public Gizmox.WebGUI.Forms.TextBox txtEmploymen;
         public Gizmox.WebGUI.Forms.CheckBox chkAdministration;
         public Gizmox.WebGUI.Forms.CheckBox chkPunch;
+        public Gizmox.WebGUI.Forms.TextBox txtSmartTag3;
         public Gizmox.WebGUI.Forms.TextBox txtSmartTag4;
-        public Gizmox.WebGUI.Forms.TextBox txtSmartTag12;
         public Gizmox.WebGUI.Forms.ComboBox cboPosition;
         public Gizmox.WebGUI.Forms.TextBox txtStateCounter;
         public Gizmox.WebGUI.Forms.TextBox txtStateOffice;
@@ -667,7 +667,7 @@ namespace RT2020.Staff
         public Gizmox.WebGUI.Forms.TextBox txtLastUpdate;
         public Gizmox.WebGUI.Forms.ComboBox cboDeptCode;
         //private Gizmox.WebGUI.Forms.Extenders.SilverlightExtender silverlightExtender1;
-        public Gizmox.WebGUI.Forms.ComboBox cboSmartTag8;
+        public Gizmox.WebGUI.Forms.ComboBox cboSmartTag2;
         private Gizmox.WebGUI.Forms.GroupBox gbxStatus;
         private Gizmox.WebGUI.Forms.GroupBox gbxTimeCard;
     }

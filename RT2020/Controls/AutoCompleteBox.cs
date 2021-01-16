@@ -13,6 +13,8 @@ using System.Data.SqlClient;
 
 using System.Configuration;
 using RT2020.Helper;
+using System.Linq;
+using System.Data.Entity;
 
 #endregion
 
@@ -132,6 +134,7 @@ namespace RT2020.Controls
             if (query.Length > 0)
             {
                 cboAutoComplete.DataSource = null;
+                cboAutoComplete.Items.Clear();
 
                 AutoCompleteBoxItemCollection itemList = new AutoCompleteBoxItemCollection();
 

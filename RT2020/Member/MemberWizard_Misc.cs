@@ -22,6 +22,7 @@ namespace RT2020.Member
     public partial class MemberWizard_Misc : UserControl
     {
         string mstrDirectory = string.Empty;
+        public RT2020.Controls.RTImage imgMemberPicture;
 
         #region Properties
         private Guid _MemberId = System.Guid.Empty;
@@ -38,6 +39,8 @@ namespace RT2020.Member
 
             SetCaptions();
             mstrDirectory = Path.Combine(Context.Config.GetDirectory("RTImages"), "Member");
+
+            LoadRTImage();
         }
 
         #region SetCaptions & SetAttributes
@@ -53,6 +56,19 @@ namespace RT2020.Member
 
         }
         #endregion
+
+        private void LoadRTImage()
+        {
+            imgMemberPicture = new RT2020.Controls.RTImage()
+            {
+                Image = null,
+                ImageName = string.Empty,
+                Location = new Point(6, 19),
+                Size = new Size(388, 227),
+                SizeMode = PictureBoxSizeMode.Normal,
+            };
+            gbPicture.Controls.Add(imgMemberPicture);
+        }
 
         private void btnFindPic_Click(object sender, EventArgs e)
         {

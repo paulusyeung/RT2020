@@ -20,17 +20,81 @@ namespace RT2020.Product
 {
     public partial class ProductWizard_Quantity : UserControl
     {
-        public ProductWizard_Quantity(Guid productid)
+        #region Public Properties
+        private EnumHelper.EditMode _EditMode = EnumHelper.EditMode.None;
+        public EnumHelper.EditMode EditMode
+        {
+            get { return _EditMode; }
+            set { _EditMode = value; }
+        }
+
+        private Guid _ProductId = Guid.Empty;
+        public Guid ProductId
+        {
+            get { return _ProductId; }
+            set { _ProductId = value; }
+        }
+        #endregion
+
+        public ProductWizard_Quantity()
         {
             InitializeComponent();
-            this.ProductId = productid;
+        }
+
+        private void ProductWizard_Quantity_Load(object sender, EventArgs e)
+        {
+            SetCaptions();
+            SetAttributes();
+
+            switch (_EditMode)
+            {
+                case EnumHelper.EditMode.Add:
+                    break;
+                case EnumHelper.EditMode.Edit:
+                case EnumHelper.EditMode.Delete:
+                    LoadData();
+                    break;
+            }
+        }
+
+        #region SetCaptions, SetAttributes & SetPhoneTag
+        private void SetCaptions()
+        {
+            lblMaxOLNQty.Text = WestwindHelper.GetWordWithColon("inventory.maxOlnQty", "Product");
+            lblOnHandQty.Text = WestwindHelper.GetWordWithColon("inventory.onhandQty", "Product");
+            lblMTDPurQty.Text = WestwindHelper.GetWordWithColon("inventory.mtdPurchasedQty", "Product");
+            lblYTDPurQty.Text = WestwindHelper.GetWordWithColon("inventory.ytdPurchasedQty", "Product");
+            lblMTDSoldQty.Text = WestwindHelper.GetWordWithColon("inventory.mtdSoldQty", "Product");
+            lblYTDSoldQty.Text = WestwindHelper.GetWordWithColon("inventory.ytdSoldQty", "Product");
+            lblAverageCost.Text = WestwindHelper.GetWordWithColon("inventory.averageCost", "Product");
+            lblLastReceivingCost.Text = WestwindHelper.GetWordWithColon("inventory.lastCost", "Product");
+            lblLastPurDate.Text = WestwindHelper.GetWordWithColon("inventory.lastPurchasedOn", "Product");
+            lblLastSoldDate.Text = WestwindHelper.GetWordWithColon("inventory.lastSoldOn", "Product");
+            btnShowATSQty.Text = WestwindHelper.GetWord("inventory.showAtsQty", "Product");
+        }
+
+        private void SetAttributes()
+        {
+        }
+        #endregion
+
+        #region Load Data
+        public void LoadData()
+        {
+            using (var ctx = new EF6.RT2020Entities())
+            {
+                var item = ctx.Product.Where(x => x.ProductId == this.ProductId).AsNoTracking().FirstOrDefault();
+                if (item != null)
+                {
+                    txtMaxOLNQty.Text = item.MaxOnLoanQty.ToString("n0");
+                }
+            }
 
             ShowQtyInfo();
-            BindQtyTable();
             ShowCurrentSummaryInfo();
         }
 
-        #region Qty Info
+        // Show YTD MTD values
         private void ShowQtyInfo()
         {
             txtMTDPurQty.Text = PurQty("'CAP', 'REC', 'REJ'", "M").ToString("n0");
@@ -54,18 +118,19 @@ namespace RT2020.Product
 
             using (var ctx = new EF6.RT2020Entities())
             {
-                string sql = "ProductId = '" + this.ProductId.ToString() + "' AND TxType IN (" + txType + ")" + type;
-                var oDetails = ctx.InvtLedgerDetails.Where(x => x.ProductId == this.ProductId && txType.Contains(x.TxType)).AsNoTracking().ToList();
-                foreach (var detail in oDetails)
+                string sql = "ProductId = '" + _ProductId.ToString() + "' AND TxType IN (" + txType + ") " + type;
+
+                var list = ctx.InvtLedgerDetails.SqlQuery(string.Format("Select * from InvtLedgerDetails Where {0}", sql)).AsNoTracking().ToList();
+                foreach (var item in list)
                 {
-                    switch (detail.TxType)
+                    switch (item.TxType)
                     {
                         case "REJ":
-                            totalREJ += detail.Qty.Value;
+                            totalREJ += item.Qty.Value;
                             break;
                         case "REC":
                         case "CAP":
-                            totalREC += detail.Qty.Value;
+                            totalREC += item.Qty.Value;
                             break;
                     }
                 }
@@ -91,18 +156,19 @@ namespace RT2020.Product
 
             using (var ctx = new EF6.RT2020Entities())
             {
-                string sql = "ProductId = '" + this.ProductId.ToString() + "' AND TxType IN (" + txType + ")" + type;
-                var oDetails = ctx.PosLedgerDetails.Where(x => x.ProductId == this.ProductId && txType.Contains(x.TxType)).ToList();
-                foreach (var detail in oDetails)
+                string sql = "ProductId = '" + _ProductId.ToString() + "' AND TxType IN (" + txType + ") " + type;
+
+                var list = ctx.PosLedgerDetails.SqlQuery(string.Format("Select * from PosLedgerDetails Where {0}", sql)).AsNoTracking().ToList();
+                foreach (var item in list)
                 {
-                    switch (detail.TxType)
+                    switch (item.TxType)
                     {
                         case "CRT":
                         case "VOD":
-                            totalVOD += detail.Qty.Value;
+                            totalVOD += item.Qty.Value;
                             break;
                         case "CAS":
-                            totalCAS += detail.Qty.Value;
+                            totalCAS += item.Qty.Value;
                             break;
                     }
                 }
@@ -112,23 +178,33 @@ namespace RT2020.Product
 
             return result;
         }
-        #endregion
 
-        #region Properties
-        private Guid productId = System.Guid.Empty;
-        public Guid ProductId
+        private void ShowCurrentSummaryInfo()
         {
-            get
+            var oCurrentSummary = ModelEx.ProductCurrentSummaryEx.GetByProductCode(_ProductId);
+            if (oCurrentSummary != null)
             {
-                return productId;
-            }
-            set
-            {
-                productId = value;
+                this.txtOnHandQty.Text = oCurrentSummary.CDQTY.ToString("n0");
+
+                txtAverageCost.Text = oCurrentSummary.AverageCost.ToString("n2");
+                txtLastReceivingCost.Text = oCurrentSummary.LastCost.ToString("n2");
+                txtLastPurDate.Text = oCurrentSummary.LastPurchasedOn.Value.ToString(DateTimeHelper.GetDateFormat());
+                txtLastSoldDate.Text = oCurrentSummary.LastSoldOn.Value.ToString(DateTimeHelper.GetDateFormat());
             }
         }
         #endregion
 
+        #region Save Data
+        public bool SaveData()
+        {
+            var result = false;
+
+
+            return result;
+        }
+        #endregion
+
+        #region Show ATS Qty
         private void BindQtyTable()
         {
             DataTable oTable = QtyTable("BFQty");
@@ -168,7 +244,7 @@ namespace RT2020.Product
             SqlParameter pivotCol = new SqlParameter("@Pivot_Column", "WorkplaceCode");
             paramList.Add(pivotCol);
 
-            SqlParameter ProductIdCol = new SqlParameter("@ProductId", this.ProductId.ToString());
+            SqlParameter ProductIdCol = new SqlParameter("@ProductId", _ProductId.ToString());
             paramList.Add(ProductIdCol);
 
             SqlCommand cmd = new SqlCommand();
@@ -227,20 +303,7 @@ namespace RT2020.Product
 
             return oTable;
         }
-
-        private void ShowCurrentSummaryInfo()
-        {
-            var oCurrentSummary = ModelEx.ProductCurrentSummaryEx.GetByProductCode(this.ProductId);
-            if (oCurrentSummary != null)
-            {
-                this.txtOnHandQty.Text = oCurrentSummary.CDQTY.ToString("n0");
-
-                txtAverageCost.Text = oCurrentSummary.AverageCost.ToString("n2");
-                txtLastReceivingCost.Text = oCurrentSummary.LastCost.ToString("n2");
-                txtLastPurDate.Text = oCurrentSummary.LastPurchasedOn.Value.ToString(RT2020.SystemInfo.Settings.GetDateFormat());
-                txtLastSoldDate.Text = oCurrentSummary.LastSoldOn.Value.ToString(RT2020.SystemInfo.Settings.GetDateFormat());
-            }
-        }
+        #endregion
 
         private void btnShowATSQty_Click(object sender, EventArgs e)
         {

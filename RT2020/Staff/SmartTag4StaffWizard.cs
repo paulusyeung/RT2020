@@ -206,8 +206,8 @@ namespace RT2020.Staff
         #region SmartTag4Staff Code
         private void SetCtrlEditable()
         {
-            txtTagCode.BackColor = (_SmartTagId == System.Guid.Empty) ? Color.LightSkyBlue : Color.LightYellow;
-            txtTagCode.ReadOnly = (_SmartTagId != System.Guid.Empty);
+            txtTagCode.BackColor = (_SmartTagId == Guid.Empty) ? Color.LightSkyBlue : Color.LightYellow;
+            txtTagCode.ReadOnly = (_SmartTagId != Guid.Empty);
 
             ClearError();
 
@@ -315,22 +315,8 @@ namespace RT2020.Staff
 
         private void Delete()
         {
-            using (var ctx = new EF6.RT2020Entities())
-            {
-                try
-                {
-                    var item = ctx.SmartTag4Staff.Find(_SmartTagId);
-                    if (item != null)
-                    {
-                        ctx.SmartTag4Staff.Remove(item);
-                        ctx.SaveChanges();
-                    }
-                }
-                catch
-                {
-                    MessageBox.Show("Cannot delete the record...Might be in use by other record!", "Delete Warning");
-                }
-            }
+            var result = ModelEx.SmartTag4StaffEx.DeleteOptionsToo(_SmartTagId);
+            MessageBox.Show(result ? "Record Removed" : "Can't Delete Record...", "Delete Result");
         }
 
         private void lvTagList_SelectedIndexChanged(object sender, EventArgs e)

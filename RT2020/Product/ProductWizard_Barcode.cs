@@ -17,6 +17,7 @@ using System.Data.SqlClient;
 using System.Configuration;
 using System.Linq;
 using RT2020.Helper;
+using System.Data.Entity;
 
 #endregion
 
@@ -24,13 +25,76 @@ namespace RT2020.Product
 {
     public partial class ProductWizard_Barcode : UserControl
     {
-        public ProductWizard_Barcode(Guid productId)
+        #region Public Properties
+        private EnumHelper.EditMode _EditMode = EnumHelper.EditMode.None;
+        public EnumHelper.EditMode EditMode
+        {
+            get { return _EditMode; }
+            set { _EditMode = value; }
+        }
+
+        private Guid _ProductId = Guid.Empty;
+        public Guid ProductId
+        {
+            get { return _ProductId; }
+            set { _ProductId = value; }
+        }
+
+        private Guid _BarcodeId = Guid.Empty;
+        public Guid BarcodeId
+        {
+            get { return _BarcodeId; }
+            set { _BarcodeId = value; }
+        }
+        #endregion
+
+        public ProductWizard_Barcode()
         {
             InitializeComponent();
-            this.ProductId = productId;
-            SetToolBar();
-            BindingBarcodeList();
         }
+
+        private void ProductWizard_Barcode_Load(object sender, EventArgs e)
+        {
+
+            SetCaptions();
+            SetAttributes();
+            SetToolBar();
+
+            switch (_EditMode)
+            {
+                case EnumHelper.EditMode.Add:
+                    break;
+                case EnumHelper.EditMode.Edit:
+                case EnumHelper.EditMode.Delete:
+                    LoadData();
+                    break;
+            }
+        }
+
+        #region SetCaptions, SetAttributes
+        private void SetCaptions()
+        {
+            lblBarcode.Text = WestwindHelper.GetWordWithColon("barcode", "Product");
+            lblBarcodeType.Text = WestwindHelper.GetWordWithColon("barcode.type", "Product");
+            lblPrimaryBarcode.Text = WestwindHelper.GetWordWithColon("barcode.primary", "Product");
+
+            colLN.Text = WestwindHelper.GetWord("listview.line", "Tools");
+            colBarcode.Text = WestwindHelper.GetWord("barcode", "Product");
+            colBarcodeType.Text = WestwindHelper.GetWord("barcode.type", "Product");
+            colPrimaryBarcode.Text = WestwindHelper.GetWord("barcode.primary", "Product");
+        }
+
+        private void SetAttributes()
+        {
+            colLN.TextAlign = HorizontalAlignment.Center;
+            colBarcode.TextAlign = HorizontalAlignment.Left;
+            colBarcode.ContentAlign = ExtendedHorizontalAlignment.Center;
+            colBarcodeType.TextAlign = HorizontalAlignment.Left;
+            colBarcodeType.ContentAlign = ExtendedHorizontalAlignment.Center;
+            colPrimaryBarcode.TextAlign = HorizontalAlignment.Center;
+            colPrimaryBarcode.ContentAlign = ExtendedHorizontalAlignment.Center;
+        }
+        #endregion
 
         #region ToolBar
         private void SetToolBar()
@@ -43,21 +107,21 @@ namespace RT2020.Product
             sep.Style = ToolBarButtonStyle.Separator;
 
             // cmdRefresh
-            ToolBarButton cmdRefresh = new ToolBarButton("Refresh", "Refresh");
+            ToolBarButton cmdRefresh = new ToolBarButton("Refresh", WestwindHelper.GetWord("edit.refresh", "General"));
             cmdRefresh.Tag = "Refresh";
             cmdRefresh.Image = new IconResourceHandle("16x16.16_L_refresh.gif");
 
             this.tbBarcode.Buttons.Add(cmdRefresh);
 
             // cmdGenerate
-            ToolBarButton cmdGenerate = new ToolBarButton("Generate", "Generate");
+            ToolBarButton cmdGenerate = new ToolBarButton("Generate", WestwindHelper.GetWord("edit.generate", "General"));
             cmdGenerate.Tag = "Generate";
             cmdGenerate.Image = new IconResourceHandle("16x16.ico_16_3.gif");
 
             this.tbBarcode.Buttons.Add(cmdGenerate);
 
             // cmdAdd
-            ToolBarButton cmdAdd = new ToolBarButton("Add", "Add");
+            ToolBarButton cmdAdd = new ToolBarButton("Add", WestwindHelper.GetWord("edit.new", "General"));
             cmdAdd.Tag = "Add";
             cmdAdd.Image = new IconResourceHandle("16x16.16_converttooppo.gif");
 
@@ -65,7 +129,7 @@ namespace RT2020.Product
             this.tbBarcode.Buttons.Add(sep);
 
             // cmdDelete
-            ToolBarButton cmdDelete = new ToolBarButton("Delete", "Delete");
+            ToolBarButton cmdDelete = new ToolBarButton("Delete", WestwindHelper.GetWord("edit.delete", "General"));
             cmdDelete.Tag = "Delete";
             cmdDelete.Image = new IconResourceHandle("16x16.16_L_remove.gif");
 
@@ -84,7 +148,7 @@ namespace RT2020.Product
                         txtBarcode.Text = string.Empty;
                         cboBarcodeType.Text = string.Empty;
                         chkPrimaryBarcode.Checked = false;
-                        this.BarcodeId = System.Guid.Empty;
+                        _BarcodeId = Guid.Empty;
                         this.Update();
                         break;
                     case "generate":
@@ -114,7 +178,7 @@ namespace RT2020.Product
             sql.Append("SELECT ProductBarcodeId, ProductId,  ROW_NUMBER() OVER (ORDER BY Barcode) AS rownum, ");
             sql.Append(" Barcode, BarcodeType, PrimaryBarcode ");
             sql.Append(" FROM ProductBarcode ");
-            sql.Append(" WHERE ProductId = '").Append(this.ProductId.ToString()).Append("'");
+            sql.Append(" WHERE ProductId = '").Append(_ProductId.ToString()).Append("'");
 
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = sql.ToString();
@@ -291,7 +355,7 @@ namespace RT2020.Product
 
             if (string.IsNullOrEmpty(errorProvider.GetError(txtBarcode)) && string.IsNullOrEmpty(errorProvider.GetError(cboBarcodeType)))
             {
-                if (lvBarcodeList.SelectedItem != null && lvBarcodeList.SelectedItem.Text == this.BarcodeId.ToString())
+                if (lvBarcodeList.SelectedItem != null && lvBarcodeList.SelectedItem.Text == _BarcodeId.ToString())
                 {
                     lvBarcodeList.SelectedItem.SubItems[1].Text = "E"; // Edited
                     lvBarcodeList.SelectedItem.SubItems[3].Text = txtBarcode.Text;
@@ -310,7 +374,7 @@ namespace RT2020.Product
 
                     int iCount = lvBarcodeList.Items.Count + 1;
 
-                    ListViewItem objItem = this.lvBarcodeList.Items.Add(System.Guid.Empty.ToString()); // new barcode
+                    ListViewItem objItem = this.lvBarcodeList.Items.Add(Guid.Empty.ToString()); // new barcode
                     objItem.SubItems.Add("N"); // Newly add
                     objItem.SubItems.Add(iCount.ToString()); // Line Number
                     objItem.SubItems.Add(txtBarcode.Text); // Barcode
@@ -319,7 +383,7 @@ namespace RT2020.Product
                 }
 
                 // clear
-                this.BarcodeId = System.Guid.Empty;
+                _BarcodeId = Guid.Empty;
                 txtBarcode.Text = string.Empty;
                 cboBarcodeType.Text = string.Empty;
                 chkPrimaryBarcode.Checked = false;
@@ -335,10 +399,10 @@ namespace RT2020.Product
                 {
                     Guid pbarcodeId = Guid.Empty;
                     ListViewItem item = lvBarcodeList.Items[i];
-                    if (Guid.TryParse(item.Text, out barcodeId))
+                    if (Guid.TryParse(item.Text, out _BarcodeId))
                     {
                         //string sql = "ProductId = '" + this.ProductId.ToString() + "' AND ProductBarcodeId = '" + item.Text + "'";
-                        var oBarcode = ctx.ProductBarcode.Where(x => x.ProductId == this.ProductId && x.ProductBarcodeId == barcodeId).FirstOrDefault();
+                        var oBarcode = ctx.ProductBarcode.Where(x => x.ProductId == this.ProductId && x.ProductBarcodeId == _BarcodeId).FirstOrDefault();
                         if (item.SubItems[1].Text == "D" && oBarcode != null)
                         {
                             ctx.ProductBarcode.Remove(oBarcode);
@@ -383,7 +447,7 @@ namespace RT2020.Product
 
         private void DeleteBarcode()
         {
-            if (lvBarcodeList.SelectedItem != null && lvBarcodeList.SelectedItem.Text == this.BarcodeId.ToString())
+            if (lvBarcodeList.SelectedItem != null && lvBarcodeList.SelectedItem.Text == _BarcodeId.ToString())
             {
                 lvBarcodeList.SelectedItem.SubItems[1].Text = "D"; // Removed
             }
@@ -394,31 +458,36 @@ namespace RT2020.Product
         }
         #endregion
 
-        #region Properties
-        private Guid productId = System.Guid.Empty;
-        public Guid ProductId
+        #region Load Data
+        public void LoadData()
         {
-            get
+            using (var ctx = new EF6.RT2020Entities())
             {
-                return productId;
-            }
-            set
-            {
-                productId = value;
+                int iCount = 1;
+                var list = ctx.ProductBarcode.Where(x => x.ProductId == _ProductId).AsNoTracking().ToList();
+
+                foreach (var item in list)
+                {
+                    ListViewItem objItem = this.lvBarcodeList.Items.Add(item.ProductBarcodeId.ToString()); // ProductBarcodeId
+                    objItem.SubItems.Add(string.Empty); // Status
+                    objItem.SubItems.Add(iCount.ToString()); // Line Number
+                    objItem.SubItems.Add(item.Barcode); // Barcode
+                    objItem.SubItems.Add(item.BarcodeType); // Barcode Type
+                    objItem.SubItems.Add(item.PrimaryBarcode ? "*" : ""); // Primary Barcode
+
+                    iCount++;
+                }
             }
         }
+        #endregion
 
-        private Guid barcodeId = System.Guid.Empty;
-        public Guid BarcodeId
+        #region Save Data
+        public bool SaveData()
         {
-            get
-            {
-                return barcodeId;
-            }
-            set
-            {
-                barcodeId = value;
-            }
+            var result = false;
+
+
+            return result;
         }
         #endregion
 
@@ -429,7 +498,7 @@ namespace RT2020.Product
                 Guid id = Guid.Empty;
                 if (Guid.TryParse(lvBarcodeList.SelectedItem.Text, out id))
                 {
-                    this.BarcodeId = id;
+                    _BarcodeId = id;
 
                     txtBarcode.Text = lvBarcodeList.SelectedItem.SubItems[3].Text;
                     cboBarcodeType.Text = lvBarcodeList.SelectedItem.SubItems[4].Text.Contains("INTER") ? "INTERNAL (128B)" : lvBarcodeList.SelectedItem.SubItems[4].Text;

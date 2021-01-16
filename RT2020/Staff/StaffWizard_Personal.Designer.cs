@@ -36,28 +36,30 @@ namespace RT2020.Staff
             this.lblBankAC = new Gizmox.WebGUI.Forms.Label();
             this.lblSalary = new Gizmox.WebGUI.Forms.Label();
             this.txtSalary = new Gizmox.WebGUI.Forms.TextBox();
-            this.txtSmartTag9 = new Gizmox.WebGUI.Forms.TextBox();
-            this.lblSmartTag9 = new Gizmox.WebGUI.Forms.Label();
+            this.txtPhoneTag1 = new Gizmox.WebGUI.Forms.TextBox();
+            this.lblPhoneTag1 = new Gizmox.WebGUI.Forms.Label();
             this.cmbProvince = new Gizmox.WebGUI.Forms.ComboBox();
             this.lblCity = new Gizmox.WebGUI.Forms.Label();
             this.lblState = new Gizmox.WebGUI.Forms.Label();
             this.lblCountry = new Gizmox.WebGUI.Forms.Label();
             this.cmbCity = new Gizmox.WebGUI.Forms.ComboBox();
             this.cmbCountry = new Gizmox.WebGUI.Forms.ComboBox();
-            this.dateofSmartTag2 = new Gizmox.WebGUI.Forms.DateTimePicker();
+            this.dateofSmartTag8 = new Gizmox.WebGUI.Forms.DateTimePicker();
             this.lblDateFormat = new Gizmox.WebGUI.Forms.Label();
-            this.lblSmartTag2 = new Gizmox.WebGUI.Forms.Label();
+            this.lblSmartTag8 = new Gizmox.WebGUI.Forms.Label();
             this.txtAddress = new Gizmox.WebGUI.Forms.TextBox();
-            this.txtSmartTag3 = new Gizmox.WebGUI.Forms.TextBox();
-            this.txtSmartTag1 = new Gizmox.WebGUI.Forms.TextBox();
+            this.txtSmartTag9 = new Gizmox.WebGUI.Forms.TextBox();
+            this.txtSmartTag7 = new Gizmox.WebGUI.Forms.TextBox();
             this.lblAddress = new Gizmox.WebGUI.Forms.Label();
-            this.lblSmartTag3 = new Gizmox.WebGUI.Forms.Label();
-            this.lblSmartTag1 = new Gizmox.WebGUI.Forms.Label();
-            this.lblSmartTag11 = new Gizmox.WebGUI.Forms.Label();
-            this.txtSmartTag11 = new Gizmox.WebGUI.Forms.TextBox();
+            this.lblSmartTag9 = new Gizmox.WebGUI.Forms.Label();
+            this.lblSmartTag7 = new Gizmox.WebGUI.Forms.Label();
+            this.lblPhoneTag3 = new Gizmox.WebGUI.Forms.Label();
+            this.txtPhoneTag3 = new Gizmox.WebGUI.Forms.TextBox();
             this.textBox1 = new Gizmox.WebGUI.Forms.TextBox();
-            this.lblSmartTag10 = new Gizmox.WebGUI.Forms.Label();
-            this.txtSmartTag10 = new Gizmox.WebGUI.Forms.TextBox();
+            this.lblPhoneTag2 = new Gizmox.WebGUI.Forms.Label();
+            this.txtPhoneTag2 = new Gizmox.WebGUI.Forms.TextBox();
+            this.txtPhoneTag4 = new Gizmox.WebGUI.Forms.TextBox();
+            this.lblPhoneTag4 = new Gizmox.WebGUI.Forms.Label();
             this.SuspendLayout();
             // 
             // lblPostal
@@ -119,21 +121,21 @@ namespace RT2020.Staff
             this.txtSalary.TabIndex = 25;
             this.txtSalary.TextAlign = Gizmox.WebGUI.Forms.HorizontalAlignment.Right;
             // 
-            // txtSmartTag9
+            // txtPhoneTag1
             // 
-            this.txtSmartTag9.Location = new System.Drawing.Point(116, 208);
-            this.txtSmartTag9.Name = "txtSmartTag9";
-            this.txtSmartTag9.Size = new System.Drawing.Size(100, 21);
-            this.txtSmartTag9.TabIndex = 19;
+            this.txtPhoneTag1.Location = new System.Drawing.Point(116, 208);
+            this.txtPhoneTag1.Name = "txtPhoneTag1";
+            this.txtPhoneTag1.Size = new System.Drawing.Size(100, 21);
+            this.txtPhoneTag1.TabIndex = 19;
             // 
-            // lblSmartTag9
+            // lblPhoneTag1
             // 
-            this.lblSmartTag9.Location = new System.Drawing.Point(10, 210);
-            this.lblSmartTag9.Name = "lblSmartTag9";
-            this.lblSmartTag9.Size = new System.Drawing.Size(102, 23);
-            this.lblSmartTag9.TabIndex = 18;
-            this.lblSmartTag9.Text = "SmartTag9";
-            this.lblSmartTag9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblPhoneTag1.Location = new System.Drawing.Point(10, 210);
+            this.lblPhoneTag1.Name = "lblPhoneTag1";
+            this.lblPhoneTag1.Size = new System.Drawing.Size(102, 23);
+            this.lblPhoneTag1.TabIndex = 18;
+            this.lblPhoneTag1.Text = "Phone Tag 1";
+            this.lblPhoneTag1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // cmbProvince
             // 
@@ -191,15 +193,15 @@ namespace RT2020.Staff
             this.cmbCountry.TabIndex = 11;
             this.cmbCountry.SelectedIndexChanged += new System.EventHandler(this.cmbCountry_SelectedIndexChanged);
             // 
-            // dateofSmartTag2
+            // dateofSmartTag8
             // 
-            this.dateofSmartTag2.CustomFormat = "yyyy-MM-dd";
-            this.dateofSmartTag2.Format = Gizmox.WebGUI.Forms.DateTimePickerFormat.Custom;
-            this.dateofSmartTag2.Location = new System.Drawing.Point(116, 34);
-            this.dateofSmartTag2.Name = "dateofSmartTag2";
-            this.dateofSmartTag2.ShowCheckBox = true;
-            this.dateofSmartTag2.Size = new System.Drawing.Size(100, 21);
-            this.dateofSmartTag2.TabIndex = 4;
+            this.dateofSmartTag8.CustomFormat = "yyyy-MM-dd";
+            this.dateofSmartTag8.Format = Gizmox.WebGUI.Forms.DateTimePickerFormat.Custom;
+            this.dateofSmartTag8.Location = new System.Drawing.Point(116, 34);
+            this.dateofSmartTag8.Name = "dateofSmartTag8";
+            this.dateofSmartTag8.ShowCheckBox = true;
+            this.dateofSmartTag8.Size = new System.Drawing.Size(100, 21);
+            this.dateofSmartTag8.TabIndex = 4;
             // 
             // lblDateFormat
             // 
@@ -210,14 +212,14 @@ namespace RT2020.Staff
             this.lblDateFormat.Text = "(dd/MM/yyyy)";
             this.lblDateFormat.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // lblSmartTag2
+            // lblSmartTag8
             // 
-            this.lblSmartTag2.Location = new System.Drawing.Point(9, 34);
-            this.lblSmartTag2.Name = "lblSmartTag2";
-            this.lblSmartTag2.Size = new System.Drawing.Size(102, 23);
-            this.lblSmartTag2.TabIndex = 3;
-            this.lblSmartTag2.Text = "SmartTag2";
-            this.lblSmartTag2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblSmartTag8.Location = new System.Drawing.Point(9, 34);
+            this.lblSmartTag8.Name = "lblSmartTag8";
+            this.lblSmartTag8.Size = new System.Drawing.Size(102, 23);
+            this.lblSmartTag8.TabIndex = 3;
+            this.lblSmartTag8.Text = "SmartTag8";
+            this.lblSmartTag8.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // txtAddress
             // 
@@ -227,19 +229,19 @@ namespace RT2020.Staff
             this.txtAddress.Size = new System.Drawing.Size(327, 53);
             this.txtAddress.TabIndex = 9;
             // 
-            // txtSmartTag3
+            // txtSmartTag9
             // 
-            this.txtSmartTag3.Location = new System.Drawing.Point(116, 58);
-            this.txtSmartTag3.Name = "txtSmartTag3";
-            this.txtSmartTag3.Size = new System.Drawing.Size(327, 21);
-            this.txtSmartTag3.TabIndex = 7;
+            this.txtSmartTag9.Location = new System.Drawing.Point(116, 58);
+            this.txtSmartTag9.Name = "txtSmartTag9";
+            this.txtSmartTag9.Size = new System.Drawing.Size(327, 21);
+            this.txtSmartTag9.TabIndex = 7;
             // 
-            // txtSmartTag1
+            // txtSmartTag7
             // 
-            this.txtSmartTag1.Location = new System.Drawing.Point(116, 10);
-            this.txtSmartTag1.Name = "txtSmartTag1";
-            this.txtSmartTag1.Size = new System.Drawing.Size(100, 21);
-            this.txtSmartTag1.TabIndex = 1;
+            this.txtSmartTag7.Location = new System.Drawing.Point(116, 10);
+            this.txtSmartTag7.Name = "txtSmartTag7";
+            this.txtSmartTag7.Size = new System.Drawing.Size(100, 21);
+            this.txtSmartTag7.TabIndex = 1;
             // 
             // lblAddress
             // 
@@ -250,39 +252,39 @@ namespace RT2020.Staff
             this.lblAddress.Text = "Address";
             this.lblAddress.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // lblSmartTag3
+            // lblSmartTag9
             // 
-            this.lblSmartTag3.Location = new System.Drawing.Point(9, 58);
-            this.lblSmartTag3.Name = "lblSmartTag3";
-            this.lblSmartTag3.Size = new System.Drawing.Size(102, 23);
-            this.lblSmartTag3.TabIndex = 6;
-            this.lblSmartTag3.Text = "SmartTag3";
-            this.lblSmartTag3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblSmartTag9.Location = new System.Drawing.Point(9, 58);
+            this.lblSmartTag9.Name = "lblSmartTag9";
+            this.lblSmartTag9.Size = new System.Drawing.Size(102, 23);
+            this.lblSmartTag9.TabIndex = 6;
+            this.lblSmartTag9.Text = "SmartTag9";
+            this.lblSmartTag9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // lblSmartTag1
+            // lblSmartTag7
             // 
-            this.lblSmartTag1.Location = new System.Drawing.Point(9, 10);
-            this.lblSmartTag1.Name = "lblSmartTag1";
-            this.lblSmartTag1.Size = new System.Drawing.Size(102, 23);
-            this.lblSmartTag1.TabIndex = 0;
-            this.lblSmartTag1.Text = "SmartTag1";
-            this.lblSmartTag1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblSmartTag7.Location = new System.Drawing.Point(9, 10);
+            this.lblSmartTag7.Name = "lblSmartTag7";
+            this.lblSmartTag7.Size = new System.Drawing.Size(102, 23);
+            this.lblSmartTag7.TabIndex = 0;
+            this.lblSmartTag7.Text = "SmartTag7";
+            this.lblSmartTag7.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // lblSmartTag11
+            // lblPhoneTag3
             // 
-            this.lblSmartTag11.Location = new System.Drawing.Point(10, 232);
-            this.lblSmartTag11.Name = "lblSmartTag11";
-            this.lblSmartTag11.Size = new System.Drawing.Size(101, 23);
-            this.lblSmartTag11.TabIndex = 22;
-            this.lblSmartTag11.Text = "SmartTag11";
-            this.lblSmartTag11.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblPhoneTag3.Location = new System.Drawing.Point(10, 232);
+            this.lblPhoneTag3.Name = "lblPhoneTag3";
+            this.lblPhoneTag3.Size = new System.Drawing.Size(101, 23);
+            this.lblPhoneTag3.TabIndex = 22;
+            this.lblPhoneTag3.Text = "Phone Tag 3";
+            this.lblPhoneTag3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // txtSmartTag11
+            // txtPhoneTag3
             // 
-            this.txtSmartTag11.Location = new System.Drawing.Point(116, 232);
-            this.txtSmartTag11.Name = "txtSmartTag11";
-            this.txtSmartTag11.Size = new System.Drawing.Size(327, 21);
-            this.txtSmartTag11.TabIndex = 23;
+            this.txtPhoneTag3.Location = new System.Drawing.Point(116, 232);
+            this.txtPhoneTag3.Name = "txtPhoneTag3";
+            this.txtPhoneTag3.Size = new System.Drawing.Size(100, 21);
+            this.txtPhoneTag3.TabIndex = 23;
             // 
             // textBox1
             // 
@@ -291,47 +293,65 @@ namespace RT2020.Staff
             this.textBox1.Size = new System.Drawing.Size(100, 21);
             this.textBox1.TabIndex = 9;
             // 
-            // lblSmartTag10
+            // lblPhoneTag2
             // 
-            this.lblSmartTag10.Location = new System.Drawing.Point(238, 206);
-            this.lblSmartTag10.Name = "lblSmartTag10";
-            this.lblSmartTag10.Size = new System.Drawing.Size(102, 23);
-            this.lblSmartTag10.TabIndex = 20;
-            this.lblSmartTag10.Text = "SmartTag10";
-            this.lblSmartTag10.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lblPhoneTag2.Location = new System.Drawing.Point(238, 206);
+            this.lblPhoneTag2.Name = "lblPhoneTag2";
+            this.lblPhoneTag2.Size = new System.Drawing.Size(102, 23);
+            this.lblPhoneTag2.TabIndex = 20;
+            this.lblPhoneTag2.Text = "Phone Tag 2";
+            this.lblPhoneTag2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // txtSmartTag10
+            // txtPhoneTag2
             // 
-            this.txtSmartTag10.Location = new System.Drawing.Point(343, 208);
-            this.txtSmartTag10.Name = "txtSmartTag10";
-            this.txtSmartTag10.Size = new System.Drawing.Size(100, 21);
-            this.txtSmartTag10.TabIndex = 21;
+            this.txtPhoneTag2.Location = new System.Drawing.Point(343, 208);
+            this.txtPhoneTag2.Name = "txtPhoneTag2";
+            this.txtPhoneTag2.Size = new System.Drawing.Size(100, 21);
+            this.txtPhoneTag2.TabIndex = 21;
+            // 
+            // txtPhoneTag4
+            // 
+            this.txtPhoneTag4.Location = new System.Drawing.Point(343, 232);
+            this.txtPhoneTag4.Name = "txtPhoneTag4";
+            this.txtPhoneTag4.Size = new System.Drawing.Size(100, 21);
+            this.txtPhoneTag4.TabIndex = 21;
+            // 
+            // lblPhoneTag4
+            // 
+            this.lblPhoneTag4.Location = new System.Drawing.Point(238, 230);
+            this.lblPhoneTag4.Name = "lblPhoneTag4";
+            this.lblPhoneTag4.Size = new System.Drawing.Size(102, 23);
+            this.lblPhoneTag4.TabIndex = 20;
+            this.lblPhoneTag4.Text = "Phone Tag 4";
+            this.lblPhoneTag4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // StaffWizard_Personal
             // 
-            this.Controls.Add(this.txtSmartTag11);
-            this.Controls.Add(this.txtSmartTag10);
-            this.Controls.Add(this.lblSmartTag10);
-            this.Controls.Add(this.lblSmartTag11);
+            this.Controls.Add(this.lblPhoneTag4);
+            this.Controls.Add(this.txtPhoneTag4);
+            this.Controls.Add(this.txtPhoneTag3);
+            this.Controls.Add(this.txtPhoneTag2);
+            this.Controls.Add(this.lblPhoneTag2);
+            this.Controls.Add(this.lblPhoneTag3);
             this.Controls.Add(this.lblPostal);
             this.Controls.Add(this.txtPostal);
             this.Controls.Add(this.txtAddress);
             this.Controls.Add(this.btnFindHKID);
-            this.Controls.Add(this.lblSmartTag1);
+            this.Controls.Add(this.lblSmartTag7);
             this.Controls.Add(this.txtBankAC);
-            this.Controls.Add(this.lblSmartTag3);
+            this.Controls.Add(this.lblSmartTag9);
             this.Controls.Add(this.lblBankAC);
             this.Controls.Add(this.lblAddress);
             this.Controls.Add(this.lblSalary);
-            this.Controls.Add(this.txtSmartTag1);
+            this.Controls.Add(this.txtSmartTag7);
             this.Controls.Add(this.txtSalary);
-            this.Controls.Add(this.txtSmartTag3);
             this.Controls.Add(this.txtSmartTag9);
-            this.Controls.Add(this.lblSmartTag2);
-            this.Controls.Add(this.lblSmartTag9);
+            this.Controls.Add(this.txtPhoneTag1);
+            this.Controls.Add(this.lblSmartTag8);
+            this.Controls.Add(this.lblPhoneTag1);
             this.Controls.Add(this.lblDateFormat);
             this.Controls.Add(this.cmbProvince);
-            this.Controls.Add(this.dateofSmartTag2);
+            this.Controls.Add(this.dateofSmartTag8);
             this.Controls.Add(this.lblCity);
             this.Controls.Add(this.cmbCountry);
             this.Controls.Add(this.lblState);
@@ -345,33 +365,35 @@ namespace RT2020.Staff
 
         #endregion
         private Gizmox.WebGUI.Forms.Label lblDateFormat;
-        private Gizmox.WebGUI.Forms.Label lblSmartTag2;
+        private Gizmox.WebGUI.Forms.Label lblSmartTag8;
         private Gizmox.WebGUI.Forms.Label lblAddress;
-        private Gizmox.WebGUI.Forms.Label lblSmartTag3;
-        private Gizmox.WebGUI.Forms.Label lblSmartTag1;
+        private Gizmox.WebGUI.Forms.Label lblSmartTag9;
+        private Gizmox.WebGUI.Forms.Label lblSmartTag7;
         private Gizmox.WebGUI.Forms.Label lblCountry;
         private Gizmox.WebGUI.Forms.Label lblState;
         private Gizmox.WebGUI.Forms.Label lblCity;
-        private Gizmox.WebGUI.Forms.Label lblSmartTag9;
+        private Gizmox.WebGUI.Forms.Label lblPhoneTag1;
         private Gizmox.WebGUI.Forms.Label lblSalary;
         private Gizmox.WebGUI.Forms.Label lblBankAC;
-        public Gizmox.WebGUI.Forms.DateTimePicker dateofSmartTag2;
+        public Gizmox.WebGUI.Forms.DateTimePicker dateofSmartTag8;
         public Gizmox.WebGUI.Forms.TextBox txtAddress;
-        public Gizmox.WebGUI.Forms.TextBox txtSmartTag3;
-        public Gizmox.WebGUI.Forms.TextBox txtSmartTag1;
+        public Gizmox.WebGUI.Forms.TextBox txtSmartTag9;
+        public Gizmox.WebGUI.Forms.TextBox txtSmartTag7;
         public Gizmox.WebGUI.Forms.ComboBox cmbCountry;
         public Gizmox.WebGUI.Forms.ComboBox cmbCity;
         public Gizmox.WebGUI.Forms.ComboBox cmbProvince;
-        public Gizmox.WebGUI.Forms.TextBox txtSmartTag9;
+        public Gizmox.WebGUI.Forms.TextBox txtPhoneTag1;
         public Gizmox.WebGUI.Forms.TextBox txtSalary;
         public Gizmox.WebGUI.Forms.TextBox txtBankAC;
         private Gizmox.WebGUI.Forms.Button btnFindHKID;
         private Gizmox.WebGUI.Forms.Label lblPostal;
         public Gizmox.WebGUI.Forms.TextBox txtPostal;
-        private Gizmox.WebGUI.Forms.Label lblSmartTag11;
-        public Gizmox.WebGUI.Forms.TextBox txtSmartTag11;
+        private Gizmox.WebGUI.Forms.Label lblPhoneTag3;
+        public Gizmox.WebGUI.Forms.TextBox txtPhoneTag3;
         public Gizmox.WebGUI.Forms.TextBox textBox1;
-        private Gizmox.WebGUI.Forms.Label lblSmartTag10;
-        public Gizmox.WebGUI.Forms.TextBox txtSmartTag10;
+        private Gizmox.WebGUI.Forms.Label lblPhoneTag2;
+        public Gizmox.WebGUI.Forms.TextBox txtPhoneTag2;
+        public Gizmox.WebGUI.Forms.TextBox txtPhoneTag4;
+        private Gizmox.WebGUI.Forms.Label lblPhoneTag4;
     }
 }

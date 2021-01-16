@@ -308,22 +308,8 @@ namespace RT2020.Member
 
         private void Delete()
         {
-            using (var ctx = new EF6.RT2020Entities())
-            {
-                try
-                {
-                    var item = ctx.SmartTag4Member.Find(_SmartTagId);
-                    if (item != null)
-                    {
-                        ctx.SmartTag4Member.Remove(item);
-                        ctx.SaveChanges();
-                    }
-                }
-                catch
-                {
-                    MessageBox.Show("Cannot delete the record...Might be in use by other record!", "Delete Warning");
-                }
-            }
+            var result = ModelEx.SmartTag4MemberEx.DeleteOptionsToo(_SmartTagId);
+            MessageBox.Show(result ? "Record Removed" : "Can't Delete Record...", "Delete Result");
         }
 
         private void lvTagList_SelectedIndexChanged(object sender, EventArgs e)

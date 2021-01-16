@@ -96,9 +96,9 @@ namespace RT2020.Supplier
             #endregion
 
             #region 設定 clickable smart tag 9 label
-            lblPhoneTag9.AutoSize = true;                      // 減少 whitespace，有字嘅位置先可以 click
-            lblPhoneTag9.Cursor = Cursors.Hand;                // cursor over 顯示 hand cursor
-            lblPhoneTag9.Click += (s, e) =>                    // 彈出 wizard
+            lblPhoneTag5.AutoSize = true;                      // 減少 whitespace，有字嘅位置先可以 click
+            lblPhoneTag5.Cursor = Cursors.Hand;                // cursor over 顯示 hand cursor
+            lblPhoneTag5.Click += (s, e) =>                    // 彈出 wizard
             {
                 var dialog = new Settings.PhoneTagWizard();
                 dialog.FormClosed += (sender, eventArgs) =>     // 關閉後 refresh 個 combo box items
@@ -110,9 +110,9 @@ namespace RT2020.Supplier
             #endregion
 
             #region 設定 clickable smart tag 6 label
-            lblPhoneTag6.AutoSize = true;                      // 減少 whitespace，有字嘅位置先可以 click
-            lblPhoneTag6.Cursor = Cursors.Hand;                // cursor over 顯示 hand cursor
-            lblPhoneTag6.Click += (s, e) =>                    // 彈出 wizard
+            lblPhoneTag7.AutoSize = true;                      // 減少 whitespace，有字嘅位置先可以 click
+            lblPhoneTag7.Cursor = Cursors.Hand;                // cursor over 顯示 hand cursor
+            lblPhoneTag7.Click += (s, e) =>                    // 彈出 wizard
             {
                 var dialog = new Settings.PhoneTagWizard();
                 dialog.FormClosed += (sender, eventArgs) =>     // 關閉後 refresh 個 combo box items
@@ -125,8 +125,8 @@ namespace RT2020.Supplier
 
             #region 設定 clickable smart tag 3 label
             //lblPhoneTag3.AutoSize = true;                      // 減少 whitespace，有字嘅位置先可以 click
-            lblPhoneTag8.Cursor = Cursors.Hand;                // cursor over 顯示 hand cursor
-            lblPhoneTag8.Click += (s, e) =>                    // 彈出 wizard
+            lblPhoneTag6.Cursor = Cursors.Hand;                // cursor over 顯示 hand cursor
+            lblPhoneTag6.Click += (s, e) =>                    // 彈出 wizard
             {
                 var dialog = new Settings.PhoneTagWizard();
                 dialog.FormClosed += (sender, eventArgs) =>     // 關閉後 refresh 個 combo box items
@@ -139,8 +139,8 @@ namespace RT2020.Supplier
 
             #region 設定 clickable smart tag 4 label
             //lblPhoneTag4.AutoSize = true;                      // 減少 whitespace，有字嘅位置先可以 click
-            lblPhoneTag4.Cursor = Cursors.Hand;                // cursor over 顯示 hand cursor
-            lblPhoneTag4.Click += (s, e) =>                    // 彈出 wizard
+            lblPhoneTag8.Cursor = Cursors.Hand;                // cursor over 顯示 hand cursor
+            lblPhoneTag8.Click += (s, e) =>                    // 彈出 wizard
             {
                 var dialog = new Settings.PhoneTagWizard();
                 dialog.FormClosed += (sender, eventArgs) =>     // 關閉後 refresh 個 combo box items
@@ -209,10 +209,10 @@ namespace RT2020.Supplier
                     txtLastName.Text = item.LastName;
                     txtFullName.Text = item.FullName;
                     txtDuty.Text = item.Duty;
-                    txtPhoneTag1.Text = item.PhoneTag1Value;
-                    txtPhoneTag2.Text = item.PhoneTag2Value;
-                    txtPhoneTag3.Text = item.PhoneTag3Value;
-                    txtPhoneTag4.Text = item.PhoneTag4Value;
+                    txtPhoneTag5.Text = item.PhoneTag1Value;
+                    txtPhoneTag6.Text = item.PhoneTag2Value;
+                    txtPhoneTag7.Text = item.PhoneTag3Value;
+                    txtPhoneTag8.Text = item.PhoneTag4Value;
                     txtNotes.Text = item.Notes;
                 }
             }
@@ -241,10 +241,10 @@ namespace RT2020.Supplier
                 item.LastName = txtLastName.Text.Trim();
                 item.FullName = txtFullName.Text.Trim();
                 item.Duty = txtDuty.Text.Trim();
-                item.PhoneTag1Value = txtPhoneTag1.Text.Trim();
-                item.PhoneTag2Value = txtPhoneTag2.Text.Trim();
-                item.PhoneTag3Value = txtPhoneTag3.Text.Trim();
-                item.PhoneTag4Value = txtPhoneTag4.Text.Trim();
+                item.PhoneTag1Value = txtPhoneTag5.Text.Trim();
+                item.PhoneTag2Value = txtPhoneTag6.Text.Trim();
+                item.PhoneTag3Value = txtPhoneTag7.Text.Trim();
+                item.PhoneTag4Value = txtPhoneTag8.Text.Trim();
                 item.Notes = txtNotes.Text.Trim();
 
                 ctx.SaveChanges();

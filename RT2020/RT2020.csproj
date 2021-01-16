@@ -274,6 +274,24 @@
     <Content Include="App_Themes\Glass\GridView\gvParentGroupRows.gif" />
     <Content Include="App_Themes\Glass\GridView\Loading.gif" />
     <Content Include="App_Themes\Glass\GridView\styles.css" />
+    <Content Include="Components\Appendix1ComboBoxSkin.ComboBox.css">
+      <DependentUpon>Appendix1ComboBoxSkin.cs</DependentUpon>
+    </Content>
+    <Content Include="Components\Appendix1ComboBoxSkin.ComboBox.xslt">
+      <DependentUpon>Appendix1ComboBoxSkin.cs</DependentUpon>
+    </Content>
+    <Content Include="Components\Appendix2ComboBoxSkin.ComboBox.css">
+      <DependentUpon>Appendix2ComboBoxSkin.cs</DependentUpon>
+    </Content>
+    <Content Include="Components\Appendix2ComboBoxSkin.ComboBox.xslt">
+      <DependentUpon>Appendix2ComboBoxSkin.cs</DependentUpon>
+    </Content>
+    <Content Include="Components\Appendix3ComboBoxSkin.ComboBox.css">
+      <DependentUpon>Appendix3ComboBoxSkin.cs</DependentUpon>
+    </Content>
+    <Content Include="Components\Appendix3ComboBoxSkin.ComboBox.xslt">
+      <DependentUpon>Appendix3ComboBoxSkin.cs</DependentUpon>
+    </Content>
     <Content Include="Components\FABSkin.Button.BI.xslt">
       <DependentUpon>FABSkin.cs</DependentUpon>
     </Content>
@@ -706,6 +724,24 @@
     <Compile Include="AtsPane\SettingsAts.designer.cs">
       <DependentUpon>SettingsAts.cs</DependentUpon>
     </Compile>
+    <Compile Include="Components\Appendix1ComboBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Components\Appendix1ComboBoxSkin.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Components\Appendix2ComboBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Components\Appendix2ComboBoxSkin.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Components\Appendix3ComboBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Components\Appendix3ComboBoxSkin.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Components\FAB.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -730,7 +766,6 @@
     <Compile Include="Controls\AutoCompleteBox.Designer.cs">
       <DependentUpon>AutoCompleteBox.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\FABControl.cs" />
     <Compile Include="Controls\FileDownloadGateway.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -883,6 +918,7 @@
     <Compile Include="Helper\ConfigHelper.cs" />
     <Compile Include="Helper\CookieHelper.cs" />
     <Compile Include="Helper\DateTimeHelper.cs" />
+    <Compile Include="Helper\DecimalHelper.cs" />
     <Compile Include="Helper\EnumHelper.cs" />
     <Compile Include="Helper\GenData\ChinaData.cs" />
     <Compile Include="Helper\GenData\TaiwanData.cs" />
@@ -2086,6 +2122,12 @@
     <Compile Include="Product\ProductAppendixWizard.Designer.cs">
       <DependentUpon>ProductAppendixWizard.cs</DependentUpon>
     </Compile>
+    <Compile Include="Product\ProductAppendixWizardAio.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Product\ProductAppendixWizardAio.Designer.cs">
+      <DependentUpon>ProductAppendixWizardAio.cs</DependentUpon>
+    </Compile>
     <Compile Include="Product\ProductToolbar.cs" />
     <Compile Include="Product\ProductNatureWizard.cs">
       <SubType>Form</SubType>
@@ -2891,6 +2933,12 @@
     <Compile Include="Member\SmartTag4MemberWizard.Designer.cs">
       <DependentUpon>SmartTag4MemberWizard.cs</DependentUpon>
     </Compile>
+    <Compile Include="Product\ProductClassWizardAio.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Product\ProductClassWizardAio.Designer.cs">
+      <DependentUpon>ProductClassWizardAio.cs</DependentUpon>
+    </Compile>
     <Compile Include="Workplace\SmartTag4Workplace_OptionsWizard.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -3375,6 +3423,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="AtsPane\SettingsAts.resx">
       <DependentUpon>SettingsAts.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Components\Appendix1ComboBoxSkin.resx">
+      <DependentUpon>Appendix1ComboBoxSkin.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Components\Appendix2ComboBoxSkin.resx">
+      <DependentUpon>Appendix2ComboBoxSkin.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Components\Appendix3ComboBoxSkin.resx">
+      <DependentUpon>Appendix3ComboBoxSkin.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Components\FABSkin.resx">
@@ -4201,6 +4261,10 @@
       <DependentUpon>ProductAppendixWizard.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Product\ProductAppendixWizardAio.resx">
+      <DependentUpon>ProductAppendixWizardAio.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Product\ProductNatureWizard.resx">
       <DependentUpon>ProductNatureWizard.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -4778,6 +4842,10 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Member\SmartTag4MemberWizard.resx">
       <DependentUpon>SmartTag4MemberWizard.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Product\ProductClassWizardAio.resx">
+      <DependentUpon>ProductClassWizardAio.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Workplace\SmartTag4Workplace_OptionsWizard.resx">

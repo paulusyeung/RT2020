@@ -47,22 +47,22 @@
     <item Caption="Return" ImageUrl="16x16.ico_16_137.gif" Tag="shop.return" />
   </shop>
   <product Caption="Product" ImageUrl="24x24.settings_24x24.gif">
-    <item Caption="Product" ImageUrl="16x16.Product16.gif" Tag="ProductCare_Product" />
-    <item Caption="APPENDIX1" ImageUrl="16x16.Product16.gif" Tag="ProductCare_Appendix1" />
-    <item Caption="APPENDIX2" ImageUrl="16x16.Product16.gif" Tag="ProductCare_Appendix2" />
-    <item Caption="APPENDIX3" ImageUrl="16x16.Product16.gif" Tag="ProductCare_Appendix3" />
-    <item Caption="CLASS1" ImageUrl="16x16.Product16.gif" Tag="ProductCare_Class1" />
-    <item Caption="CLASS2" ImageUrl="16x16.Product16.gif" Tag="ProductCare_Class2" />
-    <item Caption="CLASS3" ImageUrl="16x16.Product16.gif" Tag="ProductCare_Class3" />
-    <item Caption="CLASS4" ImageUrl="16x16.Product16.gif" Tag="ProductCare_Class4" />
-    <item Caption="CLASS5" ImageUrl="16x16.Product16.gif" Tag="ProductCare_Class5" />
-    <item Caption="CLASS6" ImageUrl="16x16.Product16.gif" Tag="ProductCare_Class6" />
-    <item Caption="Combination" ImageUrl="16x16.Product16.gif" Tag="ProductCare_Combination" />
-    <item Caption="Analysis Code" ImageUrl="16x16.Product16.gif" Tag="ProductCare_AnalysisCode" />
-    <item Caption="Price Management">
-      <item Caption="Price Change" ImageUrl="16x16.ico_16_1022_d.gif" Tag="Price_Change" />
-      <item Caption="Discount Change" ImageUrl="16x16.ico_16_1080.gif" Tag="Discount_Change" />
-      <item Caption="Reason" ImageUrl="16x16.ico_16_1080.gif" Tag="Reason_Code" />
+    <item Caption="Product" ImageUrl="16x16.Product16.gif" Tag="product.product" />
+    <item Caption="APPENDIX1" ImageUrl="16x16.Product16.gif" Tag="product.appendix1" />
+    <item Caption="APPENDIX2" ImageUrl="16x16.Product16.gif" Tag="product.appendix2" />
+    <item Caption="APPENDIX3" ImageUrl="16x16.Product16.gif" Tag="product.appendix3" />
+    <item Caption="CLASS1" ImageUrl="16x16.Product16.gif" Tag="product.class1" />
+    <item Caption="CLASS2" ImageUrl="16x16.Product16.gif" Tag="product.class2" />
+    <item Caption="CLASS3" ImageUrl="16x16.Product16.gif" Tag="product.class3" />
+    <item Caption="CLASS4" ImageUrl="16x16.Product16.gif" Tag="product.class4" />
+    <item Caption="CLASS5" ImageUrl="16x16.Product16.gif" Tag="product.class5" />
+    <item Caption="CLASS6" ImageUrl="16x16.Product16.gif" Tag="product.class6" />
+    <item Caption="Combination" ImageUrl="16x16.Product16.gif" Tag="product.combination" />
+    <item Caption="Analysis Code" ImageUrl="16x16.Product16.gif" Tag="product.analysisCode" />
+    <item Caption="Price Management" Tag="product.priceManagement">
+      <item Caption="Price Change" ImageUrl="16x16.ico_16_1022_d.gif" Tag="product.priceManagement.priceChange" />
+      <item Caption="Discount Change" ImageUrl="16x16.ico_16_1080.gif" Tag="product.priceManagement.discountChange" />
+      <item Caption="Reason" ImageUrl="16x16.ico_16_1080.gif" Tag="product.priceManagement.reason" />
     </item>
   </product>
   <membermgmt Caption="Member" ImageUrl="24x24.services_24x24.gif">
@@ -84,8 +84,8 @@
       <item Caption="Translation" ImageUrl="dark.zmdi-translate.16.png" Tag="settings.translation" />
     </item>
     <item Caption="SuperUser" Tag="settings.superuser">
-      <item Caption="Phone" ImageUrl="16x16.ico_18_relationships.gif" Tag="settings.phone" />
-      <item Caption="TxDate" ImageUrl="16x16.16_info.gif" Tag="settings.txdate" />
+      <item Caption="Phone" ImageUrl="16x16.ico_18_relationships.gif" Tag="settings.superuser.phone" />
+      <item Caption="TxDate" ImageUrl="16x16.16_info.gif" Tag="settings.superuser.txdate" />
     </item>
   </settings>
 </root>

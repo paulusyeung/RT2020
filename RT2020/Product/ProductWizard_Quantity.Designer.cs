@@ -39,7 +39,6 @@ namespace RT2020.Product
             this.lblLastReceivingCost = new Gizmox.WebGUI.Forms.Label();
             this.lblLastPurDate = new Gizmox.WebGUI.Forms.Label();
             this.lblLastSoldDate = new Gizmox.WebGUI.Forms.Label();
-            this.gbQty = new Gizmox.WebGUI.Forms.GroupBox();
             this.btnShowATSQty = new Gizmox.WebGUI.Forms.Button();
             this.txtLastPurDate = new Gizmox.WebGUI.Forms.TextBox();
             this.txtLastSoldDate = new Gizmox.WebGUI.Forms.TextBox();
@@ -59,132 +58,98 @@ namespace RT2020.Product
             this.dgvQtyList.AllowUserToAddRows = false;
             this.dgvQtyList.AllowUserToDeleteRows = false;
             this.dgvQtyList.AllowUserToOrderColumns = true;
-            this.dgvQtyList.Anchor = Gizmox.WebGUI.Forms.AnchorStyles.None;
-            this.dgvQtyList.BorderStyle = Gizmox.WebGUI.Forms.BorderStyle.FixedSingle;
             this.dgvQtyList.Dock = Gizmox.WebGUI.Forms.DockStyle.Left;
             this.dgvQtyList.EditMode = Gizmox.WebGUI.Forms.DataGridViewEditMode.EditProgrammatically;
-            this.dgvQtyList.Location = new System.Drawing.Point(3, 16);
+            this.dgvQtyList.Location = new System.Drawing.Point(10, 10);
             this.dgvQtyList.Name = "dgvQtyList";
             this.dgvQtyList.ReadOnly = true;
             this.dgvQtyList.RowHeadersWidth = 50;
-            this.dgvQtyList.Size = new System.Drawing.Size(539, 331);
+            this.dgvQtyList.Size = new System.Drawing.Size(522, 311);
             this.dgvQtyList.TabIndex = 0;
             // 
             // lblMaxOLNQty
             // 
-            this.lblMaxOLNQty.Location = new System.Drawing.Point(548, 16);
+            this.lblMaxOLNQty.Location = new System.Drawing.Point(545, 13);
             this.lblMaxOLNQty.Name = "lblMaxOLNQty";
-            this.lblMaxOLNQty.Size = new System.Drawing.Size(100, 23);
+            this.lblMaxOLNQty.Size = new System.Drawing.Size(100, 20);
             this.lblMaxOLNQty.TabIndex = 1;
             this.lblMaxOLNQty.Text = "Max OLN Qty:";
             // 
             // lblOnHandQty
             // 
-            this.lblOnHandQty.Location = new System.Drawing.Point(548, 39);
+            this.lblOnHandQty.Location = new System.Drawing.Point(545, 36);
             this.lblOnHandQty.Name = "lblOnHandQty";
-            this.lblOnHandQty.Size = new System.Drawing.Size(100, 23);
+            this.lblOnHandQty.Size = new System.Drawing.Size(100, 20);
             this.lblOnHandQty.TabIndex = 2;
             this.lblOnHandQty.Text = "On Hand Qty:";
             // 
             // lblMTDPurQty
             // 
-            this.lblMTDPurQty.Location = new System.Drawing.Point(548, 62);
+            this.lblMTDPurQty.Location = new System.Drawing.Point(545, 59);
             this.lblMTDPurQty.Name = "lblMTDPurQty";
-            this.lblMTDPurQty.Size = new System.Drawing.Size(100, 23);
+            this.lblMTDPurQty.Size = new System.Drawing.Size(100, 20);
             this.lblMTDPurQty.TabIndex = 3;
             this.lblMTDPurQty.Text = "MTD Pur Qty:";
             // 
             // lblYTDPurQty
             // 
-            this.lblYTDPurQty.Location = new System.Drawing.Point(548, 85);
+            this.lblYTDPurQty.Location = new System.Drawing.Point(545, 82);
             this.lblYTDPurQty.Name = "lblYTDPurQty";
-            this.lblYTDPurQty.Size = new System.Drawing.Size(100, 23);
+            this.lblYTDPurQty.Size = new System.Drawing.Size(100, 20);
             this.lblYTDPurQty.TabIndex = 4;
             this.lblYTDPurQty.Text = "YTD Pur Qty:";
             // 
             // lblMTDSoldQty
             // 
-            this.lblMTDSoldQty.Location = new System.Drawing.Point(548, 108);
+            this.lblMTDSoldQty.Location = new System.Drawing.Point(545, 105);
             this.lblMTDSoldQty.Name = "lblMTDSoldQty";
-            this.lblMTDSoldQty.Size = new System.Drawing.Size(100, 23);
+            this.lblMTDSoldQty.Size = new System.Drawing.Size(100, 20);
             this.lblMTDSoldQty.TabIndex = 5;
             this.lblMTDSoldQty.Text = "MTD Sold Qty:";
             // 
             // lblYTDSoldQty
             // 
-            this.lblYTDSoldQty.Location = new System.Drawing.Point(548, 131);
+            this.lblYTDSoldQty.Location = new System.Drawing.Point(545, 128);
             this.lblYTDSoldQty.Name = "lblYTDSoldQty";
-            this.lblYTDSoldQty.Size = new System.Drawing.Size(100, 23);
+            this.lblYTDSoldQty.Size = new System.Drawing.Size(100, 20);
             this.lblYTDSoldQty.TabIndex = 6;
             this.lblYTDSoldQty.Text = "YTD Sold Qty:";
             // 
             // lblAverageCost
             // 
-            this.lblAverageCost.Location = new System.Drawing.Point(548, 154);
+            this.lblAverageCost.Location = new System.Drawing.Point(545, 151);
             this.lblAverageCost.Name = "lblAverageCost";
-            this.lblAverageCost.Size = new System.Drawing.Size(100, 23);
+            this.lblAverageCost.Size = new System.Drawing.Size(100, 20);
             this.lblAverageCost.TabIndex = 7;
             this.lblAverageCost.Text = "Average Cost:";
             // 
             // lblLastReceivingCost
             // 
-            this.lblLastReceivingCost.Location = new System.Drawing.Point(548, 177);
+            this.lblLastReceivingCost.Location = new System.Drawing.Point(545, 174);
             this.lblLastReceivingCost.Name = "lblLastReceivingCost";
-            this.lblLastReceivingCost.Size = new System.Drawing.Size(109, 23);
+            this.lblLastReceivingCost.Size = new System.Drawing.Size(100, 20);
             this.lblLastReceivingCost.TabIndex = 8;
             this.lblLastReceivingCost.Text = "Last Receiving Cost:";
             // 
             // lblLastPurDate
             // 
-            this.lblLastPurDate.Location = new System.Drawing.Point(548, 200);
+            this.lblLastPurDate.Location = new System.Drawing.Point(545, 197);
             this.lblLastPurDate.Name = "lblLastPurDate";
-            this.lblLastPurDate.Size = new System.Drawing.Size(100, 23);
+            this.lblLastPurDate.Size = new System.Drawing.Size(100, 20);
             this.lblLastPurDate.TabIndex = 9;
             this.lblLastPurDate.Text = "Last Pur Date:";
             // 
             // lblLastSoldDate
             // 
-            this.lblLastSoldDate.Location = new System.Drawing.Point(548, 223);
+            this.lblLastSoldDate.Location = new System.Drawing.Point(545, 220);
             this.lblLastSoldDate.Name = "lblLastSoldDate";
-            this.lblLastSoldDate.Size = new System.Drawing.Size(100, 23);
+            this.lblLastSoldDate.Size = new System.Drawing.Size(100, 20);
             this.lblLastSoldDate.TabIndex = 10;
             this.lblLastSoldDate.Text = "Last Sold Date:";
             // 
-            // gbQty
-            // 
-            this.gbQty.Anchor = Gizmox.WebGUI.Forms.AnchorStyles.None;
-            this.gbQty.Controls.Add(this.btnShowATSQty);
-            this.gbQty.Controls.Add(this.txtLastPurDate);
-            this.gbQty.Controls.Add(this.txtLastSoldDate);
-            this.gbQty.Controls.Add(this.txtLastReceivingCost);
-            this.gbQty.Controls.Add(this.txtAverageCost);
-            this.gbQty.Controls.Add(this.txtMTDPurQty);
-            this.gbQty.Controls.Add(this.txtYTDPurQty);
-            this.gbQty.Controls.Add(this.txtMTDSoldQty);
-            this.gbQty.Controls.Add(this.txtYTDSoldQty);
-            this.gbQty.Controls.Add(this.txtOnHandQty);
-            this.gbQty.Controls.Add(this.txtMaxOLNQty);
-            this.gbQty.Controls.Add(this.dgvQtyList);
-            this.gbQty.Controls.Add(this.lblLastSoldDate);
-            this.gbQty.Controls.Add(this.lblMaxOLNQty);
-            this.gbQty.Controls.Add(this.lblLastPurDate);
-            this.gbQty.Controls.Add(this.lblOnHandQty);
-            this.gbQty.Controls.Add(this.lblLastReceivingCost);
-            this.gbQty.Controls.Add(this.lblMTDPurQty);
-            this.gbQty.Controls.Add(this.lblAverageCost);
-            this.gbQty.Controls.Add(this.lblYTDPurQty);
-            this.gbQty.Controls.Add(this.lblYTDSoldQty);
-            this.gbQty.Controls.Add(this.lblMTDSoldQty);
-            this.gbQty.Dock = Gizmox.WebGUI.Forms.DockStyle.Fill;
-            this.gbQty.FlatStyle = Gizmox.WebGUI.Forms.FlatStyle.Flat;
-            this.gbQty.Location = new System.Drawing.Point(0, 0);
-            this.gbQty.Name = "gbQty";
-            this.gbQty.Size = new System.Drawing.Size(766, 350);
-            this.gbQty.TabIndex = 11;
-            // 
             // btnShowATSQty
             // 
-            this.btnShowATSQty.Location = new System.Drawing.Point(587, 294);
+            this.btnShowATSQty.Location = new System.Drawing.Point(585, 288);
             this.btnShowATSQty.Name = "btnShowATSQty";
             this.btnShowATSQty.Size = new System.Drawing.Size(134, 23);
             this.btnShowATSQty.TabIndex = 13;
@@ -194,7 +159,7 @@ namespace RT2020.Product
             // txtLastPurDate
             // 
             this.txtLastPurDate.BackColor = System.Drawing.Color.LightYellow;
-            this.txtLastPurDate.Location = new System.Drawing.Point(654, 197);
+            this.txtLastPurDate.Location = new System.Drawing.Point(653, 194);
             this.txtLastPurDate.Name = "txtLastPurDate";
             this.txtLastPurDate.ReadOnly = true;
             this.txtLastPurDate.Size = new System.Drawing.Size(100, 20);
@@ -204,7 +169,7 @@ namespace RT2020.Product
             // txtLastSoldDate
             // 
             this.txtLastSoldDate.BackColor = System.Drawing.Color.LightYellow;
-            this.txtLastSoldDate.Location = new System.Drawing.Point(654, 220);
+            this.txtLastSoldDate.Location = new System.Drawing.Point(653, 217);
             this.txtLastSoldDate.Name = "txtLastSoldDate";
             this.txtLastSoldDate.ReadOnly = true;
             this.txtLastSoldDate.Size = new System.Drawing.Size(100, 20);
@@ -215,7 +180,7 @@ namespace RT2020.Product
             // txtLastReceivingCost
             // 
             this.txtLastReceivingCost.BackColor = System.Drawing.Color.LightYellow;
-            this.txtLastReceivingCost.Location = new System.Drawing.Point(654, 174);
+            this.txtLastReceivingCost.Location = new System.Drawing.Point(653, 171);
             this.txtLastReceivingCost.Name = "txtLastReceivingCost";
             this.txtLastReceivingCost.ReadOnly = true;
             this.txtLastReceivingCost.Size = new System.Drawing.Size(100, 20);
@@ -225,7 +190,7 @@ namespace RT2020.Product
             // txtAverageCost
             // 
             this.txtAverageCost.BackColor = System.Drawing.Color.LightYellow;
-            this.txtAverageCost.Location = new System.Drawing.Point(654, 151);
+            this.txtAverageCost.Location = new System.Drawing.Point(653, 148);
             this.txtAverageCost.Name = "txtAverageCost";
             this.txtAverageCost.ReadOnly = true;
             this.txtAverageCost.Size = new System.Drawing.Size(100, 20);
@@ -235,7 +200,7 @@ namespace RT2020.Product
             // txtMTDPurQty
             // 
             this.txtMTDPurQty.BackColor = System.Drawing.Color.LightYellow;
-            this.txtMTDPurQty.Location = new System.Drawing.Point(654, 59);
+            this.txtMTDPurQty.Location = new System.Drawing.Point(653, 56);
             this.txtMTDPurQty.Name = "txtMTDPurQty";
             this.txtMTDPurQty.ReadOnly = true;
             this.txtMTDPurQty.Size = new System.Drawing.Size(100, 20);
@@ -245,7 +210,7 @@ namespace RT2020.Product
             // txtYTDPurQty
             // 
             this.txtYTDPurQty.BackColor = System.Drawing.Color.LightYellow;
-            this.txtYTDPurQty.Location = new System.Drawing.Point(654, 82);
+            this.txtYTDPurQty.Location = new System.Drawing.Point(653, 79);
             this.txtYTDPurQty.Name = "txtYTDPurQty";
             this.txtYTDPurQty.ReadOnly = true;
             this.txtYTDPurQty.Size = new System.Drawing.Size(100, 20);
@@ -255,7 +220,7 @@ namespace RT2020.Product
             // txtMTDSoldQty
             // 
             this.txtMTDSoldQty.BackColor = System.Drawing.Color.LightYellow;
-            this.txtMTDSoldQty.Location = new System.Drawing.Point(654, 105);
+            this.txtMTDSoldQty.Location = new System.Drawing.Point(653, 102);
             this.txtMTDSoldQty.Name = "txtMTDSoldQty";
             this.txtMTDSoldQty.ReadOnly = true;
             this.txtMTDSoldQty.Size = new System.Drawing.Size(100, 20);
@@ -265,7 +230,7 @@ namespace RT2020.Product
             // txtYTDSoldQty
             // 
             this.txtYTDSoldQty.BackColor = System.Drawing.Color.LightYellow;
-            this.txtYTDSoldQty.Location = new System.Drawing.Point(654, 128);
+            this.txtYTDSoldQty.Location = new System.Drawing.Point(653, 125);
             this.txtYTDSoldQty.Name = "txtYTDSoldQty";
             this.txtYTDSoldQty.ReadOnly = true;
             this.txtYTDSoldQty.Size = new System.Drawing.Size(100, 20);
@@ -275,7 +240,7 @@ namespace RT2020.Product
             // txtOnHandQty
             // 
             this.txtOnHandQty.BackColor = System.Drawing.Color.LightYellow;
-            this.txtOnHandQty.Location = new System.Drawing.Point(654, 36);
+            this.txtOnHandQty.Location = new System.Drawing.Point(653, 33);
             this.txtOnHandQty.Name = "txtOnHandQty";
             this.txtOnHandQty.ReadOnly = true;
             this.txtOnHandQty.Size = new System.Drawing.Size(100, 20);
@@ -284,7 +249,7 @@ namespace RT2020.Product
             // 
             // txtMaxOLNQty
             // 
-            this.txtMaxOLNQty.Location = new System.Drawing.Point(654, 13);
+            this.txtMaxOLNQty.Location = new System.Drawing.Point(653, 10);
             this.txtMaxOLNQty.Name = "txtMaxOLNQty";
             this.txtMaxOLNQty.Size = new System.Drawing.Size(100, 20);
             this.txtMaxOLNQty.TabIndex = 11;
@@ -292,9 +257,33 @@ namespace RT2020.Product
             // 
             // ProductWizard_Quantity
             // 
-            this.Controls.Add(this.gbQty);
-            this.Size = new System.Drawing.Size(766, 350);
+            this.Controls.Add(this.btnShowATSQty);
+            this.Controls.Add(this.txtLastPurDate);
+            this.Controls.Add(this.dgvQtyList);
+            this.Controls.Add(this.txtLastSoldDate);
+            this.Controls.Add(this.lblMTDSoldQty);
+            this.Controls.Add(this.txtLastReceivingCost);
+            this.Controls.Add(this.lblYTDSoldQty);
+            this.Controls.Add(this.txtAverageCost);
+            this.Controls.Add(this.lblYTDPurQty);
+            this.Controls.Add(this.txtMTDPurQty);
+            this.Controls.Add(this.lblAverageCost);
+            this.Controls.Add(this.txtYTDPurQty);
+            this.Controls.Add(this.lblMTDPurQty);
+            this.Controls.Add(this.txtMTDSoldQty);
+            this.Controls.Add(this.lblLastReceivingCost);
+            this.Controls.Add(this.txtYTDSoldQty);
+            this.Controls.Add(this.lblOnHandQty);
+            this.Controls.Add(this.txtOnHandQty);
+            this.Controls.Add(this.lblLastPurDate);
+            this.Controls.Add(this.txtMaxOLNQty);
+            this.Controls.Add(this.lblMaxOLNQty);
+            this.Controls.Add(this.lblLastSoldDate);
+            this.DockPadding.All = 10;
+            this.Padding = new Gizmox.WebGUI.Forms.Padding(10);
+            this.Size = new System.Drawing.Size(766, 331);
             this.Text = "ProductWizard_Quantity";
+            this.Load += new System.EventHandler(this.ProductWizard_Quantity_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvQtyList)).EndInit();
             this.ResumeLayout(false);
 
@@ -313,7 +302,6 @@ namespace RT2020.Product
         private Gizmox.WebGUI.Forms.Label lblLastReceivingCost;
         private Gizmox.WebGUI.Forms.Label lblLastPurDate;
         private Gizmox.WebGUI.Forms.Label lblLastSoldDate;
-        private Gizmox.WebGUI.Forms.GroupBox gbQty;
         private Gizmox.WebGUI.Forms.Button btnShowATSQty;
         private Gizmox.WebGUI.Forms.TextBox txtLastPurDate;
         private Gizmox.WebGUI.Forms.TextBox txtLastSoldDate;

@@ -1,0 +1,158 @@
+﻿.ComboBox-Control
+{
+	[Skin.Padding];
+	[Skin.Border];
+	[Skin.Background];
+	[Skin.VisualEffect]
+}
+
+.ComboBox-Control_Disabled
+{
+    [Skin.ControlDisabledStyle];
+}
+
+.ComboBox-Content
+{
+	[Skin.Foreground];
+	[Skin.Font];
+	[Skin.DropDownListTextBoxStyle];
+}
+
+.ComboBox-Input
+{
+	[Skin.Foreground];
+	[Skin.Font];
+	[Skin.TextBoxStyle];
+}
+
+.ComboBox-Input_Disabled
+{
+    -webkit-user-select:none;
+    -moz-user-select: none;
+    [Skin.ControlTextForegroundDisabled];
+    [Skin.ControlTextBackgroundDisabled];
+    [Skin.ControlTextFontDisabled];
+}
+
+.ComboBox-ItemTable #ColorBoxColumn
+{
+	width:[Skin.PreferdColorBoxWidth]px;
+}
+
+.ComboBox-ItemTable #ImageBoxColumn
+{
+	width:[Skin.PreferdImageBoxWidth]px;
+}
+
+.ComboBox-Item
+{
+	[Skin.PopupItemStyle];	
+}
+
+.ComboBox-Item .LabelBox
+{
+	[Skin.Foreground];
+	[Skin.Font];
+}
+
+.ComboBox-Item #ColorBox
+{
+	width:[Skin.ColorBoxWidth]px;
+	height:[Skin.ColorBoxHeight]px;
+	[Skin.ColorBoxStyle];
+}
+
+.ComboBox-Item #ImageBox
+{
+	width:[Skin.ImageBoxWidth]px;
+	height:[Skin.ImageBoxHeight]px;
+}
+
+.ComboBox-Item_Selected .LabelBox
+{
+	[Skin.PopupItemEnterForeColor];
+}
+
+.ComboBox-Item_Selected td
+{
+	[Skin.PopupItemEnterStyle];	
+}
+
+.ComboBox-Content_Focus
+{
+	[Skin.FocusedDropDownListTextBoxStyle];
+}
+
+.ComboBox-ButtonContainer
+{
+	[Skin.DropDownContainerNormalStyle];
+}
+.ComboBox-Control_Enter .ComboBox-ButtonContainer
+{
+	[Skin.DropDownContainerHoverStyle];
+}
+.ComboBox-Control_Down .ComboBox-ButtonContainer
+{
+	[Skin.DropDownContainerPressedStyle];
+}
+.ComboBox-Control_Disabled .ComboBox-ButtonContainer
+{
+	[Skin.DropDownContainerDisabledStyle];
+}
+
+.ComboBox-Button
+{
+	background-image:url([Skin.DropDownNormalImage]);
+}
+
+.ComboBox-Control_Enter .ComboBox-Button
+{
+	background-image:url([Skin.DropDownOverImage]);
+}
+
+.ComboBox-Control_Down .ComboBox-Button
+{
+	background-image:url([Skin.DropDownDownImage]);
+}
+
+.ComboBox-Control_Disabled .ComboBox-Button
+{
+	background-image:url([Skin.DropDownImageDisable]);
+}
+
+.ComboBox-Control_Disabled .ComboBox-Content
+{
+    [Skin.ControlTextForegroundDisabled];
+    [Skin.ControlTextBackgroundDisabled];
+    [Skin.ControlTextFontDisabled];
+}
+
+.ComboBox-InputContainer
+{
+	[Skin.ComboBoxTextBoxContainerStyle];	
+}
+
+.ComboBox-DataContainerDropDownMode
+{
+    [Skin.DataContainerDropDownModeStyle];
+}
+
+.ComboBox-DataContainerDropDownListMode
+{
+    [Skin.DataContainerDropDownListModeStyle];
+}
+
+.ComboBox-DataContainerSimpleMode
+{
+    [Skin.DataContainerSimpleModeStyle];
+}
+
+.ComboBox-ItemsContainer
+{
+    [Skin.ItemsContainerStyle];    
+}
+
+.ComboBox-Control_Disabled .ComboBox-Item .LabelBox
+{
+    [Skin.ControlTextForegroundDisabled];
+}

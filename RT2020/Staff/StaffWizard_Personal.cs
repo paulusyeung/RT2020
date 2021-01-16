@@ -43,6 +43,7 @@ namespace RT2020.Staff
             SetCaptions();
             SetAttributes();
             SetSmartTags();
+            SetPhoneTags();
 
             FillComo();
             txtSalary.Text = "0.00";
@@ -64,52 +65,38 @@ namespace RT2020.Staff
         private void SetAttributes()
         {
             lblDateFormat.Visible = false;
-            dateofSmartTag2.ShowCheckBox = true;
-            dateofSmartTag2.Checked = false;
+            dateofSmartTag8.ShowCheckBox = true;
+            dateofSmartTag8.Checked = false;
 
             #region 設定 clickable smart tag 1 label
-            lblSmartTag1.AutoSize = true;                      // 減少 whitespace，有字嘅位置先可以 click
-            lblSmartTag1.Cursor = Cursors.Hand;                // cursor over 顯示 hand cursor
-            lblSmartTag1.Click += (s, e) =>                    // 彈出 wizard
+            lblSmartTag7.AutoSize = true;                      // 減少 whitespace，有字嘅位置先可以 click
+            lblSmartTag7.Cursor = Cursors.Hand;                // cursor over 顯示 hand cursor
+            lblSmartTag7.Click += (s, e) =>                    // 彈出 wizard
             {
                 var dialog = new SmartTag4StaffWizard();
                 dialog.FormClosed += (sender, eventArgs) =>     // 關閉後 refresh 個 combo box items
                 {
-                    //FillSalutationList();
+                    SetSmartTags();
                 };
                 dialog.ShowDialog();
             };
             #endregion
 
             #region 設定 clickable smart tag 2 label
-            lblSmartTag2.AutoSize = true;                      // 減少 whitespace，有字嘅位置先可以 click
-            lblSmartTag2.Cursor = Cursors.Hand;                // cursor over 顯示 hand cursor
-            lblSmartTag2.Click += (s, e) =>                    // 彈出 wizard
+            lblSmartTag8.AutoSize = true;                      // 減少 whitespace，有字嘅位置先可以 click
+            lblSmartTag8.Cursor = Cursors.Hand;                // cursor over 顯示 hand cursor
+            lblSmartTag8.Click += (s, e) =>                    // 彈出 wizard
             {
                 var dialog = new SmartTag4StaffWizard();
                 dialog.FormClosed += (sender, eventArgs) =>     // 關閉後 refresh 個 combo box items
                 {
-                    //FillSalutationList();
+                    SetSmartTags();
                 };
                 dialog.ShowDialog();
             };
             #endregion
 
             #region 設定 clickable smart tag 3 label
-            lblSmartTag3.AutoSize = true;                      // 減少 whitespace，有字嘅位置先可以 click
-            lblSmartTag3.Cursor = Cursors.Hand;                // cursor over 顯示 hand cursor
-            lblSmartTag3.Click += (s, e) =>                    // 彈出 wizard
-            {
-                var dialog = new SmartTag4StaffWizard();
-                dialog.FormClosed += (sender, eventArgs) =>     // 關閉後 refresh 個 combo box items
-                {
-                    //FillSalutationList();
-                };
-                dialog.ShowDialog();
-            };
-            #endregion
-
-            #region 設定 clickable smart tag 9 label
             lblSmartTag9.AutoSize = true;                      // 減少 whitespace，有字嘅位置先可以 click
             lblSmartTag9.Cursor = Cursors.Hand;                // cursor over 顯示 hand cursor
             lblSmartTag9.Click += (s, e) =>                    // 彈出 wizard
@@ -117,35 +104,63 @@ namespace RT2020.Staff
                 var dialog = new SmartTag4StaffWizard();
                 dialog.FormClosed += (sender, eventArgs) =>     // 關閉後 refresh 個 combo box items
                 {
-                    
+                    //FillSalutationList();
                 };
                 dialog.ShowDialog();
             };
             #endregion
 
-            #region 設定 clickable smart tag 10 label
+            #region 設定 clickable phone tag 1 label
+            lblPhoneTag1.AutoSize = true;                      // 減少 whitespace，有字嘅位置先可以 click
+            lblPhoneTag1.Cursor = Cursors.Hand;                // cursor over 顯示 hand cursor
+            lblPhoneTag1.Click += (s, e) =>                    // 彈出 wizard
+            {
+                var dialog = new Settings.PhoneTagWizard();
+                dialog.FormClosed += (sender, eventArgs) =>     // 關閉後 refresh 個 combo box items
+                {
+                    SetPhoneTags();
+                };
+                dialog.ShowDialog();
+            };
+            #endregion
+
+            #region 設定 clickable phone tag 2 label
             //lblSmartTag10.AutoSize = true;                      // 減少 whitespace，有字嘅位置先可以 click
-            lblSmartTag10.Cursor = Cursors.Hand;                // cursor over 顯示 hand cursor
-            lblSmartTag10.Click += (s, e) =>                    // 彈出 wizard
+            lblPhoneTag2.Cursor = Cursors.Hand;                // cursor over 顯示 hand cursor
+            lblPhoneTag2.Click += (s, e) =>                    // 彈出 wizard
             {
-                var dialog = new SmartTag4StaffWizard();
+                var dialog = new Settings.PhoneTagWizard();
                 dialog.FormClosed += (sender, eventArgs) =>     // 關閉後 refresh 個 combo box items
                 {
-                    
+                    SetPhoneTags();
                 };
                 dialog.ShowDialog();
             };
             #endregion
 
-            #region 設定 clickable smart tag 11 label
-            lblSmartTag11.AutoSize = true;                      // 減少 whitespace，有字嘅位置先可以 click
-            lblSmartTag11.Cursor = Cursors.Hand;                // cursor over 顯示 hand cursor
-            lblSmartTag11.Click += (s, e) =>                    // 彈出 wizard
+            #region 設定 clickable phone tag 3 label
+            lblPhoneTag3.AutoSize = true;                      // 減少 whitespace，有字嘅位置先可以 click
+            lblPhoneTag3.Cursor = Cursors.Hand;                // cursor over 顯示 hand cursor
+            lblPhoneTag3.Click += (s, e) =>                    // 彈出 wizard
             {
-                var dialog = new SmartTag4StaffWizard();
+                var dialog = new Settings.PhoneTagWizard();
                 dialog.FormClosed += (sender, eventArgs) =>     // 關閉後 refresh 個 combo box items
                 {
-                    
+                    SetPhoneTags();
+                };
+                dialog.ShowDialog();
+            };
+            #endregion
+
+            #region 設定 clickable phone tag 4 label
+            //lblPhoneTag4.AutoSize = true;                      // 減少 whitespace，有字嘅位置先可以 click
+            lblPhoneTag4.Cursor = Cursors.Hand;                // cursor over 顯示 hand cursor
+            lblPhoneTag4.Click += (s, e) =>                    // 彈出 wizard
+            {
+                var dialog = new Settings.PhoneTagWizard();
+                dialog.FormClosed += (sender, eventArgs) =>     // 關閉後 refresh 個 combo box items
+                {
+                    SetPhoneTags();
                 };
                 dialog.ShowDialog();
             };
@@ -202,6 +217,12 @@ namespace RT2020.Staff
             SmartTagHelper oTag = new SmartTagHelper(this);
             oTag.StaffSmartTagList = smartTagList;
             oTag.SetSmartTags();
+        }
+
+        private void SetPhoneTags()
+        {
+            var oTag = new PhoneTagHelper(this, "STF");
+            oTag.SetPhoneTag();
         }
         #endregion
 
@@ -280,6 +301,10 @@ namespace RT2020.Staff
                     cmbCountry.SelectedValue = sa.CountryId.HasValue ? sa.CountryId.Value : Guid.Empty;
                     cmbProvince.SelectedValue = sa.ProvinceId.HasValue ? sa.ProvinceId.Value : Guid.Empty;
                     cmbCity.SelectedValue = sa.CityId.HasValue ? sa.CityId.Value : Guid.Empty;
+                    txtPhoneTag1.Text = sa.PhoneTag1Value;
+                    txtPhoneTag2.Text = sa.PhoneTag2Value;
+                    txtPhoneTag3.Text = sa.PhoneTag3Value;
+                    txtPhoneTag4.Text = sa.PhoneTag4Value;
                 }
             }
         }
@@ -412,6 +437,10 @@ namespace RT2020.Staff
                     if (cmbCity.SelectedIndex >= 0)
                         if ((Guid)cmbCity.SelectedValue != Guid.Empty) sa.CityId = (Guid)cmbCity.SelectedValue;
                     sa.PostalCode = txtPostal.Text.Trim();
+                    sa.PhoneTag1Value = txtPhoneTag1.Text.Trim();
+                    sa.PhoneTag2Value = txtPhoneTag2.Text.Trim();
+                    sa.PhoneTag3Value = txtPhoneTag3.Text.Trim();
+                    sa.PhoneTag4Value = txtPhoneTag4.Text.Trim();
 
                     ctx.SaveChanges();
                     #endregion
@@ -486,7 +515,7 @@ namespace RT2020.Staff
             FindHKID findHKID = sender as FindHKID;
             if (findHKID.IsCompleted)
             {
-                txtSmartTag1.Text = findHKID.HKID;
+                txtSmartTag7.Text = findHKID.HKID;
             }
         }
     }

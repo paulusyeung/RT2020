@@ -22,46 +22,135 @@ namespace RT2020.Product
 {
     public partial class ProductWizard : Form
     {
-        ProductWizard_General general;
-        ProductWizard_Barcode barcode;
-        ProductWizard_Quantity quantity;
-        ProductWizard_Misc misc;
-        ProductWizard_Order order;
-        ProductWizard_Discount discount;
+        #region public properties
+        private EnumHelper.EditMode _EditMode = EnumHelper.EditMode.None;
+        public EnumHelper.EditMode EditMode
+        {
+            get { return _EditMode; }
+            set { _EditMode = value; }
+        }
+
+        private Guid _ProductId = Guid.Empty;
+        public Guid ProductId
+        {
+            get { return _ProductId; }
+            set { _ProductId = value; }
+        }
+        #endregion
+
+        #region declare tab pages
+        bool tabGeneralLoaded = false, tabBarcodeLoaded = false, tabQuantityLoaded = false, tabMiscLoaded = false, tabOrderLoaded = false, tabDiscountLoaded = false;
+
+        ProductWizard_General general = null;
+        ProductWizard_Barcode barcode = null;
+        ProductWizard_Quantity quantity = null;
+        ProductWizard_Misc misc = null;
+        ProductWizard_Order order = null;
+        ProductWizard_Discount discount = null;
+        #endregion
 
         public ProductWizard()
         {
             InitializeComponent();
-            //this.Closing += new System.ComponentModel.CancelEventHandler(this.ProductWizard_Closing);
-            SetToolBar();
-            TabCtrl();
-            SetCtrlEditable();
-            FillAppendixes();
-        }
 
-        public ProductWizard(System.Guid productId)
-        {
-            InitializeComponent();
-            this.ProductId = productId;
-            SetToolBar();
-            TabCtrl();
-            SetCtrlEditable();
-            LoadProductInfo();
         }
 
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
-            SetSystemLabels();
+            //SetSystemLabels();
         }
 
-        #region Set System label
-        private void SetSystemLabels()
+        private void ProductWizard_Load(object sender, EventArgs e)
         {
-            lblStkCode.Text = RT2020.SystemInfo.Settings.GetSystemLabelByKey("STKCODE");
-            lblAppendix1.Text = RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX1");
-            lblAppendix2.Text = RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX2");
-            lblAppendix3.Text = RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX3");
+            SetCaptions();
+            SetAttributes();
+
+            SetToolBar();
+            //TabCtrl();
+            SetProtectedFields();
+            FillAppendixes();
+            LoadTabPage(0);
+
+            switch (_EditMode)
+            {
+                case EnumHelper.EditMode.Add:
+                    break;
+                case EnumHelper.EditMode.Edit:
+                case EnumHelper.EditMode.Delete:
+                    LoadProductInfo();
+                    break;
+            }
+
+            this.txtStkCode.Focus();
+        }
+
+        #region SetCaptions, SetAttributes & SetPhoneTag
+        private void SetCaptions()
+        {
+            this.Text = WestwindHelper.GetWord("setup", "Product");
+
+            lblStkCode.Text = WestwindHelper.GetWordWithColon("general.STKCODE", "Product");
+            lblAppendix1.Text = WestwindHelper.GetWordWithColon("appendix.appendix1", "Product");
+            lblAppendix2.Text = WestwindHelper.GetWordWithColon("appendix.appendix2", "Product");
+            lblAppendix3.Text = WestwindHelper.GetWordWithColon("appendix.appendix3", "Product");
+
+            tpGeneral.Text = WestwindHelper.GetWord("general", "Product");
+            tpBarcode.Text = WestwindHelper.GetWord("barcode", "Product");
+            tpQty.Text = WestwindHelper.GetWord("inventory", "Product");
+            tpMisc.Text = WestwindHelper.GetWord("misc", "Product");
+            tpOrder.Text = WestwindHelper.GetWord("order", "Product");
+            tpDiscount.Text = WestwindHelper.GetWord("discount", "Product");
+        }
+
+        private void SetAttributes()
+        {
+            txtStkCode.MaxLength = 10;      // dbo.Product.STKCODE VARCHAR(10)
+
+            #region 設定 clickable Appendix 1 label
+            //lblAppendix1.AutoSize = true;                         // 減少 whitespace，有字嘅位置先可以 click
+            lblAppendix1.Cursor = Cursors.Hand;                   // cursor over 顯示 hand cursor
+            lblAppendix1.Click += (s, e) =>                       // 彈出 wizard
+            {
+                var dialog = new ProductAppendixWizardAio();
+                dialog.ProductAppendixType = EnumHelper.ProductAppendixType.Appendix1;
+                dialog.FormClosed += (sender, eventArgs) =>     // 關閉後 refresh 個 combo box items
+                {
+                    FillAppendixe1();
+                };
+                dialog.ShowDialog();
+            };
+            #endregion
+
+            #region 設定 clickable Appendix 2 label
+            //lblAppendix2.AutoSize = true;                         // 減少 whitespace，有字嘅位置先可以 click
+            lblAppendix2.Cursor = Cursors.Hand;                   // cursor over 顯示 hand cursor
+            lblAppendix2.Click += (s, e) =>                       // 彈出 wizard
+            {
+                var dialog = new ProductAppendixWizardAio();
+                dialog.ProductAppendixType = EnumHelper.ProductAppendixType.Appendix2;
+                dialog.FormClosed += (sender, eventArgs) =>     // 關閉後 refresh 個 combo box items
+                {
+                    FillAppendixe2();
+                };
+                dialog.ShowDialog();
+            };
+            #endregion
+
+            #region 設定 clickable Appendix 3 label
+            //lblAppendix3.AutoSize = true;                         // 減少 whitespace，有字嘅位置先可以 click
+            lblAppendix3.Cursor = Cursors.Hand;                   // cursor over 顯示 hand cursor
+            lblAppendix3.Click += (s, e) =>                       // 彈出 wizard
+            {
+                var dialog = new ProductAppendixWizardAio();
+                dialog.ProductAppendixType = EnumHelper.ProductAppendixType.Appendix3;
+                dialog.FormClosed += (sender, eventArgs) =>     // 關閉後 refresh 個 combo box items
+                {
+                    FillAppendixe3();
+                };
+                dialog.ShowDialog();
+            };
+            #endregion
         }
         #endregion
 
@@ -76,7 +165,7 @@ namespace RT2020.Product
             sep.Style = ToolBarButtonStyle.Separator;
 
             // cmdSave
-            ToolBarButton cmdSave = new ToolBarButton("Save", "Save");
+            ToolBarButton cmdSave = new ToolBarButton("Save", WestwindHelper.GetWord("edit.save", "General"));
             cmdSave.Tag = "Save";
             cmdSave.Image = new IconResourceHandle("16x16.16_L_save.gif");
             cmdSave.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Write);
@@ -84,7 +173,7 @@ namespace RT2020.Product
             this.tbWizardAction.Buttons.Add(cmdSave);
 
             // cmdSaveNew
-            ToolBarButton cmdSaveNew = new ToolBarButton("Save & New", "Save & New");
+            ToolBarButton cmdSaveNew = new ToolBarButton("Save & New", WestwindHelper.GetWord("edit.save.new", "General"));
             cmdSaveNew.Tag = "Save & New";
             cmdSaveNew.Image = new IconResourceHandle("16x16.16_L_saveOpen.gif");
             cmdSaveNew.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Write);
@@ -92,7 +181,7 @@ namespace RT2020.Product
             this.tbWizardAction.Buttons.Add(cmdSaveNew);
 
             // cmdSaveClose
-            ToolBarButton cmdSaveClose = new ToolBarButton("Save & Close", "Save & Close");
+            ToolBarButton cmdSaveClose = new ToolBarButton("Save & Close", WestwindHelper.GetWord("edit.save.close", "General"));
             cmdSaveClose.Tag = "Save & Close";
             cmdSaveClose.Image = new IconResourceHandle("16x16.16_saveClose.gif");
             cmdSaveClose.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Write);
@@ -101,7 +190,7 @@ namespace RT2020.Product
             this.tbWizardAction.Buttons.Add(sep);
 
             // cmdDelete
-            ToolBarButton cmdDelete = new ToolBarButton("Delete", "Delete");
+            ToolBarButton cmdDelete = new ToolBarButton("Delete", WestwindHelper.GetWord("edit.delete", "General"));
             cmdDelete.Tag = "Delete";
             cmdDelete.Image = new IconResourceHandle("16x16.16_L_remove.gif");
 
@@ -142,54 +231,116 @@ namespace RT2020.Product
         }
         #endregion
 
-        #region Controls
-
-        #region STKCODE / Appendix
-        private void SetCtrlEditable()
+        #region Set protected fields for STKCODE / Appendix, LoadTabPage
+        private void SetProtectedFields()
         {
-            txtStkCode.BackColor = (this.ProductId == System.Guid.Empty) ? Color.LightSkyBlue : Color.LightYellow;
-            txtStkCode.Enabled = (this.ProductId == System.Guid.Empty);
+            switch (_EditMode)
+            {
+                case EnumHelper.EditMode.Add:
+                    txtStkCode.BackColor = cboAppendix1.BackColor = cboAppendix2.BackColor = cboAppendix3.BackColor = Color.LightSkyBlue;
+                    txtStkCode.Enabled = cboAppendix1.Enabled = cboAppendix2.Enabled = cboAppendix3.Enabled = true;
+                    break;
+                case EnumHelper.EditMode.Edit:
+                case EnumHelper.EditMode.Delete:
+                    txtStkCode.BackColor = cboAppendix1.BackColor = cboAppendix2.BackColor = cboAppendix3.BackColor = Color.LightYellow;
+                    txtStkCode.Enabled = cboAppendix1.Enabled = cboAppendix2.Enabled = cboAppendix3.Enabled = false;
+                    break;
+            }
+        }
 
-            cboAppendix1.BackColor = (this.ProductId == System.Guid.Empty) ? Color.LightSkyBlue : Color.LightYellow;
-            cboAppendix1.Enabled = (this.ProductId == System.Guid.Empty);
+        private void LoadTabPage(int index = 0)
+        {
+            switch (index)
+            {
+                case 0:
+                    #region General
+                    if (!tabGeneralLoaded)
+                    {
+                        general = new ProductWizard_General();
+                        general.Dock = DockStyle.Fill;
+                        general.EditMode = _EditMode;
+                        general.ProductId = _ProductId;
+                        tpGeneral.Controls.Add(general);
 
-            cboAppendix2.BackColor = (this.ProductId == System.Guid.Empty) ? Color.LightSkyBlue : Color.LightYellow;
-            cboAppendix2.Enabled = (this.ProductId == System.Guid.Empty);
+                        tabGeneralLoaded = true;
+                    }
+                    break;
+                    #endregion
+                case 1:
+                    #region Barcode
+                    if (!tabBarcodeLoaded)
+                    {
+                        barcode = new ProductWizard_Barcode();
+                        barcode.Dock = DockStyle.Fill;
+                        barcode.EditMode = _EditMode;
+                        barcode.ProductId = _ProductId;
+                        tpBarcode.Controls.Add(barcode);
 
-            cboAppendix3.BackColor = (this.ProductId == System.Guid.Empty) ? Color.LightSkyBlue : Color.LightYellow;
-            cboAppendix3.Enabled = (this.ProductId == System.Guid.Empty);
+                        tabBarcodeLoaded = true;
+                    }
+                    break;
+                    #endregion
+                case 2:
+                    #region Quantity
+                    if (!tabQuantityLoaded)
+                    {
+                        quantity = new ProductWizard_Quantity();
+                        quantity.Dock = DockStyle.Fill;
+                        quantity.EditMode = _EditMode;
+                        quantity.ProductId = _ProductId;
+                        tpQty.Controls.Add(quantity);
+
+                        tabQuantityLoaded = true;
+                    }
+                    break;
+                    #endregion
+                case 3:
+                    #region Misc
+                    if (!tabMiscLoaded)
+                    {
+                        misc = new ProductWizard_Misc();
+                        misc.Dock = DockStyle.Fill;
+                        misc.ProductId = _ProductId;
+                        misc.EditMode = _EditMode;
+                        tpMisc.Controls.Add(misc);
+
+                        tabMiscLoaded = true;
+                    }
+                    break;
+                    #endregion
+                case 4:
+                    #region Order
+                    if (!tabOrderLoaded)
+                    {
+                        order = new ProductWizard_Order();
+                        order.Dock = DockStyle.Fill;
+                        order.EditMode = _EditMode;
+                        order.ProductId = _ProductId;
+                        tpOrder.Controls.Add(order);
+
+                        tabOrderLoaded = true;
+                    }
+                    break;
+                    #endregion
+                case 5:
+                    #region Discount
+                    if (!tabDiscountLoaded)
+                    {
+                        discount = new ProductWizard_Discount();
+                        discount.Dock = DockStyle.Fill;
+                        discount.EditMode = _EditMode;
+                        discount.ProductId = _ProductId;
+                        tpDiscount.Controls.Add(discount);
+
+                        tabDiscountLoaded = true;
+                    }
+                    break;
+                    #endregion
+            }
         }
         #endregion
 
-        #region Tab
-        private void TabCtrl()
-        {
-            // General
-            general = new ProductWizard_General();
-            general.Dock = DockStyle.Fill;
-            general.ProductId = this.ProductId;
-            tpGeneral.Controls.Add(general);
-
-            // Barcode
-            barcode = new ProductWizard_Barcode(this.ProductId);
-
-            // Quantity
-            quantity = new ProductWizard_Quantity(this.ProductId);
-
-            // Misc
-            misc = new ProductWizard_Misc(this.ProductId);
-
-            // Order
-            order = new ProductWizard_Order(this.ProductId);
-
-            // Discount
-            discount = new ProductWizard_Discount(this.ProductId);
-        }
-        #endregion
-
-        #endregion
-
-        #region Appendix
+        #region Load Appendix
         private void FillAppendixes()
         {
             FillAppendixe1();
@@ -199,172 +350,100 @@ namespace RT2020.Product
 
         private void FillAppendixe1()
         {
-            ModelEx.ProductAppendix1Ex.LoadCombo(ref cboAppendix1, "Appendix1Code", false, true, "", "");
-            /**
-            cboAppendix1.Items.Clear();
-
-            string[] orderBy = new string[] { "Appendix1Code" };
-            ProductAppendix1Collection oA1List = ProductAppendix1.LoadCollection(orderBy, true);
-            oA1List.Add(new ProductAppendix1());
-            cboAppendix1.DataSource = oA1List;
-            cboAppendix1.DisplayMember = "Appendix1Code";
-            cboAppendix1.ValueMember = "Appendix1Id";
-            */
+            cboAppendix1.BindData();
         }
 
         private void FillAppendixe2()
         {
-            ModelEx.ProductAppendix2Ex.LoadCombo(ref cboAppendix2, "Appendix2Code", false, true, "", "");
-            /**
-            cboAppendix2.Items.Clear();
-
-            string[] orderBy = new string[] { "Appendix2Code" };
-            ProductAppendix2Collection oA2List = ProductAppendix2.LoadCollection(orderBy, true);
-            oA2List.Add(new ProductAppendix2());
-            cboAppendix2.DataSource = oA2List;
-            cboAppendix2.DisplayMember = "Appendix2Code";
-            cboAppendix2.ValueMember = "Appendix2Id";
-            */
+            cboAppendix2.BindData();
         }
 
         private void FillAppendixe3()
         {
-            ModelEx.ProductAppendix1Ex.LoadCombo(ref cboAppendix3, "Appendix3Code", false, true, "", "");
-            /**
-            cboAppendix3.Items.Clear();
-
-            string[] orderBy = new string[] { "Appendix3Code" };
-            ProductAppendix3Collection oA3List = ProductAppendix3.LoadCollection(orderBy, true);
-            oA3List.Add(new ProductAppendix3());
-            cboAppendix3.DataSource = oA3List;
-            cboAppendix3.DisplayMember = "Appendix3Code";
-            cboAppendix3.ValueMember = "Appendix3Id";
-            */
-        }
-        #endregion
-
-        #region Properties
-        private Guid productId = System.Guid.Empty;
-        public Guid ProductId
-        {
-            get
-            {
-                return productId;
-            }
-            set
-            {
-                productId = value;
-            }
+            cboAppendix3.BindData();
         }
         #endregion
 
         #region Actions Methods
-        private bool VerifyAppendix1()
-        {
-            if (cboAppendix1.Text.Trim().Length > 0)
-            {
-                //string sql = "Appendix1Code = '" + cboAppendix1.Text.Trim() + "'";
-                //ProductAppendix1 a1 = ProductAppendix1.LoadWhere(sql);
-                //if (a1 == null)
-                if (!ModelEx.ProductAppendix1Ex.IsAppendixCodeInUse(cboAppendix1.Text))
-                {
-                    errorProvider.SetError(cboAppendix1, "The code is invalid! Try to select a value from the list!");
-                    return false;
-                }
-                else
-                {
-                    errorProvider.SetError(cboAppendix1, string.Empty);
-                    return true;
-                }
-            }
-            else
-            {
-                return true;
-            }
-        }
-
-        private bool VerifyAppendix2()
-        {
-            if (cboAppendix2.Text.Trim().Length > 0)
-            {
-                //string sql = "Appendix2Code = '" + cboAppendix2.Text.Trim() + "'";
-                //ProductAppendix2 a2 = ProductAppendix2.LoadWhere(sql);
-                //if (a2 == null)
-                if (!ModelEx.ProductAppendix2Ex.IsAppendixCodeInUse(cboAppendix2.Text))
-                {
-                    errorProvider.SetError(cboAppendix2, "The code is invalid! Try to select a value from the list!");
-                    return false;
-                }
-                else
-                {
-                    errorProvider.SetError(cboAppendix2, string.Empty);
-                    return true;
-                }
-            }
-            else
-            {
-                return true;
-            }
-        }
-
-        private bool VerifyAppendix3()
-        {
-            if (cboAppendix3.Text.Trim().Length > 0)
-            {
-                //string sql = "Appendix3Code = '" + cboAppendix3.Text.Trim() + "'";
-                //ProductAppendix3 a3 = ProductAppendix3.LoadWhere(sql);
-                //if (a3 == null)
-                if (!ModelEx.ProductAppendix3Ex.IsAppendixCodeInUse(cboAppendix3.Text))
-                {
-                    errorProvider.SetError(cboAppendix3, "The code is invalid! Try to select a value from the list!");
-                    return false;
-                }
-                else
-                {
-                    errorProvider.SetError(cboAppendix3, string.Empty);
-                    return true;
-                }
-            }
-            else
-            {
-                return true;
-            }
-        }
-
-        private bool VerifyAppendix()
+        private bool IsValidAppendix()
         {
             bool result = true;
 
-            result = result & VerifyAppendix1();
-            result = result & VerifyAppendix2();
-            result = result & VerifyAppendix3();
+            result = result & IsValidAppendix1();
+            result = result & IsValidAppendix2();
+            result = result & IsValidAppendix3();
 
             return result;
         }
 
-        private bool Verify()
+        private bool IsValidAppendix1()
         {
+            var result = true;
+            errorProvider.SetError(cboAppendix1, string.Empty);
+
+            if (cboAppendix1.Text.Trim().Length > 0)
+            {
+                if (!ModelEx.ProductAppendix1Ex.IsAppendixCodeInUse(cboAppendix1.Text))
+                {
+                    errorProvider.SetError(cboAppendix1, "The code is invalid! Try to select a value from the list!");
+                    result = false;
+                }
+            }
+
+            return result;
+        }
+
+        private bool IsValidAppendix2()
+        {
+            var result = true;
+            errorProvider.SetError(cboAppendix2, string.Empty);
+
+            if (cboAppendix2.Text.Trim().Length > 0)
+            {
+                if (!ModelEx.ProductAppendix2Ex.IsAppendixCodeInUse(cboAppendix2.Text))
+                {
+                    errorProvider.SetError(cboAppendix2, "The code is invalid! Try to select a value from the list!");
+                    result = false;
+                }
+            }
+
+            return result;
+        }
+
+        private bool IsValidAppendix3()
+        {
+            var result = true;
+            errorProvider.SetError(cboAppendix3, string.Empty);
+
+            if (cboAppendix3.Text.Trim().Length > 0)
+            {
+                if (!ModelEx.ProductAppendix3Ex.IsAppendixCodeInUse(cboAppendix3.Text))
+                {
+                    errorProvider.SetError(cboAppendix3, "The code is invalid! Try to select a value from the list!");
+                    result = false;
+                }
+            }
+
+            return result;
+        }
+
+        private bool IsValid()
+        {
+            var result = true;
+            errorProvider.SetError(txtStkCode, string.Empty);
+
             if (txtStkCode.Text == string.Empty)
             {
                 errorProvider.SetError(txtStkCode, "Can not be blank!");
                 return false;
             }
-            else if (!VerifyAppendix())
-            {
-                return false;
-            }
-            else
-            {
-                errorProvider.SetError(txtStkCode, string.Empty);
-                return true;
-            }
+            result = IsValidAppendix();
+
+            return result;
         }
 
-        private bool VerifyDuplicated()
+        private bool IsDuplicated()
         {
-            //string sql = "STKCODE = '" + txtStkCode.Text + "' AND APPENDIX1 = '" + cboAppendix1.Text + "' AND APPENDIX2 = '" + cboAppendix2.Text + "' AND APPENDIX3 = '" + cboAppendix3.Text + "'";
-            //RT2020.DAL.Product oItem = RT2020.DAL.Product.LoadWhere(sql);
-
             if (ProductHelper.IsDuplicated(txtStkCode.Text, cboAppendix1.Text, cboAppendix2.Text, cboAppendix3.Text))
             {
                 MessageBox.Show(string.Format(Resources.Common.DuplicatedCode, "Stock Code + Appendix1 + Appendix2 + Appendix3"), "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -381,338 +460,345 @@ namespace RT2020.Product
         {
             bool result = false;
 
-            if (Verify() && !VerifyDuplicated())
+            if (IsValid())
             {
-                using (var ctx = new EF6.RT2020Entities())
+                if (!IsDuplicated())
                 {
-                    using (var scope = ctx.Database.BeginTransaction())
+                    using (var ctx = new EF6.RT2020Entities())
                     {
-                        try
+                        using (var scope = ctx.Database.BeginTransaction())
                         {
-                            bool isNew = false;
-
-                            #region this.ProductId = SaveGeneralInfo();
-
-                            var oProduct = ctx.Product.Find(this.ProductId);
-                            if (oProduct == null)
+                            try
                             {
-                                #region new Product
-                                oProduct = new EF6.Product();
-                                oProduct.ProductId = Guid.NewGuid();
-                                oProduct.STKCODE = txtStkCode.Text.Trim();
-                                oProduct.APPENDIX1 = cboAppendix1.Text.Trim();
-                                oProduct.APPENDIX2 = cboAppendix2.Text.Trim();
-                                oProduct.APPENDIX3 = cboAppendix3.Text.Trim();
+                                #region this.ProductId = SaveGeneralInfo();
 
-                                oProduct.Status = Convert.ToInt32(EnumHelper.Status.Active.ToString("d"));
-                                isNew = true;
+                                var oProduct = ctx.Product.Find(this.ProductId);
+                                if (oProduct == null)
+                                {
+                                    #region new Product
+                                    oProduct = new EF6.Product();
+                                    oProduct.ProductId = Guid.NewGuid();
+                                    oProduct.STKCODE = txtStkCode.Text.Trim();
+                                    oProduct.APPENDIX1 = cboAppendix1.Text.Trim();
+                                    oProduct.APPENDIX2 = cboAppendix2.Text.Trim();
+                                    oProduct.APPENDIX3 = cboAppendix3.Text.Trim();
 
-                                oProduct.CreatedBy = ConfigHelper.CurrentUserId;
-                                oProduct.CreatedOn = DateTime.Now;
+                                    oProduct.Status = (int)EnumHelper.Status.Active;
 
-                                ctx.Product.Add(oProduct);
+                                    oProduct.CreatedBy = ConfigHelper.CurrentUserId;
+                                    oProduct.CreatedOn = DateTime.Now;
+
+                                    ctx.Product.Add(oProduct);
+                                    _ProductId = oProduct.ProductId;
+                                    #endregion
+                                }
+                                #region Porduct core data
+                                oProduct.CLASS1 = general.cboClass1.Text;
+                                oProduct.CLASS2 = general.cboClass2.Text;
+                                oProduct.CLASS3 = general.cboClass3.Text;
+                                oProduct.CLASS4 = general.cboClass4.Text;
+                                oProduct.CLASS5 = general.cboClass5.Text;
+                                oProduct.CLASS6 = general.cboClass6.Text;
+
+                                oProduct.ProductName = general.txtProductName.Text;
+                                oProduct.ProductName_Chs = general.txtProductNameChs.Text;
+                                oProduct.ProductName_Cht = general.txtProductNameCht.Text;
+                                oProduct.Remarks = general.txtRemarks.Text;
+
+                                oProduct.NormalDiscount = Convert.ToDecimal((general.txtRetailDiscount.Text == string.Empty) ? "0" : general.txtRetailDiscount.Text);
+                                oProduct.UOM = general.txtUnit.Text;
+                                oProduct.NatureId = new Guid(general.cboNature.SelectedValue.ToString());
+
+                                oProduct.FixedPriceItem = discount.chkFixedPrice.Checked;
+
+                                #region save Price
+                                oProduct.RetailPrice = Convert.ToDecimal((general.txtCurrentRetailPrice.Text == string.Empty) ? "0" : general.txtCurrentRetailPrice.Text);
+                                oProduct.WholesalePrice = Convert.ToDecimal((general.txtWholesalesPrice.Text == string.Empty) ? "0" : general.txtWholesalesPrice.Text);
+                                oProduct.OriginalRetailPrice = Convert.ToDecimal((general.txtOriginalRetailPrice.Text == string.Empty) ? "0" : general.txtOriginalRetailPrice.Text);
+                                //oItem.Markup = Convert.ToDecimal((general.txtVendorPrice.Text == string.Empty) ? "0" : general.txtVendorPrice.Text);
                                 #endregion
+
+                                #region Download Packets
+                                oProduct.DownloadToPOS = general.chkRetailItem.Checked;
+                                oProduct.DownloadToCounter = general.chkCounterItem.Checked;
+                                #endregion
+
+                                oProduct.Status = _EditMode == EnumHelper.EditMode.Add ? (int)EnumHelper.Status.Active : (int)EnumHelper.Status.Modified;
+
+                                #region MaxOnLoanQty
+                                decimal olnQty = 0;
+                                if (tabQuantityLoaded) decimal.TryParse(quantity.txtMaxOLNQty.Text, out olnQty);
+
+                                oProduct.MaxOnLoanQty = olnQty;
+                                #endregion
+
+                                oProduct.ModifiedBy = ConfigHelper.CurrentUserId;
+                                oProduct.ModifiedOn = DateTime.Now;
+
+                                #region SaveOrderInfo();
+                                if (tabOrderLoaded)
+                                {
+                                    oProduct.AlternateItem = order.txtVendorItemNum.Text; // Vendor Item Number
+                                    oProduct.ReorderLevel = Convert.ToDecimal((order.txtReorderLevel.Text == string.Empty) ? "0" : order.txtReorderLevel.Text);
+                                    oProduct.ReorderQty = Convert.ToDecimal((order.txtReorderQuantity.Text == string.Empty) ? "0" : order.txtReorderQuantity.Text);
+                                }
+                                #endregion
+
+                                ctx.SaveChanges();
+                                #endregion
+
+                                #region log4net
+                                RT2020.Controls.Log4net.LogInfo(_EditMode == EnumHelper.EditMode.Add ?
+                                    RT2020.Controls.Log4net.LogAction.Create :
+                                    RT2020.Controls.Log4net.LogAction.Update,
+                                    oProduct.ToString());
+                                #endregion
+
+                                #region SaveProductBarcode(oProduct);
+                                string stkcode = oProduct.STKCODE;
+
+                                if (oProduct.STKCODE.Length > 10)
+                                {
+                                    stkcode = oProduct.STKCODE.Remove(10);
+                                }
+
+                                string barcode = stkcode + oProduct.APPENDIX1 + oProduct.APPENDIX2 + oProduct.APPENDIX3;
+                                //string sql = "ProductId = '" + oProduct.ProductId.ToString() + "' AND Barcode = '" + barcode + "'";
+                                var oBarcode = ctx.ProductBarcode.Where(x => x.ProductId == oProduct.ProductId && x.Barcode == barcode).FirstOrDefault();
+                                if (oBarcode == null)
+                                {
+                                    oBarcode = new EF6.ProductBarcode();
+                                    oBarcode.ProductBarcodeId = Guid.NewGuid();
+                                    oBarcode.ProductId = oProduct.ProductId;
+                                    oBarcode.Barcode = barcode;
+                                    oBarcode.BarcodeType = "INTER";
+                                    oBarcode.PrimaryBarcode = true;
+                                    oBarcode.DownloadToPOS = general.chkRetailItem.Checked;
+                                    oBarcode.DownloadToCounter = general.chkCounterItem.Checked;
+
+                                    ctx.ProductBarcode.Add(oBarcode);
+                                }
+                                #endregion
+
+                                #region Appendix / Class
+                                Guid a1Id = (cboAppendix1.SelectedValue != null) ? new Guid(cboAppendix1.SelectedValue.ToString()) : Guid.Empty;
+                                Guid a2Id = (cboAppendix2.SelectedValue != null) ? new Guid(cboAppendix2.SelectedValue.ToString()) : Guid.Empty;
+                                Guid a3Id = (cboAppendix3.SelectedValue != null) ? new Guid(cboAppendix3.SelectedValue.ToString()) : Guid.Empty;
+
+                                Guid c1Id = (general.cboClass1.SelectedValue != null) ? new Guid(general.cboClass1.SelectedValue.ToString()) : Guid.Empty;
+                                Guid c2Id = (general.cboClass2.SelectedValue != null) ? new Guid(general.cboClass2.SelectedValue.ToString()) : Guid.Empty;
+                                Guid c3Id = (general.cboClass3.SelectedValue != null) ? new Guid(general.cboClass3.SelectedValue.ToString()) : Guid.Empty;
+                                Guid c4Id = (general.cboClass4.SelectedValue != null) ? new Guid(general.cboClass4.SelectedValue.ToString()) : Guid.Empty;
+                                Guid c5Id = (general.cboClass5.SelectedValue != null) ? new Guid(general.cboClass5.SelectedValue.ToString()) : Guid.Empty;
+                                Guid c6Id = (general.cboClass6.SelectedValue != null) ? new Guid(general.cboClass6.SelectedValue.ToString()) : Guid.Empty;
+
+                                //SaveProductCode(oProduct.ProductId, a1Id, a2Id, a3Id, c1Id, c2Id, c3Id, c4Id, c5Id, c6Id);
+                                //string sql = "ProductId = '" + this.productId.ToString() + "'";
+                                var oCode = ctx.ProductCode.Where(x => x.ProductId == this._ProductId).FirstOrDefault();
+                                if (oCode == null)
+                                {
+                                    oCode = new EF6.ProductCode();
+                                    oCode.CodeId = Guid.NewGuid();
+                                    oCode.ProductId = _ProductId;
+                                    oCode.Appendix1Id = a1Id;
+                                    oCode.Appendix2Id = a2Id;
+                                    oCode.Appendix3Id = a3Id;
+
+                                    ctx.ProductCode.Add(oCode);
+                                }
+                                oCode.Class1Id = c1Id;
+                                oCode.Class2Id = c2Id;
+                                oCode.Class3Id = c3Id;
+                                oCode.Class4Id = c4Id;
+                                oCode.Class5Id = c5Id;
+                                oCode.Class6Id = c6Id;
+
+                                #endregion
+
+                                // Product Barcode
+                                this.barcode.AddBarcode();
+
+                                // Product Price
+                                #region SaveProductSupplement(oProduct.ProductId);
+                                var oProdSupp = ctx.ProductSupplement.Where(x => x.ProductId == this._ProductId).FirstOrDefault();
+                                if (oProdSupp == null)
+                                {
+                                    oProdSupp = new EF6.ProductSupplement();
+                                    oProdSupp.SupplementId = Guid.NewGuid();
+                                    oProdSupp.ProductId = this._ProductId;
+
+                                    ctx.ProductSupplement.Add(oProdSupp);
+                                }
+                                oProdSupp.VendorCurrencyCode = general.cboVendorCurrency.Text;
+                                oProdSupp.VendorPrice = Convert.ToDecimal((general.txtVendorPrice.Text == string.Empty) ? "0" : general.txtVendorPrice.Text);
+                                oProdSupp.ProductName_Memo = general.txtMemo.Text;
+                                oProdSupp.ProductName_Pole = general.txtPole.Text;
+
+                                if (tabDiscountLoaded)
+                                {
+                                    oProdSupp.VipDiscount_FixedItem = Convert.ToDecimal((discount.txtFixPriceItem.Text == string.Empty) ? "0" : discount.txtFixPriceItem.Text);
+                                    oProdSupp.VipDiscount_DiscountItem = Convert.ToDecimal((discount.txtDiscountItem.Text == string.Empty) ? "0" : discount.txtDiscountItem.Text);
+                                    oProdSupp.VipDiscount_NoDiscountItem = Convert.ToDecimal((discount.txtNoDiscountItem.Text == string.Empty) ? "0" : discount.txtNoDiscountItem.Text);
+                                    oProdSupp.StaffDiscount = Convert.ToDecimal((discount.txtStaffDiscount.Text == string.Empty) ? "0" : discount.txtStaffDiscount.Text);
+                                }
+                                ctx.SaveChanges();
+                                #endregion
+
+                                //SaveProductPrice(oProduct.ProductId);
+                                #region SaveProductPrice(productId, EnumHelper.ProductPriceType.BASPRC.ToString(), general.txtCurrentRetailCurrency.Text, general.txtCurrentRetailPrice.Text);
+                                var price = general.txtCurrentRetailPrice.Text;
+                                var currencyCode = general.txtCurrentRetailCurrency.Text;
+                                var priceType = EnumHelper.ProductPriceType.BASPRC.ToString();
+                                var priceTypeId = ModelEx.ProductPriceTypeEx.GetIdByPriceType(priceType);
+
+                                var oBPrice = ctx.ProductPrice.Where(x => x.ProductId == _ProductId && x.PriceTypeId == priceTypeId).FirstOrDefault();
+                                if (oBPrice == null)
+                                {
+                                    oBPrice = new EF6.ProductPrice();
+                                    oBPrice.ProductPriceId = Guid.NewGuid();
+                                    oBPrice.ProductId = _ProductId;
+                                    ctx.ProductPrice.Add(oBPrice);
+                                }
+                                oBPrice.PriceTypeId = ModelEx.ProductPriceTypeEx.GetIdByPriceType(priceType);
+                                oBPrice.CurrencyCode = currencyCode;
+                                oBPrice.Price = Convert.ToDecimal((price == string.Empty) ? "0" : price);
+                                ctx.SaveChanges();
+                                #endregion
+                                //
+                                #region SaveProductPrice(productId, EnumHelper.ProductPriceType.ORIPRC.ToString(), general.txtOriginalRetailCurrency.Text, general.txtOriginalRetailPrice.Text);
+                                price = general.txtOriginalRetailPrice.Text;
+                                currencyCode = general.txtOriginalRetailCurrency.Text;
+                                priceType = EnumHelper.ProductPriceType.ORIPRC.ToString();
+                                priceTypeId = ModelEx.ProductPriceTypeEx.GetIdByPriceType(priceType);
+
+                                var oOPrice = ctx.ProductPrice.Where(x => x.ProductId == _ProductId && x.PriceTypeId == priceTypeId).FirstOrDefault();
+                                if (oOPrice == null)
+                                {
+                                    oOPrice = new EF6.ProductPrice();
+                                    oOPrice.ProductPriceId = Guid.NewGuid();
+                                    oOPrice.ProductId = _ProductId;
+                                    ctx.ProductPrice.Add(oOPrice);
+                                }
+                                oOPrice.PriceTypeId = ModelEx.ProductPriceTypeEx.GetIdByPriceType(priceType);
+                                oOPrice.CurrencyCode = currencyCode;
+                                oOPrice.Price = Convert.ToDecimal((price == string.Empty) ? "0" : price);
+                                ctx.SaveChanges();
+                                #endregion
+                                //
+                                #region SaveProductPrice(productId, EnumHelper.ProductPriceType.VPRC.ToString(), general.cboVendorCurrency.Text, general.txtVendorPrice.Text);
+                                price = general.txtVendorPrice.Text;
+                                currencyCode = general.cboVendorCurrency.Text;
+                                priceType = EnumHelper.ProductPriceType.VPRC.ToString();
+                                priceTypeId = ModelEx.ProductPriceTypeEx.GetIdByPriceType(priceType);
+
+                                var oVPrice = ctx.ProductPrice.Where(x => x.ProductId == _ProductId && x.PriceTypeId == priceTypeId).FirstOrDefault();
+                                if (oVPrice == null)
+                                {
+                                    oVPrice = new EF6.ProductPrice();
+                                    oVPrice.ProductPriceId = Guid.NewGuid();
+                                    oVPrice.ProductId = _ProductId;
+                                    ctx.ProductPrice.Add(oVPrice);
+                                }
+                                oVPrice.PriceTypeId = ModelEx.ProductPriceTypeEx.GetIdByPriceType(priceType);
+                                oVPrice.CurrencyCode = currencyCode;
+                                oVPrice.Price = Convert.ToDecimal((price == string.Empty) ? "0" : price);
+                                ctx.SaveChanges();
+                                #endregion
+                                //
+                                #region SaveProductPrice(productId, EnumHelper.ProductPriceType.WHLPRC.ToString(), general.txtWholesalesCurrency.Text, general.txtWholesalesPrice.Text);
+                                price = general.txtWholesalesPrice.Text;
+                                currencyCode = general.txtWholesalesCurrency.Text;
+                                priceType = EnumHelper.ProductPriceType.WHLPRC.ToString();
+                                priceTypeId = ModelEx.ProductPriceTypeEx.GetIdByPriceType(priceType);
+
+                                var oWPrice = ctx.ProductPrice.Where(x => x.ProductId == _ProductId && x.PriceTypeId == priceTypeId).FirstOrDefault();
+                                if (oWPrice == null)
+                                {
+                                    oWPrice = new EF6.ProductPrice();
+                                    oWPrice.ProductPriceId = Guid.NewGuid();
+                                    oWPrice.ProductId = _ProductId;
+                                    ctx.ProductPrice.Add(oWPrice);
+                                }
+                                oWPrice.PriceTypeId = ModelEx.ProductPriceTypeEx.GetIdByPriceType(priceType);
+                                oWPrice.CurrencyCode = currencyCode;
+                                oWPrice.Price = Convert.ToDecimal((price == string.Empty) ? "0" : price);
+                                ctx.SaveChanges();
+                                #endregion
+
+                                // Remarks
+                                #region SaveProductRemarks(oProduct.ProductId);
+                                //string sql = "ProductId = '" + productId.ToString() + "'";
+                                var oRemarks = ctx.ProductRemarks.Where(x => x.ProductId == _ProductId).FirstOrDefault();
+                                if (oRemarks == null)
+                                {
+                                    oRemarks = new EF6.ProductRemarks();
+                                    oRemarks.ProductRemarksId = Guid.NewGuid();
+                                    oRemarks.ProductId = _ProductId;
+
+                                    ctx.ProductRemarks.Add(oRemarks);
+                                }
+                                oRemarks.BinX = general.txtBin_X.Text;
+                                oRemarks.BinY = general.txtBin_Y.Text;
+                                oRemarks.BinZ = general.txtBin_Z.Text;
+
+                                oRemarks.DownloadToShop = general.chkRetailItem.Checked;
+                                oRemarks.OffDisplayItem = general.chkOffDisplayItem.Checked;
+                                oRemarks.DownloadToCounter = general.chkCounterItem.Checked;
+
+                                oRemarks.REMARK1 = general.txtRemarks1.Text;
+                                oRemarks.REMARK2 = general.txtRemarks2.Text;
+                                oRemarks.REMARK3 = general.txtRemarks3.Text;
+                                oRemarks.REMARK4 = general.txtRemarks4.Text;
+                                oRemarks.REMARK5 = general.txtRemarks5.Text;
+                                oRemarks.REMARK6 = general.txtRemarks6.Text;
+
+                                if (tabMiscLoaded)
+                                {
+                                    oRemarks.Notes = misc.txtMemo.Text;
+
+                                    if (string.IsNullOrEmpty(oRemarks.Photo))
+                                    {
+                                        oRemarks.Photo = misc.txtPicFileName.Text;
+                                    }
+                                    else if (oRemarks.Photo != misc.txtPicFileName.Text)
+                                    {
+                                        oRemarks.Photo5 = oRemarks.Photo4;
+                                        oRemarks.Photo4 = oRemarks.Photo3;
+                                        oRemarks.Photo3 = oRemarks.Photo2;
+                                        oRemarks.Photo2 = oRemarks.Photo;
+                                        oRemarks.Photo = misc.txtPicFileName.Text;
+                                    }
+                                }
+
+                                ctx.SaveChanges();
+                                #endregion
+
+                                #endregion
+
+                                #region SaveProductCurrentSummary(this.ProductId);
+                                //string where = "ProductId = '" + productId.ToString() + "'";
+                                var oCurrSummary = ctx.ProductCurrentSummary.Where(x => x.ProductId == _ProductId).FirstOrDefault();
+                                if (oCurrSummary == null)
+                                {
+                                    oCurrSummary = new EF6.ProductCurrentSummary();
+                                    oCurrSummary.CurrentSummaryId = Guid.NewGuid();
+                                    oCurrSummary.ProductId = _ProductId;
+                                    oCurrSummary.CDQTY = 0;
+                                    oCurrSummary.LastPurchasedOn = new DateTime(1900, 1, 1);
+                                    oCurrSummary.LastSoldOn = new DateTime(1900, 1, 1);
+
+                                    ctx.ProductCurrentSummary.Add(oCurrSummary);
+                                }
+                                #endregion
+
+                                ctx.SaveChanges();
+
+                                scope.Commit();
                             }
-                            #region Porduct core data
-                            oProduct.CLASS1 = general.cboClass1.Text;
-                            oProduct.CLASS2 = general.cboClass2.Text;
-                            oProduct.CLASS3 = general.cboClass3.Text;
-                            oProduct.CLASS4 = general.cboClass4.Text;
-                            oProduct.CLASS5 = general.cboClass5.Text;
-                            oProduct.CLASS6 = general.cboClass6.Text;
-
-                            oProduct.ProductName = general.txtProductName.Text;
-                            oProduct.ProductName_Chs = general.txtProductNameChs.Text;
-                            oProduct.ProductName_Cht = general.txtProductNameCht.Text;
-                            oProduct.Remarks = general.txtRemarks.Text;
-
-                            oProduct.NormalDiscount = Convert.ToDecimal((general.txtRetailDiscount.Text == string.Empty) ? "0" : general.txtRetailDiscount.Text);
-                            oProduct.UOM = general.txtUnit.Text;
-                            oProduct.NatureId = new Guid(general.cboNature.SelectedValue.ToString());
-
-                            oProduct.FixedPriceItem = discount.chkFixedPrice.Checked;
-
-                            // Price 
-                            oProduct.RetailPrice = Convert.ToDecimal((general.txtCurrentRetailPrice.Text == string.Empty) ? "0" : general.txtCurrentRetailPrice.Text);
-                            oProduct.WholesalePrice = Convert.ToDecimal((general.txtWholesalesPrice.Text == string.Empty) ? "0" : general.txtWholesalesPrice.Text);
-                            oProduct.OriginalRetailPrice = Convert.ToDecimal((general.txtOriginalRetailPrice.Text == string.Empty) ? "0" : general.txtOriginalRetailPrice.Text);
-                            //oItem.Markup = Convert.ToDecimal((general.txtVendorPrice.Text == string.Empty) ? "0" : general.txtVendorPrice.Text);
-
-                            // Download Packets
-                            oProduct.DownloadToPOS = general.chkRetailItem.Checked;
-                            oProduct.DownloadToCounter = general.chkCounterItem.Checked;
-
-                            // If the item existed, change the status to Modified.
-                            if (!isNew)
+                            catch (Exception ex)
                             {
-                                oProduct.Status = Convert.ToInt32(EnumHelper.Status.Modified.ToString("d"));
+                                scope.Rollback();
                             }
-
-                            oProduct.MaxOnLoanQty = Convert.ToDecimal((quantity.txtMaxOLNQty.Text == string.Empty) ? "0" : quantity.txtMaxOLNQty.Text);
-                            oProduct.ModifiedBy = ConfigHelper.CurrentUserId;
-                            oProduct.ModifiedOn = DateTime.Now;
-
-                            // SaveOrderInfo();
-                            oProduct.AlternateItem = order.txtVendorItemNum.Text; // Vendor Item Number
-                            oProduct.ReorderLevel = Convert.ToDecimal((order.txtReorderLevel.Text == string.Empty) ? "0" : order.txtReorderLevel.Text);
-                            oProduct.ReorderQty = Convert.ToDecimal((order.txtReorderQuantity.Text == string.Empty) ? "0" : order.txtReorderQuantity.Text);
-
-                            ctx.SaveChanges();
-                            #endregion
-
-                            var productId = oProduct.ProductId;
-
-                            #region log4net
-                            if (isNew)
-                            {// log activity (New Record)
-                                RT2020.Controls.Log4net.LogInfo(RT2020.Controls.Log4net.LogAction.Create, oProduct.ToString());
-                            }
-                            else
-                            { // log activity (Update)
-                                RT2020.Controls.Log4net.LogInfo(RT2020.Controls.Log4net.LogAction.Update, oProduct.ToString());
-                            }
-                            #endregion
-
-                            #region SaveProductBarcode(oProduct);
-                            string stkcode = oProduct.STKCODE;
-
-                            if (oProduct.STKCODE.Length > 10)
-                            {
-                                stkcode = oProduct.STKCODE.Remove(10);
-                            }
-
-                            string barcode = stkcode + oProduct.APPENDIX1 + oProduct.APPENDIX2 + oProduct.APPENDIX3;
-                            //string sql = "ProductId = '" + oProduct.ProductId.ToString() + "' AND Barcode = '" + barcode + "'";
-                            var oBarcode = ctx.ProductBarcode.Where(x => x.ProductId == oProduct.ProductId && x.Barcode == barcode).FirstOrDefault();
-                            if (oBarcode == null)
-                            {
-                                oBarcode = new EF6.ProductBarcode();
-                                oBarcode.ProductBarcodeId = Guid.NewGuid();
-                                oBarcode.ProductId = oProduct.ProductId;
-                                oBarcode.Barcode = barcode;
-                                oBarcode.BarcodeType = "INTER";
-                                oBarcode.PrimaryBarcode = true;
-                                oBarcode.DownloadToPOS = general.chkRetailItem.Checked;
-                                oBarcode.DownloadToCounter = general.chkCounterItem.Checked;
-
-                                ctx.ProductBarcode.Add(oBarcode);
-                            }
-                            #endregion
-
-                            #region Appendix / Class
-                            System.Guid a1Id = (cboAppendix1.SelectedValue != null) ? new Guid(cboAppendix1.SelectedValue.ToString()) : System.Guid.Empty;
-                            System.Guid a2Id = (cboAppendix2.SelectedValue != null) ? new Guid(cboAppendix2.SelectedValue.ToString()) : System.Guid.Empty;
-                            System.Guid a3Id = (cboAppendix3.SelectedValue != null) ? new Guid(cboAppendix3.SelectedValue.ToString()) : System.Guid.Empty;
-
-                            System.Guid c1Id = (general.cboClass1.SelectedValue != null) ? new Guid(general.cboClass1.SelectedValue.ToString()) : System.Guid.Empty;
-                            System.Guid c2Id = (general.cboClass2.SelectedValue != null) ? new Guid(general.cboClass2.SelectedValue.ToString()) : System.Guid.Empty;
-                            System.Guid c3Id = (general.cboClass3.SelectedValue != null) ? new Guid(general.cboClass3.SelectedValue.ToString()) : System.Guid.Empty;
-                            System.Guid c4Id = (general.cboClass4.SelectedValue != null) ? new Guid(general.cboClass4.SelectedValue.ToString()) : System.Guid.Empty;
-                            System.Guid c5Id = (general.cboClass5.SelectedValue != null) ? new Guid(general.cboClass5.SelectedValue.ToString()) : System.Guid.Empty;
-                            System.Guid c6Id = (general.cboClass6.SelectedValue != null) ? new Guid(general.cboClass6.SelectedValue.ToString()) : System.Guid.Empty;
-
-                            //SaveProductCode(oProduct.ProductId, a1Id, a2Id, a3Id, c1Id, c2Id, c3Id, c4Id, c5Id, c6Id);
-                            //string sql = "ProductId = '" + this.productId.ToString() + "'";
-                            var oCode = ctx.ProductCode.Where(x => x.ProductId == this.productId).FirstOrDefault();
-                            if (oCode == null)
-                            {
-                                oCode = new EF6.ProductCode();
-                                oCode.CodeId = Guid.NewGuid();
-                                oCode.ProductId = productId;
-                                oCode.Appendix1Id = a1Id;
-                                oCode.Appendix2Id = a2Id;
-                                oCode.Appendix3Id = a3Id;
-
-                                ctx.ProductCode.Add(oCode);
-                            }
-                            oCode.Class1Id = c1Id;
-                            oCode.Class2Id = c2Id;
-                            oCode.Class3Id = c3Id;
-                            oCode.Class4Id = c4Id;
-                            oCode.Class5Id = c5Id;
-                            oCode.Class6Id = c6Id;
-                            
-                            #endregion
-
-                            // Product Barcode
-                            this.barcode.AddBarcode();
-
-                            // Product Price
-                            #region SaveProductSupplement(oProduct.ProductId);
-                            var oProdSupp = ctx.ProductSupplement.Where(x => x.ProductId == this.productId).FirstOrDefault();
-                            if (oProdSupp == null)
-                            {
-                                oProdSupp = new EF6.ProductSupplement();
-                                oProdSupp.SupplementId = Guid.NewGuid();
-                                oProdSupp.ProductId = this.productId;
-
-                                ctx.ProductSupplement.Add(oProdSupp);
-                            }
-                            oProdSupp.VendorCurrencyCode = general.cboVendorCurrency.Text;
-                            oProdSupp.VendorPrice = Convert.ToDecimal((general.txtVendorPrice.Text == string.Empty) ? "0" : general.txtVendorPrice.Text);
-                            oProdSupp.ProductName_Memo = general.txtMemo.Text;
-                            oProdSupp.ProductName_Pole = general.txtPole.Text;
-
-                            oProdSupp.VipDiscount_FixedItem = Convert.ToDecimal((discount.txtDiscount1_FixPriceItem.Text == string.Empty) ? "0" : discount.txtDiscount1_FixPriceItem.Text);
-                            oProdSupp.VipDiscount_DiscountItem = Convert.ToDecimal((discount.txtDiscount2_DiscountItem.Text == string.Empty) ? "0" : discount.txtDiscount2_DiscountItem.Text);
-                            oProdSupp.VipDiscount_NoDiscountItem = Convert.ToDecimal((discount.txtDiscount3_NoDiscountItem.Text == string.Empty) ? "0" : discount.txtDiscount3_NoDiscountItem.Text);
-                            oProdSupp.StaffDiscount = Convert.ToDecimal((discount.txtStaff.Text == string.Empty) ? "0" : discount.txtStaff.Text);
-
-                            ctx.SaveChanges();
-                            #endregion
-
-                            //SaveProductPrice(oProduct.ProductId);
-                            #region SaveProductPrice(productId, EnumHelper.ProductPriceType.BASPRC.ToString(), general.txtCurrentRetailCurrency.Text, general.txtCurrentRetailPrice.Text);
-                            var price = general.txtCurrentRetailPrice.Text;
-                            var currencyCode = general.txtCurrentRetailCurrency.Text;
-                            var priceType = EnumHelper.ProductPriceType.BASPRC.ToString();
-                            var priceTypeId = ModelEx.ProductPriceTypeEx.GetIdByPriceType(priceType);
-
-                            var oBPrice = ctx.ProductPrice.Where(x => x.ProductId == productId && x.PriceTypeId == priceTypeId).FirstOrDefault();
-                            if (oBPrice == null)
-                            {
-                                oBPrice = new EF6.ProductPrice();
-                                oBPrice.ProductPriceId = Guid.NewGuid();
-                                oBPrice.ProductId = productId;
-                                ctx.ProductPrice.Add(oBPrice);
-                            }
-                            oBPrice.PriceTypeId = ModelEx.ProductPriceTypeEx.GetIdByPriceType(priceType);
-                            oBPrice.CurrencyCode = currencyCode;
-                            oBPrice.Price = Convert.ToDecimal((price == string.Empty) ? "0" : price);
-                            ctx.SaveChanges();
-                            #endregion
-                            //
-                            #region SaveProductPrice(productId, EnumHelper.ProductPriceType.ORIPRC.ToString(), general.txtOriginalRetailCurrency.Text, general.txtOriginalRetailPrice.Text);
-                            price = general.txtOriginalRetailPrice.Text;
-                            currencyCode = general.txtOriginalRetailCurrency.Text;
-                            priceType = EnumHelper.ProductPriceType.ORIPRC.ToString();
-                            priceTypeId = ModelEx.ProductPriceTypeEx.GetIdByPriceType(priceType);
-
-                            var oOPrice = ctx.ProductPrice.Where(x => x.ProductId == productId && x.PriceTypeId == priceTypeId).FirstOrDefault();
-                            if (oOPrice == null)
-                            {
-                                oOPrice = new EF6.ProductPrice();
-                                oOPrice.ProductPriceId = Guid.NewGuid();
-                                oOPrice.ProductId = productId;
-                                ctx.ProductPrice.Add(oOPrice);
-                            }
-                            oOPrice.PriceTypeId = ModelEx.ProductPriceTypeEx.GetIdByPriceType(priceType);
-                            oOPrice.CurrencyCode = currencyCode;
-                            oOPrice.Price = Convert.ToDecimal((price == string.Empty) ? "0" : price);
-                            ctx.SaveChanges();
-                            #endregion
-                            //
-                            #region SaveProductPrice(productId, EnumHelper.ProductPriceType.VPRC.ToString(), general.cboVendorCurrency.Text, general.txtVendorPrice.Text);
-                            price = general.txtVendorPrice.Text;
-                            currencyCode = general.cboVendorCurrency.Text;
-                            priceType = EnumHelper.ProductPriceType.VPRC.ToString();
-                            priceTypeId = ModelEx.ProductPriceTypeEx.GetIdByPriceType(priceType);
-
-                            var oVPrice = ctx.ProductPrice.Where(x => x.ProductId == productId && x.PriceTypeId == priceTypeId).FirstOrDefault();
-                            if (oVPrice == null)
-                            {
-                                oVPrice = new EF6.ProductPrice();
-                                oVPrice.ProductPriceId = Guid.NewGuid();
-                                oVPrice.ProductId = productId;
-                                ctx.ProductPrice.Add(oVPrice);
-                            }
-                            oVPrice.PriceTypeId = ModelEx.ProductPriceTypeEx.GetIdByPriceType(priceType);
-                            oVPrice.CurrencyCode = currencyCode;
-                            oVPrice.Price = Convert.ToDecimal((price == string.Empty) ? "0" : price);
-                            ctx.SaveChanges();
-                            #endregion
-                            //
-                            #region SaveProductPrice(productId, EnumHelper.ProductPriceType.WHLPRC.ToString(), general.txtWholesalesCurrency.Text, general.txtWholesalesPrice.Text);
-                            price = general.txtWholesalesPrice.Text;
-                            currencyCode = general.txtWholesalesCurrency.Text;
-                            priceType = EnumHelper.ProductPriceType.WHLPRC.ToString();
-                            priceTypeId = ModelEx.ProductPriceTypeEx.GetIdByPriceType(priceType);
-
-                            var oWPrice = ctx.ProductPrice.Where(x => x.ProductId == productId && x.PriceTypeId == priceTypeId).FirstOrDefault();
-                            if (oWPrice == null)
-                            {
-                                oWPrice = new EF6.ProductPrice();
-                                oWPrice.ProductPriceId = Guid.NewGuid();
-                                oWPrice.ProductId = productId;
-                                ctx.ProductPrice.Add(oWPrice);
-                            }
-                            oWPrice.PriceTypeId = ModelEx.ProductPriceTypeEx.GetIdByPriceType(priceType);
-                            oWPrice.CurrencyCode = currencyCode;
-                            oWPrice.Price = Convert.ToDecimal((price == string.Empty) ? "0" : price);
-                            ctx.SaveChanges();
-                            #endregion
-
-                            // Remarks
-                            #region SaveProductRemarks(oProduct.ProductId);
-                            //string sql = "ProductId = '" + productId.ToString() + "'";
-                            var oRemarks = ctx.ProductRemarks.Where(x => x.ProductId == productId).FirstOrDefault();
-                            if (oRemarks == null)
-                            {
-                                oRemarks = new EF6.ProductRemarks();
-                                oRemarks.ProductRemarksId = Guid.NewGuid();
-                                oRemarks.ProductId = productId;
-
-                                ctx.ProductRemarks.Add(oRemarks);
-                            }
-                            oRemarks.BinX = general.txtBin_X.Text;
-                            oRemarks.BinY = general.txtBin_Y.Text;
-                            oRemarks.BinZ = general.txtBin_Z.Text;
-
-                            oRemarks.DownloadToShop = general.chkRetailItem.Checked;
-                            oRemarks.OffDisplayItem = general.chkOffDisplayItem.Checked;
-                            oRemarks.DownloadToCounter = general.chkCounterItem.Checked;
-
-                            oRemarks.REMARK1 = general.txtRemarks1.Text;
-                            oRemarks.REMARK2 = general.txtRemarks2.Text;
-                            oRemarks.REMARK3 = general.txtRemarks3.Text;
-                            oRemarks.REMARK4 = general.txtRemarks4.Text;
-                            oRemarks.REMARK5 = general.txtRemarks5.Text;
-                            oRemarks.REMARK6 = general.txtRemarks6.Text;
-
-                            oRemarks.Notes = misc.txtMemo.Text;
-
-                            if (string.IsNullOrEmpty(oRemarks.Photo))
-                            {
-                                oRemarks.Photo = misc.txtPicFileName.Text;
-                            }
-                            else if (oRemarks.Photo != misc.txtPicFileName.Text)
-                            {
-                                oRemarks.Photo5 = oRemarks.Photo4;
-                                oRemarks.Photo4 = oRemarks.Photo3;
-                                oRemarks.Photo3 = oRemarks.Photo2;
-                                oRemarks.Photo2 = oRemarks.Photo;
-                                oRemarks.Photo = misc.txtPicFileName.Text;
-                            }
-
-                            ctx.SaveChanges();
-                            #endregion
-
-                            this.ProductId = oProduct.ProductId;
-                            #endregion
-
-                            #region SaveProductCurrentSummary(this.ProductId);
-                            //string where = "ProductId = '" + productId.ToString() + "'";
-                            var oCurrSummary = ctx.ProductCurrentSummary.Where(x => x.ProductId == productId).FirstOrDefault();
-                            if (oCurrSummary == null)
-                            {
-                                oCurrSummary = new EF6.ProductCurrentSummary();
-                                oCurrSummary.CurrentSummaryId = Guid.NewGuid();
-                                oCurrSummary.ProductId = productId;
-                                oCurrSummary.CDQTY = 0;
-                                oCurrSummary.LastPurchasedOn = new DateTime(1900, 1, 1);
-                                oCurrSummary.LastSoldOn = new DateTime(1900, 1, 1);
-
-                                ctx.ProductCurrentSummary.Add(oCurrSummary);
-                            }
-                            #endregion
-
-                            ctx.SaveChanges();
-
-                            scope.Commit();
-                        }
-                        catch (Exception ex)
-                        {
-                            scope.Rollback();
                         }
                     }
                 }
@@ -877,10 +963,10 @@ namespace RT2020.Product
                         oProdSupp.ProductName_Memo = general.txtMemo.Text;
                         oProdSupp.ProductName_Pole = general.txtPole.Text;
 
-                        oProdSupp.VipDiscount_FixedItem = Convert.ToDecimal((discount.txtDiscount1_FixPriceItem.Text == string.Empty) ? "0" : discount.txtDiscount1_FixPriceItem.Text);
-                        oProdSupp.VipDiscount_DiscountItem = Convert.ToDecimal((discount.txtDiscount2_DiscountItem.Text == string.Empty) ? "0" : discount.txtDiscount2_DiscountItem.Text);
-                        oProdSupp.VipDiscount_NoDiscountItem = Convert.ToDecimal((discount.txtDiscount3_NoDiscountItem.Text == string.Empty) ? "0" : discount.txtDiscount3_NoDiscountItem.Text);
-                        oProdSupp.StaffDiscount = Convert.ToDecimal((discount.txtStaff.Text == string.Empty) ? "0" : discount.txtStaff.Text);
+                        oProdSupp.VipDiscount_FixedItem = Convert.ToDecimal((discount.txtFixPriceItem.Text == string.Empty) ? "0" : discount.txtFixPriceItem.Text);
+                        oProdSupp.VipDiscount_DiscountItem = Convert.ToDecimal((discount.txtDiscountItem.Text == string.Empty) ? "0" : discount.txtDiscountItem.Text);
+                        oProdSupp.VipDiscount_NoDiscountItem = Convert.ToDecimal((discount.txtNoDiscountItem.Text == string.Empty) ? "0" : discount.txtNoDiscountItem.Text);
+                        oProdSupp.StaffDiscount = Convert.ToDecimal((discount.txtStaffDiscount.Text == string.Empty) ? "0" : discount.txtStaffDiscount.Text);
 
                         ctx.SaveChanges();
                         #endregion
@@ -1248,8 +1334,8 @@ namespace RT2020.Product
         private void LoadProductInfo()
         {
             LoadGeneralInfo();
-            LoadProductRemarks();
-            LoadProductSupplement();
+            //LoadProductRemarks();
+            //LoadProductSupplement();
         }
 
         private void LoadGeneralInfo()
@@ -1263,7 +1349,7 @@ namespace RT2020.Product
                     cboAppendix1.Text = oItem.APPENDIX1;
                     cboAppendix2.Text = oItem.APPENDIX2;
                     cboAppendix3.Text = oItem.APPENDIX3;
-
+                    /**
                     general.cboClass1.Text = oItem.CLASS1;
                     general.cboClass2.Text = oItem.CLASS2;
                     general.cboClass3.Text = oItem.CLASS3;
@@ -1283,7 +1369,7 @@ namespace RT2020.Product
                     general.txtUnit.Text = oItem.UOM;
                     general.cboNature.SelectedValue = oItem.NatureId;
 
-                    discount.chkFixedPrice.Checked = oItem.FixedPriceItem;
+                    //discount.chkFixedPrice.Checked = oItem.FixedPriceItem;
 
                     general.txtStatus_Counter.Text = "";
                     general.txtStatus_Office.Text = "";
@@ -1292,12 +1378,12 @@ namespace RT2020.Product
                     general.txtModifiedBy.Text = ModelEx.StaffEx.GetStaffNumberById(oItem.ModifiedBy);
 
                     // Quantity Info
-                    quantity.txtMaxOLNQty.Text = oItem.MaxOnLoanQty.ToString("n0");
+                    //quantity.txtMaxOLNQty.Text = oItem.MaxOnLoanQty.ToString("n0");
 
                     // Order Info
-                    order.txtVendorItemNum.Text = oItem.AlternateItem; // Vendor Item Number
-                    order.txtReorderLevel.Text = oItem.ReorderLevel.ToString("n0");
-                    order.txtReorderQuantity.Text = oItem.ReorderQty.Value.ToString("n0");
+                    //order.txtVendorItemNum.Text = oItem.AlternateItem; // Vendor Item Number
+                    //order.txtReorderLevel.Text = oItem.ReorderLevel.ToString("n0");
+                    //order.txtReorderQuantity.Text = oItem.ReorderQty.Value.ToString("n0");
 
                     // Product Price
                     #region LoadProductBasicPrice();
@@ -1345,6 +1431,7 @@ namespace RT2020.Product
                     #endregion
 
                     general.txtCurrentRetailPrice.Text = oItem.RetailPrice.Value.ToString("n2");
+                    */
                 }
             }
         }
@@ -1354,8 +1441,8 @@ namespace RT2020.Product
         {
             using (var ctx = new EF6.RT2020Entities())
             {
-                string sql = "ProductId = '" + productId.ToString() + "'";
-                var oProdSupp = ctx.ProductSupplement.Where(x => x.ProductId == this.productId).AsNoTracking().FirstOrDefault();
+                string sql = "ProductId = '" + _ProductId.ToString() + "'";
+                var oProdSupp = ctx.ProductSupplement.Where(x => x.ProductId == this._ProductId).AsNoTracking().FirstOrDefault();
                 if (oProdSupp != null)
                 {
                     general.cboVendorCurrency.Text = oProdSupp.VendorCurrencyCode;
@@ -1363,10 +1450,10 @@ namespace RT2020.Product
                     general.txtMemo.Text = oProdSupp.ProductName_Memo;
                     general.txtPole.Text = oProdSupp.ProductName_Pole;
 
-                    discount.txtDiscount1_FixPriceItem.Text = oProdSupp.VipDiscount_FixedItem.ToString("n2");
-                    discount.txtDiscount2_DiscountItem.Text = oProdSupp.VipDiscount_DiscountItem.ToString("n2");
-                    discount.txtDiscount3_NoDiscountItem.Text = oProdSupp.VipDiscount_NoDiscountItem.ToString("n2");
-                    discount.txtStaff.Text = oProdSupp.StaffDiscount.ToString("n2");
+                    //discount.txtDiscount1_FixPriceItem.Text = oProdSupp.VipDiscount_FixedItem.ToString("n2");
+                    //discount.txtDiscount2_DiscountItem.Text = oProdSupp.VipDiscount_DiscountItem.ToString("n2");
+                    //discount.txtDiscount3_NoDiscountItem.Text = oProdSupp.VipDiscount_NoDiscountItem.ToString("n2");
+                    //discount.txtStaff.Text = oProdSupp.StaffDiscount.ToString("n2");
                 }
             }
         }
@@ -1376,8 +1463,8 @@ namespace RT2020.Product
         {
             using (var ctx = new EF6.RT2020Entities())
             {
-                string sql = "ProductId = '" + productId.ToString() + "'";
-                var oRemarks = ctx.ProductRemarks.Where(x => x.ProductId == productId).AsNoTracking().FirstOrDefault();
+                string sql = "ProductId = '" + _ProductId.ToString() + "'";
+                var oRemarks = ctx.ProductRemarks.Where(x => x.ProductId == _ProductId).AsNoTracking().FirstOrDefault();
                 if (oRemarks != null)
                 {
                     general.txtBin_X.Text = oRemarks.BinX;
@@ -1395,6 +1482,7 @@ namespace RT2020.Product
                     general.txtRemarks5.Text = oRemarks.REMARK5;
                     general.txtRemarks6.Text = oRemarks.REMARK6;
 
+                    /**
                     misc.txtMemo.Text = oRemarks.Notes;
 
                     // 2009.12.29 david: 如果为网络路径，则直接显示。
@@ -1418,6 +1506,7 @@ namespace RT2020.Product
                     }
 
                     misc.txtPicFileName.Text = oRemarks.Photo;
+                    */
                 }
             }
         }
@@ -1515,45 +1604,7 @@ namespace RT2020.Product
 
         private void tabProduct_SelectedIndexChanged(object sender, EventArgs e)
         {
-            //if (tabProduct.SelectedIndex != 0 && this.ProductId == System.Guid.Empty)
-            //{
-            //MessageBox.Show("Please save new record before you go to other tab!", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            //tabProduct.SelectedIndex = 0;
-            //}
-
-            switch (tabProduct.SelectedIndex)
-            {
-                case 0: break;
-                case 1:
-                    // Barcode
-                    barcode.Dock = DockStyle.Fill;
-                    tpBarcode.Controls.Add(barcode);
-                    break;
-                case 2:
-                    // Quantity
-                    quantity.Dock = DockStyle.Fill;
-                    quantity.ProductId = this.ProductId;
-                    tpQty.Controls.Add(quantity);
-                    break;
-                case 3:
-                    // Misc
-                    misc.Dock = DockStyle.Fill;
-                    misc.ProductId = this.ProductId;
-                    tpMisc.Controls.Add(misc);
-                    break;
-                case 4:
-                    // Order
-                    order.Dock = DockStyle.Fill;
-                    order.ProductId = this.ProductId;
-                    tpOrder.Controls.Add(order);
-                    break;
-                case 5:
-                    // Discount
-                    discount.Dock = DockStyle.Fill;
-                    discount.ProductId = this.ProductId;
-                    tpDiscount.Controls.Add(discount);
-                    break;
-            }
+            LoadTabPage(tabProduct.SelectedIndex);
         }
 
         //private void ProductWizard_Closing(object sender, CancelEventArgs e)
@@ -1574,7 +1625,9 @@ namespace RT2020.Product
                     MessageBox.Show("Success!", "Save Result");
 
                     this.Close();
-                    ProductWizard wizard = new ProductWizard(this.ProductId);
+                    ProductWizard wizard = new ProductWizard();
+                    wizard.EditMode = EnumHelper.EditMode.Edit;
+                    wizard.ProductId = _ProductId;
                     wizard.ShowDialog();
                 }
             }
@@ -1589,6 +1642,7 @@ namespace RT2020.Product
                     RT2020.SystemInfo.Settings.RefreshMainList<DefaultList>();
                     this.Close();
                     ProductWizard wizard = new ProductWizard();
+                    wizard.EditMode = EnumHelper.EditMode.Add;
                     wizard.ShowDialog();
                 }
             }
@@ -1614,11 +1668,6 @@ namespace RT2020.Product
 
                 this.Close();
             }
-        }
-
-        private void ProductWizard_Load(object sender, EventArgs e)
-        {
-            this.txtStkCode.Focus();
         }
 
         private void cboAppendix3_LostFocus(object sender, EventArgs e)

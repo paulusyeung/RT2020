@@ -35,9 +35,6 @@ namespace RT2020.Product
             this.lblAppendix1 = new Gizmox.WebGUI.Forms.Label();
             this.lblAppendix2 = new Gizmox.WebGUI.Forms.Label();
             this.lblAppendix3 = new Gizmox.WebGUI.Forms.Label();
-            this.cboAppendix1 = new Gizmox.WebGUI.Forms.ComboBox();
-            this.cboAppendix2 = new Gizmox.WebGUI.Forms.ComboBox();
-            this.cboAppendix3 = new Gizmox.WebGUI.Forms.ComboBox();
             this.tabProduct = new Gizmox.WebGUI.Forms.TabControl();
             this.tpGeneral = new Gizmox.WebGUI.Forms.TabPage();
             this.tpBarcode = new Gizmox.WebGUI.Forms.TabPage();
@@ -46,95 +43,68 @@ namespace RT2020.Product
             this.tpOrder = new Gizmox.WebGUI.Forms.TabPage();
             this.tpDiscount = new Gizmox.WebGUI.Forms.TabPage();
             this.errorProvider = new Gizmox.WebGUI.Forms.ErrorProvider(this.components);
+            this.cboAppendix1 = new RT2020.Components.Appendix1ComboBox();
+            this.cboAppendix2 = new RT2020.Components.Appendix2ComboBox();
+            this.cboAppendix3 = new RT2020.Components.Appendix3ComboBox();
+            ((System.ComponentModel.ISupportInitialize)(this.tabProduct)).BeginInit();
+            this.tabProduct.SuspendLayout();
             this.SuspendLayout();
             // 
             // tbWizardAction
             // 
-            this.tbWizardAction.Anchor = Gizmox.WebGUI.Forms.AnchorStyles.None;
-            this.tbWizardAction.Appearance = Gizmox.WebGUI.Forms.ToolBarAppearance.Normal;
-            this.tbWizardAction.Dock = Gizmox.WebGUI.Forms.DockStyle.Top;
+            this.tbWizardAction.ButtonSize = new System.Drawing.Size(20, 20);
             this.tbWizardAction.DragHandle = true;
-            this.tbWizardAction.DropDownArrows = false;
-            this.tbWizardAction.ImageList = null;
+            this.tbWizardAction.DropDownArrows = true;
+            this.tbWizardAction.ImageSize = new System.Drawing.Size(16, 16);
             this.tbWizardAction.Location = new System.Drawing.Point(0, 0);
             this.tbWizardAction.MenuHandle = true;
             this.tbWizardAction.Name = "tbWizardAction";
-            //this.tbWizardAction.RightToLeft = false;
             this.tbWizardAction.ShowToolTips = true;
+            this.tbWizardAction.Size = new System.Drawing.Size(798, 26);
             this.tbWizardAction.TabIndex = 0;
-            this.tbWizardAction.TabStop = false;
             // 
             // lblStkCode
             // 
-            this.lblStkCode.Location = new System.Drawing.Point(25, 45);
+            this.lblStkCode.Location = new System.Drawing.Point(19, 39);
             this.lblStkCode.Name = "lblStkCode";
-            this.lblStkCode.Size = new System.Drawing.Size(61, 23);
-            this.lblStkCode.TabIndex = 0;
-            this.lblStkCode.TabStop = false;
-            this.lblStkCode.Text = "PLU:";
+            this.lblStkCode.Size = new System.Drawing.Size(82, 23);
+            this.lblStkCode.TabIndex = 1;
+            this.lblStkCode.Text = "STOCKCODE:";
             // 
             // txtStkCode
             // 
-            this.txtStkCode.Location = new System.Drawing.Point(70, 42);
+            this.txtStkCode.Location = new System.Drawing.Point(101, 35);
             this.txtStkCode.MaxLength = 10;
             this.txtStkCode.Name = "txtStkCode";
             this.txtStkCode.Size = new System.Drawing.Size(100, 20);
-            this.txtStkCode.TabIndex = 0;
+            this.txtStkCode.TabIndex = 2;
             // 
             // lblAppendix1
             // 
-            this.lblAppendix1.Location = new System.Drawing.Point(212, 45);
+            this.lblAppendix1.Location = new System.Drawing.Point(212, 39);
             this.lblAppendix1.Name = "lblAppendix1";
-            this.lblAppendix1.Size = new System.Drawing.Size(100, 23);
-            this.lblAppendix1.TabIndex = 0;
-            this.lblAppendix1.TabStop = false;
-            this.lblAppendix1.Text = "Season:";
+            this.lblAppendix1.Size = new System.Drawing.Size(100, 20);
+            this.lblAppendix1.TabIndex = 3;
+            this.lblAppendix1.Text = "Appendix1:";
+            this.lblAppendix1.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // lblAppendix2
             // 
-            this.lblAppendix2.Location = new System.Drawing.Point(212, 68);
+            this.lblAppendix2.Location = new System.Drawing.Point(212, 62);
             this.lblAppendix2.Name = "lblAppendix2";
-            this.lblAppendix2.Size = new System.Drawing.Size(100, 23);
-            this.lblAppendix2.TabIndex = 0;
-            this.lblAppendix2.TabStop = false;
-            this.lblAppendix2.Text = "Color:";
+            this.lblAppendix2.Size = new System.Drawing.Size(100, 20);
+            this.lblAppendix2.TabIndex = 5;
+            this.lblAppendix2.Text = "Appendix2:";
+            this.lblAppendix2.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // lblAppendix3
             // 
-            this.lblAppendix3.Location = new System.Drawing.Point(212, 91);
+            this.lblAppendix3.Location = new System.Drawing.Point(212, 85);
             this.lblAppendix3.Name = "lblAppendix3";
-            this.lblAppendix3.Size = new System.Drawing.Size(100, 23);
-            this.lblAppendix3.TabIndex = 0;
-            this.lblAppendix3.TabStop = false;
-            this.lblAppendix3.Text = "Size:";
-            // 
-            // cboAppendix1
-            // 
-            this.cboAppendix1.BackColor = System.Drawing.Color.White;
-            this.cboAppendix1.DropDownWidth = 121;
-            this.cboAppendix1.Location = new System.Drawing.Point(318, 41);
-            this.cboAppendix1.Name = "cboAppendix1";
-            this.cboAppendix1.Size = new System.Drawing.Size(121, 21);
-            this.cboAppendix1.TabIndex = 1;
-            // 
-            // cboAppendix2
-            // 
-            this.cboAppendix2.BackColor = System.Drawing.Color.White;
-            this.cboAppendix2.DropDownWidth = 121;
-            this.cboAppendix2.Location = new System.Drawing.Point(318, 65);
-            this.cboAppendix2.Name = "cboAppendix2";
-            this.cboAppendix2.Size = new System.Drawing.Size(121, 21);
-            this.cboAppendix2.TabIndex = 2;
-            // 
-            // cboAppendix3
-            // 
-            this.cboAppendix3.BackColor = System.Drawing.Color.White;
-            this.cboAppendix3.DropDownWidth = 121;
-            this.cboAppendix3.Location = new System.Drawing.Point(318, 88);
-            this.cboAppendix3.Name = "cboAppendix3";
-            this.cboAppendix3.Size = new System.Drawing.Size(121, 21);
-            this.cboAppendix3.TabIndex = 3;
-            this.cboAppendix3.LostFocus += new System.EventHandler(this.cboAppendix3_LostFocus);
+            this.lblAppendix3.Size = new System.Drawing.Size(100, 20);
+            this.lblAppendix3.TabIndex = 7;
+            this.lblAppendix3.Text = "Appendix3:";
+            this.lblAppendix3.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // tabProduct
             // 
@@ -145,12 +115,10 @@ namespace RT2020.Product
             this.tabProduct.Controls.Add(this.tpOrder);
             this.tabProduct.Controls.Add(this.tpDiscount);
             this.tabProduct.Location = new System.Drawing.Point(12, 117);
-            this.tabProduct.Multiline = false;
             this.tabProduct.Name = "tabProduct";
             this.tabProduct.SelectedIndex = 0;
-            this.tabProduct.ShowCloseButton = false;
             this.tabProduct.Size = new System.Drawing.Size(774, 376);
-            this.tabProduct.TabIndex = 4;
+            this.tabProduct.TabIndex = 9;
             this.tabProduct.SelectedIndexChanged += new System.EventHandler(this.tabProduct_SelectedIndexChanged);
             // 
             // tpGeneral
@@ -210,17 +178,48 @@ namespace RT2020.Product
             // errorProvider
             // 
             this.errorProvider.BlinkRate = 3;
-            this.errorProvider.BlinkStyle = Gizmox.WebGUI.Forms.ErrorBlinkStyle.BlinkIfDifferentError;
             this.errorProvider.DataMember = " ";
             this.errorProvider.DataSource = " ";
-            this.errorProvider.Icon = null;
+            // 
+            // cboAppendix1
+            // 
+            this.cboAppendix1.AutoCompleteMode = Gizmox.WebGUI.Forms.AutoCompleteMode.Append;
+            this.cboAppendix1.AutoCompleteSource = Gizmox.WebGUI.Forms.AutoCompleteSource.ListItems;
+            this.cboAppendix1.CustomStyle = "Appendix1ComboBoxSkin";
+            this.cboAppendix1.FormattingEnabled = true;
+            this.cboAppendix1.Location = new System.Drawing.Point(312, 34);
+            this.cboAppendix1.Name = "cboAppendix1";
+            this.cboAppendix1.Size = new System.Drawing.Size(100, 21);
+            this.cboAppendix1.TabIndex = 4;
+            // 
+            // cboAppendix2
+            // 
+            this.cboAppendix2.AutoCompleteMode = Gizmox.WebGUI.Forms.AutoCompleteMode.SuggestAppend;
+            this.cboAppendix2.AutoCompleteSource = Gizmox.WebGUI.Forms.AutoCompleteSource.ListItems;
+            this.cboAppendix2.CustomStyle = "Appendix2ComboBoxSkin";
+            this.cboAppendix2.FormattingEnabled = true;
+            this.cboAppendix2.Location = new System.Drawing.Point(312, 59);
+            this.cboAppendix2.Name = "cboAppendix2";
+            this.cboAppendix2.Size = new System.Drawing.Size(100, 21);
+            this.cboAppendix2.TabIndex = 6;
+            // 
+            // cboAppendix3
+            // 
+            this.cboAppendix3.AutoCompleteMode = Gizmox.WebGUI.Forms.AutoCompleteMode.SuggestAppend;
+            this.cboAppendix3.AutoCompleteSource = Gizmox.WebGUI.Forms.AutoCompleteSource.ListItems;
+            this.cboAppendix3.CustomStyle = "Appendix3ComboBoxSkin";
+            this.cboAppendix3.FormattingEnabled = true;
+            this.cboAppendix3.Location = new System.Drawing.Point(312, 82);
+            this.cboAppendix3.Name = "cboAppendix3";
+            this.cboAppendix3.Size = new System.Drawing.Size(100, 21);
+            this.cboAppendix3.TabIndex = 8;
             // 
             // ProductWizard
             // 
-            this.Controls.Add(this.tabProduct);
             this.Controls.Add(this.cboAppendix3);
             this.Controls.Add(this.cboAppendix2);
             this.Controls.Add(this.cboAppendix1);
+            this.Controls.Add(this.tabProduct);
             this.Controls.Add(this.lblAppendix3);
             this.Controls.Add(this.lblAppendix2);
             this.Controls.Add(this.lblAppendix1);
@@ -234,6 +233,8 @@ namespace RT2020.Product
             this.StartPosition = Gizmox.WebGUI.Forms.FormStartPosition.CenterParent;
             this.Text = "Product Wizard";
             this.Load += new System.EventHandler(this.ProductWizard_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.tabProduct)).EndInit();
+            this.tabProduct.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -246,9 +247,6 @@ namespace RT2020.Product
         private Gizmox.WebGUI.Forms.Label lblAppendix1;
         private Gizmox.WebGUI.Forms.Label lblAppendix2;
         private Gizmox.WebGUI.Forms.Label lblAppendix3;
-        private Gizmox.WebGUI.Forms.ComboBox cboAppendix1;
-        private Gizmox.WebGUI.Forms.ComboBox cboAppendix2;
-        private Gizmox.WebGUI.Forms.ComboBox cboAppendix3;
         private Gizmox.WebGUI.Forms.TabControl tabProduct;
         private Gizmox.WebGUI.Forms.TabPage tpGeneral;
         private Gizmox.WebGUI.Forms.TabPage tpBarcode;
@@ -257,7 +255,8 @@ namespace RT2020.Product
         private Gizmox.WebGUI.Forms.TabPage tpOrder;
         private Gizmox.WebGUI.Forms.TabPage tpDiscount;
         private Gizmox.WebGUI.Forms.ErrorProvider errorProvider;
-
-
+        private Components.Appendix1ComboBox cboAppendix1;
+        private Components.Appendix2ComboBox cboAppendix2;
+        private Components.Appendix3ComboBox cboAppendix3;
     }
 }

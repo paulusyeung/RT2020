@@ -14,6 +14,8 @@ using Gizmox.WebGUI.Common.Resources;
 using System.Data.SqlClient;
 using System.Configuration;
 using RT2020.Helper;
+using System.Linq;
+using System.Data.Entity;
 
 #endregion
 
@@ -21,14 +23,87 @@ namespace RT2020.Product
 {
     public partial class ProductNatureWizard : Form
     {
+        #region Properties
+        private Guid _NatureId = System.Guid.Empty;
+        public Guid ProductNatureId
+        {
+            get { return _NatureId; }
+            set { _NatureId = value; }
+        }
+        #endregion
+
         public ProductNatureWizard()
         {
             InitializeComponent();
+        }
+
+        private void ProductNatureWizard_Load(object sender, EventArgs e)
+        {
+            SetCaptions();
+            SetAttributes();
+
             SetToolBar();
             FillParentNatureList();
             BindProductNatureList();
             SetCtrlEditable();
         }
+
+        #region SetCaptions SetAttributes
+
+        private void SetCaptions()
+        {
+            this.Text = WestwindHelper.GetWord("nature.setup", "Product");
+
+            colLN.Text = WestwindHelper.GetWord("listview.line", "Tools");
+
+            colNatureCode.Text = WestwindHelper.GetWord("nature.code", "Product");
+            colParent.Text = WestwindHelper.GetWord("nature.parent", "Product");
+            colNatureName.Text = WestwindHelper.GetWord("nature.name", "Product");
+            colNatureNameAlt1.Text = WestwindHelper.GetWord(String.Format("language.{0}", LanguageHelper.AlternateLanguage1.Key.ToLower()), "Menu");
+            colNatureNameAlt2.Text = WestwindHelper.GetWord(String.Format("language.{0}", LanguageHelper.AlternateLanguage2.Key.ToLower()), "Menu");
+
+            lblNatureCode.Text = WestwindHelper.GetWordWithColon("nature.code", "Product");
+            lblNatureName.Text = WestwindHelper.GetWordWithColon("nature.name", "Product");
+            lblNatureNameAlt1.Text = WestwindHelper.GetWordWithColon(String.Format("language.{0}", LanguageHelper.AlternateLanguage1.Key.ToLower()), "Menu");
+            lblNatureNameAlt2.Text = WestwindHelper.GetWordWithColon(String.Format("language.{0}", LanguageHelper.AlternateLanguage2.Key.ToLower()), "Menu");
+
+            lblParentNature.Text = WestwindHelper.GetWord("nature.parent", "Product");
+        }
+
+        private void SetAttributes()
+        {
+            colLN.TextAlign = HorizontalAlignment.Center;
+            colNatureCode.TextAlign = HorizontalAlignment.Left;
+            colNatureCode.ContentAlign = ExtendedHorizontalAlignment.Center;
+            colParent.TextAlign = HorizontalAlignment.Left;
+            colParent.ContentAlign = ExtendedHorizontalAlignment.Center;
+            colNatureName.TextAlign = HorizontalAlignment.Left;
+            colNatureName.ContentAlign = ExtendedHorizontalAlignment.Center;
+            colNatureNameAlt1.TextAlign = HorizontalAlignment.Left;
+            colNatureNameAlt1.ContentAlign = ExtendedHorizontalAlignment.Center;
+            colNatureNameAlt2.TextAlign = HorizontalAlignment.Left;
+            colNatureNameAlt2.ContentAlign = ExtendedHorizontalAlignment.Center;
+
+            switch (LanguageHelper.AlternateLanguagesUsed)
+            {
+                case 1:
+                    // hide alt2
+                    lblNatureNameAlt2.Visible = txtNatureNameAlt2.Visible = false;
+                    colNatureNameAlt2.Visible = false;
+                    break;
+                case 2:
+                    // do nothing
+                    break;
+                case 0:
+                default:
+                    // hide alt1 & alt2
+                    lblNatureNameAlt1.Visible = lblNatureNameAlt2.Visible = txtNatureNameAlt1.Visible = txtNatureNameAlt2.Visible = false;
+                    colNatureNameAlt1.Visible = colNatureNameAlt2.Visible = false;
+                    break;
+            }
+        }
+
+        #endregion
 
         #region ToolBar
         private void SetToolBar()
@@ -41,7 +116,7 @@ namespace RT2020.Product
             sep.Style = ToolBarButtonStyle.Separator;
 
             // cmdSave
-            ToolBarButton cmdNew = new ToolBarButton("New", "New");
+            ToolBarButton cmdNew = new ToolBarButton("New", WestwindHelper.GetWord("edit.new", "General"));
             cmdNew.Tag = "New";
             cmdNew.Image = new IconResourceHandle("16x16.ico_16_3.gif");
             cmdNew.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Write);
@@ -49,7 +124,7 @@ namespace RT2020.Product
             this.tbWizardAction.Buttons.Add(cmdNew);
 
             // cmdSave
-            ToolBarButton cmdSave = new ToolBarButton("Save", "Save");
+            ToolBarButton cmdSave = new ToolBarButton("Save", WestwindHelper.GetWord("edit.save", "General"));
             cmdSave.Tag = "Save";
             cmdSave.Image = new IconResourceHandle("16x16.16_L_save.gif");
             cmdSave.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Write);
@@ -57,7 +132,7 @@ namespace RT2020.Product
             this.tbWizardAction.Buttons.Add(cmdSave);
 
             // cmdSaveNew
-            ToolBarButton cmdRefresh = new ToolBarButton("Refresh", "Refresh");
+            ToolBarButton cmdRefresh = new ToolBarButton("Refresh", WestwindHelper.GetWord("edit.refresh", "General"));
             cmdRefresh.Tag = "refresh";
             cmdRefresh.Image = new IconResourceHandle("16x16.16_L_refresh.gif");
 
@@ -65,11 +140,11 @@ namespace RT2020.Product
             this.tbWizardAction.Buttons.Add(sep);
 
             // cmdDelete
-            ToolBarButton cmdDelete = new ToolBarButton("Delete", "Delete");
+            ToolBarButton cmdDelete = new ToolBarButton("Delete", WestwindHelper.GetWord("edit.delete", "General"));
             cmdDelete.Tag = "Delete";
             cmdDelete.Image = new IconResourceHandle("16x16.16_L_remove.gif");
 
-            if (ProductNatureId == System.Guid.Empty)
+            if (_NatureId == System.Guid.Empty)
             {
                 cmdDelete.Enabled = false;
             }
@@ -116,27 +191,20 @@ namespace RT2020.Product
         #region ProductNature Code
         private void SetCtrlEditable()
         {
-            txtProductNatureCode.BackColor = (this.ProductNatureId == System.Guid.Empty) ? Color.LightSkyBlue : Color.LightYellow;
-            txtProductNatureCode.ReadOnly = (this.ProductNatureId != System.Guid.Empty);
+            txtNatureCode.BackColor = (_NatureId == System.Guid.Empty) ? Color.LightSkyBlue : Color.LightYellow;
+            txtNatureCode.ReadOnly = (_NatureId != System.Guid.Empty);
         }
         #endregion
 
         #region Fill Combo List
         private void FillParentNatureList()
         {
-            //cboParentNature.Items.Clear();
-
-            string sql = "NatureId NOT IN ('" + this.ProductNatureId.ToString() + "')";
+            var textFields = new string[] { "NatureCode", "NatureName" };
+            var pattern = "{0} - {1}";
+            string sql = "NatureId NOT IN ('" + _NatureId.ToString() + "')";
             string[] orderBy = new string[] { "NatureCode" };
 
-            ModelEx.ProductNatureEx.LoadCombo(ref cboParentNature, "NatureCode", true, true, "", sql, orderBy);
-            //ProductNatureCollection oProductNatureList = ProductNature.LoadCollection(sql, orderBy, true);
-            //oProductNatureList.Add(new ProductNature());
-            //cboParentNature.DataSource = oProductNatureList;
-            //cboParentNature.DisplayMember = "NatureCode";
-            //cboParentNature.ValueMember = "NatureId";
-
-            cboParentNature.SelectedIndex = cboParentNature.Items.Count - 1;
+            ModelEx.ProductNatureEx.LoadCombo(ref cboParentNature, textFields, pattern, true, true, "", sql, orderBy);
         }
         #endregion
 
@@ -147,26 +215,25 @@ namespace RT2020.Product
             this.lvProductNatureList.Items.Clear();
 
             int iCount = 1;
-            StringBuilder sql = new StringBuilder();
-            sql.Append("SELECT NatureId,  ROW_NUMBER() OVER (ORDER BY NatureCode) AS rownum, ");
-            sql.Append(" NatureCode, NatureName, NatureName_Chs, NatureName_Cht ");
-            sql.Append(" FROM ProductNature ");
-            
-            SqlCommand cmd = new SqlCommand();
-            cmd.CommandText = sql.ToString();
-            cmd.CommandTimeout = ConfigHelper.CommandTimeout;
-            cmd.CommandType= CommandType.Text;
 
-            using (SqlDataReader reader = SqlHelper.Default.ExecuteReader(cmd))
+            using (var ctx = new EF6.RT2020Entities())
             {
-                while (reader.Read())
+                var list = ctx.ProductNature.OrderBy(x => x.NatureCode).AsNoTracking().ToList();
+                foreach (var item in list)
                 {
-                    ListViewItem objItem = this.lvProductNatureList.Items.Add(reader.GetGuid(0).ToString()); // ProductNatureId
+                    var parent = ctx.ProductNature.Find(item.ParentNature);
+                    var parentName = parent == null ? "" : CookieHelper.CurrentLocaleId == LanguageHelper.AlternateLanguage2.Key ?
+                        parent.NatureName_Cht : CookieHelper.CurrentLocaleId == LanguageHelper.AlternateLanguage1.Key ?
+                        parent.NatureName_Chs :
+                        parent.NatureName;
+
+                    var objItem = this.lvProductNatureList.Items.Add(item.NatureId.ToString());
                     objItem.SubItems.Add(iCount.ToString()); // Line Number
-                    objItem.SubItems.Add(reader.GetString(2)); // ProductNatureCode
-                    objItem.SubItems.Add(reader.GetString(3)); // ProductNature Name
-                    objItem.SubItems.Add(reader.GetString(4)); // ProductNature Name Chs
-                    objItem.SubItems.Add(reader.GetString(5)); // ProductNature Name Cht
+                    objItem.SubItems.Add(item.NatureCode);
+                    objItem.SubItems.Add(parentName);
+                    objItem.SubItems.Add(item.NatureName);
+                    objItem.SubItems.Add(item.NatureName_Chs);
+                    objItem.SubItems.Add(item.NatureName_Cht);
 
                     iCount++;
                 }
@@ -180,19 +247,19 @@ namespace RT2020.Product
             bool result = true;
 
             #region Nature Code 唔可以吉
-            errorProvider.SetError(txtProductNatureCode, string.Empty);
-            if (txtProductNatureCode.Text.Length == 0)
+            errorProvider.SetError(txtNatureCode, string.Empty);
+            if (txtNatureCode.Text.Length == 0)
             {
-                errorProvider.SetError(txtProductNatureCode, "Cannot be blank!");
+                errorProvider.SetError(txtNatureCode, "Cannot be blank!");
                 return false;
             }
             #endregion
 
             #region 新增，要 check Nature Code 係咪 in use
-            errorProvider.SetError(txtProductNatureCode, string.Empty);
-            if (this.ProductNatureId == System.Guid.Empty && ModelEx.ProductNatureEx.IsNatureCodeInUse(txtProductNatureCode.Text.Trim()))
+            errorProvider.SetError(txtNatureCode, string.Empty);
+            if (_NatureId == System.Guid.Empty && ModelEx.ProductNatureEx.IsNatureCodeInUse(txtNatureCode.Text.Trim()))
             {
-                errorProvider.SetError(txtProductNatureCode, "Nature Code in use");
+                errorProvider.SetError(txtNatureCode, "Nature Code in use");
                 return false;
             }
             #endregion
@@ -206,21 +273,20 @@ namespace RT2020.Product
 
             using (var ctx = new EF6.RT2020Entities())
             {
-                var item = ctx.ProductNature.Find(this.ProductNatureId);
+                var item = ctx.ProductNature.Find(_NatureId);
 
                 if (item == null)
                 {
                     item = new EF6.ProductNature();
-                    item.NatureId = new Guid();
-                    item.NatureCode = txtProductNatureCode.Text;
+                    item.NatureId = Guid.NewGuid();
+                    item.NatureCode = txtNatureCode.Text;
 
                     ctx.ProductNature.Add(item);
                 }
-                item.NatureName = txtProductNatureName.Text;
-                item.NatureName_Chs = txtProductNatureNameChs.Text;
-                item.NatureName_Cht = txtProductNatureNameCht.Text;
+                item.NatureName = txtNatureName.Text;
+                item.NatureName_Chs = txtNatureNameAlt1.Text;
+                item.NatureName_Cht = txtNatureNameAlt2.Text;
                 if ((Guid)cboParentNature.SelectedValue != Guid.Empty) item.ParentNature = (Guid)cboParentNature.SelectedValue;
-
 
                 ctx.SaveChanges();
                 result = true;
@@ -231,25 +297,12 @@ namespace RT2020.Product
 
         private void Clear()
         {
-            this.Close();
+            txtNatureCode.Text = txtNatureName.Text = txtNatureNameAlt1.Text = txtNatureNameAlt2.Text = string.Empty;
 
-            ProductNatureWizard wizNature = new ProductNatureWizard();
-            wizNature.ShowDialog();
-        }
-        #endregion
-
-        #region Properties
-        private Guid countryId = System.Guid.Empty;
-        public Guid ProductNatureId
-        {
-            get
-            {
-                return countryId;
-            }
-            set
-            {
-                countryId = value;
-            }
+            _NatureId = Guid.Empty;
+            
+            FillParentNatureList();
+            SetCtrlEditable();
         }
         #endregion
 
@@ -260,7 +313,7 @@ namespace RT2020.Product
             {
                 try
                 {
-                    var item = ctx.ProductNature.Find(this.ProductNatureId);
+                    var item = ctx.ProductNature.Find(_NatureId);
                     if (item != null)
                     {
                         ctx.ProductNature.Remove(item);
@@ -291,19 +344,19 @@ namespace RT2020.Product
                 var id = Guid.NewGuid();
                 if (Guid.TryParse(lvProductNatureList.SelectedItem.Text, out id))
                 {
-                    this.ProductNatureId = id;
+                    _NatureId = id;
                     using (var ctx = new EF6.RT2020Entities())
                     {
-                        var item = ctx.ProductNature.Find(this.ProductNatureId);
+                        var item = ctx.ProductNature.Find(_NatureId);
                         if (item != null)
                         {
                             FillParentNatureList();
 
-                            txtProductNatureCode.Text = item.NatureCode;
-                            txtProductNatureName.Text = item.NatureName;
-                            txtProductNatureNameChs.Text = item.NatureName_Chs;
-                            txtProductNatureNameCht.Text = item.NatureName_Cht;
-                            cboParentNature.SelectedValue = item.ParentNature;
+                            txtNatureCode.Text = item.NatureCode;
+                            txtNatureName.Text = item.NatureName;
+                            txtNatureNameAlt1.Text = item.NatureName_Chs;
+                            txtNatureNameAlt2.Text = item.NatureName_Cht;
+                            cboParentNature.SelectedValue = item.ParentNature.HasValue ? item.ParentNature : Guid.Empty;
 
                             SetCtrlEditable();
                         }

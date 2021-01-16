@@ -67,91 +67,91 @@ namespace RT2020.NavPane
 
                 switch (Tag.ToLower())
                 {
-                    case "productcare_product":
+                    case "product.product":
                         RT2020.Product.DefaultList oProd = new RT2020.Product.DefaultList(controls[0]);
                         oProd.DockPadding.All = 6;
                         oProd.Dock = DockStyle.Fill;
                         wspPane.Controls.Add(oProd);
                         break;
-                    case "productcare_appendix1":
+                    case "product.appendix1":
                         RT2020.Product.DefaultAppendixList oAppendix1List = new RT2020.Product.DefaultAppendixList("Appendix1", controls[0]);
                         oAppendix1List.DockPadding.All = 6;
                         oAppendix1List.Dock = DockStyle.Fill;
                         wspPane.Controls.Add(oAppendix1List);
                         break;
-                    case "productcare_appendix2":
+                    case "product.appendix2":
                         RT2020.Product.DefaultAppendixList oAppendix2List = new RT2020.Product.DefaultAppendixList("Appendix2", controls[0]);
                         oAppendix2List.DockPadding.All = 6;
                         oAppendix2List.Dock = DockStyle.Fill;
                         wspPane.Controls.Add(oAppendix2List);
                         break;
-                    case "productcare_appendix3":
+                    case "product.appendix3":
                         RT2020.Product.DefaultAppendixList oAppendix3List = new RT2020.Product.DefaultAppendixList("Appendix3", controls[0]);
                         oAppendix3List.DockPadding.All = 6;
                         oAppendix3List.Dock = DockStyle.Fill;
                         wspPane.Controls.Add(oAppendix3List);
                         break;
-                    case "productcare_class1":
+                    case "product.class1":
                         RT2020.Product.DefaultClassList oClass1List = new RT2020.Product.DefaultClassList("Class1", controls[0]);
                         oClass1List.DockPadding.All = 6;
                         oClass1List.Dock = DockStyle.Fill;
                         wspPane.Controls.Add(oClass1List);
                         break;
-                    case "productcare_class2":
+                    case "product.class2":
                         RT2020.Product.DefaultClassList oClass2List = new RT2020.Product.DefaultClassList("Class2", controls[0]);
                         oClass2List.DockPadding.All = 6;
                         oClass2List.Dock = DockStyle.Fill;
                         wspPane.Controls.Add(oClass2List);
                         break;
-                    case "productcare_class3":
+                    case "product.class3":
                         RT2020.Product.DefaultClassList oClass3List = new RT2020.Product.DefaultClassList("Class3", controls[0]);
                         oClass3List.DockPadding.All = 6;
                         oClass3List.Dock = DockStyle.Fill;
                         wspPane.Controls.Add(oClass3List);
                         break;
-                    case "productcare_class4":
+                    case "product.class4":
                         RT2020.Product.DefaultClassList oClass4List = new RT2020.Product.DefaultClassList("Class4", controls[0]);
                         oClass4List.DockPadding.All = 6;
                         oClass4List.Dock = DockStyle.Fill;
                         wspPane.Controls.Add(oClass4List);
                         break;
-                    case "productcare_class5":
+                    case "product.class5":
                         RT2020.Product.DefaultClassList oClass5List = new RT2020.Product.DefaultClassList("Class5", controls[0]);
                         oClass5List.DockPadding.All = 6;
                         oClass5List.Dock = DockStyle.Fill;
                         wspPane.Controls.Add(oClass5List);
                         break;
-                    case "productcare_class6":
+                    case "product.class6":
                         RT2020.Product.DefaultClassList oClass6List = new RT2020.Product.DefaultClassList("Class6", controls[0]);
                         oClass6List.DockPadding.All = 6;
                         oClass6List.Dock = DockStyle.Fill;
                         wspPane.Controls.Add(oClass6List);
                         break;
-                    case "productcare_combination":
+                    case "product.combination":
                         RT2020.Product.DefaultCombinList oCombinList = new RT2020.Product.DefaultCombinList(controls[0]);
                         oCombinList.DockPadding.All = 6;
                         oCombinList.Dock = DockStyle.Fill;
                         wspPane.Controls.Add(oCombinList);
                         break;
-                    case "productcare_analysiscode":
+                    case "product.analysiscode":
                         RT2020.Product.DefaultAnalysisCodeList oAnalysisList = new RT2020.Product.DefaultAnalysisCodeList(controls[0]);
                         oAnalysisList.DockPadding.All = 6;
                         oAnalysisList.Dock = DockStyle.Fill;
                         wspPane.Controls.Add(oAnalysisList);
                         break;
-                    case "price_change":
+                    case "product.pricemanagement.pricechange":
                         RT2020.PriceMgmt.DefaultList wizPriceChangeList = new RT2020.PriceMgmt.DefaultList(controls[0], RT2020.PriceMgmt.PriceUtility.PriceMgmtType.Price);
                         wizPriceChangeList.DockPadding.All = 6;
                         wizPriceChangeList.Dock = DockStyle.Fill;
                         wspPane.Controls.Add(wizPriceChangeList);
                         break;
-                    case "discount_change":
+                    case "product.pricemanagement.discountchange":
                         RT2020.PriceMgmt.DefaultList wizDiscChangeList = new RT2020.PriceMgmt.DefaultList(controls[0], RT2020.PriceMgmt.PriceUtility.PriceMgmtType.Discount);
                         wizDiscChangeList.DockPadding.All = 6;
                         wizDiscChangeList.Dock = DockStyle.Fill;
                         wspPane.Controls.Add(wizDiscChangeList);
                         break;
-                    case "reason_code":
+                    case "product.pricemanagement.reason":
                         RT2020.PriceMgmt.DefaultReasonList oReasonList = new RT2020.PriceMgmt.DefaultReasonList(controls[0]);
                         oReasonList.DockPadding.All = 6;
                         oReasonList.Dock = DockStyle.Fill;

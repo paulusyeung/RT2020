@@ -28,15 +28,15 @@ namespace RT2020.Product
         /// </summary>
         private void InitializeComponent()
         {
-            this.gbBarcode = new Gizmox.WebGUI.Forms.GroupBox();
+            this.components = new System.ComponentModel.Container();
             this.splitContainer = new Gizmox.WebGUI.Forms.SplitContainer();
             this.lvBarcodeList = new Gizmox.WebGUI.Forms.ListView();
-            this.colBarcodeId = new Gizmox.WebGUI.Forms.ColumnHeader();
-            this.colStatus = new Gizmox.WebGUI.Forms.ColumnHeader();
-            this.colLN = new Gizmox.WebGUI.Forms.ColumnHeader();
-            this.colBarcode = new Gizmox.WebGUI.Forms.ColumnHeader();
-            this.colBarcodeType = new Gizmox.WebGUI.Forms.ColumnHeader();
-            this.colPrimaryBarcode = new Gizmox.WebGUI.Forms.ColumnHeader();
+            this.colBarcodeId = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colStatus = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colLN = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colBarcode = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colBarcodeType = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colPrimaryBarcode = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
             this.tbBarcode = new Gizmox.WebGUI.Forms.ToolBar();
             this.lblBarcode = new Gizmox.WebGUI.Forms.Label();
             this.lblBarcodeType = new Gizmox.WebGUI.Forms.Label();
@@ -44,36 +44,21 @@ namespace RT2020.Product
             this.lblPrimaryBarcode = new Gizmox.WebGUI.Forms.Label();
             this.txtBarcode = new Gizmox.WebGUI.Forms.TextBox();
             this.cboBarcodeType = new Gizmox.WebGUI.Forms.ComboBox();
-            this.errorProvider = new Gizmox.WebGUI.Forms.ErrorProvider();
+            this.errorProvider = new Gizmox.WebGUI.Forms.ErrorProvider(this.components);
             this.SuspendLayout();
-            // 
-            // gbBarcode
-            // 
-            this.gbBarcode.Anchor = Gizmox.WebGUI.Forms.AnchorStyles.None;
-            this.gbBarcode.Controls.Add(this.splitContainer);
-            this.gbBarcode.Dock = Gizmox.WebGUI.Forms.DockStyle.Fill;
-            this.gbBarcode.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.gbBarcode.FlatStyle = Gizmox.WebGUI.Forms.FlatStyle.Flat;
-            this.gbBarcode.Location = new System.Drawing.Point(0, 0);
-            this.gbBarcode.Name = "gbBarcode";
-            this.gbBarcode.Size = new System.Drawing.Size(766, 350);
-            this.gbBarcode.TabIndex = 0;
             // 
             // splitContainer
             // 
-            this.splitContainer.Anchor = Gizmox.WebGUI.Forms.AnchorStyles.None;
+            this.splitContainer.AutoValidate = Gizmox.WebGUI.Forms.AutoValidate.EnablePreventFocusChange;
             this.splitContainer.BorderStyle = Gizmox.WebGUI.Forms.BorderStyle.Clear;
             this.splitContainer.Dock = Gizmox.WebGUI.Forms.DockStyle.Fill;
-            this.splitContainer.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
             this.splitContainer.FixedPanel = Gizmox.WebGUI.Forms.FixedPanel.Panel1;
-            this.splitContainer.Location = new System.Drawing.Point(3, 16);
+            this.splitContainer.Location = new System.Drawing.Point(10, 10);
             this.splitContainer.Name = "splitContainer";
-            this.splitContainer.Orientation = Gizmox.WebGUI.Forms.Orientation.Vertical;
             // 
             // splitContainer.Panel1
             // 
             this.splitContainer.Panel1.Controls.Add(this.lvBarcodeList);
-            this.splitContainer.Panel1.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
             // 
             // splitContainer.Panel2
             // 
@@ -84,14 +69,12 @@ namespace RT2020.Product
             this.splitContainer.Panel2.Controls.Add(this.lblPrimaryBarcode);
             this.splitContainer.Panel2.Controls.Add(this.txtBarcode);
             this.splitContainer.Panel2.Controls.Add(this.cboBarcodeType);
-            this.splitContainer.Panel2.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.splitContainer.Size = new System.Drawing.Size(766, 350);
+            this.splitContainer.Size = new System.Drawing.Size(761, 343);
             this.splitContainer.SplitterDistance = 350;
             this.splitContainer.TabIndex = 8;
             // 
             // lvBarcodeList
             // 
-            this.lvBarcodeList.Anchor = Gizmox.WebGUI.Forms.AnchorStyles.None;
             this.lvBarcodeList.Columns.AddRange(new Gizmox.WebGUI.Forms.ColumnHeader[] {
             this.colBarcodeId,
             this.colStatus,
@@ -101,78 +84,61 @@ namespace RT2020.Product
             this.colPrimaryBarcode});
             this.lvBarcodeList.DataMember = null;
             this.lvBarcodeList.Dock = Gizmox.WebGUI.Forms.DockStyle.Fill;
-            this.lvBarcodeList.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
             this.lvBarcodeList.ItemsPerPage = 10;
             this.lvBarcodeList.Location = new System.Drawing.Point(0, 0);
             this.lvBarcodeList.Name = "lvBarcodeList";
-            this.lvBarcodeList.Size = new System.Drawing.Size(347, 331);
+            this.lvBarcodeList.Size = new System.Drawing.Size(350, 343);
             this.lvBarcodeList.TabIndex = 0;
             this.lvBarcodeList.UseInternalPaging = true;
             this.lvBarcodeList.Click += new System.EventHandler(this.lvBarcodeList_Click);
             // 
             // colBarcodeId
             // 
-            this.colBarcodeId.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.colBarcodeId.Image = null;
             this.colBarcodeId.Text = "BarcodeId";
             this.colBarcodeId.Visible = false;
             this.colBarcodeId.Width = 150;
             // 
             // colStatus
             // 
-            this.colStatus.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.colStatus.Image = null;
             this.colStatus.Text = "";
             this.colStatus.Width = 30;
             // 
             // colLN
             // 
-            this.colLN.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.colLN.Image = null;
             this.colLN.Text = "LN";
             this.colLN.TextAlign = Gizmox.WebGUI.Forms.HorizontalAlignment.Center;
             this.colLN.Width = 40;
             // 
             // colBarcode
             // 
-            this.colBarcode.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.colBarcode.Image = null;
             this.colBarcode.Text = "Barcode";
             this.colBarcode.Width = 150;
             // 
             // colBarcodeType
             // 
-            this.colBarcodeType.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.colBarcodeType.Image = null;
             this.colBarcodeType.Text = "Type";
             this.colBarcodeType.Width = 50;
             // 
             // colPrimaryBarcode
             // 
-            this.colPrimaryBarcode.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.colPrimaryBarcode.Image = null;
             this.colPrimaryBarcode.Text = "Primary";
             this.colPrimaryBarcode.Width = 50;
             // 
             // tbBarcode
             // 
-            this.tbBarcode.Anchor = Gizmox.WebGUI.Forms.AnchorStyles.None;
-            this.tbBarcode.Appearance = Gizmox.WebGUI.Forms.ToolBarAppearance.Normal;
-            this.tbBarcode.Dock = Gizmox.WebGUI.Forms.DockStyle.Top;
-            this.tbBarcode.DragHandle = false;
-            this.tbBarcode.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.tbBarcode.DropDownArrows = false;
-            this.tbBarcode.ImageList = null;
+            this.tbBarcode.ButtonSize = new System.Drawing.Size(20, 20);
+            this.tbBarcode.DragHandle = true;
+            this.tbBarcode.DropDownArrows = true;
+            this.tbBarcode.ImageSize = new System.Drawing.Size(16, 16);
             this.tbBarcode.Location = new System.Drawing.Point(0, 0);
-            this.tbBarcode.MenuHandle = false;
+            this.tbBarcode.MenuHandle = true;
             this.tbBarcode.Name = "tbBarcode";
-            //this.tbBarcode.RightToLeft = false;
             this.tbBarcode.ShowToolTips = true;
+            this.tbBarcode.Size = new System.Drawing.Size(407, 26);
             this.tbBarcode.TabIndex = 8;
             // 
             // lblBarcode
             // 
-            this.lblBarcode.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
             this.lblBarcode.Location = new System.Drawing.Point(16, 40);
             this.lblBarcode.Name = "lblBarcode";
             this.lblBarcode.Size = new System.Drawing.Size(100, 23);
@@ -181,7 +147,6 @@ namespace RT2020.Product
             // 
             // lblBarcodeType
             // 
-            this.lblBarcodeType.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
             this.lblBarcodeType.Location = new System.Drawing.Point(16, 68);
             this.lblBarcodeType.Name = "lblBarcodeType";
             this.lblBarcodeType.Size = new System.Drawing.Size(100, 23);
@@ -190,19 +155,13 @@ namespace RT2020.Product
             // 
             // chkPrimaryBarcode
             // 
-            this.chkPrimaryBarcode.Checked = false;
-            this.chkPrimaryBarcode.CheckState = Gizmox.WebGUI.Forms.CheckState.Unchecked;
-            this.chkPrimaryBarcode.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.chkPrimaryBarcode.FlatStyle = Gizmox.WebGUI.Forms.FlatStyle.Standard;
             this.chkPrimaryBarcode.Location = new System.Drawing.Point(122, 96);
             this.chkPrimaryBarcode.Name = "chkPrimaryBarcode";
             this.chkPrimaryBarcode.Size = new System.Drawing.Size(104, 24);
             this.chkPrimaryBarcode.TabIndex = 7;
-            this.chkPrimaryBarcode.ThreeState = false;
             // 
             // lblPrimaryBarcode
             // 
-            this.lblPrimaryBarcode.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
             this.lblPrimaryBarcode.Location = new System.Drawing.Point(16, 97);
             this.lblPrimaryBarcode.Name = "lblPrimaryBarcode";
             this.lblPrimaryBarcode.Size = new System.Drawing.Size(100, 23);
@@ -211,7 +170,6 @@ namespace RT2020.Product
             // 
             // txtBarcode
             // 
-            this.txtBarcode.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
             this.txtBarcode.Location = new System.Drawing.Point(122, 37);
             this.txtBarcode.Name = "txtBarcode";
             this.txtBarcode.Size = new System.Drawing.Size(136, 20);
@@ -220,7 +178,6 @@ namespace RT2020.Product
             // cboBarcodeType
             // 
             this.cboBarcodeType.BorderStyle = Gizmox.WebGUI.Forms.BorderStyle.Fixed3D;
-            this.cboBarcodeType.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
             this.cboBarcodeType.DropDownWidth = 136;
             this.cboBarcodeType.Items.AddRange(new object[] {
             "INTERNAL (128B)",
@@ -235,22 +192,20 @@ namespace RT2020.Product
             // errorProvider
             // 
             this.errorProvider.BlinkRate = 3;
-            this.errorProvider.BlinkStyle = Gizmox.WebGUI.Forms.ErrorBlinkStyle.BlinkIfDifferentError;
-            this.errorProvider.DataMember = "";
-            this.errorProvider.DataSource = "";
             // 
             // ProductWizard_Barcode
             // 
-            this.Controls.Add(this.gbBarcode);
-            this.Size = new System.Drawing.Size(766, 350);
+            this.Controls.Add(this.splitContainer);
+            this.DockPadding.All = 10;
+            this.Padding = new Gizmox.WebGUI.Forms.Padding(10);
+            this.Size = new System.Drawing.Size(781, 363);
             this.Text = "ProductWizard_Barcode";
+            this.Load += new System.EventHandler(this.ProductWizard_Barcode_Load);
             this.ResumeLayout(false);
 
         }
 
         #endregion
-
-        private Gizmox.WebGUI.Forms.GroupBox gbBarcode;
         private Gizmox.WebGUI.Forms.CheckBox chkPrimaryBarcode;
         private Gizmox.WebGUI.Forms.TextBox txtBarcode;
         private Gizmox.WebGUI.Forms.ComboBox cboBarcodeType;

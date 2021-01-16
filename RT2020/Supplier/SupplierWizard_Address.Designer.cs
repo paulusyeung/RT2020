@@ -36,9 +36,9 @@ namespace RT2020.Supplier
             this.cboProvince = new Gizmox.WebGUI.Forms.ComboBox();
             this.lblCountry = new Gizmox.WebGUI.Forms.Label();
             this.cboCountry = new Gizmox.WebGUI.Forms.ComboBox();
-            this.lblPhoneTag9 = new Gizmox.WebGUI.Forms.Label();
+            this.lblPhoneTag1 = new Gizmox.WebGUI.Forms.Label();
             this.txtPhoneTag1 = new Gizmox.WebGUI.Forms.TextBox();
-            this.lblPhoneTag6 = new Gizmox.WebGUI.Forms.Label();
+            this.lblPhoneTag3 = new Gizmox.WebGUI.Forms.Label();
             this.txtPhoneTag3 = new Gizmox.WebGUI.Forms.TextBox();
             this.lblPostalCode = new Gizmox.WebGUI.Forms.Label();
             this.txtPostalCode = new Gizmox.WebGUI.Forms.TextBox();
@@ -47,7 +47,7 @@ namespace RT2020.Supplier
             this.txtPhoneTag4 = new Gizmox.WebGUI.Forms.TextBox();
             this.lblPhoneTag4 = new Gizmox.WebGUI.Forms.Label();
             this.txtPhoneTag2 = new Gizmox.WebGUI.Forms.TextBox();
-            this.lblPhoneTag3 = new Gizmox.WebGUI.Forms.Label();
+            this.lblPhoneTag2 = new Gizmox.WebGUI.Forms.Label();
             this.SuspendLayout();
             // 
             // lblAddress
@@ -116,13 +116,13 @@ namespace RT2020.Supplier
             this.cboCountry.TabIndex = 5;
             this.cboCountry.SelectedIndexChangedQueued += new System.EventHandler(this.cboCountry_SelectedIndexChangedQueued);
             // 
-            // lblPhoneTag9
+            // lblPhoneTag1
             // 
-            this.lblPhoneTag9.Location = new System.Drawing.Point(19, 171);
-            this.lblPhoneTag9.Name = "lblPhoneTag9";
-            this.lblPhoneTag9.Size = new System.Drawing.Size(100, 23);
-            this.lblPhoneTag9.TabIndex = 12;
-            this.lblPhoneTag9.Text = "Phone Tag 9";
+            this.lblPhoneTag1.Location = new System.Drawing.Point(19, 171);
+            this.lblPhoneTag1.Name = "lblPhoneTag1";
+            this.lblPhoneTag1.Size = new System.Drawing.Size(100, 23);
+            this.lblPhoneTag1.TabIndex = 12;
+            this.lblPhoneTag1.Text = "Phone Tag 1";
             // 
             // txtPhoneTag1
             // 
@@ -131,13 +131,13 @@ namespace RT2020.Supplier
             this.txtPhoneTag1.Size = new System.Drawing.Size(121, 20);
             this.txtPhoneTag1.TabIndex = 13;
             // 
-            // lblPhoneTag6
+            // lblPhoneTag3
             // 
-            this.lblPhoneTag6.Location = new System.Drawing.Point(19, 194);
-            this.lblPhoneTag6.Name = "lblPhoneTag6";
-            this.lblPhoneTag6.Size = new System.Drawing.Size(100, 23);
-            this.lblPhoneTag6.TabIndex = 16;
-            this.lblPhoneTag6.Text = "Phone Tag 6";
+            this.lblPhoneTag3.Location = new System.Drawing.Point(19, 194);
+            this.lblPhoneTag3.Name = "lblPhoneTag3";
+            this.lblPhoneTag3.Size = new System.Drawing.Size(100, 23);
+            this.lblPhoneTag3.TabIndex = 16;
+            this.lblPhoneTag3.Text = "Phone Tag 3";
             // 
             // txtPhoneTag3
             // 
@@ -202,18 +202,18 @@ namespace RT2020.Supplier
             this.txtPhoneTag2.Size = new System.Drawing.Size(121, 20);
             this.txtPhoneTag2.TabIndex = 15;
             // 
-            // lblPhoneTag3
+            // lblPhoneTag2
             // 
-            this.lblPhoneTag3.Location = new System.Drawing.Point(255, 171);
-            this.lblPhoneTag3.Name = "lblPhoneTag3";
-            this.lblPhoneTag3.Size = new System.Drawing.Size(89, 23);
-            this.lblPhoneTag3.TabIndex = 14;
-            this.lblPhoneTag3.Text = "Phone Tag 3";
-            this.lblPhoneTag3.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.lblPhoneTag2.Location = new System.Drawing.Point(255, 171);
+            this.lblPhoneTag2.Name = "lblPhoneTag2";
+            this.lblPhoneTag2.Size = new System.Drawing.Size(89, 23);
+            this.lblPhoneTag2.TabIndex = 14;
+            this.lblPhoneTag2.Text = "Phone Tag 2";
+            this.lblPhoneTag2.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // SupplierWizard_Address
             // 
-            this.Controls.Add(this.lblPhoneTag3);
+            this.Controls.Add(this.lblPhoneTag2);
             this.Controls.Add(this.txtPhoneTag2);
             this.Controls.Add(this.lblPhoneTag4);
             this.Controls.Add(this.txtPhoneTag4);
@@ -222,9 +222,9 @@ namespace RT2020.Supplier
             this.Controls.Add(this.txtPostalCode);
             this.Controls.Add(this.lblPostalCode);
             this.Controls.Add(this.txtPhoneTag3);
-            this.Controls.Add(this.lblPhoneTag6);
+            this.Controls.Add(this.lblPhoneTag3);
             this.Controls.Add(this.txtPhoneTag1);
-            this.Controls.Add(this.lblPhoneTag9);
+            this.Controls.Add(this.lblPhoneTag1);
             this.Controls.Add(this.cboCountry);
             this.Controls.Add(this.lblCountry);
             this.Controls.Add(this.cboProvince);
@@ -246,8 +246,8 @@ namespace RT2020.Supplier
         private Gizmox.WebGUI.Forms.Label lblCity;
         private Gizmox.WebGUI.Forms.Label lblProvince;
         private Gizmox.WebGUI.Forms.Label lblCountry;
-        private Gizmox.WebGUI.Forms.Label lblPhoneTag9;
-        private Gizmox.WebGUI.Forms.Label lblPhoneTag6;
+        private Gizmox.WebGUI.Forms.Label lblPhoneTag1;
+        private Gizmox.WebGUI.Forms.Label lblPhoneTag3;
         private Gizmox.WebGUI.Forms.Label lblPostalCode;
         public Gizmox.WebGUI.Forms.TextBox txtPostalCode;
         private Gizmox.WebGUI.Forms.Label lblAddressType;
@@ -261,6 +261,6 @@ namespace RT2020.Supplier
         public Gizmox.WebGUI.Forms.TextBox txtPhoneTag4;
         private Gizmox.WebGUI.Forms.Label lblPhoneTag4;
         public Gizmox.WebGUI.Forms.TextBox txtPhoneTag2;
-        private Gizmox.WebGUI.Forms.Label lblPhoneTag3;
+        private Gizmox.WebGUI.Forms.Label lblPhoneTag2;
     }
 }

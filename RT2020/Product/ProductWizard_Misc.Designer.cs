@@ -28,11 +28,8 @@ namespace RT2020.Product
         /// </summary>
         private void InitializeComponent()
         {
-            Gizmox.WebGUI.Common.Resources.IconResourceHandle iconResourceHandle1 = new Gizmox.WebGUI.Common.Resources.IconResourceHandle();
-            Gizmox.WebGUI.Common.Resources.IconResourceHandle iconResourceHandle2 = new Gizmox.WebGUI.Common.Resources.IconResourceHandle();
-            Gizmox.WebGUI.Common.Resources.IconResourceHandle iconResourceHandle3 = new Gizmox.WebGUI.Common.Resources.IconResourceHandle();
-            this.gbMisc = new Gizmox.WebGUI.Forms.GroupBox();
-            this.imgProductPic = new RT2020.Controls.RTImage();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ProductWizard_Misc));
+            this.txtMemo = new Gizmox.WebGUI.Forms.TextBox();
             this.txtPicSize = new Gizmox.WebGUI.Forms.TextBox();
             this.txtPicFileName = new Gizmox.WebGUI.Forms.TextBox();
             this.lblPicSize = new Gizmox.WebGUI.Forms.Label();
@@ -40,46 +37,24 @@ namespace RT2020.Product
             this.btnDelete = new Gizmox.WebGUI.Forms.Button();
             this.btnFind = new Gizmox.WebGUI.Forms.Button();
             this.btnRefresh = new Gizmox.WebGUI.Forms.Button();
+            this.imgProductPic = new RT2020.Controls.RTImage();
             this.openFileDialog = new Gizmox.WebGUI.Forms.OpenFileDialog();
-            this.txtMemo = new Gizmox.WebGUI.Forms.TextBox();
+            this.toolTip1 = new Gizmox.WebGUI.Forms.ToolTip();
+            ((System.ComponentModel.ISupportInitialize)(this.imgProductPic)).BeginInit();
             this.SuspendLayout();
             // 
-            // gbMisc
+            // txtMemo
             // 
-            this.gbMisc.Anchor = Gizmox.WebGUI.Forms.AnchorStyles.None;
-            this.gbMisc.Controls.Add(this.txtMemo);
-            this.gbMisc.Controls.Add(this.imgProductPic);
-            this.gbMisc.Controls.Add(this.txtPicSize);
-            this.gbMisc.Controls.Add(this.txtPicFileName);
-            this.gbMisc.Controls.Add(this.lblPicSize);
-            this.gbMisc.Controls.Add(this.lblPicFileName);
-            this.gbMisc.Controls.Add(this.btnDelete);
-            this.gbMisc.Controls.Add(this.btnFind);
-            this.gbMisc.Controls.Add(this.btnRefresh);
-            this.gbMisc.Dock = Gizmox.WebGUI.Forms.DockStyle.Fill;
-            this.gbMisc.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.gbMisc.FlatStyle = Gizmox.WebGUI.Forms.FlatStyle.Flat;
-            this.gbMisc.Location = new System.Drawing.Point(0, 0);
-            this.gbMisc.Name = "gbMisc";
-            this.gbMisc.Size = new System.Drawing.Size(766, 350);
-            this.gbMisc.TabIndex = 0;
-            // 
-            // imgProductPic
-            // 
-            this.imgProductPic.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.imgProductPic.Image = null;
-            this.imgProductPic.ImageName = string.Empty;
-            this.imgProductPic.Location = new System.Drawing.Point(20, 19);
-            this.imgProductPic.Name = "imgProductPic";
-            this.imgProductPic.Size = new System.Drawing.Size(356, 236);
-            this.imgProductPic.SizeMode = Gizmox.WebGUI.Forms.PictureBoxSizeMode.Normal;
-            this.imgProductPic.TabIndex = 9;
+            this.txtMemo.Location = new System.Drawing.Point(377, 13);
+            this.txtMemo.Multiline = true;
+            this.txtMemo.Name = "txtMemo";
+            this.txtMemo.Size = new System.Drawing.Size(364, 236);
+            this.txtMemo.TabIndex = 10;
             // 
             // txtPicSize
             // 
             this.txtPicSize.BackColor = System.Drawing.Color.LightYellow;
-            this.txtPicSize.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.txtPicSize.Location = new System.Drawing.Point(102, 295);
+            this.txtPicSize.Location = new System.Drawing.Point(97, 289);
             this.txtPicSize.Name = "txtPicSize";
             this.txtPicSize.ReadOnly = true;
             this.txtPicSize.Size = new System.Drawing.Size(412, 20);
@@ -88,16 +63,14 @@ namespace RT2020.Product
             // 
             // txtPicFileName
             // 
-            this.txtPicFileName.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.txtPicFileName.Location = new System.Drawing.Point(102, 272);
+            this.txtPicFileName.Location = new System.Drawing.Point(97, 266);
             this.txtPicFileName.Name = "txtPicFileName";
             this.txtPicFileName.Size = new System.Drawing.Size(412, 20);
             this.txtPicFileName.TabIndex = 7;
             // 
             // lblPicSize
             // 
-            this.lblPicSize.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.lblPicSize.Location = new System.Drawing.Point(17, 298);
+            this.lblPicSize.Location = new System.Drawing.Point(12, 292);
             this.lblPicSize.Name = "lblPicSize";
             this.lblPicSize.Size = new System.Drawing.Size(79, 23);
             this.lblPicSize.TabIndex = 6;
@@ -105,8 +78,7 @@ namespace RT2020.Product
             // 
             // lblPicFileName
             // 
-            this.lblPicFileName.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.lblPicFileName.Location = new System.Drawing.Point(17, 275);
+            this.lblPicFileName.Location = new System.Drawing.Point(12, 269);
             this.lblPicFileName.Name = "lblPicFileName";
             this.lblPicFileName.Size = new System.Drawing.Size(79, 23);
             this.lblPicFileName.TabIndex = 5;
@@ -114,10 +86,8 @@ namespace RT2020.Product
             // 
             // btnDelete
             // 
-            this.btnDelete.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            iconResourceHandle1.File = "16x16.16_L_remove.gif";
-            this.btnDelete.Image = iconResourceHandle1;
-            this.btnDelete.Location = new System.Drawing.Point(644, 293);
+            this.btnDelete.Image = new Gizmox.WebGUI.Common.Resources.IconResourceHandle(resources.GetString("btnDelete.Image"));
+            this.btnDelete.Location = new System.Drawing.Point(639, 287);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(25, 23);
             this.btnDelete.TabIndex = 4;
@@ -126,10 +96,8 @@ namespace RT2020.Product
             // 
             // btnFind
             // 
-            this.btnFind.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            iconResourceHandle2.File = "16x16.16_find.gif";
-            this.btnFind.Image = iconResourceHandle2;
-            this.btnFind.Location = new System.Drawing.Point(613, 293);
+            this.btnFind.Image = new Gizmox.WebGUI.Common.Resources.IconResourceHandle(resources.GetString("btnFind.Image"));
+            this.btnFind.Location = new System.Drawing.Point(608, 287);
             this.btnFind.Name = "btnFind";
             this.btnFind.Size = new System.Drawing.Size(25, 23);
             this.btnFind.TabIndex = 3;
@@ -138,41 +106,47 @@ namespace RT2020.Product
             // 
             // btnRefresh
             // 
-            this.btnRefresh.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            iconResourceHandle3.File = "16x16.16_L_refresh.gif";
-            this.btnRefresh.Image = iconResourceHandle3;
-            this.btnRefresh.Location = new System.Drawing.Point(582, 293);
+            this.btnRefresh.Image = new Gizmox.WebGUI.Common.Resources.IconResourceHandle(resources.GetString("btnRefresh.Image"));
+            this.btnRefresh.Location = new System.Drawing.Point(577, 287);
             this.btnRefresh.Name = "btnRefresh";
             this.btnRefresh.Size = new System.Drawing.Size(25, 23);
             this.btnRefresh.TabIndex = 2;
             this.btnRefresh.TextImageRelation = Gizmox.WebGUI.Forms.TextImageRelation.ImageAboveText;
             this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
             // 
+            // imgProductPic
+            // 
+            this.imgProductPic.Location = new System.Drawing.Point(0, 0);
+            this.imgProductPic.Name = "imgProductPic";
+            this.imgProductPic.Size = new System.Drawing.Size(64, 105);
+            this.imgProductPic.TabStop = false;
+            // 
             // openFileDialog
             // 
+            this.openFileDialog.Theme = "";
             this.openFileDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog_FileOk);
-            // 
-            // txtMemo
-            // 
-            this.txtMemo.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.txtMemo.Location = new System.Drawing.Point(382, 19);
-            this.txtMemo.Multiline = true;
-            this.txtMemo.Name = "txtMemo";
-            this.txtMemo.Size = new System.Drawing.Size(364, 236);
-            this.txtMemo.TabIndex = 10;
             // 
             // ProductWizard_Misc
             // 
-            this.Controls.Add(this.gbMisc);
+            this.Controls.Add(this.txtMemo);
+            this.Controls.Add(this.txtPicSize);
+            this.Controls.Add(this.txtPicFileName);
+            this.Controls.Add(this.btnRefresh);
+            this.Controls.Add(this.lblPicSize);
+            this.Controls.Add(this.btnFind);
+            this.Controls.Add(this.lblPicFileName);
+            this.Controls.Add(this.btnDelete);
+            this.DockPadding.All = 10;
+            this.Padding = new Gizmox.WebGUI.Forms.Padding(10);
             this.Size = new System.Drawing.Size(766, 350);
             this.Text = "ProductWizard_Misc";
+            this.Load += new System.EventHandler(this.ProductWizard_Misc_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.imgProductPic)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
-
-        private Gizmox.WebGUI.Forms.GroupBox gbMisc;
         private Gizmox.WebGUI.Forms.TextBox txtPicSize;
         private Gizmox.WebGUI.Forms.Label lblPicSize;
         private Gizmox.WebGUI.Forms.Label lblPicFileName;
@@ -181,9 +155,7 @@ namespace RT2020.Product
         private Gizmox.WebGUI.Forms.Button btnRefresh;
         private Gizmox.WebGUI.Forms.OpenFileDialog openFileDialog;
         public Gizmox.WebGUI.Forms.TextBox txtPicFileName;
-        public RT2020.Controls.RTImage imgProductPic;
         public Gizmox.WebGUI.Forms.TextBox txtMemo;
-
-
+        private Gizmox.WebGUI.Forms.ToolTip toolTip1;
     }
 }

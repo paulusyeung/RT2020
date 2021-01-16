@@ -170,14 +170,13 @@ namespace RT2020.Product
             tpGeneral.Controls.Add(general);
 
             // Misc
-            misc = new ProductWizard_Misc(System.Guid.Empty);
+            misc = new ProductWizard_Misc();
             misc.Dock = DockStyle.Fill;
             tpMisc.Controls.Add(misc);
 
             // Order
-            order = new ProductWizard_Order(System.Guid.Empty);
+            order = new ProductWizard_Order();
             order.Dock = DockStyle.Fill;
-            order.gbPurchaseHistory.Visible = false;
             tpOrder.Controls.Add(order);
         }
         #endregion

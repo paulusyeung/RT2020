@@ -28,180 +28,195 @@ namespace RT2020.Product
         /// </summary>
         private void InitializeComponent()
         {
-            this.gbDiscount = new Gizmox.WebGUI.Forms.GroupBox();
             this.chkFixedPrice = new Gizmox.WebGUI.Forms.CheckBox();
             this.lblStaffPercentage = new Gizmox.WebGUI.Forms.Label();
             this.lblNoDiscountItem = new Gizmox.WebGUI.Forms.Label();
             this.lblDiscountItem = new Gizmox.WebGUI.Forms.Label();
             this.lblFixPriceItem = new Gizmox.WebGUI.Forms.Label();
             this.lblStaff = new Gizmox.WebGUI.Forms.Label();
-            this.txtStaff = new Gizmox.WebGUI.Forms.TextBox();
-            this.txtDiscount3_NoDiscountItem = new Gizmox.WebGUI.Forms.TextBox();
-            this.txtDiscount2_DiscountItem = new Gizmox.WebGUI.Forms.TextBox();
-            this.txtDiscount1_FixPriceItem = new Gizmox.WebGUI.Forms.TextBox();
-            this.lblDiscount = new Gizmox.WebGUI.Forms.Label();
+            this.txtStaffDiscount = new Gizmox.WebGUI.Forms.TextBox();
+            this.txtNoDiscountItem = new Gizmox.WebGUI.Forms.TextBox();
+            this.txtDiscountItem = new Gizmox.WebGUI.Forms.TextBox();
+            this.txtFixPriceItem = new Gizmox.WebGUI.Forms.TextBox();
             this.lblFixedPrice = new Gizmox.WebGUI.Forms.Label();
+            this.gbxDiscounts = new Gizmox.WebGUI.Forms.GroupBox();
+            this.label3 = new Gizmox.WebGUI.Forms.Label();
+            this.label2 = new Gizmox.WebGUI.Forms.Label();
+            this.label1 = new Gizmox.WebGUI.Forms.Label();
+            this.gbxDiscounts.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // gbDiscount
-            // 
-            this.gbDiscount.Anchor = Gizmox.WebGUI.Forms.AnchorStyles.None;
-            this.gbDiscount.Controls.Add(this.chkFixedPrice);
-            this.gbDiscount.Controls.Add(this.lblStaffPercentage);
-            this.gbDiscount.Controls.Add(this.lblNoDiscountItem);
-            this.gbDiscount.Controls.Add(this.lblDiscountItem);
-            this.gbDiscount.Controls.Add(this.lblFixPriceItem);
-            this.gbDiscount.Controls.Add(this.lblStaff);
-            this.gbDiscount.Controls.Add(this.txtStaff);
-            this.gbDiscount.Controls.Add(this.txtDiscount3_NoDiscountItem);
-            this.gbDiscount.Controls.Add(this.txtDiscount2_DiscountItem);
-            this.gbDiscount.Controls.Add(this.txtDiscount1_FixPriceItem);
-            this.gbDiscount.Controls.Add(this.lblDiscount);
-            this.gbDiscount.Controls.Add(this.lblFixedPrice);
-            this.gbDiscount.Dock = Gizmox.WebGUI.Forms.DockStyle.Fill;
-            this.gbDiscount.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.gbDiscount.FlatStyle = Gizmox.WebGUI.Forms.FlatStyle.Flat;
-            this.gbDiscount.Location = new System.Drawing.Point(0, 0);
-            this.gbDiscount.Name = "gbDiscount";
-            this.gbDiscount.Size = new System.Drawing.Size(766, 350);
-            this.gbDiscount.TabIndex = 0;
             // 
             // chkFixedPrice
             // 
-            this.chkFixedPrice.Checked = false;
-            this.chkFixedPrice.CheckState = Gizmox.WebGUI.Forms.CheckState.Unchecked;
-            this.chkFixedPrice.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.chkFixedPrice.FlatStyle = Gizmox.WebGUI.Forms.FlatStyle.Standard;
-            this.chkFixedPrice.Location = new System.Drawing.Point(134, 34);
+            this.chkFixedPrice.Location = new System.Drawing.Point(129, 15);
             this.chkFixedPrice.Name = "chkFixedPrice";
             this.chkFixedPrice.Size = new System.Drawing.Size(104, 16);
             this.chkFixedPrice.TabIndex = 1;
-            this.chkFixedPrice.ThreeState = false;
             // 
             // lblStaffPercentage
             // 
-            this.lblStaffPercentage.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.lblStaffPercentage.Location = new System.Drawing.Point(262, 133);
+            this.lblStaffPercentage.Location = new System.Drawing.Point(220, 94);
             this.lblStaffPercentage.Name = "lblStaffPercentage";
-            this.lblStaffPercentage.Size = new System.Drawing.Size(100, 23);
+            this.lblStaffPercentage.Size = new System.Drawing.Size(17, 20);
             this.lblStaffPercentage.TabIndex = 0;
             this.lblStaffPercentage.Text = "%";
+            this.lblStaffPercentage.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // lblNoDiscountItem
             // 
-            this.lblNoDiscountItem.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.lblNoDiscountItem.Location = new System.Drawing.Point(262, 107);
+            this.lblNoDiscountItem.Location = new System.Drawing.Point(16, 70);
             this.lblNoDiscountItem.Name = "lblNoDiscountItem";
-            this.lblNoDiscountItem.Size = new System.Drawing.Size(127, 23);
+            this.lblNoDiscountItem.Size = new System.Drawing.Size(100, 20);
             this.lblNoDiscountItem.TabIndex = 0;
-            this.lblNoDiscountItem.Text = "% (No Discount Item)";
+            this.lblNoDiscountItem.Text = "No Discount Item:";
+            this.lblNoDiscountItem.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // lblDiscountItem
             // 
-            this.lblDiscountItem.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.lblDiscountItem.Location = new System.Drawing.Point(262, 81);
+            this.lblDiscountItem.Location = new System.Drawing.Point(16, 46);
             this.lblDiscountItem.Name = "lblDiscountItem";
-            this.lblDiscountItem.Size = new System.Drawing.Size(100, 23);
+            this.lblDiscountItem.Size = new System.Drawing.Size(100, 20);
             this.lblDiscountItem.TabIndex = 0;
-            this.lblDiscountItem.Text = "% (Discount Item)";
+            this.lblDiscountItem.Text = "Discount Item:";
+            this.lblDiscountItem.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // lblFixPriceItem
             // 
-            this.lblFixPriceItem.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.lblFixPriceItem.Location = new System.Drawing.Point(262, 55);
+            this.lblFixPriceItem.Location = new System.Drawing.Point(16, 22);
             this.lblFixPriceItem.Name = "lblFixPriceItem";
-            this.lblFixPriceItem.Size = new System.Drawing.Size(100, 23);
+            this.lblFixPriceItem.Size = new System.Drawing.Size(100, 20);
             this.lblFixPriceItem.TabIndex = 0;
-            this.lblFixPriceItem.Text = "% (Fix Price Item)";
+            this.lblFixPriceItem.Text = "Fixed Price Item:";
+            this.lblFixPriceItem.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // lblStaff
             // 
-            this.lblStaff.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.lblStaff.Location = new System.Drawing.Point(28, 133);
+            this.lblStaff.Location = new System.Drawing.Point(16, 94);
             this.lblStaff.Name = "lblStaff";
-            this.lblStaff.Size = new System.Drawing.Size(100, 23);
+            this.lblStaff.Size = new System.Drawing.Size(100, 20);
             this.lblStaff.TabIndex = 0;
             this.lblStaff.Text = "Staff:";
+            this.lblStaff.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // txtStaff
+            // txtStaffDiscount
             // 
-            this.txtStaff.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.txtStaff.Location = new System.Drawing.Point(134, 130);
-            this.txtStaff.Name = "txtStaff";
-            this.txtStaff.Size = new System.Drawing.Size(121, 20);
-            this.txtStaff.TabIndex = 5;
-            this.txtStaff.TextAlign = Gizmox.WebGUI.Forms.HorizontalAlignment.Right;
+            this.txtStaffDiscount.Location = new System.Drawing.Point(119, 94);
+            this.txtStaffDiscount.Name = "txtStaffDiscount";
+            this.txtStaffDiscount.Size = new System.Drawing.Size(100, 20);
+            this.txtStaffDiscount.TabIndex = 5;
+            this.txtStaffDiscount.TextAlign = Gizmox.WebGUI.Forms.HorizontalAlignment.Right;
             // 
-            // txtDiscount3_NoDiscountItem
+            // txtNoDiscountItem
             // 
-            this.txtDiscount3_NoDiscountItem.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.txtDiscount3_NoDiscountItem.Location = new System.Drawing.Point(134, 104);
-            this.txtDiscount3_NoDiscountItem.Name = "txtDiscount3_NoDiscountItem";
-            this.txtDiscount3_NoDiscountItem.Size = new System.Drawing.Size(121, 20);
-            this.txtDiscount3_NoDiscountItem.TabIndex = 4;
-            this.txtDiscount3_NoDiscountItem.TextAlign = Gizmox.WebGUI.Forms.HorizontalAlignment.Right;
+            this.txtNoDiscountItem.Location = new System.Drawing.Point(119, 70);
+            this.txtNoDiscountItem.Name = "txtNoDiscountItem";
+            this.txtNoDiscountItem.Size = new System.Drawing.Size(100, 20);
+            this.txtNoDiscountItem.TabIndex = 4;
+            this.txtNoDiscountItem.TextAlign = Gizmox.WebGUI.Forms.HorizontalAlignment.Right;
             // 
-            // txtDiscount2_DiscountItem
+            // txtDiscountItem
             // 
-            this.txtDiscount2_DiscountItem.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.txtDiscount2_DiscountItem.Location = new System.Drawing.Point(134, 78);
-            this.txtDiscount2_DiscountItem.Name = "txtDiscount2_DiscountItem";
-            this.txtDiscount2_DiscountItem.Size = new System.Drawing.Size(121, 20);
-            this.txtDiscount2_DiscountItem.TabIndex = 3;
-            this.txtDiscount2_DiscountItem.TextAlign = Gizmox.WebGUI.Forms.HorizontalAlignment.Right;
+            this.txtDiscountItem.Location = new System.Drawing.Point(119, 46);
+            this.txtDiscountItem.Name = "txtDiscountItem";
+            this.txtDiscountItem.Size = new System.Drawing.Size(100, 20);
+            this.txtDiscountItem.TabIndex = 3;
+            this.txtDiscountItem.TextAlign = Gizmox.WebGUI.Forms.HorizontalAlignment.Right;
             // 
-            // txtDiscount1_FixPriceItem
+            // txtFixPriceItem
             // 
-            this.txtDiscount1_FixPriceItem.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.txtDiscount1_FixPriceItem.Location = new System.Drawing.Point(134, 52);
-            this.txtDiscount1_FixPriceItem.Name = "txtDiscount1_FixPriceItem";
-            this.txtDiscount1_FixPriceItem.Size = new System.Drawing.Size(121, 20);
-            this.txtDiscount1_FixPriceItem.TabIndex = 2;
-            this.txtDiscount1_FixPriceItem.TextAlign = Gizmox.WebGUI.Forms.HorizontalAlignment.Right;
-            // 
-            // lblDiscount
-            // 
-            this.lblDiscount.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.lblDiscount.Location = new System.Drawing.Point(28, 55);
-            this.lblDiscount.Name = "lblDiscount";
-            this.lblDiscount.Size = new System.Drawing.Size(100, 23);
-            this.lblDiscount.TabIndex = 0;
-            this.lblDiscount.Text = "Discount:";
+            this.txtFixPriceItem.Location = new System.Drawing.Point(119, 22);
+            this.txtFixPriceItem.Name = "txtFixPriceItem";
+            this.txtFixPriceItem.Size = new System.Drawing.Size(100, 20);
+            this.txtFixPriceItem.TabIndex = 2;
+            this.txtFixPriceItem.TextAlign = Gizmox.WebGUI.Forms.HorizontalAlignment.Right;
             // 
             // lblFixedPrice
             // 
-            this.lblFixedPrice.DragTargets = new Gizmox.WebGUI.Forms.Component[0];
-            this.lblFixedPrice.Location = new System.Drawing.Point(28, 31);
+            this.lblFixedPrice.Location = new System.Drawing.Point(17, 15);
             this.lblFixedPrice.Name = "lblFixedPrice";
             this.lblFixedPrice.Size = new System.Drawing.Size(100, 23);
             this.lblFixedPrice.TabIndex = 0;
             this.lblFixedPrice.Text = "Fixed Price:";
             // 
+            // gbxDiscounts
+            // 
+            this.gbxDiscounts.Controls.Add(this.label3);
+            this.gbxDiscounts.Controls.Add(this.label2);
+            this.gbxDiscounts.Controls.Add(this.label1);
+            this.gbxDiscounts.Controls.Add(this.lblFixPriceItem);
+            this.gbxDiscounts.Controls.Add(this.lblDiscountItem);
+            this.gbxDiscounts.Controls.Add(this.lblStaffPercentage);
+            this.gbxDiscounts.Controls.Add(this.lblNoDiscountItem);
+            this.gbxDiscounts.Controls.Add(this.txtFixPriceItem);
+            this.gbxDiscounts.Controls.Add(this.lblStaff);
+            this.gbxDiscounts.Controls.Add(this.txtNoDiscountItem);
+            this.gbxDiscounts.Controls.Add(this.txtStaffDiscount);
+            this.gbxDiscounts.Controls.Add(this.txtDiscountItem);
+            this.gbxDiscounts.FlatStyle = Gizmox.WebGUI.Forms.FlatStyle.Flat;
+            this.gbxDiscounts.Location = new System.Drawing.Point(10, 38);
+            this.gbxDiscounts.Name = "gbxDiscounts";
+            this.gbxDiscounts.Size = new System.Drawing.Size(249, 130);
+            this.gbxDiscounts.TabIndex = 6;
+            this.gbxDiscounts.TabStop = false;
+            this.gbxDiscounts.Text = "Discounts";
+            // 
+            // label3
+            // 
+            this.label3.Location = new System.Drawing.Point(220, 22);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(17, 20);
+            this.label3.TabIndex = 0;
+            this.label3.Text = "%";
+            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // label2
+            // 
+            this.label2.Location = new System.Drawing.Point(220, 46);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(17, 20);
+            this.label2.TabIndex = 0;
+            this.label2.Text = "%";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // label1
+            // 
+            this.label1.Location = new System.Drawing.Point(220, 70);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(17, 20);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "%";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // ProductWizard_Discount
             // 
-            this.Controls.Add(this.gbDiscount);
+            this.Controls.Add(this.gbxDiscounts);
+            this.Controls.Add(this.chkFixedPrice);
+            this.Controls.Add(this.lblFixedPrice);
+            this.DockPadding.All = 10;
+            this.Padding = new Gizmox.WebGUI.Forms.Padding(10);
             this.Size = new System.Drawing.Size(766, 350);
             this.Text = "ProductWizard_Discount";
+            this.Load += new System.EventHandler(this.ProductWizard_Discount_Load);
+            this.gbxDiscounts.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
 
         #endregion
-
-        private Gizmox.WebGUI.Forms.GroupBox gbDiscount;
         private Gizmox.WebGUI.Forms.Label lblStaffPercentage;
         private Gizmox.WebGUI.Forms.Label lblNoDiscountItem;
         private Gizmox.WebGUI.Forms.Label lblDiscountItem;
         private Gizmox.WebGUI.Forms.Label lblFixPriceItem;
         private Gizmox.WebGUI.Forms.Label lblStaff;
-        private Gizmox.WebGUI.Forms.Label lblDiscount;
         private Gizmox.WebGUI.Forms.Label lblFixedPrice;
-        public Gizmox.WebGUI.Forms.TextBox txtStaff;
-        public Gizmox.WebGUI.Forms.TextBox txtDiscount3_NoDiscountItem;
-        public Gizmox.WebGUI.Forms.TextBox txtDiscount2_DiscountItem;
-        public Gizmox.WebGUI.Forms.TextBox txtDiscount1_FixPriceItem;
+        public Gizmox.WebGUI.Forms.TextBox txtStaffDiscount;
+        public Gizmox.WebGUI.Forms.TextBox txtNoDiscountItem;
+        public Gizmox.WebGUI.Forms.TextBox txtDiscountItem;
+        public Gizmox.WebGUI.Forms.TextBox txtFixPriceItem;
         public Gizmox.WebGUI.Forms.CheckBox chkFixedPrice;
-
-
+        private Gizmox.WebGUI.Forms.GroupBox gbxDiscounts;
+        private Gizmox.WebGUI.Forms.Label label3;
+        private Gizmox.WebGUI.Forms.Label label2;
+        private Gizmox.WebGUI.Forms.Label label1;
     }
 }

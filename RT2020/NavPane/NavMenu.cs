@@ -167,38 +167,21 @@ namespace RT2020.NavPane
             }
             else if (node.NodeType != XmlNodeType.CDATA)
             {
-                #region prepare LABEL list (keywords)
-                List<string> keyWords = new List<string>();
-                keyWords.Add("STKCODE");
-                keyWords.Add("APPENDIX1");
-                keyWords.Add("APPENDIX2");
-                keyWords.Add("APPENDIX3");
-                keyWords.Add("CLASS1");
-                keyWords.Add("CLASS2");
-                keyWords.Add("CLASS3");
-                keyWords.Add("CLASS4");
-                keyWords.Add("CLASS5");
-                keyWords.Add("CLASS6");
-                #endregion
-
                 String label = string.Empty, tag = "";
                 String caption = node.Attributes["Caption"].Value;
                 tag = node.Attributes["Tag"] == null ? "" : node.Attributes["Tag"].Value;
 
-                if (keyWords.Exists(key => key == caption))
+                switch (_MenuGroup)
                 {
-                    label = HttpUtility.UrlDecode(RT2020.SystemInfo.Settings.GetSystemLabelByKey(caption));
-                }
-                else
-                {
-                    if (_MenuGroup == "settings" || _MenuGroup == "membermgmt" || _MenuGroup == "shop")
-                    {
+                    case "shop":
+                    case "product":
+                    case "membermgmt":
+                    case "settings":
                         label = HttpUtility.UrlDecode(WestwindHelper.GetWord(tag, "Menu"));
-                    }
-                    else
-                    {
+                        break;
+                    default:
                         label = HttpUtility.UrlDecode(RT2020.Controls.Utility.Dictionary.GetWord(caption));
-                    }
+                        break;
                 }
 
                 if (node.HasChildNodes)

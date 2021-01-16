@@ -37,7 +37,6 @@ namespace RT2020.Member
             this.btnDelete = new Gizmox.WebGUI.Forms.Button();
             this.btnRefresh = new Gizmox.WebGUI.Forms.Button();
             this.openFileDialog = new Gizmox.WebGUI.Forms.OpenFileDialog();
-            this.imgMemberPicture = new RT2020.Controls.RTImage();
             this.lblMemo = new Gizmox.WebGUI.Forms.Label();
             this.txtMemo = new Gizmox.WebGUI.Forms.TextBox();
             this.gbPicture = new Gizmox.WebGUI.Forms.GroupBox();
@@ -97,16 +96,6 @@ namespace RT2020.Member
             // 
             this.openFileDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog_FileOk);
             // 
-            // imgMemberPicture
-            // 
-            this.imgMemberPicture.Image = null;
-            this.imgMemberPicture.ImageName = "";
-            this.imgMemberPicture.Location = new System.Drawing.Point(6, 19);
-            this.imgMemberPicture.Name = "imgMemberPicture";
-            this.imgMemberPicture.Size = new System.Drawing.Size(388, 227);
-            this.imgMemberPicture.SizeMode = Gizmox.WebGUI.Forms.PictureBoxSizeMode.Normal;
-            this.imgMemberPicture.TabIndex = 7;
-            // 
             // lblMemo
             // 
             this.lblMemo.Location = new System.Drawing.Point(13, 11);
@@ -125,7 +114,6 @@ namespace RT2020.Member
             // 
             // gbPicture
             // 
-            this.gbPicture.Controls.Add(this.imgMemberPicture);
             this.gbPicture.Controls.Add(this.lblPicFileName);
             this.gbPicture.Controls.Add(this.txtPicFileName);
             this.gbPicture.Controls.Add(this.btnRefresh);
@@ -156,7 +144,6 @@ namespace RT2020.Member
         public Gizmox.WebGUI.Forms.Button btnDelete;
         public Gizmox.WebGUI.Forms.Button btnRefresh;
         private Gizmox.WebGUI.Forms.OpenFileDialog openFileDialog;
-        public RT2020.Controls.RTImage imgMemberPicture;
         public Gizmox.WebGUI.Forms.TextBox txtPicFileName;
         private Gizmox.WebGUI.Forms.Label lblMemo;
         private Gizmox.WebGUI.Forms.GroupBox gbPicture;

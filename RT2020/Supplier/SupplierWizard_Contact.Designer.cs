@@ -28,14 +28,14 @@ namespace RT2020.Supplier
         /// </summary>
         private void InitializeComponent()
         {
-            this.lblPhoneTag8 = new Gizmox.WebGUI.Forms.Label();
-            this.txtPhoneTag2 = new Gizmox.WebGUI.Forms.TextBox();
-            this.lblPhoneTag4 = new Gizmox.WebGUI.Forms.Label();
-            this.txtPhoneTag4 = new Gizmox.WebGUI.Forms.TextBox();
-            this.txtPhoneTag3 = new Gizmox.WebGUI.Forms.TextBox();
             this.lblPhoneTag6 = new Gizmox.WebGUI.Forms.Label();
-            this.txtPhoneTag1 = new Gizmox.WebGUI.Forms.TextBox();
-            this.lblPhoneTag9 = new Gizmox.WebGUI.Forms.Label();
+            this.txtPhoneTag6 = new Gizmox.WebGUI.Forms.TextBox();
+            this.lblPhoneTag8 = new Gizmox.WebGUI.Forms.Label();
+            this.txtPhoneTag8 = new Gizmox.WebGUI.Forms.TextBox();
+            this.txtPhoneTag7 = new Gizmox.WebGUI.Forms.TextBox();
+            this.lblPhoneTag7 = new Gizmox.WebGUI.Forms.Label();
+            this.txtPhoneTag5 = new Gizmox.WebGUI.Forms.TextBox();
+            this.lblPhoneTag5 = new Gizmox.WebGUI.Forms.Label();
             this.txtFullName = new Gizmox.WebGUI.Forms.TextBox();
             this.lblFullName = new Gizmox.WebGUI.Forms.Label();
             this.lblPrimaryContact = new Gizmox.WebGUI.Forms.Label();
@@ -54,67 +54,67 @@ namespace RT2020.Supplier
             this.lblDuty = new Gizmox.WebGUI.Forms.Label();
             this.SuspendLayout();
             // 
+            // lblPhoneTag6
+            // 
+            this.lblPhoneTag6.Location = new System.Drawing.Point(246, 113);
+            this.lblPhoneTag6.Name = "lblPhoneTag6";
+            this.lblPhoneTag6.Size = new System.Drawing.Size(89, 23);
+            this.lblPhoneTag6.TabIndex = 16;
+            this.lblPhoneTag6.Text = "Phone Tag 6";
+            this.lblPhoneTag6.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
+            // txtPhoneTag6
+            // 
+            this.txtPhoneTag6.Location = new System.Drawing.Point(340, 110);
+            this.txtPhoneTag6.Name = "txtPhoneTag6";
+            this.txtPhoneTag6.Size = new System.Drawing.Size(121, 20);
+            this.txtPhoneTag6.TabIndex = 17;
+            // 
             // lblPhoneTag8
             // 
-            this.lblPhoneTag8.Location = new System.Drawing.Point(246, 113);
+            this.lblPhoneTag8.Location = new System.Drawing.Point(246, 136);
             this.lblPhoneTag8.Name = "lblPhoneTag8";
             this.lblPhoneTag8.Size = new System.Drawing.Size(89, 23);
-            this.lblPhoneTag8.TabIndex = 16;
+            this.lblPhoneTag8.TabIndex = 20;
             this.lblPhoneTag8.Text = "Phone Tag 8";
             this.lblPhoneTag8.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
-            // txtPhoneTag2
+            // txtPhoneTag8
             // 
-            this.txtPhoneTag2.Location = new System.Drawing.Point(340, 110);
-            this.txtPhoneTag2.Name = "txtPhoneTag2";
-            this.txtPhoneTag2.Size = new System.Drawing.Size(121, 20);
-            this.txtPhoneTag2.TabIndex = 17;
+            this.txtPhoneTag8.Location = new System.Drawing.Point(340, 133);
+            this.txtPhoneTag8.Name = "txtPhoneTag8";
+            this.txtPhoneTag8.Size = new System.Drawing.Size(121, 20);
+            this.txtPhoneTag8.TabIndex = 21;
             // 
-            // lblPhoneTag4
+            // txtPhoneTag7
             // 
-            this.lblPhoneTag4.Location = new System.Drawing.Point(246, 136);
-            this.lblPhoneTag4.Name = "lblPhoneTag4";
-            this.lblPhoneTag4.Size = new System.Drawing.Size(89, 23);
-            this.lblPhoneTag4.TabIndex = 20;
-            this.lblPhoneTag4.Text = "Phone Tag 4";
-            this.lblPhoneTag4.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.txtPhoneTag7.Location = new System.Drawing.Point(121, 133);
+            this.txtPhoneTag7.Name = "txtPhoneTag7";
+            this.txtPhoneTag7.Size = new System.Drawing.Size(121, 20);
+            this.txtPhoneTag7.TabIndex = 19;
             // 
-            // txtPhoneTag4
+            // lblPhoneTag7
             // 
-            this.txtPhoneTag4.Location = new System.Drawing.Point(340, 133);
-            this.txtPhoneTag4.Name = "txtPhoneTag4";
-            this.txtPhoneTag4.Size = new System.Drawing.Size(121, 20);
-            this.txtPhoneTag4.TabIndex = 21;
+            this.lblPhoneTag7.Location = new System.Drawing.Point(15, 136);
+            this.lblPhoneTag7.Name = "lblPhoneTag7";
+            this.lblPhoneTag7.Size = new System.Drawing.Size(100, 23);
+            this.lblPhoneTag7.TabIndex = 18;
+            this.lblPhoneTag7.Text = "Phone Tag 7";
             // 
-            // txtPhoneTag3
+            // txtPhoneTag5
             // 
-            this.txtPhoneTag3.Location = new System.Drawing.Point(121, 133);
-            this.txtPhoneTag3.Name = "txtPhoneTag3";
-            this.txtPhoneTag3.Size = new System.Drawing.Size(121, 20);
-            this.txtPhoneTag3.TabIndex = 19;
+            this.txtPhoneTag5.Location = new System.Drawing.Point(121, 110);
+            this.txtPhoneTag5.Name = "txtPhoneTag5";
+            this.txtPhoneTag5.Size = new System.Drawing.Size(121, 20);
+            this.txtPhoneTag5.TabIndex = 15;
             // 
-            // lblPhoneTag6
+            // lblPhoneTag5
             // 
-            this.lblPhoneTag6.Location = new System.Drawing.Point(15, 136);
-            this.lblPhoneTag6.Name = "lblPhoneTag6";
-            this.lblPhoneTag6.Size = new System.Drawing.Size(100, 23);
-            this.lblPhoneTag6.TabIndex = 18;
-            this.lblPhoneTag6.Text = "Phone Tag 6";
-            // 
-            // txtPhoneTag1
-            // 
-            this.txtPhoneTag1.Location = new System.Drawing.Point(121, 110);
-            this.txtPhoneTag1.Name = "txtPhoneTag1";
-            this.txtPhoneTag1.Size = new System.Drawing.Size(121, 20);
-            this.txtPhoneTag1.TabIndex = 15;
-            // 
-            // lblPhoneTag9
-            // 
-            this.lblPhoneTag9.Location = new System.Drawing.Point(15, 113);
-            this.lblPhoneTag9.Name = "lblPhoneTag9";
-            this.lblPhoneTag9.Size = new System.Drawing.Size(100, 23);
-            this.lblPhoneTag9.TabIndex = 14;
-            this.lblPhoneTag9.Text = "Phone Tag 9";
+            this.lblPhoneTag5.Location = new System.Drawing.Point(15, 113);
+            this.lblPhoneTag5.Name = "lblPhoneTag5";
+            this.lblPhoneTag5.Size = new System.Drawing.Size(100, 23);
+            this.lblPhoneTag5.TabIndex = 14;
+            this.lblPhoneTag5.Text = "Phone Tag 5";
             // 
             // txtFullName
             // 
@@ -258,16 +258,16 @@ namespace RT2020.Supplier
             this.Controls.Add(this.lblPrimaryContact);
             this.Controls.Add(this.lblFullName);
             this.Controls.Add(this.txtFullName);
-            this.Controls.Add(this.lblPhoneTag9);
-            this.Controls.Add(this.txtPhoneTag1);
-            this.Controls.Add(this.lblPhoneTag6);
-            this.Controls.Add(this.txtPhoneTag3);
-            this.Controls.Add(this.txtPhoneTag4);
-            this.Controls.Add(this.txtPhoneTag2);
+            this.Controls.Add(this.lblPhoneTag5);
+            this.Controls.Add(this.txtPhoneTag5);
+            this.Controls.Add(this.lblPhoneTag7);
+            this.Controls.Add(this.txtPhoneTag7);
+            this.Controls.Add(this.txtPhoneTag8);
+            this.Controls.Add(this.txtPhoneTag6);
             this.Controls.Add(this.lblDuty);
             this.Controls.Add(this.lblSalutation);
-            this.Controls.Add(this.lblPhoneTag4);
             this.Controls.Add(this.lblPhoneTag8);
+            this.Controls.Add(this.lblPhoneTag6);
             this.Controls.Add(this.lblLastName);
             this.Size = new System.Drawing.Size(583, 418);
             this.Text = "SupplierWizard_Contact";
@@ -279,14 +279,14 @@ namespace RT2020.Supplier
 
         #endregion
 
-        private Gizmox.WebGUI.Forms.Label lblPhoneTag8;
-        public Gizmox.WebGUI.Forms.TextBox txtPhoneTag2;
-        private Gizmox.WebGUI.Forms.Label lblPhoneTag4;
-        public Gizmox.WebGUI.Forms.TextBox txtPhoneTag4;
-        public Gizmox.WebGUI.Forms.TextBox txtPhoneTag3;
         private Gizmox.WebGUI.Forms.Label lblPhoneTag6;
-        public Gizmox.WebGUI.Forms.TextBox txtPhoneTag1;
-        private Gizmox.WebGUI.Forms.Label lblPhoneTag9;
+        public Gizmox.WebGUI.Forms.TextBox txtPhoneTag6;
+        private Gizmox.WebGUI.Forms.Label lblPhoneTag8;
+        public Gizmox.WebGUI.Forms.TextBox txtPhoneTag8;
+        public Gizmox.WebGUI.Forms.TextBox txtPhoneTag7;
+        private Gizmox.WebGUI.Forms.Label lblPhoneTag7;
+        public Gizmox.WebGUI.Forms.TextBox txtPhoneTag5;
+        private Gizmox.WebGUI.Forms.Label lblPhoneTag5;
         public Gizmox.WebGUI.Forms.TextBox txtFullName;
         private Gizmox.WebGUI.Forms.Label lblFullName;
         private Gizmox.WebGUI.Forms.Label lblPrimaryContact;

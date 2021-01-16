@@ -51,7 +51,7 @@ namespace RT2020.Staff
             SetSmartTags();
 
             FillComo();
-            cboSmartTag8.SelectedIndex = 0;
+            cboSmartTag2.SelectedIndex = 0;
         }
 
         #region SetCaptions, SetAttributes & SetSmartTags
@@ -92,29 +92,57 @@ namespace RT2020.Staff
         {
             lblDateFormat.Visible = false;                      // 唔使提示
 
-            #region 設定 clickable smart tag 5 label
+            #region 設定 clickable smart tag 1 label
             //lblSmartTag5.AutoSize = true;                      // 減少 whitespace，有字嘅位置先可以 click
-            lblSmartTag5.Cursor = Cursors.Hand;                // cursor over 顯示 hand cursor
-            lblSmartTag5.Click += (s, e) =>                    // 彈出 wizard
+            lblSmartTag1.Cursor = Cursors.Hand;                // cursor over 顯示 hand cursor
+            lblSmartTag1.Click += (s, e) =>                    // 彈出 wizard
             {
                 var dialog = new SmartTag4StaffWizard();
                 dialog.FormClosed += (sender, eventArgs) =>     // 關閉後 refresh 個 combo box items
                 {
-                    //FillSalutationList();
+                    SetSmartTags();
                 };
                 dialog.ShowDialog();
             };
             #endregion
 
-            #region 設定 clickable smart tag 8 label
-            lblSmartTag8.AutoSize = true;                      // 減少 whitespace，有字嘅位置先可以 click
-            lblSmartTag8.Cursor = Cursors.Hand;                // cursor over 顯示 hand cursor
-            lblSmartTag8.Click += (s, e) =>                    // 彈出 wizard
+            #region 設定 clickable smart tag 2 label
+            lblSmartTag2.AutoSize = true;                      // 減少 whitespace，有字嘅位置先可以 click
+            lblSmartTag2.Cursor = Cursors.Hand;                // cursor over 顯示 hand cursor
+            lblSmartTag2.Click += (s, e) =>                    // 彈出 wizard
             {
                 var dialog = new SmartTag4StaffWizard();
                 dialog.FormClosed += (sender, eventArgs) =>     // 關閉後 refresh 個 combo box items
                 {
-                    //FillSalutationList();
+                    SetSmartTags();
+                };
+                dialog.ShowDialog();
+            };
+            #endregion
+
+            #region 設定 clickable smart tag 3 label
+            lblSmartTag3.AutoSize = true;                      // 減少 whitespace，有字嘅位置先可以 click
+            lblSmartTag3.Cursor = Cursors.Hand;                // cursor over 顯示 hand cursor
+            lblSmartTag3.Click += (s, e) =>                    // 彈出 wizard
+            {
+                var dialog = new SmartTag4StaffWizard();
+                dialog.FormClosed += (sender, eventArgs) =>     // 關閉後 refresh 個 combo box items
+                {
+                    SetSmartTags();
+                };
+                dialog.ShowDialog();
+            };
+            #endregion
+
+            #region 設定 clickable smart tag 4 label
+            lblSmartTag4.AutoSize = true;                      // 減少 whitespace，有字嘅位置先可以 click
+            lblSmartTag4.Cursor = Cursors.Hand;                // cursor over 顯示 hand cursor
+            lblSmartTag4.Click += (s, e) =>                    // 彈出 wizard
+            {
+                var dialog = new SmartTag4StaffWizard();
+                dialog.FormClosed += (sender, eventArgs) =>     // 關閉後 refresh 個 combo box items
+                {
+                    SetSmartTags();
                 };
                 dialog.ShowDialog();
             };
@@ -181,11 +209,11 @@ namespace RT2020.Staff
             FillGroup();
             FillDept();
             FillPosition();
-            FillSex();
+            //FillSex();
             FillAssistants();
 
-            ModelEx.SmartTag4Staff_OptionsEx.FillSmartTagComboBox(ref cboSmartTag5, 5);
-            ModelEx.SmartTag4Staff_OptionsEx.FillSmartTagComboBox(ref cboSmartTag8, 8);
+            ModelEx.SmartTag4Staff_OptionsEx.FillSmartTagComboBox(ref cboSmartTag1, 1);
+            ModelEx.SmartTag4Staff_OptionsEx.FillSmartTagComboBox(ref cboSmartTag2, 2);
         }
         #endregion
 
@@ -225,10 +253,10 @@ namespace RT2020.Staff
         #region FillSex
         private void FillSex()
         {
-            cboSmartTag5.Items.Clear();
-            cboSmartTag5.Items.Add("Male");
-            cboSmartTag5.Items.Add("Female");
-            cboSmartTag5.SelectedIndex = 0;
+            cboSmartTag1.Items.Clear();
+            cboSmartTag1.Items.Add("Male");
+            cboSmartTag1.Items.Add("Female");
+            cboSmartTag1.SelectedIndex = 0;
         }
         #endregion
 
@@ -241,10 +269,10 @@ namespace RT2020.Staff
             var sql = string.Format("StaffId NOT IN ('{0}') AND Status > 0", _StaffId.ToString());
             var orderBy = new string[] { "StaffNumber" };
 
-            ModelEx.StaffEx.LoadCombo(ref cboSmartTag6, textFields, pattern, true, true, string.Empty, sql, orderBy);
+            ModelEx.StaffEx.LoadCombo(ref cboSmartTag5, textFields, pattern, true, true, string.Empty, sql, orderBy);
             //if (cboSmartTag6.Items.Count > 0) cboSmartTag6.SelectedIndex = 0;
 
-            ModelEx.StaffEx.LoadCombo(ref cboSmartTag7, textFields, pattern, true, true, string.Empty, sql, orderBy);
+            ModelEx.StaffEx.LoadCombo(ref cboSmartTag6, textFields, pattern, true, true, string.Empty, sql, orderBy);
             //if (cboSmartTag7.Items.Count > 0) cboSmartTag7.SelectedIndex = 0;  
         }
 
@@ -338,15 +366,15 @@ namespace RT2020.Staff
                     {
                         if (staff.InternetTag1 == internetTag.TagId)
                         {
-                            txtSmartTag4.Text = staff.InternetTag1Value;
+                            txtSmartTag3.Text = staff.InternetTag1Value;
                         }
                         else if (staff.InternetTag2 == internetTag.TagId)
                         {
-                            txtSmartTag4.Text = staff.InternetTag2Value;
+                            txtSmartTag3.Text = staff.InternetTag2Value;
                         }
                         else if (staff.InternetTag3 == internetTag.TagId)
                         {
-                            txtSmartTag4.Text = staff.InternetTag3Value;
+                            txtSmartTag3.Text = staff.InternetTag3Value;
                         }
                     }
                     #endregion
@@ -357,15 +385,15 @@ namespace RT2020.Staff
                     {
                         if (staff.InternetTag1 == internetTagEx.TagId)
                         {
-                            txtSmartTag12.Text = staff.InternetTag1Value;
+                            txtSmartTag4.Text = staff.InternetTag1Value;
                         }
                         else if (staff.InternetTag2 == internetTagEx.TagId)
                         {
-                            txtSmartTag12.Text = staff.InternetTag2Value;
+                            txtSmartTag4.Text = staff.InternetTag2Value;
                         }
                         else if (staff.InternetTag3 == internetTagEx.TagId)
                         {
-                            txtSmartTag12.Text = staff.InternetTag3Value;
+                            txtSmartTag4.Text = staff.InternetTag3Value;
                         }
                     }
                     #endregion

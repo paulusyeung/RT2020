@@ -24,6 +24,58 @@ namespace RT2020.ModelEx
             return result;
         }
 
+        public static bool DeleteOptionsToo(Guid tagId)
+        {
+            bool result = false;
+
+            using (var ctx = new EF6.RT2020Entities())
+            {
+                using (var scope = ctx.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        var item = ctx.SmartTag4Member.Find(tagId);
+                        if (item != null)
+                        {
+                            #region remove Options
+                            var options = ctx.SmartTag4Member_Options.Where(x => x.TagId == item.TagId);
+                            if (options.Count() > 0)
+                            {
+                                foreach (var option in options)
+                                {
+                                    ctx.SmartTag4Member_Options.Remove(option);
+                                }
+                            }
+                            #endregion
+
+                            #region remove in use by parents
+                            var used = ctx.MemberSmartTag.Where(x => x.TagId == item.TagId);
+                            if (used.Count() > 0)
+                            {
+                                foreach (var use in used)
+                                {
+                                    ctx.MemberSmartTag.Remove(use);
+                                }
+                            }
+                            #endregion
+
+                            ctx.SmartTag4Member.Remove(item);
+                            ctx.SaveChanges();
+
+                            scope.Commit();
+                            result = true;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        scope.Rollback();
+                    }
+                }
+            }
+
+            return result;
+        }
+
         public static Guid GetIdByPriority(int priority)
         {
             Guid result = Guid.Empty;
