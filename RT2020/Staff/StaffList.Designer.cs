@@ -1,7 +1,6 @@
-using System;
-namespace RT2020.Supplier
+namespace RT2020.Staff
 {
-    partial class DefaultList
+    partial class StaffList
     {
         /// <summary>
         /// Required designer variable.

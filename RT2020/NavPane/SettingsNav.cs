@@ -86,19 +86,19 @@ namespace RT2020.NavPane
                 switch (Tag.ToLower())
                 {
                     case "settings.staff":
-                        RT2020.Staff.DefaultList oStaffList = new RT2020.Staff.DefaultList();
+                        RT2020.Staff.StaffList oStaffList = new RT2020.Staff.StaffList();
                         oStaffList.DockPadding.All = 6;
                         oStaffList.Dock = DockStyle.Fill;
                         wspPane.Controls.Add(oStaffList);
                         break;
                     case "settings.supplier":
-                        RT2020.Supplier.DefaultList oSupplierList = new RT2020.Supplier.DefaultList();
+                        RT2020.Supplier.SupplierList oSupplierList = new RT2020.Supplier.SupplierList();
                         oSupplierList.DockPadding.All = 6;
                         oSupplierList.Dock = DockStyle.Fill;
                         wspPane.Controls.Add(oSupplierList);
                         break;
                     case "settings.workplace":
-                        RT2020.Workplace.DefaultList oWorkplaceList = new RT2020.Workplace.DefaultList();
+                        RT2020.Workplace.WorkplaceList oWorkplaceList = new RT2020.Workplace.WorkplaceList();
                         oWorkplaceList.DockPadding.All = 6;
                         oWorkplaceList.Dock = DockStyle.Fill;
                         wspPane.Controls.Add(oWorkplaceList);

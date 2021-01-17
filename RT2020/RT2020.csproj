@@ -2707,11 +2707,11 @@
     <Compile Include="Staff\Controls\OwnerDrawnComboBox.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Staff\DefaultList.cs">
+    <Compile Include="Staff\StaffList.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Staff\DefaultList.Designer.cs">
-      <DependentUpon>DefaultList.cs</DependentUpon>
+    <Compile Include="Staff\StaffList.Designer.cs">
+      <DependentUpon>StaffList.cs</DependentUpon>
     </Compile>
     <Compile Include="Staff\FindHKID.cs">
       <SubType>Form</SubType>
@@ -2773,11 +2773,11 @@
     <Compile Include="Staff\StaffWizard_Personal.Designer.cs">
       <DependentUpon>StaffWizard_Personal.cs</DependentUpon>
     </Compile>
-    <Compile Include="Supplier\DefaultList.cs">
+    <Compile Include="Supplier\SupplierList.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Supplier\DefaultList.Designer.cs">
-      <DependentUpon>DefaultList.cs</DependentUpon>
+    <Compile Include="Supplier\SupplierList.Designer.cs">
+      <DependentUpon>SupplierList.cs</DependentUpon>
     </Compile>
     <Compile Include="Supplier\Reports\RptSupplierList.cs">
       <SubType>Form</SubType>
@@ -3023,11 +3023,11 @@
     <Compile Include="Workplace\ChangePassword.Designer.cs">
       <DependentUpon>ChangePassword.cs</DependentUpon>
     </Compile>
-    <Compile Include="Workplace\DefaultList.cs">
+    <Compile Include="Workplace\WorkplaceList.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Workplace\DefaultList.Designer.cs">
-      <DependentUpon>DefaultList.cs</DependentUpon>
+    <Compile Include="Workplace\WorkplaceList.Designer.cs">
+      <DependentUpon>WorkplaceList.cs</DependentUpon>
     </Compile>
     <Compile Include="Workplace\WorkplaceFind.cs">
       <SubType>Form</SubType>
@@ -3073,7 +3073,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="ClassDiagram1.cd" />
     <None Include="Controls\Reporting\DataSource.xsc">
       <DependentUpon>DataSource.xsd</DependentUpon>
     </None>
@@ -4697,8 +4696,8 @@
       <DependentUpon>DeptDropdownTree.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Staff\DefaultList.resx">
-      <DependentUpon>DefaultList.cs</DependentUpon>
+    <EmbeddedResource Include="Staff\StaffList.resx">
+      <DependentUpon>StaffList.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Staff\FindHKID.resx">
@@ -4742,8 +4741,8 @@
       <DependentUpon>StaffWizard_Personal.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Supplier\DefaultList.resx">
-      <DependentUpon>DefaultList.cs</DependentUpon>
+    <EmbeddedResource Include="Supplier\SupplierList.resx">
+      <DependentUpon>SupplierList.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Supplier\Reports\RptSupplierList.resx">
@@ -4904,8 +4903,8 @@
       <DependentUpon>ChangePassword.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Workplace\DefaultList.resx">
-      <DependentUpon>DefaultList.cs</DependentUpon>
+    <EmbeddedResource Include="Workplace\WorkplaceList.resx">
+      <DependentUpon>WorkplaceList.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Workplace\Reports\WorkplaceListRdl.rdlc" />

@@ -1,6 +1,6 @@
 namespace RT2020.Workplace
 {
-    partial class DefaultList
+    partial class WorkplaceList
     {
         /// <summary>
         /// Required designer variable.
