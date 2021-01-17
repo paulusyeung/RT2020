@@ -516,10 +516,10 @@ namespace RT2020.Product
                                 #endregion
 
                                 #region SaveProductPrice(oBatch, oItem.ProductId);
-                                SaveProductPrice(productId, EnumHelper.ProductPriceType.BASPRC.ToString(), "HKD", oBatch.BASPRC.ToString());
-                                SaveProductPrice(productId, EnumHelper.ProductPriceType.ORIPRC.ToString(), "HKD", oBatch.ORIPRC.ToString());
-                                SaveProductPrice(productId, EnumHelper.ProductPriceType.VPRC.ToString(), oBatch.VCURR, oBatch.VPRC.ToString());
-                                SaveProductPrice(productId, EnumHelper.ProductPriceType.WHLPRC.ToString(), "HKD", oBatch.WHLPRC.ToString());
+                                SaveProductPrice(productId, ProductHelper.Prices.BASPRC.ToString(), "HKD", oBatch.BASPRC.ToString());
+                                SaveProductPrice(productId, ProductHelper.Prices.ORIPRC.ToString(), "HKD", oBatch.ORIPRC.ToString());
+                                SaveProductPrice(productId, ProductHelper.Prices.VPRC.ToString(), oBatch.VCURR, oBatch.VPRC.ToString());
+                                SaveProductPrice(productId, ProductHelper.Prices.WHLPRC.ToString(), "HKD", oBatch.WHLPRC.ToString());
                                 #endregion
 
                                 // Remarks
@@ -662,10 +662,10 @@ namespace RT2020.Product
 
         private void SaveProductPrice(ProductBatch oBatch, Guid productId)
         {
-            SaveProductPrice(productId, EnumHelper.ProductPriceType.BASPRC.ToString(), "HKD", oBatch.BASPRC.ToString());
-            SaveProductPrice(productId, EnumHelper.ProductPriceType.ORIPRC.ToString(), "HKD", oBatch.ORIPRC.ToString());
-            SaveProductPrice(productId, EnumHelper.ProductPriceType.VPRC.ToString(), oBatch.VCURR, oBatch.VPRC.ToString());
-            SaveProductPrice(productId, EnumHelper.ProductPriceType.WHLPRC.ToString(), "HKD", oBatch.WHLPRC.ToString());
+            SaveProductPrice(productId, ProductHelper.Prices.BASPRC.ToString(), "HKD", oBatch.BASPRC.ToString());
+            SaveProductPrice(productId, ProductHelper.Prices.ORIPRC.ToString(), "HKD", oBatch.ORIPRC.ToString());
+            SaveProductPrice(productId, ProductHelper.Prices.VPRC.ToString(), oBatch.VCURR, oBatch.VPRC.ToString());
+            SaveProductPrice(productId, ProductHelper.Prices.WHLPRC.ToString(), "HKD", oBatch.WHLPRC.ToString());
         }
 
         private void SaveProductRemarks(ProductBatch oBatch, Guid productId)

@@ -675,7 +675,7 @@ namespace RT2020.Inventory.GoodsReturn
                                         oLedgerDetail.AverageCost = summary.AverageCost;
                                     }
 
-                                    var priceTypeId = ModelEx.ProductPriceTypeEx.GetIdByPriceType(EnumHelper.ProductPriceType.VPRC.ToString());
+                                    var priceTypeId = ModelEx.ProductPriceTypeEx.GetIdByPriceType(ProductHelper.Prices.VPRC.ToString());
 
                                     //sql += " AND PriceTypeId = '" + priceTypeId.ToString() + "'";
                                     var oPrice = ctx.ProductPrice.Where(x => x.ProductId == oSDetail.ProductId && x.PriceTypeId == priceTypeId).FirstOrDefault();
@@ -881,7 +881,7 @@ namespace RT2020.Inventory.GoodsReturn
                                     oLedgerDetail.AverageCost = summary.AverageCost;
                                 }
 
-                                var priceTypeId = ModelEx.ProductPriceTypeEx.GetIdByPriceType(EnumHelper.ProductPriceType.VPRC.ToString());
+                                var priceTypeId = ModelEx.ProductPriceTypeEx.GetIdByPriceType(ProductHelper.Prices.VPRC.ToString());
 
                                 //sql += " AND PriceTypeId = '" + priceTypeId.ToString() + "'";
                                 var oPrice = ctx.ProductPrice.Where(x => x.ProductId == oSDetail.ProductId && x.PriceTypeId == priceTypeId).FirstOrDefault();

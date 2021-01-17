@@ -973,10 +973,10 @@ namespace RT2020.Product.Import
 
         private void ImportProductPrice(Guid productId, StockCodeRec oRec)
         {
-            ImportProductPrice(productId, EnumHelper.ProductPriceType.BASPRC.ToString(), "HKD", oRec.BASPRC);
-            ImportProductPrice(productId, EnumHelper.ProductPriceType.ORIPRC.ToString(), "HKD", "0");
-            ImportProductPrice(productId, EnumHelper.ProductPriceType.VPRC.ToString(), oRec.VCURR, oRec.VPRC);
-            ImportProductPrice(productId, EnumHelper.ProductPriceType.WHLPRC.ToString(), "HKD", "0");
+            ImportProductPrice(productId, ProductHelper.Prices.BASPRC.ToString(), "HKD", oRec.BASPRC);
+            ImportProductPrice(productId, ProductHelper.Prices.ORIPRC.ToString(), "HKD", "0");
+            ImportProductPrice(productId, ProductHelper.Prices.VPRC.ToString(), oRec.VCURR, oRec.VPRC);
+            ImportProductPrice(productId, ProductHelper.Prices.WHLPRC.ToString(), "HKD", "0");
         }
 
         private void ImportProductPrice(Guid productId, string priceType, string currencyCode, string price)

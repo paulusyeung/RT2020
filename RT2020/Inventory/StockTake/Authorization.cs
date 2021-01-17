@@ -515,7 +515,7 @@ namespace RT2020.Inventory.StockTake
                             {
                                 oLedgerDetail.BasicPrice = oItem.RetailPrice;
 
-                                var priceTypeId = ModelEx.ProductPriceTypeEx.GetIdByPriceType(EnumHelper.ProductPriceType.VPRC.ToString());
+                                var priceTypeId = ModelEx.ProductPriceTypeEx.GetIdByPriceType(ProductHelper.Prices.VPRC.ToString());
                                 var oPrice = ctx.ProductPrice
                                         .Where(x => x.ProductId == stkDetail.ProductId && x.PriceTypeId == priceTypeId)
                                         .AsNoTracking()

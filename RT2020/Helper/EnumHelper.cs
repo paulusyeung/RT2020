@@ -43,49 +43,6 @@ namespace RT2020.Helper
         }
 
         /// <summary>
-        /// Product Price Type
-        /// </summary>
-        public enum ProductPriceType
-        {
-            /// <summary>
-            /// Original Retail Price
-            /// </summary>
-            ORIPRC,
-            /// <summary>
-            /// Retail Price /Basic Price
-            /// </summary>
-            BASPRC,
-            /// <summary>
-            /// WholeSale Price
-            /// </summary>
-            WHLPRC,
-            /// <summary>
-            /// Vendor Price
-            /// </summary>
-            VPRC
-        }
-
-        public enum ProductClassType
-        {
-            None,
-            Class1,
-            Class2,
-            Class3,
-            Class4,
-            Class5,
-            Class6
-        }
-
-        public enum ProductAppendixType
-        {
-            None,
-            Appendix1,
-            Appendix2,
-            Appendix3
-        }
-
-
-        /// <summary>
         /// Transaction Type
         /// </summary>
         public enum TxType

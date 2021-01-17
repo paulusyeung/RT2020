@@ -10,6 +10,7 @@ using System.Text;
 using Gizmox.WebGUI.Common;
 using Gizmox.WebGUI.Common.Resources;
 using Gizmox.WebGUI.Forms;
+using RT2020.Helper;
 
 #endregion
 
@@ -74,19 +75,19 @@ namespace RT2020.NavPane
                         wspPane.Controls.Add(oProd);
                         break;
                     case "product.appendix1":
-                        RT2020.Product.DefaultAppendixList oAppendix1List = new RT2020.Product.DefaultAppendixList("Appendix1", controls[0]);
+                        RT2020.Product.DefaultAppendixList oAppendix1List = new RT2020.Product.DefaultAppendixList(ProductHelper.Appendix.Appendix1, controls[0]);
                         oAppendix1List.DockPadding.All = 6;
                         oAppendix1List.Dock = DockStyle.Fill;
                         wspPane.Controls.Add(oAppendix1List);
                         break;
                     case "product.appendix2":
-                        RT2020.Product.DefaultAppendixList oAppendix2List = new RT2020.Product.DefaultAppendixList("Appendix2", controls[0]);
+                        RT2020.Product.DefaultAppendixList oAppendix2List = new RT2020.Product.DefaultAppendixList(ProductHelper.Appendix.Appendix2, controls[0]);
                         oAppendix2List.DockPadding.All = 6;
                         oAppendix2List.Dock = DockStyle.Fill;
                         wspPane.Controls.Add(oAppendix2List);
                         break;
                     case "product.appendix3":
-                        RT2020.Product.DefaultAppendixList oAppendix3List = new RT2020.Product.DefaultAppendixList("Appendix3", controls[0]);
+                        RT2020.Product.DefaultAppendixList oAppendix3List = new RT2020.Product.DefaultAppendixList(ProductHelper.Appendix.Appendix3, controls[0]);
                         oAppendix3List.DockPadding.All = 6;
                         oAppendix3List.Dock = DockStyle.Fill;
                         wspPane.Controls.Add(oAppendix3List);

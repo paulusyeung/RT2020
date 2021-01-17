@@ -32,8 +32,8 @@ namespace RT2020.Product
             set { _ClassId = value; }
         }
 
-        private ProductClassType _ClassType = ProductClassType.None;
-        public ProductClassType ProductClassType
+        private ProductHelper.Classes _ClassType = ProductHelper.Classes.None;
+        public ProductHelper.Classes ProductClassType
         {
             get { return _ClassType; }
             set { _ClassType = value; }
@@ -62,22 +62,22 @@ namespace RT2020.Product
             #region this.Text
             switch (_ClassType)
             {
-                case ProductClassType.Class1:
+                case ProductHelper.Classes.Class1:
                     this.Text = string.Format("{0} ({1})", WestwindHelper.GetWord("class.setup", "Product"), WestwindHelper.GetWord("class.class1", "Product"));
                     break;
-                case ProductClassType.Class2:
+                case ProductHelper.Classes.Class2:
                     this.Text = string.Format("{0} ({1})", WestwindHelper.GetWord("class.setup", "Product"), WestwindHelper.GetWord("class.class2", "Product"));
                     break;
-                case ProductClassType.Class3:
+                case ProductHelper.Classes.Class3:
                     this.Text = string.Format("{0} ({1})", WestwindHelper.GetWord("class.setup", "Product"), WestwindHelper.GetWord("class.class3", "Product"));
                     break;
-                case ProductClassType.Class4:
+                case ProductHelper.Classes.Class4:
                     this.Text = string.Format("{0} ({1})", WestwindHelper.GetWord("class.setup", "Product"), WestwindHelper.GetWord("class.class4", "Product"));
                     break;
-                case ProductClassType.Class5:
+                case ProductHelper.Classes.Class5:
                     this.Text = string.Format("{0} ({1})", WestwindHelper.GetWord("class.setup", "Product"), WestwindHelper.GetWord("class.class5", "Product"));
                     break;
-                case ProductClassType.Class6:
+                case ProductHelper.Classes.Class6:
                     this.Text = string.Format("{0} ({1})", WestwindHelper.GetWord("class.setup", "Product"), WestwindHelper.GetWord("class.class6", "Product"));
                     break;
             }
@@ -255,7 +255,7 @@ namespace RT2020.Product
             {
                 switch (_ClassType)
                 {
-                    case ProductClassType.Class1:
+                    case ProductHelper.Classes.Class1:
                         #region ProductClass1
                         var class1 = ctx.ProductClass1.Where(x => x.Retired == false).OrderBy(x => x.Class1Code).AsNoTracking().ToList();
 
@@ -273,7 +273,7 @@ namespace RT2020.Product
                         }
                         break;
                     #endregion
-                    case ProductClassType.Class2:
+                    case ProductHelper.Classes.Class2:
                         #region ProductClass2
                         var class2 = ctx.ProductClass2.Where(x => x.Retired == false).OrderBy(x => x.Class2Code).AsNoTracking().ToList();
 
@@ -291,7 +291,7 @@ namespace RT2020.Product
                         }
                         break;
                     #endregion
-                    case ProductClassType.Class3:
+                    case ProductHelper.Classes.Class3:
                         #region ProductClass3
                         var class3 = ctx.ProductClass3.Where(x => x.Retired == false).OrderBy(x => x.Class3Code).AsNoTracking().ToList();
 
@@ -309,7 +309,7 @@ namespace RT2020.Product
                         }
                         break;
                     #endregion
-                    case ProductClassType.Class4:
+                    case ProductHelper.Classes.Class4:
                         #region ProductClass4
                         var class4 = ctx.ProductClass4.Where(x => x.Retired == false).OrderBy(x => x.Class4Code).AsNoTracking().ToList();
 
@@ -327,7 +327,7 @@ namespace RT2020.Product
                         }
                         break;
                     #endregion
-                    case ProductClassType.Class5:
+                    case ProductHelper.Classes.Class5:
                         #region ProductClass5
                         var class5 = ctx.ProductClass5.Where(x => x.Retired == false).OrderBy(x => x.Class5Code).AsNoTracking().ToList();
 
@@ -345,7 +345,7 @@ namespace RT2020.Product
                         }
                         break;
                     #endregion
-                    case ProductClassType.Class6:
+                    case ProductHelper.Classes.Class6:
                         #region ProductClass6
                         var class6 = ctx.ProductClass6.Where(x => x.Retired == false).OrderBy(x => x.Class6Code).AsNoTracking().ToList();
 
@@ -389,7 +389,7 @@ namespace RT2020.Product
             {
                 switch (_ClassType)
                 {
-                    case ProductClassType.Class1:
+                    case ProductHelper.Classes.Class1:
                         #region ProductClass1
                         if (ModelEx.ProductClass1Ex.IsClassCodeInUse(txtClassCode.Text.Trim()))
                         {
@@ -399,7 +399,7 @@ namespace RT2020.Product
                         }
                         break;
                         #endregion
-                    case ProductClassType.Class2:
+                    case ProductHelper.Classes.Class2:
                         #region ProductClass2
                         if (ModelEx.ProductClass2Ex.IsClassCodeInUse(txtClassCode.Text.Trim()))
                         {
@@ -409,7 +409,7 @@ namespace RT2020.Product
                         }
                         break;
                     #endregion
-                    case ProductClassType.Class3:
+                    case ProductHelper.Classes.Class3:
                         #region ProductClass3
                         if (ModelEx.ProductClass3Ex.IsClassCodeInUse(txtClassCode.Text.Trim()))
                         {
@@ -419,7 +419,7 @@ namespace RT2020.Product
                         }
                         break;
                         #endregion
-                    case ProductClassType.Class4:
+                    case ProductHelper.Classes.Class4:
                         #region ProductClass4
                         if (ModelEx.ProductClass4Ex.IsClassCodeInUse(txtClassCode.Text.Trim()))
                         {
@@ -429,7 +429,7 @@ namespace RT2020.Product
                         }
                         break;
                         #endregion
-                    case ProductClassType.Class5:
+                    case ProductHelper.Classes.Class5:
                         #region ProductClass5
                         if (ModelEx.ProductClass5Ex.IsClassCodeInUse(txtClassCode.Text.Trim()))
                         {
@@ -439,7 +439,7 @@ namespace RT2020.Product
                         }
                         break;
                         #endregion
-                    case ProductClassType.Class6:
+                    case ProductHelper.Classes.Class6:
                         #region ProductClass6
                         if (ModelEx.ProductClass6Ex.IsClassCodeInUse(txtClassCode.Text.Trim()))
                         {
@@ -464,7 +464,7 @@ namespace RT2020.Product
             {
                 switch (_ClassType)
                 {
-                    case ProductClassType.Class1:
+                    case ProductHelper.Classes.Class1:
                         #region ProductClass1
                         var class1 = ctx.ProductClass1.Find(_ClassId);
 
@@ -490,7 +490,7 @@ namespace RT2020.Product
                         result = true;
                         break;
                         #endregion
-                    case ProductClassType.Class2:
+                    case ProductHelper.Classes.Class2:
                         #region ProductClass2
                         var class2 = ctx.ProductClass2.Find(_ClassId);
 
@@ -516,7 +516,7 @@ namespace RT2020.Product
                         result = true;
                         break;
                     #endregion
-                    case ProductClassType.Class3:
+                    case ProductHelper.Classes.Class3:
                         #region ProductClass3
                         var class3 = ctx.ProductClass3.Find(_ClassId);
 
@@ -542,7 +542,7 @@ namespace RT2020.Product
                         result = true;
                         break;
                     #endregion
-                    case ProductClassType.Class4:
+                    case ProductHelper.Classes.Class4:
                         #region ProductClass4
                         var class4 = ctx.ProductClass4.Find(_ClassId);
 
@@ -568,7 +568,7 @@ namespace RT2020.Product
                         result = true;
                         break;
                     #endregion
-                    case ProductClassType.Class5:
+                    case ProductHelper.Classes.Class5:
                         #region ProductClass5
                         var class5 = ctx.ProductClass5.Find(_ClassId);
 
@@ -594,7 +594,7 @@ namespace RT2020.Product
                         result = true;
                         break;
                     #endregion
-                    case ProductClassType.Class6:
+                    case ProductHelper.Classes.Class6:
                         #region ProductClass6
                         var class6 = ctx.ProductClass6.Find(_ClassId);
 
@@ -632,22 +632,22 @@ namespace RT2020.Product
             bool result = false;
             switch (_ClassType)
             {
-                case ProductClassType.Class1:
+                case ProductHelper.Classes.Class1:
                     result = ModelEx.ProductClass1Ex.Delete(_ClassId);
                     break;
-                case ProductClassType.Class2:
+                case ProductHelper.Classes.Class2:
                     result = ModelEx.ProductClass2Ex.Delete(_ClassId);
                     break;
-                case ProductClassType.Class3:
+                case ProductHelper.Classes.Class3:
                     result = ModelEx.ProductClass3Ex.Delete(_ClassId);
                     break;
-                case ProductClassType.Class4:
+                case ProductHelper.Classes.Class4:
                     result = ModelEx.ProductClass4Ex.Delete(_ClassId);
                     break;
-                case ProductClassType.Class5:
+                case ProductHelper.Classes.Class5:
                     result = ModelEx.ProductClass5Ex.Delete(_ClassId);
                     break;
-                case ProductClassType.Class6:
+                case ProductHelper.Classes.Class6:
                     result = ModelEx.ProductClass6Ex.Delete(_ClassId);
                     break;
             }
@@ -666,7 +666,7 @@ namespace RT2020.Product
                     {
                         switch (_ClassType)
                         {
-                            case ProductClassType.Class1:
+                            case ProductHelper.Classes.Class1:
                                 #region ProductClass1
                                 var class1 = ctx.ProductClass1.Find(id);
                                 if (class1 != null)
@@ -679,7 +679,7 @@ namespace RT2020.Product
                                 }
                                 break;
                                 #endregion
-                            case ProductClassType.Class2:
+                            case ProductHelper.Classes.Class2:
                                 #region ProductClass2
                                 var class2 = ctx.ProductClass2.Find(id);
                                 if (class2 != null)
@@ -692,7 +692,7 @@ namespace RT2020.Product
                                 }
                                 break;
                             #endregion
-                            case ProductClassType.Class3:
+                            case ProductHelper.Classes.Class3:
                                 #region ProductClass3
                                 var class3 = ctx.ProductClass3.Find(id);
                                 if (class3 != null)
@@ -705,7 +705,7 @@ namespace RT2020.Product
                                 }
                                 break;
                             #endregion
-                            case ProductClassType.Class4:
+                            case ProductHelper.Classes.Class4:
                                 #region ProductClass4
                                 var class4 = ctx.ProductClass4.Find(id);
                                 if (class4 != null)
@@ -718,7 +718,7 @@ namespace RT2020.Product
                                 }
                                 break;
                             #endregion
-                            case ProductClassType.Class5:
+                            case ProductHelper.Classes.Class5:
                                 #region ProductClass5
                                 var class5 = ctx.ProductClass5.Find(id);
                                 if (class5 != null)
@@ -731,7 +731,7 @@ namespace RT2020.Product
                                 }
                                 break;
                             #endregion
-                            case ProductClassType.Class6:
+                            case ProductHelper.Classes.Class6:
                                 #region ProductClass6
                                 var class6 = ctx.ProductClass6.Find(id);
                                 if (class6 != null)

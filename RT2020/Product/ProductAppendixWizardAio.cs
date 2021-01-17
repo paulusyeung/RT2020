@@ -32,8 +32,8 @@ namespace RT2020.Product
             set { _AppendixId = value; }
         }
 
-        private ProductAppendixType _AppendixType = ProductAppendixType.None;
-        public ProductAppendixType ProductAppendixType
+        private ProductHelper.Appendix _AppendixType = ProductHelper.Appendix.None;
+        public ProductHelper.Appendix ProductAppendixType
         {
             get { return _AppendixType; }
             set { _AppendixType = value; }
@@ -62,13 +62,13 @@ namespace RT2020.Product
             #region this.Text
             switch (_AppendixType)
             {
-                case ProductAppendixType.Appendix1:
+                case ProductHelper.Appendix.Appendix1:
                     this.Text = string.Format("{0} ({1})", WestwindHelper.GetWord("appendix.setup", "Product"), WestwindHelper.GetWord("appendix.appendix1", "Product"));
                     break;
-                case ProductAppendixType.Appendix2:
+                case ProductHelper.Appendix.Appendix2:
                     this.Text = string.Format("{0} ({1})", WestwindHelper.GetWord("appendix.setup", "Product"), WestwindHelper.GetWord("appendix.appendix2", "Product"));
                     break;
-                case ProductAppendixType.Appendix3:
+                case ProductHelper.Appendix.Appendix3:
                     this.Text = string.Format("{0} ({1})", WestwindHelper.GetWord("appendix.setup", "Product"), WestwindHelper.GetWord("appendix.appendix3", "Product"));
                     break;
             }
@@ -246,7 +246,7 @@ namespace RT2020.Product
             {
                 switch (_AppendixType)
                 {
-                    case ProductAppendixType.Appendix1:
+                    case ProductHelper.Appendix.Appendix1:
                         #region ProductAppendix1
                         var Appendix1 = ctx.ProductAppendix1.Where(x => x.Retired == false).OrderBy(x => x.Appendix1Code).AsNoTracking().ToList();
 
@@ -264,7 +264,7 @@ namespace RT2020.Product
                         }
                         break;
                     #endregion
-                    case ProductAppendixType.Appendix2:
+                    case ProductHelper.Appendix.Appendix2:
                         #region ProductAppendix2
                         var Appendix2 = ctx.ProductAppendix2.Where(x => x.Retired == false).OrderBy(x => x.Appendix2Code).AsNoTracking().ToList();
 
@@ -282,7 +282,7 @@ namespace RT2020.Product
                         }
                         break;
                     #endregion
-                    case ProductAppendixType.Appendix3:
+                    case ProductHelper.Appendix.Appendix3:
                         #region ProductAppendix3
                         var Appendix3 = ctx.ProductAppendix3.Where(x => x.Retired == false).OrderBy(x => x.Appendix3Code).AsNoTracking().ToList();
 
@@ -326,7 +326,7 @@ namespace RT2020.Product
             {
                 switch (_AppendixType)
                 {
-                    case ProductAppendixType.Appendix1:
+                    case ProductHelper.Appendix.Appendix1:
                         #region ProductAppendix1
                         if (ModelEx.ProductAppendix1Ex.IsAppendixCodeInUse(txtCode.Text.Trim()))
                         {
@@ -336,7 +336,7 @@ namespace RT2020.Product
                         }
                         break;
                         #endregion
-                    case ProductAppendixType.Appendix2:
+                    case ProductHelper.Appendix.Appendix2:
                         #region ProductAppendix2
                         if (ModelEx.ProductAppendix2Ex.IsAppendixCodeInUse(txtCode.Text.Trim()))
                         {
@@ -346,7 +346,7 @@ namespace RT2020.Product
                         }
                         break;
                     #endregion
-                    case ProductAppendixType.Appendix3:
+                    case ProductHelper.Appendix.Appendix3:
                         #region ProductAppendix3
                         if (ModelEx.ProductAppendix3Ex.IsAppendixCodeInUse(txtCode.Text.Trim()))
                         {
@@ -371,7 +371,7 @@ namespace RT2020.Product
             {
                 switch (_AppendixType)
                 {
-                    case ProductAppendixType.Appendix1:
+                    case ProductHelper.Appendix.Appendix1:
                         #region ProductAppendix1
                         var Appendix1 = ctx.ProductAppendix1.Find(_AppendixId);
 
@@ -397,7 +397,7 @@ namespace RT2020.Product
                         result = true;
                         break;
                         #endregion
-                    case ProductAppendixType.Appendix2:
+                    case ProductHelper.Appendix.Appendix2:
                         #region ProductAppendix2
                         var Appendix2 = ctx.ProductAppendix2.Find(_AppendixId);
 
@@ -423,7 +423,7 @@ namespace RT2020.Product
                         result = true;
                         break;
                     #endregion
-                    case ProductAppendixType.Appendix3:
+                    case ProductHelper.Appendix.Appendix3:
                         #region ProductAppendix3
                         var Appendix3 = ctx.ProductAppendix3.Find(_AppendixId);
 
@@ -461,13 +461,13 @@ namespace RT2020.Product
             bool result = false;
             switch (_AppendixType)
             {
-                case ProductAppendixType.Appendix1:
+                case ProductHelper.Appendix.Appendix1:
                     result = ModelEx.ProductAppendix1Ex.Delete(_AppendixId);
                     break;
-                case ProductAppendixType.Appendix2:
+                case ProductHelper.Appendix.Appendix2:
                     result = ModelEx.ProductAppendix2Ex.Delete(_AppendixId);
                     break;
-                case ProductAppendixType.Appendix3:
+                case ProductHelper.Appendix.Appendix3:
                     result = ModelEx.ProductAppendix3Ex.Delete(_AppendixId);
                     break;
             }
@@ -486,7 +486,7 @@ namespace RT2020.Product
                     {
                         switch (_AppendixType)
                         {
-                            case ProductAppendixType.Appendix1:
+                            case ProductHelper.Appendix.Appendix1:
                                 #region ProductAppendix1
                                 var Appendix1 = ctx.ProductAppendix1.Find(id);
                                 if (Appendix1 != null)
@@ -499,7 +499,7 @@ namespace RT2020.Product
                                 }
                                 break;
                                 #endregion
-                            case ProductAppendixType.Appendix2:
+                            case ProductHelper.Appendix.Appendix2:
                                 #region ProductAppendix2
                                 var Appendix2 = ctx.ProductAppendix2.Find(id);
                                 if (Appendix2 != null)
@@ -512,7 +512,7 @@ namespace RT2020.Product
                                 }
                                 break;
                             #endregion
-                            case ProductAppendixType.Appendix3:
+                            case ProductHelper.Appendix.Appendix3:
                                 #region ProductAppendix3
                                 var Appendix3 = ctx.ProductAppendix3.Find(id);
                                 if (Appendix3 != null)

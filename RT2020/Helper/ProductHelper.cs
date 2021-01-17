@@ -163,5 +163,25 @@ namespace RT2020.Helper
             Class5,
             Class6
         }
+
+        public enum Prices
+        {
+            /// <summary>
+            /// Original Retail Price
+            /// </summary>
+            ORIPRC,
+            /// <summary>
+            /// Retail Price /Basic Price
+            /// </summary>
+            BASPRC,
+            /// <summary>
+            /// WholeSale Price
+            /// </summary>
+            WHLPRC,
+            /// <summary>
+            /// Vendor Price
+            /// </summary>
+            VPRC
+        }
     }
 }
