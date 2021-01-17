@@ -54,7 +54,6 @@ namespace RT2020.Product
             SetCtrlEditable();
             SetToolBar();
             FillParentAppendixList();
-            LoadAppendixData();
             SetCaptions();
 
             switch (_EditMode)
@@ -63,11 +62,39 @@ namespace RT2020.Product
                     break;
                 case EnumHelper.EditMode.Edit:
                 case EnumHelper.EditMode.Delete:
+                    LoadAppendixData();
                     break;
             }
         }
 
-        #region ToolBar
+        #region SetCaptions SetCtrlEditable ClearForm
+        private void SetCaptions()
+        {
+            #region 配置彈出的 Windows 的 Title 名稱
+            switch (AppendixMode)
+            {
+                case ProductHelper.Appendix.Appendix1:
+                    this.Text = string.Format("{0} ({1})", WestwindHelper.GetWord("appendix.setup", "Product"), WestwindHelper.GetWord("appendix.appendix1", "Product"));
+                    break;
+                case ProductHelper.Appendix.Appendix2:
+                    this.Text = string.Format("{0} ({1})", WestwindHelper.GetWord("appendix.setup", "Product"), WestwindHelper.GetWord("appendix.appendix2", "Product"));
+                    break;
+                case ProductHelper.Appendix.Appendix3:
+                    this.Text = string.Format("{0} ({1})", WestwindHelper.GetWord("appendix.setup", "Product"), WestwindHelper.GetWord("appendix.appendix3", "Product"));
+                    break;
+            }
+            #endregion
+
+            lblCode.Text = WestwindHelper.GetWordWithColon("appendix.code", "Product");
+            lblInitial.Text = WestwindHelper.GetWordWithColon("appendix.initial", "Product");
+            lblName.Text = WestwindHelper.GetWordWithColon("appendix.name", "Product");
+            lblNameChs.Text = WestwindHelper.GetWordWithColon(String.Format("language.{0}", LanguageHelper.AlternateLanguage1.Key.ToLower()), "Menu");
+            lblNameCht.Text = WestwindHelper.GetWordWithColon(String.Format("language.{0}", LanguageHelper.AlternateLanguage2.Key.ToLower()), "Menu");
+            lblParentAppendix.Text = WestwindHelper.GetWordWithColon("appendix.parent", "Product");
+            lblLastUpdate.Text = WestwindHelper.GetWordWithColon("glossary.modifiedOn", "General");
+            lblCreatedOn.Text = WestwindHelper.GetWordWithColon("glossary.createdOn", "General");
+        }
+
         private void SetCtrlEditable()
         {
             txtCode.BackColor = (this.AppendixId == System.Guid.Empty) ? Color.LightSkyBlue : Color.LightYellow;
@@ -81,22 +108,18 @@ namespace RT2020.Product
             errorProvider.SetError(txtCode, string.Empty);
         }
 
-        private void SetCaptions()
+        private void ClearForm()
         {
-            switch (_AppendixMode)
-            {
-                case ProductHelper.Appendix.Appendix1:
-                    this.Text += " [" + RT2020.SystemInfo.Settings.GetSystemLabelByKey("Appendix1") + "] ";
-                    break;
-                case ProductHelper.Appendix.Appendix2:
-                    this.Text += " [" + RT2020.SystemInfo.Settings.GetSystemLabelByKey("Appendix2") + "] ";
-                    break;
-                case ProductHelper.Appendix.Appendix3:
-                    this.Text += " [" + RT2020.SystemInfo.Settings.GetSystemLabelByKey("Appendix3") + "] ";
-                    break;
-            }
-        }
+            txtCode.Text = txtInitial.Text = txtName.Text = txtNameChs.Text = txtNameCht.Text = txtLastUpdatedBy.Text = txtLastUpdatedOn.Text = txtCreatedOn.Text = string.Empty;
+            _AppendixId = Guid.Empty;
+            _EditMode = EnumHelper.EditMode.Add;
 
+            SetCtrlEditable();
+            FillParentAppendixList();
+        }
+        #endregion
+
+        #region ToolBar
         private void SetToolBar()
         {
             this.tbWizardAction.MenuHandle = false;
@@ -107,7 +130,7 @@ namespace RT2020.Product
             sep.Style = ToolBarButtonStyle.Separator;
 
             // cmdSave
-            ToolBarButton cmdNew = new ToolBarButton("New", "New");
+            ToolBarButton cmdNew = new ToolBarButton("New", WestwindHelper.GetWord("edit.new", "General"));
             cmdNew.Tag = "New";
             cmdNew.Image = new IconResourceHandle("16x16.ico_16_3.gif");
             cmdNew.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Write);
@@ -115,7 +138,7 @@ namespace RT2020.Product
             this.tbWizardAction.Buttons.Add(cmdNew);
 
             // cmdSave
-            ToolBarButton cmdSave = new ToolBarButton("Save", "Save");
+            ToolBarButton cmdSave = new ToolBarButton("Save", WestwindHelper.GetWord("edit.save", "General"));
             cmdSave.Tag = "Save";
             cmdSave.Image = new IconResourceHandle("16x16.16_L_save.gif");
             cmdSave.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Write);
@@ -123,7 +146,7 @@ namespace RT2020.Product
             this.tbWizardAction.Buttons.Add(cmdSave);
 
             // cmdSaveNew
-            ToolBarButton cmdRefresh = new ToolBarButton("Refresh", "Refresh");
+            ToolBarButton cmdRefresh = new ToolBarButton("Refresh", WestwindHelper.GetWord("edit.refresh", "General"));
             cmdRefresh.Tag = "refresh";
             cmdRefresh.Image = new IconResourceHandle("16x16.16_L_refresh.gif");
 
@@ -131,7 +154,7 @@ namespace RT2020.Product
             this.tbWizardAction.Buttons.Add(sep);
 
             // cmdDelete
-            ToolBarButton cmdDelete = new ToolBarButton("Delete", "Delete");
+            ToolBarButton cmdDelete = new ToolBarButton("Delete", WestwindHelper.GetWord("edit.delete", "General"));
             cmdDelete.Tag = "Delete";
             cmdDelete.Image = new IconResourceHandle("16x16.16_L_remove.gif");
 
@@ -156,20 +179,17 @@ namespace RT2020.Product
                 switch (e.Button.Tag.ToString().ToLower())
                 {
                     case "new":
-                        Clear();
-                        SetCtrlEditable();
-                        this.Update();
+                        ClearForm();
                         break;
                     case "save":
                         if (IsValid())
                         {
                             Save();
-                            LoadAppendixData();
-                            this.Update();
+                            ClearForm();
                         }
                         break;
                     case "refresh":
-                        this.Update();
+                        ClearForm();
                         break;
                     case "delete":
                         MessageBox.Show("Delete Record?", "Delete Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question, new EventHandler(DeleteConfirmationHandler));
@@ -313,7 +333,7 @@ namespace RT2020.Product
                 item.Appendix1Name = txtName.Text;
                 item.Appendix1Name_Chs = txtNameChs.Text;
                 item.Appendix1Name_Cht = txtNameCht.Text;
-                item.ParentAppendix = (cboParentAppendix.SelectedValue == null) ? System.Guid.Empty : new System.Guid(cboParentAppendix.SelectedValue.ToString());
+                if ((Guid)cboParentAppendix.SelectedValue != Guid.Empty) item.ParentAppendix = (Guid)cboParentAppendix.SelectedValue;
 
                 item.ModifiedBy = ConfigHelper.CurrentUserId;
                 item.ModifiedOn = DateTime.Now;
@@ -354,7 +374,7 @@ namespace RT2020.Product
                 item.Appendix2Name = txtName.Text;
                 item.Appendix2Name_Chs = txtNameChs.Text;
                 item.Appendix2Name_Cht = txtNameCht.Text;
-                item.ParentAppendix = (cboParentAppendix.SelectedValue == null) ? System.Guid.Empty : new System.Guid(cboParentAppendix.SelectedValue.ToString());
+                if ((Guid)cboParentAppendix.SelectedValue != Guid.Empty) item.ParentAppendix = (Guid)cboParentAppendix.SelectedValue;
 
                 item.ModifiedBy = ConfigHelper.CurrentUserId;
                 item.ModifiedOn = DateTime.Now;
@@ -395,7 +415,7 @@ namespace RT2020.Product
                 item.Appendix3Name = txtName.Text;
                 item.Appendix3Name_Chs = txtNameChs.Text;
                 item.Appendix3Name_Cht = txtNameCht.Text;
-                item.ParentAppendix = (cboParentAppendix.SelectedValue == null) ? System.Guid.Empty : new System.Guid(cboParentAppendix.SelectedValue.ToString());
+                if ((Guid)cboParentAppendix.SelectedValue != Guid.Empty) item.ParentAppendix = (Guid)cboParentAppendix.SelectedValue;
 
                 item.ModifiedBy = ConfigHelper.CurrentUserId;
                 item.ModifiedOn = DateTime.Now;
@@ -410,20 +430,9 @@ namespace RT2020.Product
             return result;
         }
 
-        private void Clear()
-        {
-            this.Close();
-
-            ProductAppendixWizard wizAppendix = new ProductAppendixWizard();
-            wizAppendix.AppendixId = _AppendixId;
-            wizAppendix.AppendixMode = _AppendixMode;
-            wizAppendix.EditMode = _EditMode;
-            wizAppendix.ShowDialog();
-        }
-
         #endregion
 
-        #region Load
+        #region Load Appendix Data
 
         private void LoadAppendixData()
         {
@@ -455,10 +464,10 @@ namespace RT2020.Product
                     txtName.Text = item.Appendix1Name;
                     txtNameChs.Text = item.Appendix1Name_Chs;
                     txtNameCht.Text = item.Appendix1Name_Cht;
-                    cboParentAppendix.SelectedValue = item.ParentAppendix;
+                    cboParentAppendix.SelectedValue = item.ParentAppendix.HasValue ? item.ParentAppendix : Guid.Empty;
 
-                    txtLastUpdatedOn.Text = RT2020.SystemInfo.Settings.DateTimeToString(item.ModifiedOn, false);
-                    txtCreatedOn.Text = RT2020.SystemInfo.Settings.DateTimeToString(item.CreatedOn, false);
+                    txtLastUpdatedOn.Text = DateTimeHelper.DateTimeToString(item.ModifiedOn, false);
+                    txtCreatedOn.Text = DateTimeHelper.DateTimeToString(item.CreatedOn, false);
                     txtLastUpdatedBy.Text = ModelEx.StaffEx.GetStaffNumberById(item.ModifiedBy);
 
                     SetCtrlEditable();
@@ -480,10 +489,10 @@ namespace RT2020.Product
                     txtName.Text = item.Appendix2Name;
                     txtNameChs.Text = item.Appendix2Name_Chs;
                     txtNameCht.Text = item.Appendix2Name_Cht;
-                    cboParentAppendix.SelectedValue = item.ParentAppendix;
+                    cboParentAppendix.SelectedValue = item.ParentAppendix.HasValue ? item.ParentAppendix : Guid.Empty;
 
-                    txtLastUpdatedOn.Text = RT2020.SystemInfo.Settings.DateTimeToString(item.ModifiedOn, false);
-                    txtCreatedOn.Text = RT2020.SystemInfo.Settings.DateTimeToString(item.CreatedOn, false);
+                    txtLastUpdatedOn.Text = DateTimeHelper.DateTimeToString(item.ModifiedOn, false);
+                    txtCreatedOn.Text = DateTimeHelper.DateTimeToString(item.CreatedOn, false);
                     txtLastUpdatedBy.Text = ModelEx.StaffEx.GetStaffNumberById(item.ModifiedBy);
 
                     SetCtrlEditable();
@@ -505,10 +514,10 @@ namespace RT2020.Product
                     txtName.Text = item.Appendix3Name;
                     txtNameChs.Text = item.Appendix3Name_Chs;
                     txtNameCht.Text = item.Appendix3Name_Cht;
-                    cboParentAppendix.SelectedValue = item.ParentAppendix;
+                    cboParentAppendix.SelectedValue = item.ParentAppendix.HasValue ? item.ParentAppendix : Guid.Empty;
 
-                    txtLastUpdatedOn.Text = RT2020.SystemInfo.Settings.DateTimeToString(item.ModifiedOn, false);
-                    txtCreatedOn.Text = RT2020.SystemInfo.Settings.DateTimeToString(item.CreatedOn, false);
+                    txtLastUpdatedOn.Text = DateTimeHelper.DateTimeToString(item.ModifiedOn, false);
+                    txtCreatedOn.Text = DateTimeHelper.DateTimeToString(item.CreatedOn, false);
                     txtLastUpdatedBy.Text = ModelEx.StaffEx.GetStaffNumberById(item.ModifiedBy);
 
                     SetCtrlEditable();

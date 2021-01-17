@@ -88,17 +88,17 @@ namespace RT2020.Product
             // 
             // lblNameChs
             // 
-            this.lblNameChs.Location = new System.Drawing.Point(12, 110);
+            this.lblNameChs.Location = new System.Drawing.Point(25, 110);
             this.lblNameChs.Name = "lblNameChs";
-            this.lblNameChs.Size = new System.Drawing.Size(70, 23);
+            this.lblNameChs.Size = new System.Drawing.Size(102, 23);
             this.lblNameChs.TabIndex = 4;
             this.lblNameChs.Text = "Name Chs:";
             // 
             // lblNameCht
             // 
-            this.lblNameCht.Location = new System.Drawing.Point(12, 133);
+            this.lblNameCht.Location = new System.Drawing.Point(25, 133);
             this.lblNameCht.Name = "lblNameCht";
-            this.lblNameCht.Size = new System.Drawing.Size(70, 23);
+            this.lblNameCht.Size = new System.Drawing.Size(102, 23);
             this.lblNameCht.TabIndex = 5;
             this.lblNameCht.Text = "Name Cht:";
             // 
@@ -112,7 +112,7 @@ namespace RT2020.Product
             // 
             // txtCode
             // 
-            this.txtCode.Location = new System.Drawing.Point(88, 38);
+            this.txtCode.Location = new System.Drawing.Point(130, 38);
             this.txtCode.MaxLength = 4;
             this.txtCode.Name = "txtCode";
             this.txtCode.Size = new System.Drawing.Size(121, 20);
@@ -120,7 +120,7 @@ namespace RT2020.Product
             // 
             // txtInitial
             // 
-            this.txtInitial.Location = new System.Drawing.Point(88, 61);
+            this.txtInitial.Location = new System.Drawing.Point(130, 61);
             this.txtInitial.MaxLength = 10;
             this.txtInitial.Name = "txtInitial";
             this.txtInitial.Size = new System.Drawing.Size(121, 20);
@@ -128,23 +128,23 @@ namespace RT2020.Product
             // 
             // txtName
             // 
-            this.txtName.Location = new System.Drawing.Point(88, 84);
+            this.txtName.Location = new System.Drawing.Point(130, 84);
             this.txtName.Name = "txtName";
-            this.txtName.Size = new System.Drawing.Size(319, 20);
+            this.txtName.Size = new System.Drawing.Size(277, 20);
             this.txtName.TabIndex = 3;
             // 
             // txtNameChs
             // 
-            this.txtNameChs.Location = new System.Drawing.Point(88, 107);
+            this.txtNameChs.Location = new System.Drawing.Point(130, 107);
             this.txtNameChs.Name = "txtNameChs";
-            this.txtNameChs.Size = new System.Drawing.Size(319, 20);
+            this.txtNameChs.Size = new System.Drawing.Size(277, 20);
             this.txtNameChs.TabIndex = 4;
             // 
             // txtNameCht
             // 
-            this.txtNameCht.Location = new System.Drawing.Point(88, 130);
+            this.txtNameCht.Location = new System.Drawing.Point(130, 130);
             this.txtNameCht.Name = "txtNameCht";
-            this.txtNameCht.Size = new System.Drawing.Size(319, 20);
+            this.txtNameCht.Size = new System.Drawing.Size(277, 20);
             this.txtNameCht.TabIndex = 5;
             // 
             // cboParentAppendix
@@ -152,7 +152,7 @@ namespace RT2020.Product
             this.cboParentAppendix.BorderStyle = Gizmox.WebGUI.Forms.BorderStyle.Fixed3D;
             this.cboParentAppendix.DropDownStyle = Gizmox.WebGUI.Forms.ComboBoxStyle.DropDownList;
             this.cboParentAppendix.DropDownWidth = 121;
-            this.cboParentAppendix.Location = new System.Drawing.Point(88, 153);
+            this.cboParentAppendix.Location = new System.Drawing.Point(130, 153);
             this.cboParentAppendix.Name = "cboParentAppendix";
             this.cboParentAppendix.Size = new System.Drawing.Size(121, 21);
             this.cboParentAppendix.TabIndex = 6;
@@ -176,16 +176,16 @@ namespace RT2020.Product
             // txtLastUpdatedBy
             // 
             this.txtLastUpdatedBy.BackColor = System.Drawing.Color.LightYellow;
-            this.txtLastUpdatedBy.Location = new System.Drawing.Point(194, 238);
+            this.txtLastUpdatedBy.Location = new System.Drawing.Point(236, 238);
             this.txtLastUpdatedBy.Name = "txtLastUpdatedBy";
             this.txtLastUpdatedBy.ReadOnly = true;
-            this.txtLastUpdatedBy.Size = new System.Drawing.Size(100, 20);
+            this.txtLastUpdatedBy.Size = new System.Drawing.Size(41, 20);
             this.txtLastUpdatedBy.TabIndex = 15;
             // 
             // txtLastUpdatedOn
             // 
             this.txtLastUpdatedOn.BackColor = System.Drawing.Color.LightYellow;
-            this.txtLastUpdatedOn.Location = new System.Drawing.Point(88, 238);
+            this.txtLastUpdatedOn.Location = new System.Drawing.Point(130, 238);
             this.txtLastUpdatedOn.Name = "txtLastUpdatedOn";
             this.txtLastUpdatedOn.ReadOnly = true;
             this.txtLastUpdatedOn.Size = new System.Drawing.Size(100, 20);
@@ -194,7 +194,7 @@ namespace RT2020.Product
             // txtCreatedOn
             // 
             this.txtCreatedOn.BackColor = System.Drawing.Color.LightYellow;
-            this.txtCreatedOn.Location = new System.Drawing.Point(88, 261);
+            this.txtCreatedOn.Location = new System.Drawing.Point(130, 261);
             this.txtCreatedOn.Name = "txtCreatedOn";
             this.txtCreatedOn.ReadOnly = true;
             this.txtCreatedOn.Size = new System.Drawing.Size(100, 20);
