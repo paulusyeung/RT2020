@@ -1552,7 +1552,7 @@ namespace RT2020.Member
                     Save();
                     if (this.MemberId != System.Guid.Empty)
                     {
-                        RT2020.SystemInfo.Settings.RefreshMainList<DefaultList>();
+                        RT2020.SystemInfo.Settings.RefreshMainList<MemberList>();
                         MessageBox.Show("Success!", "Save Result");
 
                         this.Close();
@@ -1574,7 +1574,7 @@ namespace RT2020.Member
                     Save();
                     if (this.MemberId != System.Guid.Empty)
                     {
-                        RT2020.SystemInfo.Settings.RefreshMainList<DefaultList>();
+                        RT2020.SystemInfo.Settings.RefreshMainList<MemberList>();
                         this.Close();
                         MemberWizard wizard = new MemberWizard();
                         wizard.EditMode = EnumHelper.EditMode.Add;
@@ -1593,7 +1593,7 @@ namespace RT2020.Member
                     Save();
                     if (this.MemberId != System.Guid.Empty && Verify())
                     {
-                        RT2020.SystemInfo.Settings.RefreshMainList<DefaultList>();
+                        RT2020.SystemInfo.Settings.RefreshMainList<MemberList>();
                         this.Close();
                     }
                 }

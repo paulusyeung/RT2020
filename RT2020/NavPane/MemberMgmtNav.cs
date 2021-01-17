@@ -81,13 +81,13 @@ namespace RT2020.NavPane
                 switch (Tag.ToLower())
                 {
                     case "member":
-                        RT2020.Member.DefaultList oMemberList = new RT2020.Member.DefaultList();
+                        RT2020.Member.MemberList oMemberList = new RT2020.Member.MemberList();
                         oMemberList.DockPadding.All = 6;
                         oMemberList.Dock = DockStyle.Fill;
                         wspPane.Controls.Add(oMemberList);
                         break;
                     case "member.phonebook":
-                        RT2020.Member.DefaultPhoneBookList oPhoneBookList = new RT2020.Member.DefaultPhoneBookList();
+                        RT2020.Member.PhoneBookList oPhoneBookList = new RT2020.Member.PhoneBookList();
                         oPhoneBookList.DockPadding.All = 6;
                         oPhoneBookList.Dock = DockStyle.Fill;
                         wspPane.Controls.Add(oPhoneBookList);

@@ -69,7 +69,7 @@ namespace RT2020.NavPane
                 switch (Tag.ToLower())
                 {
                     case "product.product":
-                        RT2020.Product.DefaultList oProd = new RT2020.Product.DefaultList(controls[0]);
+                        RT2020.Product.ProductList oProd = new RT2020.Product.ProductList(controls[0]);
                         oProd.DockPadding.All = 6;
                         oProd.Dock = DockStyle.Fill;
                         wspPane.Controls.Add(oProd);

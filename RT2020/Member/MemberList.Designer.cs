@@ -1,6 +1,6 @@
-namespace RT2020.Product
+namespace RT2020.Member
 {
-    partial class DefaultList
+    partial class MemberList
     {
         /// <summary>
         /// Required designer variable.

@@ -1621,7 +1621,7 @@ namespace RT2020.Product
             {
                 if (Save())
                 {
-                    RT2020.SystemInfo.Settings.RefreshMainList<DefaultList>();
+                    RT2020.SystemInfo.Settings.RefreshMainList<ProductList>();
                     MessageBox.Show("Success!", "Save Result");
 
                     this.Close();
@@ -1639,7 +1639,7 @@ namespace RT2020.Product
             {
                 if (Save())
                 {
-                    RT2020.SystemInfo.Settings.RefreshMainList<DefaultList>();
+                    RT2020.SystemInfo.Settings.RefreshMainList<ProductList>();
                     this.Close();
                     ProductWizard wizard = new ProductWizard();
                     wizard.EditMode = EnumHelper.EditMode.Add;
@@ -1654,7 +1654,7 @@ namespace RT2020.Product
             {
                 if (Save())
                 {
-                    RT2020.SystemInfo.Settings.RefreshMainList<DefaultList>();
+                    RT2020.SystemInfo.Settings.RefreshMainList<ProductList>();
                     this.Close();
                 }
             }

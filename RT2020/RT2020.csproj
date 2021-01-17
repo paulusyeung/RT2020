@@ -1573,17 +1573,17 @@
     <Compile Include="Inventory\Transfer\Reports\WorksheetRpt.Designer.cs">
       <DependentUpon>WorksheetRpt.cs</DependentUpon>
     </Compile>
-    <Compile Include="Member\DefaultList.cs">
+    <Compile Include="Member\MemberList.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Member\DefaultList.Designer.cs">
-      <DependentUpon>DefaultList.cs</DependentUpon>
+    <Compile Include="Member\MemberList.Designer.cs">
+      <DependentUpon>MemberList.cs</DependentUpon>
     </Compile>
-    <Compile Include="Member\DefaultPhoneBookList.cs">
+    <Compile Include="Member\PhoneBookList.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Member\DefaultPhoneBookList.Designer.cs">
-      <DependentUpon>DefaultPhoneBookList.cs</DependentUpon>
+    <Compile Include="Member\PhoneBookList.Designer.cs">
+      <DependentUpon>PhoneBookList.cs</DependentUpon>
     </Compile>
     <Compile Include="Member\MemberWizard_VipNumber.cs">
       <SubType>Form</SubType>
@@ -2080,11 +2080,11 @@
     <Compile Include="Product\DefaultCombinList.Designer.cs">
       <DependentUpon>DefaultCombinList.cs</DependentUpon>
     </Compile>
-    <Compile Include="Product\DefaultList.cs">
+    <Compile Include="Product\ProductList.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Product\DefaultList.Designer.cs">
-      <DependentUpon>DefaultList.cs</DependentUpon>
+    <Compile Include="Product\ProductList.Designer.cs">
+      <DependentUpon>ProductList.cs</DependentUpon>
     </Compile>
     <Compile Include="Product\ProdCare_FindBatch.cs">
       <SubType>Form</SubType>
@@ -3940,12 +3940,12 @@
       <DependentUpon>WorksheetRpt.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Member\DefaultList.resx">
-      <DependentUpon>DefaultList.cs</DependentUpon>
+    <EmbeddedResource Include="Member\MemberList.resx">
+      <DependentUpon>MemberList.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Member\DefaultPhoneBookList.resx">
-      <DependentUpon>DefaultPhoneBookList.cs</DependentUpon>
+    <EmbeddedResource Include="Member\PhoneBookList.resx">
+      <DependentUpon>PhoneBookList.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Member\MemberWizard_VipNumber.resx">
@@ -4232,8 +4232,8 @@
       <DependentUpon>DefaultCombinList.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Product\DefaultList.resx">
-      <DependentUpon>DefaultList.cs</DependentUpon>
+    <EmbeddedResource Include="Product\ProductList.resx">
+      <DependentUpon>ProductList.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Product\ProdCare_FindBatch.resx">

@@ -763,7 +763,7 @@ namespace RT2020.Product
                 int result = CreateProducts();
                 if (result > 0)
                 {
-                    RT2020.SystemInfo.Settings.RefreshMainList<DefaultList>();
+                    RT2020.SystemInfo.Settings.RefreshMainList<ProductList>();
                     MessageBox.Show(result.ToString() + " succeed!", "Posting result", MessageBoxButtons.OK, new EventHandler(PostingMessageHandler));
                 }
                 else

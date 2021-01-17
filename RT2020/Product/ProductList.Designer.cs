@@ -1,6 +1,6 @@
-namespace RT2020.Member
+namespace RT2020.Product
 {
-    partial class DefaultPhoneBookList
+    partial class ProductList
     {
         /// <summary>
         /// Required designer variable.
@@ -29,11 +29,11 @@ namespace RT2020.Member
         private void InitializeComponent()
         {
             // 
-            // DefaultPhontBookList
+            // DefaultList
             // 
             this.ClientSize = new System.Drawing.Size(391, 306);
             this.Size = new System.Drawing.Size(391, 306);
-            this.Text = "DefaultPhontBookList";
+            this.Text = "DefaultList";
 
         }
 
