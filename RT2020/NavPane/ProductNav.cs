@@ -135,7 +135,7 @@ namespace RT2020.NavPane
                         wspPane.Controls.Add(oCombinList);
                         break;
                     case "product.analysiscode":
-                        RT2020.Product.DefaultAnalysisCodeList oAnalysisList = new RT2020.Product.DefaultAnalysisCodeList(controls[0]);
+                        RT2020.Product.AnalysisCodeList oAnalysisList = new RT2020.Product.AnalysisCodeList(controls[0]);
                         oAnalysisList.DockPadding.All = 6;
                         oAnalysisList.Dock = DockStyle.Fill;
                         wspPane.Controls.Add(oAnalysisList);

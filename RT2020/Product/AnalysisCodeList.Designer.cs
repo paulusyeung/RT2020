@@ -1,6 +1,6 @@
 namespace RT2020.Product
 {
-    partial class DefaultAnalysisCodeList
+    partial class AnalysisCodeList
     {
         /// <summary>
         /// Required designer variable.

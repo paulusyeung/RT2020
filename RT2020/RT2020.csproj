@@ -2056,11 +2056,11 @@
     <Compile Include="Member\Reports\RptVipVendorSpendingForm.Designer.cs">
       <DependentUpon>RptVipVendorSpendingForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Product\DefaultAnalysisCodeList.cs">
+    <Compile Include="Product\AnalysisCodeList.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Product\DefaultAnalysisCodeList.Designer.cs">
-      <DependentUpon>DefaultAnalysisCodeList.cs</DependentUpon>
+    <Compile Include="Product\AnalysisCodeList.Designer.cs">
+      <DependentUpon>AnalysisCodeList.cs</DependentUpon>
     </Compile>
     <Compile Include="Product\DefaultAppendixList.cs">
       <SubType>UserControl</SubType>
@@ -4216,8 +4216,8 @@
       <DependentUpon>AnalysisCodeWizard.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Product\DefaultAnalysisCodeList.resx">
-      <DependentUpon>DefaultAnalysisCodeList.cs</DependentUpon>
+    <EmbeddedResource Include="Product\AnalysisCodeList.resx">
+      <DependentUpon>AnalysisCodeList.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Product\DefaultAppendixList.resx">

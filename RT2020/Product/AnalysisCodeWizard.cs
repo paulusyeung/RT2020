@@ -1,4 +1,4 @@
-#region Using
+﻿#region Using
 
 using System;
 using System.Collections.Generic;
@@ -21,39 +21,85 @@ namespace RT2020.Product
 {
     public partial class AnalysisCodeWizard : Form
     {
+        #region Properties
+        private EnumHelper.EditMode _EditMode = EnumHelper.EditMode.None;
+        public EnumHelper.EditMode EditMode
+        {
+            get { return _EditMode; }
+            set { _EditMode = value; }
+        }
+
+        private Guid _CodeId = System.Guid.Empty;
+        public Guid AnalysisCodeId
+        {
+            get { return _CodeId; }
+            set { _CodeId = value; }
+        }
+        #endregion
+
         public AnalysisCodeWizard()
         {
             InitializeComponent();
+        }
+
+        private void AnalysisCodeWizard_Load(object sender, EventArgs e)
+        {
+            SetCaptions();
+            SetAttributes();
+
             SetCtrlEditable();
             SetToolBar();
             VerifyFixedAnalysisCode();
             FillParentCodeList();
-        }
 
-        public AnalysisCodeWizard(Guid analysisCodeId)
-        {
-            InitializeComponent();
-            this.AnalysisCodeId = analysisCodeId;
-            SetCtrlEditable();
-            SetToolBar();
-            VerifyFixedAnalysisCode();
-            FillParentCodeList();
-            LoadAnalysisCode();
-        }
-
-        #region Properties
-        private Guid analysisCodeId = System.Guid.Empty;
-        public Guid AnalysisCodeId
-        {
-            get
+            switch (_EditMode)
             {
-                return analysisCodeId;
-            }
-            set
-            {
-                analysisCodeId = value;
+                case EnumHelper.EditMode.Add:
+                    break;
+                case EnumHelper.EditMode.Edit:
+                case EnumHelper.EditMode.Delete:
+                    LoadAnalysisCode();
+                    break;
             }
         }
+
+        #region SetCaptions SetAttributes
+
+        private void SetCaptions()
+        {
+            this.Text = WestwindHelper.GetWord("posAnalysisCode.setup", "Model");
+
+            lblCode.Text = WestwindHelper.GetWordWithColon("posAnalysisCode.code", "Model");
+            lblName.Text = WestwindHelper.GetWordWithColon("posAnalysisCode.name", "Model");
+            lblNameAlt1.Text = WestwindHelper.GetWordWithColon(String.Format("language.{0}", LanguageHelper.AlternateLanguage1.Key.ToLower()), "Menu");
+            lblNameAlt2.Text = WestwindHelper.GetWordWithColon(String.Format("language.{0}", LanguageHelper.AlternateLanguage2.Key.ToLower()), "Menu");
+            lblInitial.Text = WestwindHelper.GetWordWithColon("posAnalysisCode.initial", "Model");
+            lblType.Text = WestwindHelper.GetWordWithColon("posAnalysisCode.type", "Model");
+            lblParentAnalysisCode.Text = WestwindHelper.GetWordWithColon("posAnalysisCode.parent", "Model");
+
+            lblMandatory.Text = WestwindHelper.GetWordWithColon("posAnalysisCode.mandatory", "Model");
+            lblDownloadToPOS.Text = WestwindHelper.GetWordWithColon("posAnalysisCode.downloadToPos", "Model");
+        }
+
+        private void SetAttributes()
+        {
+            switch (LanguageHelper.AlternateLanguagesUsed)
+            {
+                case 1:
+                    // hide alt2
+                    lblNameAlt2.Visible = txtNameAlt2.Visible = false;
+                    break;
+                case 2:
+                    // do nothing
+                    break;
+                case 0:
+                default:
+                    // hide alt1 & alt2
+                    lblNameAlt1.Visible = lblNameAlt2.Visible = txtNameAlt1.Visible = txtNameAlt2.Visible = false;
+                    break;
+            }
+        }
+
         #endregion
 
         #region ToolBar
@@ -69,7 +115,7 @@ namespace RT2020.Product
             sep.Style = ToolBarButtonStyle.Separator;
 
             // cmdSave
-            ToolBarButton cmdNew = new ToolBarButton("New", DbRes.T("edit.new", "General", locale));
+            ToolBarButton cmdNew = new ToolBarButton("New", WestwindHelper.GetWord("edit.new", "General"));
             cmdNew.Tag = "New";
             cmdNew.Image = new IconResourceHandle("16x16.ico_16_3.gif");
             cmdNew.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Write);
@@ -77,7 +123,7 @@ namespace RT2020.Product
             this.tbWizardAction.Buttons.Add(cmdNew);
 
             // cmdSave
-            ToolBarButton cmdSave = new ToolBarButton("Save", DbRes.T("edit.save", "General", locale));
+            ToolBarButton cmdSave = new ToolBarButton("Save", WestwindHelper.GetWord("edit.save", "General"));
             cmdSave.Tag = "Save";
             cmdSave.Image = new IconResourceHandle("16x16.16_L_save.gif");
             cmdSave.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Write);
@@ -86,7 +132,7 @@ namespace RT2020.Product
             this.tbWizardAction.Buttons.Add(sep);
 
             // cmdDelete
-            ToolBarButton cmdDelete = new ToolBarButton("Delete", DbRes.T("edit.delete", "General", locale));
+            ToolBarButton cmdDelete = new ToolBarButton("Delete", WestwindHelper.GetWord("edit.delete", "General"));
             cmdDelete.Tag = "Delete";
             cmdDelete.Image = new IconResourceHandle("16x16.16_L_remove.gif");
 
@@ -111,15 +157,14 @@ namespace RT2020.Product
                 switch (e.Button.Tag.ToString().ToLower())
                 {
                     case "new":
-                        Clear();
-                        SetCtrlEditable();
+                        ClearForm();
                         break;
                     case "save":
                         if (Verify())
                         {
                             Save();
                             LoadAnalysisCode();
-                            this.Update();
+                            ClearForm();
                         }
                         break;
                     case "delete":
@@ -143,21 +188,27 @@ namespace RT2020.Product
         {
             errorProvider.SetError(txtCode, string.Empty);
         }
+
+        private void ClearForm()
+        {
+            txtCode.Text = txtType.Text = txtInitial.Text = txtName.Text = txtNameAlt1.Text = txtNameAlt2.Text = string.Empty;
+            chkMandatory.Checked = chkDownloadToPoS.Checked = false;
+
+            _EditMode = EnumHelper.EditMode.Add;
+            _CodeId = Guid.Empty;
+
+            SetCtrlEditable();
+            FillParentCodeList();
+        }
         #endregion
 
         #region Fill Combo List
         private void FillParentCodeList()
         {
-            //cboParentAnalysisCode.Items.Clear();
-
             string sql = "ParentCode IS NULL OR ParentCode = '" + System.Guid.Empty.ToString() + "'";
             string[] orderBy = new string[] { "AnalysisCode" };
 
-            ModelEx.PosAnalysisCodeEx.LoadCombo(ref cboParentAnalysisCode, "AnalysisCode", false, false, "", sql, orderBy);
-            //PosAnalysisCodeCollection oAnalysisCodeList = PosAnalysisCode.LoadCollection(sql, orderBy, true);
-            //cboParentAnalysisCode.DataSource = oAnalysisCodeList;
-            //cboParentAnalysisCode.DisplayMember = "AnalysisCode";
-            //cboParentAnalysisCode.ValueMember = "AnalysisCodeId";
+            ModelEx.PosAnalysisCodeEx.LoadCombo(ref cboParentAnalysisCode, "AnalysisCode", false, true, "", sql, orderBy);
         }
 
         private void VerifyFixedAnalysisCode()
@@ -231,66 +282,61 @@ namespace RT2020.Product
         {
             using (var ctx = new EF6.RT2020Entities())
             { 
-                var oAnalysisCode = ctx.PosAnalysisCode.Find(this.AnalysisCodeId);
-                if (oAnalysisCode == null)
+                var item = ctx.PosAnalysisCode.Find(this.AnalysisCodeId);
+                if (item == null)
                 {
-                    oAnalysisCode = new EF6.PosAnalysisCode();
-                    oAnalysisCode.AnalysisCodeId = Guid.NewGuid();
-                    oAnalysisCode.AnalysisCode = txtCode.Text;
+                    item = new EF6.PosAnalysisCode();
 
-                    oAnalysisCode.CreatedBy = ConfigHelper.CurrentUserId;
-                    oAnalysisCode.CreatedOn = DateTime.Now;
+                    item.AnalysisCodeId = Guid.NewGuid();
+                    item.AnalysisCode = txtCode.Text;
 
-                    ctx.PosAnalysisCode.Add(oAnalysisCode);
+                    item.CreatedBy = ConfigHelper.CurrentUserId;
+                    item.CreatedOn = DateTime.Now;
+
+                    ctx.PosAnalysisCode.Add(item);
+                    _CodeId = item.AnalysisCodeId;
                 }
-                oAnalysisCode.AnalysisType = txtType.Text;
-                oAnalysisCode.CodeInitial = txtInitial.Text;
-                oAnalysisCode.CodeName = txtName.Text;
-                oAnalysisCode.CodeName_Chs = txtNameChs.Text;
-                oAnalysisCode.CodeName_Cht = txtNameCht.Text;
-                oAnalysisCode.ParentCode = (cboParentAnalysisCode.SelectedValue == null) ? System.Guid.Empty : new System.Guid(cboParentAnalysisCode.SelectedValue.ToString());
-                oAnalysisCode.DownloadToPOS = chkDownloadToPoS.Checked;
-                oAnalysisCode.Mandatory = chkMandatory.Checked;
+                item.AnalysisType = txtType.Text;
+                item.CodeInitial = txtInitial.Text;
+                item.CodeName = txtName.Text;
+                item.CodeName_Chs = txtNameAlt1.Text;
+                item.CodeName_Cht = txtNameAlt2.Text;
+                if ((Guid)cboParentAnalysisCode.SelectedValue != Guid.Empty) item.ParentCode = (Guid)cboParentAnalysisCode.SelectedValue;
+                item.DownloadToPOS = chkDownloadToPoS.Checked;
+                item.Mandatory = chkMandatory.Checked;
 
-                oAnalysisCode.ModifiedBy = ConfigHelper.CurrentUserId;
-                oAnalysisCode.ModifiedOn = DateTime.Now;
+                item.ModifiedBy = ConfigHelper.CurrentUserId;
+                item.ModifiedOn = DateTime.Now;
 
                 ctx.SaveChanges();
 
                 // log activity (New Record)
-                RT2020.Controls.Log4net.LogInfo(RT2020.Controls.Log4net.LogAction.Create, oAnalysisCode.ToString());
+                RT2020.Controls.Log4net.LogInfo(RT2020.Controls.Log4net.LogAction.Create, item.ToString());
 
-                this.AnalysisCodeId = oAnalysisCode.AnalysisCodeId;
-                RT2020.SystemInfo.Settings.RefreshMainList<DefaultAnalysisCodeList>();
+                this.AnalysisCodeId = item.AnalysisCodeId;
+                RT2020.SystemInfo.Settings.RefreshMainList<AnalysisCodeList>();
             }
-        }
-
-        private void Clear()
-        {
-            this.Close();
-
-            AnalysisCodeWizard wizAnalysisCode = new AnalysisCodeWizard();
-            wizAnalysisCode.ShowDialog();
         }
         #endregion
 
         #region Load
         private void LoadAnalysisCode()
         {
-            var oAnalysisCode = ModelEx.PosAnalysisCodeEx.Get(this.AnalysisCodeId);
-            if (oAnalysisCode != null)
+            var item = ModelEx.PosAnalysisCodeEx.Get(this.AnalysisCodeId);
+            if (item != null)
             {
-                txtCode.Text = oAnalysisCode.AnalysisCode;
-                txtType.Text = oAnalysisCode.AnalysisType;
-                txtInitial.Text = oAnalysisCode.CodeInitial;
-                txtName.Text = oAnalysisCode.CodeName;
-                txtNameChs.Text = oAnalysisCode.CodeName_Chs;
-                txtNameCht.Text = oAnalysisCode.CodeName_Cht;
-                cboParentAnalysisCode.SelectedValue = oAnalysisCode.ParentCode;
-                chkDownloadToPoS.Checked = oAnalysisCode.DownloadToPOS;
-                chkMandatory.Checked = oAnalysisCode.Mandatory;
-
-                if (oAnalysisCode.ParentCode == System.Guid.Empty)
+                txtCode.Text = item.AnalysisCode;
+                txtType.Text = item.AnalysisType;
+                txtInitial.Text = item.CodeInitial;
+                txtName.Text = item.CodeName;
+                txtNameAlt1.Text = item.CodeName_Chs;
+                txtNameAlt2.Text = item.CodeName_Cht;
+                cboParentAnalysisCode.SelectedValue = item.ParentCode.HasValue ? item.ParentCode : Guid.Empty;
+                chkDownloadToPoS.Checked = item.DownloadToPOS;
+                chkMandatory.Checked = item.Mandatory;
+                
+                //! HACK: 點解頂級唔俾降級/唔俾 delete？
+                if (!item.ParentCode.HasValue)
                 {
                     cboParentAnalysisCode.Enabled = false;
                     this.tbWizardAction.Buttons[3].Enabled = false;

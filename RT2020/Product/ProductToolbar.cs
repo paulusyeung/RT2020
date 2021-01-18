@@ -223,6 +223,7 @@ namespace RT2020.Product
                         break;
                     case "analysiscode":
                         AnalysisCodeWizard wizAnalysis = new AnalysisCodeWizard();
+                        wizAnalysis.EditMode = EnumHelper.EditMode.Add;
                         wizAnalysis.ShowDialog();
                         break;
                     case "postendertype":
