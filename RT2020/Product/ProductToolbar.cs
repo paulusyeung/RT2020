@@ -222,8 +222,8 @@ namespace RT2020.Product
                         wizCombin.ShowDialog();
                         break;
                     case "analysiscode":
-                        AnalysisCodeWizard wizAnalysis = new AnalysisCodeWizard();
-                        wizAnalysis.EditMode = EnumHelper.EditMode.Add;
+                        AnalysisCodeWizardAio wizAnalysis = new AnalysisCodeWizardAio();
+                        //wizAnalysis.EditMode = EnumHelper.EditMode.Add;
                         wizAnalysis.ShowDialog();
                         break;
                     case "postendertype":
