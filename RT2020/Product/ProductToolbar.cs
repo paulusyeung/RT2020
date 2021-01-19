@@ -55,7 +55,7 @@ namespace RT2020.Product
             ddlNew.MenuItems.Add(new MenuItem(WestwindHelper.GetWord("combination", "Product"), string.Empty, "Combination"));
             ddlNew.MenuItems.Add(new MenuItem(WestwindHelper.GetWord("posAnalysisCode", "Model"), string.Empty, "AnalysisCode"));
             ddlNew.MenuItems.Add(new MenuItem("-"));
-            ddlNew.MenuItems.Add(new MenuItem("PoS Tender Type", string.Empty, "PoSTenderType"));
+            ddlNew.MenuItems.Add(new MenuItem(WestwindHelper.GetWord("posTenderType", "Model"), string.Empty, "PoSTenderType"));
 
             ToolBarButton cmdNew = new ToolBarButton("New", WestwindHelper.GetWord("edit.new", "General"));
             cmdNew.Style = ToolBarButtonStyle.DropDownButton;

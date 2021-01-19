@@ -1,4 +1,4 @@
-#region Using
+﻿#region Using
 
 using System;
 using System.Collections.Generic;
@@ -21,14 +21,116 @@ namespace RT2020.Settings
 {
     public partial class PosTenderTypeWizard : Form
     {
+        #region Properties
+        private Guid _TenderTypeId = System.Guid.Empty;
+        public Guid PosTenderTypeId
+        {
+            get { return _TenderTypeId; }
+            set { _TenderTypeId = value; }
+        }
+        #endregion
+
         public PosTenderTypeWizard()
         {
             InitializeComponent();
+        }
+
+        private void PosTenderTypeWizard_Load(object sender, EventArgs e)
+        {
+            SetCaptions();
+            SetAttributes();
+
             SetToolBar();
             FillCurrencyList();
             BindPosTenderTypeList();
             SetCtrlEditable();
         }
+
+        #region SetCaptions SetAttributes
+        private void SetCaptions()
+        {
+            this.Text = WestwindHelper.GetWord("posTenderType.setup", "Model");
+
+            lblTypeCode.Text = WestwindHelper.GetWordWithColon("posTenderType.code", "Model");
+            lblTypeName.Text = WestwindHelper.GetWordWithColon("posTenderType.name", "Model");
+            lblTypeNameAlt1.Text = WestwindHelper.GetWord(String.Format("language.{0}", LanguageHelper.AlternateLanguage1.Key.ToLower()), "Menu");
+            lblTypeNameAlt2.Text = WestwindHelper.GetWord(String.Format("language.{0}", LanguageHelper.AlternateLanguage2.Key.ToLower()), "Menu");
+            lblPriority.Text = WestwindHelper.GetWordWithColon("posTenderType.priority", "Model");
+            lblCurrency.Text = WestwindHelper.GetWordWithColon("currency", "Model");
+            lblExchangeRate.Text = WestwindHelper.GetWordWithColon("posTenderType.exchangeRate", "Model");
+            lblDownloadToPoS.Text = WestwindHelper.GetWordWithColon("posTenderType.downloadToPos", "Model");
+            lblChargeRate.Text = WestwindHelper.GetWordWithColon("posTenderType.chargeRate", "Model");
+            lblChargeAmount.Text = WestwindHelper.GetWordWithColon("posTenderType.chargeAmount", "Model");
+            lblMonthly.Text = WestwindHelper.GetWordWithColon("posTenderType.monthly", "Model");
+            lblAdditionalMonthlyCharge.Text = WestwindHelper.GetWordWithColon("posTenderType.additionalCharge", "Model");
+            lblMinimumMonthlyCharge.Text = WestwindHelper.GetWordWithColon("posTenderType.minimumCharge", "Model");
+
+            colLN.Text = WestwindHelper.GetWord("listview.line", "Tools");
+            colTypeCode.Text = WestwindHelper.GetWord("posTenderType.code", "Model");
+            colTypeName.Text = WestwindHelper.GetWord("posTenderType.name", "Model");
+            colTypeNameAlt1.Text = WestwindHelper.GetWord(String.Format("language.{0}", LanguageHelper.AlternateLanguage1.Key.ToLower()), "Menu");
+            colTypeNameAlt2.Text = WestwindHelper.GetWord(String.Format("language.{0}", LanguageHelper.AlternateLanguage2.Key.ToLower()), "Menu");
+        }
+
+        private void SetAttributes()
+        {
+            #region ListView Column Style
+            lvPosTenderTypeList.Dock = DockStyle.Fill;
+
+            colLN.TextAlign = HorizontalAlignment.Center;
+            //colParentDept.TextAlign = HorizontalAlignment.Left;
+            //colParentDept.ContentAlign = ExtendedHorizontalAlignment.Center;
+            colTypeCode.TextAlign = HorizontalAlignment.Left;
+            colTypeCode.ContentAlign = ExtendedHorizontalAlignment.Center;
+            colTypeName.TextAlign = HorizontalAlignment.Left;
+            colTypeName.ContentAlign = ExtendedHorizontalAlignment.Center;
+            colTypeNameAlt1.TextAlign = HorizontalAlignment.Left;
+            colTypeNameAlt1.ContentAlign = ExtendedHorizontalAlignment.Center;
+            colTypeNameAlt2.TextAlign = HorizontalAlignment.Left;
+            colTypeNameAlt2.ContentAlign = ExtendedHorizontalAlignment.Center;
+            #endregion
+
+            #region show/ hide alt1 alt2
+            switch (LanguageHelper.AlternateLanguagesUsed)
+            {
+                case 1:
+                    // hide alt2
+                    lblTypeNameAlt2.Visible = txtTypeNameAlt2.Visible = false;
+                    colTypeNameAlt2.Visible = false;
+                    // push parent dept. up
+                    //lblProvince.Location = new Point(lblProvince.Location.X, lblCityNameAlt1.Location.Y);
+                    //cboProvince.Location = new Point(cboProvince.Location.X, txtCityNameAlt2.Location.Y);
+                    break;
+                case 2:
+                    // do nothing
+                    break;
+                case 0:
+                default:
+                    // hide alt1 & alt2
+                    lblTypeNameAlt1.Visible = lblTypeNameAlt2.Visible = txtTypeNameAlt1.Visible = txtTypeNameAlt2.Visible = false;
+                    colTypeNameAlt1.Visible = colTypeNameAlt2.Visible = false;
+                    // push parent dept up
+                    //lblProvince.Location = new Point(lblProvince.Location.X, lblCityNameAlt1.Location.Y);
+                    //cboProvince.Location = new Point(cboProvince.Location.X, txtCityNameAlt1.Location.Y);
+                    break;
+            }
+            #endregion
+
+            #region 設定 clickable Currency label
+            lblCurrency.AutoSize = true;                         // 減少 whitespace，有字嘅位置先可以 click
+            lblCurrency.Cursor = Cursors.Hand;                   // cursor over 顯示 hand cursor
+            lblCurrency.Click += (s, e) =>                       // 彈出 wizard
+            {
+                var dialog = new Settings.CurrencyWizard();
+                dialog.FormClosed += (sender, eventArgs) =>     // 關閉後 refresh 個 combo box items
+                {
+                    FillCurrencyList();
+                };
+                dialog.ShowDialog();
+            };
+            #endregion
+        }
+        #endregion
 
         #region ToolBar
         private void SetToolBar()
@@ -43,21 +145,21 @@ namespace RT2020.Settings
             sep.Style = ToolBarButtonStyle.Separator;
 
             // cmdSave
-            ToolBarButton cmdNew = new ToolBarButton("New", "New");
+            ToolBarButton cmdNew = new ToolBarButton("New", WestwindHelper.GetWord("edit.new", "General"));
             cmdNew.Tag = "New";
             cmdNew.Image = new IconResourceHandle("16x16.ico_16_3.gif");
 
             this.tbWizardAction.Buttons.Add(cmdNew);
 
             // cmdSave
-            ToolBarButton cmdSave = new ToolBarButton("Save", "Save");
+            ToolBarButton cmdSave = new ToolBarButton("Save", WestwindHelper.GetWord("edit.save", "General"));
             cmdSave.Tag = "Save";
             cmdSave.Image = new IconResourceHandle("16x16.16_L_save.gif");
 
             this.tbWizardAction.Buttons.Add(cmdSave);
 
             // cmdSaveNew
-            ToolBarButton cmdRefresh = new ToolBarButton("Refresh", "Refresh");
+            ToolBarButton cmdRefresh = new ToolBarButton("Refresh", WestwindHelper.GetWord("edit.refresh", "General"));
             cmdRefresh.Tag = "refresh";
             cmdRefresh.Image = new IconResourceHandle("16x16.16_L_refresh.gif");
 
@@ -65,11 +167,11 @@ namespace RT2020.Settings
             this.tbWizardAction.Buttons.Add(sep);
 
             // cmdDelete
-            ToolBarButton cmdDelete = new ToolBarButton("Delete", "Delete");
+            ToolBarButton cmdDelete = new ToolBarButton("Delete", WestwindHelper.GetWord("edit.delete", "General"));
             cmdDelete.Tag = "Delete";
             cmdDelete.Image = new IconResourceHandle("16x16.16_L_remove.gif");
 
-            if (PosTenderTypeId == System.Guid.Empty)
+            if (_TenderTypeId == Guid.Empty)
             {
                 cmdDelete.Enabled = false;
             }
@@ -90,20 +192,17 @@ namespace RT2020.Settings
                 switch (e.Button.Tag.ToString().ToLower())
                 {
                     case "new":
-                        Clear();
-                        SetCtrlEditable();
+                        ClearForm();
                         break;
                     case "save":
                         if (Save())
                         {
-                            Clear();
+                            ClearForm();
                             BindPosTenderTypeList();
-                            this.Update();
                         }
                         break;
                     case "refresh":
-                        BindPosTenderTypeList();
-                        this.Update();
+                        ClearForm();
                         break;
                     case "delete":
                         MessageBox.Show("Delete Record?", "Delete Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question, new EventHandler(DeleteConfirmationHandler));
@@ -116,20 +215,32 @@ namespace RT2020.Settings
         #region PosTenderType Code
         private void SetCtrlEditable()
         {
-            txtPosTenderTypeCode.BackColor = (this.PosTenderTypeId == System.Guid.Empty) ? Color.LightSkyBlue : Color.LightYellow;
-            txtPosTenderTypeCode.ReadOnly = (this.PosTenderTypeId != System.Guid.Empty);
+            txtTypeCode.BackColor = (_TenderTypeId == Guid.Empty) ? Color.LightSkyBlue : Color.LightYellow;
+            txtTypeCode.ReadOnly = (_TenderTypeId != Guid.Empty);
 
             ClearError();
         }
 
         private void ClearError()
         {
-            errorProvider.SetError(txtPosTenderTypeCode, string.Empty);
+            errorProvider.SetError(txtTypeCode, string.Empty);
             errorProvider.SetError(txtExchangeRate, string.Empty);
             errorProvider.SetError(txtChargeRate, string.Empty);
             errorProvider.SetError(txtChargeAmount, string.Empty);
             errorProvider.SetError(txtAdditionalMonthlyCharge, string.Empty);
             errorProvider.SetError(txtMinimumMonthlyCharge, string.Empty);
+        }
+
+        private void ClearForm()
+        {
+            txtTypeCode.Text = txtTypeName.Text = txtTypeNameAlt1.Text = txtTypeNameAlt2.Text = txtPriority.Text = string.Empty;
+            txtExchangeRate.Text = txtChargeRate.Text = txtChargeAmount.Text = txtAdditionalMonthlyCharge.Text = txtMinimumMonthlyCharge.Text = string.Empty;
+            chkDownloadToPoS.Checked = false;
+
+            _TenderTypeId = Guid.Empty;
+
+            FillCurrencyList();
+            SetCtrlEditable();
         }
         #endregion
 
@@ -170,7 +281,7 @@ namespace RT2020.Settings
         #region Fill Currency List
         private void FillCurrencyList()
         {
-            ModelEx.CurrencyEx.LoadCombo(ref cboCurrency, "CurrencyCode", false);
+            ModelEx.CurrencyEx.LoadCombo(ref cboCurrency, "CurrencyCode", false, true, "", "");
         }
         #endregion
 
@@ -179,9 +290,9 @@ namespace RT2020.Settings
         private bool Save()
         {
             decimal numeric = 0;
-            if (txtPosTenderTypeCode.Text.Length == 0)
+            if (txtTypeCode.Text.Length == 0)
             {
-                errorProvider.SetError(txtPosTenderTypeCode, "Cannot be blank!");
+                errorProvider.SetError(txtTypeCode, "Cannot be blank!");
                 return false;
             }
             else if (!decimal.TryParse(txtExchangeRate.Text, out numeric))
@@ -211,7 +322,7 @@ namespace RT2020.Settings
             }
             else
             {
-                errorProvider.SetError(txtPosTenderTypeCode, string.Empty);
+                errorProvider.SetError(txtTypeCode, string.Empty);
                 errorProvider.SetError(txtExchangeRate, string.Empty);
                 errorProvider.SetError(txtChargeRate, string.Empty);
                 errorProvider.SetError(txtChargeAmount, string.Empty);
@@ -220,28 +331,28 @@ namespace RT2020.Settings
 
                 using (var ctx = new EF6.RT2020Entities())
                 {
-                    var oPosTenderType = ctx.PosTenderType.Find(this.PosTenderTypeId);
+                    var oPosTenderType = ctx.PosTenderType.Find(_TenderTypeId);
                     if (oPosTenderType == null)
                     {
                         oPosTenderType = new EF6.PosTenderType();
                         oPosTenderType.TypeId = Guid.NewGuid();
-                        if (ModelEx.PosTenderTypeEx.IsTypeCodeInUse(txtPosTenderTypeCode.Text.Trim()))
+                        if (ModelEx.PosTenderTypeEx.IsTypeCodeInUse(txtTypeCode.Text.Trim()))
                         {
-                            errorProvider.SetError(txtPosTenderTypeCode, string.Format(Resources.Common.DuplicatedCode, "PoS Tender Type Code"));
+                            errorProvider.SetError(txtTypeCode, string.Format(Resources.Common.DuplicatedCode, "PoS Tender Type Code"));
                             return false;
                         }
                         else
                         {
-                            oPosTenderType.TypeCode = txtPosTenderTypeCode.Text;
+                            oPosTenderType.TypeCode = txtTypeCode.Text;
                             oPosTenderType.CreatedBy = ConfigHelper.CurrentUserId;
                             oPosTenderType.CreatedOn = DateTime.Now;
-                            errorProvider.SetError(txtPosTenderTypeCode, string.Empty);
+                            errorProvider.SetError(txtTypeCode, string.Empty);
                         }
                         ctx.PosTenderType.Add(oPosTenderType);
                     }
-                    oPosTenderType.TypeName = txtPosTenderTypeName.Text;
-                    oPosTenderType.TypeName_Chs = txtPosTenderTypeNameChs.Text;
-                    oPosTenderType.TypeName_Cht = txtPosTenderTypeNameCht.Text;
+                    oPosTenderType.TypeName = txtTypeName.Text;
+                    oPosTenderType.TypeName_Chs = txtTypeNameAlt1.Text;
+                    oPosTenderType.TypeName_Cht = txtTypeNameAlt2.Text;
 
                     oPosTenderType.CurrencyCode = cboCurrency.Text;
                     oPosTenderType.ExchangeRate = (txtExchangeRate.Text.Length == 0) ? 0 : Convert.ToDecimal(txtExchangeRate.Text);
@@ -259,36 +370,13 @@ namespace RT2020.Settings
                 return true;
             }
         }
-
-        private void Clear()
-        {
-            this.Close();
-
-            PosTenderTypeWizard wizType = new PosTenderTypeWizard();
-            wizType.ShowDialog();
-        }
-        #endregion
-
-        #region Properties
-        private Guid countryId = System.Guid.Empty;
-        public Guid PosTenderTypeId
-        {
-            get
-            {
-                return countryId;
-            }
-            set
-            {
-                countryId = value;
-            }
-        }
         #endregion
 
         private void Delete()
         {
             using (var ctx = new EF6.RT2020Entities())
             {
-                var oPosTenderType = ctx.PosTenderType.Find(this.PosTenderTypeId);
+                var oPosTenderType = ctx.PosTenderType.Find(_TenderTypeId);
                 if (oPosTenderType != null)
                 {
                     try
@@ -316,11 +404,11 @@ namespace RT2020.Settings
                         var oPosTenderType = ctx.PosTenderType.Find(id);
                         if (oPosTenderType != null)
                         {
-                            txtPosTenderTypeCode.Text = oPosTenderType.TypeCode;
-                            txtPosTenderTypeName.Text = oPosTenderType.TypeName;
-                            txtPosTenderTypeNameChs.Text = oPosTenderType.TypeName_Chs;
-                            txtPosTenderTypeNameCht.Text = oPosTenderType.TypeName_Cht;
-                            cboCurrency.Text = oPosTenderType.CurrencyCode;
+                            txtTypeCode.Text = oPosTenderType.TypeCode;
+                            txtTypeName.Text = oPosTenderType.TypeName;
+                            txtTypeNameAlt1.Text = oPosTenderType.TypeName_Chs;
+                            txtTypeNameAlt2.Text = oPosTenderType.TypeName_Cht;
+                            cboCurrency.SelectedValue = ModelEx.CurrencyEx.GetCurrencyIdByCode(oPosTenderType.CurrencyCode);
                             txtExchangeRate.Text = oPosTenderType.ExchangeRate.Value.ToString("n4");
                             chkDownloadToPoS.Checked = true;
                             txtChargeRate.Text = oPosTenderType.ChargeRate.ToString("n2");
@@ -328,7 +416,7 @@ namespace RT2020.Settings
                             txtAdditionalMonthlyCharge.Text = oPosTenderType.AdditionalMonthlyCharge.ToString("n2");
                             txtMinimumMonthlyCharge.Text = oPosTenderType.MinimumMonthlyCharge.ToString("n2");
 
-                            this.PosTenderTypeId = oPosTenderType.TypeId;
+                            _TenderTypeId = oPosTenderType.TypeId;
 
                             SetCtrlEditable();
                             SetToolBar();
@@ -345,7 +433,7 @@ namespace RT2020.Settings
                 Delete();
 
                 BindPosTenderTypeList();
-                Clear();
+                ClearForm();
                 SetCtrlEditable();
             }
         }
@@ -353,9 +441,15 @@ namespace RT2020.Settings
         private void cboCurrency_SelectedIndexChanged(object sender, EventArgs e)
         {
             var id = Guid.Empty;
-            if (Guid.TryParse(cboCurrency.SelectedValue.ToString(), out id))
+            if (cboCurrency.SelectedValue != null)
             {
-                txtExchangeRate.Text = ModelEx.CurrencyEx.GetExchangeRateById(id).ToString("n4");
+                if (Guid.TryParse(cboCurrency.SelectedValue.ToString(), out id))
+                {
+                    if (id != Guid.Empty)
+                    {
+                        txtExchangeRate.Text = ModelEx.CurrencyEx.GetExchangeRateById(id).ToString("n4");
+                    }
+                }
             }
         }
     }

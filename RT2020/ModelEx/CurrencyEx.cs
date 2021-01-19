@@ -26,6 +26,19 @@ namespace RT2020.ModelEx
             return result;
         }
 
+        public static Guid GetCurrencyIdByCode(string code)
+        {
+            var result = Guid.Empty;
+
+            using (var ctx = new EF6.RT2020Entities())
+            {
+                var p = ctx.Currency.Where(x => x.CurrencyCode == code).FirstOrDefault();
+                if (p != null) result = p.CurrencyId;
+            }
+
+            return result;
+        }
+
         public static decimal GetExchangeRateById(Guid id)
         {
             decimal result = 0;
