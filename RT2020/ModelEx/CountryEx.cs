@@ -8,6 +8,7 @@ using RT2020.Helper;
 using System.Reflection;
 using System.ComponentModel;
 using System.Text.RegularExpressions;
+using System.Data.Entity;
 
 namespace RT2020.ModelEx
 {
@@ -26,6 +27,32 @@ namespace RT2020.ModelEx
             return result;
         }
 
+        public static Guid GetCountryIdByCode(string code)
+        {
+            var result = Guid.Empty;
+
+            using (var ctx = new EF6.RT2020Entities())
+            {
+                var p = ctx.Country.Where(x => x.CountryName == code).FirstOrDefault();
+                if (p != null) result = p.CountryId;
+            }
+
+            return result;
+        }
+
+        public static string GetCountryCode(Guid countryId)
+        {
+            var result = "";
+
+            using (var ctx = new EF6.RT2020Entities())
+            {
+                var item = ctx.Country.Where(x => x.CountryId == countryId).AsNoTracking().FirstOrDefault();
+                if (item != null) result = item.CountryCode;
+            }
+
+            return result;
+        }
+
         public static bool IsCountryCodeInUse(string code)
         {
             bool result = false;
@@ -34,6 +61,108 @@ namespace RT2020.ModelEx
             {
                 var country = ctx.Country.Where(x => x.CountryCode == code).FirstOrDefault();
                 if (country != null) result = true;
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Get a EF6.Country object from the database using the given CountryId
+        /// </summary>
+        /// <param name="countryId">The primary key value</param>
+        /// <returns>A EF6.Country object</returns>
+        public static EF6.Country Get(Guid countryId)
+        {
+            EF6.Country result = null;
+
+            using (var ctx = new EF6.RT2020Entities())
+            {
+                result = ctx.Country.Where(x => x.CountryId == countryId).AsNoTracking().FirstOrDefault();
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Get a EF6.Country object from the database using the given QueryString
+        /// </summary>
+        /// <param name="countryId">The primary key value</param>
+        /// <returns>A EF6.Country object</returns>
+        public static EF6.Country Get(string whereClause)
+        {
+            EF6.Country result = null;
+
+            using (var ctx = new EF6.RT2020Entities())
+            {
+                result = ctx.Country
+                    .SqlQuery(string.Format("Select * from Country Where {0}", whereClause))
+                    .AsNoTracking()
+                    .FirstOrDefault();
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Get a list of Country objects from the database
+        /// </summary>
+        /// <returns>A list containing all of the Country objects in the database.</returns>
+        public static List<EF6.Country> GetList()
+        {
+            var whereClause = "1 = 1";
+            return GetList(whereClause);
+        }
+
+        /// <summary>
+        /// Get a list of Country objects from the database
+        /// ordered by primary key
+        /// </summary>
+        /// <returns>A list containing all of the Country objects in the database ordered by the columns specified.</returns>
+        public static List<EF6.Country> GetList(string whereClause)
+        {
+            var orderBy = new string[] { "CountryId" };
+            return GetList(whereClause, orderBy);
+        }
+
+        /// <summary>
+        /// Get a list of Country objects from the database.
+        /// ordered accordingly, example { "FieldName1", "FieldName2 DESC" }
+        /// </summary>
+        /// <returns>A list containing all of the Country objects in the database.</returns>
+        public static List<EF6.Country> GetList(string whereClause, string[] orderBy)
+        {
+            List<EF6.Country> result = new List<EF6.Country>();
+
+            var orderby = String.Join(",", orderBy.Select(x => x));
+
+            using (var ctx = new EF6.RT2020Entities())
+            {
+                result = ctx.Country
+                    .SqlQuery(string.Format("Select * from Country Where {0} Order By {1}", whereClause, orderby))
+                    .AsNoTracking()
+                    .ToList();
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Deletes a EF6.Country object from the database.
+        /// </summary>
+        /// <param name="countryId">The primary key value</param>
+        public static bool Delete(Guid countryId)
+        {
+            bool result = false;
+
+            using (var ctx = new EF6.RT2020Entities())
+            {
+                var item = ctx.Country.Find(countryId);
+                if (item != null)
+                {
+                    ctx.Country.Remove(item);
+                    ctx.SaveChanges();
+                    result = true;
+                }
             }
 
             return result;
@@ -140,7 +269,6 @@ namespace RT2020.ModelEx
                     ))
                     .ToDictionary(x => x.Key, x => x.Value)
                     .ToList();
-
                 if (BlankLine) kvpList.Insert(0, new KeyValuePair<Guid, string>(Guid.Empty, ""));
                 ddList.DataSource = kvpList;
                 ddList.ValueMember = "Key";
@@ -201,28 +329,6 @@ namespace RT2020.ModelEx
 
             using (var ctx = new EF6.RT2020Entities())
             {
-                /**
-                var pattern = Regex.Replace(TextFormatString, "{[A-Za-z0-9]}", ";");
-                var sep = pattern.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
-
-                var displayField = "";
-                for (int i = 0; i < TextField.Length; i++)
-                {
-                    var prefix = i == 0 ? "" : string.Format(" + '{0}' + ", sep[i - 1]);
-
-                    displayField += prefix + TextField[i].ToString();
-                }
-
-                var kvpList = ctx.Database.SqlQuery<ComboBoxHelper.ComboBoxItem>(
-                    string.Format(
-                        "Select CountryId as [Key], ({0}) as [Value] from Country Where {1} Order By {2}",
-                        displayField, string.IsNullOrEmpty(WhereClause) ? "1 = 1" : WhereClause,
-                        orderby
-                    ))
-                    .ToDictionary(x => x.Key, x => x.Value)
-                    .ToList();
-                */
-
                 var list = ctx.Country.SqlQuery(
                     String.Format(
                         "Select * from Country Where {0} Order By {1}",
@@ -260,9 +366,4 @@ namespace RT2020.ModelEx
 
         #endregion
     }
-    //public class CountryKvp
-    //{
-    //    public Guid Key { get; set; }
-    //    public string Value { get; set; }
-    //}
 }

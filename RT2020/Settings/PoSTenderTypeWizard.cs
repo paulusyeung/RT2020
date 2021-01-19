@@ -53,8 +53,8 @@ namespace RT2020.Settings
 
             lblTypeCode.Text = WestwindHelper.GetWordWithColon("posTenderType.code", "Model");
             lblTypeName.Text = WestwindHelper.GetWordWithColon("posTenderType.name", "Model");
-            lblTypeNameAlt1.Text = WestwindHelper.GetWord(String.Format("language.{0}", LanguageHelper.AlternateLanguage1.Key.ToLower()), "Menu");
-            lblTypeNameAlt2.Text = WestwindHelper.GetWord(String.Format("language.{0}", LanguageHelper.AlternateLanguage2.Key.ToLower()), "Menu");
+            lblTypeNameAlt1.Text = WestwindHelper.GetWordWithColon(String.Format("language.{0}", LanguageHelper.AlternateLanguage1.Key.ToLower()), "Menu");
+            lblTypeNameAlt2.Text = WestwindHelper.GetWordWithColon(String.Format("language.{0}", LanguageHelper.AlternateLanguage2.Key.ToLower()), "Menu");
             lblPriority.Text = WestwindHelper.GetWordWithColon("posTenderType.priority", "Model");
             lblCurrency.Text = WestwindHelper.GetWordWithColon("currency", "Model");
             lblExchangeRate.Text = WestwindHelper.GetWordWithColon("posTenderType.exchangeRate", "Model");

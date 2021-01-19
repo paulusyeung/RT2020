@@ -23,6 +23,15 @@ namespace RT2020.Settings
 {
     public partial class CurrencyWizard : Form
     {
+        #region Properties
+        private Guid _CurrencyId = System.Guid.Empty;
+        public Guid CurrencyId
+        {
+            get { return _CurrencyId; }
+            set { _CurrencyId = value; }
+        }
+        #endregion
+
         public CurrencyWizard()
         {
             InitializeComponent();
@@ -48,28 +57,51 @@ namespace RT2020.Settings
             colLN.Text = WestwindHelper.GetWord("listview.line", "Tools");
 
             colCurrencyCode.Text = WestwindHelper.GetWord("currency.code", "Model");
-            colCountryName.Text = WestwindHelper.GetWord("currency.name", "Model");
+            colCountryName.Text = WestwindHelper.GetWord("country.name", "Model");
+            colCurrencyName.Text = WestwindHelper.GetWord("currency.name", "Model");
+            colExchangeRate.Text = WestwindHelper.GetWord("currency.exchangeRate", "Model");
+            colCreatedOn.Text = WestwindHelper.GetWord("glossary.createdOn", "General");
+            colModifiedOn.Text = WestwindHelper.GetWord("glossary.modifiedOn", "General");
 
             lblCurrencyCode.Text = WestwindHelper.GetWordWithColon("currency.code", "Model");
             lblCurrencyName.Text = WestwindHelper.GetWordWithColon("currency.name", "Model");
-
-            lnkCountryName.Text = WestwindHelper.GetWord("country.name", "Model");
-
-            lblExchangeRate.Text = WestwindHelper.GetWordWithColon("currency.exchageRate", "Model");
+            lblCountryName.Text = WestwindHelper.GetWord("country.name", "Model");
+            lblExchangeRate.Text = WestwindHelper.GetWordWithColon("currency.exchangeRate", "Model");
             lblUnicodeDecimal.Text = WestwindHelper.GetWordWithColon("currency.symbol", "Model");
         }
 
         private void SetAttributes()
         {
             colLN.TextAlign = HorizontalAlignment.Center;
-            colCurrencyCode.TextAlign = HorizontalAlignment.Left;
+            colCurrencyCode.TextAlign = HorizontalAlignment.Center;
             colCurrencyCode.ContentAlign = ExtendedHorizontalAlignment.Center;
             colCountryName.TextAlign = HorizontalAlignment.Left;
             colCountryName.ContentAlign = ExtendedHorizontalAlignment.Center;
             colCurrencyName.TextAlign = HorizontalAlignment.Left;
             colCurrencyName.ContentAlign = ExtendedHorizontalAlignment.Center;
-            colExchangeRate.TextAlign = HorizontalAlignment.Left;
+            colExchangeRate.TextAlign = HorizontalAlignment.Right;
             colExchangeRate.ContentAlign = ExtendedHorizontalAlignment.Center;
+            colCreatedOn.TextAlign = HorizontalAlignment.Right;
+            colCreatedOn.ContentAlign = ExtendedHorizontalAlignment.Center;
+            colModifiedOn.TextAlign = HorizontalAlignment.Right;
+            colModifiedOn.ContentAlign = ExtendedHorizontalAlignment.Center;
+
+            #region 設定 clickable Class 1 label
+            lblCountryName.AutoSize = true;                         // 減少 whitespace，有字嘅位置先可以 click
+            lblCountryName.Cursor = Cursors.Hand;                   // cursor over 顯示 hand cursor
+            lblCountryName.Click += (s, e) =>                       // 彈出 wizard
+            {
+                var dialog = new CountryWizard();
+                dialog.FormClosed += (sender, eventArgs) =>     // 關閉後 refresh 個 combo box items
+                {
+                    FillCountryName();
+                };
+                dialog.ShowDialog();
+            };
+            #endregion
+
+            // 2021.01.20 paulus: 唔啱用，Euro 唔係國家
+            lblCountryName.Visible = cboCountryName.Visible = colCountryName.Visible = false;
         }
 
         #endregion
@@ -113,7 +145,7 @@ namespace RT2020.Settings
             cmdDelete.Tag = "Delete";
             cmdDelete.Image = new IconResourceHandle("16x16.16_L_remove.gif");
 
-            if (CurrencyId == System.Guid.Empty)
+            if (_CurrencyId == Guid.Empty)
             {
                 cmdDelete.Enabled = false;
             }
@@ -162,8 +194,8 @@ namespace RT2020.Settings
         #region Currency Code
         private void SetCtrlEditable()
         {
-            txtCurrencyCode.BackColor = (this.CurrencyId == System.Guid.Empty) ? Color.LightSkyBlue : Color.LightYellow;
-            txtCurrencyCode.ReadOnly = (this.CurrencyId != System.Guid.Empty);
+            txtCurrencyCode.BackColor = (_CurrencyId == Guid.Empty) ? Color.LightSkyBlue : Color.LightYellow;
+            txtCurrencyCode.ReadOnly = (_CurrencyId != Guid.Empty);
 
             ClearError();
         }
@@ -176,10 +208,15 @@ namespace RT2020.Settings
         }
         #endregion
 
-        #region Country Name
+        #region Fill Country Name
         private void FillCountryName()
         {
-            ModelEx.CountryEx.LoadCombo(ref cboCountryName, "CountryName", true);
+
+            //ModelEx.CountryEx.LoadCombo(ref cboCountryName, "CountryName", true);
+            var fields = new string[] { "CountryCode", "CountryName" };
+            var pattern = "{0} - {1}";
+            var orderby = new string[] { "CountryCode" };
+            ModelEx.CountryEx.LoadCombo(ref cboCountryName, fields, pattern, true, true, "", "", orderby);
         }
         #endregion
 
@@ -196,35 +233,20 @@ namespace RT2020.Settings
                 var list = ctx.Currency.OrderBy(x => x.CurrencyCode).AsNoTracking().ToList();
                 foreach (var item in list)
                 {
-                    var oItem = this.lvCurrencyList.Items.Add(item.CurrencyId.ToString());
+                    var oItem = this.lvCurrencyList.Items.Add(item.CurrencyCode);
                     oItem.SubItems.Add(iCount.ToString()); // Line Number
+                    oItem.SubItems.Add(item.CurrencyId.ToString());
                     oItem.SubItems.Add(item.CountryName);
-                    oItem.SubItems.Add(item.CurrencyCode);
                     oItem.SubItems.Add(item.CurrencyName);
-                    oItem.SubItems.Add(item.ExchangeRate.Value.ToString("n4"));
-                    oItem.SubItems.Add(RT2020.SystemInfo.Settings.DateTimeToString(item.CreatedOn, true));
-                    oItem.SubItems.Add(RT2020.SystemInfo.Settings.DateTimeToString(item.ModifiedOn, true));
+                    oItem.SubItems.Add(item.ExchangeRate.HasValue ? item.ExchangeRate.Value.ToString("n4") : "");
+                    oItem.SubItems.Add(DateTimeHelper.DateTimeToString(item.CreatedOn, true));
+                    oItem.SubItems.Add(DateTimeHelper.DateTimeToString(item.ModifiedOn, true));
 
                     iCount++;
                 }
             }
         }
 
-        #endregion
-
-        #region Properties
-        private Guid currencyId = System.Guid.Empty;
-        public Guid CurrencyId
-        {
-            get
-            {
-                return currencyId;
-            }
-            set
-            {
-                currencyId = value;
-            }
-        }
         #endregion
 
         #region Save
@@ -244,10 +266,13 @@ namespace RT2020.Settings
 
             #region 新增，要 check CountryCode 係咪 in use
             errorProvider.SetError(txtCurrencyCode, string.Empty);
-            if (this.CurrencyId == System.Guid.Empty && ModelEx.CurrencyEx.IsCurrencyCodeInUse(txtCurrencyCode.Text.Trim()))
+            if (_CurrencyId == Guid.Empty)
             {
-                errorProvider.SetError(txtCurrencyCode, "Currency Code in use");
-                result = false;
+                if (ModelEx.CurrencyEx.IsCurrencyCodeInUse(txtCurrencyCode.Text.Trim()))
+                {
+                    errorProvider.SetError(txtCurrencyCode, "Currency Code in use");
+                    result = false;
+                }
             }
             #endregion
 
@@ -271,19 +296,21 @@ namespace RT2020.Settings
 
             using (var ctx = new EF6.RT2020Entities())
             {
-                var currency = ctx.Currency.Find(this.CurrencyId);
+                var currency = ctx.Currency.Find(_CurrencyId);
 
                 if (currency == null)
                 {
                     currency = new EF6.Currency();
-                    currency.CurrencyId = new Guid();
+
+                    currency.CurrencyId = Guid.NewGuid();
+                    currency.CurrencyCode = txtCurrencyCode.Text;
                     currency.CreatedBy = ConfigHelper.CurrentUserId;
                     currency.CreatedOn = DateTime.Now;
 
                     ctx.Currency.Add(currency);
-                    currency.CurrencyCode = txtCurrencyCode.Text;
                 }
-                currency.CountryName = txtCurrencyName.Text;
+                currency.CountryName = (Guid)cboCountryName.SelectedValue != Guid.Empty ? ModelEx.CountryEx.GetCountryCode((Guid)cboCountryName.SelectedValue) : "";
+                currency.CurrencyName = txtCurrencyName.Text;
                 currency.UnicodeDecimal = Convert.ToInt32((txtUnicodeDecimal.Text == string.Empty) ? "0" : txtUnicodeDecimal.Text);
                 currency.ExchangeRate = Convert.ToDecimal((txtExchangeRate.Text == string.Empty) ? "0" : txtExchangeRate.Text);
                 currency.ModifiedBy = ConfigHelper.CurrentUserId;
@@ -311,7 +338,7 @@ namespace RT2020.Settings
             {
                 try
                 {
-                    var currency = ctx.Currency.Find(this.CurrencyId);
+                    var currency = ctx.Currency.Find(_CurrencyId);
                     if (currency != null)
                     {
                         ctx.Currency.Remove(currency);
@@ -358,17 +385,19 @@ namespace RT2020.Settings
             if (lvCurrencyList.SelectedItem != null)
             {
                 var id = Guid.NewGuid();
-                if (Guid.TryParse(lvCurrencyList.SelectedItem.Text, out id))
+                if (Guid.TryParse(lvCurrencyList.SelectedItem.SubItems[2].Text, out id))
                 {
-                    this.CurrencyId = id;
+                    _CurrencyId = id;
                     using (var ctx = new EF6.RT2020Entities())
                     {
-                        var currency = ctx.Currency.Find(this.CurrencyId);
+                        var currency = ctx.Currency.Find(_CurrencyId);
                         if (currency != null)
                         {
+                            var countryId = ModelEx.CountryEx.GetCountryIdByCode(currency.CountryName);
+
                             txtCurrencyCode.Text = currency.CurrencyCode;
                             txtCurrencyName.Text = currency.CurrencyName;
-                            cboCountryName.Text = currency.CountryName;
+                            cboCountryName.SelectedValue = countryId != Guid.Empty ? countryId : Guid.Empty;
                             txtUnicodeDecimal.Text = currency.UnicodeDecimal.ToString();
                             txtExchangeRate.Text = currency.ExchangeRate == null ? "" : currency.ExchangeRate?.ToString("n4");
                             ShowSymbol();

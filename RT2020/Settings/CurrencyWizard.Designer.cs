@@ -33,7 +33,6 @@ namespace RT2020.Settings
             this.txtCurrencyCode = new Gizmox.WebGUI.Forms.TextBox();
             this.lblCurrencyName = new Gizmox.WebGUI.Forms.Label();
             this.txtCurrencyName = new Gizmox.WebGUI.Forms.TextBox();
-            this.lnkCountryName = new Gizmox.WebGUI.Forms.LinkLabel();
             this.txtUnicodeDecimal = new Gizmox.WebGUI.Forms.TextBox();
             this.cboCountryName = new Gizmox.WebGUI.Forms.ComboBox();
             this.lblUnicodeDecimal = new Gizmox.WebGUI.Forms.Label();
@@ -51,20 +50,21 @@ namespace RT2020.Settings
             this.colExchangeRate = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
             this.colCreatedOn = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
             this.colModifiedOn = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.lblCountryName = new Gizmox.WebGUI.Forms.Label();
             this.lblSymbol = new Gizmox.WebGUI.Forms.Label();
             this.SuspendLayout();
             // 
             // lblCurrencyCode
             // 
-            this.lblCurrencyCode.Location = new System.Drawing.Point(16, 47);
+            this.lblCurrencyCode.Location = new System.Drawing.Point(17, 45);
             this.lblCurrencyCode.Name = "lblCurrencyCode";
-            this.lblCurrencyCode.Size = new System.Drawing.Size(134, 23);
+            this.lblCurrencyCode.Size = new System.Drawing.Size(115, 23);
             this.lblCurrencyCode.TabIndex = 0;
             this.lblCurrencyCode.Text = "Currency Code:";
             // 
             // txtCurrencyCode
             // 
-            this.txtCurrencyCode.Location = new System.Drawing.Point(153, 44);
+            this.txtCurrencyCode.Location = new System.Drawing.Point(135, 42);
             this.txtCurrencyCode.MaxLength = 3;
             this.txtCurrencyCode.Name = "txtCurrencyCode";
             this.txtCurrencyCode.Size = new System.Drawing.Size(121, 20);
@@ -72,33 +72,22 @@ namespace RT2020.Settings
             // 
             // lblCurrencyName
             // 
-            this.lblCurrencyName.Location = new System.Drawing.Point(16, 93);
+            this.lblCurrencyName.Location = new System.Drawing.Point(17, 91);
             this.lblCurrencyName.Name = "lblCurrencyName";
-            this.lblCurrencyName.Size = new System.Drawing.Size(134, 23);
+            this.lblCurrencyName.Size = new System.Drawing.Size(115, 23);
             this.lblCurrencyName.TabIndex = 2;
             this.lblCurrencyName.Text = "Currency Name:";
             // 
             // txtCurrencyName
             // 
-            this.txtCurrencyName.Location = new System.Drawing.Point(153, 90);
+            this.txtCurrencyName.Location = new System.Drawing.Point(135, 88);
             this.txtCurrencyName.Name = "txtCurrencyName";
             this.txtCurrencyName.Size = new System.Drawing.Size(121, 20);
             this.txtCurrencyName.TabIndex = 3;
             // 
-            // lnkCountryName
-            // 
-            this.lnkCountryName.LinkColor = System.Drawing.Color.Blue;
-            this.lnkCountryName.Location = new System.Drawing.Point(16, 70);
-            this.lnkCountryName.Name = "lnkCountryName";
-            this.lnkCountryName.Size = new System.Drawing.Size(134, 23);
-            this.lnkCountryName.TabIndex = 6;
-            this.lnkCountryName.TabStop = true;
-            this.lnkCountryName.Text = "Country Name:";
-            this.lnkCountryName.LinkClicked += new Gizmox.WebGUI.Forms.LinkLabelLinkClickedEventHandler(this.lnkCountryName_LinkClicked);
-            // 
             // txtUnicodeDecimal
             // 
-            this.txtUnicodeDecimal.Location = new System.Drawing.Point(153, 113);
+            this.txtUnicodeDecimal.Location = new System.Drawing.Point(135, 111);
             this.txtUnicodeDecimal.Name = "txtUnicodeDecimal";
             this.txtUnicodeDecimal.Size = new System.Drawing.Size(121, 20);
             this.txtUnicodeDecimal.TabIndex = 4;
@@ -109,21 +98,22 @@ namespace RT2020.Settings
             // 
             this.cboCountryName.BorderStyle = Gizmox.WebGUI.Forms.BorderStyle.Fixed3D;
             this.cboCountryName.DropDownWidth = 121;
-            this.cboCountryName.Location = new System.Drawing.Point(153, 67);
+            this.cboCountryName.Location = new System.Drawing.Point(135, 65);
             this.cboCountryName.Name = "cboCountryName";
             this.cboCountryName.Size = new System.Drawing.Size(121, 21);
             this.cboCountryName.TabIndex = 2;
             // 
             // lblUnicodeDecimal
             // 
-            this.lblUnicodeDecimal.Location = new System.Drawing.Point(16, 116);
+            this.lblUnicodeDecimal.Location = new System.Drawing.Point(17, 114);
             this.lblUnicodeDecimal.Name = "lblUnicodeDecimal";
-            this.lblUnicodeDecimal.Size = new System.Drawing.Size(106, 23);
+            this.lblUnicodeDecimal.Size = new System.Drawing.Size(90, 23);
             this.lblUnicodeDecimal.TabIndex = 7;
             this.lblUnicodeDecimal.Text = "Unicode Decimal:";
             // 
             // tbWizardAction
             // 
+            this.tbWizardAction.ButtonSize = new System.Drawing.Size(20, 20);
             this.tbWizardAction.DragHandle = true;
             this.tbWizardAction.DropDownArrows = true;
             this.tbWizardAction.ImageSize = new System.Drawing.Size(16, 16);
@@ -131,20 +121,20 @@ namespace RT2020.Settings
             this.tbWizardAction.MenuHandle = true;
             this.tbWizardAction.Name = "tbWizardAction";
             this.tbWizardAction.ShowToolTips = true;
-            this.tbWizardAction.Size = new System.Drawing.Size(100, 22);
+            this.tbWizardAction.Size = new System.Drawing.Size(273, 26);
             this.tbWizardAction.TabIndex = 8;
             // 
             // lblExchangeRate
             // 
-            this.lblExchangeRate.Location = new System.Drawing.Point(16, 139);
+            this.lblExchangeRate.Location = new System.Drawing.Point(17, 137);
             this.lblExchangeRate.Name = "lblExchangeRate";
-            this.lblExchangeRate.Size = new System.Drawing.Size(134, 23);
+            this.lblExchangeRate.Size = new System.Drawing.Size(115, 23);
             this.lblExchangeRate.TabIndex = 9;
             this.lblExchangeRate.Text = "Exchange Rate:";
             // 
             // txtExchangeRate
             // 
-            this.txtExchangeRate.Location = new System.Drawing.Point(153, 136);
+            this.txtExchangeRate.Location = new System.Drawing.Point(135, 134);
             this.txtExchangeRate.Name = "txtExchangeRate";
             this.txtExchangeRate.Size = new System.Drawing.Size(121, 20);
             this.txtExchangeRate.TabIndex = 5;
@@ -168,6 +158,7 @@ namespace RT2020.Settings
             // 
             // splitContainer.Panel2
             // 
+            this.splitContainer.Panel2.Controls.Add(this.lblCountryName);
             this.splitContainer.Panel2.Controls.Add(this.lblSymbol);
             this.splitContainer.Panel2.Controls.Add(this.lblExchangeRate);
             this.splitContainer.Panel2.Controls.Add(this.tbWizardAction);
@@ -178,19 +169,19 @@ namespace RT2020.Settings
             this.splitContainer.Panel2.Controls.Add(this.lblUnicodeDecimal);
             this.splitContainer.Panel2.Controls.Add(this.txtCurrencyName);
             this.splitContainer.Panel2.Controls.Add(this.cboCountryName);
-            this.splitContainer.Panel2.Controls.Add(this.lnkCountryName);
             this.splitContainer.Panel2.Controls.Add(this.txtUnicodeDecimal);
-            this.splitContainer.Size = new System.Drawing.Size(840, 569);
-            this.splitContainer.SplitterDistance = 550;
+            this.splitContainer.Size = new System.Drawing.Size(800, 450);
+            this.splitContainer.SplitterDistance = 525;
+            this.splitContainer.SplitterWidth = 2;
             this.splitContainer.TabIndex = 11;
             // 
             // lvCurrencyList
             // 
             this.lvCurrencyList.Columns.AddRange(new Gizmox.WebGUI.Forms.ColumnHeader[] {
-            this.colCurrencyId,
-            this.colLN,
-            this.colCountryName,
             this.colCurrencyCode,
+            this.colLN,
+            this.colCurrencyId,
+            this.colCountryName,
             this.colCurrencyName,
             this.colExchangeRate,
             this.colCreatedOn,
@@ -201,7 +192,7 @@ namespace RT2020.Settings
             this.lvCurrencyList.Location = new System.Drawing.Point(0, 0);
             this.lvCurrencyList.MultiSelect = false;
             this.lvCurrencyList.Name = "lvCurrencyList";
-            this.lvCurrencyList.Size = new System.Drawing.Size(550, 569);
+            this.lvCurrencyList.Size = new System.Drawing.Size(525, 450);
             this.lvCurrencyList.TabIndex = 0;
             this.lvCurrencyList.UseInternalPaging = true;
             this.lvCurrencyList.SelectedIndexChanged += new System.EventHandler(this.lvCurrencyList_SelectedIndexChanged);
@@ -228,7 +219,7 @@ namespace RT2020.Settings
             // 
             this.colCurrencyCode.ContentAlign = Gizmox.WebGUI.Forms.ExtendedHorizontalAlignment.Left;
             this.colCurrencyCode.Text = "Currency Code";
-            this.colCurrencyCode.Width = 120;
+            this.colCurrencyCode.Width = 80;
             // 
             // colCurrencyName
             // 
@@ -238,25 +229,33 @@ namespace RT2020.Settings
             // colExchangeRate
             // 
             this.colExchangeRate.Text = "Exchange Rate";
-            this.colExchangeRate.Width = 120;
+            this.colExchangeRate.Width = 80;
             // 
             // colCreatedOn
             // 
             this.colCreatedOn.Text = "Created On";
-            this.colCreatedOn.Visible = false;
-            this.colCreatedOn.Width = 120;
+            this.colCreatedOn.Visible = true;
+            this.colCreatedOn.Width = 100;
             // 
             // colModifiedOn
             // 
             this.colModifiedOn.Text = "Modified On";
-            this.colModifiedOn.Visible = false;
-            this.colModifiedOn.Width = 120;
+            this.colModifiedOn.Visible = true;
+            this.colModifiedOn.Width = 100;
+            // 
+            // lblCountryName
+            // 
+            this.lblCountryName.Location = new System.Drawing.Point(17, 68);
+            this.lblCountryName.Name = "lblCountryName";
+            this.lblCountryName.Size = new System.Drawing.Size(115, 23);
+            this.lblCountryName.TabIndex = 9;
+            this.lblCountryName.Text = "Exchange Rate:";
             // 
             // lblSymbol
             // 
-            this.lblSymbol.Location = new System.Drawing.Point(122, 116);
+            this.lblSymbol.Location = new System.Drawing.Point(116, 114);
             this.lblSymbol.Name = "lblSymbol";
-            this.lblSymbol.Size = new System.Drawing.Size(28, 23);
+            this.lblSymbol.Size = new System.Drawing.Size(16, 23);
             this.lblSymbol.TabIndex = 7;
             this.lblSymbol.Text = "$";
             this.lblSymbol.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -266,7 +265,7 @@ namespace RT2020.Settings
             this.Controls.Add(this.splitContainer);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Size = new System.Drawing.Size(840, 569);
+            this.Size = new System.Drawing.Size(800, 450);
             this.StartPosition = Gizmox.WebGUI.Forms.FormStartPosition.CenterParent;
             this.Text = "Currency Wizard";
             this.Load += new System.EventHandler(this.CurrencyWizard_Load);
@@ -280,7 +279,6 @@ namespace RT2020.Settings
         private Gizmox.WebGUI.Forms.TextBox txtCurrencyCode;
         private Gizmox.WebGUI.Forms.Label lblCurrencyName;
         private Gizmox.WebGUI.Forms.TextBox txtCurrencyName;
-        private Gizmox.WebGUI.Forms.LinkLabel lnkCountryName;
         private Gizmox.WebGUI.Forms.TextBox txtUnicodeDecimal;
         private Gizmox.WebGUI.Forms.ComboBox cboCountryName;
         private Gizmox.WebGUI.Forms.Label lblUnicodeDecimal;
@@ -299,5 +297,6 @@ namespace RT2020.Settings
         private Gizmox.WebGUI.Forms.ColumnHeader colCreatedOn;
         private Gizmox.WebGUI.Forms.ColumnHeader colModifiedOn;
         private Gizmox.WebGUI.Forms.Label lblSymbol;
+        private Gizmox.WebGUI.Forms.Label lblCountryName;
     }
 }
