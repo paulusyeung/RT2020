@@ -2062,23 +2062,23 @@
     <Compile Include="Product\AnalysisCodeList.Designer.cs">
       <DependentUpon>AnalysisCodeList.cs</DependentUpon>
     </Compile>
-    <Compile Include="Product\DefaultAppendixList.cs">
+    <Compile Include="Product\AppendixList.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Product\DefaultAppendixList.Designer.cs">
-      <DependentUpon>DefaultAppendixList.cs</DependentUpon>
+    <Compile Include="Product\AppendixList.Designer.cs">
+      <DependentUpon>AppendixList.cs</DependentUpon>
     </Compile>
-    <Compile Include="Product\DefaultClassList.cs">
+    <Compile Include="Product\ClassList.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Product\DefaultClassList.Designer.cs">
-      <DependentUpon>DefaultClassList.cs</DependentUpon>
+    <Compile Include="Product\ClassList.Designer.cs">
+      <DependentUpon>ClassList.cs</DependentUpon>
     </Compile>
-    <Compile Include="Product\DefaultCombinList.cs">
+    <Compile Include="Product\CombinationList.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Product\DefaultCombinList.Designer.cs">
-      <DependentUpon>DefaultCombinList.cs</DependentUpon>
+    <Compile Include="Product\CombinationList.Designer.cs">
+      <DependentUpon>CombinationList.cs</DependentUpon>
     </Compile>
     <Compile Include="Product\AnalysisCodeWizardAio.cs">
       <SubType>Form</SubType>
@@ -2153,11 +2153,11 @@
     <Compile Include="Product\ProductWizard_Batch.Designer.cs">
       <DependentUpon>ProductWizard_Batch.cs</DependentUpon>
     </Compile>
-    <Compile Include="Product\ProductWizard_Combination.cs">
+    <Compile Include="Product\CombinationWizard.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Product\ProductWizard_Combination.Designer.cs">
-      <DependentUpon>ProductWizard_Combination.cs</DependentUpon>
+    <Compile Include="Product\CombinationWizard.Designer.cs">
+      <DependentUpon>CombinationWizard.cs</DependentUpon>
     </Compile>
     <Compile Include="Product\ProductWizard_FastCreation.cs">
       <SubType>Form</SubType>
@@ -4226,16 +4226,16 @@
       <DependentUpon>AnalysisCodeList.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Product\DefaultAppendixList.resx">
-      <DependentUpon>DefaultAppendixList.cs</DependentUpon>
+    <EmbeddedResource Include="Product\AppendixList.resx">
+      <DependentUpon>AppendixList.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Product\DefaultClassList.resx">
-      <DependentUpon>DefaultClassList.cs</DependentUpon>
+    <EmbeddedResource Include="Product\ClassList.resx">
+      <DependentUpon>ClassList.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Product\DefaultCombinList.resx">
-      <DependentUpon>DefaultCombinList.cs</DependentUpon>
+    <EmbeddedResource Include="Product\CombinationList.resx">
+      <DependentUpon>CombinationList.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Product\AnalysisCodeWizardAio.resx">
@@ -4306,8 +4306,8 @@
       <DependentUpon>ProductWizard_Batch.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Product\ProductWizard_Combination.resx">
-      <DependentUpon>ProductWizard_Combination.cs</DependentUpon>
+    <EmbeddedResource Include="Product\CombinationWizard.resx">
+      <DependentUpon>CombinationWizard.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Product\ProductWizard_Discount.resx">

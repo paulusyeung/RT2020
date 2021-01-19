@@ -1,6 +1,6 @@
 namespace RT2020.Product
 {
-    partial class DefaultAppendixList
+    partial class CombinationList
     {
         /// <summary>
         /// Required designer variable.
@@ -29,11 +29,11 @@ namespace RT2020.Product
         private void InitializeComponent()
         {
             // 
-            // DefaultAppendixList
+            // DefaultCombinList
             // 
             this.ClientSize = new System.Drawing.Size(391, 306);
             this.Size = new System.Drawing.Size(391, 306);
-            this.Text = "DefaultAppendixList";
+            this.Text = "DefaultCombinList";
 
         }
 

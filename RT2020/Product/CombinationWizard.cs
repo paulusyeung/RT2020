@@ -17,55 +17,73 @@ using RT2020.Helper;
 
 namespace RT2020.Product
 {
-    public partial class ProductWizard_Combination : Form
+    public partial class CombinationWizard : Form
     {
-        public ProductWizard_Combination()
+        #region Properties
+        private ProductHelper.Appendix _AppendixType = ProductHelper.Appendix.None;
+        public ProductHelper.Appendix AppendixType
         {
-            InitializeComponent();
-            FillComboList();
-            SetToolBar();
-            SetCtrlEditable();
-            SetFormLayoutWithType();
-            LoadCombinationList();
+            get { return _AppendixType; }
+            set { _AppendixType = value; }
         }
 
-        public ProductWizard_Combination(FormLayoutType type)
+        private Guid _CombinId = System.Guid.Empty;
+        public Guid CombinId
+        {
+            get { return _CombinId; }
+            set { _CombinId = value; }
+        }
+        #endregion
+
+        public CombinationWizard()
         {
             InitializeComponent();
-            this.FormType = type;
-            FillComboList();
-            SetToolBar();
-            SetCtrlEditable();
-            SetFormLayoutWithType();
-            LoadCombinationList();
         }
 
-        public ProductWizard_Combination(Guid combinId)
+        private void CombinationWizard_Load(object sender, EventArgs e)
         {
-            InitializeComponent();
-            this.CombinId = combinId;
+            SetCaptions();
+            SetAttributes();
+
+            SetToolBar();
+            SetCtrlEditable();
+
+            FillAppendixes();
             InitialFormWithType();
-            FillComboList();
-            SetToolBar();
-            SetCtrlEditable();
             SetFormLayoutWithType();
-            LoadCombinationList();
         }
+
+        #region SetCaptions SetAttributes
+        private void SetCaptions()
+        {
+            this.Text = WestwindHelper.GetWordWithColon("combination.setup", "Product");
+
+            lblCombinNumber.Text = WestwindHelper.GetWordWithColon("combination.number", "Product");
+            gbSelection.Text = WestwindHelper.GetWordWithColon("combination", "Product");
+            lblAppendix1.Text = WestwindHelper.GetWordWithColon("appendix.appendix1", "Product");
+            lblAppendix2.Text = WestwindHelper.GetWordWithColon("appendix.appendix2", "Product");
+            lblAppendix3.Text = WestwindHelper.GetWordWithColon("appendix.appendix3", "Product");
+
+            lblRowNum.Text = WestwindHelper.GetWordWithColon("listview.line", "Tools");
+            btnAdd.Text = WestwindHelper.GetWord("edit.new", "General");
+            btnDeleteAll.Text = WestwindHelper.GetWord("edit.deleteAll", "General");
+            btnDelete.Text = WestwindHelper.GetWord("edit.delete", "General");
+        }
+
+        private void SetAttributes()
+        {
+            dgvCombinationList.Dock = DockStyle.Fill;
+        }
+        #endregion
 
         #region ToolBar
 
         private void SetCtrlEditable()
         {
-            txtCombinNumber.BackColor = (this.CombinId == System.Guid.Empty) ? Color.LightSkyBlue : Color.LightYellow;
-            txtCombinNumber.ReadOnly = (this.CombinId != System.Guid.Empty);
+            txtCombinNumber.BackColor = (_CombinId == Guid.Empty) ? Color.LightSkyBlue : Color.LightYellow;
+            txtCombinNumber.ReadOnly = (_CombinId != Guid.Empty);
 
             dgvCombinationList.AutoGenerateColumns = false;
-
-            lblAppendix1.Text = RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX1");
-            lblAppendix2.Text = RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX2");
-            lblAppendix3.Text = RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX3");
-
-            this.Text = string.Format("Combination Wizard [{0}]", RT2020.SystemInfo.Settings.GetSystemLabelByKey(this.FormType.ToString().ToUpper()));
         }
 
         private void SetToolBar()
@@ -78,21 +96,21 @@ namespace RT2020.Product
             sep.Style = ToolBarButtonStyle.Separator;
 
             // cmdNew
-            ToolBarButton cmdNew = new ToolBarButton("New", "New");
+            ToolBarButton cmdNew = new ToolBarButton("New", WestwindHelper.GetWord("edit.new", "General"));
             cmdNew.Tag = "New";
             cmdNew.Image = new IconResourceHandle("16x16.ico_16_3.gif");
 
             this.tbWizardAction.Buttons.Add(cmdNew);
 
             // cmdSave
-            ToolBarButton cmdSave = new ToolBarButton("Save", "Save");
+            ToolBarButton cmdSave = new ToolBarButton("Save", WestwindHelper.GetWord("edit.save", "General"));
             cmdSave.Tag = "Save";
             cmdSave.Image = new IconResourceHandle("16x16.16_L_save.gif");
 
             this.tbWizardAction.Buttons.Add(cmdSave);
 
             // cmdSaveNew
-            ToolBarButton cmdSaveNew = new ToolBarButton("Refresh", "Refresh");
+            ToolBarButton cmdSaveNew = new ToolBarButton("Refresh", WestwindHelper.GetWord("edit.refresh", "General"));
             cmdSaveNew.Tag = "refresh";
             cmdSaveNew.Image = new IconResourceHandle("16x16.16_L_refresh.gif");
 
@@ -100,7 +118,7 @@ namespace RT2020.Product
             this.tbWizardAction.Buttons.Add(sep);
 
             // cmdDelete
-            ToolBarButton cmdDelete = new ToolBarButton("Delete", "Delete");
+            ToolBarButton cmdDelete = new ToolBarButton("Delete", WestwindHelper.GetWord("edit.delete", "General"));
             cmdDelete.Tag = "Delete";
             cmdDelete.Image = new IconResourceHandle("16x16.16_L_remove.gif");
 
@@ -125,7 +143,7 @@ namespace RT2020.Product
                 switch (e.Button.Tag.ToString().ToLower())
                 {
                     case "new":
-                        Clear();
+                        ClearForm();
                         SetCtrlEditable();
                         this.Update();
                         break;
@@ -180,7 +198,7 @@ namespace RT2020.Product
             cboAppendix1.DisplayMember = "Appendix1Code";
             cboAppendix1.ValueMember = "Appendix1Id";
             */
-            cboAppendix1.SelectedIndex = cboAppendix1.Items.Count - 1;
+            //cboAppendix1.SelectedIndex = cboAppendix1.Items.Count - 1;
         } 
 
         private void FillAppendixe2()
@@ -197,7 +215,7 @@ namespace RT2020.Product
             cboAppendix2.DisplayMember = "Appendix2Code";
             cboAppendix2.ValueMember = "Appendix2Id";
             */
-            cboAppendix2.SelectedIndex = cboAppendix2.Items.Count - 1;
+            //cboAppendix2.SelectedIndex = cboAppendix2.Items.Count - 1;
         }
 
         private void FillAppendixe3()
@@ -214,7 +232,7 @@ namespace RT2020.Product
             cboAppendix3.DisplayMember = "Appendix3Code";
             cboAppendix3.ValueMember = "Appendix3Id";
             */
-            cboAppendix3.SelectedIndex = cboAppendix3.Items.Count - 1;
+            //cboAppendix3.SelectedIndex = cboAppendix3.Items.Count - 1;
         }
         #endregion
 
@@ -228,40 +246,40 @@ namespace RT2020.Product
             {
                 if (detail.APPENDIX1.Length > 0 && detail.APPENDIX2.Length == 0 && detail.APPENDIX3.Length == 0)
                 {
-                    this.FormType = FormLayoutType.Appendix1;
+                    this.AppendixType = ProductHelper.Appendix.Appendix1;
                 }
                 else if (detail.APPENDIX1.Length == 0 && detail.APPENDIX2.Length > 0 && detail.APPENDIX3.Length == 0)
                 {
-                    this.FormType = FormLayoutType.Appendix2;
+                    this.AppendixType = ProductHelper.Appendix.Appendix2;
                 }
                 else if (detail.APPENDIX1.Length == 0 && detail.APPENDIX2.Length == 0 && detail.APPENDIX3.Length > 0)
                 {
-                    this.FormType = FormLayoutType.Appendix3;
+                    this.AppendixType = ProductHelper.Appendix.Appendix3;
                 }
                 else
                 {
-                    this.FormType = FormLayoutType.All;
+                    this.AppendixType = ProductHelper.Appendix.None;
                 }
             }
         }
 
         private void SetFormLayoutWithType()
         {
-            switch (this.FormType)
+            switch (this.AppendixType)
             {
-                case FormLayoutType.All:
+                case ProductHelper.Appendix.None:
                     VisibleCtrl(true, true, true);
                     VisibleGridColumn(true, true, true);
                     break;
-                case FormLayoutType.Appendix1:
+                case ProductHelper.Appendix.Appendix1:
                     VisibleCtrl(true, false, false);
                     VisibleGridColumn(true, false, false);
                     break;
-                case FormLayoutType.Appendix2:
+                case ProductHelper.Appendix.Appendix2:
                     VisibleCtrl(false, true, false);
                     VisibleGridColumn(false, true, false);
                     break;
-                case FormLayoutType.Appendix3:
+                case ProductHelper.Appendix.Appendix3:
                     VisibleCtrl(false, false, true);
                     VisibleGridColumn(false, false, true);
                     break;
@@ -301,18 +319,24 @@ namespace RT2020.Product
 
             dgvCombinationList.Columns.Add(colId);
 
-            DataGridViewTextBoxColumn colRow = new DataGridViewTextBoxColumn();
-            colRow.Name = "Row";
-            colRow.DataPropertyName = "rownum";
-            colRow.Width = 50;
+            DataGridViewTextBoxColumn colLN = new DataGridViewTextBoxColumn();
+            colLN.DataPropertyName = "rownum";
+            colLN.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            colLN.HeaderText = WestwindHelper.GetWord("listview.line", "Tools");
+            colLN.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            colLN.Name = "colLN";
+            colLN.Width = 35;
 
-            dgvCombinationList.Columns.Add(colRow);
+            dgvCombinationList.Columns.Add(colLN);
 
             if (a1)
             {
                 DataGridViewTextBoxColumn colA1 = new DataGridViewTextBoxColumn();
-                colA1.Name = RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX1");
                 colA1.DataPropertyName = "Appendix1";
+                colA1.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+                colA1.HeaderText = WestwindHelper.GetWord("appendix.appendix1", "Product");
+                colA1.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                colA1.Name = "colA1";
 
                 dgvCombinationList.Columns.Add(colA1);
             }
@@ -320,8 +344,11 @@ namespace RT2020.Product
             if (a2)
             {
                 DataGridViewTextBoxColumn colA2 = new DataGridViewTextBoxColumn();
-                colA2.Name = RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX2");
                 colA2.DataPropertyName = "Appendix2";
+                colA2.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+                colA2.HeaderText = WestwindHelper.GetWord("appendix.appendix2", "Product");
+                colA2.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                colA2.Name = "colA2";
 
                 dgvCombinationList.Columns.Add(colA2);
             }
@@ -329,41 +356,26 @@ namespace RT2020.Product
             if (a3)
             {
                 DataGridViewTextBoxColumn colA3 = new DataGridViewTextBoxColumn();
-                colA3.Name = RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX3");
                 colA3.DataPropertyName = "Appendix3";
+                colA3.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+                colA3.HeaderText = WestwindHelper.GetWord("appendix.appendix3", "Product");
+                colA3.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                colA3.Name = "colA3";
 
                 dgvCombinationList.Columns.Add(colA3);
             }
         }
-        #endregion
 
-        #region Properties
-        private FormLayoutType formType = FormLayoutType.All;
-        public FormLayoutType FormType
+        private void ClearForm()
         {
-            get
-            {
-                return formType;
-            }
-            set
-            {
-                formType = value;
-            }
-        }
+            txtRowNum.Text = string.Empty;
 
-        public enum FormLayoutType { Appendix1 = 1, Appendix2, Appendix3, All = 0 }
+            _AppendixType = ProductHelper.Appendix.None;
+            _CombinId = Guid.Empty;
 
-        private Guid combinId = System.Guid.Empty;
-        public Guid CombinId
-        {
-            get
-            {
-                return combinId;
-            }
-            set
-            {
-                combinId = value;
-            }
+            FillComboList();
+            SetToolBar();
+            SetCtrlEditable();
         }
         #endregion
 
@@ -401,18 +413,18 @@ namespace RT2020.Product
                             oDim.DimensionId = Guid.NewGuid();
                             oDim.DimCode = txtCombinNumber.Text;
 
-                            switch (this.FormType)
+                            switch (this.AppendixType)
                             {
-                                case FormLayoutType.Appendix1:
+                                case ProductHelper.Appendix.Appendix1:
                                     oDim.DimType = "A1";
                                     break;
-                                case FormLayoutType.Appendix2:
+                                case ProductHelper.Appendix.Appendix2:
                                     oDim.DimType = "A2";
                                     break;
-                                case FormLayoutType.Appendix3:
+                                case ProductHelper.Appendix.Appendix3:
                                     oDim.DimType = "A3";
                                     break;
-                                case FormLayoutType.All:
+                                case ProductHelper.Appendix.None:
                                 default:
                                     oDim.DimType = "";
                                     break;
@@ -469,23 +481,15 @@ namespace RT2020.Product
 
             if (this.CombinId != Guid.Empty)
             {
-                RT2020.SystemInfo.Settings.RefreshMainList<DefaultCombinList>();
+                RT2020.SystemInfo.Settings.RefreshMainList<CombinationList>();
             }
-        }
-
-        private void Clear()
-        {
-            this.Close();
-
-            ProductWizard_Combination wizCombin = new ProductWizard_Combination(this.FormType);
-            wizCombin.ShowDialog();
         }
         #endregion
 
         #region Load Methods
         private void LoadCombinationList()
         {
-            txtCombinNumber.Text = ModelEx.ProductDimEx.GetDimCode(this.CombinId);
+            txtCombinNumber.Text = ModelEx.ProductDimEx.GetDimCode(_CombinId);
             BindAppendixList();
         }
 

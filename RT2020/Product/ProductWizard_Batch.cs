@@ -811,20 +811,23 @@ namespace RT2020.Product
 
         private void lnkAppendix_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            ProductWizard_Combination wizCombin = null;
+            CombinationWizard wizCombin = null;
             LinkLabel lnk = sender as LinkLabel;
             switch (lnk.Name.ToLower())
             {
                 case "lnkappendix1":
-                    wizCombin = new ProductWizard_Combination(ProductWizard_Combination.FormLayoutType.Appendix1);
+                    wizCombin = new CombinationWizard();
+                    wizCombin.AppendixType = ProductHelper.Appendix.Appendix1;
                     wizCombin.ShowDialog();
                     break;
                 case "lnkappendix2":
-                    wizCombin = new ProductWizard_Combination(ProductWizard_Combination.FormLayoutType.Appendix2);
+                    wizCombin = new CombinationWizard();
+                    wizCombin.AppendixType = ProductHelper.Appendix.Appendix2;
                     wizCombin.ShowDialog();
                     break;
                 case "lnkappendix3":
-                    wizCombin = new ProductWizard_Combination(ProductWizard_Combination.FormLayoutType.Appendix3);
+                    wizCombin = new CombinationWizard();
+                    wizCombin.AppendixType = ProductHelper.Appendix.Appendix3;
                     wizCombin.ShowDialog();
                     break;
             }

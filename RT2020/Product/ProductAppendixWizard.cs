@@ -304,7 +304,7 @@ namespace RT2020.Product
                     SaveAppendix3();
                     break;
             }
-            RT2020.SystemInfo.Settings.RefreshMainList<DefaultAppendixList>();
+            RT2020.SystemInfo.Settings.RefreshMainList<AppendixList>();
         }
 
         private bool SaveAppendix1()

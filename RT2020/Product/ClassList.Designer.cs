@@ -1,6 +1,6 @@
 namespace RT2020.Product
 {
-    partial class DefaultCombinList
+    partial class ClassList
     {
         /// <summary>
         /// Required designer variable.
@@ -29,11 +29,11 @@ namespace RT2020.Product
         private void InitializeComponent()
         {
             // 
-            // DefaultCombinList
+            // DefaultClassList
             // 
             this.ClientSize = new System.Drawing.Size(391, 306);
             this.Size = new System.Drawing.Size(391, 306);
-            this.Text = "DefaultCombinList";
+            this.Text = "DefaultClassList";
 
         }
 

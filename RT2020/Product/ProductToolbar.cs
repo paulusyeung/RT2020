@@ -42,18 +42,18 @@ namespace RT2020.Product
             ddlNew.MenuItems.Add(new MenuItem("Product Code [Batch] - Posting", string.Empty, "Product_Code_Batch_Posting"));
             ddlNew.MenuItems.Add(new MenuItem("Product Code - Mass Update", string.Empty, "Product_Code_Mass_Update"));
             ddlNew.MenuItems.Add(new MenuItem("-"));
-            ddlNew.MenuItems.Add(new MenuItem(RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX1"), string.Empty, "Product_Appendix1"));
-            ddlNew.MenuItems.Add(new MenuItem(RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX2"), string.Empty, "Product_Appendix2"));
-            ddlNew.MenuItems.Add(new MenuItem(RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX3"), string.Empty, "Product_Appendix3"));
-            ddlNew.MenuItems.Add(new MenuItem(RT2020.SystemInfo.Settings.GetSystemLabelByKey("CLASS1"), string.Empty, "Product_Class1"));
-            ddlNew.MenuItems.Add(new MenuItem(RT2020.SystemInfo.Settings.GetSystemLabelByKey("CLASS2"), string.Empty, "Product_Class2"));
-            ddlNew.MenuItems.Add(new MenuItem(RT2020.SystemInfo.Settings.GetSystemLabelByKey("CLASS3"), string.Empty, "Product_Class3"));
-            ddlNew.MenuItems.Add(new MenuItem(RT2020.SystemInfo.Settings.GetSystemLabelByKey("CLASS4"), string.Empty, "Product_Class4"));
-            ddlNew.MenuItems.Add(new MenuItem(RT2020.SystemInfo.Settings.GetSystemLabelByKey("CLASS5"), string.Empty, "Product_Class5"));
-            ddlNew.MenuItems.Add(new MenuItem(RT2020.SystemInfo.Settings.GetSystemLabelByKey("CLASS6"), string.Empty, "Product_Class6"));
+            ddlNew.MenuItems.Add(new MenuItem(WestwindHelper.GetWord("appendix.appendix1", "Product"), string.Empty, "Product_Appendix1"));
+            ddlNew.MenuItems.Add(new MenuItem(WestwindHelper.GetWord("appendix.appendix2", "Product"), string.Empty, "Product_Appendix2"));
+            ddlNew.MenuItems.Add(new MenuItem(WestwindHelper.GetWord("appendix.appendix3", "Product"), string.Empty, "Product_Appendix3"));
+            ddlNew.MenuItems.Add(new MenuItem(WestwindHelper.GetWord("class.class1", "Product"), string.Empty, "Product_Class1"));
+            ddlNew.MenuItems.Add(new MenuItem(WestwindHelper.GetWord("class.class2", "Product"), string.Empty, "Product_Class2"));
+            ddlNew.MenuItems.Add(new MenuItem(WestwindHelper.GetWord("class.class3", "Product"), string.Empty, "Product_Class3"));
+            ddlNew.MenuItems.Add(new MenuItem(WestwindHelper.GetWord("class.class4", "Product"), string.Empty, "Product_Class4"));
+            ddlNew.MenuItems.Add(new MenuItem(WestwindHelper.GetWord("class.class5", "Product"), string.Empty, "Product_Class5"));
+            ddlNew.MenuItems.Add(new MenuItem(WestwindHelper.GetWord("class.class6", "Product"), string.Empty, "Product_Class6"));
             ddlNew.MenuItems.Add(new MenuItem("-"));
-            ddlNew.MenuItems.Add(new MenuItem("Combination", string.Empty, "Combination"));
-            ddlNew.MenuItems.Add(new MenuItem("Analysis Code", string.Empty, "AnalysisCode"));
+            ddlNew.MenuItems.Add(new MenuItem(WestwindHelper.GetWord("combination", "Product"), string.Empty, "Combination"));
+            ddlNew.MenuItems.Add(new MenuItem(WestwindHelper.GetWord("posAnalysisCode", "Model"), string.Empty, "AnalysisCode"));
             ddlNew.MenuItems.Add(new MenuItem("-"));
             ddlNew.MenuItems.Add(new MenuItem("PoS Tender Type", string.Empty, "PoSTenderType"));
 
@@ -218,7 +218,7 @@ namespace RT2020.Product
                         wizClass6.ShowDialog();
                         break;
                     case "combination":
-                        ProductWizard_Combination wizCombin = new ProductWizard_Combination();
+                        CombinationWizard wizCombin = new CombinationWizard();
                         wizCombin.ShowDialog();
                         break;
                     case "analysiscode":
