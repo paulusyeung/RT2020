@@ -23,9 +23,20 @@ namespace RT2020.NavPane
             InitializeComponent();
 
             NavPane.NavMenu.FillNavTree("product", this.navProduct.Nodes);
+            navProduct.DoubleClick += navProduct_DoubleClick;
         }
 
-        private void navSettings_AfterSelect(object sender, TreeViewEventArgs e)
+        private void navProduct_DoubleClick(object sender, EventArgs e)
+        {
+            LoadModule();
+        }
+
+        private void navProduct_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            LoadModule();
+        }
+
+        private void LoadModule()
         {
             Control[] controls = this.Form.Controls.Find("wspPane", true);
             if (controls.Length > 0)

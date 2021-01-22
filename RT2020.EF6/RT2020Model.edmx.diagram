@@ -5,146 +5,145 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="d21b111042f242cbaeface3bb4aac501" Name="Diagram1">
-        <EntityTypeShape EntityType="RT2020Model.City" Width="1.5" PointX="8.25" PointY="19.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.Country" Width="1.5" PointX="3.75" PointY="13.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.Currency" Width="1.5" PointX="5.75" PointY="15.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.EPOSBatchDetails" Width="1.5" PointX="3" PointY="82.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.EPOSBatchHeader" Width="1.5" PointX="0.75" PointY="112.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.EPOSBatchTender" Width="1.5" PointX="18" PointY="64.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.EPOSSubLedgerDetails" Width="1.5" PointX="3" PointY="94.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.EPOSSubLedgerHeader" Width="1.5" PointX="0.75" PointY="152.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.EPOSSubLedgerTender" Width="1.5" PointX="18" PointY="84.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.FepAudit" Width="1.5" PointX="9.75" PointY="8.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.FepBatchDetail" Width="1.5" PointX="15" PointY="86.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.FepBatchHeader" Width="1.5" PointX="12.75" PointY="108.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.FepBatchTender" Width="1.5" PointX="16" PointY="59.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.InternetTag" Width="1.5" PointX="13.75" PointY="6.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.InvtBatchADJ_Details" Width="1.5" PointX="12" PointY="93.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.InvtBatchADJ_Header" Width="1.5" PointX="9.75" PointY="106.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.InvtBatchCAP_Details" Width="1.5" PointX="6" PointY="76.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.InvtBatchCAP_Header" Width="1.5" PointX="3.75" PointY="53.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.InvtBatchREC_Details" Width="1.5" PointX="3" PointY="102" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.InvtBatchREC_Header" Width="1.5" PointX="0.75" PointY="165.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.InvtBatchRPL_Details" Width="1.5" PointX="9" PointY="76.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.InvtBatchRPL_Header" Width="1.5" PointX="6.75" PointY="69.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.InvtBatchTXF_Details" Width="1.5" PointX="12" PointY="79.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.InvtBatchTXF_Header" Width="1.5" PointX="9.75" PointY="68.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.InvtBatchTXF_Log" Width="1.5" PointX="14.25" PointY="73.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.InvtLedgerDetails" Width="1.5" PointX="15" PointY="97.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.InvtLedgerHeader" Width="1.5" PointX="12.75" PointY="125.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.InvtSubLedgerADJ_Details" Width="1.5" PointX="6" PointY="84.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.InvtSubLedgerADJ_Header" Width="1.5" PointX="3.75" PointY="46.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.InvtSubLedgerCAP_Details" Width="1.5" PointX="6" PointY="80.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.InvtSubLedgerCAP_Header" Width="1.5" PointX="3.75" PointY="66.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.InvtSubLedgerREC_Details" Width="1.5" PointX="6" PointY="89" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.InvtSubLedgerREC_Header" Width="1.5" PointX="3.75" PointY="122.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.InvtSubLedgerRPL_Details" Width="1.5" PointX="6" PointY="99.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.InvtSubLedgerRPL_Header" Width="1.5" PointX="3.75" PointY="135.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.InvtSubLedgerTXF_Details" Width="1.5" PointX="15" PointY="76.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.InvtSubLedgerTXF_Header" Width="1.5" PointX="12.75" PointY="64.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.JobTitle" Width="1.5" PointX="1.5" PointY="141" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.LineOfOperation" Width="1.5" PointX="0.75" PointY="75.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.MarketSector" Width="1.5" PointX="1.5" PointY="35.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.Member" Width="1.5" PointX="1.5" PointY="128.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.MemberAddress" Width="1.5" PointX="15.5" PointY="66" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.MemberAddressType" Width="1.5" PointX="13.25" PointY="60.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.MemberApply" Width="1.5" PointX="14.75" PointY="9.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.MemberApply4TempVip" Width="1.5" PointX="7.5" PointY="172.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.MemberApply4TempVipLog" Width="1.5" PointX="9.75" PointY="136.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.MemberClass" Width="1.5" PointX="1.5" PointY="137.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.MemberGroup" Width="1.5" PointX="1.5" PointY="144.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.MemberSmartTag" Width="1.5" PointX="9.75" PointY="139.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.MemberVipData" Width="1.5" PointX="3.75" PointY="165.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.MemberVipLineOfOperation" Width="1.5" PointX="9" PointY="114" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.MemberVipSupplement" Width="1.5" PointX="6" PointY="165.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.PhoneTag" Width="1.5" PointX="7.75" PointY="15.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.PosAnalysisCode" Width="1.5" PointX="9.75" PointY="2.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.PosLedgerAnalysis" Width="1.5" PointX="9" PointY="54.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.PosLedgerDetails" Width="1.5" PointX="9" PointY="86.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.PosLedgerHeader" Width="1.5" PointX="6.75" PointY="57" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.PosLedgerTender" Width="1.5" PointX="15" PointY="36.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.PosTenderType" Width="1.5" PointX="12.75" PointY="9.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.PriceManagementActiveDetails" Width="1.5" PointX="9" PointY="102.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.PriceManagementActiveHeader" Width="1.5" PointX="6.75" PointY="159" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.PriceManagementBatchDetails" Width="1.5" PointX="12" PointY="89.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.PriceManagementBatchHeader" Width="1.5" PointX="9.75" PointY="118" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.PriceManagementReason" Width="1.5" PointX="7.5" PointY="119.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.Product" Width="1.5" PointX="0.75" PointY="83.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.ProductAppendix1" Width="1.5" PointX="6.75" PointY="51.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.ProductAppendix2" Width="1.5" PointX="6.75" PointY="45.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.ProductAppendix3" Width="1.5" PointX="6.75" PointY="122.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.ProductApply" Width="1.5" PointX="16.75" PointY="2.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.ProductBarcode" Width="1.5" PointX="3" PointY="221.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.ProductBatch" Width="1.5" PointX="16.75" PointY="14.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.ProductClass1" Width="1.5" PointX="6.75" PointY="127.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.ProductClass2" Width="1.5" PointX="6.75" PointY="132.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.ProductClass3" Width="1.5" PointX="6.75" PointY="138" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.ProductClass4" Width="1.5" PointX="6.75" PointY="143.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.ProductClass5" Width="1.5" PointX="6.75" PointY="148.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.ProductClass6" Width="1.5" PointX="6.75" PointY="153.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.ProductCode" Width="1.5" PointX="9" PointY="96.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.ProductCurrentSummary" Width="1.5" PointX="3" PointY="224.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.ProductDim" Width="1.5" PointX="11.75" PointY="2.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.ProductDim_Details" Width="1.5" PointX="14" PointY="3.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.ProductNature" Width="1.5" PointX="1.5" PointY="108" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.ProductPeriodicSummary" Width="1.5" PointX="3" PointY="228.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.ProductPrice" Width="1.5" PointX="3" PointY="90.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.ProductPrice_LineOfOperation" Width="1.5" PointX="3" PointY="74.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.ProductPriceType" Width="1.5" PointX="0.75" PointY="80.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.ProductRemarks" Width="1.5" PointX="3" PointY="233.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.ProductSupplement" Width="1.5" PointX="3" PointY="239.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.ProductWorkplace" Width="1.5" PointX="6" PointY="94.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.ProductWorkplacePeriodicSummary" Width="1.5" PointX="15" PointY="81.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.PromotionPaymentFactor" Width="1.5" PointX="3.75" PointY="25" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.Province" Width="1.5" PointX="6" PointY="19.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.PurchaseOrderDetails" Width="1.5" PointX="6" PointY="103.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.PurchaseOrderHeader" Width="1.5" PointX="4.5" PointY="107.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.PurchaseOrderHHTDetails" Width="1.5" PointX="9" PointY="81.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.PurchaseOrderHHTHeader" Width="1.5" PointX="6.75" PointY="112" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.PurchaseOrderReceiveDetails" Width="1.5" PointX="12" PointY="84.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.PurchaseOrderReceiveHeader" Width="1.5" PointX="9.75" PointY="59.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.Remarks" Width="1.5" PointX="7.75" PointY="7.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.Salutation" Width="1.5" PointX="1.5" PointY="148.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.ShipmentMethod" Width="1.5" PointX="5.75" PointY="7.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.SmartTag4Member" Width="1.5" PointX="7.5" PointY="108" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.SmartTag4Staff" Width="1.5" PointX="3.75" PointY="4" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.SmartTag4Supplier" Width="1.5" PointX="1.5" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.SmartTag4Workplace" Width="1.5" PointX="1.5" PointY="4.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.Staff" Width="1.5" PointX="1.5" PointY="55.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.StaffAddress" Width="1.5" PointX="10.5" PointY="37.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.StaffDept" Width="1.5" PointX="1.5" PointY="66.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.StaffGroup" Width="1.5" PointX="1.5" PointY="31.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.StaffHR" Width="1.5" PointX="3.75" PointY="142.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.StaffInternetTag" Width="1.5" PointX="3.75" PointY="18" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.StaffJobTitle" Width="1.5" PointX="1.5" PointY="70.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.StaffPreference" Width="1.5" PointX="3.75" PointY="0.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.StaffSecurity" Width="1.5" PointX="3.75" PointY="60.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.StaffSmartTag" Width="1.5" PointX="6" PointY="33.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.StockTakeDetails" Width="1.5" PointX="12" PointY="103.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.StockTakeDetails_HHT" Width="1.5" PointX="12" PointY="98.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.StockTakeHeader" Width="1.5" PointX="9.75" PointY="129.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.StocktakeHeader_HHT" Width="1.5" PointX="9.75" PointY="123.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.Supplier" Width="1.5" PointX="1.5" PointY="40.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.SupplierAddress" Width="1.5" PointX="10.5" PointY="29.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.SupplierAddressType" Width="1.5" PointX="8.25" PointY="30.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.SupplierContact" Width="1.5" PointX="15.75" PointY="105.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.SupplierSmartTag" Width="1.5" PointX="3.75" PointY="43" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.SupplierTerms" Width="1.5" PointX="1.5" PointY="51.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.SystemHHTLog" Width="1.5" PointX="9.75" PointY="15.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.SystemInfo" Width="1.5" PointX="3.75" PointY="33.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.SystemLabel" Width="1.5" PointX="18.75" PointY="2.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.SystemQueue" Width="1.5" PointX="18.75" PointY="8.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.TransferReason" Width="1.5" PointX="18.75" PointY="11.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.UserPreference" Width="1.5" PointX="8" PointY="11.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.UserProfile" Width="1.5" PointX="5.75" PointY="11.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.Workplace" Width="1.5" PointX="1.5" PointY="18.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.WorkplaceAddress" Width="1.5" PointX="10.5" PointY="19" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.WorkplaceNature" Width="1.5" PointX="1.5" PointY="14.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.WorkplaceSmartTag" Width="1.5" PointX="3.75" PointY="22" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.WorkplaceZone" Width="1.5" PointX="1.5" PointY="8.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.Localizations_Backup" Width="1.5" PointX="18.75" PointY="15.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.TxferAdvanceImport" Width="1.5" PointX="18.75" PointY="20.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="RT2020Model.TxferAdvanceImportSummary" Width="1.5" PointX="20.75" PointY="2.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.City" Width="1.5" PointX="8.25" PointY="11.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.Country" Width="1.5" PointX="3.75" PointY="11.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.Currency" Width="1.5" PointX="10.75" PointY="11.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.EPOSBatchDetails" Width="1.5" PointX="9" PointY="92.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.EPOSBatchHeader" Width="1.5" PointX="6.75" PointY="111" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.EPOSBatchTender" Width="1.5" PointX="21" PointY="64.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.EPOSSubLedgerDetails" Width="1.5" PointX="15" PointY="80.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.EPOSSubLedgerHeader" Width="1.5" PointX="12.75" PointY="104" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.EPOSSubLedgerTender" Width="1.5" PointX="18" PointY="59" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.FepAudit" Width="1.5" PointX="12.75" PointY="11.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.FepBatchDetail" Width="1.5" PointX="12" PointY="92.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.FepBatchHeader" Width="1.5" PointX="9.75" PointY="106.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.FepBatchTender" Width="1.5" PointX="18" PointY="64.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.InternetTag" Width="1.5" PointX="14.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.InvtBatchADJ_Details" Width="1.5" PointX="9" PointY="77" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.InvtBatchADJ_Header" Width="1.5" PointX="6.75" PointY="66" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.InvtBatchCAP_Details" Width="1.5" PointX="6" PointY="88.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.InvtBatchCAP_Header" Width="1.5" PointX="3.75" PointY="112.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.InvtBatchREC_Details" Width="1.5" PointX="15" PointY="74.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.InvtBatchREC_Header" Width="1.5" PointX="12.75" PointY="63.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.InvtBatchRPL_Details" Width="1.5" PointX="6" PointY="84.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.InvtBatchRPL_Header" Width="1.5" PointX="3.75" PointY="104.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.InvtBatchTXF_Details" Width="1.5" PointX="3" PointY="81.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.InvtBatchTXF_Header" Width="1.5" PointX="0.75" PointY="134" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.InvtBatchTXF_Log" Width="1.5" PointX="5.25" PointY="72.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.InvtLedgerDetails" Width="1.5" PointX="9" PointY="99.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.InvtLedgerHeader" Width="1.5" PointX="6.75" PointY="124.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.InvtSubLedgerADJ_Details" Width="1.5" PointX="6" PointY="80" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.InvtSubLedgerADJ_Header" Width="1.5" PointX="3.75" PointY="59" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.InvtSubLedgerCAP_Details" Width="1.5" PointX="3" PointY="94.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.InvtSubLedgerCAP_Header" Width="1.5" PointX="0.75" PointY="142.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.InvtSubLedgerREC_Details" Width="1.5" PointX="3" PointY="98.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.InvtSubLedgerREC_Header" Width="1.5" PointX="0.75" PointY="150.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.InvtSubLedgerRPL_Details" Width="1.5" PointX="6" PointY="76.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.InvtSubLedgerRPL_Header" Width="1.5" PointX="3.75" PointY="65.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.InvtSubLedgerTXF_Details" Width="1.5" PointX="6" PointY="92.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.InvtSubLedgerTXF_Header" Width="1.5" PointX="3.75" PointY="120" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.JobTitle" Width="1.5" PointX="5.25" PointY="47.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.LineOfOperation" Width="1.5" PointX="1.5" PointY="31.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.MarketSector" Width="1.5" PointX="1.5" PointY="16.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.Member" Width="1.5" PointX="7.5" PointY="46.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.MemberAddress" Width="1.5" PointX="13.5" PointY="27.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.MemberAddressType" Width="1.5" PointX="11.25" PointY="28" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.MemberApply" Width="1.5" PointX="17.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.MemberApply4TempVip" Width="1.5" PointX="13.5" PointY="154" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.MemberApply4TempVipLog" Width="1.5" PointX="15.75" PointY="49.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.MemberClass" Width="1.5" PointX="5.25" PointY="43.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.MemberGroup" Width="1.5" PointX="5.25" PointY="51.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.MemberSmartTag" Width="1.5" PointX="15.75" PointY="46.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.MemberVipData" Width="1.5" PointX="9.75" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.MemberVipLineOfOperation" Width="1.5" PointX="13" PointY="18.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.MemberVipSupplement" Width="1.5" PointX="12" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.PhoneTag" Width="1.5" PointX="12.75" PointY="14.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.PosAnalysisCode" Width="1.5" PointX="5.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.PosLedgerAnalysis" Width="1.5" PointX="12" PointY="40" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.PosLedgerDetails" Width="1.5" PointX="12" PointY="77.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.PosLedgerHeader" Width="1.5" PointX="9.75" PointY="45.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.PosLedgerTender" Width="1.5" PointX="21" PointY="31.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.PosTenderType" Width="1.5" PointX="15.75" PointY="10.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.PriceManagementActiveDetails" Width="1.5" PointX="6" PointY="101.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.PriceManagementActiveHeader" Width="1.5" PointX="3.75" PointY="132.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.PriceManagementBatchDetails" Width="1.5" PointX="3" PointY="77.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.PriceManagementBatchHeader" Width="1.5" PointX="0.75" PointY="76.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.PriceManagementReason" Width="1.5" PointX="1.5" PointY="130.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.Product" Width="1.5" PointX="0.75" PointY="82.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.ProductAppendix1" Width="1.5" PointX="12.75" PointY="51.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.ProductAppendix2" Width="1.5" PointX="12.75" PointY="57.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.ProductAppendix3" Width="1.5" PointX="12.75" PointY="116.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.ProductApply" Width="1.5" PointX="15.75" PointY="18.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.ProductBarcode" Width="1.5" PointX="3" PointY="219.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.ProductBatch" Width="1.5" PointX="17.75" PointY="18.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.ProductClass1" Width="1.5" PointX="12.75" PointY="122" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.ProductClass2" Width="1.5" PointX="12.75" PointY="127.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.ProductClass3" Width="1.5" PointX="12.75" PointY="132.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.ProductClass4" Width="1.5" PointX="12.75" PointY="137.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.ProductClass5" Width="1.5" PointX="12.75" PointY="142.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.ProductClass6" Width="1.5" PointX="12.75" PointY="148.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.ProductCode" Width="1.5" PointX="15" PointY="93.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.ProductCurrentSummary" Width="1.5" PointX="3" PointY="222.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.ProductDim" Width="1.5" PointX="14.75" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.ProductDim_Details" Width="1.5" PointX="17" PointY="1.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.ProductNature" Width="1.5" PointX="1.5" PointY="104.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.ProductPeriodicSummary" Width="1.5" PointX="3" PointY="227" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.ProductPrice" Width="1.5" PointX="6" PointY="97.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.ProductPrice_LineOfOperation" Width="1.5" PointX="3" PointY="86.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.ProductPriceType" Width="1.5" PointX="3.75" PointY="128.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.ProductRemarks" Width="1.5" PointX="3" PointY="231.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.ProductSupplement" Width="1.5" PointX="3" PointY="237.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.ProductWorkplace" Width="1.5" PointX="15" PointY="87.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.ProductWorkplacePeriodicSummary" Width="1.5" PointX="9" PointY="81.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.Province" Width="1.5" PointX="6" PointY="11.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.PurchaseOrderDetails" Width="1.5" PointX="3" PointY="73" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.PurchaseOrderHeader" Width="1.5" PointX="0.75" PointY="58.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.PurchaseOrderHHTDetails" Width="1.5" PointX="9" PointY="87.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.PurchaseOrderHHTHeader" Width="1.5" PointX="6.75" PointY="105.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.PurchaseOrderReceiveDetails" Width="1.5" PointX="12" PointY="87.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.PurchaseOrderReceiveHeader" Width="1.5" PointX="9.75" PointY="67.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.Remarks" Width="1.5" PointX="3.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.Salutation" Width="1.5" PointX="5.25" PointY="54.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.ShipmentMethod" Width="1.5" PointX="5.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.SmartTag4Member" Width="1.5" PointX="13.5" PointY="36.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.SmartTag4Staff" Width="1.5" PointX="0.75" PointY="2.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.SmartTag4Supplier" Width="1.5" PointX="1.5" PointY="8.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.SmartTag4Workplace" Width="1.5" PointX="5.5" PointY="39.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.Staff" Width="1.5" PointX="1.5" PointY="108.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.StaffAddress" Width="1.5" PointX="10.5" PointY="61.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.StaffDept" Width="1.5" PointX="1.5" PointY="123.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.StaffGroup" Width="1.5" PointX="1.5" PointY="119.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.StaffHR" Width="1.5" PointX="3.75" PointY="148.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.StaffInternetTag" Width="1.5" PointX="3.75" PointY="140.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.StaffJobTitle" Width="1.5" PointX="1.5" PointY="127" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.StaffPreference" Width="1.5" PointX="3.75" PointY="138.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.StaffSecurity" Width="1.5" PointX="3.75" PointY="144.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.StaffSmartTag" Width="1.5" PointX="6.75" PointY="60.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.StockTakeDetails" Width="1.5" PointX="18" PointY="87.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.StockTakeDetails_HHT" Width="1.5" PointX="15" PointY="99" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.StockTakeHeader" Width="1.5" PointX="15.75" PointY="104.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.StocktakeHeader_HHT" Width="1.5" PointX="12.75" PointY="45.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.Supplier" Width="1.5" PointX="1.5" PointY="20.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.SupplierAddress" Width="1.5" PointX="10.5" PointY="18.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.SupplierAddressType" Width="1.5" PointX="8.25" PointY="19.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.SupplierContact" Width="1.5" PointX="8.5" PointY="37.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.SupplierSmartTag" Width="1.5" PointX="3.75" PointY="24.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.SupplierTerms" Width="1.5" PointX="1.5" PointY="11.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.SystemHHTLog" Width="1.5" PointX="5.75" PointY="15.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.SystemInfo" Width="1.5" PointX="3.75" PointY="30" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.SystemLabel" Width="1.5" PointX="19.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.SystemQueue" Width="1.5" PointX="7.75" PointY="15.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.TransferReason" Width="1.5" PointX="3.75" PointY="19.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.UserPreference" Width="1.5" PointX="10" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.UserProfile" Width="1.5" PointX="7.75" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.Workplace" Width="1.5" PointX="1.5" PointY="45.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.WorkplaceAddress" Width="1.5" PointX="10.5" PointY="31.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.WorkplaceNature" Width="1.5" PointX="1.5" PointY="35.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.WorkplaceSmartTag" Width="1.5" PointX="7.75" PointY="56.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.WorkplaceZone" Width="1.5" PointX="1.5" PointY="40.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.Localizations_Backup" Width="1.5" PointX="19.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.TxferAdvanceImport" Width="1.5" PointX="19.75" PointY="11.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RT2020Model.TxferAdvanceImportSummary" Width="1.5" PointX="19.75" PointY="15.75" IsExpanded="true" />
         <AssociationConnector Association="RT2020Model.FK_City_MemberAddress" ManuallyRouted="false" />
         <AssociationConnector Association="RT2020Model.FK_City_StaffAddress" ManuallyRouted="false" />
         <AssociationConnector Association="RT2020Model.FK_City_SupplierAddress" ManuallyRouted="false" />
@@ -302,7 +301,6 @@
         <AssociationConnector Association="RT2020Model.FK_ProductPriceType_ProductPrice" ManuallyRouted="false" />
         <AssociationConnector Association="RT2020Model.FK_Workplace_ProductWorkplace" ManuallyRouted="false" />
         <AssociationConnector Association="RT2020Model.FK_Workplace_ProductWorkplacePeriodicSummary" ManuallyRouted="false" />
-        <AssociationConnector Association="RT2020Model.FK_Workplace_PromotionPaymentFactor" ManuallyRouted="false" />
         <AssociationConnector Association="RT2020Model.FK_Province_StaffAddress" ManuallyRouted="false" />
         <AssociationConnector Association="RT2020Model.FK_Province_SupplierAddress" ManuallyRouted="false" />
         <AssociationConnector Association="RT2020Model.FK_Province_WorkplaceAddress" ManuallyRouted="false" />
@@ -354,16 +352,19 @@
         <AssociationConnector Association="RT2020Model.FK_WorkplaceZone_Workplace" ManuallyRouted="false" />
         <AssociationConnector Association="RT2020Model.FK_WorkplaceNature_WorkplaceNature" ManuallyRouted="false" />
         <AssociationConnector Association="RT2020Model.FK_WorkplaceZone_WorkplaceZone" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="RT2020Model.vwPhonebookList" Width="1.5" PointX="20.75" PointY="7.375" />
-        <EntityTypeShape EntityType="RT2020Model.SmartTag4Member_Options" Width="1.5" PointX="9.75" PointY="143.125" />
+        <EntityTypeShape EntityType="RT2020Model.vwPhonebookList" Width="1.5" PointX="19.75" PointY="20.75" />
+        <EntityTypeShape EntityType="RT2020Model.SmartTag4Member_Options" Width="1.5" PointX="15.75" PointY="36.5" />
         <AssociationConnector Association="RT2020Model.FK_SmartTag4Member_SmartTag4Member_Options" />
-        <EntityTypeShape EntityType="RT2020Model.SmartTag4Staff_Options" Width="1.5" PointX="6" PointY="4.125" />
+        <EntityTypeShape EntityType="RT2020Model.SmartTag4Staff_Options" Width="1.5" PointX="3" PointY="2.5" />
         <AssociationConnector Association="RT2020Model.FK_SmartTag4Staff_SmartTag4Staff_Options" />
-        <EntityTypeShape EntityType="RT2020Model.SmartTag4Supplier_Options" Width="1.5" PointX="3.75" PointY="30.125" />
+        <EntityTypeShape EntityType="RT2020Model.SmartTag4Supplier_Options" Width="1.5" PointX="3.75" PointY="16.375" />
         <AssociationConnector Association="RT2020Model.FK_SmartTag4Supplier_SmartTag4Supplier_Options" />
-        <EntityTypeShape EntityType="RT2020Model.vwWorkplaceList" Width="1.5" PointX="20.75" PointY="12.375" />
-        <EntityTypeShape EntityType="RT2020Model.SmartTag4Workplace_Options" Width="1.5" PointX="3.75" PointY="148" />
+        <EntityTypeShape EntityType="RT2020Model.vwWorkplaceList" Width="1.5" PointX="21.75" PointY="0.75" />
+        <EntityTypeShape EntityType="RT2020Model.SmartTag4Workplace_Options" Width="1.5" PointX="7.75" PointY="33.875" />
         <AssociationConnector Association="RT2020Model.FK_SmartTag4Workplace_SmartTag4Workplace_Options" />
+        <EntityTypeShape EntityType="RT2020Model.PromotionPaymentFactor" Width="1.5" PointX="18" PointY="31.375" />
+        <AssociationConnector Association="RT2020Model.FK_PosTenderType_PromotionPaymentFactor" />
+        <AssociationConnector Association="RT2020Model.FK_Workplace_PromotionPaymentFactor" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

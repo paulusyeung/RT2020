@@ -68,6 +68,7 @@
   <membermgmt Caption="Member" ImageUrl="24x24.services_24x24.gif">
 		<item Caption="Member" ImageUrl="16x16.ico_16_1084.gif" Tag="member" />
 		<item Caption="Phone Book" ImageUrl="16x16.ico_16_137.gif" Tag="member.phonebook" />
+    <item Caption="Promotion" ImageUrl="16x16.ico_16_137.gif" Tag="member.promotion" />
 		<item Caption="OLAP" Tag="member.olap">
 			<item Caption="Member Sales" ImageUrl="16x16.16_reports.gif" Tag="member.olap.sales" />
 		</item>

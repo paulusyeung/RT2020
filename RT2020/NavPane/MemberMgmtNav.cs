@@ -11,6 +11,7 @@ using System.Xml;
 using Gizmox.WebGUI.Common;
 using Gizmox.WebGUI.Common.Resources;
 using Gizmox.WebGUI.Forms;
+using RT2020.Helper;
 
 #endregion
 
@@ -23,9 +24,20 @@ namespace RT2020.NavPane
             InitializeComponent();
 
             NavPane.NavMenu.FillNavTree("membermgmt", this.navMemberMgmt.Nodes);
+            navMemberMgmt.DoubleClick += navMemberMgmt_DoubleClick;
+        }
+
+        private void navMemberMgmt_DoubleClick(object sender, EventArgs e)
+        {
+            LoadModule();
         }
 
         private void navMemberMgmt_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            LoadModule();
+        }
+
+        private void LoadModule()
         {
             Control[] controls = this.Form.Controls.Find("wspPane", true);
             if (controls.Length > 0)
@@ -91,6 +103,11 @@ namespace RT2020.NavPane
                         oPhoneBookList.DockPadding.All = 6;
                         oPhoneBookList.Dock = DockStyle.Fill;
                         wspPane.Controls.Add(oPhoneBookList);
+                        break;
+                    case "member.promotion":
+                        RT2020.Settings.CampaignWizard promotion = new RT2020.Settings.CampaignWizard();
+                        promotion.CampaignType = EnumHelper.CampaignType.TenderType;
+                        promotion.ShowDialog();
                         break;
                 }
             }

@@ -72,6 +72,8 @@ namespace RT2020.Settings
 
         private void SetAttributes()
         {
+            lvCurrencyList.Dock = DockStyle.Fill;
+
             colLN.TextAlign = HorizontalAlignment.Center;
             colCurrencyCode.TextAlign = HorizontalAlignment.Center;
             colCurrencyCode.ContentAlign = ExtendedHorizontalAlignment.Center;
@@ -166,22 +168,18 @@ namespace RT2020.Settings
                 switch (e.Button.Tag.ToString().ToLower())
                 {
                     case "new":
-                        Clear();
-                        SetCtrlEditable();
+                        ClearForm();
                         break;
                     case "save":
                         if (IsValid())
                         {
                             Save();
-                            Clear();
+                            ClearForm();
                             BindCurrencyList();
-                            this.Update();
                         }
                         break;
                     case "refresh":
-                        BindCurrencyList();
-                        FillCountryName();
-                        this.Update();
+                        LoadData();
                         break;
                     case "delete":
                         MessageBox.Show("Delete Record?", "Delete Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question, new EventHandler(DeleteConfirmationHandler));
@@ -205,6 +203,15 @@ namespace RT2020.Settings
             errorProvider.SetError(txtCurrencyCode, string.Empty);
             errorProvider.SetError(txtUnicodeDecimal, string.Empty);
             errorProvider.SetError(txtExchangeRate, string.Empty);
+        }
+
+        private void ClearForm()
+        {
+            txtCurrencyCode.Text = txtCurrencyName.Text = txtExchangeRate.Text = txtUnicodeDecimal.Text = string.Empty;
+
+            _CurrencyId = Guid.Empty;
+            SetCtrlEditable();
+            FillCountryName();
         }
         #endregion
 
@@ -254,23 +261,26 @@ namespace RT2020.Settings
         private bool IsValid()
         {
             bool result = true; decimal numeric = 0;
+            errorProvider.SetError(txtCurrencyCode, string.Empty);
+            errorProvider.SetError(txtUnicodeDecimal, string.Empty);
+            errorProvider.SetError(txtExchangeRate, string.Empty);
 
             #region CountryCode 唔可以吉
-            errorProvider.SetError(txtCurrencyCode, string.Empty);
             if (txtCurrencyCode.Text.Length == 0)
             {
                 errorProvider.SetError(txtCurrencyCode, "Cannot be blank!");
+                errorProvider.SetIconAlignment(txtCurrencyCode, ErrorIconAlignment.TopLeft);
                 result = false;
             }
             #endregion
 
             #region 新增，要 check CountryCode 係咪 in use
-            errorProvider.SetError(txtCurrencyCode, string.Empty);
             if (_CurrencyId == Guid.Empty)
             {
                 if (ModelEx.CurrencyEx.IsCurrencyCodeInUse(txtCurrencyCode.Text.Trim()))
                 {
                     errorProvider.SetError(txtCurrencyCode, "Currency Code in use");
+                    errorProvider.SetIconAlignment(txtCurrencyCode, ErrorIconAlignment.TopLeft);
                     result = false;
                 }
             }
@@ -279,11 +289,13 @@ namespace RT2020.Settings
             if (!decimal.TryParse(txtUnicodeDecimal.Text, out numeric))
             {
                 errorProvider.SetError(txtUnicodeDecimal, Resources.Common.DigitalNeeded);
+                errorProvider.SetIconAlignment(txtUnicodeDecimal, ErrorIconAlignment.TopLeft);
                 result = false;
             }
-            else if (!decimal.TryParse(txtExchangeRate.Text, out numeric))
+            if (!decimal.TryParse(txtExchangeRate.Text, out numeric))
             {
                 errorProvider.SetError(txtExchangeRate, Resources.Common.DigitalNeeded);
+                errorProvider.SetIconAlignment(txtExchangeRate, ErrorIconAlignment.TopLeft);
                 result = false;
             }
 
@@ -322,15 +334,28 @@ namespace RT2020.Settings
 
             return result;
         }
-
-        private void Clear()
-        {
-            this.Close();
-
-            CurrencyWizard wizCurrency = new CurrencyWizard();
-            wizCurrency.ShowDialog();
-        }
         #endregion
+
+        private void LoadData()
+        {
+            using (var ctx = new EF6.RT2020Entities())
+            {
+                var currency = ctx.Currency.Find(_CurrencyId);
+                if (currency != null)
+                {
+                    var countryId = ModelEx.CountryEx.GetCountryIdByCode(currency.CountryName);
+
+                    txtCurrencyCode.Text = currency.CurrencyCode;
+                    txtCurrencyName.Text = currency.CurrencyName;
+                    cboCountryName.SelectedValue = countryId != Guid.Empty ? countryId : Guid.Empty;
+                    txtUnicodeDecimal.Text = currency.UnicodeDecimal.ToString();
+                    txtExchangeRate.Text = currency.ExchangeRate == null ? "" : currency.ExchangeRate?.ToString("n4");
+                    ShowSymbol();
+                    SetCtrlEditable();
+                    SetToolBar();
+                }
+            }
+        }
 
         private void Delete()
         {
@@ -371,7 +396,6 @@ namespace RT2020.Settings
             }
         }
 
-
         private void lnkCountryName_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             CountryWizard countryWizard = new CountryWizard();
@@ -388,23 +412,7 @@ namespace RT2020.Settings
                 if (Guid.TryParse(lvCurrencyList.SelectedItem.SubItems[2].Text, out id))
                 {
                     _CurrencyId = id;
-                    using (var ctx = new EF6.RT2020Entities())
-                    {
-                        var currency = ctx.Currency.Find(_CurrencyId);
-                        if (currency != null)
-                        {
-                            var countryId = ModelEx.CountryEx.GetCountryIdByCode(currency.CountryName);
-
-                            txtCurrencyCode.Text = currency.CurrencyCode;
-                            txtCurrencyName.Text = currency.CurrencyName;
-                            cboCountryName.SelectedValue = countryId != Guid.Empty ? countryId : Guid.Empty;
-                            txtUnicodeDecimal.Text = currency.UnicodeDecimal.ToString();
-                            txtExchangeRate.Text = currency.ExchangeRate == null ? "" : currency.ExchangeRate?.ToString("n4");
-                            ShowSymbol();
-                            SetCtrlEditable();
-                            SetToolBar();
-                        }
-                    }
+                    LoadData();
                 }
             }
         }
@@ -416,7 +424,7 @@ namespace RT2020.Settings
                 Delete();
 
                 BindCurrencyList();
-                Clear();
+                ClearForm();
                 SetCtrlEditable();
             }
         }

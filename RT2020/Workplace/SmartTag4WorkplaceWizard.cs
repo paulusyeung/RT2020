@@ -51,23 +51,23 @@ namespace RT2020.Workplace
 
         private void SetCaptions()
         {
-            this.Text = WestwindHelper.GetWord("smartTag4Supplier.setup", "Model");
+            this.Text = WestwindHelper.GetWord("smartTag4Workplace.setup", "Model");
 
             colLN.Text = WestwindHelper.GetWord("listview.line", "Tools");
 
             //colParentDept.Text = WestwindHelper.GetWord("department.parent", "Model");
-            colTagCode.Text = WestwindHelper.GetWord("smartTag4Supplier.code", "Model");
-            colPriority.Text = WestwindHelper.GetWord("smartTag4Supplier.priority", "Model");
-            colTagName.Text = WestwindHelper.GetWord("smartTag4Supplier.name", "Model");
+            colTagCode.Text = WestwindHelper.GetWord("smartTag4Workplace.code", "Model");
+            colPriority.Text = WestwindHelper.GetWord("smartTag4Workplace.priority", "Model");
+            colTagName.Text = WestwindHelper.GetWord("smartTag4Workplace.name", "Model");
             colTagNameAlt1.Text = WestwindHelper.GetWord(String.Format("language.{0}", LanguageHelper.AlternateLanguage1.Key.ToLower()), "Menu");
             colTagNameAlt2.Text = WestwindHelper.GetWord(String.Format("language.{0}", LanguageHelper.AlternateLanguage2.Key.ToLower()), "Menu");
 
-            lblTagCode.Text = WestwindHelper.GetWordWithColon("smartTag4Supplier.code", "Model");
-            lblTagName.Text = WestwindHelper.GetWordWithColon("smartTag4Supplier.name", "Model");
+            lblTagCode.Text = WestwindHelper.GetWordWithColon("smartTag4Workplace.code", "Model");
+            lblTagName.Text = WestwindHelper.GetWordWithColon("smartTag4Workplace.name", "Model");
             lblTagNameAlt1.Text = WestwindHelper.GetWordWithColon(String.Format("language.{0}", LanguageHelper.AlternateLanguage1.Key.ToLower()), "Menu");
             lblTagNameAlt2.Text = WestwindHelper.GetWordWithColon(String.Format("language.{0}", LanguageHelper.AlternateLanguage2.Key.ToLower()), "Menu");
 
-            lblPriority.Text = WestwindHelper.GetWordWithColon("smartTag4Supplier.priority", "Model");
+            lblPriority.Text = WestwindHelper.GetWordWithColon("smartTag4Workplace.priority", "Model");
 
             lnkOptions.Text = WestwindHelper.GetWord("smartTagOptions", "Model");
         }

@@ -28,37 +28,38 @@ namespace RT2020.AtsPane
             this.atsSettings.TextAlign = ToolBarTextAlign.Right;
 
             ContextMenu ddlNew = new ContextMenu();
-            ddlNew.MenuItems.Add(new MenuItem(oDict.GetWord("Staff"), string.Empty, "Staff"));
-            ddlNew.MenuItems.Add(new MenuItem(oDict.GetWord("Staff") + " " + oDict.GetWord("Dept."), string.Empty, "StaffDept"));
-            ddlNew.MenuItems.Add(new MenuItem(oDict.GetWord("Staff") + " " + oDict.GetWord("Group"), string.Empty, "StaffGroup"));
-            ddlNew.MenuItems.Add(new MenuItem(oDict.GetWord("Staff") + " " + oDict.GetWord("Job Title"), string.Empty, "StaffJobTitle"));
-            ddlNew.MenuItems.Add(new MenuItem(string.Format(oDict.GetWord("Smart Tag"), oDict.GetWord("Staff")), string.Empty, "SmartTag4Staffe"));
+            ddlNew.MenuItems.Add(new MenuItem(WestwindHelper.GetWord("staff", "Model"), string.Empty, "Staff"));
+            ddlNew.MenuItems.Add(new MenuItem(WestwindHelper.GetWord("department", "Model"), string.Empty, "StaffDept"));
+            ddlNew.MenuItems.Add(new MenuItem(WestwindHelper.GetWord("staffGroup", "Model"), string.Empty, "StaffGroup"));
+            ddlNew.MenuItems.Add(new MenuItem(WestwindHelper.GetWord("jobTitle", "Model"), string.Empty, "StaffJobTitle"));
+            ddlNew.MenuItems.Add(new MenuItem(WestwindHelper.GetWord("smartTag4Staff", "Model"), string.Empty, "SmartTag4Staffe"));
             ddlNew.MenuItems.Add(new MenuItem("-"));
-            ddlNew.MenuItems.Add(new MenuItem(oDict.GetWord("Workplace"), string.Empty, "Workplace"));
-            ddlNew.MenuItems.Add(new MenuItem(oDict.GetWord("Workplace") + " " + oDict.GetWord("Nature"), string.Empty, "WorkplaceNature"));
-            ddlNew.MenuItems.Add(new MenuItem(string.Format(oDict.GetWord("Smart Tag"), oDict.GetWord("Workplace")), string.Empty, "SmartTag4Workplace"));
+            ddlNew.MenuItems.Add(new MenuItem(WestwindHelper.GetWord("workplace", "Model"), string.Empty, "Workplace"));
+            ddlNew.MenuItems.Add(new MenuItem(WestwindHelper.GetWord("workplaceNature", "Model"), string.Empty, "WorkplaceNature"));
+            ddlNew.MenuItems.Add(new MenuItem(WestwindHelper.GetWord("smartTag4Workplace", "Model"), string.Empty, "SmartTag4Workplace"));
+            ddlNew.MenuItems.Add(new MenuItem(WestwindHelper.GetWord("promotion.campaign", "Model"), string.Empty, "Promotion"));
             ddlNew.MenuItems.Add(new MenuItem("-"));
-            ddlNew.MenuItems.Add(new MenuItem(oDict.GetWord("Supplier"), string.Empty, "Supplier"));
-            ddlNew.MenuItems.Add(new MenuItem(oDict.GetWord("Supplier") + " " + oDict.GetWord("Address Type"), string.Empty, "SupplierAddressType"));
-            ddlNew.MenuItems.Add(new MenuItem(oDict.GetWord("Supplier") + " " + oDict.GetWord("Terms"), string.Empty, "SupplierTerms"));
-            ddlNew.MenuItems.Add(new MenuItem(string.Format(oDict.GetWord("Smart Tag"), oDict.GetWord("Supplier")), string.Empty, "SmartTag4Supplier"));
+            ddlNew.MenuItems.Add(new MenuItem(WestwindHelper.GetWord("supplier", "Model"), string.Empty, "Supplier"));
+            ddlNew.MenuItems.Add(new MenuItem(WestwindHelper.GetWord("supplier", "Model") + " " + oDict.GetWord("Address Type"), string.Empty, "SupplierAddressType"));
+            ddlNew.MenuItems.Add(new MenuItem(WestwindHelper.GetWord("supplier", "Model") + " " + oDict.GetWord("Terms"), string.Empty, "SupplierTerms"));
+            ddlNew.MenuItems.Add(new MenuItem(WestwindHelper.GetWord("smartTag4Supplier", "Model"), string.Empty, "SmartTag4Supplier"));
             ddlNew.MenuItems.Add(new MenuItem("-"));
-            ddlNew.MenuItems.Add(new MenuItem(oDict.GetWord("Currency"), string.Empty, "Currency"));
-            ddlNew.MenuItems.Add(new MenuItem(oDict.GetWord("Payment Factor") + " (" + oDict.GetWord("Currency") + ")", string.Empty, "PaymentFactor_Currency"));
-            ddlNew.MenuItems.Add(new MenuItem(oDict.GetWord("Payment Factor") + " (" + oDict.GetWord("Event Code") + ")", string.Empty, "PaymentFactor_EventCode"));
-            ddlNew.MenuItems.Add(new MenuItem(oDict.GetWord("Country"), string.Empty, "Country"));
-            ddlNew.MenuItems.Add(new MenuItem(oDict.GetWord("Province"), string.Empty, "Province"));
-            ddlNew.MenuItems.Add(new MenuItem(oDict.GetWord("City"), string.Empty, "City"));
-            ddlNew.MenuItems.Add(new MenuItem(oDict.GetWord("Zone"), string.Empty, "Zone"));
+            ddlNew.MenuItems.Add(new MenuItem(WestwindHelper.GetWord("currency", "Model"), string.Empty, "Currency"));
+            //ddlNew.MenuItems.Add(new MenuItem(WestwindHelper.GetWord("promotion", "Model"), string.Empty, "PaymentFactor_Currency"));
+            //ddlNew.MenuItems.Add(new MenuItem(oDict.GetWord("Payment Factor") + " (" + oDict.GetWord("Event Code") + ")", string.Empty, "PaymentFactor_EventCode"));
+            ddlNew.MenuItems.Add(new MenuItem(WestwindHelper.GetWord("country", "Model"), string.Empty, "Country"));
+            ddlNew.MenuItems.Add(new MenuItem(WestwindHelper.GetWord("province", "Model"), string.Empty, "Province"));
+            ddlNew.MenuItems.Add(new MenuItem(WestwindHelper.GetWord("city", "Model"), string.Empty, "City"));
+            ddlNew.MenuItems.Add(new MenuItem(WestwindHelper.GetWord("workplaceZone", "Model"), string.Empty, "Zone"));
             ddlNew.MenuItems.Add(new MenuItem("-"));
-            ddlNew.MenuItems.Add(new MenuItem(oDict.GetWord("Internet Tag"), string.Empty, "InternetTag"));
-            ddlNew.MenuItems.Add(new MenuItem(oDict.GetWord("Line Of Operation"), string.Empty, "LineOfOperation"));
-            ddlNew.MenuItems.Add(new MenuItem(oDict.GetWord("Market Sector"), string.Empty, "MarketSector"));
-            ddlNew.MenuItems.Add(new MenuItem(oDict.GetWord("Salutation"), string.Empty, "Salutation"));
-            ddlNew.MenuItems.Add(new MenuItem(oDict.GetWord("Phone Tag"), string.Empty, "PhoneTag"));
-            ddlNew.MenuItems.Add(new MenuItem(oDict.GetWord("Job Title"), string.Empty, "JobTitle"));
+            //ddlNew.MenuItems.Add(new MenuItem(oDict.GetWord("Internet Tag"), string.Empty, "InternetTag"));
+            ddlNew.MenuItems.Add(new MenuItem(WestwindHelper.GetWord("lineOfOperation", "Model"), string.Empty, "LineOfOperation"));
+            ddlNew.MenuItems.Add(new MenuItem(WestwindHelper.GetWord("marketSector", "Model"), string.Empty, "MarketSector"));
+            ddlNew.MenuItems.Add(new MenuItem(WestwindHelper.GetWord("salutation", "Model"), string.Empty, "Salutation"));
+            ddlNew.MenuItems.Add(new MenuItem(WestwindHelper.GetWord("phoneTag", "Model"), string.Empty, "PhoneTag"));
+            ddlNew.MenuItems.Add(new MenuItem(WestwindHelper.GetWord("jobTitle", "Model"), string.Empty, "JobTitle"));
 
-            ToolBarButton cmdNew = new ToolBarButton("New", oDict.GetWord("New"));
+            ToolBarButton cmdNew = new ToolBarButton("New", WestwindHelper.GetWord("edit.new", "General"));
             cmdNew.Style = ToolBarButtonStyle.DropDownButton;
             cmdNew.Image = new IconResourceHandle("16x16.ico_16_3.gif");
             cmdNew.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Write);
@@ -68,11 +69,11 @@ namespace RT2020.AtsPane
             cmdNew.MenuClick += new MenuEventHandler(AtsSettings_MenuClick);
 
             ContextMenu ddlReports = new ContextMenu();
-            ddlReports.MenuItems.Add(new MenuItem(oDict.GetWord("Staff") + " " + oDict.GetWord("Reports"), string.Empty, "Staff Reports"));
-            ddlReports.MenuItems.Add(new MenuItem(oDict.GetWord("Workplace") + " " + oDict.GetWord("Reports"), string.Empty, "Workplace Reports"));
-            ddlReports.MenuItems.Add(new MenuItem(oDict.GetWord("Supplier") + " " + oDict.GetWord("Reports"), string.Empty, "Supplier Reports"));
+            ddlReports.MenuItems.Add(new MenuItem(WestwindHelper.GetWord("staff", "Model") + " " + WestwindHelper.GetWord("edit.reports", "General"), string.Empty, "Staff Reports"));
+            ddlReports.MenuItems.Add(new MenuItem(WestwindHelper.GetWord("workplace", "Model") + " " + WestwindHelper.GetWord("edit.reports", "General"), string.Empty, "Workplace Reports"));
+            ddlReports.MenuItems.Add(new MenuItem(WestwindHelper.GetWord("supplier", "Model") + " " + WestwindHelper.GetWord("edit.reports", "General"), string.Empty, "Supplier Reports"));
 
-            ToolBarButton cmdReports = new ToolBarButton("Reports", oDict.GetWord("Reports"));
+            ToolBarButton cmdReports = new ToolBarButton("Reports", WestwindHelper.GetWord("edit.reports", "General"));
             cmdReports.Style = ToolBarButtonStyle.DropDownButton;
             cmdReports.Image = new IconResourceHandle("16x16.16_reports.gif");
             cmdReports.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Write);
@@ -132,6 +133,11 @@ namespace RT2020.AtsPane
                         RT2020.Workplace.SmartTag4WorkplaceWizard wizSmartTag4Workplace = new RT2020.Workplace.SmartTag4WorkplaceWizard();
                         wizSmartTag4Workplace.ShowDialog();
                         break;
+                    case "promotion":
+                        RT2020.Settings.CampaignWizard promotion = new RT2020.Settings.CampaignWizard();
+                        promotion.CampaignType = EnumHelper.CampaignType.TenderType;
+                        promotion.ShowDialog();
+                        break;
                     case "workplace reports":
                         RT2020.Workplace.Reports.RptWorkplaceList rptWorkplackList = new RT2020.Workplace.Reports.RptWorkplaceList();
                         rptWorkplackList.ShowDialog();
@@ -166,11 +172,13 @@ namespace RT2020.AtsPane
                         wizCny.ShowDialog();
                         break;
                     case "paymentfactor_currency":
-                        RT2020.Settings.PaymentFactor wizPaymentFactorCurr = new RT2020.Settings.PaymentFactor(RT2020.Settings.PaymentFactor.FactorType.Currency);
+                        RT2020.Settings.CampaignWizard wizPaymentFactorCurr = new RT2020.Settings.CampaignWizard();
+                        wizPaymentFactorCurr.CampaignType = EnumHelper.CampaignType.TenderType;
                         wizPaymentFactorCurr.ShowDialog();
                         break;
                     case "paymentfactor_eventcode":
-                        RT2020.Settings.PaymentFactor wizPaymentFactorEvnt = new RT2020.Settings.PaymentFactor(RT2020.Settings.PaymentFactor.FactorType.EventCode);
+                        RT2020.Settings.CampaignWizard wizPaymentFactorEvnt = new RT2020.Settings.CampaignWizard();
+                        wizPaymentFactorEvnt.CampaignType = EnumHelper.CampaignType.EventCode;
                         wizPaymentFactorEvnt.ShowDialog();
                         break;
                     case "country":

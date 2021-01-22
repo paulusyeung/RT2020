@@ -9,6 +9,11 @@ namespace RT2020.Helper
 {
     public class DateTimeHelper
     {
+        public static DateTime DateZero()
+        {
+            return new DateTime(1900, 1, 1, 0, 0, 0);
+        }
+
         /// <summary>
         /// Convert the datetime value to string with time or without.
         /// If the value is equaled to 1900-01-01, it would return a emty value.

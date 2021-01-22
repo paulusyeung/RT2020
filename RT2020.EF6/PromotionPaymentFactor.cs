@@ -16,6 +16,7 @@ namespace RT2020.EF6
     {
         public System.Guid PaymentFactorId { get; set; }
         public Nullable<System.Guid> WorkplaceId { get; set; }
+        public Nullable<System.Guid> TypeId { get; set; }
         public Nullable<System.DateTime> StartOn { get; set; }
         public Nullable<System.DateTime> EndOn { get; set; }
         public string CurrencyCode { get; set; }
@@ -29,6 +30,7 @@ namespace RT2020.EF6
         public Nullable<System.DateTime> RetiredOn { get; set; }
         public Nullable<System.Guid> RetiredBy { get; set; }
     
+        public virtual PosTenderType PosTenderType { get; set; }
         public virtual Workplace Workplace { get; set; }
     }
 }

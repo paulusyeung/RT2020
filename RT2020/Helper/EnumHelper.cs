@@ -263,5 +263,12 @@ namespace RT2020.Helper
         }
 
         public enum UserType { Staff, Customer, Supplier, Member }
+
+        public enum CampaignType
+        {
+            None,
+            TenderType,
+            EventCode
+        }
     }
 }

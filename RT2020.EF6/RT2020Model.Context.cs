@@ -115,7 +115,6 @@ namespace RT2020.EF6
         public virtual DbSet<ProductSupplement> ProductSupplement { get; set; }
         public virtual DbSet<ProductWorkplace> ProductWorkplace { get; set; }
         public virtual DbSet<ProductWorkplacePeriodicSummary> ProductWorkplacePeriodicSummary { get; set; }
-        public virtual DbSet<PromotionPaymentFactor> PromotionPaymentFactor { get; set; }
         public virtual DbSet<Province> Province { get; set; }
         public virtual DbSet<PurchaseOrderDetails> PurchaseOrderDetails { get; set; }
         public virtual DbSet<PurchaseOrderHeader> PurchaseOrderHeader { get; set; }
@@ -171,5 +170,6 @@ namespace RT2020.EF6
         public virtual DbSet<SmartTag4Supplier_Options> SmartTag4Supplier_Options { get; set; }
         public virtual DbSet<vwWorkplaceList> vwWorkplaceList { get; set; }
         public virtual DbSet<SmartTag4Workplace_Options> SmartTag4Workplace_Options { get; set; }
+        public virtual DbSet<PromotionPaymentFactor> PromotionPaymentFactor { get; set; }
     }
 }

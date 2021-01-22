@@ -742,6 +742,9 @@
     <Compile Include="Components\Appendix3ComboBoxSkin.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Components\CheckedComboBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Components\FAB.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -2872,11 +2875,11 @@
     <Compile Include="Settings\PoSTenderTypeWizard.Designer.cs">
       <DependentUpon>PoSTenderTypeWizard.cs</DependentUpon>
     </Compile>
-    <Compile Include="Settings\PaymentFactor.cs">
+    <Compile Include="Settings\CampaignWizard.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Settings\PaymentFactor.Designer.cs">
-      <DependentUpon>PaymentFactor.cs</DependentUpon>
+    <Compile Include="Settings\CampaignWizard.Designer.cs">
+      <DependentUpon>CampaignWizard.cs</DependentUpon>
     </Compile>
     <Compile Include="Settings\SalutationWizard.cs">
       <SubType>Form</SubType>
@@ -3441,6 +3444,9 @@
     <EmbeddedResource Include="Components\Appendix3ComboBoxSkin.resx">
       <DependentUpon>Appendix3ComboBoxSkin.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Components\CheckedComboBox.resx">
+      <DependentUpon>CheckedComboBox.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Components\FABSkin.resx">
       <DependentUpon>FABSkin.cs</DependentUpon>
@@ -4808,8 +4814,8 @@
       <DependentUpon>PoSTenderTypeWizard.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Settings\PaymentFactor.resx">
-      <DependentUpon>PaymentFactor.cs</DependentUpon>
+    <EmbeddedResource Include="Settings\CampaignWizard.resx">
+      <DependentUpon>CampaignWizard.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Settings\Reports\CurrencyListRdl.rdlc" />

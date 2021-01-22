@@ -41,7 +41,7 @@ namespace RT2020.NavPane
             this.navProduct.ShowLines = false;
             this.navProduct.Size = new System.Drawing.Size(391, 391);
             this.navProduct.TabIndex = 0;
-            this.navProduct.AfterSelect += new Gizmox.WebGUI.Forms.TreeViewEventHandler(this.navSettings_AfterSelect);
+            this.navProduct.AfterSelect += new Gizmox.WebGUI.Forms.TreeViewEventHandler(this.navProduct_AfterSelect);
             // 
             // Settings
             // 

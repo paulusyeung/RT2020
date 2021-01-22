@@ -21,6 +21,7 @@ namespace RT2020.EF6
             this.EPOSSubLedgerTender = new HashSet<EPOSSubLedgerTender>();
             this.FepBatchTender = new HashSet<FepBatchTender>();
             this.PosLedgerTender = new HashSet<PosLedgerTender>();
+            this.PromotionPaymentFactor = new HashSet<PromotionPaymentFactor>();
         }
     
         public System.Guid TypeId { get; set; }
@@ -55,5 +56,7 @@ namespace RT2020.EF6
         public virtual ICollection<FepBatchTender> FepBatchTender { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PosLedgerTender> PosLedgerTender { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PromotionPaymentFactor> PromotionPaymentFactor { get; set; }
     }
 }

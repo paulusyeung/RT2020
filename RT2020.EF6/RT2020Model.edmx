@@ -2216,6 +2216,7 @@ warning 6002: The table/view 'RT2020.dbo.Localizations_Backup' does not have a p
           </Key>
           <Property Name="PaymentFactorId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="WorkplaceId" Type="uniqueidentifier" />
+          <Property Name="TypeId" Type="uniqueidentifier" />
           <Property Name="StartOn" Type="datetime" />
           <Property Name="EndOn" Type="datetime" />
           <Property Name="CurrencyCode" Type="varchar" MaxLength="3" />
@@ -3930,6 +3931,18 @@ warning 6002: The table/view 'RT2020.dbo.vwWorkplaceList' does not have a primar
               <PropertyRef Name="TypeId" />
             </Principal>
             <Dependent Role="PosLedgerTender">
+              <PropertyRef Name="TypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PosTenderType_PromotionPaymentFactor">
+          <End Role="PosTenderType" Type="Self.PosTenderType" Multiplicity="0..1" />
+          <End Role="PromotionPaymentFactor" Type="Self.PromotionPaymentFactor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PosTenderType">
+              <PropertyRef Name="TypeId" />
+            </Principal>
+            <Dependent Role="PromotionPaymentFactor">
               <PropertyRef Name="TypeId" />
             </Dependent>
           </ReferentialConstraint>
@@ -6254,6 +6267,10 @@ warning 6002: The table/view 'RT2020.dbo.vwWorkplaceList' does not have a primar
           <AssociationSet Name="FK_PosTenderType_PosLedgerTender" Association="Self.FK_PosTenderType_PosLedgerTender">
             <End Role="PosTenderType" EntitySet="PosTenderType" />
             <End Role="PosLedgerTender" EntitySet="PosLedgerTender" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PosTenderType_PromotionPaymentFactor" Association="Self.FK_PosTenderType_PromotionPaymentFactor">
+            <End Role="PosTenderType" EntitySet="PosTenderType" />
+            <End Role="PromotionPaymentFactor" EntitySet="PromotionPaymentFactor" />
           </AssociationSet>
           <AssociationSet Name="FK_PriceManagementActiveHeader_PriceManagementActiveDetails" Association="Self.FK_PriceManagementActiveHeader_PriceManagementActiveDetails">
             <End Role="PriceManagementActiveHeader" EntitySet="PriceManagementActiveHeader" />
@@ -8580,6 +8597,7 @@ warning 6002: The table/view 'RT2020.dbo.vwWorkplaceList' does not have a primar
           <NavigationProperty Name="EPOSSubLedgerTender" Relationship="Self.FK_PosTenderType_EPOSSubLedgerTender" FromRole="PosTenderType" ToRole="EPOSSubLedgerTender" />
           <NavigationProperty Name="FepBatchTender" Relationship="Self.FK_PosTenderType_FepBatchTender" FromRole="PosTenderType" ToRole="FepBatchTender" />
           <NavigationProperty Name="PosLedgerTender" Relationship="Self.FK_PosTenderType_PosLedgerTender" FromRole="PosTenderType" ToRole="PosLedgerTender" />
+          <NavigationProperty Name="PromotionPaymentFactor" Relationship="RT2020Model.FK_PosTenderType_PromotionPaymentFactor" FromRole="PosTenderType" ToRole="PromotionPaymentFactor" />
         </EntityType>
         <EntityType Name="PriceManagementActiveDetails">
           <Key>
@@ -9315,26 +9333,6 @@ warning 6002: The table/view 'RT2020.dbo.vwWorkplaceList' does not have a primar
           <Property Name="EPQTY" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
           <NavigationProperty Name="Product" Relationship="Self.FK_Product_ProductWorkplacePeriodicSummary" FromRole="ProductWorkplacePeriodicSummary" ToRole="Product" />
           <NavigationProperty Name="Workplace" Relationship="Self.FK_Workplace_ProductWorkplacePeriodicSummary" FromRole="ProductWorkplacePeriodicSummary" ToRole="Workplace" />
-        </EntityType>
-        <EntityType Name="PromotionPaymentFactor">
-          <Key>
-            <PropertyRef Name="PaymentFactorId" />
-          </Key>
-          <Property Name="PaymentFactorId" Type="Guid" Nullable="false" />
-          <Property Name="WorkplaceId" Type="Guid" />
-          <Property Name="StartOn" Type="DateTime" Precision="3" />
-          <Property Name="EndOn" Type="DateTime" Precision="3" />
-          <Property Name="CurrencyCode" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
-          <Property Name="EventCode" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
-          <Property Name="FactorRate" Type="Decimal" Precision="8" Scale="4" Nullable="false" />
-          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="CreatedBy" Type="Guid" Nullable="false" />
-          <Property Name="ModifiedOn" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="ModifiedBy" Type="Guid" Nullable="false" />
-          <Property Name="Retired" Type="Boolean" Nullable="false" />
-          <Property Name="RetiredOn" Type="DateTime" Precision="3" />
-          <Property Name="RetiredBy" Type="Guid" />
-          <NavigationProperty Name="Workplace" Relationship="Self.FK_Workplace_PromotionPaymentFactor" FromRole="PromotionPaymentFactor" ToRole="Workplace" />
         </EntityType>
         <EntityType Name="Province">
           <Key>
@@ -10235,7 +10233,6 @@ warning 6002: The table/view 'RT2020.dbo.vwWorkplaceList' does not have a primar
           <NavigationProperty Name="PosLedgerHeader" Relationship="Self.FK_Workplace_PosLedgerHeader" FromRole="Workplace" ToRole="PosLedgerHeader" />
           <NavigationProperty Name="ProductWorkplace" Relationship="Self.FK_Workplace_ProductWorkplace" FromRole="Workplace" ToRole="ProductWorkplace" />
           <NavigationProperty Name="ProductWorkplacePeriodicSummary" Relationship="Self.FK_Workplace_ProductWorkplacePeriodicSummary" FromRole="Workplace" ToRole="ProductWorkplacePeriodicSummary" />
-          <NavigationProperty Name="PromotionPaymentFactor" Relationship="Self.FK_Workplace_PromotionPaymentFactor" FromRole="Workplace" ToRole="PromotionPaymentFactor" />
           <NavigationProperty Name="PurchaseOrderHeader" Relationship="Self.FK_Workplace_PurchaseOrderHeader" FromRole="Workplace" ToRole="PurchaseOrderHeader" />
           <NavigationProperty Name="PurchaseOrderReceiveHeader" Relationship="Self.FK_Workplace_PurchaseOrderReceiveHeader" FromRole="Workplace" ToRole="PurchaseOrderReceiveHeader" />
           <NavigationProperty Name="StockTakeDetails" Relationship="Self.FK_Workplace_StockTakeDetails" FromRole="Workplace" ToRole="StockTakeDetails" />
@@ -10245,6 +10242,7 @@ warning 6002: The table/view 'RT2020.dbo.vwWorkplaceList' does not have a primar
           <NavigationProperty Name="WorkplaceSmartTag" Relationship="Self.FK_Workplace_WorkplaceSmartTag" FromRole="Workplace" ToRole="WorkplaceSmartTag" />
           <NavigationProperty Name="WorkplaceNature" Relationship="Self.FK_WorkplaceNature_Workplace" FromRole="Workplace" ToRole="WorkplaceNature" />
           <NavigationProperty Name="WorkplaceZone" Relationship="Self.FK_WorkplaceZone_Workplace" FromRole="Workplace" ToRole="WorkplaceZone" />
+          <NavigationProperty Name="PromotionPaymentFactor" Relationship="RT2020Model.FK_Workplace_PromotionPaymentFactor" FromRole="Workplace" ToRole="PromotionPaymentFactor" />
         </EntityType>
         <EntityType Name="WorkplaceAddress">
           <Key>
@@ -12254,18 +12252,6 @@ warning 6002: The table/view 'RT2020.dbo.vwWorkplaceList' does not have a primar
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Workplace_PromotionPaymentFactor">
-          <End Role="Workplace" Type="Self.Workplace" Multiplicity="0..1" />
-          <End Role="PromotionPaymentFactor" Type="Self.PromotionPaymentFactor" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Workplace">
-              <PropertyRef Name="WorkplaceId" />
-            </Principal>
-            <Dependent Role="PromotionPaymentFactor">
-              <PropertyRef Name="WorkplaceId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Province_StaffAddress">
           <End Role="Province" Type="Self.Province" Multiplicity="0..1" />
           <End Role="StaffAddress" Type="Self.StaffAddress" Multiplicity="*" />
@@ -12969,7 +12955,6 @@ warning 6002: The table/view 'RT2020.dbo.vwWorkplaceList' does not have a primar
           <EntitySet Name="ProductSupplement" EntityType="Self.ProductSupplement" />
           <EntitySet Name="ProductWorkplace" EntityType="Self.ProductWorkplace" />
           <EntitySet Name="ProductWorkplacePeriodicSummary" EntityType="Self.ProductWorkplacePeriodicSummary" />
-          <EntitySet Name="PromotionPaymentFactor" EntityType="Self.PromotionPaymentFactor" />
           <EntitySet Name="Province" EntityType="Self.Province" />
           <EntitySet Name="PurchaseOrderDetails" EntityType="Self.PurchaseOrderDetails" />
           <EntitySet Name="PurchaseOrderHeader" EntityType="Self.PurchaseOrderHeader" />
@@ -13647,10 +13632,6 @@ warning 6002: The table/view 'RT2020.dbo.vwWorkplaceList' does not have a primar
             <End Role="Workplace" EntitySet="Workplace" />
             <End Role="ProductWorkplacePeriodicSummary" EntitySet="ProductWorkplacePeriodicSummary" />
           </AssociationSet>
-          <AssociationSet Name="FK_Workplace_PromotionPaymentFactor" Association="Self.FK_Workplace_PromotionPaymentFactor">
-            <End Role="Workplace" EntitySet="Workplace" />
-            <End Role="PromotionPaymentFactor" EntitySet="PromotionPaymentFactor" />
-          </AssociationSet>
           <AssociationSet Name="FK_Province_StaffAddress" Association="Self.FK_Province_StaffAddress">
             <End Role="Province" EntitySet="Province" />
             <End Role="StaffAddress" EntitySet="StaffAddress" />
@@ -13877,6 +13858,15 @@ warning 6002: The table/view 'RT2020.dbo.vwWorkplaceList' does not have a primar
             <End Role="SmartTag4Workplace" EntitySet="SmartTag4Workplace" />
             <End Role="SmartTag4Workplace_Options" EntitySet="SmartTag4Workplace_Options" />
           </AssociationSet>
+          <EntitySet Name="PromotionPaymentFactor" EntityType="RT2020Model.PromotionPaymentFactor" />
+          <AssociationSet Name="FK_PosTenderType_PromotionPaymentFactor" Association="RT2020Model.FK_PosTenderType_PromotionPaymentFactor">
+            <End Role="PosTenderType" EntitySet="PosTenderType" />
+            <End Role="PromotionPaymentFactor" EntitySet="PromotionPaymentFactor" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Workplace_PromotionPaymentFactor" Association="RT2020Model.FK_Workplace_PromotionPaymentFactor">
+            <End Role="Workplace" EntitySet="Workplace" />
+            <End Role="PromotionPaymentFactor" EntitySet="PromotionPaymentFactor" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="vwPhonebookList">
           <Key>
@@ -14035,6 +14025,52 @@ warning 6002: The table/view 'RT2020.dbo.vwWorkplaceList' does not have a primar
             </Principal>
             <Dependent Role="SmartTag4Workplace_Options">
               <PropertyRef Name="TagId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="PromotionPaymentFactor">
+          <Key>
+            <PropertyRef Name="PaymentFactorId" />
+          </Key>
+          <Property Name="PaymentFactorId" Type="Guid" Nullable="false" />
+          <Property Name="WorkplaceId" Type="Guid" />
+          <Property Name="TypeId" Type="Guid" />
+          <Property Name="StartOn" Type="DateTime" Precision="3" />
+          <Property Name="EndOn" Type="DateTime" Precision="3" />
+          <Property Name="CurrencyCode" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="EventCode" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="FactorRate" Type="Decimal" Nullable="false" Precision="8" Scale="4" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedBy" Type="Guid" Nullable="false" />
+          <Property Name="ModifiedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifiedBy" Type="Guid" Nullable="false" />
+          <Property Name="Retired" Type="Boolean" Nullable="false" />
+          <Property Name="RetiredOn" Type="DateTime" Precision="3" />
+          <Property Name="RetiredBy" Type="Guid" />
+          <NavigationProperty Name="PosTenderType" Relationship="RT2020Model.FK_PosTenderType_PromotionPaymentFactor" FromRole="PromotionPaymentFactor" ToRole="PosTenderType" />
+          <NavigationProperty Name="Workplace" Relationship="RT2020Model.FK_Workplace_PromotionPaymentFactor" FromRole="PromotionPaymentFactor" ToRole="Workplace" />
+        </EntityType>
+        <Association Name="FK_PosTenderType_PromotionPaymentFactor">
+          <End Type="RT2020Model.PosTenderType" Role="PosTenderType" Multiplicity="0..1" />
+          <End Type="RT2020Model.PromotionPaymentFactor" Role="PromotionPaymentFactor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PosTenderType">
+              <PropertyRef Name="TypeId" />
+            </Principal>
+            <Dependent Role="PromotionPaymentFactor">
+              <PropertyRef Name="TypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Workplace_PromotionPaymentFactor">
+          <End Type="RT2020Model.Workplace" Role="Workplace" Multiplicity="0..1" />
+          <End Type="RT2020Model.PromotionPaymentFactor" Role="PromotionPaymentFactor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Workplace">
+              <PropertyRef Name="WorkplaceId" />
+            </Principal>
+            <Dependent Role="PromotionPaymentFactor">
+              <PropertyRef Name="WorkplaceId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -16318,26 +16354,6 @@ warning 6002: The table/view 'RT2020.dbo.vwWorkplaceList' does not have a primar
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="PromotionPaymentFactor">
-            <EntityTypeMapping TypeName="RT2020Model.PromotionPaymentFactor">
-              <MappingFragment StoreEntitySet="PromotionPaymentFactor">
-                <ScalarProperty Name="PaymentFactorId" ColumnName="PaymentFactorId" />
-                <ScalarProperty Name="WorkplaceId" ColumnName="WorkplaceId" />
-                <ScalarProperty Name="StartOn" ColumnName="StartOn" />
-                <ScalarProperty Name="EndOn" ColumnName="EndOn" />
-                <ScalarProperty Name="CurrencyCode" ColumnName="CurrencyCode" />
-                <ScalarProperty Name="EventCode" ColumnName="EventCode" />
-                <ScalarProperty Name="FactorRate" ColumnName="FactorRate" />
-                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
-                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
-                <ScalarProperty Name="Retired" ColumnName="Retired" />
-                <ScalarProperty Name="RetiredOn" ColumnName="RetiredOn" />
-                <ScalarProperty Name="RetiredBy" ColumnName="RetiredBy" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Province">
             <EntityTypeMapping TypeName="RT2020Model.Province">
               <MappingFragment StoreEntitySet="Province">
@@ -17361,6 +17377,27 @@ warning 6002: The table/view 'RT2020.dbo.vwWorkplaceList' does not have a primar
                 <ScalarProperty Name="OptionCode" ColumnName="OptionCode" />
                 <ScalarProperty Name="TagId" ColumnName="TagId" />
                 <ScalarProperty Name="OptionId" ColumnName="OptionId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PromotionPaymentFactor">
+            <EntityTypeMapping TypeName="RT2020Model.PromotionPaymentFactor">
+              <MappingFragment StoreEntitySet="PromotionPaymentFactor">
+                <ScalarProperty Name="RetiredBy" ColumnName="RetiredBy" />
+                <ScalarProperty Name="RetiredOn" ColumnName="RetiredOn" />
+                <ScalarProperty Name="Retired" ColumnName="Retired" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="FactorRate" ColumnName="FactorRate" />
+                <ScalarProperty Name="EventCode" ColumnName="EventCode" />
+                <ScalarProperty Name="CurrencyCode" ColumnName="CurrencyCode" />
+                <ScalarProperty Name="EndOn" ColumnName="EndOn" />
+                <ScalarProperty Name="StartOn" ColumnName="StartOn" />
+                <ScalarProperty Name="TypeId" ColumnName="TypeId" />
+                <ScalarProperty Name="WorkplaceId" ColumnName="WorkplaceId" />
+                <ScalarProperty Name="PaymentFactorId" ColumnName="PaymentFactorId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

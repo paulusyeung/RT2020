@@ -1,3 +1,6 @@
+using System;
+using Gizmox.WebGUI.Forms;
+
 namespace RT2020.NavPane
 {
     partial class MemberMgmtNav
