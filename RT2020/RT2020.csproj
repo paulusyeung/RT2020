@@ -1606,11 +1606,11 @@
     <Compile Include="Member\MemberWizard_Find.Designer.cs">
       <DependentUpon>MemberWizard_Find.cs</DependentUpon>
     </Compile>
-    <Compile Include="Member\MemberWizard_MassUpdate.cs">
+    <Compile Include="Member\MassUpdateWizard.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Member\MemberWizard_MassUpdate.Designer.cs">
-      <DependentUpon>MemberWizard_MassUpdate.cs</DependentUpon>
+    <Compile Include="Member\MassUpdateWizard.Designer.cs">
+      <DependentUpon>MassUpdateWizard.cs</DependentUpon>
     </Compile>
     <Compile Include="Member\Member_Migration.cs">
       <SubType>Form</SubType>
@@ -3972,8 +3972,8 @@
       <DependentUpon>MemberWizard_Find.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Member\MemberWizard_MassUpdate.resx">
-      <DependentUpon>MemberWizard_MassUpdate.cs</DependentUpon>
+    <EmbeddedResource Include="Member\MassUpdateWizard.resx">
+      <DependentUpon>MassUpdateWizard.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Member\Member_Migration.resx">

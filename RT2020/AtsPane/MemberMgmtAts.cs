@@ -28,20 +28,19 @@ namespace RT2020.AtsPane
 
             ContextMenu ddlNew = new ContextMenu();
             //ddlNew.MenuItems.Add(new MenuItem(Utility.Dictionary.GetWord("Member"), string.Empty, "MemberWizard"));
-            ddlNew.MenuItems.Add(new MenuItem(oDict.GetWord("Member"), string.Empty, "MemberWizard"));
-            ddlNew.MenuItems.Add(new MenuItem(oDict.GetWord("Member [Mass Update]"), string.Empty, "MemberWizard_MassUpdate"));
+            ddlNew.MenuItems.Add(new MenuItem(WestwindHelper.GetWord("member", "Model"), string.Empty, "MemberWizard"));
             ddlNew.MenuItems.Add(new MenuItem("-"));
+            ddlNew.MenuItems.Add(new MenuItem(WestwindHelper.GetWord("member.batchUpdateDiscount", "MenuStrip"), string.Empty, "MemberWizard_MassUpdate"));
             ddlNew.MenuItems.Add(new MenuItem(oDict.GetWord("Member Migration"), string.Empty, "MemberWizard_Migration"));
             ddlNew.MenuItems.Add(new MenuItem(oDict.GetWord("Member Migration (Web)"), string.Empty, "MemberWizard_Migration_Web"));
-            ddlNew.MenuItems.Add(new MenuItem("-"));
-            ddlNew.MenuItems.Add(new MenuItem(oDict.GetWord("Member Address Type"), string.Empty, "MemberAddressType"));
-            ddlNew.MenuItems.Add(new MenuItem(oDict.GetWord("Member Class"), string.Empty, "MemberClass"));
-            ddlNew.MenuItems.Add(new MenuItem(oDict.GetWord("Member Group"), string.Empty, "MemberGroup"));
-            ddlNew.MenuItems.Add(new MenuItem(string.Format(oDict.GetWord("Smart_Tag"), oDict.GetWord("Member")), string.Empty, "SmartTag4Member"));
-            ddlNew.MenuItems.Add(new MenuItem("-"));
             ddlNew.MenuItems.Add(new MenuItem(oDict.GetWord("Temporary Member for Web"), string.Empty, "TempMember4Web"));
+            ddlNew.MenuItems.Add(new MenuItem("-"));
+            ddlNew.MenuItems.Add(new MenuItem(WestwindHelper.GetWord("memberAddressType", "Model"), string.Empty, "MemberAddressType"));
+            ddlNew.MenuItems.Add(new MenuItem(WestwindHelper.GetWord("memberClass", "Model"), string.Empty, "MemberClass"));
+            ddlNew.MenuItems.Add(new MenuItem(WestwindHelper.GetWord("memberGroup", "Model"), string.Empty, "MemberGroup"));
+            ddlNew.MenuItems.Add(new MenuItem(WestwindHelper.GetWord("smartTag4Member", "Model"), string.Empty, "SmartTag4Member"));
 
-            ToolBarButton cmdNew = new ToolBarButton("New", oDict.GetWord("New"));
+            ToolBarButton cmdNew = new ToolBarButton("New", WestwindHelper.GetWord("edit.new", "General"));
             cmdNew.Style = ToolBarButtonStyle.DropDownButton;
             cmdNew.Image = new IconResourceHandle("16x16.ico_16_3.gif");
             cmdNew.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Write);
@@ -52,9 +51,9 @@ namespace RT2020.AtsPane
 
             // cmdImport
             ContextMenu ddlImport = new ContextMenu();
-            ddlImport.MenuItems.Add(new MenuItem(oDict.GetWord("Member"), string.Empty, "ImportMember"));
+            ddlImport.MenuItems.Add(new MenuItem(WestwindHelper.GetWord("member", "Model"), string.Empty, "ImportMember"));
 
-            ToolBarButton cmdImport = new ToolBarButton("Import", oDict.GetWord("Import"));
+            ToolBarButton cmdImport = new ToolBarButton("Import", WestwindHelper.GetWord("edit.import", "General"));
             cmdImport.Style = ToolBarButtonStyle.DropDownButton;
             cmdImport.Image = new IconResourceHandle("16x16.ico_16_4407.gif");
             cmdImport.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Write);
@@ -65,9 +64,9 @@ namespace RT2020.AtsPane
 
             // cmdExport
             ContextMenu ddlExport = new ContextMenu();
-            ddlExport.MenuItems.Add(new MenuItem(oDict.GetWord("Member"), string.Empty, "ExportMember"));
+            ddlExport.MenuItems.Add(new MenuItem(WestwindHelper.GetWord("member", "Model"), string.Empty, "ExportMember"));
 
-            ToolBarButton cmdExport = new ToolBarButton("Export", oDict.GetWord("Export"));
+            ToolBarButton cmdExport = new ToolBarButton("Export", WestwindHelper.GetWord("edit.export", "General"));
             cmdExport.Style = ToolBarButtonStyle.DropDownButton;
             cmdExport.Image = new IconResourceHandle("16x16.ico_16_exportCustomizations.gif");
             cmdExport.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Write);
@@ -101,7 +100,7 @@ namespace RT2020.AtsPane
             ddlReport.MenuItems.Add(new MenuItem("-"));
             ddlReport.MenuItems.Add(new MenuItem(string.Format(oDict.GetWord("Top VIP Spending by"), RT2020.SystemInfo.Settings.GetSystemLabelByKey("CLASS1")), string.Empty, "top_vip_spending_by_class1"));
 
-            ToolBarButton cmdReport = new ToolBarButton("Reports", oDict.GetWord("Reports"));
+            ToolBarButton cmdReport = new ToolBarButton("Reports", WestwindHelper.GetWord("edit.reports", "General"));
             cmdReport.Style = ToolBarButtonStyle.DropDownButton;
             cmdReport.Image = new IconResourceHandle("16x16.16_reports.gif");
             cmdReport.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Write);
@@ -130,7 +129,7 @@ namespace RT2020.AtsPane
                         wizMember.ShowDialog();
                         break;
                     case "memberwizard_massupdate":
-                        RT2020.Member.MemberWizard_MassUpdate wizMemberMassUpdate = new RT2020.Member.MemberWizard_MassUpdate();
+                        RT2020.Member.MassUpdateWizard wizMemberMassUpdate = new RT2020.Member.MassUpdateWizard();
                         wizMemberMassUpdate.ShowDialog();
                         break;
                     case "memberwizard_migration":

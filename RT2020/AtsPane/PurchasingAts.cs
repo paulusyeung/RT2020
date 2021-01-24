@@ -42,7 +42,7 @@ namespace RT2020.AtsPane
             ddlNew.MenuItems.Add(recAuth);
             //ddlNew.MenuItems.Add(new MenuItem("Settle Orders", string.Empty, "PurSettleOrders"));
 
-            ToolBarButton cmdNew = new ToolBarButton("New", oDict.GetWord("New"));
+            ToolBarButton cmdNew = new ToolBarButton("New", WestwindHelper.GetWord("edit.new", "General"));
             cmdNew.Style = ToolBarButtonStyle.DropDownButton;
             cmdNew.Image = new IconResourceHandle("16x16.ico_16_3.gif");
             cmdNew.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Write);
@@ -58,7 +58,7 @@ namespace RT2020.AtsPane
             ddlImport.MenuItems.Add(new MenuItem(oDict.GetWord("PO Receive Worksheet"), string.Empty, "PurImportReceiveWorksheet"));
             ddlImport.MenuItems.Add(new MenuItem(oDict.GetWord("Advanced Shipment Notice"), string.Empty, "PurImportAdvancedShipmentNotice"));
 
-            ToolBarButton cmdImport = new ToolBarButton("Import", oDict.GetWord("Import"));
+            ToolBarButton cmdImport = new ToolBarButton("Import", WestwindHelper.GetWord("edit.import", "General"));
             cmdImport.Style = ToolBarButtonStyle.DropDownButton;
             cmdImport.Image = new IconResourceHandle("16x16.ico_16_4407.gif");
             cmdImport.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Write);
@@ -71,7 +71,7 @@ namespace RT2020.AtsPane
             ContextMenu ddlExport = new ContextMenu();
             ddlExport.MenuItems.Add(new MenuItem(oDict.GetWord("PO History Data"), string.Empty, "PurExportHistoryData"));
 
-            ToolBarButton cmdExport = new ToolBarButton("Export", oDict.GetWord("Export"));
+            ToolBarButton cmdExport = new ToolBarButton("Export", WestwindHelper.GetWord("edit.export", "General"));
             cmdExport.Style = ToolBarButtonStyle.DropDownButton;
             cmdExport.Image = new IconResourceHandle("16x16.ico_16_exportCustomizations.gif");
             cmdExport.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Write);
@@ -98,7 +98,7 @@ namespace RT2020.AtsPane
             ddlReport.MenuItems.Add(new MenuItem(oDict.GetWord("Receiving Discrepency"), string.Empty, "PurRecvDiscrepency"));
             ddlReport.MenuItems.Add(new MenuItem(oDict.GetWord("Receiving Expected Weekly Summary"), string.Empty, "PurExpectedRecvSummay_Weekly"));
 
-            ToolBarButton cmdReport = new ToolBarButton("Report", oDict.GetWord("Reports"));
+            ToolBarButton cmdReport = new ToolBarButton("Report", WestwindHelper.GetWord("edit.reports", "General"));
             cmdReport.Style = ToolBarButtonStyle.DropDownButton;
             cmdReport.Image = new IconResourceHandle("16x16.16_reports.gif");
             cmdReport.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Write);
