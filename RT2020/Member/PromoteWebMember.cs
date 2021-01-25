@@ -18,12 +18,12 @@ using RT2020.Helper;
 
 namespace RT2020.Member
 {
-    public partial class Member_MigrationForWeb : Form
+    public partial class PromoteWebMember : Form
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="Member_MigrationForWeb"/> class.
+        /// Initializes a new instance of the <see cref="PromoteWebMember"/> class.
         /// </summary>
-        public Member_MigrationForWeb()
+        public PromoteWebMember()
         {
             InitializeComponent();
         }
@@ -39,16 +39,20 @@ namespace RT2020.Member
 
             base.OnLoad(e);
 
-            this.SetAttributes();
+            SetCaptions();
+            SetAttributes();
 
-            this.FillLineOfOperationList();
+            FillLineOfOperationList();
 
-            this.BindData();
+            BindData();
         }
 
-        /// <summary>
-        /// Sets the attributes.
-        /// </summary>
+        #region SetCaptions SetAttributes
+        private void SetCaptions()
+        {
+            this.Text = WestwindHelper.GetWord("member.promoteWebMembers", "MenuStrip");
+        }
+
         private void SetAttributes()
         {
             txtLargestVipNumber.BackColor = RT2020.SystemInfo.ControlBackColor.DisabledBox;
@@ -61,6 +65,7 @@ namespace RT2020.Member
             dgvTempVipList.AutoGenerateColumns = false;
             dgvTempVipList.RowHeadersVisible = false;
         }
+        #endregion
 
         /// <summary>
         /// clicks the Buttons.

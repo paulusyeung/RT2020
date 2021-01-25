@@ -30,11 +30,11 @@ namespace RT2020.AtsPane
             //ddlNew.MenuItems.Add(new MenuItem(Utility.Dictionary.GetWord("Member"), string.Empty, "MemberWizard"));
             ddlNew.MenuItems.Add(new MenuItem(WestwindHelper.GetWord("member", "Model"), string.Empty, "MemberWizard"));
             ddlNew.MenuItems.Add(new MenuItem("-"));
-            ddlNew.MenuItems.Add(new MenuItem(WestwindHelper.GetWord("member.batchUpdateDiscount", "MenuStrip"), string.Empty, "MemberWizard_MassUpdate"));
-            ddlNew.MenuItems.Add(new MenuItem(oDict.GetWord("Member Migration"), string.Empty, "MemberWizard_Migration"));
-            ddlNew.MenuItems.Add(new MenuItem(oDict.GetWord("Member Migration (Web)"), string.Empty, "MemberWizard_Migration_Web"));
-            ddlNew.MenuItems.Add(new MenuItem(oDict.GetWord("Temporary Member for Web"), string.Empty, "TempMember4Web"));
-            ddlNew.MenuItems.Add(new MenuItem("-"));
+            //ddlNew.MenuItems.Add(new MenuItem(WestwindHelper.GetWord("member.batchUpdateDiscount", "MenuStrip"), string.Empty, "MemberWizard_MassUpdate"));
+            //ddlNew.MenuItems.Add(new MenuItem(WestwindHelper.GetWord("member.promoteTempMembers", "MenuStrip"), string.Empty, "MemberWizard_Migration"));
+            //ddlNew.MenuItems.Add(new MenuItem(WestwindHelper.GetWord("member.promoteWebMembers", "MenuStrip"), string.Empty, "MemberWizard_Migration_Web"));
+            //ddlNew.MenuItems.Add(new MenuItem(oDict.GetWord("Temporary Member for Web"), string.Empty, "TempMember4Web"));
+            //ddlNew.MenuItems.Add(new MenuItem("-"));
             ddlNew.MenuItems.Add(new MenuItem(WestwindHelper.GetWord("memberAddressType", "Model"), string.Empty, "MemberAddressType"));
             ddlNew.MenuItems.Add(new MenuItem(WestwindHelper.GetWord("memberClass", "Model"), string.Empty, "MemberClass"));
             ddlNew.MenuItems.Add(new MenuItem(WestwindHelper.GetWord("memberGroup", "Model"), string.Empty, "MemberGroup"));
@@ -133,11 +133,11 @@ namespace RT2020.AtsPane
                         wizMemberMassUpdate.ShowDialog();
                         break;
                     case "memberwizard_migration":
-                        RT2020.Member.Member_Migration wizMemberMigration = new RT2020.Member.Member_Migration();
+                        RT2020.Member.PromoteMember wizMemberMigration = new RT2020.Member.PromoteMember();
                         wizMemberMigration.ShowDialog();
                         break;
                     case "memberwizard_migration_web":
-                        RT2020.Member.Member_MigrationForWeb wizMemberMigration4Web = new RT2020.Member.Member_MigrationForWeb();
+                        RT2020.Member.PromoteWebMember wizMemberMigration4Web = new RT2020.Member.PromoteWebMember();
                         wizMemberMigration4Web.ShowDialog();
                         break;
                     case "memberaddresstype":

@@ -1,6 +1,6 @@
 namespace RT2020.Member
 {
-    partial class Member_MigrationForWeb
+    partial class PromoteWebMember
     {
         /// <summary>
         /// Required designer variable.

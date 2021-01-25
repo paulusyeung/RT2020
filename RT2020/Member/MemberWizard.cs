@@ -126,7 +126,8 @@ namespace RT2020.Member
 
             tpMainInfo.Text = WestwindHelper.GetWord("member.general", "Model");
             tpAddressInfo.Text = WestwindHelper.GetWord("memberAddress", "Model");
-            tpCardInfo.Text = WestwindHelper.GetWord("memberVipData", "Model");
+            //tpCardInfo.Text = WestwindHelper.GetWord("memberVipData", "Model");
+            tpCardInfo.Text = WestwindHelper.GetWord("member.card", "Model");
             tpOthersInfo.Text = WestwindHelper.GetWord("member.others", "Model");
             tpMiscInfo.Text = WestwindHelper.GetWord("member.misc", "Model");
             tpMarketingInfo.Text = WestwindHelper.GetWord("member.marketing", "Model");

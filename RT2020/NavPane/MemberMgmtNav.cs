@@ -105,9 +105,21 @@ namespace RT2020.NavPane
                         wspPane.Controls.Add(oPhoneBookList);
                         break;
                     case "member.promotion":
-                        RT2020.Settings.CampaignWizard promotion = new RT2020.Settings.CampaignWizard();
+                        var promotion = new RT2020.Settings.CampaignWizard();
                         promotion.CampaignType = EnumHelper.CampaignType.TenderType;
                         promotion.ShowDialog();
+                        break;
+                    case "member.batchupdatediscount":
+                        var batchUpdate = new Member.MassUpdateWizard();
+                        batchUpdate.ShowDialog();
+                        break;
+                    case "member.promotetempmembers":
+                        var promoteTempMembers = new Member.PromoteMember();
+                        promoteTempMembers.ShowDialog();
+                        break;
+                    case "member.promotewebmembers":
+                        var promoteWebMembers = new Member.PromoteWebMember();
+                        promoteWebMembers.ShowDialog();
                         break;
                 }
             }

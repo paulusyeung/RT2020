@@ -1594,11 +1594,11 @@
     <Compile Include="Member\MemberWizard_VipNumber.Designer.cs">
       <DependentUpon>MemberWizard_VipNumber.cs</DependentUpon>
     </Compile>
-    <Compile Include="Member\Member_MigrationForWeb.cs">
+    <Compile Include="Member\PromoteWebMember.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Member\Member_MigrationForWeb.Designer.cs">
-      <DependentUpon>Member_MigrationForWeb.cs</DependentUpon>
+    <Compile Include="Member\PromoteWebMember.Designer.cs">
+      <DependentUpon>PromoteWebMember.cs</DependentUpon>
     </Compile>
     <Compile Include="Member\MemberWizard_Find.cs">
       <SubType>Form</SubType>
@@ -1612,11 +1612,11 @@
     <Compile Include="Member\MassUpdateWizard.Designer.cs">
       <DependentUpon>MassUpdateWizard.cs</DependentUpon>
     </Compile>
-    <Compile Include="Member\Member_Migration.cs">
+    <Compile Include="Member\PromoteMember.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Member\Member_Migration.Designer.cs">
-      <DependentUpon>Member_Migration.cs</DependentUpon>
+    <Compile Include="Member\PromoteMember.Designer.cs">
+      <DependentUpon>PromoteMember.cs</DependentUpon>
     </Compile>
     <Compile Include="Member\Reports\VipNetSalesSummaryListRpt.cs">
       <SubType>Component</SubType>
@@ -3964,8 +3964,8 @@
       <DependentUpon>MemberWizard_VipNumber.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Member\Member_MigrationForWeb.resx">
-      <DependentUpon>Member_MigrationForWeb.cs</DependentUpon>
+    <EmbeddedResource Include="Member\PromoteWebMember.resx">
+      <DependentUpon>PromoteWebMember.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Member\MemberWizard_Find.resx">
@@ -3976,8 +3976,8 @@
       <DependentUpon>MassUpdateWizard.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Member\Member_Migration.resx">
-      <DependentUpon>Member_Migration.cs</DependentUpon>
+    <EmbeddedResource Include="Member\PromoteMember.resx">
+      <DependentUpon>PromoteMember.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Member\Reports\VipBirthdayListRdl.rdlc" />

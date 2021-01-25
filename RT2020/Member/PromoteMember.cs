@@ -1,4 +1,4 @@
-#region Using
+﻿#region Using
 
 using System;
 using System.Collections.Generic;
@@ -17,12 +17,14 @@ using RT2020.Helper;
 
 namespace RT2020.Member
 {
-    public partial class Member_Migration : Form
+    public partial class PromoteMember : Form
     {
+        bool _NoTempMember = true;
+
         /// <summary>
-        /// Initializes a new instance of the <see cref="Member_Migration"/> class.
+        /// Initializes a new instance of the <see cref="PromoteMember"/> class.
         /// </summary>
-        public Member_Migration()
+        public PromoteMember()
         {
             InitializeComponent();
         }
@@ -35,7 +37,30 @@ namespace RT2020.Member
         {
             base.OnLoad(e);
             this.CheckTempRecords();
+
+            SetCaptions();
+            SetAttributes();
         }
+
+        #region SetCaptions SetAttributes
+        private void SetCaptions()
+        {
+            this.Text = WestwindHelper.GetWord("member.promoteTempMembers", "MenuStrip");
+
+            radOption1.Text = WestwindHelper.GetWord("member.promoteTempMembers", "Prompt");
+            radOption2.Text = WestwindHelper.GetWord("member.promoteTempMembersWithDelete", "Prompt");
+            radPurgeAllRecords.Text = WestwindHelper.GetWord("member.purgeAllMemberRecords", "Prompt");
+            gbxOptions.Text = WestwindHelper.GetWord("glossary.options", "General");
+            btnProcess.Text = WestwindHelper.GetWord("glossary.process", "General");
+            btnExit.Text = WestwindHelper.GetWord("glossary.cancel", "General");
+        }
+
+        private void SetAttributes()
+        {
+            // 2021.01.16 paulus: 句子不完整，似乎漏咗啲字，暫時隱藏
+            lblOption1.Visible = lblOption2.Visible = false;
+        }
+        #endregion
 
         #region Events
 
@@ -64,6 +89,7 @@ namespace RT2020.Member
             }
         }
 
+        /** 2021.01.29 paulus: purge member records 似乎係 hiden option，點解要咁樣安排呢？暫時取消
         /// <summary>
         /// Handles the KeyDown event of the mainPane control.
         /// </summary>
@@ -75,10 +101,10 @@ namespace RT2020.Member
 
             buttonPressed = e.Control && e.Shift && (e.KeyCode == Keys.A);
 
-            rbtnOverwriteAllRecords.Visible = buttonPressed;
-            rbtnOverwriteAllRecords.Enabled = buttonPressed;
+            radPurgeAllRecords.Visible = buttonPressed;
+            radPurgeAllRecords.Enabled = buttonPressed;
         }
-
+        */
         #endregion
 
         #region Process
@@ -94,10 +120,15 @@ namespace RT2020.Member
                 var counts = ctx.MemberApply4TempVip.Where(x => x.RECORD_SOURCE == "IMPORT").Count();
                 if (counts == 0)
                 {
-                    MessageBox.Show("No record found.", "Warning!");
+                    MessageBox.Show(
+                        WestwindHelper.GetWord("member.noTempMember", "Prompt"),
+                        WestwindHelper.GetWord("dialog.information", "General"),
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
                 }
 
                 btnProcess.Enabled = (counts != 0);
+                _NoTempMember = (counts == 0);
             }
         }
 
@@ -106,18 +137,30 @@ namespace RT2020.Member
         /// </summary>
         private void Process()
         {
-            if (rbtnOption1.Checked)
+            if (radOption1.Checked)
             {
                 this.ProcessMigration(false);
             }
-            else if (rbtnOption2.Checked)
+            else if (radOption2.Checked)
             {
-                MessageBox.Show("WARNING!!! All Normal VIP records which does not exist in Temp VIP Table will be PURGED.", "Confirm Proceed?", MessageBoxButtons.YesNo, new EventHandler(ProcessWithDeletionEventHandler));
+                MessageBox.Show(
+                    WestwindHelper.GetWord("member.warning.partialPurged", "Prompt"),
+                    WestwindHelper.GetWord("dialog.confirmation", "General"),
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning,
+                    new EventHandler(ProcessWithDeletionEventHandler));
             }
-            else if (rbtnOverwriteAllRecords.Checked)
+            else if (radPurgeAllRecords.Checked)
             {
-                this.ProcessMigration(false);
-                this.PurgeVipRecords();
+                //this.ProcessMigration(false);
+                //this.PurgeVipRecords();
+                // 2021.01.26 paulus: 問多句先 purge
+                MessageBox.Show(
+                    WestwindHelper.GetWord("member.warning.allPurged", "Prompt"),
+                    WestwindHelper.GetWord("dialog.confirmation", "General"),
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning,
+                    new EventHandler(ProcessPurgeEventHandler));
             }
         }
 
@@ -128,7 +171,27 @@ namespace RT2020.Member
         /// <param name="e">The e.</param>
         private void ProcessWithDeletionEventHandler(object sender, EventArgs e)
         {
-            this.ProcessMigration(true);
+            var popup = (Form)sender;
+            if (popup != null)
+            {
+                if (popup.DialogResult == DialogResult.Yes)
+                {
+                    ProcessMigration(true);
+                }
+            }
+        }
+
+        private void ProcessPurgeEventHandler(object sender, EventArgs e)
+        {
+            var popup = (Form)sender;
+            if (popup != null)
+            {
+                if (popup.DialogResult == DialogResult.Yes)
+                {
+                    ProcessMigration(false);    // 使唔使升完級，再 purge？
+                    PurgeVipRecords();
+                }
+            }
         }
 
         /// <summary>
@@ -151,8 +214,10 @@ namespace RT2020.Member
         }
 
         /// <summary>
-        /// Processes the migration.
+        /// canDelete = true,  升級後刪除 Temp Record
+        /// canDelete = false, 升級後保留 Temp Record
         /// </summary>
+        /// <param name="canDelete"></param>
         private void ProcessMigration(bool canDelete)
         {
             using (var ctx = new EF6.RT2020Entities())
@@ -163,8 +228,8 @@ namespace RT2020.Member
                 {
                     var objTempVip = objTempVipList[i];
 
-                    System.Guid memberId = this.UpdateMemberMainInfo(objTempVip, canDelete);
-                    if (memberId != System.Guid.Empty)
+                    var memberId = this.UpdateMemberMainInfo(objTempVip, canDelete);
+                    if (memberId != Guid.Empty)
                     {
                         this.UpdateMemberAddressInfo(memberId, objTempVip);
                         this.UpdateMemberSmartTagValues(memberId, objTempVip);
@@ -639,5 +704,20 @@ namespace RT2020.Member
         #endregion
 
         #endregion
+
+        private void options_CheckedChanged(object sender, EventArgs e)
+        {
+            var option = (RadioButton)sender;
+            switch (option.Tag.ToString())
+            {
+                case "option1":
+                case "option2":
+                    btnProcess.Enabled = !_NoTempMember;
+                    break;
+                case "option3":
+                    btnProcess.Enabled = true;
+                    break;
+            }
+        }
     }
 }
