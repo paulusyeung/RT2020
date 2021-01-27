@@ -498,7 +498,6 @@ namespace RT2020.Member
         private bool Save()
         {
             bool result = false;
-            bool isNew = false;
 
             using (var ctx = new EF6.RT2020Entities())
             {
@@ -512,10 +511,10 @@ namespace RT2020.Member
                             #region add new Member
                             oMember = new EF6.Member();
 
+                            oMember.MemberId = Guid.NewGuid();
                             oMember.MemberNumber = txtMemberNumber.Text;
-                            oMember.Status = Convert.ToInt32(EnumHelper.Status.Active.ToString("d"));
-                            isNew = true;
 
+                            oMember.Status = (int)EnumHelper.Status.Active;
                             oMember.CreatedBy = ConfigHelper.CurrentUserId;
                             oMember.CreatedOn = DateTime.Now;
 
@@ -539,10 +538,8 @@ namespace RT2020.Member
                         if (tabOthersLoaded) oMember.NormalDiscount = (tabOthers.txtNormalItemDiscount.Text.Length == 0) ? 0 : Convert.ToDecimal(tabOthers.txtNormalItemDiscount.Text);
                         oMember.DownloadToPOS = true;
 
-                        if (!isNew)
-                        {
-                            oMember.Status = Convert.ToInt32(EnumHelper.Status.Modified.ToString("d"));
-                        }
+                        oMember.Status = ctx.Entry(oMember).State == EntityState.Added ?
+                            (int)EnumHelper.Status.Active : (int)EnumHelper.Status.Modified;
 
                         oMember.ModifiedBy = ConfigHelper.CurrentUserId;
                         oMember.ModifiedOn = DateTime.Now;
@@ -804,14 +801,10 @@ namespace RT2020.Member
                         result = true;
 
                         #region write Log
-                        if (isNew)
-                        {// log activity (New Record)
-                            RT2020.Controls.Log4net.LogInfo(RT2020.Controls.Log4net.LogAction.Create, oMember.ToString());
-                        }
-                        else
-                        { // log activity (Update)
-                            RT2020.Controls.Log4net.LogInfo(RT2020.Controls.Log4net.LogAction.Update, oMember.ToString());
-                        }
+                        RT2020.Controls.Log4net.LogInfo(
+                            ctx.Entry(oMember).State == EntityState.Added ?
+                            RT2020.Controls.Log4net.LogAction.Create : RT2020.Controls.Log4net.LogAction.Update,
+                            oMember.ToString());
                         #endregion
                     }
                     catch (Exception ex)

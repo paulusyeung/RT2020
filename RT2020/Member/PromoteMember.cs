@@ -12,6 +12,7 @@ using Gizmox.WebGUI.Forms;
 
 using System.Linq;
 using RT2020.Helper;
+using System.Data.Entity;
 
 #endregion
 
@@ -222,41 +223,34 @@ namespace RT2020.Member
         {
             using (var ctx = new EF6.RT2020Entities())
             {
-                //string query = "RECORD_SOURCE = 'IMPORT'";
-                var objTempVipList = ctx.MemberApply4TempVip.Where(x => x.RECORD_SOURCE == "IMPORT").ToList();
-                for (int i = 0; i < objTempVipList.Count; i++)
-                {
-                    var objTempVip = objTempVipList[i];
+                var list = ctx.MemberApply4TempVip.Where(x => x.RECORD_SOURCE == "IMPORT").ToList();
 
-                    var memberId = this.UpdateMemberMainInfo(objTempVip, canDelete);
+                foreach (var item in list)
+                {
+                    var memberId = SaveMemberCoreData(item, canDelete);
+
                     if (memberId != Guid.Empty)
                     {
-                        this.UpdateMemberAddressInfo(memberId, objTempVip);
-                        this.UpdateMemberSmartTagValues(memberId, objTempVip);
-                        this.UpdateVipData(memberId, objTempVip);
+                        SaveMemberAddresses(memberId, item);
+                        SaveMemberSmartTags(memberId, item);
+                        SaveMemberVip(memberId, item);
                     }
 
                     // Delete temp record
-                    ctx.MemberApply4TempVip.Remove(objTempVip);
+                    ctx.MemberApply4TempVip.Remove(item);
                 }
+
                 ctx.SaveChanges();
             }
         }
 
         #region Member Info
 
-        /// <summary>
-        /// Updates the member main info.
-        /// </summary>
-        /// <param name="objTempVip">The temp vip object.</param>
-        /// <param name="canDelete">if set to <c>true</c> [can delete].</param>
-        /// <returns>member id</returns>
-        private Guid UpdateMemberMainInfo(EF6.MemberApply4TempVip objTempVip, bool canDelete)
+        private Guid SaveMemberCoreData(EF6.MemberApply4TempVip objTempVip, bool canDelete)
         {
-            Guid result = Guid.Empty;
+            Guid result = Guid.Empty, memberId = Guid.Empty;
             bool isNew = false;
-            System.Guid memberId = System.Guid.Empty;
-            //string query = "MemberNumber = '" + objTempVip.VIPNO.Trim() + "'";
+
             var memberNumber = objTempVip.VIPNO.Trim();
 
             using (var ctx = new EF6.RT2020Entities())
@@ -304,14 +298,8 @@ namespace RT2020.Member
                 }
                 else
                 {
-                    if (isNew)
-                    {
-                        objMember.Status = (int)EnumHelper.Status.Active;
-                    }
-                    else
-                    {
-                        objMember.Status = (int)EnumHelper.Status.Modified;
-                    }
+                    objMember.Status = ctx.Entry(objMember).State == EntityState.Added ?
+                        (int)EnumHelper.Status.Active : (int)EnumHelper.Status.Modified;
                 }
                 #endregion
 
@@ -323,18 +311,18 @@ namespace RT2020.Member
                 #endregion
 
                 #region update Member core data
-                objMember.WorkplaceId = System.Guid.Empty;
-                objMember.ClassId = GetClassId(objTempVip.PHONEBOOK); //Class
-                objMember.GroupId = GetGroupId(objTempVip.GROUP);
+                objMember.WorkplaceId = Guid.Empty;
+                objMember.ClassId = MemberHelper.GetClassId(objTempVip.PHONEBOOK); //Class
+                objMember.GroupId = MemberHelper.GetGroupId(objTempVip.GROUP);
                 objMember.MemberInitial = objTempVip.NNAME; // Nick Name
-                objMember.SalutationId = GetSaluteId(objTempVip.SALUTE);
+                objMember.SalutationId = MemberHelper.GetSaluteId(objTempVip.SALUTE);
                 objMember.FirstName = objTempVip.FNAME; // First Name
                 objMember.LastName = objTempVip.LNAME; // Last Name
                 objMember.FullName = objTempVip.FNAME + "," + objTempVip.LNAME; // Full Name
                 objMember.FullName_Chs = objTempVip.CNAME; // Chinese Name (S)
                 objMember.FullName_Cht = objTempVip.CNAME; // Chinese Name (T)
                 objMember.JobTitleId = ModelEx.JobTitleEx.GetJobTitleIdByName(objTempVip.TITLE);
-                objMember.AssignedTo = System.Guid.Empty;
+                objMember.AssignedTo = Guid.Empty;
                 objMember.Remarks = objTempVip.REMARKS;
                 objMember.NormalDiscount = (decimal)objTempVip.NRDISC;
                 objMember.DownloadToPOS = true;
@@ -344,7 +332,7 @@ namespace RT2020.Member
                 if (objMember.Status == (int)EnumHelper.Status.Deleted || objMember.Status == (int)EnumHelper.Status.Inactive)
                 {
                     objMember.Retired = false;
-                    objMember.RetiredBy = System.Guid.Empty;
+                    objMember.RetiredBy = Guid.Empty;
                     objMember.RetiredOn = new DateTime(1900, 1, 1);
                 }
                 #endregion
@@ -360,104 +348,6 @@ namespace RT2020.Member
         #region Misc Methods
 
         /// <summary>
-        /// Gets the class id.
-        /// </summary>
-        /// <param name="classCode">The class code.</param>
-        /// <returns></returns>
-        private Guid GetClassId(string classCode)
-        {
-            Guid result = Guid.Empty;
-
-            using (var ctx = new EF6.RT2020Entities())
-            {
-                string query = "ClassCode = '" + classCode + "'";
-                var item = ctx.MemberClass.Where(x => x.ClassCode == classCode).FirstOrDefault();
-                if (item == null)
-                {
-                    item = new EF6.MemberClass();
-                    item.ClassId = System.Guid.NewGuid();
-                    item.ClassCode = classCode;
-                    item.ClassName = classCode;
-                    item.ClassName_Chs = classCode;
-                    item.ClassName_Cht = classCode;
-
-                    ctx.MemberClass.Add(item);
-                    ctx.SaveChanges();
-                }
-                return item.ClassId;
-            }
-
-            return result;
-        }
-
-        /// <summary>
-        /// Gets the group id.
-        /// </summary>
-        /// <param name="groupCode">The group code.</param>
-        /// <returns></returns>
-        private Guid GetGroupId(string groupCode)
-        {
-            Guid result = Guid.Empty;
-
-            using (var ctx = new EF6.RT2020Entities())
-            {
-                string query = "GroupCode = '" + groupCode + "'";
-                var item = ctx.MemberGroup.Where(x => x.GroupCode == groupCode).FirstOrDefault();
-                if (item == null)
-                {
-                    item = new EF6.MemberGroup();
-                    item.GroupId = Guid.NewGuid();
-                    item.GroupCode = groupCode;
-                    item.GroupName = groupCode;
-                    item.GroupName_Chs = groupCode;
-                    item.GroupName_Cht = groupCode;
-
-                    ctx.MemberGroup.Add(item);
-                    ctx.SaveChanges();
-                }
-                result = item.GroupId;
-            }
-
-            return result;
-        }
-
-        /// <summary>
-        /// Gets the salute id.
-        /// </summary>
-        /// <param name="saluteCode">The salute code.</param>
-        /// <returns></returns>
-        private Guid GetSaluteId(string saluteCode)
-        {
-            Guid result = Guid.Empty;
-
-            using (var ctx = new EF6.RT2020Entities())
-            {
-                var objSalutationList = ctx.Salutation.Where(x => x.SalutationCode == saluteCode).FirstOrDefault();
-                if (objSalutationList == null)
-                {
-                    var item = new EF6.Salutation();
-
-                    item.SalutationId = Guid.NewGuid();
-                    item.SalutationCode = saluteCode;
-                    item.SalutationName = saluteCode;
-                    item.SalutationName_Chs = saluteCode;
-                    item.SalutationName_Cht = saluteCode;
-
-                    ctx.Salutation.Add(item);
-                    ctx.SaveChanges();
-
-                    result = item.SalutationId;
-                }
-                else
-                {
-                    result = objSalutationList.SalutationId;
-                }
-            }
-
-            return result;
-        }
-
-        /// <summary>
         /// Gets the smart tag id.
         /// </summary>
         /// <param name="tagCode">The tag code.</param>
@@ -470,31 +360,21 @@ namespace RT2020.Member
 
         #endregion
 
-        /// <summary>
-        /// Updates the member address info.
-        /// </summary>
-        /// <param name="memberId">The member id.</param>
-        /// <param name="objTempVip">The temp vip object.</param>
-        private void UpdateMemberAddressInfo(Guid memberId, EF6.MemberApply4TempVip objTempVip)
+        #region SaveMemberAddresses
+        private void SaveMemberAddresses(Guid memberId, EF6.MemberApply4TempVip objTempVip)
         {
             // English Address
-            System.Guid enAddressTypeId = ModelEx.MemberAddressTypeEx.GetIdByCode("ADDR_EN");
-            string enAddress = objTempVip.ADDRESS1C + Environment.NewLine + objTempVip.ADDRESS2C + Environment.NewLine + objTempVip.ADDRESS3C + Environment.NewLine + objTempVip.ADDRESS4C;
-            this.UpdateMemberAddressInfo(memberId, enAddress, objTempVip.TELW, objTempVip.TELH, objTempVip.FAX, objTempVip.TELOTHER, objTempVip.TELP, enAddressTypeId);
+            var enAddressTypeId = ModelEx.MemberAddressTypeEx.GetIdByCode("ADDR_EN");
+            string enAddress = objTempVip.ADDRESS1 + Environment.NewLine + objTempVip.ADDRESS2 + Environment.NewLine + objTempVip.ADDRESS3 + Environment.NewLine + objTempVip.ADDRESS4; 
+            SaveMemberAddress(memberId, enAddress, objTempVip.TELW, objTempVip.TELH, objTempVip.FAX, objTempVip.TELOTHER, objTempVip.TELP, enAddressTypeId);
 
             // Chinese Address
-            System.Guid chAddressTypeId = ModelEx.MemberAddressTypeEx.GetIdByCode("ADDR_CN");
-            string chAddress = objTempVip.ADDRESS1 + Environment.NewLine + objTempVip.ADDRESS2 + Environment.NewLine + objTempVip.ADDRESS3 + Environment.NewLine + objTempVip.ADDRESS4;
-            this.UpdateMemberAddressInfo(memberId, chAddress, objTempVip.TELW, objTempVip.TELH, objTempVip.FAX, objTempVip.TELOTHER, objTempVip.TELP, chAddressTypeId);
+            var chAddressTypeId = ModelEx.MemberAddressTypeEx.GetIdByCode("ADDR_CN");
+            string chAddress = objTempVip.ADDRESS1C + Environment.NewLine + objTempVip.ADDRESS2C + Environment.NewLine + objTempVip.ADDRESS3C + Environment.NewLine + objTempVip.ADDRESS4C;
+            SaveMemberAddress(memberId, chAddress, objTempVip.TELW, objTempVip.TELH, objTempVip.FAX, objTempVip.TELOTHER, objTempVip.TELP, chAddressTypeId);
         }
 
-        /// <summary>
-        /// Updates the member address info.
-        /// </summary>
-        /// <param name="memberId">The member id.</param>
-        /// <param name="address">The address.</param>
-        /// <param name="addressType">Type of the address.</param>
-        private void UpdateMemberAddressInfo(Guid memberId, string address, string workPhone, string homePhone, string fax, string otherPhone, string pager, Guid addressType)
+        private void SaveMemberAddress(Guid memberId, string address, string workPhone, string homePhone, string fax, string otherPhone, string pager, Guid addressType)
         {
             using (var ctx = new EF6.RT2020Entities())
             {
@@ -503,7 +383,7 @@ namespace RT2020.Member
                 if (objAddress == null)
                 {
                     objAddress = new EF6.MemberAddress();
-                    objAddress.AddressId = System.Guid.NewGuid();
+                    objAddress.AddressId = Guid.NewGuid();
                     objAddress.AddressTypeId = addressType;
                     objAddress.MemberId = memberId;
 
@@ -512,9 +392,9 @@ namespace RT2020.Member
 
                 objAddress.Address = address;
                 objAddress.PostalCode = string.Empty;
-                objAddress.CountryId = System.Guid.Empty;
-                objAddress.ProvinceId = System.Guid.Empty;
-                objAddress.CityId = System.Guid.Empty;
+                objAddress.CountryId = Guid.Empty;
+                objAddress.ProvinceId = Guid.Empty;
+                objAddress.CityId = Guid.Empty;
                 objAddress.District = string.Empty;
                 objAddress.Mailing = false;
                 objAddress.PhoneTag1 = ModelEx.PhoneTagEx.GetPhoneTagIdByPriority(1);
@@ -531,64 +411,55 @@ namespace RT2020.Member
                 ctx.SaveChanges();
             }
         }
+        #endregion
 
-        /// <summary>
-        /// Updates the member smart tag values.
-        /// </summary>
-        /// <param name="memberId">The member id.</param>
-        /// <param name="objTempVip">The temp vip object.</param>
-        private void UpdateMemberSmartTagValues(Guid memberId, EF6.MemberApply4TempVip objTempVip)
+        #region SaveMemberSmartTags
+        private void SaveMemberSmartTags(Guid memberId, EF6.MemberApply4TempVip objTempVip)
         {
             // 1.Grade
-            this.UpdateMemberSmartTagValues(memberId, GetSmartTagId("Grade", 1), objTempVip.GRADE);
+            this.SaveMemberSmartTag(memberId, GetSmartTagId("Grade", 1), objTempVip.GRADE);
 
             // 2.Sex
-            this.UpdateMemberSmartTagValues(memberId, GetSmartTagId("Sex", 2), objTempVip.SEX);
+            this.SaveMemberSmartTag(memberId, GetSmartTagId("Sex", 2), objTempVip.SEX);
 
             // 3.Race
-            this.UpdateMemberSmartTagValues(memberId, GetSmartTagId("Race", 3), objTempVip.RACE);
+            this.SaveMemberSmartTag(memberId, GetSmartTagId("Race", 3), objTempVip.RACE);
 
             // 4.Age Group
-            this.UpdateMemberSmartTagValues(memberId, GetSmartTagId("Age Group", 4), objTempVip.AGE_GROUP);
+            this.SaveMemberSmartTag(memberId, GetSmartTagId("Age Group", 4), objTempVip.AGE_GROUP);
 
             // 5.CodeNumber
-            this.UpdateMemberSmartTagValues(memberId, GetSmartTagId("CodeNumber", 5), objTempVip.CODENUM);
+            this.SaveMemberSmartTag(memberId, GetSmartTagId("CodeNumber", 5), objTempVip.CODENUM);
 
             // 6.LoyaltyNum
-            this.UpdateMemberSmartTagValues(memberId, GetSmartTagId("LoyaltyNum", 6), objTempVip.LOYALTYNUM);
+            this.SaveMemberSmartTag(memberId, GetSmartTagId("LoyaltyNum", 6), objTempVip.LOYALTYNUM);
 
             // 7.Profile
-            this.UpdateMemberSmartTagValues(memberId, GetSmartTagId("Profile", 7), objTempVip.PROFILE);
+            this.SaveMemberSmartTag(memberId, GetSmartTagId("Profile", 7), objTempVip.PROFILE);
 
             // 8.DOB
-            this.UpdateMemberSmartTagValues(memberId, GetSmartTagId("DOB", 8), objTempVip.DATE_BIRTH.Value.ToString("yyyy-MM-dd"));
+            this.SaveMemberSmartTag(memberId, GetSmartTagId("DOB", 8), objTempVip.DATE_BIRTH.Value.ToString("yyyy-MM-dd"));
 
             // 9.DOR
-            this.UpdateMemberSmartTagValues(memberId, GetSmartTagId("DOR", 9), objTempVip.DATE_REGIS.Value.ToString("yyyy-MM-dd"));
+            this.SaveMemberSmartTag(memberId, GetSmartTagId("DOR", 9), objTempVip.DATE_REGIS.Value.ToString("yyyy-MM-dd"));
 
             // 10.HKID
-            this.UpdateMemberSmartTagValues(memberId, GetSmartTagId("HKID", 10), objTempVip.ID_NO);
+            this.SaveMemberSmartTag(memberId, GetSmartTagId("HKID", 10), objTempVip.ID_NO);
 
             // 11.Nationalit
-            this.UpdateMemberSmartTagValues(memberId, GetSmartTagId("Nationalit", 11), objTempVip.NATION);
+            this.SaveMemberSmartTag(memberId, GetSmartTagId("Nationalit", 11), objTempVip.NATION);
 
             // 12.Email
-            this.UpdateMemberSmartTagValues(memberId, GetSmartTagId("Email", 12), objTempVip.EMAIL);
+            this.SaveMemberSmartTag(memberId, GetSmartTagId("Email", 12), objTempVip.EMAIL);
 
             // 13.ComName EN
-            this.UpdateMemberSmartTagValues(memberId, GetSmartTagId("ComName EN", 13), objTempVip.COMPNAME);
+            this.SaveMemberSmartTag(memberId, GetSmartTagId("ComName EN", 13), objTempVip.COMPNAME);
 
             // 14.ComName CN
-            this.UpdateMemberSmartTagValues(memberId, GetSmartTagId("ComName CN", 14), objTempVip.COMPNAMEC);
+            this.SaveMemberSmartTag(memberId, GetSmartTagId("ComName CN", 14), objTempVip.COMPNAMEC);
         }
 
-        /// <summary>
-        /// Updates the member smart tag values.
-        /// </summary>
-        /// <param name="memberId">The member id.</param>
-        /// <param name="tagId">The tag id.</param>
-        /// <param name="tagValue">The tag value.</param>
-        private void UpdateMemberSmartTagValues(Guid memberId, Guid tagId, string tagValue)
+        private void SaveMemberSmartTag(Guid memberId, Guid tagId, string tagValue)
         {
             using (var ctx = new EF6.RT2020Entities())
             {
@@ -609,13 +480,9 @@ namespace RT2020.Member
                 ctx.SaveChanges();
             }
         }
+        #endregion
 
-        /// <summary>
-        /// Updates the vip data.
-        /// </summary>
-        /// <param name="memberId">The member id.</param>
-        /// <param name="objTempVip">The temp vip object.</param>
-        private void UpdateVipData(Guid memberId, EF6.MemberApply4TempVip objTempVip)
+        private void SaveMemberVip(Guid memberId, EF6.MemberApply4TempVip objTempVip)
         {
             using (var ctx = new EF6.RT2020Entities())
             {

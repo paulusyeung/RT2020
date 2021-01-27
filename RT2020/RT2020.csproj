@@ -930,6 +930,7 @@
     <Compile Include="Helper\GlobalVars.cs" />
     <Compile Include="Helper\LanguageHelper.cs" />
     <Compile Include="Helper\ListViewHelper.cs" />
+    <Compile Include="Helper\MemberHelper.cs" />
     <Compile Include="Helper\NetSqlAzManHelper.cs" />
     <Compile Include="Helper\ProductHelper.cs" />
     <Compile Include="Helper\SqlHelper.cs" />

@@ -55,7 +55,7 @@ namespace RT2020.Member
 
         private void SetAttributes()
         {
-            #region 設定 clickable address type label
+            #region 設定 clickable Nature label
             lblNature.AutoSize = true;                     // 減少 whitespace，有字嘅位置先可以 click
             lblNature.Cursor = Cursors.Hand;               // cursor over 顯示 hand cursor
             lblNature.Click += (s, e) =>                   // 彈出 wizard
