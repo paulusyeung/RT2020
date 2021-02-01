@@ -40,13 +40,18 @@ namespace RT2020.NavPane
             Control[] controls = this.Form.Controls.Find("wspPane", true);
             if (controls.Length > 0)
             {
+                var menuTag = (MenuHelper.MenuTag)navShop.SelectedNode.Tag;
+
                 Panel wspPane = (Panel)controls[0];
-                wspPane.Text = navShop.SelectedNode.Text;
+                if (!menuTag.IsPopup)
+                {
+                    wspPane.Text = navShop.SelectedNode.Text;
 
-                wspPane.Controls.Clear();
+                    wspPane.Controls.Clear();
+                }
 
-                ShowWorkspace(ref wspPane, (string)navShop.SelectedNode.Tag);
-                ShowAppToolStrip((string)navShop.SelectedNode.Tag);
+                ShowWorkspace(ref wspPane, menuTag.ResourceId);
+                ShowAppToolStrip(menuTag.ResourceId);
 
                 // 2020.08.28 paulus: RT2020 如果 wspPane 有 ActionStripBar，降低 list pane
                 if (wspPane.Controls.Count > 1)

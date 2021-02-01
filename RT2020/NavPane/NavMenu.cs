@@ -168,8 +168,13 @@ namespace RT2020.NavPane
             else if (node.NodeType != XmlNodeType.CDATA)
             {
                 String label = string.Empty, tag = "";
-                String caption = node.Attributes["Caption"].Value;
+                bool popup = false;
+
+                var caption = node.Attributes["Caption"].Value;
                 tag = node.Attributes["Tag"] == null ? "" : node.Attributes["Tag"].Value;
+                popup = node.Attributes["Popup"] == null ? false : bool.TryParse(node.Attributes["Popup"].Value, out popup);
+
+                var menuTag = new MenuHelper.MenuTag(tag, popup);
 
                 switch (_MenuGroup)
                 {
@@ -208,7 +213,7 @@ namespace RT2020.NavPane
                         Image = new IconResourceHandle(node.Attributes["ImageUrl"].Value),
                         Label = label,
                         NodeFont = font,
-                        Tag = node.Attributes["Tag"].Value
+                        Tag = menuTag   //node.Attributes["Tag"].Value
                     };
                     tmptreenode = oNode;
                     #endregion

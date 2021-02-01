@@ -41,13 +41,18 @@ namespace RT2020.NavPane
             Control[] controls = this.Form.Controls.Find("wspPane", true);
             if (controls.Length > 0)
             {
+                var menuTag = (MenuHelper.MenuTag)navProduct.SelectedNode.Tag;
+
                 Panel wspPane = (Panel)controls[0];
-                wspPane.Text = navProduct.SelectedNode.Text;
+                if (!menuTag.IsPopup)
+                {
+                    wspPane.Text = navProduct.SelectedNode.Text;
 
-                wspPane.Controls.Clear();
+                    wspPane.Controls.Clear();
+                }
 
-                ShowWorkspace(ref wspPane, (string)navProduct.SelectedNode.Tag);
-                ShowAppToolStrip((string)navProduct.SelectedNode.Tag);
+                ShowWorkspace(ref wspPane, menuTag.ResourceId);
+                ShowAppToolStrip(menuTag.ResourceId);
 
                 // 2020.08.28 paulus: RT2020 如果 wspPane 有 ActionStripBar，降低 list pane
                 if (wspPane.Controls.Count > 1)
@@ -66,7 +71,6 @@ namespace RT2020.NavPane
                 if (controls.Length > 0)
                 {
                     Panel atsPane = (Panel)controls[0];
-
                 }
             }
         }
@@ -84,6 +88,22 @@ namespace RT2020.NavPane
                         oProd.DockPadding.All = 6;
                         oProd.Dock = DockStyle.Fill;
                         wspPane.Controls.Add(oProd);
+                        break;
+                    case "product.product.quick":
+                        var quick = new Product.QuickWizard();
+                        quick.ShowDialog();
+                        break;
+                    case "product.product.batch":
+                        var batch = new Product.BatchWizard();
+                        batch.ShowDialog();
+                        break;
+                    case "product.product.approve":
+                        var approve = new Product.ApproveWizard();
+                        approve.ShowDialog();
+                        break;
+                    case "product.product.modify":
+                        var modify = new Product.ModifyWizard();
+                        modify.ShowDialog();
                         break;
                     case "product.appendix1":
                         RT2020.Product.AppendixList oAppendix1List = new RT2020.Product.AppendixList(ProductHelper.Appendix.Appendix1, controls[0]);
@@ -150,6 +170,10 @@ namespace RT2020.NavPane
                         oAnalysisList.DockPadding.All = 6;
                         oAnalysisList.Dock = DockStyle.Fill;
                         wspPane.Controls.Add(oAnalysisList);
+                        break;
+                    case "product.tendertype":
+                        var wizTender = new RT2020.Settings.PosTenderTypeWizard();
+                        wizTender.ShowDialog();
                         break;
                     case "product.pricemanagement.pricechange":
                         RT2020.PriceMgmt.DefaultList wizPriceChangeList = new RT2020.PriceMgmt.DefaultList(controls[0], RT2020.PriceMgmt.PriceUtility.PriceMgmtType.Price);
