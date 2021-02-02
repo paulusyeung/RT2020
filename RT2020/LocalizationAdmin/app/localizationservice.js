@@ -45,7 +45,8 @@
 
         function getResourceList(resourceSet) {            
             return $http.get("localizationService.ashx?method=GetResourceListHtml&ResourceSet=" + resourceSet)
-                .success(function(resourceList) {
+                .success(function (resourceList) {
+                    resourceList = resourceList.sort((a, b) => a.ResourceId > b.ResourceId ? 1 : -1);
                     service.resourceList = resourceList;
                 })
                 .error(parseHttpError);
@@ -53,7 +54,8 @@
 
         function getResourceSets() {
             return $http.get("localizationService.ashx?method=GetResourceSets")
-                .success(function(resourceSets) {
+                .success(function (resourceSets) {
+                    resourceSets = resourceSets.sort();
                     service.resourceSets = resourceSets;
                 })
                 .error(parseHttpError);
