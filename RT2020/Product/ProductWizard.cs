@@ -94,7 +94,7 @@ namespace RT2020.Product
             lblAppendix1.Text = WestwindHelper.GetWordWithColon("appendix.appendix1", "Product");
             lblAppendix2.Text = WestwindHelper.GetWordWithColon("appendix.appendix2", "Product");
             lblAppendix3.Text = WestwindHelper.GetWordWithColon("appendix.appendix3", "Product");
-
+            
             tpGeneral.Text = WestwindHelper.GetWord("general", "Product");
             tpBarcode.Text = WestwindHelper.GetWord("barcode", "Product");
             tpQty.Text = WestwindHelper.GetWord("inventory", "Product");
@@ -1606,14 +1606,6 @@ namespace RT2020.Product
         {
             LoadTabPage(tabProduct.SelectedIndex);
         }
-
-        //private void ProductWizard_Closing(object sender, CancelEventArgs e)
-        //{
-        //    if (tabProduct.SelectedIndex == 0 && this.ProductId == System.Guid.Empty)
-        //    {
-        //        MessageBox.Show("Save the changes?", "Message", MessageBoxButtons.YesNo, MessageBoxIcon.Question, new EventHandler(SaveMessageHandler));
-        //    }
-        //}
 
         private void SaveMessageHandler(object sender, EventArgs e)
         {

@@ -56,7 +56,7 @@ namespace RT2020.Product
         #region SetCaptions SetAttributes
         private void SetCaptions()
         {
-            this.Text = WestwindHelper.GetWordWithColon("combination.setup", "Product");
+            this.Text = WestwindHelper.GetWord("combination.setup", "Product");
 
             lblCombinNumber.Text = WestwindHelper.GetWordWithColon("combination.number", "Product");
             gbSelection.Text = WestwindHelper.GetWordWithColon("combination", "Product");

@@ -13,6 +13,18 @@ namespace RT2020.Helper
 {
     public class ListViewHelper
     {
+        public static int CountCheckedItems(ref ListView lvwList)
+        {
+            int result = 0;
+
+            foreach (ListViewItem item in lvwList.Items)
+            {
+                result += item.Checked ? 1 : 0;
+            }
+
+            return result;
+        }
+
         public static void SavePreference(ListView lvwList)
         {
             // 把每個 ColumnHeader 的資料保存在 MetadataXml 中

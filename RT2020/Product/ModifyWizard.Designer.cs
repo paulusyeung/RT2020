@@ -1,6 +1,6 @@
 namespace RT2020.Product
 {
-    partial class ProductWizard_MassUpdate
+    partial class ModifyWizard
     {
         /// <summary>
         /// Required designer variable.
@@ -29,12 +29,7 @@ namespace RT2020.Product
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            Gizmox.WebGUI.Common.Resources.IconResourceHandle iconResourceHandle1 = new Gizmox.WebGUI.Common.Resources.IconResourceHandle();
-            Gizmox.WebGUI.Common.Resources.IconResourceHandle iconResourceHandle2 = new Gizmox.WebGUI.Common.Resources.IconResourceHandle();
-            Gizmox.WebGUI.Common.Resources.IconResourceHandle iconResourceHandle3 = new Gizmox.WebGUI.Common.Resources.IconResourceHandle();
-            Gizmox.WebGUI.Common.Resources.IconResourceHandle iconResourceHandle4 = new Gizmox.WebGUI.Common.Resources.IconResourceHandle();
-            Gizmox.WebGUI.Common.Resources.IconResourceHandle iconResourceHandle5 = new Gizmox.WebGUI.Common.Resources.IconResourceHandle();
-            this.gbSearchStockInfo = new Gizmox.WebGUI.Forms.GroupBox();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ModifyWizard));
             this.txtStockCode = new Gizmox.WebGUI.Forms.TextBox();
             this.lblStockCode = new Gizmox.WebGUI.Forms.Label();
             this.txtAppendix1 = new Gizmox.WebGUI.Forms.TextBox();
@@ -42,7 +37,7 @@ namespace RT2020.Product
             this.txtAppendix3 = new Gizmox.WebGUI.Forms.TextBox();
             this.btnRefresh = new Gizmox.WebGUI.Forms.Button();
             this.btnFind = new Gizmox.WebGUI.Forms.Button();
-            this.gbUpdateRange = new Gizmox.WebGUI.Forms.GroupBox();
+            this.gbxOptions = new Gizmox.WebGUI.Forms.GroupBox();
             this.cboAppendix3_To = new Gizmox.WebGUI.Forms.ComboBox();
             this.cboAppendix2_To = new Gizmox.WebGUI.Forms.ComboBox();
             this.cboAppendix1_To = new Gizmox.WebGUI.Forms.ComboBox();
@@ -61,7 +56,7 @@ namespace RT2020.Product
             this.btnSelectNone = new Gizmox.WebGUI.Forms.Button();
             this.tabMessUpdate = new Gizmox.WebGUI.Forms.TabControl();
             this.tabMainInfo = new Gizmox.WebGUI.Forms.TabPage();
-            this.gbReorderInfo = new Gizmox.WebGUI.Forms.GroupBox();
+            this.gbxReorderInfo = new Gizmox.WebGUI.Forms.GroupBox();
             this.chkUpdateVendorItem = new Gizmox.WebGUI.Forms.CheckBox();
             this.chkUpdateReorderLevel = new Gizmox.WebGUI.Forms.CheckBox();
             this.chkUpdateReorderQuantiry = new Gizmox.WebGUI.Forms.CheckBox();
@@ -84,7 +79,6 @@ namespace RT2020.Product
             this.chkUpdateRetailItem = new Gizmox.WebGUI.Forms.CheckBox();
             this.chkUpdateOffDisplayItem = new Gizmox.WebGUI.Forms.CheckBox();
             this.chkUpdateNature = new Gizmox.WebGUI.Forms.CheckBox();
-            this.lnkNature = new Gizmox.WebGUI.Forms.LinkLabel();
             this.cboClass1 = new Gizmox.WebGUI.Forms.ComboBox();
             this.cboClass2 = new Gizmox.WebGUI.Forms.ComboBox();
             this.cboClass3 = new Gizmox.WebGUI.Forms.ComboBox();
@@ -101,14 +95,14 @@ namespace RT2020.Product
             this.chkOffDisplayItem = new Gizmox.WebGUI.Forms.CheckBox();
             this.chkRetailItem = new Gizmox.WebGUI.Forms.CheckBox();
             this.chkCounterItem = new Gizmox.WebGUI.Forms.CheckBox();
-            this.gbBinNum = new Gizmox.WebGUI.Forms.GroupBox();
+            this.gbxBin = new Gizmox.WebGUI.Forms.GroupBox();
             this.chkUpdateBinX = new Gizmox.WebGUI.Forms.CheckBox();
             this.chkUpdateBinY = new Gizmox.WebGUI.Forms.CheckBox();
             this.chkUpdateBinZ = new Gizmox.WebGUI.Forms.CheckBox();
             this.txtBin_Z = new Gizmox.WebGUI.Forms.TextBox();
             this.txtBin_Y = new Gizmox.WebGUI.Forms.TextBox();
             this.txtBin_X = new Gizmox.WebGUI.Forms.TextBox();
-            this.gbPrice = new Gizmox.WebGUI.Forms.GroupBox();
+            this.gbxPrice = new Gizmox.WebGUI.Forms.GroupBox();
             this.chkUpdateUnit = new Gizmox.WebGUI.Forms.CheckBox();
             this.chkUpdateRetailDiscount = new Gizmox.WebGUI.Forms.CheckBox();
             this.chkUpdateCurrentRetail = new Gizmox.WebGUI.Forms.CheckBox();
@@ -131,9 +125,9 @@ namespace RT2020.Product
             this.txtProductPole = new Gizmox.WebGUI.Forms.TextBox();
             this.chkUpdateProductMemo = new Gizmox.WebGUI.Forms.CheckBox();
             this.txtProductMemo = new Gizmox.WebGUI.Forms.TextBox();
-            this.chkUpdateProductNameCht = new Gizmox.WebGUI.Forms.CheckBox();
+            this.chkUpdateProductNameAlt2 = new Gizmox.WebGUI.Forms.CheckBox();
             this.txtProductNameCht = new Gizmox.WebGUI.Forms.TextBox();
-            this.chkUpdateProductNameChs = new Gizmox.WebGUI.Forms.CheckBox();
+            this.chkUpdateProductNameAlt1 = new Gizmox.WebGUI.Forms.CheckBox();
             this.txtProductNameChs = new Gizmox.WebGUI.Forms.TextBox();
             this.txtProductName = new Gizmox.WebGUI.Forms.TextBox();
             this.chkUpdateProductName = new Gizmox.WebGUI.Forms.CheckBox();
@@ -145,8 +139,6 @@ namespace RT2020.Product
             this.pictureBox1 = new Gizmox.WebGUI.Forms.PictureBox();
             this.txtPhoto = new Gizmox.WebGUI.Forms.TextBox();
             this.chkUpdatePhoto = new Gizmox.WebGUI.Forms.CheckBox();
-            this.txtMemo = new Gizmox.WebGUI.Forms.TextBox();
-            this.chkUpdateMemo = new Gizmox.WebGUI.Forms.CheckBox();
             this.tabDiscountInfo = new Gizmox.WebGUI.Forms.TabPage();
             this.label5 = new Gizmox.WebGUI.Forms.Label();
             this.label4 = new Gizmox.WebGUI.Forms.Label();
@@ -164,37 +156,33 @@ namespace RT2020.Product
             this.chkFixedPriceItem = new Gizmox.WebGUI.Forms.CheckBox();
             this.lblProductName = new Gizmox.WebGUI.Forms.Label();
             this.errorProvider = new Gizmox.WebGUI.Forms.ErrorProvider(this.components);
+            this.gbxDiscounts = new Gizmox.WebGUI.Forms.GroupBox();
+            this.gbxOptions.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.tabMessUpdate)).BeginInit();
+            this.tabMessUpdate.SuspendLayout();
+            this.tabMainInfo.SuspendLayout();
+            this.gbxReorderInfo.SuspendLayout();
+            this.gbxBin.SuspendLayout();
+            this.gbxPrice.SuspendLayout();
+            this.tabMiscInfo.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.tabDiscountInfo.SuspendLayout();
+            this.gbxDiscounts.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // gbSearchStockInfo
-            // 
-            this.gbSearchStockInfo.Controls.Add(this.txtStockCode);
-            this.gbSearchStockInfo.Controls.Add(this.lblStockCode);
-            this.gbSearchStockInfo.Controls.Add(this.txtAppendix1);
-            this.gbSearchStockInfo.Controls.Add(this.txtAppendix2);
-            this.gbSearchStockInfo.Controls.Add(this.txtAppendix3);
-            this.gbSearchStockInfo.Controls.Add(this.btnRefresh);
-            this.gbSearchStockInfo.Controls.Add(this.btnFind);
-            this.gbSearchStockInfo.FlatStyle = Gizmox.WebGUI.Forms.FlatStyle.Flat;
-            this.gbSearchStockInfo.Location = new System.Drawing.Point(12, 12);
-            this.gbSearchStockInfo.Name = "gbSearchStockInfo";
-            this.gbSearchStockInfo.Size = new System.Drawing.Size(475, 42);
-            this.gbSearchStockInfo.TabIndex = 0;
-            this.gbSearchStockInfo.Text = "Search Stock Info.";
             // 
             // txtStockCode
             // 
             this.txtStockCode.BackColor = System.Drawing.Color.LightSkyBlue;
-            this.txtStockCode.Location = new System.Drawing.Point(86, 16);
+            this.txtStockCode.Location = new System.Drawing.Point(98, 12);
             this.txtStockCode.Name = "txtStockCode";
             this.txtStockCode.Size = new System.Drawing.Size(122, 20);
             this.txtStockCode.TabIndex = 1;
-            this.txtStockCode.LostFocus += new System.EventHandler(this.txtStockCode_LostFocus);
             this.txtStockCode.EnterKeyDown += new Gizmox.WebGUI.Forms.KeyEventHandler(this.txtStockCode_EnterKeyDown);
+            this.txtStockCode.LostFocus += new System.EventHandler(this.txtStockCode_LostFocus);
             // 
             // lblStockCode
             // 
-            this.lblStockCode.Location = new System.Drawing.Point(6, 19);
+            this.lblStockCode.Location = new System.Drawing.Point(18, 15);
             this.lblStockCode.Name = "lblStockCode";
             this.lblStockCode.Size = new System.Drawing.Size(74, 17);
             this.lblStockCode.TabIndex = 0;
@@ -202,8 +190,8 @@ namespace RT2020.Product
             // 
             // txtAppendix1
             // 
-            this.txtAppendix1.BorderColor = System.Drawing.Color.LightYellow;
-            this.txtAppendix1.Location = new System.Drawing.Point(208, 16);
+            this.txtAppendix1.BorderColor = new Gizmox.WebGUI.Forms.BorderColor(System.Drawing.Color.LightYellow);
+            this.txtAppendix1.Location = new System.Drawing.Point(220, 12);
             this.txtAppendix1.Name = "txtAppendix1";
             this.txtAppendix1.ReadOnly = true;
             this.txtAppendix1.Size = new System.Drawing.Size(57, 20);
@@ -212,8 +200,8 @@ namespace RT2020.Product
             // 
             // txtAppendix2
             // 
-            this.txtAppendix2.BorderColor = System.Drawing.Color.LightYellow;
-            this.txtAppendix2.Location = new System.Drawing.Point(265, 16);
+            this.txtAppendix2.BorderColor = new Gizmox.WebGUI.Forms.BorderColor(System.Drawing.Color.LightYellow);
+            this.txtAppendix2.Location = new System.Drawing.Point(277, 12);
             this.txtAppendix2.Name = "txtAppendix2";
             this.txtAppendix2.ReadOnly = true;
             this.txtAppendix2.Size = new System.Drawing.Size(57, 20);
@@ -222,8 +210,8 @@ namespace RT2020.Product
             // 
             // txtAppendix3
             // 
-            this.txtAppendix3.BorderColor = System.Drawing.Color.LightYellow;
-            this.txtAppendix3.Location = new System.Drawing.Point(322, 16);
+            this.txtAppendix3.BorderColor = new Gizmox.WebGUI.Forms.BorderColor(System.Drawing.Color.LightYellow);
+            this.txtAppendix3.Location = new System.Drawing.Point(334, 12);
             this.txtAppendix3.Name = "txtAppendix3";
             this.txtAppendix3.ReadOnly = true;
             this.txtAppendix3.Size = new System.Drawing.Size(57, 20);
@@ -232,46 +220,45 @@ namespace RT2020.Product
             // 
             // btnRefresh
             // 
-            iconResourceHandle1.File = "16x16.16_L_refresh.gif";
-            this.btnRefresh.Image = iconResourceHandle1;
-            this.btnRefresh.Location = new System.Drawing.Point(385, 14);
+            this.btnRefresh.Image = new Gizmox.WebGUI.Common.Resources.IconResourceHandle(resources.GetString("btnRefresh.Image"));
+            this.btnRefresh.Location = new System.Drawing.Point(391, 10);
             this.btnRefresh.Name = "btnRefresh";
-            this.btnRefresh.Size = new System.Drawing.Size(37, 23);
+            this.btnRefresh.Size = new System.Drawing.Size(24, 24);
             this.btnRefresh.TabIndex = 5;
             this.btnRefresh.TextImageRelation = Gizmox.WebGUI.Forms.TextImageRelation.ImageAboveText;
             this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
             // 
             // btnFind
             // 
-            iconResourceHandle2.File = "16x16.16_Find.gif";
-            this.btnFind.Image = iconResourceHandle2;
-            this.btnFind.Location = new System.Drawing.Point(428, 14);
+            this.btnFind.Image = new Gizmox.WebGUI.Common.Resources.IconResourceHandle(resources.GetString("btnFind.Image"));
+            this.btnFind.Location = new System.Drawing.Point(415, 10);
             this.btnFind.Name = "btnFind";
-            this.btnFind.Size = new System.Drawing.Size(37, 23);
+            this.btnFind.Size = new System.Drawing.Size(24, 24);
             this.btnFind.TabIndex = 6;
             this.btnFind.TextImageRelation = Gizmox.WebGUI.Forms.TextImageRelation.ImageAboveText;
             this.btnFind.Click += new System.EventHandler(this.btnFind_Click);
             // 
-            // gbUpdateRange
+            // gbxOptions
             // 
-            this.gbUpdateRange.Controls.Add(this.cboAppendix3_To);
-            this.gbUpdateRange.Controls.Add(this.cboAppendix2_To);
-            this.gbUpdateRange.Controls.Add(this.cboAppendix1_To);
-            this.gbUpdateRange.Controls.Add(this.cboAppendix3_From);
-            this.gbUpdateRange.Controls.Add(this.cboAppendix2_From);
-            this.gbUpdateRange.Controls.Add(this.cboAppendix1_From);
-            this.gbUpdateRange.Controls.Add(this.lblAppendix3_From);
-            this.gbUpdateRange.Controls.Add(this.lblAppendix2_From);
-            this.gbUpdateRange.Controls.Add(this.lblAppendix1_From);
-            this.gbUpdateRange.Controls.Add(this.lblAppendix1_To);
-            this.gbUpdateRange.Controls.Add(this.lblAppendix2_To);
-            this.gbUpdateRange.Controls.Add(this.lblAppendix3_To);
-            this.gbUpdateRange.FlatStyle = Gizmox.WebGUI.Forms.FlatStyle.Flat;
-            this.gbUpdateRange.Location = new System.Drawing.Point(12, 60);
-            this.gbUpdateRange.Name = "gbUpdateRange";
-            this.gbUpdateRange.Size = new System.Drawing.Size(475, 100);
-            this.gbUpdateRange.TabIndex = 1;
-            this.gbUpdateRange.Text = "Update Range";
+            this.gbxOptions.Controls.Add(this.cboAppendix3_To);
+            this.gbxOptions.Controls.Add(this.cboAppendix2_To);
+            this.gbxOptions.Controls.Add(this.cboAppendix1_To);
+            this.gbxOptions.Controls.Add(this.cboAppendix3_From);
+            this.gbxOptions.Controls.Add(this.cboAppendix2_From);
+            this.gbxOptions.Controls.Add(this.cboAppendix1_From);
+            this.gbxOptions.Controls.Add(this.lblAppendix3_From);
+            this.gbxOptions.Controls.Add(this.lblAppendix2_From);
+            this.gbxOptions.Controls.Add(this.lblAppendix1_From);
+            this.gbxOptions.Controls.Add(this.lblAppendix1_To);
+            this.gbxOptions.Controls.Add(this.lblAppendix2_To);
+            this.gbxOptions.Controls.Add(this.lblAppendix3_To);
+            this.gbxOptions.FlatStyle = Gizmox.WebGUI.Forms.FlatStyle.Flat;
+            this.gbxOptions.Location = new System.Drawing.Point(12, 35);
+            this.gbxOptions.Name = "gbxOptions";
+            this.gbxOptions.Size = new System.Drawing.Size(455, 106);
+            this.gbxOptions.TabIndex = 1;
+            this.gbxOptions.TabStop = false;
+            this.gbxOptions.Text = "Options";
             // 
             // cboAppendix3_To
             // 
@@ -333,7 +320,7 @@ namespace RT2020.Product
             this.lblAppendix3_From.Name = "lblAppendix3_From";
             this.lblAppendix3_From.Size = new System.Drawing.Size(74, 23);
             this.lblAppendix3_From.TabIndex = 8;
-            this.lblAppendix3_From.Text = "Size";
+            this.lblAppendix3_From.Text = "Appendix3:";
             // 
             // lblAppendix2_From
             // 
@@ -341,7 +328,7 @@ namespace RT2020.Product
             this.lblAppendix2_From.Name = "lblAppendix2_From";
             this.lblAppendix2_From.Size = new System.Drawing.Size(74, 23);
             this.lblAppendix2_From.TabIndex = 4;
-            this.lblAppendix2_From.Text = "Color";
+            this.lblAppendix2_From.Text = "Appendix2:";
             // 
             // lblAppendix1_From
             // 
@@ -349,20 +336,20 @@ namespace RT2020.Product
             this.lblAppendix1_From.Name = "lblAppendix1_From";
             this.lblAppendix1_From.Size = new System.Drawing.Size(74, 23);
             this.lblAppendix1_From.TabIndex = 0;
-            this.lblAppendix1_From.Text = "Season";
+            this.lblAppendix1_From.Text = "Appendix1:";
             // 
             // lblAppendix1_To
             // 
-            this.lblAppendix1_To.Location = new System.Drawing.Point(213, 26);
+            this.lblAppendix1_To.Location = new System.Drawing.Point(217, 26);
             this.lblAppendix1_To.Name = "lblAppendix1_To";
             this.lblAppendix1_To.Size = new System.Drawing.Size(100, 23);
             this.lblAppendix1_To.TabIndex = 2;
-            this.lblAppendix1_To.Text = "To";
+            this.lblAppendix1_To.Text = "To:";
             this.lblAppendix1_To.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // lblAppendix2_To
             // 
-            this.lblAppendix2_To.Location = new System.Drawing.Point(213, 49);
+            this.lblAppendix2_To.Location = new System.Drawing.Point(217, 49);
             this.lblAppendix2_To.Name = "lblAppendix2_To";
             this.lblAppendix2_To.Size = new System.Drawing.Size(100, 23);
             this.lblAppendix2_To.TabIndex = 6;
@@ -371,7 +358,7 @@ namespace RT2020.Product
             // 
             // lblAppendix3_To
             // 
-            this.lblAppendix3_To.Location = new System.Drawing.Point(213, 72);
+            this.lblAppendix3_To.Location = new System.Drawing.Point(217, 72);
             this.lblAppendix3_To.Name = "lblAppendix3_To";
             this.lblAppendix3_To.Size = new System.Drawing.Size(100, 23);
             this.lblAppendix3_To.TabIndex = 10;
@@ -380,36 +367,36 @@ namespace RT2020.Product
             // 
             // btnUpdate
             // 
-            this.btnUpdate.Location = new System.Drawing.Point(682, 26);
+            this.btnUpdate.Location = new System.Drawing.Point(480, 9);
             this.btnUpdate.Name = "btnUpdate";
-            this.btnUpdate.Size = new System.Drawing.Size(75, 23);
+            this.btnUpdate.Size = new System.Drawing.Size(80, 23);
             this.btnUpdate.TabIndex = 3;
             this.btnUpdate.Text = "Update";
             this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click);
             // 
             // btnClose
             // 
-            this.btnClose.Location = new System.Drawing.Point(682, 52);
+            this.btnClose.Location = new System.Drawing.Point(480, 35);
             this.btnClose.Name = "btnClose";
-            this.btnClose.Size = new System.Drawing.Size(75, 23);
+            this.btnClose.Size = new System.Drawing.Size(80, 23);
             this.btnClose.TabIndex = 4;
             this.btnClose.Text = "Exit";
             this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
             // 
             // btnSelectAll
             // 
-            this.btnSelectAll.Location = new System.Drawing.Point(682, 78);
+            this.btnSelectAll.Location = new System.Drawing.Point(480, 61);
             this.btnSelectAll.Name = "btnSelectAll";
-            this.btnSelectAll.Size = new System.Drawing.Size(75, 23);
+            this.btnSelectAll.Size = new System.Drawing.Size(80, 23);
             this.btnSelectAll.TabIndex = 5;
             this.btnSelectAll.Text = "Select All";
             this.btnSelectAll.Click += new System.EventHandler(this.btnSelectAll_Click);
             // 
             // btnSelectNone
             // 
-            this.btnSelectNone.Location = new System.Drawing.Point(682, 104);
+            this.btnSelectNone.Location = new System.Drawing.Point(480, 87);
             this.btnSelectNone.Name = "btnSelectNone";
-            this.btnSelectNone.Size = new System.Drawing.Size(75, 23);
+            this.btnSelectNone.Size = new System.Drawing.Size(80, 23);
             this.btnSelectNone.TabIndex = 6;
             this.btnSelectNone.Text = "Select None";
             this.btnSelectNone.Click += new System.EventHandler(this.btnSelectNone_Click);
@@ -419,17 +406,15 @@ namespace RT2020.Product
             this.tabMessUpdate.Controls.Add(this.tabMainInfo);
             this.tabMessUpdate.Controls.Add(this.tabMiscInfo);
             this.tabMessUpdate.Controls.Add(this.tabDiscountInfo);
-            this.tabMessUpdate.Location = new System.Drawing.Point(12, 166);
-            this.tabMessUpdate.Multiline = false;
+            this.tabMessUpdate.Location = new System.Drawing.Point(12, 151);
             this.tabMessUpdate.Name = "tabMessUpdate";
             this.tabMessUpdate.SelectedIndex = 0;
-            this.tabMessUpdate.ShowCloseButton = false;
             this.tabMessUpdate.Size = new System.Drawing.Size(794, 357);
             this.tabMessUpdate.TabIndex = 2;
             // 
             // tabMainInfo
             // 
-            this.tabMainInfo.Controls.Add(this.gbReorderInfo);
+            this.tabMainInfo.Controls.Add(this.gbxReorderInfo);
             this.tabMainInfo.Controls.Add(this.chkUpdateClass1);
             this.tabMainInfo.Controls.Add(this.chkUpdateClass6);
             this.tabMainInfo.Controls.Add(this.chkUpdateClass5);
@@ -446,7 +431,6 @@ namespace RT2020.Product
             this.tabMainInfo.Controls.Add(this.chkUpdateRetailItem);
             this.tabMainInfo.Controls.Add(this.chkUpdateOffDisplayItem);
             this.tabMainInfo.Controls.Add(this.chkUpdateNature);
-            this.tabMainInfo.Controls.Add(this.lnkNature);
             this.tabMainInfo.Controls.Add(this.cboClass1);
             this.tabMainInfo.Controls.Add(this.cboClass2);
             this.tabMainInfo.Controls.Add(this.cboClass3);
@@ -463,17 +447,17 @@ namespace RT2020.Product
             this.tabMainInfo.Controls.Add(this.chkOffDisplayItem);
             this.tabMainInfo.Controls.Add(this.chkRetailItem);
             this.tabMainInfo.Controls.Add(this.chkCounterItem);
-            this.tabMainInfo.Controls.Add(this.gbBinNum);
-            this.tabMainInfo.Controls.Add(this.gbPrice);
+            this.tabMainInfo.Controls.Add(this.gbxBin);
+            this.tabMainInfo.Controls.Add(this.gbxPrice);
             this.tabMainInfo.Controls.Add(this.chkUpdateRemarks);
             this.tabMainInfo.Controls.Add(this.txtRemarks);
             this.tabMainInfo.Controls.Add(this.chkUpdateProductPole);
             this.tabMainInfo.Controls.Add(this.txtProductPole);
             this.tabMainInfo.Controls.Add(this.chkUpdateProductMemo);
             this.tabMainInfo.Controls.Add(this.txtProductMemo);
-            this.tabMainInfo.Controls.Add(this.chkUpdateProductNameCht);
+            this.tabMainInfo.Controls.Add(this.chkUpdateProductNameAlt2);
             this.tabMainInfo.Controls.Add(this.txtProductNameCht);
-            this.tabMainInfo.Controls.Add(this.chkUpdateProductNameChs);
+            this.tabMainInfo.Controls.Add(this.chkUpdateProductNameAlt1);
             this.tabMainInfo.Controls.Add(this.txtProductNameChs);
             this.tabMainInfo.Controls.Add(this.txtProductName);
             this.tabMainInfo.Controls.Add(this.chkUpdateProductName);
@@ -484,277 +468,218 @@ namespace RT2020.Product
             this.tabMainInfo.TabIndex = 0;
             this.tabMainInfo.Text = "Main Info.";
             // 
-            // gbReorderInfo
+            // gbxReorderInfo
             // 
-            this.gbReorderInfo.Controls.Add(this.chkUpdateVendorItem);
-            this.gbReorderInfo.Controls.Add(this.chkUpdateReorderLevel);
-            this.gbReorderInfo.Controls.Add(this.chkUpdateReorderQuantiry);
-            this.gbReorderInfo.Controls.Add(this.txtReorderQuantity);
-            this.gbReorderInfo.Controls.Add(this.txtReorderLevel);
-            this.gbReorderInfo.Controls.Add(this.txtVendorItemNum);
-            this.gbReorderInfo.FlatStyle = Gizmox.WebGUI.Forms.FlatStyle.Flat;
-            this.gbReorderInfo.Location = new System.Drawing.Point(525, 230);
-            this.gbReorderInfo.Name = "gbReorderInfo";
-            this.gbReorderInfo.Size = new System.Drawing.Size(255, 97);
-            this.gbReorderInfo.TabIndex = 47;
-            this.gbReorderInfo.Text = "Re-Order Info.";
+            this.gbxReorderInfo.Controls.Add(this.chkUpdateVendorItem);
+            this.gbxReorderInfo.Controls.Add(this.chkUpdateReorderLevel);
+            this.gbxReorderInfo.Controls.Add(this.chkUpdateReorderQuantiry);
+            this.gbxReorderInfo.Controls.Add(this.txtReorderQuantity);
+            this.gbxReorderInfo.Controls.Add(this.txtReorderLevel);
+            this.gbxReorderInfo.Controls.Add(this.txtVendorItemNum);
+            this.gbxReorderInfo.FlatStyle = Gizmox.WebGUI.Forms.FlatStyle.Flat;
+            this.gbxReorderInfo.Location = new System.Drawing.Point(525, 230);
+            this.gbxReorderInfo.Name = "gbxReorderInfo";
+            this.gbxReorderInfo.Size = new System.Drawing.Size(255, 97);
+            this.gbxReorderInfo.TabIndex = 47;
+            this.gbxReorderInfo.TabStop = false;
+            this.gbxReorderInfo.Text = "Re-Order Info.";
             // 
             // chkUpdateVendorItem
             // 
-            this.chkUpdateVendorItem.Checked = false;
-            this.chkUpdateVendorItem.CheckState = Gizmox.WebGUI.Forms.CheckState.Unchecked;
-            this.chkUpdateVendorItem.FlatStyle = Gizmox.WebGUI.Forms.FlatStyle.Standard;
-            this.chkUpdateVendorItem.Location = new System.Drawing.Point(8, 17);
+            this.chkUpdateVendorItem.Location = new System.Drawing.Point(6, 19);
             this.chkUpdateVendorItem.Name = "chkUpdateVendorItem";
             this.chkUpdateVendorItem.Size = new System.Drawing.Size(131, 24);
             this.chkUpdateVendorItem.TabIndex = 0;
             this.chkUpdateVendorItem.Text = "  Vendor Item#:";
-            this.chkUpdateVendorItem.ThreeState = false;
             // 
             // chkUpdateReorderLevel
             // 
-            this.chkUpdateReorderLevel.Checked = false;
-            this.chkUpdateReorderLevel.CheckState = Gizmox.WebGUI.Forms.CheckState.Unchecked;
-            this.chkUpdateReorderLevel.FlatStyle = Gizmox.WebGUI.Forms.FlatStyle.Standard;
-            this.chkUpdateReorderLevel.Location = new System.Drawing.Point(8, 40);
+            this.chkUpdateReorderLevel.Location = new System.Drawing.Point(6, 42);
             this.chkUpdateReorderLevel.Name = "chkUpdateReorderLevel";
             this.chkUpdateReorderLevel.Size = new System.Drawing.Size(131, 24);
             this.chkUpdateReorderLevel.TabIndex = 2;
             this.chkUpdateReorderLevel.Text = "  Re-Order Level:";
-            this.chkUpdateReorderLevel.ThreeState = false;
             // 
             // chkUpdateReorderQuantiry
             // 
-            this.chkUpdateReorderQuantiry.Checked = false;
-            this.chkUpdateReorderQuantiry.CheckState = Gizmox.WebGUI.Forms.CheckState.Unchecked;
-            this.chkUpdateReorderQuantiry.FlatStyle = Gizmox.WebGUI.Forms.FlatStyle.Standard;
-            this.chkUpdateReorderQuantiry.Location = new System.Drawing.Point(8, 63);
+            this.chkUpdateReorderQuantiry.Location = new System.Drawing.Point(6, 65);
             this.chkUpdateReorderQuantiry.Name = "chkUpdateReorderQuantiry";
             this.chkUpdateReorderQuantiry.Size = new System.Drawing.Size(131, 24);
             this.chkUpdateReorderQuantiry.TabIndex = 4;
             this.chkUpdateReorderQuantiry.Text = "  Re-Order Quantity:";
-            this.chkUpdateReorderQuantiry.ThreeState = false;
             // 
             // txtReorderQuantity
             // 
-            this.txtReorderQuantity.Location = new System.Drawing.Point(143, 63);
+            this.txtReorderQuantity.Location = new System.Drawing.Point(143, 65);
             this.txtReorderQuantity.Name = "txtReorderQuantity";
             this.txtReorderQuantity.Size = new System.Drawing.Size(100, 20);
             this.txtReorderQuantity.TabIndex = 5;
             // 
             // txtReorderLevel
             // 
-            this.txtReorderLevel.Location = new System.Drawing.Point(143, 40);
+            this.txtReorderLevel.Location = new System.Drawing.Point(143, 42);
             this.txtReorderLevel.Name = "txtReorderLevel";
             this.txtReorderLevel.Size = new System.Drawing.Size(100, 20);
             this.txtReorderLevel.TabIndex = 3;
             // 
             // txtVendorItemNum
             // 
-            this.txtVendorItemNum.Location = new System.Drawing.Point(143, 17);
+            this.txtVendorItemNum.Location = new System.Drawing.Point(143, 19);
             this.txtVendorItemNum.Name = "txtVendorItemNum";
             this.txtVendorItemNum.Size = new System.Drawing.Size(100, 20);
             this.txtVendorItemNum.TabIndex = 1;
             // 
             // chkUpdateClass1
             // 
-            this.chkUpdateClass1.Checked = false;
-            this.chkUpdateClass1.CheckState = Gizmox.WebGUI.Forms.CheckState.Unchecked;
-            this.chkUpdateClass1.FlatStyle = Gizmox.WebGUI.Forms.FlatStyle.Standard;
+            this.chkUpdateClass1.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.chkUpdateClass1.Location = new System.Drawing.Point(16, 151);
             this.chkUpdateClass1.Name = "chkUpdateClass1";
             this.chkUpdateClass1.Size = new System.Drawing.Size(126, 24);
             this.chkUpdateClass1.TabIndex = 12;
             this.chkUpdateClass1.Text = "  Vendor:";
-            this.chkUpdateClass1.ThreeState = false;
+            this.chkUpdateClass1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // chkUpdateClass6
             // 
-            this.chkUpdateClass6.Checked = false;
-            this.chkUpdateClass6.CheckState = Gizmox.WebGUI.Forms.CheckState.Unchecked;
-            this.chkUpdateClass6.FlatStyle = Gizmox.WebGUI.Forms.FlatStyle.Standard;
+            this.chkUpdateClass6.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.chkUpdateClass6.Location = new System.Drawing.Point(16, 266);
             this.chkUpdateClass6.Name = "chkUpdateClass6";
             this.chkUpdateClass6.Size = new System.Drawing.Size(126, 24);
             this.chkUpdateClass6.TabIndex = 22;
             this.chkUpdateClass6.Text = "  SUB-CAT:";
-            this.chkUpdateClass6.ThreeState = false;
+            this.chkUpdateClass6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // chkUpdateClass5
             // 
-            this.chkUpdateClass5.Checked = false;
-            this.chkUpdateClass5.CheckState = Gizmox.WebGUI.Forms.CheckState.Unchecked;
-            this.chkUpdateClass5.FlatStyle = Gizmox.WebGUI.Forms.FlatStyle.Standard;
+            this.chkUpdateClass5.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.chkUpdateClass5.Location = new System.Drawing.Point(16, 243);
             this.chkUpdateClass5.Name = "chkUpdateClass5";
             this.chkUpdateClass5.Size = new System.Drawing.Size(126, 24);
             this.chkUpdateClass5.TabIndex = 20;
             this.chkUpdateClass5.Text = "  Category:";
-            this.chkUpdateClass5.ThreeState = false;
+            this.chkUpdateClass5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // chkUpdateClass4
             // 
-            this.chkUpdateClass4.Checked = false;
-            this.chkUpdateClass4.CheckState = Gizmox.WebGUI.Forms.CheckState.Unchecked;
-            this.chkUpdateClass4.FlatStyle = Gizmox.WebGUI.Forms.FlatStyle.Standard;
+            this.chkUpdateClass4.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.chkUpdateClass4.Location = new System.Drawing.Point(16, 220);
             this.chkUpdateClass4.Name = "chkUpdateClass4";
             this.chkUpdateClass4.Size = new System.Drawing.Size(126, 24);
             this.chkUpdateClass4.TabIndex = 18;
             this.chkUpdateClass4.Text = "  Group:";
-            this.chkUpdateClass4.ThreeState = false;
+            this.chkUpdateClass4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // chkUpdateClass3
             // 
-            this.chkUpdateClass3.Checked = false;
-            this.chkUpdateClass3.CheckState = Gizmox.WebGUI.Forms.CheckState.Unchecked;
-            this.chkUpdateClass3.FlatStyle = Gizmox.WebGUI.Forms.FlatStyle.Standard;
+            this.chkUpdateClass3.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.chkUpdateClass3.Location = new System.Drawing.Point(16, 197);
             this.chkUpdateClass3.Name = "chkUpdateClass3";
             this.chkUpdateClass3.Size = new System.Drawing.Size(126, 24);
             this.chkUpdateClass3.TabIndex = 16;
             this.chkUpdateClass3.Text = "  Collection:";
-            this.chkUpdateClass3.ThreeState = false;
+            this.chkUpdateClass3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // chkUpdateClass2
             // 
-            this.chkUpdateClass2.Checked = false;
-            this.chkUpdateClass2.CheckState = Gizmox.WebGUI.Forms.CheckState.Unchecked;
-            this.chkUpdateClass2.FlatStyle = Gizmox.WebGUI.Forms.FlatStyle.Standard;
+            this.chkUpdateClass2.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.chkUpdateClass2.Location = new System.Drawing.Point(16, 174);
             this.chkUpdateClass2.Name = "chkUpdateClass2";
             this.chkUpdateClass2.Size = new System.Drawing.Size(126, 24);
             this.chkUpdateClass2.TabIndex = 14;
             this.chkUpdateClass2.Text = "  Gender:";
-            this.chkUpdateClass2.ThreeState = false;
+            this.chkUpdateClass2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // chkUpdateRemarks2
             // 
-            this.chkUpdateRemarks2.Checked = false;
-            this.chkUpdateRemarks2.CheckState = Gizmox.WebGUI.Forms.CheckState.Unchecked;
-            this.chkUpdateRemarks2.FlatStyle = Gizmox.WebGUI.Forms.FlatStyle.Standard;
-            this.chkUpdateRemarks2.Location = new System.Drawing.Point(223, 174);
+            this.chkUpdateRemarks2.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.chkUpdateRemarks2.Location = new System.Drawing.Point(219, 174);
             this.chkUpdateRemarks2.Name = "chkUpdateRemarks2";
             this.chkUpdateRemarks2.Size = new System.Drawing.Size(86, 24);
             this.chkUpdateRemarks2.TabIndex = 26;
             this.chkUpdateRemarks2.Text = "Remarks 2:";
-            this.chkUpdateRemarks2.ThreeState = false;
+            this.chkUpdateRemarks2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // chkUpdateRemarks3
             // 
-            this.chkUpdateRemarks3.Checked = false;
-            this.chkUpdateRemarks3.CheckState = Gizmox.WebGUI.Forms.CheckState.Unchecked;
-            this.chkUpdateRemarks3.FlatStyle = Gizmox.WebGUI.Forms.FlatStyle.Standard;
-            this.chkUpdateRemarks3.Location = new System.Drawing.Point(223, 197);
+            this.chkUpdateRemarks3.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.chkUpdateRemarks3.Location = new System.Drawing.Point(219, 197);
             this.chkUpdateRemarks3.Name = "chkUpdateRemarks3";
             this.chkUpdateRemarks3.Size = new System.Drawing.Size(86, 24);
             this.chkUpdateRemarks3.TabIndex = 28;
             this.chkUpdateRemarks3.Text = "Remarks 3:";
-            this.chkUpdateRemarks3.ThreeState = false;
+            this.chkUpdateRemarks3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // chkUpdateRemarks4
             // 
-            this.chkUpdateRemarks4.Checked = false;
-            this.chkUpdateRemarks4.CheckState = Gizmox.WebGUI.Forms.CheckState.Unchecked;
-            this.chkUpdateRemarks4.FlatStyle = Gizmox.WebGUI.Forms.FlatStyle.Standard;
-            this.chkUpdateRemarks4.Location = new System.Drawing.Point(223, 220);
+            this.chkUpdateRemarks4.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.chkUpdateRemarks4.Location = new System.Drawing.Point(219, 220);
             this.chkUpdateRemarks4.Name = "chkUpdateRemarks4";
             this.chkUpdateRemarks4.Size = new System.Drawing.Size(86, 24);
             this.chkUpdateRemarks4.TabIndex = 30;
             this.chkUpdateRemarks4.Text = "Remarks 4:";
-            this.chkUpdateRemarks4.ThreeState = false;
+            this.chkUpdateRemarks4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // chkUpdateRemarks5
             // 
-            this.chkUpdateRemarks5.Checked = false;
-            this.chkUpdateRemarks5.CheckState = Gizmox.WebGUI.Forms.CheckState.Unchecked;
-            this.chkUpdateRemarks5.FlatStyle = Gizmox.WebGUI.Forms.FlatStyle.Standard;
-            this.chkUpdateRemarks5.Location = new System.Drawing.Point(223, 243);
+            this.chkUpdateRemarks5.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.chkUpdateRemarks5.Location = new System.Drawing.Point(219, 243);
             this.chkUpdateRemarks5.Name = "chkUpdateRemarks5";
             this.chkUpdateRemarks5.Size = new System.Drawing.Size(86, 24);
             this.chkUpdateRemarks5.TabIndex = 32;
             this.chkUpdateRemarks5.Text = "Remarks 5:";
-            this.chkUpdateRemarks5.ThreeState = false;
+            this.chkUpdateRemarks5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // chkUpdateRemarks6
             // 
-            this.chkUpdateRemarks6.Checked = false;
-            this.chkUpdateRemarks6.CheckState = Gizmox.WebGUI.Forms.CheckState.Unchecked;
-            this.chkUpdateRemarks6.FlatStyle = Gizmox.WebGUI.Forms.FlatStyle.Standard;
-            this.chkUpdateRemarks6.Location = new System.Drawing.Point(223, 266);
+            this.chkUpdateRemarks6.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.chkUpdateRemarks6.Location = new System.Drawing.Point(219, 266);
             this.chkUpdateRemarks6.Name = "chkUpdateRemarks6";
             this.chkUpdateRemarks6.Size = new System.Drawing.Size(86, 24);
             this.chkUpdateRemarks6.TabIndex = 34;
             this.chkUpdateRemarks6.Text = "Remarks 6:";
-            this.chkUpdateRemarks6.ThreeState = false;
+            this.chkUpdateRemarks6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // chkUpdateRemarks1
             // 
-            this.chkUpdateRemarks1.Checked = false;
-            this.chkUpdateRemarks1.CheckState = Gizmox.WebGUI.Forms.CheckState.Unchecked;
-            this.chkUpdateRemarks1.FlatStyle = Gizmox.WebGUI.Forms.FlatStyle.Standard;
-            this.chkUpdateRemarks1.Location = new System.Drawing.Point(223, 151);
+            this.chkUpdateRemarks1.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.chkUpdateRemarks1.Location = new System.Drawing.Point(219, 151);
             this.chkUpdateRemarks1.Name = "chkUpdateRemarks1";
             this.chkUpdateRemarks1.Size = new System.Drawing.Size(86, 24);
             this.chkUpdateRemarks1.TabIndex = 24;
             this.chkUpdateRemarks1.Text = "Remarks 1:";
-            this.chkUpdateRemarks1.ThreeState = false;
+            this.chkUpdateRemarks1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // chkUpdateCounterItem
             // 
-            this.chkUpdateCounterItem.Checked = false;
-            this.chkUpdateCounterItem.CheckState = Gizmox.WebGUI.Forms.CheckState.Unchecked;
-            this.chkUpdateCounterItem.FlatStyle = Gizmox.WebGUI.Forms.FlatStyle.Standard;
             this.chkUpdateCounterItem.Location = new System.Drawing.Point(384, 220);
             this.chkUpdateCounterItem.Name = "chkUpdateCounterItem";
             this.chkUpdateCounterItem.Size = new System.Drawing.Size(116, 24);
             this.chkUpdateCounterItem.TabIndex = 43;
             this.chkUpdateCounterItem.Text = "  Counter Item:";
-            this.chkUpdateCounterItem.ThreeState = false;
             // 
             // chkUpdateRetailItem
             // 
-            this.chkUpdateRetailItem.Checked = false;
-            this.chkUpdateRetailItem.CheckState = Gizmox.WebGUI.Forms.CheckState.Unchecked;
-            this.chkUpdateRetailItem.FlatStyle = Gizmox.WebGUI.Forms.FlatStyle.Standard;
             this.chkUpdateRetailItem.Location = new System.Drawing.Point(384, 197);
             this.chkUpdateRetailItem.Name = "chkUpdateRetailItem";
             this.chkUpdateRetailItem.Size = new System.Drawing.Size(116, 24);
             this.chkUpdateRetailItem.TabIndex = 41;
             this.chkUpdateRetailItem.Text = "  Retail Item:";
-            this.chkUpdateRetailItem.ThreeState = false;
             // 
             // chkUpdateOffDisplayItem
             // 
-            this.chkUpdateOffDisplayItem.Checked = false;
-            this.chkUpdateOffDisplayItem.CheckState = Gizmox.WebGUI.Forms.CheckState.Unchecked;
-            this.chkUpdateOffDisplayItem.FlatStyle = Gizmox.WebGUI.Forms.FlatStyle.Standard;
             this.chkUpdateOffDisplayItem.Location = new System.Drawing.Point(384, 174);
             this.chkUpdateOffDisplayItem.Name = "chkUpdateOffDisplayItem";
             this.chkUpdateOffDisplayItem.Size = new System.Drawing.Size(116, 24);
             this.chkUpdateOffDisplayItem.TabIndex = 39;
             this.chkUpdateOffDisplayItem.Text = "  Off-Display Item:";
-            this.chkUpdateOffDisplayItem.ThreeState = false;
             // 
             // chkUpdateNature
             // 
-            this.chkUpdateNature.Checked = false;
-            this.chkUpdateNature.CheckState = Gizmox.WebGUI.Forms.CheckState.Unchecked;
-            this.chkUpdateNature.FlatStyle = Gizmox.WebGUI.Forms.FlatStyle.Standard;
             this.chkUpdateNature.Location = new System.Drawing.Point(384, 151);
             this.chkUpdateNature.Name = "chkUpdateNature";
-            this.chkUpdateNature.Size = new System.Drawing.Size(17, 24);
+            this.chkUpdateNature.Size = new System.Drawing.Size(96, 24);
             this.chkUpdateNature.TabIndex = 36;
-            this.chkUpdateNature.ThreeState = false;
-            // 
-            // lnkNature
-            // 
-            this.lnkNature.Location = new System.Drawing.Point(406, 154);
-            this.lnkNature.Name = "lnkNature";
-            this.lnkNature.Size = new System.Drawing.Size(45, 23);
-            this.lnkNature.TabIndex = 37;
-            this.lnkNature.Text = "Nature:";
-            this.lnkNature.LinkClicked += new Gizmox.WebGUI.Forms.LinkLabelLinkClickedEventHandler(this.lnkNature_LinkClicked);
+            this.chkUpdateNature.Text = "Nature:";
             // 
             // cboClass1
             // 
@@ -849,212 +774,166 @@ namespace RT2020.Product
             // cboNature
             // 
             this.cboNature.DropDownWidth = 72;
-            this.cboNature.Location = new System.Drawing.Point(450, 151);
+            this.cboNature.Location = new System.Drawing.Point(480, 151);
             this.cboNature.Name = "cboNature";
-            this.cboNature.Size = new System.Drawing.Size(65, 21);
+            this.cboNature.Size = new System.Drawing.Size(35, 21);
             this.cboNature.TabIndex = 38;
             // 
             // chkOffDisplayItem
             // 
-            this.chkOffDisplayItem.Checked = false;
-            this.chkOffDisplayItem.CheckState = Gizmox.WebGUI.Forms.CheckState.Unchecked;
-            this.chkOffDisplayItem.FlatStyle = Gizmox.WebGUI.Forms.FlatStyle.Standard;
             this.chkOffDisplayItem.Location = new System.Drawing.Point(501, 174);
             this.chkOffDisplayItem.Name = "chkOffDisplayItem";
             this.chkOffDisplayItem.Size = new System.Drawing.Size(14, 24);
             this.chkOffDisplayItem.TabIndex = 40;
-            this.chkOffDisplayItem.ThreeState = false;
             // 
             // chkRetailItem
             // 
-            this.chkRetailItem.Checked = false;
-            this.chkRetailItem.CheckState = Gizmox.WebGUI.Forms.CheckState.Unchecked;
-            this.chkRetailItem.FlatStyle = Gizmox.WebGUI.Forms.FlatStyle.Standard;
             this.chkRetailItem.Location = new System.Drawing.Point(501, 197);
             this.chkRetailItem.Name = "chkRetailItem";
             this.chkRetailItem.Size = new System.Drawing.Size(14, 24);
             this.chkRetailItem.TabIndex = 42;
-            this.chkRetailItem.ThreeState = false;
             // 
             // chkCounterItem
             // 
-            this.chkCounterItem.Checked = false;
-            this.chkCounterItem.CheckState = Gizmox.WebGUI.Forms.CheckState.Unchecked;
-            this.chkCounterItem.FlatStyle = Gizmox.WebGUI.Forms.FlatStyle.Standard;
             this.chkCounterItem.Location = new System.Drawing.Point(501, 220);
             this.chkCounterItem.Name = "chkCounterItem";
             this.chkCounterItem.Size = new System.Drawing.Size(14, 24);
             this.chkCounterItem.TabIndex = 44;
-            this.chkCounterItem.ThreeState = false;
             // 
-            // gbBinNum
+            // gbxBin
             // 
-            this.gbBinNum.Controls.Add(this.chkUpdateBinX);
-            this.gbBinNum.Controls.Add(this.chkUpdateBinY);
-            this.gbBinNum.Controls.Add(this.chkUpdateBinZ);
-            this.gbBinNum.Controls.Add(this.txtBin_Z);
-            this.gbBinNum.Controls.Add(this.txtBin_Y);
-            this.gbBinNum.Controls.Add(this.txtBin_X);
-            this.gbBinNum.FlatStyle = Gizmox.WebGUI.Forms.FlatStyle.Flat;
-            this.gbBinNum.Location = new System.Drawing.Point(525, 178);
-            this.gbBinNum.Name = "gbBinNum";
-            this.gbBinNum.Size = new System.Drawing.Size(255, 46);
-            this.gbBinNum.TabIndex = 46;
-            this.gbBinNum.Text = "Bin# (axis)";
+            this.gbxBin.Controls.Add(this.chkUpdateBinX);
+            this.gbxBin.Controls.Add(this.chkUpdateBinY);
+            this.gbxBin.Controls.Add(this.chkUpdateBinZ);
+            this.gbxBin.Controls.Add(this.txtBin_Z);
+            this.gbxBin.Controls.Add(this.txtBin_Y);
+            this.gbxBin.Controls.Add(this.txtBin_X);
+            this.gbxBin.FlatStyle = Gizmox.WebGUI.Forms.FlatStyle.Flat;
+            this.gbxBin.Location = new System.Drawing.Point(525, 172);
+            this.gbxBin.Name = "gbxBin";
+            this.gbxBin.Size = new System.Drawing.Size(255, 58);
+            this.gbxBin.TabIndex = 46;
+            this.gbxBin.TabStop = false;
+            this.gbxBin.Text = "Bin# (axis)";
             // 
             // chkUpdateBinX
             // 
-            this.chkUpdateBinX.Checked = false;
-            this.chkUpdateBinX.CheckState = Gizmox.WebGUI.Forms.CheckState.Unchecked;
-            this.chkUpdateBinX.FlatStyle = Gizmox.WebGUI.Forms.FlatStyle.Standard;
-            this.chkUpdateBinX.Location = new System.Drawing.Point(8, 17);
+            this.chkUpdateBinX.Location = new System.Drawing.Point(6, 22);
             this.chkUpdateBinX.Name = "chkUpdateBinX";
-            this.chkUpdateBinX.Size = new System.Drawing.Size(39, 24);
+            this.chkUpdateBinX.Size = new System.Drawing.Size(36, 24);
             this.chkUpdateBinX.TabIndex = 0;
-            this.chkUpdateBinX.Text = "  X";
-            this.chkUpdateBinX.ThreeState = false;
+            this.chkUpdateBinX.Text = "X:";
             // 
             // chkUpdateBinY
             // 
-            this.chkUpdateBinY.Checked = false;
-            this.chkUpdateBinY.CheckState = Gizmox.WebGUI.Forms.CheckState.Unchecked;
-            this.chkUpdateBinY.FlatStyle = Gizmox.WebGUI.Forms.FlatStyle.Standard;
-            this.chkUpdateBinY.Location = new System.Drawing.Point(100, 17);
+            this.chkUpdateBinY.Location = new System.Drawing.Point(91, 22);
             this.chkUpdateBinY.Name = "chkUpdateBinY";
-            this.chkUpdateBinY.Size = new System.Drawing.Size(39, 24);
+            this.chkUpdateBinY.Size = new System.Drawing.Size(36, 24);
             this.chkUpdateBinY.TabIndex = 2;
-            this.chkUpdateBinY.Text = " Y";
-            this.chkUpdateBinY.ThreeState = false;
+            this.chkUpdateBinY.Text = "Y:";
             // 
             // chkUpdateBinZ
             // 
-            this.chkUpdateBinZ.Checked = false;
-            this.chkUpdateBinZ.CheckState = Gizmox.WebGUI.Forms.CheckState.Unchecked;
-            this.chkUpdateBinZ.FlatStyle = Gizmox.WebGUI.Forms.FlatStyle.Standard;
-            this.chkUpdateBinZ.Location = new System.Drawing.Point(181, 17);
+            this.chkUpdateBinZ.Location = new System.Drawing.Point(177, 22);
             this.chkUpdateBinZ.Name = "chkUpdateBinZ";
-            this.chkUpdateBinZ.Size = new System.Drawing.Size(35, 24);
+            this.chkUpdateBinZ.Size = new System.Drawing.Size(36, 24);
             this.chkUpdateBinZ.TabIndex = 4;
-            this.chkUpdateBinZ.Text = "Z";
-            this.chkUpdateBinZ.ThreeState = false;
+            this.chkUpdateBinZ.Text = "Z:";
             // 
             // txtBin_Z
             // 
-            this.txtBin_Z.Location = new System.Drawing.Point(216, 17);
+            this.txtBin_Z.Location = new System.Drawing.Point(213, 22);
             this.txtBin_Z.Name = "txtBin_Z";
-            this.txtBin_Z.Size = new System.Drawing.Size(27, 20);
+            this.txtBin_Z.Size = new System.Drawing.Size(30, 20);
             this.txtBin_Z.TabIndex = 5;
             // 
             // txtBin_Y
             // 
-            this.txtBin_Y.Location = new System.Drawing.Point(138, 17);
+            this.txtBin_Y.Location = new System.Drawing.Point(127, 22);
             this.txtBin_Y.Name = "txtBin_Y";
-            this.txtBin_Y.Size = new System.Drawing.Size(27, 20);
+            this.txtBin_Y.Size = new System.Drawing.Size(30, 20);
             this.txtBin_Y.TabIndex = 3;
             // 
             // txtBin_X
             // 
-            this.txtBin_X.Location = new System.Drawing.Point(53, 17);
+            this.txtBin_X.Location = new System.Drawing.Point(42, 22);
             this.txtBin_X.Name = "txtBin_X";
-            this.txtBin_X.Size = new System.Drawing.Size(27, 20);
+            this.txtBin_X.Size = new System.Drawing.Size(30, 20);
             this.txtBin_X.TabIndex = 1;
             // 
-            // gbPrice
+            // gbxPrice
             // 
-            this.gbPrice.Controls.Add(this.chkUpdateUnit);
-            this.gbPrice.Controls.Add(this.chkUpdateRetailDiscount);
-            this.gbPrice.Controls.Add(this.chkUpdateCurrentRetail);
-            this.gbPrice.Controls.Add(this.chkUpdateOriginalRetail);
-            this.gbPrice.Controls.Add(this.chkUpdateWholesales);
-            this.gbPrice.Controls.Add(this.chkUpdateVendorPrice);
-            this.gbPrice.Controls.Add(this.txtUnit);
-            this.gbPrice.Controls.Add(this.txtRetailDiscount);
-            this.gbPrice.Controls.Add(this.txtCurrentRetailPrice);
-            this.gbPrice.Controls.Add(this.txtWholesalesPrice);
-            this.gbPrice.Controls.Add(this.txtOriginalRetailPrice);
-            this.gbPrice.Controls.Add(this.txtVendorPrice);
-            this.gbPrice.Controls.Add(this.txtOriginalRetailCurrency);
-            this.gbPrice.Controls.Add(this.txtCurrentRetailCurrency);
-            this.gbPrice.Controls.Add(this.txtWholesalesCurrency);
-            this.gbPrice.Controls.Add(this.cboVendorCurrency);
-            this.gbPrice.FlatStyle = Gizmox.WebGUI.Forms.FlatStyle.Flat;
-            this.gbPrice.Location = new System.Drawing.Point(525, 6);
-            this.gbPrice.Name = "gbPrice";
-            this.gbPrice.Size = new System.Drawing.Size(255, 166);
-            this.gbPrice.TabIndex = 45;
-            this.gbPrice.Text = "Price";
+            this.gbxPrice.Controls.Add(this.chkUpdateUnit);
+            this.gbxPrice.Controls.Add(this.chkUpdateRetailDiscount);
+            this.gbxPrice.Controls.Add(this.chkUpdateCurrentRetail);
+            this.gbxPrice.Controls.Add(this.chkUpdateOriginalRetail);
+            this.gbxPrice.Controls.Add(this.chkUpdateWholesales);
+            this.gbxPrice.Controls.Add(this.chkUpdateVendorPrice);
+            this.gbxPrice.Controls.Add(this.txtUnit);
+            this.gbxPrice.Controls.Add(this.txtRetailDiscount);
+            this.gbxPrice.Controls.Add(this.txtCurrentRetailPrice);
+            this.gbxPrice.Controls.Add(this.txtWholesalesPrice);
+            this.gbxPrice.Controls.Add(this.txtOriginalRetailPrice);
+            this.gbxPrice.Controls.Add(this.txtVendorPrice);
+            this.gbxPrice.Controls.Add(this.txtOriginalRetailCurrency);
+            this.gbxPrice.Controls.Add(this.txtCurrentRetailCurrency);
+            this.gbxPrice.Controls.Add(this.txtWholesalesCurrency);
+            this.gbxPrice.Controls.Add(this.cboVendorCurrency);
+            this.gbxPrice.FlatStyle = Gizmox.WebGUI.Forms.FlatStyle.Flat;
+            this.gbxPrice.Location = new System.Drawing.Point(525, 6);
+            this.gbxPrice.Name = "gbxPrice";
+            this.gbxPrice.Size = new System.Drawing.Size(255, 166);
+            this.gbxPrice.TabIndex = 45;
+            this.gbxPrice.TabStop = false;
+            this.gbxPrice.Text = "Price";
             // 
             // chkUpdateUnit
             // 
-            this.chkUpdateUnit.Checked = false;
-            this.chkUpdateUnit.CheckState = Gizmox.WebGUI.Forms.CheckState.Unchecked;
-            this.chkUpdateUnit.FlatStyle = Gizmox.WebGUI.Forms.FlatStyle.Standard;
             this.chkUpdateUnit.Location = new System.Drawing.Point(7, 137);
             this.chkUpdateUnit.Name = "chkUpdateUnit";
             this.chkUpdateUnit.Size = new System.Drawing.Size(108, 24);
             this.chkUpdateUnit.TabIndex = 14;
             this.chkUpdateUnit.Text = "  Unit:";
-            this.chkUpdateUnit.ThreeState = false;
             // 
             // chkUpdateRetailDiscount
             // 
-            this.chkUpdateRetailDiscount.Checked = false;
-            this.chkUpdateRetailDiscount.CheckState = Gizmox.WebGUI.Forms.CheckState.Unchecked;
-            this.chkUpdateRetailDiscount.FlatStyle = Gizmox.WebGUI.Forms.FlatStyle.Standard;
             this.chkUpdateRetailDiscount.Location = new System.Drawing.Point(7, 114);
             this.chkUpdateRetailDiscount.Name = "chkUpdateRetailDiscount";
             this.chkUpdateRetailDiscount.Size = new System.Drawing.Size(108, 24);
             this.chkUpdateRetailDiscount.TabIndex = 12;
             this.chkUpdateRetailDiscount.Text = "  Retail Discount:";
-            this.chkUpdateRetailDiscount.ThreeState = false;
             // 
             // chkUpdateCurrentRetail
             // 
-            this.chkUpdateCurrentRetail.Checked = false;
-            this.chkUpdateCurrentRetail.CheckState = Gizmox.WebGUI.Forms.CheckState.Unchecked;
-            this.chkUpdateCurrentRetail.FlatStyle = Gizmox.WebGUI.Forms.FlatStyle.Standard;
             this.chkUpdateCurrentRetail.Location = new System.Drawing.Point(7, 91);
             this.chkUpdateCurrentRetail.Name = "chkUpdateCurrentRetail";
             this.chkUpdateCurrentRetail.Size = new System.Drawing.Size(108, 24);
             this.chkUpdateCurrentRetail.TabIndex = 9;
             this.chkUpdateCurrentRetail.Text = "  Current Retail:";
-            this.chkUpdateCurrentRetail.ThreeState = false;
             // 
             // chkUpdateOriginalRetail
             // 
-            this.chkUpdateOriginalRetail.Checked = false;
-            this.chkUpdateOriginalRetail.CheckState = Gizmox.WebGUI.Forms.CheckState.Unchecked;
-            this.chkUpdateOriginalRetail.FlatStyle = Gizmox.WebGUI.Forms.FlatStyle.Standard;
             this.chkUpdateOriginalRetail.Location = new System.Drawing.Point(7, 68);
             this.chkUpdateOriginalRetail.Name = "chkUpdateOriginalRetail";
             this.chkUpdateOriginalRetail.Size = new System.Drawing.Size(108, 24);
             this.chkUpdateOriginalRetail.TabIndex = 6;
             this.chkUpdateOriginalRetail.Text = "  Original Retail:";
-            this.chkUpdateOriginalRetail.ThreeState = false;
             // 
             // chkUpdateWholesales
             // 
-            this.chkUpdateWholesales.Checked = false;
-            this.chkUpdateWholesales.CheckState = Gizmox.WebGUI.Forms.CheckState.Unchecked;
-            this.chkUpdateWholesales.FlatStyle = Gizmox.WebGUI.Forms.FlatStyle.Standard;
             this.chkUpdateWholesales.Location = new System.Drawing.Point(7, 45);
             this.chkUpdateWholesales.Name = "chkUpdateWholesales";
             this.chkUpdateWholesales.Size = new System.Drawing.Size(108, 24);
             this.chkUpdateWholesales.TabIndex = 3;
             this.chkUpdateWholesales.Text = "  Wholesales:";
-            this.chkUpdateWholesales.ThreeState = false;
             // 
             // chkUpdateVendorPrice
             // 
-            this.chkUpdateVendorPrice.Checked = false;
-            this.chkUpdateVendorPrice.CheckState = Gizmox.WebGUI.Forms.CheckState.Unchecked;
-            this.chkUpdateVendorPrice.FlatStyle = Gizmox.WebGUI.Forms.FlatStyle.Standard;
             this.chkUpdateVendorPrice.Location = new System.Drawing.Point(7, 22);
             this.chkUpdateVendorPrice.Name = "chkUpdateVendorPrice";
             this.chkUpdateVendorPrice.Size = new System.Drawing.Size(108, 24);
             this.chkUpdateVendorPrice.TabIndex = 0;
             this.chkUpdateVendorPrice.Text = "  Vendor Ref.:";
-            this.chkUpdateVendorPrice.ThreeState = false;
             // 
             // txtUnit
             // 
@@ -1148,15 +1027,11 @@ namespace RT2020.Product
             // 
             // chkUpdateRemarks
             // 
-            this.chkUpdateRemarks.Checked = false;
-            this.chkUpdateRemarks.CheckState = Gizmox.WebGUI.Forms.CheckState.Unchecked;
-            this.chkUpdateRemarks.FlatStyle = Gizmox.WebGUI.Forms.FlatStyle.Standard;
             this.chkUpdateRemarks.Location = new System.Drawing.Point(16, 128);
             this.chkUpdateRemarks.Name = "chkUpdateRemarks";
             this.chkUpdateRemarks.Size = new System.Drawing.Size(126, 24);
             this.chkUpdateRemarks.TabIndex = 10;
             this.chkUpdateRemarks.Text = "  Remarks:";
-            this.chkUpdateRemarks.ThreeState = false;
             // 
             // txtRemarks
             // 
@@ -1167,15 +1042,11 @@ namespace RT2020.Product
             // 
             // chkUpdateProductPole
             // 
-            this.chkUpdateProductPole.Checked = false;
-            this.chkUpdateProductPole.CheckState = Gizmox.WebGUI.Forms.CheckState.Unchecked;
-            this.chkUpdateProductPole.FlatStyle = Gizmox.WebGUI.Forms.FlatStyle.Standard;
             this.chkUpdateProductPole.Location = new System.Drawing.Point(16, 105);
             this.chkUpdateProductPole.Name = "chkUpdateProductPole";
             this.chkUpdateProductPole.Size = new System.Drawing.Size(126, 24);
             this.chkUpdateProductPole.TabIndex = 8;
             this.chkUpdateProductPole.Text = "  Product Pole:";
-            this.chkUpdateProductPole.ThreeState = false;
             // 
             // txtProductPole
             // 
@@ -1186,15 +1057,11 @@ namespace RT2020.Product
             // 
             // chkUpdateProductMemo
             // 
-            this.chkUpdateProductMemo.Checked = false;
-            this.chkUpdateProductMemo.CheckState = Gizmox.WebGUI.Forms.CheckState.Unchecked;
-            this.chkUpdateProductMemo.FlatStyle = Gizmox.WebGUI.Forms.FlatStyle.Standard;
             this.chkUpdateProductMemo.Location = new System.Drawing.Point(16, 82);
             this.chkUpdateProductMemo.Name = "chkUpdateProductMemo";
             this.chkUpdateProductMemo.Size = new System.Drawing.Size(126, 24);
             this.chkUpdateProductMemo.TabIndex = 6;
             this.chkUpdateProductMemo.Text = "  Product Memo:";
-            this.chkUpdateProductMemo.ThreeState = false;
             // 
             // txtProductMemo
             // 
@@ -1203,17 +1070,13 @@ namespace RT2020.Product
             this.txtProductMemo.Size = new System.Drawing.Size(371, 20);
             this.txtProductMemo.TabIndex = 7;
             // 
-            // chkUpdateProductNameCht
+            // chkUpdateProductNameAlt2
             // 
-            this.chkUpdateProductNameCht.Checked = false;
-            this.chkUpdateProductNameCht.CheckState = Gizmox.WebGUI.Forms.CheckState.Unchecked;
-            this.chkUpdateProductNameCht.FlatStyle = Gizmox.WebGUI.Forms.FlatStyle.Standard;
-            this.chkUpdateProductNameCht.Location = new System.Drawing.Point(16, 59);
-            this.chkUpdateProductNameCht.Name = "chkUpdateProductNameCht";
-            this.chkUpdateProductNameCht.Size = new System.Drawing.Size(126, 24);
-            this.chkUpdateProductNameCht.TabIndex = 4;
-            this.chkUpdateProductNameCht.Text = "  Product Name Cht:";
-            this.chkUpdateProductNameCht.ThreeState = false;
+            this.chkUpdateProductNameAlt2.Location = new System.Drawing.Point(26, 59);
+            this.chkUpdateProductNameAlt2.Name = "chkUpdateProductNameAlt2";
+            this.chkUpdateProductNameAlt2.Size = new System.Drawing.Size(120, 24);
+            this.chkUpdateProductNameAlt2.TabIndex = 4;
+            this.chkUpdateProductNameAlt2.Text = "  Product Name Cht:";
             // 
             // txtProductNameCht
             // 
@@ -1222,17 +1085,13 @@ namespace RT2020.Product
             this.txtProductNameCht.Size = new System.Drawing.Size(371, 20);
             this.txtProductNameCht.TabIndex = 5;
             // 
-            // chkUpdateProductNameChs
+            // chkUpdateProductNameAlt1
             // 
-            this.chkUpdateProductNameChs.Checked = false;
-            this.chkUpdateProductNameChs.CheckState = Gizmox.WebGUI.Forms.CheckState.Unchecked;
-            this.chkUpdateProductNameChs.FlatStyle = Gizmox.WebGUI.Forms.FlatStyle.Standard;
-            this.chkUpdateProductNameChs.Location = new System.Drawing.Point(16, 36);
-            this.chkUpdateProductNameChs.Name = "chkUpdateProductNameChs";
-            this.chkUpdateProductNameChs.Size = new System.Drawing.Size(126, 24);
-            this.chkUpdateProductNameChs.TabIndex = 2;
-            this.chkUpdateProductNameChs.Text = "  Product Name Chs:";
-            this.chkUpdateProductNameChs.ThreeState = false;
+            this.chkUpdateProductNameAlt1.Location = new System.Drawing.Point(26, 36);
+            this.chkUpdateProductNameAlt1.Name = "chkUpdateProductNameAlt1";
+            this.chkUpdateProductNameAlt1.Size = new System.Drawing.Size(120, 24);
+            this.chkUpdateProductNameAlt1.TabIndex = 2;
+            this.chkUpdateProductNameAlt1.Text = "  Product Name Chs:";
             // 
             // txtProductNameChs
             // 
@@ -1250,15 +1109,11 @@ namespace RT2020.Product
             // 
             // chkUpdateProductName
             // 
-            this.chkUpdateProductName.Checked = false;
-            this.chkUpdateProductName.CheckState = Gizmox.WebGUI.Forms.CheckState.Unchecked;
-            this.chkUpdateProductName.FlatStyle = Gizmox.WebGUI.Forms.FlatStyle.Standard;
             this.chkUpdateProductName.Location = new System.Drawing.Point(16, 13);
             this.chkUpdateProductName.Name = "chkUpdateProductName";
             this.chkUpdateProductName.Size = new System.Drawing.Size(126, 24);
             this.chkUpdateProductName.TabIndex = 0;
             this.chkUpdateProductName.Text = "  Product Name:";
-            this.chkUpdateProductName.ThreeState = false;
             // 
             // tabMiscInfo
             // 
@@ -1269,8 +1124,6 @@ namespace RT2020.Product
             this.tabMiscInfo.Controls.Add(this.pictureBox1);
             this.tabMiscInfo.Controls.Add(this.txtPhoto);
             this.tabMiscInfo.Controls.Add(this.chkUpdatePhoto);
-            this.tabMiscInfo.Controls.Add(this.txtMemo);
-            this.tabMiscInfo.Controls.Add(this.chkUpdateMemo);
             this.tabMiscInfo.Dock = Gizmox.WebGUI.Forms.DockStyle.Fill;
             this.tabMiscInfo.Location = new System.Drawing.Point(4, 22);
             this.tabMiscInfo.Name = "tabMiscInfo";
@@ -1290,111 +1143,73 @@ namespace RT2020.Product
             // 
             // btnDelete
             // 
-            iconResourceHandle3.File = "16x16.16_L_remove.gif";
-            this.btnDelete.Image = iconResourceHandle3;
-            this.btnDelete.Location = new System.Drawing.Point(59, 201);
+            this.btnDelete.Image = new Gizmox.WebGUI.Common.Resources.IconResourceHandle(resources.GetString("btnDelete.Image"));
+            this.btnDelete.Location = new System.Drawing.Point(567, 90);
             this.btnDelete.Name = "btnDelete";
-            this.btnDelete.Size = new System.Drawing.Size(33, 23);
+            this.btnDelete.Size = new System.Drawing.Size(24, 24);
             this.btnDelete.TabIndex = 9;
             this.btnDelete.TextImageRelation = Gizmox.WebGUI.Forms.TextImageRelation.ImageAboveText;
             this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
             // btnLookupPhoto
             // 
-            iconResourceHandle4.File = "16x16.16_find.gif";
-            this.btnLookupPhoto.Image = iconResourceHandle4;
-            this.btnLookupPhoto.Location = new System.Drawing.Point(59, 170);
+            this.btnLookupPhoto.Image = new Gizmox.WebGUI.Common.Resources.IconResourceHandle(resources.GetString("btnLookupPhoto.Image"));
+            this.btnLookupPhoto.Location = new System.Drawing.Point(567, 63);
             this.btnLookupPhoto.Name = "btnLookupPhoto";
-            this.btnLookupPhoto.Size = new System.Drawing.Size(33, 23);
+            this.btnLookupPhoto.Size = new System.Drawing.Size(24, 24);
             this.btnLookupPhoto.TabIndex = 8;
             this.btnLookupPhoto.TextImageRelation = Gizmox.WebGUI.Forms.TextImageRelation.ImageAboveText;
             this.btnLookupPhoto.Click += new System.EventHandler(this.btnLookupPhoto_Click);
             // 
             // btnRefreshPhoto
             // 
-            iconResourceHandle5.File = "16x16.16_L_refresh.gif";
-            this.btnRefreshPhoto.Image = iconResourceHandle5;
-            this.btnRefreshPhoto.Location = new System.Drawing.Point(59, 139);
+            this.btnRefreshPhoto.Image = new Gizmox.WebGUI.Common.Resources.IconResourceHandle(resources.GetString("btnRefreshPhoto.Image"));
+            this.btnRefreshPhoto.Location = new System.Drawing.Point(567, 36);
             this.btnRefreshPhoto.Name = "btnRefreshPhoto";
-            this.btnRefreshPhoto.Size = new System.Drawing.Size(33, 23);
+            this.btnRefreshPhoto.Size = new System.Drawing.Size(24, 24);
             this.btnRefreshPhoto.TabIndex = 7;
             this.btnRefreshPhoto.TextImageRelation = Gizmox.WebGUI.Forms.TextImageRelation.ImageAboveText;
             this.btnRefreshPhoto.Click += new System.EventHandler(this.btnRefreshPhoto_Click);
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Image = null;
-            this.pictureBox1.Location = new System.Drawing.Point(98, 138);
+            this.pictureBox1.BorderStyle = Gizmox.WebGUI.Forms.BorderStyle.FixedSingle;
+            this.pictureBox1.Location = new System.Drawing.Point(98, 36);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(464, 113);
-            this.pictureBox1.SizeMode = Gizmox.WebGUI.Forms.PictureBoxSizeMode.Normal;
+            this.pictureBox1.Size = new System.Drawing.Size(464, 215);
             this.pictureBox1.TabIndex = 6;
+            this.pictureBox1.TabStop = false;
             // 
             // txtPhoto
             // 
-            this.txtPhoto.Location = new System.Drawing.Point(98, 115);
+            this.txtPhoto.Location = new System.Drawing.Point(98, 13);
             this.txtPhoto.Name = "txtPhoto";
             this.txtPhoto.Size = new System.Drawing.Size(464, 20);
             this.txtPhoto.TabIndex = 5;
             // 
             // chkUpdatePhoto
             // 
-            this.chkUpdatePhoto.Checked = false;
-            this.chkUpdatePhoto.CheckState = Gizmox.WebGUI.Forms.CheckState.Unchecked;
-            this.chkUpdatePhoto.FlatStyle = Gizmox.WebGUI.Forms.FlatStyle.Standard;
-            this.chkUpdatePhoto.Location = new System.Drawing.Point(16, 115);
+            this.chkUpdatePhoto.Location = new System.Drawing.Point(16, 13);
             this.chkUpdatePhoto.Name = "chkUpdatePhoto";
-            this.chkUpdatePhoto.Size = new System.Drawing.Size(77, 24);
+            this.chkUpdatePhoto.Size = new System.Drawing.Size(82, 24);
             this.chkUpdatePhoto.TabIndex = 3;
-            this.chkUpdatePhoto.Text = "Picture:";
-            this.chkUpdatePhoto.ThreeState = false;
-            // 
-            // txtMemo
-            // 
-            this.txtMemo.Location = new System.Drawing.Point(99, 13);
-            this.txtMemo.Multiline = true;
-            this.txtMemo.Name = "txtMemo";
-            this.txtMemo.Size = new System.Drawing.Size(463, 99);
-            this.txtMemo.TabIndex = 2;
-            // 
-            // chkUpdateMemo
-            // 
-            this.chkUpdateMemo.Checked = false;
-            this.chkUpdateMemo.CheckState = Gizmox.WebGUI.Forms.CheckState.Unchecked;
-            this.chkUpdateMemo.FlatStyle = Gizmox.WebGUI.Forms.FlatStyle.Standard;
-            this.chkUpdateMemo.Location = new System.Drawing.Point(16, 15);
-            this.chkUpdateMemo.Name = "chkUpdateMemo";
-            this.chkUpdateMemo.Size = new System.Drawing.Size(77, 24);
-            this.chkUpdateMemo.TabIndex = 1;
-            this.chkUpdateMemo.Text = "Memo:";
-            this.chkUpdateMemo.ThreeState = false;
+            this.chkUpdatePhoto.Text = "Picture File:";
             // 
             // tabDiscountInfo
             // 
-            this.tabDiscountInfo.Controls.Add(this.label5);
-            this.tabDiscountInfo.Controls.Add(this.label4);
-            this.tabDiscountInfo.Controls.Add(this.label3);
-            this.tabDiscountInfo.Controls.Add(this.label1);
-            this.tabDiscountInfo.Controls.Add(this.chkStaffDiscount);
-            this.tabDiscountInfo.Controls.Add(this.txtStaffDiscount);
-            this.tabDiscountInfo.Controls.Add(this.chkDiscountForNoDiscountItem);
-            this.tabDiscountInfo.Controls.Add(this.txtDiscountForNoDiscountItem);
-            this.tabDiscountInfo.Controls.Add(this.txtDiscountForDiscountItem);
-            this.tabDiscountInfo.Controls.Add(this.chkDiscountForDiscountItem);
-            this.tabDiscountInfo.Controls.Add(this.txtDiscountForFixPriceItem);
-            this.tabDiscountInfo.Controls.Add(this.chkDiscountForFixPriceItem);
+            this.tabDiscountInfo.Controls.Add(this.gbxDiscounts);
             this.tabDiscountInfo.Controls.Add(this.cboFixedPriceItem);
             this.tabDiscountInfo.Controls.Add(this.chkFixedPriceItem);
             this.tabDiscountInfo.Dock = Gizmox.WebGUI.Forms.DockStyle.Fill;
             this.tabDiscountInfo.Location = new System.Drawing.Point(0, 0);
             this.tabDiscountInfo.Name = "tabDiscountInfo";
-            this.tabDiscountInfo.Size = new System.Drawing.Size(100, 100);
+            this.tabDiscountInfo.Size = new System.Drawing.Size(786, 331);
             this.tabDiscountInfo.TabIndex = 2;
             this.tabDiscountInfo.Text = "Discount Info.";
             // 
             // label5
             // 
-            this.label5.Location = new System.Drawing.Point(318, 134);
+            this.label5.Location = new System.Drawing.Point(300, 102);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(19, 16);
             this.label5.TabIndex = 6;
@@ -1402,7 +1217,7 @@ namespace RT2020.Product
             // 
             // label4
             // 
-            this.label4.Location = new System.Drawing.Point(318, 108);
+            this.label4.Location = new System.Drawing.Point(300, 76);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(19, 16);
             this.label4.TabIndex = 6;
@@ -1410,7 +1225,7 @@ namespace RT2020.Product
             // 
             // label3
             // 
-            this.label3.Location = new System.Drawing.Point(318, 82);
+            this.label3.Location = new System.Drawing.Point(300, 50);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(19, 16);
             this.label3.TabIndex = 6;
@@ -1418,7 +1233,7 @@ namespace RT2020.Product
             // 
             // label1
             // 
-            this.label1.Location = new System.Drawing.Point(318, 55);
+            this.label1.Location = new System.Drawing.Point(300, 23);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(19, 16);
             this.label1.TabIndex = 6;
@@ -1426,101 +1241,81 @@ namespace RT2020.Product
             // 
             // chkStaffDiscount
             // 
-            this.chkStaffDiscount.Checked = false;
-            this.chkStaffDiscount.CheckState = Gizmox.WebGUI.Forms.CheckState.Unchecked;
-            this.chkStaffDiscount.FlatStyle = Gizmox.WebGUI.Forms.FlatStyle.Standard;
-            this.chkStaffDiscount.Location = new System.Drawing.Point(18, 129);
+            this.chkStaffDiscount.Location = new System.Drawing.Point(18, 98);
             this.chkStaffDiscount.Name = "chkStaffDiscount";
-            this.chkStaffDiscount.Size = new System.Drawing.Size(163, 17);
+            this.chkStaffDiscount.Size = new System.Drawing.Size(142, 17);
             this.chkStaffDiscount.TabIndex = 8;
             this.chkStaffDiscount.Text = "Staff Discount:";
-            this.chkStaffDiscount.ThreeState = false;
             // 
             // txtStaffDiscount
             // 
-            this.txtStaffDiscount.Location = new System.Drawing.Point(181, 130);
+            this.txtStaffDiscount.Location = new System.Drawing.Point(163, 98);
             this.txtStaffDiscount.Name = "txtStaffDiscount";
             this.txtStaffDiscount.Size = new System.Drawing.Size(134, 20);
             this.txtStaffDiscount.TabIndex = 9;
             // 
             // chkDiscountForNoDiscountItem
             // 
-            this.chkDiscountForNoDiscountItem.Checked = false;
-            this.chkDiscountForNoDiscountItem.CheckState = Gizmox.WebGUI.Forms.CheckState.Unchecked;
-            this.chkDiscountForNoDiscountItem.FlatStyle = Gizmox.WebGUI.Forms.FlatStyle.Standard;
-            this.chkDiscountForNoDiscountItem.Location = new System.Drawing.Point(18, 103);
+            this.chkDiscountForNoDiscountItem.Location = new System.Drawing.Point(18, 72);
             this.chkDiscountForNoDiscountItem.Name = "chkDiscountForNoDiscountItem";
-            this.chkDiscountForNoDiscountItem.Size = new System.Drawing.Size(163, 17);
+            this.chkDiscountForNoDiscountItem.Size = new System.Drawing.Size(142, 17);
             this.chkDiscountForNoDiscountItem.TabIndex = 6;
             this.chkDiscountForNoDiscountItem.Text = "Disc for No Disc Item:";
-            this.chkDiscountForNoDiscountItem.ThreeState = false;
             // 
             // txtDiscountForNoDiscountItem
             // 
-            this.txtDiscountForNoDiscountItem.Location = new System.Drawing.Point(181, 104);
+            this.txtDiscountForNoDiscountItem.Location = new System.Drawing.Point(163, 72);
             this.txtDiscountForNoDiscountItem.Name = "txtDiscountForNoDiscountItem";
             this.txtDiscountForNoDiscountItem.Size = new System.Drawing.Size(134, 20);
             this.txtDiscountForNoDiscountItem.TabIndex = 7;
             // 
             // txtDiscountForDiscountItem
             // 
-            this.txtDiscountForDiscountItem.Location = new System.Drawing.Point(181, 78);
+            this.txtDiscountForDiscountItem.Location = new System.Drawing.Point(163, 46);
             this.txtDiscountForDiscountItem.Name = "txtDiscountForDiscountItem";
             this.txtDiscountForDiscountItem.Size = new System.Drawing.Size(134, 20);
             this.txtDiscountForDiscountItem.TabIndex = 5;
             // 
             // chkDiscountForDiscountItem
             // 
-            this.chkDiscountForDiscountItem.Checked = false;
-            this.chkDiscountForDiscountItem.CheckState = Gizmox.WebGUI.Forms.CheckState.Unchecked;
-            this.chkDiscountForDiscountItem.FlatStyle = Gizmox.WebGUI.Forms.FlatStyle.Standard;
-            this.chkDiscountForDiscountItem.Location = new System.Drawing.Point(18, 77);
+            this.chkDiscountForDiscountItem.Location = new System.Drawing.Point(18, 46);
             this.chkDiscountForDiscountItem.Name = "chkDiscountForDiscountItem";
-            this.chkDiscountForDiscountItem.Size = new System.Drawing.Size(163, 17);
+            this.chkDiscountForDiscountItem.Size = new System.Drawing.Size(142, 17);
             this.chkDiscountForDiscountItem.TabIndex = 4;
             this.chkDiscountForDiscountItem.Text = "Disc for Disc Item:";
-            this.chkDiscountForDiscountItem.ThreeState = false;
             // 
             // txtDiscountForFixPriceItem
             // 
-            this.txtDiscountForFixPriceItem.Location = new System.Drawing.Point(181, 51);
+            this.txtDiscountForFixPriceItem.Location = new System.Drawing.Point(163, 19);
             this.txtDiscountForFixPriceItem.Name = "txtDiscountForFixPriceItem";
             this.txtDiscountForFixPriceItem.Size = new System.Drawing.Size(134, 20);
             this.txtDiscountForFixPriceItem.TabIndex = 3;
             // 
             // chkDiscountForFixPriceItem
             // 
-            this.chkDiscountForFixPriceItem.Checked = false;
-            this.chkDiscountForFixPriceItem.CheckState = Gizmox.WebGUI.Forms.CheckState.Unchecked;
-            this.chkDiscountForFixPriceItem.FlatStyle = Gizmox.WebGUI.Forms.FlatStyle.Standard;
-            this.chkDiscountForFixPriceItem.Location = new System.Drawing.Point(18, 52);
+            this.chkDiscountForFixPriceItem.Location = new System.Drawing.Point(18, 21);
             this.chkDiscountForFixPriceItem.Name = "chkDiscountForFixPriceItem";
-            this.chkDiscountForFixPriceItem.Size = new System.Drawing.Size(163, 16);
+            this.chkDiscountForFixPriceItem.Size = new System.Drawing.Size(142, 16);
             this.chkDiscountForFixPriceItem.TabIndex = 2;
             this.chkDiscountForFixPriceItem.Text = "Disc for Fix Price  Item:";
-            this.chkDiscountForFixPriceItem.ThreeState = false;
             // 
             // cboFixedPriceItem
             // 
             this.cboFixedPriceItem.Items.AddRange(new object[] {
             "N - NO",
             "Y - YES"});
-            this.cboFixedPriceItem.Location = new System.Drawing.Point(181, 25);
+            this.cboFixedPriceItem.Location = new System.Drawing.Point(177, 17);
             this.cboFixedPriceItem.Name = "cboFixedPriceItem";
             this.cboFixedPriceItem.Size = new System.Drawing.Size(134, 21);
             this.cboFixedPriceItem.TabIndex = 1;
             // 
             // chkFixedPriceItem
             // 
-            this.chkFixedPriceItem.Checked = false;
-            this.chkFixedPriceItem.CheckState = Gizmox.WebGUI.Forms.CheckState.Unchecked;
-            this.chkFixedPriceItem.FlatStyle = Gizmox.WebGUI.Forms.FlatStyle.Standard;
-            this.chkFixedPriceItem.Location = new System.Drawing.Point(18, 26);
+            this.chkFixedPriceItem.Location = new System.Drawing.Point(32, 19);
             this.chkFixedPriceItem.Name = "chkFixedPriceItem";
-            this.chkFixedPriceItem.Size = new System.Drawing.Size(163, 17);
+            this.chkFixedPriceItem.Size = new System.Drawing.Size(142, 17);
             this.chkFixedPriceItem.TabIndex = 0;
             this.chkFixedPriceItem.Text = "Fixed Price Item:";
-            this.chkFixedPriceItem.ThreeState = false;
             // 
             // lblProductName
             // 
@@ -1533,33 +1328,68 @@ namespace RT2020.Product
             // errorProvider
             // 
             this.errorProvider.BlinkRate = 3;
-            this.errorProvider.BlinkStyle = Gizmox.WebGUI.Forms.ErrorBlinkStyle.BlinkIfDifferentError;
             this.errorProvider.DataMember = " ";
             this.errorProvider.DataSource = " ";
-            this.errorProvider.Icon = null;
             // 
-            // ProductWizard_MassUpdate
+            // gbxDiscounts
             // 
+            this.gbxDiscounts.Controls.Add(this.txtDiscountForDiscountItem);
+            this.gbxDiscounts.Controls.Add(this.label5);
+            this.gbxDiscounts.Controls.Add(this.chkDiscountForFixPriceItem);
+            this.gbxDiscounts.Controls.Add(this.label4);
+            this.gbxDiscounts.Controls.Add(this.txtDiscountForFixPriceItem);
+            this.gbxDiscounts.Controls.Add(this.label3);
+            this.gbxDiscounts.Controls.Add(this.chkDiscountForDiscountItem);
+            this.gbxDiscounts.Controls.Add(this.label1);
+            this.gbxDiscounts.Controls.Add(this.txtDiscountForNoDiscountItem);
+            this.gbxDiscounts.Controls.Add(this.chkStaffDiscount);
+            this.gbxDiscounts.Controls.Add(this.chkDiscountForNoDiscountItem);
+            this.gbxDiscounts.Controls.Add(this.txtStaffDiscount);
+            this.gbxDiscounts.FlatStyle = Gizmox.WebGUI.Forms.FlatStyle.Flat;
+            this.gbxDiscounts.Location = new System.Drawing.Point(14, 48);
+            this.gbxDiscounts.Name = "gbxDiscounts";
+            this.gbxDiscounts.Size = new System.Drawing.Size(326, 137);
+            this.gbxDiscounts.TabIndex = 10;
+            this.gbxDiscounts.TabStop = false;
+            this.gbxDiscounts.Text = "Discounts";
+            // 
+            // ModifyWizard
+            // 
+            this.Controls.Add(this.txtStockCode);
             this.Controls.Add(this.tabMessUpdate);
+            this.Controls.Add(this.lblStockCode);
             this.Controls.Add(this.btnSelectNone);
+            this.Controls.Add(this.txtAppendix1);
             this.Controls.Add(this.btnSelectAll);
+            this.Controls.Add(this.txtAppendix2);
+            this.Controls.Add(this.txtAppendix3);
             this.Controls.Add(this.btnClose);
+            this.Controls.Add(this.btnRefresh);
             this.Controls.Add(this.btnUpdate);
-            this.Controls.Add(this.gbUpdateRange);
-            this.Controls.Add(this.gbSearchStockInfo);
+            this.Controls.Add(this.btnFind);
+            this.Controls.Add(this.gbxOptions);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Size = new System.Drawing.Size(818, 535);
+            this.Size = new System.Drawing.Size(810, 510);
             this.StartPosition = Gizmox.WebGUI.Forms.FormStartPosition.CenterParent;
             this.Text = "Product Wizard [Mass Update]";
-            this.Load += new System.EventHandler(this.ProductWizard_MassUpdate_Load);
+            this.Load += new System.EventHandler(this.ModifyWizard_Load);
+            this.gbxOptions.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.tabMessUpdate)).EndInit();
+            this.tabMessUpdate.ResumeLayout(false);
+            this.tabMainInfo.ResumeLayout(false);
+            this.gbxReorderInfo.ResumeLayout(false);
+            this.gbxBin.ResumeLayout(false);
+            this.gbxPrice.ResumeLayout(false);
+            this.tabMiscInfo.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.tabDiscountInfo.ResumeLayout(false);
+            this.gbxDiscounts.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
 
         #endregion
-
-        private Gizmox.WebGUI.Forms.GroupBox gbSearchStockInfo;
         private Gizmox.WebGUI.Forms.Button btnFind;
         private Gizmox.WebGUI.Forms.Button btnRefresh;
         private Gizmox.WebGUI.Forms.TextBox txtAppendix3;
@@ -1567,7 +1397,7 @@ namespace RT2020.Product
         private Gizmox.WebGUI.Forms.TextBox txtAppendix1;
         private Gizmox.WebGUI.Forms.TextBox txtStockCode;
         private Gizmox.WebGUI.Forms.Label lblStockCode;
-        private Gizmox.WebGUI.Forms.GroupBox gbUpdateRange;
+        private Gizmox.WebGUI.Forms.GroupBox gbxOptions;
         private Gizmox.WebGUI.Forms.ComboBox cboAppendix3_To;
         private Gizmox.WebGUI.Forms.ComboBox cboAppendix2_To;
         private Gizmox.WebGUI.Forms.ComboBox cboAppendix1_To;
@@ -1593,14 +1423,14 @@ namespace RT2020.Product
         private Gizmox.WebGUI.Forms.TextBox txtProductPole;
         private Gizmox.WebGUI.Forms.CheckBox chkUpdateProductMemo;
         private Gizmox.WebGUI.Forms.TextBox txtProductMemo;
-        private Gizmox.WebGUI.Forms.CheckBox chkUpdateProductNameCht;
+        private Gizmox.WebGUI.Forms.CheckBox chkUpdateProductNameAlt2;
         private Gizmox.WebGUI.Forms.TextBox txtProductNameCht;
-        private Gizmox.WebGUI.Forms.CheckBox chkUpdateProductNameChs;
+        private Gizmox.WebGUI.Forms.CheckBox chkUpdateProductNameAlt1;
         private Gizmox.WebGUI.Forms.TextBox txtProductNameChs;
         private Gizmox.WebGUI.Forms.TextBox txtProductName;
         private Gizmox.WebGUI.Forms.Label lblProductName;
         private Gizmox.WebGUI.Forms.CheckBox chkUpdateProductName;
-        private Gizmox.WebGUI.Forms.GroupBox gbPrice;
+        private Gizmox.WebGUI.Forms.GroupBox gbxPrice;
         private Gizmox.WebGUI.Forms.CheckBox chkUpdateUnit;
         private Gizmox.WebGUI.Forms.CheckBox chkUpdateRetailDiscount;
         private Gizmox.WebGUI.Forms.CheckBox chkUpdateCurrentRetail;
@@ -1617,7 +1447,7 @@ namespace RT2020.Product
         public Gizmox.WebGUI.Forms.TextBox txtCurrentRetailCurrency;
         public Gizmox.WebGUI.Forms.TextBox txtWholesalesCurrency;
         public Gizmox.WebGUI.Forms.ComboBox cboVendorCurrency;
-        private Gizmox.WebGUI.Forms.GroupBox gbBinNum;
+        private Gizmox.WebGUI.Forms.GroupBox gbxBin;
         private Gizmox.WebGUI.Forms.CheckBox chkUpdateBinX;
         private Gizmox.WebGUI.Forms.CheckBox chkUpdateBinY;
         private Gizmox.WebGUI.Forms.CheckBox chkUpdateBinZ;
@@ -1628,7 +1458,6 @@ namespace RT2020.Product
         private Gizmox.WebGUI.Forms.CheckBox chkUpdateRetailItem;
         private Gizmox.WebGUI.Forms.CheckBox chkUpdateOffDisplayItem;
         private Gizmox.WebGUI.Forms.CheckBox chkUpdateNature;
-        private Gizmox.WebGUI.Forms.LinkLabel lnkNature;
         public Gizmox.WebGUI.Forms.ComboBox cboClass1;
         public Gizmox.WebGUI.Forms.ComboBox cboClass2;
         public Gizmox.WebGUI.Forms.ComboBox cboClass3;
@@ -1645,7 +1474,7 @@ namespace RT2020.Product
         public Gizmox.WebGUI.Forms.CheckBox chkOffDisplayItem;
         public Gizmox.WebGUI.Forms.CheckBox chkRetailItem;
         public Gizmox.WebGUI.Forms.CheckBox chkCounterItem;
-        private Gizmox.WebGUI.Forms.GroupBox gbReorderInfo;
+        private Gizmox.WebGUI.Forms.GroupBox gbxReorderInfo;
         private Gizmox.WebGUI.Forms.CheckBox chkUpdateClass1;
         private Gizmox.WebGUI.Forms.CheckBox chkUpdateClass6;
         private Gizmox.WebGUI.Forms.CheckBox chkUpdateClass5;
@@ -1671,8 +1500,6 @@ namespace RT2020.Product
         private Gizmox.WebGUI.Forms.PictureBox pictureBox1;
         private Gizmox.WebGUI.Forms.TextBox txtPhoto;
         private Gizmox.WebGUI.Forms.CheckBox chkUpdatePhoto;
-        private Gizmox.WebGUI.Forms.TextBox txtMemo;
-        private Gizmox.WebGUI.Forms.CheckBox chkUpdateMemo;
         private Gizmox.WebGUI.Forms.ErrorProvider errorProvider;
         private Gizmox.WebGUI.Forms.TabPage tabDiscountInfo;
         private Gizmox.WebGUI.Forms.ComboBox cboFixedPriceItem;
@@ -1689,7 +1516,6 @@ namespace RT2020.Product
         private Gizmox.WebGUI.Forms.Label label3;
         private Gizmox.WebGUI.Forms.Label label1;
         private Gizmox.WebGUI.Forms.Label label5;
-
-
+        private Gizmox.WebGUI.Forms.GroupBox gbxDiscounts;
     }
 }

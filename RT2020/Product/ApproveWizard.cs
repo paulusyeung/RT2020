@@ -1,4 +1,4 @@
-#region Using
+﻿#region Using
 
 using System;
 using System.Collections.Generic;
@@ -22,34 +22,84 @@ using RT2020.Helper;
 
 namespace RT2020.Product
 {
-    public partial class ProductWizard_Authorization : Form, IGatewayComponent
+    public partial class ApproveWizard : Form, IGatewayComponent
     {
-        public ProductWizard_Authorization()
+        public ApproveWizard()
         {
             InitializeComponent();
-            BindingBatchList();
-
-            SetSystemLabels();
         }
 
-        #region Set System label
-        private void SetSystemLabels()
+        private void ApproveWizard_Load(object sender, EventArgs e)
         {
-            colPLU.Text = RT2020.SystemInfo.Settings.GetSystemLabelByKey("STKCODE");
-            colSeason.Text = RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX1");
-            colColor.Text = RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX2");
-            colSize.Text = RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX3");
+            SetCaptions();
+            SetAttributes();
+
+            BindingBatchList();
+
+        }
+
+        #region SetCaptions, SetAttributes
+        private void SetCaptions()
+        {
+            this.Text = WestwindHelper.GetWord("product.product.approve", "Menu");
+
+            #region list view columns
+            colLN.Text = WestwindHelper.GetWord("listview.line", "Tools");
+            colSTKCODE.Text = WestwindHelper.GetWord("general.STKCODE", "Product");
+            colAppendix1.Text = WestwindHelper.GetWord("appendix.appendix1", "Product");
+            colAppendix2.Text = WestwindHelper.GetWord("appendix.appendix2", "Product");
+            colAppendix3.Text = WestwindHelper.GetWord("appendix.appendix3", "Product");
+            colDescription.Text = WestwindHelper.GetWord("general.name", "Product");
+            colCreatedOn.Text = WestwindHelper.GetWord("glossary.createdOn", "General");
+            colPostResult.Text = WestwindHelper.GetWord("glossary.result", "General");
+            #endregion
+
+            gbxFilter.Text = WestwindHelper.GetWord("glossary.filter", "General");
+            btnReload.Text = WestwindHelper.GetWord("glossary.reload", "General");
+            btnPrintReport.Text = WestwindHelper.GetWord("edit.print", "General");
+            btnMarkAll.Text = WestwindHelper.GetWord("glossary.selectAll", "General");
+            btnPost.Text = WestwindHelper.GetWord("edit.approve", "General");
+            btnExit.Text = WestwindHelper.GetWord("glossary.cancel", "General");
+        }
+
+        private void SetAttributes()
+        {
+            #region listview layout
+            lvwList.Dock = DockStyle.Fill;
+            lvwList.CheckBoxes = true;
+            lvwList.MultiSelect = true;
+
+            // 2021.02.03 paulus: colMarks 用 CheckBox 取代，colPostResult 看來冇咩用，暫時隱藏
+            colMarks.Visible = colPostResult.Visible = false;
+
+            colLN.ContentAlign = ExtendedHorizontalAlignment.Center;
+            colLN.TextAlign = HorizontalAlignment.Left;
+            colSTKCODE.ContentAlign = ExtendedHorizontalAlignment.Center;
+            colSTKCODE.TextAlign = HorizontalAlignment.Left;
+            colAppendix1.ContentAlign = ExtendedHorizontalAlignment.Center;
+            colAppendix1.TextAlign = HorizontalAlignment.Left;
+            colAppendix2.ContentAlign = ExtendedHorizontalAlignment.Center;
+            colAppendix2.TextAlign = HorizontalAlignment.Left;
+            colAppendix3.ContentAlign = ExtendedHorizontalAlignment.Center;
+            colAppendix3.TextAlign = HorizontalAlignment.Left;
+            colDescription.ContentAlign = ExtendedHorizontalAlignment.Center;
+            colDescription.TextAlign = HorizontalAlignment.Left;
+            colCreatedOn.ContentAlign = ExtendedHorizontalAlignment.Center;
+            colCreatedOn.TextAlign = HorizontalAlignment.Left;
+            colPostResult.ContentAlign = ExtendedHorizontalAlignment.Center;
+            colPostResult.TextAlign = HorizontalAlignment.Center;
+            #endregion
         }
         #endregion
 
         #region Bind Methods
         private void BindingBatchList()
         {
-            lvHoldBatchList.Items.Clear();
+            lvwList.Items.Clear();
 
             int iCount = 0;
             string sql = BuildSqlQueryString();
-            
+            /**
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = sql;
             cmd.CommandTimeout = ConfigHelper.CommandTimeout;
@@ -72,8 +122,27 @@ namespace RT2020.Product
                     iCount++;
                 }
             }
+            */
+            using (var ctx = new EF6.RT2020Entities())
+            {
+                var list = ctx.ProductBatch
+                    .SqlQuery(string.Format("Select * from ProductBatch {0} Order By STKCODE, APP1_COMBIN, APP2_COMBIN, APP3_COMBIN", sql.Substring(sql.IndexOf("WHERE"))))
+                    .AsNoTracking().ToList();
+                foreach (var item in list)
+                {
+                    iCount++;
 
-            lblRecords.Text = string.Format("Rec: {0}", iCount.ToString());
+                    ListViewItem objItem = this.lvwList.Items.Add(item.BatchId.ToString());
+                    objItem.SubItems.Add(string.Empty);
+                    objItem.SubItems.Add(iCount.ToString()); // Line Number
+                    objItem.SubItems.Add(item.STKCODE);
+                    objItem.SubItems.Add(item.APP1_COMBIN);
+                    objItem.SubItems.Add(item.APP2_COMBIN);
+                    objItem.SubItems.Add(item.APP3_COMBIN);
+                    objItem.SubItems.Add(item.Description);
+                    objItem.SubItems.Add(item.DATECREATE.HasValue ? DateTimeHelper.DateTimeToString(item.DATECREATE.Value, true) : "");
+                }
+            }
         }
 
         private string BuildSqlQueryString()
@@ -84,29 +153,22 @@ namespace RT2020.Product
             sql.Append(" FROM ProductBatch ");
             sql.Append(" WHERE STATUS = 'POST' ");
 
-            if (chkSortAndFilter.Checked)
+            if (cboSortColumn.Text.Length > 0 && cboOperator.Text != "None")
             {
-                if (cboSortColumn.Text.Length > 0 && cboOperator.Text != "None")
+                sql.Append(" AND ");
+                sql.Append(ColumnName()).Append(" ");
+
+                if (cboSortColumn.Text.Contains("Date"))
                 {
-                    sql.Append(" AND ");
-                    sql.Append(ColumnName()).Append(" ");
-
-                    if (cboSortColumn.Text.Contains("Date"))
-                    {
-                        sql.Append("BETWEEN '");
-                        sql.Append(txtData.Tag.ToString()).Append(" 00:00:00'");
-                        sql.Append(" AND '");
-                        sql.Append(txtData.Tag.ToString()).Append(" 23:59:59'");
-                    }
-                    else
-                    {
-                        sql.Append((cboOperator.Text == "=") ? "= '" : "LIKE '%");
-                        sql.Append(txtData.Text).Append((cboOperator.Text == "=") ? "'" : "%'");
-                    }
-
-                    sql.Append(" ORDER BY ");
-                    sql.Append(ColumnName());
-                    sql.Append((cboOrdering.Text == "Ascending") ? " ASC" : " DESC");
+                    sql.Append("BETWEEN '");
+                    sql.Append(txtData.Tag.ToString()).Append(" 00:00:00'");
+                    sql.Append(" AND '");
+                    sql.Append(txtData.Tag.ToString()).Append(" 23:59:59'");
+                }
+                else
+                {
+                    sql.Append((cboOperator.Text == "=") ? "= '" : "LIKE '%");
+                    sql.Append(txtData.Text).Append((cboOperator.Text == "=") ? "'" : "%'");
                 }
             }
 
@@ -234,7 +296,7 @@ namespace RT2020.Product
 
             oList = new ListView();
 
-            foreach (ListViewItem oItem in this.lvHoldBatchList.Items)
+            foreach (ListViewItem oItem in this.lvwList.Items)
             {
                 if (oItem.SubItems[1].Text == "*")
                 {
@@ -339,21 +401,6 @@ namespace RT2020.Product
             objItem.SubItems.Add(ModelEx.ProductAppendix3Ex.GetIdByInitial(a3).ToString());
         }
         #endregion
-
-        private int SelectedColumnsCounting()
-        {
-            int iCount = 0;
-
-            foreach (ListViewItem objItem in this.lvHoldBatchList.Items)
-            {
-                if (objItem.SubItems[1].Text == "*")
-                {
-                    iCount++;
-                }
-            }
-
-            return iCount;
-        }
 
         private bool IsValid()
         {
@@ -718,21 +765,6 @@ namespace RT2020.Product
             }
         }
 
-        private void chkSortAndFilter_Click(object sender, EventArgs e)
-        {
-            cboSortColumn.Enabled = chkSortAndFilter.Checked;
-            cboSortColumn.SelectedIndex = 0;
-
-            cboOrdering.Enabled = chkSortAndFilter.Checked;
-            cboOrdering.SelectedIndex = 0;
-
-            cboOperator.Enabled = chkSortAndFilter.Checked;
-            cboOperator.SelectedIndex = 0;
-
-            txtData.Enabled = chkSortAndFilter.Checked;
-            btnReload.Enabled = chkSortAndFilter.Checked;
-        }
-
         private void btnPrintReport_Click(object sender, EventArgs e)
         {
             Link.Open(new Gizmox.WebGUI.Common.Gateways.GatewayReference(this, "open"));
@@ -740,59 +772,73 @@ namespace RT2020.Product
 
         private void btnMarkAll_Click(object sender, EventArgs e)
         {
-            foreach (ListViewItem objItem in this.lvHoldBatchList.Items)
+            var allChecked = btnMarkAll.Tag == null ? false : (bool)btnMarkAll.Tag;
+            foreach (ListViewItem item in this.lvwList.Items)
             {
-                if (btnMarkAll.Text.Contains("Mark") && !objItem.SubItems[1].Text.Contains("*"))
+                /**
+                if (btnMarkAll.Text.Contains("Mark") && !item.SubItems[1].Text.Contains("*"))
                 {
-                    objItem.SubItems[1].Text = "*";
+                    item.SubItems[1].Text = "*";
                 }
                 else if (btnMarkAll.Text.Contains("Unmark"))
                 {
-                    objItem.SubItems[1].Text = string.Empty;
+                    item.SubItems[1].Text = string.Empty;
                 }
+                */
+                item.Checked = !allChecked;
             }
             this.Update();
-
-            btnMarkAll.Text = (btnMarkAll.Text == "Mark All") ? "Unmark All" : "Mark All";
+            allChecked = !allChecked;
+            btnMarkAll.Tag = allChecked;
+            btnMarkAll.Text = allChecked ? WestwindHelper.GetWord("glossary.clearAll", "General") : WestwindHelper.GetWord("glossary.selectAll", "General");
         }
 
         private void btnPost_Click(object sender, EventArgs e)
         {
-            if (SelectedColumnsCounting() > 0)
+            if (ListViewHelper.CountCheckedItems(ref lvwList) > 0)
+            {
+                MessageBox.Show(WestwindHelper.GetWordWithQuestionMark("dialog.areYouSure", "General"), WestwindHelper.GetWord("dialog.warning", "General"), MessageBoxButtons.YesNo, MessageBoxIcon.Warning, new EventHandler(DoPost));
+            }
+            else
+            {
+                MessageBox.Show(WestwindHelper.GetWord("dialog.noSelectedRecord", "General"), WestwindHelper.GetWord("dialog.information", "General"), MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+        private void DoPost(object sender, EventArgs e)
+        {
+            if (((Form)sender).DialogResult == DialogResult.OK)
             {
                 int result = CreateProducts();
                 if (result > 0)
                 {
-                    RT2020.SystemInfo.Settings.RefreshMainList<ProductList>();
-                    MessageBox.Show(result.ToString() + " succeed!", "Posting result", MessageBoxButtons.OK, new EventHandler(PostingMessageHandler));
+                    MessageBox.Show(WestwindHelper.GetWord("rsult.done", "Prompt"), WestwindHelper.GetWord("dialog.information", "General"), MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else
                 {
-                    MessageBox.Show(result.ToString() + " succeed!", "Posting result", MessageBoxButtons.OK, MessageBoxIcon.Warning, new EventHandler(PostingMessageHandler));
+                    MessageBox.Show(WestwindHelper.GetWord("rsult.errorFound", "Prompt"), WestwindHelper.GetWord("dialog.information", "General"), MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
-            }
-            else
-            {
-                MessageBox.Show("No Record Selected!");
-            }
-        }
-
-        private void PostingMessageHandler(object sender, EventArgs e)
-        {
-            if (((Form)sender).DialogResult == DialogResult.OK)
-            {
                 BindingBatchList();
             }
         }
 
-        private void lvHoldBatchList_Click(object sender, EventArgs e)
+        private void lvwList_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (lvHoldBatchList.Items != null && lvHoldBatchList.SelectedIndex >= 0)
+            foreach (ListViewItem item in lvwList.Items)
             {
-                int index = lvHoldBatchList.SelectedIndex;
-                this.lvHoldBatchList.Items[index].SubItems[1].Text = (this.lvHoldBatchList.Items[index].SubItems[1].Text.Length == 0) ? "*" : string.Empty;
-                //this.Update();
+                var selected = lvwList.SelectedIndices.Contains(item.Index);
+                item.Checked = selected;
             }
+            /**
+            if (lvwList.SelectedItem != null)
+            {
+                var id = Guid.NewGuid();
+                if (Guid.TryParse(lvwList.SelectedItem.Text, out id))
+                {
+
+                }
+            }
+            */
         }
     }
 }

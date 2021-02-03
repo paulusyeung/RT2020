@@ -1,4 +1,4 @@
-#region Using
+﻿#region Using
 
 using System;
 using System.Collections.Generic;
@@ -18,7 +18,7 @@ using RT2020.Helper;
 
 namespace RT2020.Product
 {
-    public partial class ProductWizard_Batch : Form
+    public partial class BatchWizard : Form
     {
         ProductWizard_General general;
         ProductWizard_Misc misc;
@@ -39,32 +39,89 @@ namespace RT2020.Product
         }
         #endregion
 
-        public ProductWizard_Batch()
+        public BatchWizard()
         {
             InitializeComponent();
+        }
+
+        private void ProductWizard_Batch_Load(object sender, EventArgs e)
+        {
+            SetCaptions();
+            SetAttributes();
+
             FillComboList();
             SetToolBar();
             TabCtrl();
             SetCtrlEditable();
 
-            SetSystemLabels();
-        }
-
-        private void ProductWizard_Batch_Load(object sender, EventArgs e)
-        {
             txtStkCode.Focus();
         }
 
-        #region Set System label
-        private void SetSystemLabels()
+        #region SetCaptions, SetAttributes
+        private void SetCaptions()
         {
-            lblStkCode.Text = RT2020.SystemInfo.Settings.GetSystemLabelByKey("STKCODE");
+            this.Text = WestwindHelper.GetWord("product.product.batch", "Menu");
 
-            string combinNum = Resources.Common.AppendixCombinNum;
+            lblStkCode.Text = WestwindHelper.GetWordWithColon("general.STKCODE", "Product");
 
-            lnkAppendix1.Text = string.Format(combinNum, RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX1"));
-            lnkAppendix2.Text = string.Format(combinNum, RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX2"));
-            lnkAppendix3.Text = string.Format(combinNum, RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX3"));
+            lblAppendix1.Text = string.Format("{0}/{1}", WestwindHelper.GetWord("appendix.appendix1", "Product"), WestwindHelper.GetWordWithColon("combination.number", "Product"));
+            lblAppendix2.Text = string.Format("{0}/{1}", WestwindHelper.GetWord("appendix.appendix2", "Product"), WestwindHelper.GetWordWithColon("combination.number", "Product"));
+            lblAppendix3.Text = string.Format("{0}/{1}", WestwindHelper.GetWord("appendix.appendix3", "Product"), WestwindHelper.GetWordWithColon("combination.number", "Product"));
+            lblItemStatus.Text = WestwindHelper.GetWordWithColon("glossary.status", "General");
+
+            tpGeneral.Text = WestwindHelper.GetWord("general", "Product");
+            tpMisc.Text = WestwindHelper.GetWord("misc", "Product");
+            tpOrder.Text = WestwindHelper.GetWord("order", "Product");
+        }
+
+        private void SetAttributes()
+        {
+            txtStkCode.MaxLength = 10;      // dbo.Product.STKCODE VARCHAR(10)
+
+            #region 設定 clickable Appendix 1 label
+            //lblAppendix1.AutoSize = true;                         // 減少 whitespace，有字嘅位置先可以 click
+            lblAppendix1.Cursor = Cursors.Hand;                   // cursor over 顯示 hand cursor
+            lblAppendix1.Click += (s, e) =>                       // 彈出 wizard
+            {
+                var dialog = new CombinationWizard();
+                dialog.AppendixType = ProductHelper.Appendix.Appendix1;
+                dialog.FormClosed += (sender, eventArgs) =>     // 關閉後 refresh 個 combo box items
+                {
+                    FillAppendix1List();
+                };
+                dialog.ShowDialog();
+            };
+            #endregion
+
+            #region 設定 clickable Appendix 2 label
+            //lblAppendix2.AutoSize = true;                         // 減少 whitespace，有字嘅位置先可以 click
+            lblAppendix2.Cursor = Cursors.Hand;                   // cursor over 顯示 hand cursor
+            lblAppendix2.Click += (s, e) =>                       // 彈出 wizard
+            {
+                var dialog = new CombinationWizard();
+                dialog.AppendixType = ProductHelper.Appendix.Appendix2;
+                dialog.FormClosed += (sender, eventArgs) =>     // 關閉後 refresh 個 combo box items
+                {
+                    FillAppendix2List();
+                };
+                dialog.ShowDialog();
+            };
+            #endregion
+
+            #region 設定 clickable Appendix 3 label
+            //lblAppendix3.AutoSize = true;                         // 減少 whitespace，有字嘅位置先可以 click
+            lblAppendix3.Cursor = Cursors.Hand;                   // cursor over 顯示 hand cursor
+            lblAppendix3.Click += (s, e) =>                       // 彈出 wizard
+            {
+                var dialog = new CombinationWizard();
+                dialog.AppendixType = ProductHelper.Appendix.Appendix3;
+                dialog.FormClosed += (sender, eventArgs) =>     // 關閉後 refresh 個 combo box items
+                {
+                    FillAppendix3List();
+                };
+                dialog.ShowDialog();
+            };
+            #endregion
         }
         #endregion
 
@@ -87,21 +144,21 @@ namespace RT2020.Product
             sep.Style = ToolBarButtonStyle.Separator;
 
             // cmdSave
-            ToolBarButton cmdSave = new ToolBarButton("Save", "Save");
+            ToolBarButton cmdSave = new ToolBarButton("Save", WestwindHelper.GetWord("edit.save", "General"));
             cmdSave.Tag = "Save";
             cmdSave.Image = new IconResourceHandle("16x16.16_L_save.gif");
 
             this.tbWizardAction.Buttons.Add(cmdSave);
 
             // cmdSaveNew
-            ToolBarButton cmdSaveNew = new ToolBarButton("Save & New", "Save & New");
+            ToolBarButton cmdSaveNew = new ToolBarButton("Save & New", WestwindHelper.GetWord("edit.save.new", "General"));
             cmdSaveNew.Tag = "Save & New";
             cmdSaveNew.Image = new IconResourceHandle("16x16.16_L_saveOpen.gif");
 
             this.tbWizardAction.Buttons.Add(cmdSaveNew);
 
             // cmdSaveClose
-            ToolBarButton cmdSaveClose = new ToolBarButton("Save & Close", "Save & Close");
+            ToolBarButton cmdSaveClose = new ToolBarButton("Save & Close", WestwindHelper.GetWord("edit.save.close", "General"));
             cmdSaveClose.Tag = "Save & Close";
             cmdSaveClose.Image = new IconResourceHandle("16x16.16_saveClose.gif");
 
@@ -796,7 +853,7 @@ namespace RT2020.Product
             {
                 this.Close();
 
-                ProductWizard_Batch oBatch = new ProductWizard_Batch();
+                BatchWizard oBatch = new BatchWizard();
                 oBatch.ShowDialog();
             }
         }
@@ -806,30 +863,6 @@ namespace RT2020.Product
             if (((Form)sender).DialogResult == DialogResult.Yes)
             {
                 this.Close();
-            }
-        }
-
-        private void lnkAppendix_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            CombinationWizard wizCombin = null;
-            LinkLabel lnk = sender as LinkLabel;
-            switch (lnk.Name.ToLower())
-            {
-                case "lnkappendix1":
-                    wizCombin = new CombinationWizard();
-                    wizCombin.AppendixType = ProductHelper.Appendix.Appendix1;
-                    wizCombin.ShowDialog();
-                    break;
-                case "lnkappendix2":
-                    wizCombin = new CombinationWizard();
-                    wizCombin.AppendixType = ProductHelper.Appendix.Appendix2;
-                    wizCombin.ShowDialog();
-                    break;
-                case "lnkappendix3":
-                    wizCombin = new CombinationWizard();
-                    wizCombin.AppendixType = ProductHelper.Appendix.Appendix3;
-                    wizCombin.ShowDialog();
-                    break;
             }
         }
 

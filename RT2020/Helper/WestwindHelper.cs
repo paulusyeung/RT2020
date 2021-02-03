@@ -92,5 +92,15 @@ namespace RT2020.Helper
 
             return result;
         }
+
+        public static String GetWordWithQuestionMark(String resourceId, String resource)
+        {
+            var result = "";
+
+            result = DbRes.T(resourceId, resource, CookieHelper.CurrentLocaleId) +
+                DbRes.T("punctuation.questionMark", "General", CookieHelper.CurrentLocaleId);
+
+            return result;
+        }
     }
 }

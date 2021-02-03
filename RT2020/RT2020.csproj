@@ -931,6 +931,7 @@
     <Compile Include="Helper\LanguageHelper.cs" />
     <Compile Include="Helper\ListViewHelper.cs" />
     <Compile Include="Helper\MemberHelper.cs" />
+    <Compile Include="Helper\MenuHelper.cs" />
     <Compile Include="Helper\NetSqlAzManHelper.cs" />
     <Compile Include="Helper\ProductHelper.cs" />
     <Compile Include="Helper\SqlHelper.cs" />
@@ -2145,17 +2146,17 @@
     <Compile Include="Product\ProductNatureWizard.Designer.cs">
       <DependentUpon>ProductNatureWizard.cs</DependentUpon>
     </Compile>
-    <Compile Include="Product\ProductWizard_Authorization.cs">
+    <Compile Include="Product\ApproveWizard.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Product\ProductWizard_Authorization.Designer.cs">
-      <DependentUpon>ProductWizard_Authorization.cs</DependentUpon>
+    <Compile Include="Product\ApproveWizard.Designer.cs">
+      <DependentUpon>ApproveWizard.cs</DependentUpon>
     </Compile>
-    <Compile Include="Product\ProductWizard_Batch.cs">
+    <Compile Include="Product\BatchWizard.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Product\ProductWizard_Batch.Designer.cs">
-      <DependentUpon>ProductWizard_Batch.cs</DependentUpon>
+    <Compile Include="Product\BatchWizard.Designer.cs">
+      <DependentUpon>BatchWizard.cs</DependentUpon>
     </Compile>
     <Compile Include="Product\CombinationWizard.cs">
       <SubType>Form</SubType>
@@ -2163,17 +2164,17 @@
     <Compile Include="Product\CombinationWizard.Designer.cs">
       <DependentUpon>CombinationWizard.cs</DependentUpon>
     </Compile>
-    <Compile Include="Product\ProductWizard_FastCreation.cs">
+    <Compile Include="Product\QuickWizard.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Product\ProductWizard_FastCreation.Designer.cs">
-      <DependentUpon>ProductWizard_FastCreation.cs</DependentUpon>
+    <Compile Include="Product\QuickWizard.Designer.cs">
+      <DependentUpon>QuickWizard.cs</DependentUpon>
     </Compile>
-    <Compile Include="Product\ProductWizard_MassUpdate.cs">
+    <Compile Include="Product\ModifyWizard.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Product\ProductWizard_MassUpdate.Designer.cs">
-      <DependentUpon>ProductWizard_MassUpdate.cs</DependentUpon>
+    <Compile Include="Product\ModifyWizard.Designer.cs">
+      <DependentUpon>ModifyWizard.cs</DependentUpon>
     </Compile>
     <Compile Include="Product\Reports\Class5ListRpt_Pdf.cs">
       <SubType>Component</SubType>
@@ -4301,16 +4302,16 @@
       <DependentUpon>ProductWizard.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Product\ProductWizard_Authorization.resx">
-      <DependentUpon>ProductWizard_Authorization.cs</DependentUpon>
+    <EmbeddedResource Include="Product\ApproveWizard.resx">
+      <DependentUpon>ApproveWizard.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Product\ProductWizard_Barcode.resx">
       <DependentUpon>ProductWizard_Barcode.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Product\ProductWizard_Batch.resx">
-      <DependentUpon>ProductWizard_Batch.cs</DependentUpon>
+    <EmbeddedResource Include="Product\BatchWizard.resx">
+      <DependentUpon>BatchWizard.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Product\CombinationWizard.resx">
@@ -4321,16 +4322,16 @@
       <DependentUpon>ProductWizard_Discount.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Product\ProductWizard_FastCreation.resx">
-      <DependentUpon>ProductWizard_FastCreation.cs</DependentUpon>
+    <EmbeddedResource Include="Product\QuickWizard.resx">
+      <DependentUpon>QuickWizard.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Product\ProductWizard_General.resx">
       <DependentUpon>ProductWizard_General.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Product\ProductWizard_MassUpdate.resx">
-      <DependentUpon>ProductWizard_MassUpdate.cs</DependentUpon>
+    <EmbeddedResource Include="Product\ModifyWizard.resx">
+      <DependentUpon>ModifyWizard.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Product\ProductWizard_Misc.resx">

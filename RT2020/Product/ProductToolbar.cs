@@ -36,11 +36,11 @@ namespace RT2020.Product
 
             // cmdNew
             ContextMenu ddlNew = new ContextMenu();
-            ddlNew.MenuItems.Add(new MenuItem("Product Code", string.Empty, "Product_Code"));
-            ddlNew.MenuItems.Add(new MenuItem("Product Code [Fast]", string.Empty, "Product_Code_Fast"));
-            ddlNew.MenuItems.Add(new MenuItem("Product Code [Batch]", string.Empty, "Product_Code_Batch"));
-            ddlNew.MenuItems.Add(new MenuItem("Product Code [Batch] - Posting", string.Empty, "Product_Code_Batch_Posting"));
-            ddlNew.MenuItems.Add(new MenuItem("Product Code - Mass Update", string.Empty, "Product_Code_Mass_Update"));
+            ddlNew.MenuItems.Add(new MenuItem(WestwindHelper.GetWord("product.product", "Menu"), string.Empty, "Product_Code"));
+            //ddlNew.MenuItems.Add(new MenuItem("Product Code [Fast]", string.Empty, "Product_Code_Fast"));
+            //ddlNew.MenuItems.Add(new MenuItem("Product Code [Batch]", string.Empty, "Product_Code_Batch"));
+            //ddlNew.MenuItems.Add(new MenuItem("Product Code [Batch] - Posting", string.Empty, "Product_Code_Batch_Posting"));
+            //ddlNew.MenuItems.Add(new MenuItem("Product Code - Mass Update", string.Empty, "Product_Code_Mass_Update"));
             ddlNew.MenuItems.Add(new MenuItem("-"));
             ddlNew.MenuItems.Add(new MenuItem(WestwindHelper.GetWord("appendix.appendix1", "Product"), string.Empty, "Product_Appendix1"));
             ddlNew.MenuItems.Add(new MenuItem(WestwindHelper.GetWord("appendix.appendix2", "Product"), string.Empty, "Product_Appendix2"));
@@ -138,19 +138,19 @@ namespace RT2020.Product
                         wizProduct.ShowDialog();
                         break;
                     case "product_code_fast":
-                        ProductWizard_FastCreation wizProduct_Fast = new ProductWizard_FastCreation();
+                        QuickWizard wizProduct_Fast = new QuickWizard();
                         wizProduct_Fast.ShowDialog();
                         break;
                     case "product_code_batch":
-                        ProductWizard_Batch wizProduct_Batch = new ProductWizard_Batch();
+                        BatchWizard wizProduct_Batch = new BatchWizard();
                         wizProduct_Batch.ShowDialog();
                         break;
                     case "product_code_batch_posting":
-                        ProductWizard_Authorization wizProduct_Auth = new ProductWizard_Authorization();
+                        ApproveWizard wizProduct_Auth = new ApproveWizard();
                         wizProduct_Auth.ShowDialog();
                         break;
                     case "product_code_mass_update":
-                        ProductWizard_MassUpdate wizProduct_MU = new ProductWizard_MassUpdate();
+                        ModifyWizard wizProduct_MU = new ModifyWizard();
                         wizProduct_MU.ShowDialog();
                         break;
                     case "productcodeimport":
