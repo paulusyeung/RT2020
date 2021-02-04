@@ -21,6 +21,22 @@ namespace RT2020.Product
 {
     public partial class FindProduct : Form
     {
+        #region public Properties
+        private bool isCompleted = false;
+        public bool IsCompleted
+        {
+            get { return isCompleted; }
+            set { isCompleted = value; }
+        }
+
+        private Guid productId = System.Guid.Empty;
+        public Guid ProductId
+        {
+            get { return productId; }
+            set { productId = value; }
+        }
+        #endregion
+
         public FindProduct()
         {
             InitializeComponent();
@@ -72,34 +88,6 @@ namespace RT2020.Product
             colProductName.ContentAlign = ExtendedHorizontalAlignment.Center;
             colProductName.TextAlign = HorizontalAlignment.Left;
             #endregion
-        }
-        #endregion
-
-        #region Properties
-        private bool isCompleted = false;
-        public bool IsCompleted
-        {
-            get
-            {
-                return isCompleted;
-            }
-            set
-            {
-                isCompleted = value;
-            }
-        }
-
-        private Guid productId = System.Guid.Empty;
-        public Guid ProductId
-        {
-            get
-            {
-                return productId;
-            }
-            set
-            {
-                productId = value;
-            }
         }
         #endregion
 
@@ -195,6 +183,16 @@ namespace RT2020.Product
         private void btnFind_Click(object sender, EventArgs e)
         {
             BindProductList();
+
+            if (lvProductList.Items.Count == 0)
+            {
+                MessageBox.Show(
+                    WestwindHelper.GetWordWithQuestionMark("dialog.noRecordFound", "General"),
+                    WestwindHelper.GetWord("dialog.information", "General"),
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information
+                    );
+            }
         }
 
         private void lvProductList_SelectedIndexChanged(object sender, EventArgs e)

@@ -20,12 +20,7 @@ namespace RT2020.Product
 {
     public partial class FindBatch : Form
     {
-        public FindBatch()
-        {
-            InitializeComponent();
-        }
-
-        #region Properties
+        #region public Properties
         private bool isCompleted = false;
         public bool IsCompleted
         {
@@ -53,6 +48,60 @@ namespace RT2020.Product
         }
         #endregion
 
+        public FindBatch()
+        {
+            InitializeComponent();
+        }
+
+        private void FindBatch_Load(object sender, EventArgs e)
+        {
+            SetCaptions();
+            SetAttributes();
+
+            txtStockCode.Focus();
+            txtStockCode.SelectAll();
+        }
+
+        #region SetCaptions, SetAttributes
+        private void SetCaptions()
+        {
+            this.Text = WestwindHelper.GetWord("general.findBatch", "Product");
+
+            lblStkCode.Text = WestwindHelper.GetWordWithColon("general.STKCODE", "Product");
+            lblAppendix1.Text = WestwindHelper.GetWordWithColon("appendix.appendix1", "Product");
+            lblAppendix2.Text = WestwindHelper.GetWordWithColon("appendix.appendix2", "Product");
+            lblAppendix3.Text = WestwindHelper.GetWordWithColon("appendix.appendix3", "Product");
+            lblProductName.Text = WestwindHelper.GetWordWithColon("general.name", "Product");
+
+            btnFind.Text = WestwindHelper.GetWord("glossary.find", "General");
+
+            colLN.Text = WestwindHelper.GetWord("listview.line", "Tools");
+            colStockCode.Text = WestwindHelper.GetWord("general.STKCODE", "Product");
+            colAppendix1.Text = WestwindHelper.GetWord("appendix.appendix1", "Product");
+            colAppendix2.Text = WestwindHelper.GetWord("appendix.appendix2", "Product");
+            colAppendix3.Text = WestwindHelper.GetWord("appendix.appendix3", "Product");
+            colDescription.Text = WestwindHelper.GetWord("general.name", "Product");
+        }
+
+        private void SetAttributes()
+        {
+            #region listview layout
+            colLN.ContentAlign = ExtendedHorizontalAlignment.Center;
+            colLN.TextAlign = HorizontalAlignment.Center;
+            colStockCode.ContentAlign = ExtendedHorizontalAlignment.Center;
+            colStockCode.TextAlign = HorizontalAlignment.Left;
+            colAppendix1.ContentAlign = ExtendedHorizontalAlignment.Center;
+            colAppendix1.TextAlign = HorizontalAlignment.Left;
+            colAppendix2.ContentAlign = ExtendedHorizontalAlignment.Center;
+            colAppendix2.TextAlign = HorizontalAlignment.Left;
+            colAppendix3.ContentAlign = ExtendedHorizontalAlignment.Center;
+            colAppendix3.TextAlign = HorizontalAlignment.Left;
+            colDescription.ContentAlign = ExtendedHorizontalAlignment.Center;
+            colDescription.TextAlign = HorizontalAlignment.Left;
+            #endregion
+        }
+        #endregion
+
         #region Bind Product List
 
         private void BindProductList()
@@ -65,7 +114,7 @@ namespace RT2020.Product
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = sql;
             cmd.CommandTimeout = ConfigHelper.CommandTimeout;
-            cmd.CommandType = System.Data.CommandType.Text;
+            cmd.CommandType = CommandType.Text;
 
             using (SqlDataReader reader = SqlHelper.Default.ExecuteReader(cmd))
             {
@@ -107,6 +156,16 @@ namespace RT2020.Product
         private void btnFind_Click(object sender, EventArgs e)
         {
             BindProductList();
+
+            if (lvProductBatchList.Items.Count == 0)
+            {
+                MessageBox.Show(
+                    WestwindHelper.GetWordWithQuestionMark("dialog.noRecordFound", "General"),
+                    WestwindHelper.GetWord("dialog.information", "General"),
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information
+                    );
+            }
         }
 
         private void lvProductList_SelectedIndexChanged(object sender, EventArgs e)
