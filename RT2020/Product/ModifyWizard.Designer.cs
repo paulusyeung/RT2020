@@ -173,7 +173,7 @@ namespace RT2020.Product
             // txtStockCode
             // 
             this.txtStockCode.BackColor = System.Drawing.Color.LightSkyBlue;
-            this.txtStockCode.Location = new System.Drawing.Point(98, 12);
+            this.txtStockCode.Location = new System.Drawing.Point(96, 12);
             this.txtStockCode.Name = "txtStockCode";
             this.txtStockCode.Size = new System.Drawing.Size(122, 20);
             this.txtStockCode.TabIndex = 1;
@@ -182,7 +182,7 @@ namespace RT2020.Product
             // 
             // lblStockCode
             // 
-            this.lblStockCode.Location = new System.Drawing.Point(18, 15);
+            this.lblStockCode.Location = new System.Drawing.Point(16, 15);
             this.lblStockCode.Name = "lblStockCode";
             this.lblStockCode.Size = new System.Drawing.Size(74, 17);
             this.lblStockCode.TabIndex = 0;
@@ -191,7 +191,7 @@ namespace RT2020.Product
             // txtAppendix1
             // 
             this.txtAppendix1.BorderColor = new Gizmox.WebGUI.Forms.BorderColor(System.Drawing.Color.LightYellow);
-            this.txtAppendix1.Location = new System.Drawing.Point(220, 12);
+            this.txtAppendix1.Location = new System.Drawing.Point(218, 12);
             this.txtAppendix1.Name = "txtAppendix1";
             this.txtAppendix1.ReadOnly = true;
             this.txtAppendix1.Size = new System.Drawing.Size(57, 20);
@@ -201,7 +201,7 @@ namespace RT2020.Product
             // txtAppendix2
             // 
             this.txtAppendix2.BorderColor = new Gizmox.WebGUI.Forms.BorderColor(System.Drawing.Color.LightYellow);
-            this.txtAppendix2.Location = new System.Drawing.Point(277, 12);
+            this.txtAppendix2.Location = new System.Drawing.Point(275, 12);
             this.txtAppendix2.Name = "txtAppendix2";
             this.txtAppendix2.ReadOnly = true;
             this.txtAppendix2.Size = new System.Drawing.Size(57, 20);
@@ -211,7 +211,7 @@ namespace RT2020.Product
             // txtAppendix3
             // 
             this.txtAppendix3.BorderColor = new Gizmox.WebGUI.Forms.BorderColor(System.Drawing.Color.LightYellow);
-            this.txtAppendix3.Location = new System.Drawing.Point(334, 12);
+            this.txtAppendix3.Location = new System.Drawing.Point(332, 12);
             this.txtAppendix3.Name = "txtAppendix3";
             this.txtAppendix3.ReadOnly = true;
             this.txtAppendix3.Size = new System.Drawing.Size(57, 20);
@@ -221,7 +221,7 @@ namespace RT2020.Product
             // btnRefresh
             // 
             this.btnRefresh.Image = new Gizmox.WebGUI.Common.Resources.IconResourceHandle(resources.GetString("btnRefresh.Image"));
-            this.btnRefresh.Location = new System.Drawing.Point(391, 10);
+            this.btnRefresh.Location = new System.Drawing.Point(389, 10);
             this.btnRefresh.Name = "btnRefresh";
             this.btnRefresh.Size = new System.Drawing.Size(24, 24);
             this.btnRefresh.TabIndex = 5;
@@ -231,7 +231,7 @@ namespace RT2020.Product
             // btnFind
             // 
             this.btnFind.Image = new Gizmox.WebGUI.Common.Resources.IconResourceHandle(resources.GetString("btnFind.Image"));
-            this.btnFind.Location = new System.Drawing.Point(415, 10);
+            this.btnFind.Location = new System.Drawing.Point(413, 10);
             this.btnFind.Name = "btnFind";
             this.btnFind.Size = new System.Drawing.Size(24, 24);
             this.btnFind.TabIndex = 6;
@@ -253,7 +253,7 @@ namespace RT2020.Product
             this.gbxOptions.Controls.Add(this.lblAppendix2_To);
             this.gbxOptions.Controls.Add(this.lblAppendix3_To);
             this.gbxOptions.FlatStyle = Gizmox.WebGUI.Forms.FlatStyle.Flat;
-            this.gbxOptions.Location = new System.Drawing.Point(12, 35);
+            this.gbxOptions.Location = new System.Drawing.Point(10, 35);
             this.gbxOptions.Name = "gbxOptions";
             this.gbxOptions.Size = new System.Drawing.Size(455, 106);
             this.gbxOptions.TabIndex = 1;
@@ -367,7 +367,7 @@ namespace RT2020.Product
             // 
             // btnUpdate
             // 
-            this.btnUpdate.Location = new System.Drawing.Point(480, 9);
+            this.btnUpdate.Location = new System.Drawing.Point(478, 9);
             this.btnUpdate.Name = "btnUpdate";
             this.btnUpdate.Size = new System.Drawing.Size(80, 23);
             this.btnUpdate.TabIndex = 3;
@@ -376,7 +376,7 @@ namespace RT2020.Product
             // 
             // btnClose
             // 
-            this.btnClose.Location = new System.Drawing.Point(480, 35);
+            this.btnClose.Location = new System.Drawing.Point(478, 35);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(80, 23);
             this.btnClose.TabIndex = 4;
@@ -385,7 +385,7 @@ namespace RT2020.Product
             // 
             // btnSelectAll
             // 
-            this.btnSelectAll.Location = new System.Drawing.Point(480, 61);
+            this.btnSelectAll.Location = new System.Drawing.Point(478, 61);
             this.btnSelectAll.Name = "btnSelectAll";
             this.btnSelectAll.Size = new System.Drawing.Size(80, 23);
             this.btnSelectAll.TabIndex = 5;
@@ -394,7 +394,7 @@ namespace RT2020.Product
             // 
             // btnSelectNone
             // 
-            this.btnSelectNone.Location = new System.Drawing.Point(480, 87);
+            this.btnSelectNone.Location = new System.Drawing.Point(478, 87);
             this.btnSelectNone.Name = "btnSelectNone";
             this.btnSelectNone.Size = new System.Drawing.Size(80, 23);
             this.btnSelectNone.TabIndex = 6;
@@ -406,10 +406,10 @@ namespace RT2020.Product
             this.tabMessUpdate.Controls.Add(this.tabMainInfo);
             this.tabMessUpdate.Controls.Add(this.tabMiscInfo);
             this.tabMessUpdate.Controls.Add(this.tabDiscountInfo);
-            this.tabMessUpdate.Location = new System.Drawing.Point(12, 151);
+            this.tabMessUpdate.Location = new System.Drawing.Point(10, 149);
             this.tabMessUpdate.Name = "tabMessUpdate";
             this.tabMessUpdate.SelectedIndex = 0;
-            this.tabMessUpdate.Size = new System.Drawing.Size(794, 357);
+            this.tabMessUpdate.Size = new System.Drawing.Size(790, 360);
             this.tabMessUpdate.TabIndex = 2;
             // 
             // tabMainInfo
@@ -464,7 +464,7 @@ namespace RT2020.Product
             this.tabMainInfo.Dock = Gizmox.WebGUI.Forms.DockStyle.Fill;
             this.tabMainInfo.Location = new System.Drawing.Point(4, 22);
             this.tabMainInfo.Name = "tabMainInfo";
-            this.tabMainInfo.Size = new System.Drawing.Size(786, 331);
+            this.tabMainInfo.Size = new System.Drawing.Size(782, 334);
             this.tabMainInfo.TabIndex = 0;
             this.tabMainInfo.Text = "Main Info.";
             // 
@@ -1037,7 +1037,7 @@ namespace RT2020.Product
             // 
             this.txtRemarks.Location = new System.Drawing.Point(148, 128);
             this.txtRemarks.Name = "txtRemarks";
-            this.txtRemarks.Size = new System.Drawing.Size(371, 20);
+            this.txtRemarks.Size = new System.Drawing.Size(367, 20);
             this.txtRemarks.TabIndex = 11;
             // 
             // chkUpdateProductPole
@@ -1052,7 +1052,7 @@ namespace RT2020.Product
             // 
             this.txtProductPole.Location = new System.Drawing.Point(148, 105);
             this.txtProductPole.Name = "txtProductPole";
-            this.txtProductPole.Size = new System.Drawing.Size(371, 20);
+            this.txtProductPole.Size = new System.Drawing.Size(367, 20);
             this.txtProductPole.TabIndex = 9;
             // 
             // chkUpdateProductMemo
@@ -1067,7 +1067,7 @@ namespace RT2020.Product
             // 
             this.txtProductMemo.Location = new System.Drawing.Point(148, 82);
             this.txtProductMemo.Name = "txtProductMemo";
-            this.txtProductMemo.Size = new System.Drawing.Size(371, 20);
+            this.txtProductMemo.Size = new System.Drawing.Size(367, 20);
             this.txtProductMemo.TabIndex = 7;
             // 
             // chkUpdateProductNameAlt2
@@ -1082,7 +1082,7 @@ namespace RT2020.Product
             // 
             this.txtProductNameCht.Location = new System.Drawing.Point(148, 59);
             this.txtProductNameCht.Name = "txtProductNameCht";
-            this.txtProductNameCht.Size = new System.Drawing.Size(371, 20);
+            this.txtProductNameCht.Size = new System.Drawing.Size(367, 20);
             this.txtProductNameCht.TabIndex = 5;
             // 
             // chkUpdateProductNameAlt1
@@ -1097,14 +1097,14 @@ namespace RT2020.Product
             // 
             this.txtProductNameChs.Location = new System.Drawing.Point(148, 36);
             this.txtProductNameChs.Name = "txtProductNameChs";
-            this.txtProductNameChs.Size = new System.Drawing.Size(371, 20);
+            this.txtProductNameChs.Size = new System.Drawing.Size(367, 20);
             this.txtProductNameChs.TabIndex = 3;
             // 
             // txtProductName
             // 
             this.txtProductName.Location = new System.Drawing.Point(148, 13);
             this.txtProductName.Name = "txtProductName";
-            this.txtProductName.Size = new System.Drawing.Size(371, 20);
+            this.txtProductName.Size = new System.Drawing.Size(367, 20);
             this.txtProductName.TabIndex = 1;
             // 
             // chkUpdateProductName
@@ -1370,7 +1370,7 @@ namespace RT2020.Product
             this.Controls.Add(this.gbxOptions);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Size = new System.Drawing.Size(810, 510);
+            this.Size = new System.Drawing.Size(810, 518);
             this.StartPosition = Gizmox.WebGUI.Forms.FormStartPosition.CenterParent;
             this.Text = "Product Wizard [Mass Update]";
             this.Load += new System.EventHandler(this.ModifyWizard_Load);

@@ -1,6 +1,6 @@
 namespace RT2020.Product
 {
-    partial class ProdCare_FindProd
+    partial class FindProduct
     {
         /// <summary>
         /// Required designer variable.
@@ -41,13 +41,14 @@ namespace RT2020.Product
             this.btnFind = new Gizmox.WebGUI.Forms.Button();
             this.gbFindingResult = new Gizmox.WebGUI.Forms.GroupBox();
             this.lvProductList = new Gizmox.WebGUI.Forms.ListView();
-            this.colProductId = new Gizmox.WebGUI.Forms.ColumnHeader();
-            this.colLN = new Gizmox.WebGUI.Forms.ColumnHeader();
-            this.colStockCode = new Gizmox.WebGUI.Forms.ColumnHeader();
-            this.colAppendix1 = new Gizmox.WebGUI.Forms.ColumnHeader();
-            this.colAppendix2 = new Gizmox.WebGUI.Forms.ColumnHeader();
-            this.colAppendix3 = new Gizmox.WebGUI.Forms.ColumnHeader();
-            this.colProductName = new Gizmox.WebGUI.Forms.ColumnHeader();
+            this.colProductId = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colLN = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colStockCode = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colAppendix1 = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colAppendix2 = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colAppendix3 = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colProductName = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.gbFindingResult.SuspendLayout();
             this.SuspendLayout();
             // 
             // lblStkCode
@@ -141,7 +142,6 @@ namespace RT2020.Product
             // 
             // gbFindingResult
             // 
-            this.gbFindingResult.Anchor = Gizmox.WebGUI.Forms.AnchorStyles.None;
             this.gbFindingResult.Controls.Add(this.lvProductList);
             this.gbFindingResult.Dock = Gizmox.WebGUI.Forms.DockStyle.Bottom;
             this.gbFindingResult.FlatStyle = Gizmox.WebGUI.Forms.FlatStyle.Flat;
@@ -149,10 +149,10 @@ namespace RT2020.Product
             this.gbFindingResult.Name = "gbFindingResult";
             this.gbFindingResult.Size = new System.Drawing.Size(644, 333);
             this.gbFindingResult.TabIndex = 11;
+            this.gbFindingResult.TabStop = false;
             // 
             // lvProductList
             // 
-            this.lvProductList.Anchor = Gizmox.WebGUI.Forms.AnchorStyles.None;
             this.lvProductList.Columns.AddRange(new Gizmox.WebGUI.Forms.ColumnHeader[] {
             this.colProductId,
             this.colLN,
@@ -163,7 +163,6 @@ namespace RT2020.Product
             this.colProductName});
             this.lvProductList.DataMember = null;
             this.lvProductList.Dock = Gizmox.WebGUI.Forms.DockStyle.Fill;
-            this.lvProductList.ItemsPerPage = 20;
             this.lvProductList.Location = new System.Drawing.Point(3, 16);
             this.lvProductList.Name = "lvProductList";
             this.lvProductList.Size = new System.Drawing.Size(644, 333);
@@ -173,50 +172,42 @@ namespace RT2020.Product
             // 
             // colProductId
             // 
-            this.colProductId.Image = null;
             this.colProductId.Text = "ProductId";
             this.colProductId.Visible = false;
             this.colProductId.Width = 150;
             // 
             // colLN
             // 
-            this.colLN.Image = null;
             this.colLN.Text = "LN";
             this.colLN.Width = 40;
             // 
             // colStockCode
             // 
-            this.colStockCode.Image = null;
             this.colStockCode.Text = "PLU";
             this.colStockCode.Width = 80;
             // 
             // colAppendix1
             // 
-            this.colAppendix1.Image = null;
             this.colAppendix1.Text = "Season";
             this.colAppendix1.Width = 80;
             // 
             // colAppendix2
             // 
-            this.colAppendix2.Image = null;
             this.colAppendix2.Text = "Color";
             this.colAppendix2.Width = 80;
             // 
             // colAppendix3
             // 
-            this.colAppendix3.Image = null;
             this.colAppendix3.Text = "Size";
             this.colAppendix3.Width = 80;
             // 
             // colProductName
             // 
-            this.colProductName.Image = null;
             this.colProductName.Text = "ProductName";
             this.colProductName.Width = 120;
             // 
-            // ProdCare_FindProd
+            // FindProduct
             // 
-            this.AcceptButton = this.btnFind;
             this.Controls.Add(this.gbFindingResult);
             this.Controls.Add(this.btnFind);
             this.Controls.Add(this.txtProductName);
@@ -231,7 +222,8 @@ namespace RT2020.Product
             this.Controls.Add(this.lblStkCode);
             this.Size = new System.Drawing.Size(644, 466);
             this.Text = "Find Product";
-            this.Load += new System.EventHandler(this.ProdCare_FindProd_Load);
+            this.Load += new System.EventHandler(this.FindProd_Load);
+            this.gbFindingResult.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

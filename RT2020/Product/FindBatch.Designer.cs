@@ -1,6 +1,6 @@
 namespace RT2020.Product
 {
-    partial class ProdCare_FindBatch
+    partial class FindBatch
     {
         /// <summary>
         /// Required designer variable.

@@ -868,14 +868,14 @@ namespace RT2020.Product
 
         private void btnFind_Click(object sender, EventArgs e)
         {
-            ProdCare_FindBatch wizBatch = new ProdCare_FindBatch();
+            FindBatch wizBatch = new FindBatch();
             wizBatch.Closed += new EventHandler(wizBatch_Closed);
             wizBatch.ShowDialog();
         }
 
         private void wizBatch_Closed(object sender, EventArgs e)
         {
-            ProdCare_FindBatch wizBatch = sender as ProdCare_FindBatch;
+            FindBatch wizBatch = sender as FindBatch;
             if (wizBatch.IsCompleted)
             {
                 this.ProductBatchId = wizBatch.ProductBatchId;

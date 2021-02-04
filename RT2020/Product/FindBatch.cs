@@ -18,9 +18,9 @@ using RT2020.Helper;
 
 namespace RT2020.Product
 {
-    public partial class ProdCare_FindBatch : Form
+    public partial class FindBatch : Form
     {
-        public ProdCare_FindBatch()
+        public FindBatch()
         {
             InitializeComponent();
         }

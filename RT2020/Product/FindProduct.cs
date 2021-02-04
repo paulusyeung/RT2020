@@ -13,41 +13,65 @@ using System.Data.SqlClient;
 
 using System.Configuration;
 using RT2020.Helper;
+using System.Linq;
 
 #endregion
 
 namespace RT2020.Product
 {
-    public partial class ProdCare_FindProd : Form
+    public partial class FindProduct : Form
     {
-        public ProdCare_FindProd()
+        public FindProduct()
         {
             InitializeComponent();
-
-            SetSystemLabels();
         }
 
-        private void ProdCare_FindProd_Load(object sender, EventArgs e)
+        private void FindProd_Load(object sender, EventArgs e)
         {
+            SetCaptions();
+            SetAttributes();
+
             txtStockCode.Focus();
             txtStockCode.SelectAll();
         }
 
-        #region System Labels
-        /// <summary>
-        /// Sets the system labels.
-        /// </summary>
-        private void SetSystemLabels()
+        #region SetCaptions, SetAttributes
+        private void SetCaptions()
         {
-            lblStkCode.Text = RT2020.SystemInfo.Settings.GetSystemLabelByKey("STKCODE");
-            lblAppendix1.Text = RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX1");
-            lblAppendix2.Text = RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX2");
-            lblAppendix3.Text = RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX3");
+            this.Text = WestwindHelper.GetWord("general.findProduct", "Product");
 
-            colStockCode.Text = RT2020.SystemInfo.Settings.GetSystemLabelByKey("STKCODE");
-            colAppendix1.Text = RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX1");
-            colAppendix2.Text = RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX2");
-            colAppendix3.Text = RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX3");
+            lblStkCode.Text = WestwindHelper.GetWordWithColon("general.STKCODE", "Product");
+            lblAppendix1.Text = WestwindHelper.GetWordWithColon("appendix.appendix1", "Product");
+            lblAppendix2.Text = WestwindHelper.GetWordWithColon("appendix.appendix2", "Product");
+            lblAppendix3.Text = WestwindHelper.GetWordWithColon("appendix.appendix3", "Product");
+            lblProductName.Text = WestwindHelper.GetWordWithColon("general.name", "Product");
+
+            btnFind.Text = WestwindHelper.GetWord("glossary.find", "General");
+
+            colLN.Text = WestwindHelper.GetWord("listview.line", "Tools");
+            colStockCode.Text = WestwindHelper.GetWord("general.STKCODE", "Product");
+            colAppendix1.Text = WestwindHelper.GetWord("appendix.appendix1", "Product");
+            colAppendix2.Text = WestwindHelper.GetWord("appendix.appendix2", "Product");
+            colAppendix3.Text = WestwindHelper.GetWord("appendix.appendix3", "Product");
+            colProductName.Text = WestwindHelper.GetWord("general.name", "Product");
+        }
+
+        private void SetAttributes()
+        {
+            #region listview layout
+            colLN.ContentAlign = ExtendedHorizontalAlignment.Center;
+            colLN.TextAlign = HorizontalAlignment.Center;
+            colStockCode.ContentAlign = ExtendedHorizontalAlignment.Center;
+            colStockCode.TextAlign = HorizontalAlignment.Left;
+            colAppendix1.ContentAlign = ExtendedHorizontalAlignment.Center;
+            colAppendix1.TextAlign = HorizontalAlignment.Left;
+            colAppendix2.ContentAlign = ExtendedHorizontalAlignment.Center;
+            colAppendix2.TextAlign = HorizontalAlignment.Left;
+            colAppendix3.ContentAlign = ExtendedHorizontalAlignment.Center;
+            colAppendix3.TextAlign = HorizontalAlignment.Left;
+            colProductName.ContentAlign = ExtendedHorizontalAlignment.Center;
+            colProductName.TextAlign = HorizontalAlignment.Left;
+            #endregion
         }
         #endregion
 
@@ -87,7 +111,7 @@ namespace RT2020.Product
 
             int iCount = 1;
             string sql = BuildSqlQueryString();
-
+            /**
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = sql;
             cmd.CommandTimeout = ConfigHelper.CommandTimeout;
@@ -104,6 +128,27 @@ namespace RT2020.Product
                     objItem.SubItems.Add(reader.GetString(4)); // APPENDIX2
                     objItem.SubItems.Add(reader.GetString(5)); // APPENDIX3
                     objItem.SubItems.Add(reader.GetString(6)); // Product name
+
+                    iCount++;
+                }
+            }
+            */
+            using (var ctx = new EF6.RT2020Entities())
+            {
+                var where = sql.Substring(sql.IndexOf("WHERE"));
+                var list = ctx.Product
+                    .SqlQuery(string.Format("Select * from Product {0}", where))
+                    .AsNoTracking()
+                    .ToList();
+                foreach (var item in list)
+                {
+                    ListViewItem objItem = this.lvProductList.Items.Add(item.ProductId.ToString()); // ProductId
+                    objItem.SubItems.Add(iCount.ToString()); // Line Number
+                    objItem.SubItems.Add(item.STKCODE); // ProductCode
+                    objItem.SubItems.Add(item.APPENDIX1); // APPENDIX1
+                    objItem.SubItems.Add(item.APPENDIX2); // APPENDIX2
+                    objItem.SubItems.Add(item.APPENDIX3); // APPENDIX3
+                    objItem.SubItems.Add(item.ProductName); // Product name
 
                     iCount++;
                 }
