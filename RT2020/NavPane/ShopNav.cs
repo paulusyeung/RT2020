@@ -43,11 +43,14 @@ namespace RT2020.NavPane
                 var menuTag = (MenuHelper.MenuTag)navShop.SelectedNode.Tag;
 
                 Panel wspPane = (Panel)controls[0];
-                if (!menuTag.IsPopup)
+                if (menuTag != null)
                 {
-                    wspPane.Text = navShop.SelectedNode.Text;
+                    if (!menuTag.IsPopup)
+                    {
+                        wspPane.Text = navShop.SelectedNode.Text;
 
-                    wspPane.Controls.Clear();
+                        wspPane.Controls.Clear();
+                    }
                 }
 
                 ShowWorkspace(ref wspPane, menuTag.ResourceId);

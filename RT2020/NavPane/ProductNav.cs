@@ -44,15 +44,18 @@ namespace RT2020.NavPane
                 var menuTag = (MenuHelper.MenuTag)navProduct.SelectedNode.Tag;
 
                 Panel wspPane = (Panel)controls[0];
-                if (!menuTag.IsPopup)
+                if (menuTag != null)
                 {
-                    wspPane.Text = navProduct.SelectedNode.Text;
+                    if (!menuTag.IsPopup)
+                    {
+                        wspPane.Text = navProduct.SelectedNode.Text;
 
-                    wspPane.Controls.Clear();
+                        wspPane.Controls.Clear();
+                    }
+
+                    ShowWorkspace(ref wspPane, menuTag.ResourceId);
+                    ShowAppToolStrip(menuTag.ResourceId);
                 }
-
-                ShowWorkspace(ref wspPane, menuTag.ResourceId);
-                ShowAppToolStrip(menuTag.ResourceId);
 
                 // 2020.08.28 paulus: RT2020 如果 wspPane 有 ActionStripBar，降低 list pane
                 if (wspPane.Controls.Count > 1)
@@ -176,19 +179,19 @@ namespace RT2020.NavPane
                         wizTender.ShowDialog();
                         break;
                     case "product.pricemanagement.pricechange":
-                        RT2020.PriceMgmt.DefaultList wizPriceChangeList = new RT2020.PriceMgmt.DefaultList(controls[0], RT2020.PriceMgmt.PriceUtility.PriceMgmtType.Price);
+                        RT2020.PriceMgmt.PriceMgmtList wizPriceChangeList = new RT2020.PriceMgmt.PriceMgmtList(controls[0], EnumHelper.PriceMgmtType.Price);
                         wizPriceChangeList.DockPadding.All = 6;
                         wizPriceChangeList.Dock = DockStyle.Fill;
                         wspPane.Controls.Add(wizPriceChangeList);
                         break;
                     case "product.pricemanagement.discountchange":
-                        RT2020.PriceMgmt.DefaultList wizDiscChangeList = new RT2020.PriceMgmt.DefaultList(controls[0], RT2020.PriceMgmt.PriceUtility.PriceMgmtType.Discount);
+                        RT2020.PriceMgmt.PriceMgmtList wizDiscChangeList = new RT2020.PriceMgmt.PriceMgmtList(controls[0], EnumHelper.PriceMgmtType.Discount);
                         wizDiscChangeList.DockPadding.All = 6;
                         wizDiscChangeList.Dock = DockStyle.Fill;
                         wspPane.Controls.Add(wizDiscChangeList);
                         break;
                     case "product.pricemanagement.reason":
-                        RT2020.PriceMgmt.DefaultReasonList oReasonList = new RT2020.PriceMgmt.DefaultReasonList(controls[0]);
+                        var oReasonList = new RT2020.PriceMgmt.DiscountReasonList(controls[0]);
                         oReasonList.DockPadding.All = 6;
                         oReasonList.Dock = DockStyle.Fill;
                         wspPane.Controls.Add(oReasonList);

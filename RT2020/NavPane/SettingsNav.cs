@@ -44,12 +44,15 @@ namespace RT2020.NavPane
                 var menuTag = (MenuHelper.MenuTag)navSettings.SelectedNode.Tag;
 
                 Panel wspPane = (Panel)controls[0];
-                if (!menuTag.IsPopup)
+                if (menuTag != null)
                 {
-                    wspPane.Text = navSettings.SelectedNode.Text;
-                    //wspPane.BackColor = ThemeHelper.WspPanel_BackgroundColor;
+                    if (!menuTag.IsPopup)
+                    {
+                        wspPane.Text = navSettings.SelectedNode.Text;
+                        //wspPane.BackColor = ThemeHelper.WspPanel_BackgroundColor;
 
-                    wspPane.Controls.Clear();
+                        wspPane.Controls.Clear();
+                    }
                 }
 
                 ShowAppToolStrip(menuTag.ResourceId);
