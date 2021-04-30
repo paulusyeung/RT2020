@@ -908,8 +908,8 @@ namespace RT2020.Controls
 
         public static void AppendMenuItem_AppPref(ref ContextMenu ddlViews)
         {
-            ddlViews.MenuItems.Add(new MenuItem(Utility.Dictionary.GetWord("save"), string.Empty, "Save"));
-            ddlViews.MenuItems.Add(new MenuItem(Utility.Dictionary.GetWord("reset"), string.Empty, "Reset"));
+            ddlViews.MenuItems.Add(new MenuItem(WestwindHelper.GetWord("toolbar.preference.save", "Tools"), string.Empty, "Save"));
+            ddlViews.MenuItems.Add(new MenuItem(WestwindHelper.GetWord("toolbar.preference.reset", "Tools"), string.Empty, "Reset"));
 
             ddlViews.MenuItems[0].Icon = new IconResourceHandle("16x16.application_add.png");
             ddlViews.MenuItems[1].Icon = new IconResourceHandle("16x16.application_delete.png");

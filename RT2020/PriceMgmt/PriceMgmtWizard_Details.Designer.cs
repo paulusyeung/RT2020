@@ -65,39 +65,40 @@ namespace RT2020.PriceMgmt
             this.btnRemoveItem = new Gizmox.WebGUI.Forms.Button();
             this.btnEditItem = new Gizmox.WebGUI.Forms.Button();
             this.lvItemList = new Gizmox.WebGUI.Forms.ListView();
-            this.colDetailId = new Gizmox.WebGUI.Forms.ColumnHeader();
-            this.colStatus = new Gizmox.WebGUI.Forms.ColumnHeader();
-            this.colSTKCODE = new Gizmox.WebGUI.Forms.ColumnHeader();
-            this.colAPPENDIX1 = new Gizmox.WebGUI.Forms.ColumnHeader();
-            this.colAPPENDIX2 = new Gizmox.WebGUI.Forms.ColumnHeader();
-            this.colAPPENDIX3 = new Gizmox.WebGUI.Forms.ColumnHeader();
-            this.colAverageCost = new Gizmox.WebGUI.Forms.ColumnHeader();
-            this.colOldPrice = new Gizmox.WebGUI.Forms.ColumnHeader();
-            this.colOldMarkUp = new Gizmox.WebGUI.Forms.ColumnHeader();
-            this.colNewPrice = new Gizmox.WebGUI.Forms.ColumnHeader();
-            this.colNewMarkUp = new Gizmox.WebGUI.Forms.ColumnHeader();
-            this.colDiff = new Gizmox.WebGUI.Forms.ColumnHeader();
-            this.colOldDiscount = new Gizmox.WebGUI.Forms.ColumnHeader();
-            this.colNewDiscount = new Gizmox.WebGUI.Forms.ColumnHeader();
-            this.colDescription = new Gizmox.WebGUI.Forms.ColumnHeader();
-            this.colClass1 = new Gizmox.WebGUI.Forms.ColumnHeader();
-            this.colClass2 = new Gizmox.WebGUI.Forms.ColumnHeader();
-            this.colClass3 = new Gizmox.WebGUI.Forms.ColumnHeader();
-            this.colClass4 = new Gizmox.WebGUI.Forms.ColumnHeader();
-            this.colClass5 = new Gizmox.WebGUI.Forms.ColumnHeader();
-            this.colClass6 = new Gizmox.WebGUI.Forms.ColumnHeader();
-            this.colUpdateVipDiscount = new Gizmox.WebGUI.Forms.ColumnHeader();
-            this.colFixedPriceItem = new Gizmox.WebGUI.Forms.ColumnHeader();
-            this.colDiscountForFixedPriceItem = new Gizmox.WebGUI.Forms.ColumnHeader();
-            this.colDiscountForDiscountItem = new Gizmox.WebGUI.Forms.ColumnHeader();
-            this.colDiscountForNoDiscountItem = new Gizmox.WebGUI.Forms.ColumnHeader();
-            this.colStaffDiscount = new Gizmox.WebGUI.Forms.ColumnHeader();
-            this.colProductId = new Gizmox.WebGUI.Forms.ColumnHeader();
+            this.colDetailId = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colStatus = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colSTKCODE = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colAPPENDIX1 = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colAPPENDIX2 = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colAPPENDIX3 = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colAverageCost = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colOldPrice = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colOldMarkUp = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colNewPrice = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colNewMarkUp = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colDiff = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colOldDiscount = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colNewDiscount = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colDescription = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colClass1 = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colClass2 = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colClass3 = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colClass4 = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colClass5 = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colClass6 = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colUpdateVipDiscount = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colFixedPriceItem = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colDiscountForFixedPriceItem = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colDiscountForDiscountItem = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colDiscountForNoDiscountItem = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colStaffDiscount = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colProductId = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
             this.txtSTKCODE = new Gizmox.WebGUI.Forms.TextBox();
             this.lblOldDiscount = new Gizmox.WebGUI.Forms.Label();
             this.lblNewDiscount = new Gizmox.WebGUI.Forms.Label();
             this.txtOldDiscount = new Gizmox.WebGUI.Forms.TextBox();
             this.txtNewDiscount = new Gizmox.WebGUI.Forms.TextBox();
+            this.gbVipDiscount.SuspendLayout();
             this.SuspendLayout();
             // 
             // lblStockCode
@@ -279,6 +280,7 @@ namespace RT2020.PriceMgmt
             this.gbVipDiscount.Name = "gbVipDiscount";
             this.gbVipDiscount.Size = new System.Drawing.Size(224, 179);
             this.gbVipDiscount.TabIndex = 18;
+            this.gbVipDiscount.TabStop = false;
             this.gbVipDiscount.Text = "VIP Discount";
             // 
             // lblUpdateMessage
@@ -398,16 +400,12 @@ namespace RT2020.PriceMgmt
             // chkFixedPriceItem
             // 
             this.chkFixedPriceItem.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.chkFixedPriceItem.Checked = false;
-            this.chkFixedPriceItem.CheckState = Gizmox.WebGUI.Forms.CheckState.Unchecked;
             this.chkFixedPriceItem.Enabled = false;
-            this.chkFixedPriceItem.FlatStyle = Gizmox.WebGUI.Forms.FlatStyle.Standard;
             this.chkFixedPriceItem.Location = new System.Drawing.Point(15, 46);
             this.chkFixedPriceItem.Name = "chkFixedPriceItem";
             this.chkFixedPriceItem.Size = new System.Drawing.Size(160, 24);
             this.chkFixedPriceItem.TabIndex = 2;
             this.chkFixedPriceItem.Text = "Fixed Price Item";
-            this.chkFixedPriceItem.ThreeState = false;
             // 
             // lblDiscForFixedPriceItem
             // 
@@ -420,15 +418,11 @@ namespace RT2020.PriceMgmt
             // 
             // chkUpdateDiscountInfo
             // 
-            this.chkUpdateDiscountInfo.Checked = false;
-            this.chkUpdateDiscountInfo.CheckState = Gizmox.WebGUI.Forms.CheckState.Unchecked;
-            this.chkUpdateDiscountInfo.FlatStyle = Gizmox.WebGUI.Forms.FlatStyle.Standard;
             this.chkUpdateDiscountInfo.Location = new System.Drawing.Point(15, 20);
             this.chkUpdateDiscountInfo.Name = "chkUpdateDiscountInfo";
             this.chkUpdateDiscountInfo.Size = new System.Drawing.Size(187, 24);
             this.chkUpdateDiscountInfo.TabIndex = 0;
             this.chkUpdateDiscountInfo.Text = "Update Discount Information";
-            this.chkUpdateDiscountInfo.ThreeState = false;
             this.chkUpdateDiscountInfo.Click += new System.EventHandler(this.chkUpdateDiscountInfo_Click);
             // 
             // btnAddItem
@@ -490,7 +484,6 @@ namespace RT2020.PriceMgmt
             this.colStaffDiscount,
             this.colProductId});
             this.lvItemList.DataMember = null;
-            this.lvItemList.ItemsPerPage = 20;
             this.lvItemList.Location = new System.Drawing.Point(14, 194);
             this.lvItemList.Name = "lvItemList";
             this.lvItemList.Size = new System.Drawing.Size(743, 175);
@@ -499,170 +492,142 @@ namespace RT2020.PriceMgmt
             // 
             // colDetailId
             // 
-            this.colDetailId.Image = null;
             this.colDetailId.Text = "DetailsId";
             this.colDetailId.Visible = false;
             this.colDetailId.Width = 150;
             // 
             // colStatus
             // 
-            this.colStatus.Image = null;
             this.colStatus.Text = "Status";
             this.colStatus.Width = 50;
             // 
             // colSTKCODE
             // 
-            this.colSTKCODE.Image = null;
             this.colSTKCODE.Text = "STKCODE";
             this.colSTKCODE.Width = 90;
             // 
             // colAPPENDIX1
             // 
-            this.colAPPENDIX1.Image = null;
             this.colAPPENDIX1.Text = "APPENDIX1";
             this.colAPPENDIX1.Width = 60;
             // 
             // colAPPENDIX2
             // 
-            this.colAPPENDIX2.Image = null;
             this.colAPPENDIX2.Text = "APPENDIX2";
             this.colAPPENDIX2.Width = 60;
             // 
             // colAPPENDIX3
             // 
-            this.colAPPENDIX3.Image = null;
             this.colAPPENDIX3.Text = "APPENDIX3";
             this.colAPPENDIX3.Width = 60;
             // 
             // colAverageCost
             // 
-            this.colAverageCost.Image = null;
             this.colAverageCost.Text = "Avg. Cost";
             this.colAverageCost.Width = 80;
             // 
             // colOldPrice
             // 
-            this.colOldPrice.Image = null;
             this.colOldPrice.Text = "Old Price";
             this.colOldPrice.Width = 80;
             // 
             // colOldMarkUp
             // 
-            this.colOldMarkUp.Image = null;
             this.colOldMarkUp.Text = "Old MU%";
             this.colOldMarkUp.Width = 80;
             // 
             // colNewPrice
             // 
-            this.colNewPrice.Image = null;
             this.colNewPrice.Text = "New Price";
             this.colNewPrice.Width = 80;
             // 
             // colNewMarkUp
             // 
-            this.colNewMarkUp.Image = null;
             this.colNewMarkUp.Text = "New MU%";
             this.colNewMarkUp.Width = 80;
             // 
             // colDiff
             // 
-            this.colDiff.Image = null;
             this.colDiff.Text = "Diff.%";
             this.colDiff.Width = 80;
             // 
             // colOldDiscount
             // 
-            this.colOldDiscount.Image = null;
             this.colOldDiscount.Text = "Old Disc. %";
             this.colOldDiscount.Width = 80;
             // 
             // colNewDiscount
             // 
-            this.colNewDiscount.Image = null;
             this.colNewDiscount.Text = "New Disc. %";
             this.colNewDiscount.Width = 80;
             // 
             // colDescription
             // 
-            this.colDescription.Image = null;
             this.colDescription.Text = "Description";
             this.colDescription.Width = 90;
             // 
             // colClass1
             // 
-            this.colClass1.Image = null;
             this.colClass1.Text = "Class1";
             this.colClass1.Width = 50;
             // 
             // colClass2
             // 
-            this.colClass2.Image = null;
             this.colClass2.Text = "Class2";
             this.colClass2.Width = 50;
             // 
             // colClass3
             // 
-            this.colClass3.Image = null;
             this.colClass3.Text = "Class3";
             this.colClass3.Width = 50;
             // 
             // colClass4
             // 
-            this.colClass4.Image = null;
             this.colClass4.Text = "Class4";
             this.colClass4.Width = 50;
             // 
             // colClass5
             // 
-            this.colClass5.Image = null;
             this.colClass5.Text = "Class5";
             this.colClass5.Width = 50;
             // 
             // colClass6
             // 
-            this.colClass6.Image = null;
             this.colClass6.Text = "Class6";
             this.colClass6.Width = 50;
             // 
             // colUpdateVipDiscount
             // 
-            this.colUpdateVipDiscount.Image = null;
             this.colUpdateVipDiscount.Text = "Update Vip Discount";
             this.colUpdateVipDiscount.Width = 50;
             // 
             // colFixedPriceItem
             // 
-            this.colFixedPriceItem.Image = null;
             this.colFixedPriceItem.Text = "Fixed Price Item";
             this.colFixedPriceItem.Width = 50;
             // 
             // colDiscountForFixedPriceItem
             // 
-            this.colDiscountForFixedPriceItem.Image = null;
             this.colDiscountForFixedPriceItem.Text = "Disc. For Fixed Price item";
             this.colDiscountForFixedPriceItem.Width = 50;
             // 
             // colDiscountForDiscountItem
             // 
-            this.colDiscountForDiscountItem.Image = null;
             this.colDiscountForDiscountItem.Text = "Disc. for Discount Item";
             this.colDiscountForDiscountItem.Width = 50;
             // 
             // colDiscountForNoDiscountItem
             // 
-            this.colDiscountForNoDiscountItem.Image = null;
             this.colDiscountForNoDiscountItem.Text = "Disc. for No Discount item";
             this.colDiscountForNoDiscountItem.Width = 50;
             // 
             // colStaffDiscount
             // 
-            this.colStaffDiscount.Image = null;
             this.colStaffDiscount.Text = "Staff Discount";
             this.colStaffDiscount.Width = 50;
             // 
             // colProductId
             // 
-            this.colProductId.Image = null;
             this.colProductId.Text = "ProductId";
             this.colProductId.Visible = false;
             this.colProductId.Width = 150;
@@ -745,6 +710,8 @@ namespace RT2020.PriceMgmt
             this.Controls.Add(this.lblStockCode);
             this.Size = new System.Drawing.Size(769, 375);
             this.Text = "PriceMgmtWizard_Details";
+            this.Load += new System.EventHandler(this.PriceMgmtWizard_Details_Load);
+            this.gbVipDiscount.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

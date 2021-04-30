@@ -19,7 +19,35 @@ namespace RT2020.PriceMgmt
 {
     public partial class PriceMgmtWizard_Details : UserControl
     {
-        private Guid _HeaderId = System.Guid.Empty;
+        #region public Properties
+        private EnumHelper.PriceMgmtPMType _ListType = EnumHelper.PriceMgmtPMType.Price;
+        public EnumHelper.PriceMgmtPMType ListType
+        {
+            get { return _ListType; }
+            set { _ListType = value; }
+        }
+
+        private Guid _HeaderId = Guid.Empty;
+        public Guid HeaderId
+        {
+            get { return _HeaderId; }
+            set { _HeaderId = value; }
+        }
+
+        private Guid _DetailId = Guid.Empty;
+        public Guid DetailId
+        {
+            get { return _DetailId; }
+            set { _DetailId = value; }
+        }
+
+        private Guid _ProductId = Guid.Empty;
+        public Guid ProductId
+        {
+            get { return _ProductId; }
+            set { _ProductId = value; }
+        }
+        #endregion
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PriceMgmtWizard_Details"/> class.
@@ -40,6 +68,13 @@ namespace RT2020.PriceMgmt
             this.SetAttributes();
 
             this.BindingData();
+        }
+
+        private void PriceMgmtWizard_Details_Load(object sender, EventArgs e)
+        {
+            SetAttributes();
+
+            BindingData();
         }
 
         #region Set Attributes
@@ -73,7 +108,7 @@ namespace RT2020.PriceMgmt
             this.lvItemList.ListViewItemSorter = new ListViewItemSorter(this.lvItemList);
 
             // Hide some columns
-            if (this.ListType == PriceUtility.PriceMgmtType.Price)
+            if (_ListType == EnumHelper.PriceMgmtPMType.Price)
             {
                 colOldPrice.Text = "Old Price";
 
@@ -144,90 +179,6 @@ namespace RT2020.PriceMgmt
 
         #endregion
 
-        #region Properties
-
-        /// <summary>
-        /// the type of the list.
-        /// </summary>
-        private PriceUtility.PriceMgmtType listType = PriceUtility.PriceMgmtType.Price;
-
-        /// <summary>
-        /// Gets or sets the type of the list.
-        /// </summary>
-        /// <value>The type of the list.</value>
-        public PriceUtility.PriceMgmtType ListType
-        {
-            get
-            {
-                return listType;
-            }
-            set
-            {
-                listType = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the header id.
-        /// </summary>
-        /// <value>The header id.</value>
-        public Guid HeaderId
-        {
-            get
-            {
-                return _HeaderId;
-            }
-            set
-            {
-                _HeaderId = value;
-            }
-        }
-
-        /// <summary>
-        /// the detail id.
-        /// </summary>
-        private Guid detailId = System.Guid.Empty;
-
-        /// <summary>
-        /// Gets or sets the detail id.
-        /// </summary>
-        /// <value>The detail id.</value>
-        public Guid DetailId
-        {
-            get
-            {
-                return detailId;
-            }
-            set
-            {
-                detailId = value;
-            }
-        }
-
-
-        /// <summary>
-        /// the product id.
-        /// </summary>
-        private Guid productId = System.Guid.Empty;
-
-        /// <summary>
-        /// Gets or sets the product id.
-        /// </summary>
-        /// <value>The product id.</value>
-        public Guid ProductId
-        {
-            get
-            {
-                return productId;
-            }
-            set
-            {
-                productId = value;
-            }
-        }
-
-        #endregion
-
         #region Binding Data
 
         /// <summary>
@@ -251,7 +202,7 @@ namespace RT2020.PriceMgmt
                     decimal oldMu = 0, diff = 0, oldDiscount = 0, oldPrice = 0;
                     decimal newMu = 0, newPrice = 0, newDiscount = 0;
 
-                    if (this.ListType == PriceUtility.PriceMgmtType.Price)
+                    if (_ListType == EnumHelper.PriceMgmtPMType.Price)
                     {
                         oldPrice = reader.GetDecimal(25); // OLD_FIGURE
                         newPrice = reader.GetDecimal(26); // NEW_FIGURE
@@ -389,7 +340,7 @@ ORDER BY p.STKCODE, p.APPENDIX1, p.APPENDIX2, p.APPENDIX3
 
             PriceMgmtWizard_AddItem wizAddItem = new PriceMgmtWizard_AddItem();
             wizAddItem.PriceDetails = this;
-            wizAddItem.ListType = this.ListType;
+            wizAddItem.PMType = _ListType;
             wizAddItem.Closed += new EventHandler(wizAddItem_Closed);
             wizAddItem.ShowDialog();
         }
@@ -426,7 +377,7 @@ ORDER BY p.STKCODE, p.APPENDIX1, p.APPENDIX2, p.APPENDIX3
             decimal avgCost = 0, oldPrice = 0, oldMu = 0, oldDiscount = 0;
             decimal newPrice = 0, newMu = 0, diff = 0, newDiscount = 0;
 
-            if (this.ListType == PriceUtility.PriceMgmtType.Price)
+            if (_ListType == EnumHelper.PriceMgmtPMType.Price)
             {
                 decimal.TryParse(txtAverageCost.Text.Trim(), out avgCost);
                 decimal.TryParse(txtOldPrice.Text.Trim(), out oldPrice);
@@ -484,7 +435,7 @@ ORDER BY p.STKCODE, p.APPENDIX1, p.APPENDIX2, p.APPENDIX3
                 this.txtSTKCODE.Text = lvItem.SubItems[2].Text + " " + lvItem.SubItems[3].Text + " " + lvItem.SubItems[4].Text + " " + lvItem.SubItems[5].Text;
                 this.txtDescription.Text = lvItem.SubItems[14].Text;
 
-                if (this.ListType == PriceUtility.PriceMgmtType.Price)
+                if (_ListType == EnumHelper.PriceMgmtPMType.Price)
                 {
                     this.txtAverageCost.Text = lvItem.SubItems[6].Text;
                     this.txtOldPrice.Text = lvItem.SubItems[7].Text;

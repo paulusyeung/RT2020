@@ -101,8 +101,8 @@ AND CONVERT(NVARCHAR(10),EffectDate,126) BETWEEN '" + this.dtpTxDateFrom.Value.T
         }
         #endregion
 
-        private PriceUtility.PriceMgmtType reportType = PriceUtility.PriceMgmtType.Price;
-        public PriceUtility.PriceMgmtType ReportType
+        private EnumHelper.PriceMgmtPMType reportType = EnumHelper.PriceMgmtPMType.Price;
+        public EnumHelper.PriceMgmtPMType ReportType
         {
             get
             {

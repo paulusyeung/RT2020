@@ -31,115 +31,112 @@ namespace RT2020.PriceMgmt
             this.components = new System.ComponentModel.Container();
             this.tbWizardAction = new Gizmox.WebGUI.Forms.ToolBar();
             this.mainPane = new Gizmox.WebGUI.Forms.Panel();
-            this.lblReasonName_Cht = new Gizmox.WebGUI.Forms.Label();
-            this.lblReasonName_Chs = new Gizmox.WebGUI.Forms.Label();
-            this.lblReasonName = new Gizmox.WebGUI.Forms.Label();
-            this.lblReasonCode = new Gizmox.WebGUI.Forms.Label();
-            this.txtReasonCode = new Gizmox.WebGUI.Forms.TextBox();
-            this.txtReasonName = new Gizmox.WebGUI.Forms.TextBox();
-            this.txtReasonName_Chs = new Gizmox.WebGUI.Forms.TextBox();
-            this.txtReasonName_Cht = new Gizmox.WebGUI.Forms.TextBox();
+            this.txtNameAlt2 = new Gizmox.WebGUI.Forms.TextBox();
+            this.txtNameAlt1 = new Gizmox.WebGUI.Forms.TextBox();
+            this.txtName = new Gizmox.WebGUI.Forms.TextBox();
+            this.txtCode = new Gizmox.WebGUI.Forms.TextBox();
+            this.lblNameAlt2 = new Gizmox.WebGUI.Forms.Label();
+            this.lblNameAlt1 = new Gizmox.WebGUI.Forms.Label();
+            this.lblName = new Gizmox.WebGUI.Forms.Label();
+            this.lblCode = new Gizmox.WebGUI.Forms.Label();
             this.errorProvider = new Gizmox.WebGUI.Forms.ErrorProvider(this.components);
+            this.mainPane.SuspendLayout();
             this.SuspendLayout();
             // 
             // tbWizardAction
             // 
-            this.tbWizardAction.Anchor = Gizmox.WebGUI.Forms.AnchorStyles.None;
-            this.tbWizardAction.Appearance = Gizmox.WebGUI.Forms.ToolBarAppearance.Normal;
-            this.tbWizardAction.Dock = Gizmox.WebGUI.Forms.DockStyle.Top;
+            this.tbWizardAction.ButtonSize = new System.Drawing.Size(24, 24);
             this.tbWizardAction.DragHandle = true;
-            this.tbWizardAction.DropDownArrows = false;
-            this.tbWizardAction.ImageList = null;
+            this.tbWizardAction.DropDownArrows = true;
+            this.tbWizardAction.ImageSize = new System.Drawing.Size(16, 16);
             this.tbWizardAction.Location = new System.Drawing.Point(0, 0);
             this.tbWizardAction.MenuHandle = true;
             this.tbWizardAction.Name = "tbWizardAction";
-            //this.tbWizardAction.RightToLeft = false;
             this.tbWizardAction.ShowToolTips = true;
+            this.tbWizardAction.Size = new System.Drawing.Size(419, 30);
             this.tbWizardAction.TabIndex = 0;
             // 
             // mainPane
             // 
-            this.mainPane.Anchor = Gizmox.WebGUI.Forms.AnchorStyles.None;
-            this.mainPane.Controls.Add(this.txtReasonName_Cht);
-            this.mainPane.Controls.Add(this.txtReasonName_Chs);
-            this.mainPane.Controls.Add(this.txtReasonName);
-            this.mainPane.Controls.Add(this.txtReasonCode);
-            this.mainPane.Controls.Add(this.lblReasonName_Cht);
-            this.mainPane.Controls.Add(this.lblReasonName_Chs);
-            this.mainPane.Controls.Add(this.lblReasonName);
-            this.mainPane.Controls.Add(this.lblReasonCode);
+            this.mainPane.Controls.Add(this.txtNameAlt2);
+            this.mainPane.Controls.Add(this.txtNameAlt1);
+            this.mainPane.Controls.Add(this.txtName);
+            this.mainPane.Controls.Add(this.txtCode);
+            this.mainPane.Controls.Add(this.lblNameAlt2);
+            this.mainPane.Controls.Add(this.lblNameAlt1);
+            this.mainPane.Controls.Add(this.lblName);
+            this.mainPane.Controls.Add(this.lblCode);
             this.mainPane.Dock = Gizmox.WebGUI.Forms.DockStyle.Fill;
             this.mainPane.DockPadding.All = 6;
-            this.mainPane.Location = new System.Drawing.Point(0, 28);
+            this.mainPane.Location = new System.Drawing.Point(0, 30);
             this.mainPane.Name = "mainPane";
-            this.mainPane.Size = new System.Drawing.Size(419, 438);
+            this.mainPane.Padding = new Gizmox.WebGUI.Forms.Padding(6);
+            this.mainPane.Size = new System.Drawing.Size(419, 436);
             this.mainPane.TabIndex = 1;
             // 
-            // lblReasonName_Cht
+            // txtNameAlt2
             // 
-            this.lblReasonName_Cht.Location = new System.Drawing.Point(22, 101);
-            this.lblReasonName_Cht.Name = "lblReasonName_Cht";
-            this.lblReasonName_Cht.Size = new System.Drawing.Size(111, 23);
-            this.lblReasonName_Cht.TabIndex = 3;
-            this.lblReasonName_Cht.Text = "Reason Name (Cht):";
+            this.txtNameAlt2.Location = new System.Drawing.Point(139, 98);
+            this.txtNameAlt2.Name = "txtNameAlt2";
+            this.txtNameAlt2.Size = new System.Drawing.Size(189, 20);
+            this.txtNameAlt2.TabIndex = 7;
             // 
-            // lblReasonName_Chs
+            // txtNameAlt1
             // 
-            this.lblReasonName_Chs.Location = new System.Drawing.Point(22, 75);
-            this.lblReasonName_Chs.Name = "lblReasonName_Chs";
-            this.lblReasonName_Chs.Size = new System.Drawing.Size(111, 23);
-            this.lblReasonName_Chs.TabIndex = 2;
-            this.lblReasonName_Chs.Text = "Reason Name (Chs):";
+            this.txtNameAlt1.Location = new System.Drawing.Point(139, 72);
+            this.txtNameAlt1.Name = "txtNameAlt1";
+            this.txtNameAlt1.Size = new System.Drawing.Size(189, 20);
+            this.txtNameAlt1.TabIndex = 6;
             // 
-            // lblReasonName
+            // txtName
             // 
-            this.lblReasonName.Location = new System.Drawing.Point(22, 49);
-            this.lblReasonName.Name = "lblReasonName";
-            this.lblReasonName.Size = new System.Drawing.Size(111, 23);
-            this.lblReasonName.TabIndex = 1;
-            this.lblReasonName.Text = "Reason Name : ";
+            this.txtName.Location = new System.Drawing.Point(139, 46);
+            this.txtName.Name = "txtName";
+            this.txtName.Size = new System.Drawing.Size(189, 20);
+            this.txtName.TabIndex = 5;
             // 
-            // lblReasonCode
+            // txtCode
             // 
-            this.lblReasonCode.Location = new System.Drawing.Point(22, 23);
-            this.lblReasonCode.Name = "lblReasonCode";
-            this.lblReasonCode.Size = new System.Drawing.Size(111, 23);
-            this.lblReasonCode.TabIndex = 0;
-            this.lblReasonCode.Text = "Reason Code : ";
+            this.txtCode.Location = new System.Drawing.Point(139, 20);
+            this.txtCode.Name = "txtCode";
+            this.txtCode.Size = new System.Drawing.Size(100, 20);
+            this.txtCode.TabIndex = 4;
             // 
-            // txtReasonCode
+            // lblNameAlt2
             // 
-            this.txtReasonCode.Location = new System.Drawing.Point(139, 20);
-            this.txtReasonCode.Name = "txtReasonCode";
-            this.txtReasonCode.Size = new System.Drawing.Size(100, 20);
-            this.txtReasonCode.TabIndex = 4;
+            this.lblNameAlt2.Location = new System.Drawing.Point(35, 101);
+            this.lblNameAlt2.Name = "lblNameAlt2";
+            this.lblNameAlt2.Size = new System.Drawing.Size(101, 23);
+            this.lblNameAlt2.TabIndex = 3;
+            this.lblNameAlt2.Text = "Reason Name (Cht):";
             // 
-            // txtReasonName
+            // lblNameAlt1
             // 
-            this.txtReasonName.Location = new System.Drawing.Point(139, 46);
-            this.txtReasonName.Name = "txtReasonName";
-            this.txtReasonName.Size = new System.Drawing.Size(189, 20);
-            this.txtReasonName.TabIndex = 5;
+            this.lblNameAlt1.Location = new System.Drawing.Point(35, 75);
+            this.lblNameAlt1.Name = "lblNameAlt1";
+            this.lblNameAlt1.Size = new System.Drawing.Size(101, 23);
+            this.lblNameAlt1.TabIndex = 2;
+            this.lblNameAlt1.Text = "Reason Name (Chs):";
             // 
-            // txtReasonName_Chs
+            // lblName
             // 
-            this.txtReasonName_Chs.Location = new System.Drawing.Point(139, 72);
-            this.txtReasonName_Chs.Name = "txtReasonName_Chs";
-            this.txtReasonName_Chs.Size = new System.Drawing.Size(189, 20);
-            this.txtReasonName_Chs.TabIndex = 6;
+            this.lblName.Location = new System.Drawing.Point(22, 49);
+            this.lblName.Name = "lblName";
+            this.lblName.Size = new System.Drawing.Size(111, 23);
+            this.lblName.TabIndex = 1;
+            this.lblName.Text = "Reason Name : ";
             // 
-            // txtReasonName_Cht
+            // lblCode
             // 
-            this.txtReasonName_Cht.Location = new System.Drawing.Point(139, 98);
-            this.txtReasonName_Cht.Name = "txtReasonName_Cht";
-            this.txtReasonName_Cht.Size = new System.Drawing.Size(189, 20);
-            this.txtReasonName_Cht.TabIndex = 7;
+            this.lblCode.Location = new System.Drawing.Point(22, 23);
+            this.lblCode.Name = "lblCode";
+            this.lblCode.Size = new System.Drawing.Size(111, 23);
+            this.lblCode.TabIndex = 0;
+            this.lblCode.Text = "Reason Code : ";
             // 
             // errorProvider
             // 
             this.errorProvider.BlinkRate = 3;
-            this.errorProvider.BlinkStyle = Gizmox.WebGUI.Forms.ErrorBlinkStyle.BlinkIfDifferentError;
-            this.errorProvider.Icon = null;
             // 
             // ReasonCodeWizard
             // 
@@ -148,6 +145,8 @@ namespace RT2020.PriceMgmt
             this.FormBorderStyle = Gizmox.WebGUI.Forms.FormBorderStyle.FixedDialog;
             this.Size = new System.Drawing.Size(419, 466);
             this.Text = "Reason Code Maintenance";
+            this.Load += new System.EventHandler(this.ReasonCodeWizard_Load);
+            this.mainPane.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -156,14 +155,14 @@ namespace RT2020.PriceMgmt
 
         private Gizmox.WebGUI.Forms.ToolBar tbWizardAction;
         private Gizmox.WebGUI.Forms.Panel mainPane;
-        private Gizmox.WebGUI.Forms.Label lblReasonName_Cht;
-        private Gizmox.WebGUI.Forms.Label lblReasonName_Chs;
-        private Gizmox.WebGUI.Forms.Label lblReasonName;
-        private Gizmox.WebGUI.Forms.Label lblReasonCode;
-        private Gizmox.WebGUI.Forms.TextBox txtReasonName_Cht;
-        private Gizmox.WebGUI.Forms.TextBox txtReasonName_Chs;
-        private Gizmox.WebGUI.Forms.TextBox txtReasonName;
-        private Gizmox.WebGUI.Forms.TextBox txtReasonCode;
+        private Gizmox.WebGUI.Forms.Label lblNameAlt2;
+        private Gizmox.WebGUI.Forms.Label lblNameAlt1;
+        private Gizmox.WebGUI.Forms.Label lblName;
+        private Gizmox.WebGUI.Forms.Label lblCode;
+        private Gizmox.WebGUI.Forms.TextBox txtNameAlt2;
+        private Gizmox.WebGUI.Forms.TextBox txtNameAlt1;
+        private Gizmox.WebGUI.Forms.TextBox txtName;
+        private Gizmox.WebGUI.Forms.TextBox txtCode;
         private Gizmox.WebGUI.Forms.ErrorProvider errorProvider;
 
 

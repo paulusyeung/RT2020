@@ -1,6 +1,6 @@
 namespace RT2020.PriceMgmt
 {
-    partial class DefaultReasonList
+    partial class DiscountReasonList
     {
         /// <summary>
         /// Required designer variable.

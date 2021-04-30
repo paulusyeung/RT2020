@@ -19,75 +19,93 @@ namespace RT2020.PriceMgmt
 {
     public partial class ReasonCodeWizard : Form
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ReasonCodeWizard"/> class.
-        /// </summary>
+        #region public properties
+        private EnumHelper.EditMode _EditMode = EnumHelper.EditMode.None;
+        public EnumHelper.EditMode EditMode
+        {
+            get { return _EditMode; }
+            set { _EditMode = value; }
+        }
+
+        private Guid _ReasonId = Guid.Empty;
+        public Guid ReasonId
+        {
+            get { return _ReasonId; }
+            set { _ReasonId = value; }
+        }
+        #endregion
+
         public ReasonCodeWizard()
         {
             InitializeComponent();
+        }
 
+        private void ReasonCodeWizard_Load(object sender, EventArgs e)
+        {
+            SetCaptions();
+            SetAttributes();
             SetToolBar();
+            SetLayout();
+
+            switch (_EditMode)
+            {
+                case EnumHelper.EditMode.Add:
+                    break;
+                case EnumHelper.EditMode.Edit:
+                case EnumHelper.EditMode.Delete:
+                    LoadReason();
+                    break;
+            }
+            txtCode.Focus();
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ReasonCodeWizard"/> class.
-        /// </summary>
-        /// <param name="reasonId">The reason id.</param>
-        public ReasonCodeWizard(Guid reasonId)
+        #region SetCaptions SetAttributes
+
+        private void SetCaptions()
         {
-            InitializeComponent();
+            this.Text = WestwindHelper.GetWord("priceManagementReason.setup", "Model");
 
-            this.reasonId = reasonId;
-
-            SetToolBar();
-
-            this.LoadReason();
+            lblCode.Text = WestwindHelper.GetWordWithColon("priceManagementReason.code", "Model");
+            lblName.Text = WestwindHelper.GetWordWithColon("priceManagementReason.name", "Model");
+            lblNameAlt1.Text = WestwindHelper.GetWordWithColon(String.Format("language.{0}", LanguageHelper.AlternateLanguage1.Key.ToLower()), "Menu");
+            lblNameAlt2.Text = WestwindHelper.GetWordWithColon(String.Format("language.{0}", LanguageHelper.AlternateLanguage2.Key.ToLower()), "Menu");
         }
 
-        /// <summary>
-        /// Raises the <see cref="E:Gizmox.WebGUI.Forms.Form.Load"></see> event.
-        /// </summary>
-        /// <param name="e">An <see cref="T:System.EventArgs"></see> that contains the event data.</param>
-        protected override void OnLoad(EventArgs e)
+        private void SetAttributes()
         {
-            base.OnLoad(e);
-
-            if (this.ReasonId != System.Guid.Empty)
+            switch (LanguageHelper.AlternateLanguagesUsed)
             {
-                this.txtReasonCode.BackColor = RT2020.SystemInfo.ControlBackColor.DisabledBox;
-                this.txtReasonCode.ReadOnly = true;
-                this.txtReasonName.Focus();
-            }
-            else
-            {
-                this.txtReasonCode.BackColor = RT2020.SystemInfo.ControlBackColor.RequiredBox;
-                this.txtReasonCode.Focus();
+                case 1:
+                    // hide alt2
+                    lblNameAlt2.Visible = txtNameAlt2.Visible = false;
+                    break;
+                case 2:
+                    // do nothing
+                    break;
+                case 0:
+                default:
+                    // hide alt1 & alt2
+                    lblNameAlt1.Visible = lblNameAlt2.Visible = txtNameAlt1.Visible = txtNameAlt2.Visible = false;
+                    break;
             }
         }
 
-        #region Properties
-
-        /// <summary>
-        /// reason id
-        /// </summary>
-        private Guid reasonId = System.Guid.Empty;
-
-        /// <summary>
-        /// Gets or sets the reason id.
-        /// </summary>
-        /// <value>The reason id.</value>
-        public Guid ReasonId
+        private void SetLayout()
         {
-            get
+            switch (_EditMode)
             {
-                return reasonId;
-            }
-            set
-            {
-                reasonId = value;
+                case EnumHelper.EditMode.Add:
+                    txtCode.BackColor = RT2020.SystemInfo.ControlBackColor.RequiredBox;
+                    txtCode.Focus();
+                    break;
+                case EnumHelper.EditMode.Edit:
+                case EnumHelper.EditMode.Delete:
+                    txtCode.BackColor = RT2020.SystemInfo.ControlBackColor.DisabledBox;
+                    txtCode.ReadOnly = true;
+                    txtName.Focus();
+                    break;
             }
         }
-
         #endregion
 
         #region ToolBar
@@ -101,7 +119,7 @@ namespace RT2020.PriceMgmt
             sep.Style = ToolBarButtonStyle.Separator;
 
             // cmdSave
-            ToolBarButton cmdSave = new ToolBarButton("Save", "Save");
+            ToolBarButton cmdSave = new ToolBarButton("Save", WestwindHelper.GetWord("edit.save", "General"));
             cmdSave.Tag = "Save";
             cmdSave.Image = new IconResourceHandle("16x16.16_L_save.gif");
             cmdSave.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Write);
@@ -109,7 +127,7 @@ namespace RT2020.PriceMgmt
             this.tbWizardAction.Buttons.Add(cmdSave);
 
             // cmdSaveNew
-            ToolBarButton cmdSaveNew = new ToolBarButton("Save & New", "Save & New");
+            ToolBarButton cmdSaveNew = new ToolBarButton("Save & New", WestwindHelper.GetWord("edit.save.new", "General"));
             cmdSaveNew.Tag = "Save & New";
             cmdSaveNew.Image = new IconResourceHandle("16x16.16_L_saveOpen.gif");
             cmdSaveNew.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Write);
@@ -117,7 +135,7 @@ namespace RT2020.PriceMgmt
             this.tbWizardAction.Buttons.Add(cmdSaveNew);
 
             // cmdSaveClose
-            ToolBarButton cmdSaveClose = new ToolBarButton("Save & Close", "Save & Close");
+            ToolBarButton cmdSaveClose = new ToolBarButton("Save & Close", WestwindHelper.GetWord("edit.save.close", "General"));
             cmdSaveClose.Tag = "Save & Close";
             cmdSaveClose.Image = new IconResourceHandle("16x16.16_saveClose.gif");
             cmdSaveClose.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Write);
@@ -126,11 +144,11 @@ namespace RT2020.PriceMgmt
             this.tbWizardAction.Buttons.Add(sep);
 
             // cmdDelete
-            ToolBarButton cmdDelete = new ToolBarButton("Delete", "Delete");
+            ToolBarButton cmdDelete = new ToolBarButton("Delete", WestwindHelper.GetWord("edit.delete", "General"));
             cmdDelete.Tag = "Delete";
             cmdDelete.Image = new IconResourceHandle("16x16.16_L_remove.gif");
 
-            if (this.ReasonId == System.Guid.Empty)
+            if (_ReasonId == System.Guid.Empty)
             {
                 cmdDelete.Enabled = false;
             }
@@ -167,26 +185,26 @@ namespace RT2020.PriceMgmt
         }
         #endregion
 
-        #region Load
+        #region Load Data
 
         /// <summary>
         /// Loads this instance.
         /// </summary>
         private void LoadReason()
         {
-            var objReason = ModelEx.PriceManagementReasonEx.Get(this.ReasonId);
+            var objReason = ModelEx.PriceManagementReasonEx.Get(_ReasonId);
             if (objReason != null)
             {
-                txtReasonCode.Text = objReason.ReasonCode;
-                txtReasonName.Text = objReason.ReasonName;
-                txtReasonName_Chs.Text = objReason.ReasonName_Chs;
-                txtReasonName_Cht.Text = objReason.ReasonName_Cht;
+                txtCode.Text = objReason.ReasonCode;
+                txtName.Text = objReason.ReasonName;
+                txtNameAlt1.Text = objReason.ReasonName_Chs;
+                txtNameAlt2.Text = objReason.ReasonName_Cht;
             }
         }
 
         #endregion
 
-        #region Save
+        #region Save Data
 
         /// <summary>
         /// Verifies this instance.
@@ -196,14 +214,14 @@ namespace RT2020.PriceMgmt
         {
             bool result = true;
 
-            if (this.txtReasonCode.Text.Trim().Length == 0)
+            if (this.txtCode.Text.Trim().Length == 0)
             {
                 result = result & false;
-                errorProvider.SetError(this.txtReasonCode, "Cannot be blank!");
+                errorProvider.SetError(this.txtCode, "Cannot be blank!");
             }
             else
             {
-                errorProvider.SetError(this.txtReasonCode, string.Empty);
+                errorProvider.SetError(this.txtCode, string.Empty);
             }
 
             return result;
@@ -221,24 +239,23 @@ namespace RT2020.PriceMgmt
             {
                 using (var ctx = new EF6.RT2020Entities())
                 {
-                    var objReason = ctx.PriceManagementReason.Find(this.ReasonId);
+                    var objReason = ctx.PriceManagementReason.Find(_ReasonId);
                     if (objReason == null)
                     {
                         objReason = new EF6.PriceManagementReason();
                         objReason.ReasonId = Guid.NewGuid();
-                        objReason.ReasonId = System.Guid.NewGuid();
-                        objReason.ReasonCode = txtReasonCode.Text;
+                        objReason.ReasonCode = txtCode.Text;
 
                         ctx.PriceManagementReason.Add(objReason);
                     }
-                    objReason.ReasonName = txtReasonName.Text;
-                    objReason.ReasonName_Chs = txtReasonName_Chs.Text;
-                    objReason.ReasonName_Cht = txtReasonName_Cht.Text;
+                    objReason.ReasonName = txtName.Text;
+                    objReason.ReasonName_Chs = txtNameAlt1.Text;
+                    objReason.ReasonName_Cht = txtNameAlt2.Text;
 
                     ctx.SaveChanges();
                     result = true;
 
-                    this.ReasonId = objReason.ReasonId;
+                    _ReasonId = objReason.ReasonId;
                 }
             }
             return result;
@@ -257,11 +274,13 @@ namespace RT2020.PriceMgmt
             {
                 if (Save())
                 {
-                    RT2020.SystemInfo.Settings.RefreshMainList<DefaultReasonList>();
+                    RT2020.SystemInfo.Settings.RefreshMainList<DiscountReasonList>();
                     MessageBox.Show("Success!", "Save Result");
 
                     this.Close();
-                    ReasonCodeWizard wizard = new ReasonCodeWizard(this.ReasonId);
+                    ReasonCodeWizard wizard = new ReasonCodeWizard();
+                    wizard.ReasonId = _ReasonId;
+                    wizard.EditMode = EnumHelper.EditMode.Edit;
                     wizard.ShowDialog();
                 }
             }
@@ -278,9 +297,10 @@ namespace RT2020.PriceMgmt
             {
                 if (Save())
                 {
-                    RT2020.SystemInfo.Settings.RefreshMainList<DefaultReasonList>();
+                    RT2020.SystemInfo.Settings.RefreshMainList<DiscountReasonList>();
                     this.Close();
                     ReasonCodeWizard wizard = new ReasonCodeWizard();
+                    wizard.EditMode = EnumHelper.EditMode.Add;
                     wizard.ShowDialog();
                 }
             }
@@ -297,7 +317,7 @@ namespace RT2020.PriceMgmt
             {
                 if (Save())
                 {
-                    RT2020.SystemInfo.Settings.RefreshMainList<DefaultReasonList>();
+                    RT2020.SystemInfo.Settings.RefreshMainList<DiscountReasonList>();
                     this.Close();
                 }
             }
@@ -314,7 +334,7 @@ namespace RT2020.PriceMgmt
             {
                 try
                 {
-                    var item = ctx.PriceManagementReason.Find(this.ReasonId);
+                    var item = ctx.PriceManagementReason.Find(_ReasonId);
                     if (item != null)
                     {
                         ctx.PriceManagementReason.Remove(item);

@@ -49,9 +49,9 @@ namespace RT2020.PriceMgmt
             ddlNew.MenuItems.Add(discAuth);
 
             ddlNew.MenuItems.Add(new MenuItem("-"));
-            ddlNew.MenuItems.Add(new MenuItem("Reason Code", string.Empty, "Reason_Code"));
+            ddlNew.MenuItems.Add(new MenuItem(WestwindHelper.GetWord("product.priceManagement.reason", "Menu"), string.Empty, "Reason_Code"));
 
-            ToolBarButton cmdNew = new ToolBarButton("New", "New");
+            ToolBarButton cmdNew = new ToolBarButton("New", WestwindHelper.GetWord("edit.new", "General"));
             cmdNew.Style = ToolBarButtonStyle.DropDownButton;
             cmdNew.Image = new IconResourceHandle("16x16.ico_16_3.gif");
             cmdNew.Enabled = RT2020.Controls.UserUtility.IsAccessAllowed(EnumHelper.Permission.Write);
@@ -73,7 +73,7 @@ namespace RT2020.PriceMgmt
             ddlReport.MenuItems.Add(new MenuItem("Discount Change - Worksheet", string.Empty, "Rpt_DiscountChangeWorksheet"));
             ddlReport.MenuItems.Add(new MenuItem("Discount Change - History", string.Empty, "Rpt_DiscountChangeHistory"));
 
-            ToolBarButton cmdReport = new ToolBarButton("Report", "Report");
+            ToolBarButton cmdReport = new ToolBarButton("Report", WestwindHelper.GetWord("edit.print", "General"));
             cmdReport.Style = ToolBarButtonStyle.DropDownButton;
             cmdReport.Image = new IconResourceHandle("16x16.16_reports.gif");
             cmdReport.DropDownMenu = ddlReport;
@@ -103,71 +103,55 @@ namespace RT2020.PriceMgmt
                 {
                     case "pricechange_worksheet":
                         PriceMgmtWizard wizPriceChange = new PriceMgmtWizard();
-                        wizPriceChange.ListType = PriceUtility.PriceMgmtType.Price;
+                        wizPriceChange.EditMode = EnumHelper.EditMode.Add;
+                        wizPriceChange.TxType = EnumHelper.PriceMgmtTxType.PMC;
+                        wizPriceChange.PMType = EnumHelper.PriceMgmtPMType.Price;
                         wizPriceChange.ShowDialog();
                         break;
                     case "pricechange_authorization":
                         Authorization wizAuthPrice = new Authorization();
-                        wizAuthPrice.ListType = PriceUtility.PriceMgmtType.Price;
+                        wizAuthPrice.ListType = EnumHelper.PriceMgmtPMType.Price;
                         wizAuthPrice.ShowDialog();
                         break;
                     case "discchange_worksheet":
                         PriceMgmtWizard wizDiscChange = new PriceMgmtWizard();
-                        wizDiscChange.ListType = PriceUtility.PriceMgmtType.Discount;
+                        wizDiscChange.EditMode = EnumHelper.EditMode.Add;
+                        wizDiscChange.TxType = EnumHelper.PriceMgmtTxType.PMC;
+                        wizDiscChange.PMType = EnumHelper.PriceMgmtPMType.Discount;
                         wizDiscChange.ShowDialog();
                         break;
                     case "discchange_authorization":
                         Authorization wizAuthDisc = new Authorization();
-                        wizAuthDisc.ListType = PriceUtility.PriceMgmtType.Discount;
+                        wizAuthDisc.ListType = EnumHelper.PriceMgmtPMType.Discount;
                         wizAuthDisc.ShowDialog();
                         break;
                     case "reason_code":
                         ReasonCodeWizard wizReasonCode = new ReasonCodeWizard();
+                        wizReasonCode.EditMode = EnumHelper.EditMode.Add;
                         wizReasonCode.ShowDialog();
                         break;
                     case "rpt_pricechangeworksheet":
                         Reports.Worksheet wizPriceWorksheet = new RT2020.PriceMgmt.Reports.Worksheet();
-                        wizPriceWorksheet.ReportType = PriceUtility.PriceMgmtType.Price;
+                        wizPriceWorksheet.ReportType = EnumHelper.PriceMgmtPMType.Price;
                         wizPriceWorksheet.ShowDialog();
                         break;
                     case "rpt_pricechangehistory":
                         Reports.History wizPriceHistory = new RT2020.PriceMgmt.Reports.History();
-                        wizPriceHistory.ReportType = PriceUtility.PriceMgmtType.Price;
+                        wizPriceHistory.ReportType = EnumHelper.PriceMgmtPMType.Price;
                         wizPriceHistory.ShowDialog();
                         break;
                     case "rpt_discountchangeworksheet":
                         Reports.Worksheet wizDiscWorksheet = new RT2020.PriceMgmt.Reports.Worksheet();
-                        wizDiscWorksheet.ReportType = PriceUtility.PriceMgmtType.Discount;
+                        wizDiscWorksheet.ReportType = EnumHelper.PriceMgmtPMType.Discount;
                         wizDiscWorksheet.ShowDialog();
                         break;
                     case "rpt_discountchangehistory":
                         Reports.History wizDiscHistory = new RT2020.PriceMgmt.Reports.History();
-                        wizDiscHistory.ReportType = PriceUtility.PriceMgmtType.Discount;
+                        wizDiscHistory.ReportType = EnumHelper.PriceMgmtPMType.Discount;
                         wizDiscHistory.ShowDialog();
                         break;
                 }
             }
-        }
-    }
-
-    /// <summary>
-    /// Price Management Utility
-    /// </summary>
-    public class PriceUtility
-    {
-        /// <summary>
-        /// Price Management Type
-        /// </summary>
-        public enum PriceMgmtType
-        {
-            /// <summary>
-            /// Price report (Worksheet / History)
-            /// </summary>
-            Price,
-            /// <summary>
-            /// Discount report (Worksheet / History)
-            /// </summary>
-            Discount
         }
     }
 }

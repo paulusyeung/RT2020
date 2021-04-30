@@ -30,185 +30,175 @@ namespace RT2020.PriceMgmt
         {
             this.tbWizardAction = new Gizmox.WebGUI.Forms.ToolBar();
             this.mainPane = new Gizmox.WebGUI.Forms.Panel();
-            this.tbPriceMgmt = new Gizmox.WebGUI.Forms.TabControl();
-            this.tpMain = new Gizmox.WebGUI.Forms.TabPage();
-            this.txtCreatedOn = new Gizmox.WebGUI.Forms.TextBox();
-            this.txtModifiedBy = new Gizmox.WebGUI.Forms.TextBox();
+            this.pnlDetails = new Gizmox.WebGUI.Forms.Panel();
+            this.tbrDetails = new Gizmox.WebGUI.Forms.ToolBar();
+            this.gbxStatus = new Gizmox.WebGUI.Forms.GroupBox();
             this.txtModifiedOn = new Gizmox.WebGUI.Forms.TextBox();
-            this.txtRemarks = new Gizmox.WebGUI.Forms.TextBox();
-            this.cboReasonCode = new Gizmox.WebGUI.Forms.ComboBox();
-            this.dtpEffectiveDate = new Gizmox.WebGUI.Forms.DateTimePicker();
-            this.lblCreatedOn = new Gizmox.WebGUI.Forms.Label();
+            this.txtCreatedOn = new Gizmox.WebGUI.Forms.TextBox();
             this.lblModified = new Gizmox.WebGUI.Forms.Label();
-            this.lblRemarks = new Gizmox.WebGUI.Forms.Label();
-            this.lblReasonCode = new Gizmox.WebGUI.Forms.Label();
-            this.lblEffectiveDate = new Gizmox.WebGUI.Forms.Label();
-            this.tpDetails = new Gizmox.WebGUI.Forms.TabPage();
+            this.lblCreatedOn = new Gizmox.WebGUI.Forms.Label();
+            this.txtModifiedBy = new Gizmox.WebGUI.Forms.TextBox();
             this.txtTxNumber = new Gizmox.WebGUI.Forms.TextBox();
             this.lblTxNumber = new Gizmox.WebGUI.Forms.Label();
+            this.txtRemarks = new Gizmox.WebGUI.Forms.TextBox();
             this.txtTxType = new Gizmox.WebGUI.Forms.TextBox();
+            this.cboReasonCode = new Gizmox.WebGUI.Forms.ComboBox();
             this.lblTxType = new Gizmox.WebGUI.Forms.Label();
+            this.dtpEffectiveDate = new Gizmox.WebGUI.Forms.DateTimePicker();
+            this.lblEffectiveDate = new Gizmox.WebGUI.Forms.Label();
+            this.lblReasonCode = new Gizmox.WebGUI.Forms.Label();
+            this.lblRemarks = new Gizmox.WebGUI.Forms.Label();
+            this.toolTip1 = new Gizmox.WebGUI.Forms.ToolTip();
+            this.colDetailId = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colStatus = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colSTKCODE = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colAPPENDIX1 = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colAPPENDIX2 = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colAPPENDIX3 = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colAverageCost = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colOldPrice = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colOldMarkUp = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colNewPrice = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colNewMarkUp = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colDiff = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colOldDiscount = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colNewDiscount = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colDescription = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colClass1 = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colClass2 = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colClass3 = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colClass4 = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colClass5 = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colClass6 = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colUpdateVipDiscount = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colFixedPriceItem = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colDiscountForFixedPriceItem = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colDiscountForDiscountItem = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colDiscountForNoDiscountItem = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colStaffDiscount = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.colProductId = ((Gizmox.WebGUI.Forms.ColumnHeader)(new Gizmox.WebGUI.Forms.ColumnHeader()));
+            this.lvItemList = new Gizmox.WebGUI.Forms.ListView();
+            this.mainPane.SuspendLayout();
+            this.pnlDetails.SuspendLayout();
+            this.gbxStatus.SuspendLayout();
             this.SuspendLayout();
             // 
             // tbWizardAction
             // 
-            this.tbWizardAction.Anchor = Gizmox.WebGUI.Forms.AnchorStyles.None;
-            this.tbWizardAction.Appearance = Gizmox.WebGUI.Forms.ToolBarAppearance.Normal;
-            this.tbWizardAction.Dock = Gizmox.WebGUI.Forms.DockStyle.Top;
+            this.tbWizardAction.ButtonSize = new System.Drawing.Size(20, 20);
             this.tbWizardAction.DragHandle = true;
-            this.tbWizardAction.DropDownArrows = false;
-            this.tbWizardAction.ImageList = null;
+            this.tbWizardAction.DropDownArrows = true;
+            this.tbWizardAction.ImageSize = new System.Drawing.Size(16, 16);
             this.tbWizardAction.Location = new System.Drawing.Point(0, 0);
             this.tbWizardAction.MenuHandle = true;
             this.tbWizardAction.Name = "tbWizardAction";
-            //this.tbWizardAction.RightToLeft = false;
             this.tbWizardAction.ShowToolTips = true;
+            this.tbWizardAction.Size = new System.Drawing.Size(784, 26);
             this.tbWizardAction.TabIndex = 0;
             // 
             // mainPane
             // 
-            this.mainPane.Anchor = Gizmox.WebGUI.Forms.AnchorStyles.None;
-            this.mainPane.Controls.Add(this.tbPriceMgmt);
+            this.mainPane.Controls.Add(this.pnlDetails);
+            this.mainPane.Controls.Add(this.gbxStatus);
             this.mainPane.Controls.Add(this.txtTxNumber);
             this.mainPane.Controls.Add(this.lblTxNumber);
+            this.mainPane.Controls.Add(this.txtRemarks);
             this.mainPane.Controls.Add(this.txtTxType);
+            this.mainPane.Controls.Add(this.cboReasonCode);
             this.mainPane.Controls.Add(this.lblTxType);
+            this.mainPane.Controls.Add(this.dtpEffectiveDate);
+            this.mainPane.Controls.Add(this.lblEffectiveDate);
+            this.mainPane.Controls.Add(this.lblReasonCode);
+            this.mainPane.Controls.Add(this.lblRemarks);
             this.mainPane.Dock = Gizmox.WebGUI.Forms.DockStyle.Fill;
-            this.mainPane.DockPadding.All = 6;
-            this.mainPane.Location = new System.Drawing.Point(0, 28);
+            this.mainPane.Location = new System.Drawing.Point(0, 26);
             this.mainPane.Name = "mainPane";
-            this.mainPane.Size = new System.Drawing.Size(798, 472);
+            this.mainPane.Size = new System.Drawing.Size(784, 504);
             this.mainPane.TabIndex = 1;
             // 
-            // tbPriceMgmt
+            // pnlDetails
             // 
-            this.tbPriceMgmt.Controls.Add(this.tpMain);
-            this.tbPriceMgmt.Controls.Add(this.tpDetails);
-            this.tbPriceMgmt.Location = new System.Drawing.Point(12, 59);
-            this.tbPriceMgmt.Multiline = false;
-            this.tbPriceMgmt.Name = "tbPriceMgmt";
-            this.tbPriceMgmt.SelectedIndex = 0;
-            this.tbPriceMgmt.Size = new System.Drawing.Size(777, 401);
-            this.tbPriceMgmt.TabIndex = 4;
+            this.pnlDetails.BorderStyle = Gizmox.WebGUI.Forms.BorderStyle.FixedSingle;
+            this.pnlDetails.Controls.Add(this.lvItemList);
+            this.pnlDetails.Controls.Add(this.tbrDetails);
+            this.pnlDetails.Dock = Gizmox.WebGUI.Forms.DockStyle.Bottom;
+            this.pnlDetails.Location = new System.Drawing.Point(0, 104);
+            this.pnlDetails.Margin = new Gizmox.WebGUI.Forms.Padding(10);
+            this.pnlDetails.Name = "pnlDetails";
+            this.pnlDetails.Size = new System.Drawing.Size(784, 400);
+            this.pnlDetails.TabIndex = 12;
             // 
-            // tpMain
+            // tbrDetails
             // 
-            this.tpMain.Controls.Add(this.txtCreatedOn);
-            this.tpMain.Controls.Add(this.txtModifiedBy);
-            this.tpMain.Controls.Add(this.txtModifiedOn);
-            this.tpMain.Controls.Add(this.txtRemarks);
-            this.tpMain.Controls.Add(this.cboReasonCode);
-            this.tpMain.Controls.Add(this.dtpEffectiveDate);
-            this.tpMain.Controls.Add(this.lblCreatedOn);
-            this.tpMain.Controls.Add(this.lblModified);
-            this.tpMain.Controls.Add(this.lblRemarks);
-            this.tpMain.Controls.Add(this.lblReasonCode);
-            this.tpMain.Controls.Add(this.lblEffectiveDate);
-            this.tpMain.Location = new System.Drawing.Point(4, 22);
-            this.tpMain.Name = "tpMain";
-            this.tpMain.Size = new System.Drawing.Size(769, 375);
-            this.tpMain.TabIndex = 0;
-            this.tpMain.Text = "Main";
+            this.tbrDetails.ButtonSize = new System.Drawing.Size(20, 20);
+            this.tbrDetails.DragHandle = true;
+            this.tbrDetails.DropDownArrows = true;
+            this.tbrDetails.ImageSize = new System.Drawing.Size(16, 16);
+            this.tbrDetails.Location = new System.Drawing.Point(0, 0);
+            this.tbrDetails.MenuHandle = true;
+            this.tbrDetails.Name = "tbrDetails";
+            this.tbrDetails.ShowToolTips = true;
+            this.tbrDetails.Size = new System.Drawing.Size(782, 26);
+            this.tbrDetails.TabIndex = 0;
             // 
-            // txtCreatedOn
+            // gbxStatus
             // 
-            this.txtCreatedOn.Location = new System.Drawing.Point(122, 122);
-            this.txtCreatedOn.Name = "txtCreatedOn";
-            this.txtCreatedOn.Size = new System.Drawing.Size(103, 20);
-            this.txtCreatedOn.TabIndex = 10;
-            // 
-            // txtModifiedBy
-            // 
-            this.txtModifiedBy.Location = new System.Drawing.Point(231, 96);
-            this.txtModifiedBy.Name = "txtModifiedBy";
-            this.txtModifiedBy.Size = new System.Drawing.Size(66, 20);
-            this.txtModifiedBy.TabIndex = 9;
+            this.gbxStatus.Controls.Add(this.txtModifiedOn);
+            this.gbxStatus.Controls.Add(this.txtCreatedOn);
+            this.gbxStatus.Controls.Add(this.lblModified);
+            this.gbxStatus.Controls.Add(this.lblCreatedOn);
+            this.gbxStatus.Controls.Add(this.txtModifiedBy);
+            this.gbxStatus.FlatStyle = Gizmox.WebGUI.Forms.FlatStyle.Flat;
+            this.gbxStatus.Location = new System.Drawing.Point(523, 5);
+            this.gbxStatus.Name = "gbxStatus";
+            this.gbxStatus.Size = new System.Drawing.Size(250, 80);
+            this.gbxStatus.TabIndex = 11;
+            this.gbxStatus.TabStop = false;
+            this.gbxStatus.Text = "Status";
             // 
             // txtModifiedOn
             // 
-            this.txtModifiedOn.Location = new System.Drawing.Point(122, 96);
+            this.txtModifiedOn.Location = new System.Drawing.Point(94, 20);
             this.txtModifiedOn.Name = "txtModifiedOn";
-            this.txtModifiedOn.Size = new System.Drawing.Size(103, 20);
+            this.txtModifiedOn.Size = new System.Drawing.Size(100, 20);
             this.txtModifiedOn.TabIndex = 8;
             // 
-            // txtRemarks
+            // txtCreatedOn
             // 
-            this.txtRemarks.Location = new System.Drawing.Point(122, 70);
-            this.txtRemarks.Name = "txtRemarks";
-            this.txtRemarks.Size = new System.Drawing.Size(209, 20);
-            this.txtRemarks.TabIndex = 7;
-            // 
-            // cboReasonCode
-            // 
-            this.cboReasonCode.BorderStyle = Gizmox.WebGUI.Forms.BorderStyle.Fixed3D;
-            this.cboReasonCode.DropDownStyle = Gizmox.WebGUI.Forms.ComboBoxStyle.DropDownList;
-            this.cboReasonCode.Location = new System.Drawing.Point(122, 43);
-            this.cboReasonCode.Name = "cboReasonCode";
-            this.cboReasonCode.Size = new System.Drawing.Size(209, 21);
-            this.cboReasonCode.TabIndex = 6;
-            // 
-            // dtpEffectiveDate
-            // 
-            this.dtpEffectiveDate.CalendarFirstDayOfWeek = Gizmox.WebGUI.Forms.Day.Default;
-            this.dtpEffectiveDate.CustomFormat = "dd/MM/yyyy";
-            this.dtpEffectiveDate.Format = Gizmox.WebGUI.Forms.DateTimePickerFormat.Custom;
-            this.dtpEffectiveDate.Location = new System.Drawing.Point(122, 17);
-            this.dtpEffectiveDate.Name = "dtpEffectiveDate";
-            this.dtpEffectiveDate.Size = new System.Drawing.Size(103, 20);
-            this.dtpEffectiveDate.TabIndex = 5;
-            // 
-            // lblCreatedOn
-            // 
-            this.lblCreatedOn.Location = new System.Drawing.Point(16, 125);
-            this.lblCreatedOn.Name = "lblCreatedOn";
-            this.lblCreatedOn.Size = new System.Drawing.Size(100, 23);
-            this.lblCreatedOn.TabIndex = 4;
-            this.lblCreatedOn.Text = "Create Date: ";
+            this.txtCreatedOn.Location = new System.Drawing.Point(94, 45);
+            this.txtCreatedOn.Name = "txtCreatedOn";
+            this.txtCreatedOn.Size = new System.Drawing.Size(100, 20);
+            this.txtCreatedOn.TabIndex = 10;
             // 
             // lblModified
             // 
-            this.lblModified.Location = new System.Drawing.Point(16, 99);
+            this.lblModified.Location = new System.Drawing.Point(14, 20);
             this.lblModified.Name = "lblModified";
-            this.lblModified.Size = new System.Drawing.Size(100, 23);
+            this.lblModified.Size = new System.Drawing.Size(80, 20);
             this.lblModified.TabIndex = 3;
             this.lblModified.Text = "Last Updated: ";
+            this.lblModified.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // lblRemarks
+            // lblCreatedOn
             // 
-            this.lblRemarks.Location = new System.Drawing.Point(16, 73);
-            this.lblRemarks.Name = "lblRemarks";
-            this.lblRemarks.Size = new System.Drawing.Size(100, 23);
-            this.lblRemarks.TabIndex = 2;
-            this.lblRemarks.Text = "Remarks: ";
+            this.lblCreatedOn.Location = new System.Drawing.Point(14, 46);
+            this.lblCreatedOn.Name = "lblCreatedOn";
+            this.lblCreatedOn.Size = new System.Drawing.Size(80, 20);
+            this.lblCreatedOn.TabIndex = 4;
+            this.lblCreatedOn.Text = "Create Date: ";
+            this.lblCreatedOn.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // lblReasonCode
+            // txtModifiedBy
             // 
-            this.lblReasonCode.Location = new System.Drawing.Point(16, 46);
-            this.lblReasonCode.Name = "lblReasonCode";
-            this.lblReasonCode.Size = new System.Drawing.Size(100, 23);
-            this.lblReasonCode.TabIndex = 1;
-            this.lblReasonCode.Text = "Reason Code: ";
-            // 
-            // lblEffectiveDate
-            // 
-            this.lblEffectiveDate.Location = new System.Drawing.Point(16, 19);
-            this.lblEffectiveDate.Name = "lblEffectiveDate";
-            this.lblEffectiveDate.Size = new System.Drawing.Size(100, 23);
-            this.lblEffectiveDate.TabIndex = 0;
-            this.lblEffectiveDate.Text = "Effective Date: ";
-            // 
-            // tpDetails
-            // 
-            this.tpDetails.Location = new System.Drawing.Point(4, 22);
-            this.tpDetails.Name = "tpDetails";
-            this.tpDetails.Size = new System.Drawing.Size(769, 375);
-            this.tpDetails.TabIndex = 0;
-            this.tpDetails.Text = "Detail";
+            this.txtModifiedBy.Location = new System.Drawing.Point(198, 20);
+            this.txtModifiedBy.Name = "txtModifiedBy";
+            this.txtModifiedBy.Size = new System.Drawing.Size(40, 20);
+            this.txtModifiedBy.TabIndex = 9;
             // 
             // txtTxNumber
             // 
             this.txtTxNumber.Enabled = false;
-            this.txtTxNumber.Location = new System.Drawing.Point(247, 19);
+            this.txtTxNumber.Location = new System.Drawing.Point(90, 37);
             this.txtTxNumber.Name = "txtTxNumber";
             this.txtTxNumber.ReadOnly = true;
             this.txtTxNumber.Size = new System.Drawing.Size(100, 20);
@@ -217,36 +207,274 @@ namespace RT2020.PriceMgmt
             // 
             // lblTxNumber
             // 
-            this.lblTxNumber.Location = new System.Drawing.Point(174, 22);
+            this.lblTxNumber.Location = new System.Drawing.Point(10, 37);
             this.lblTxNumber.Name = "lblTxNumber";
-            this.lblTxNumber.Size = new System.Drawing.Size(67, 23);
+            this.lblTxNumber.Size = new System.Drawing.Size(80, 20);
             this.lblTxNumber.TabIndex = 2;
             this.lblTxNumber.Text = "TxNumber: ";
+            this.lblTxNumber.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // txtRemarks
+            // 
+            this.txtRemarks.Location = new System.Drawing.Point(302, 63);
+            this.txtRemarks.Name = "txtRemarks";
+            this.txtRemarks.Size = new System.Drawing.Size(209, 20);
+            this.txtRemarks.TabIndex = 7;
             // 
             // txtTxType
             // 
-            this.txtTxType.Location = new System.Drawing.Point(80, 19);
+            this.txtTxType.Location = new System.Drawing.Point(90, 11);
             this.txtTxType.Name = "txtTxType";
             this.txtTxType.ReadOnly = true;
             this.txtTxType.Size = new System.Drawing.Size(36, 20);
             this.txtTxType.TabIndex = 1;
             this.txtTxType.Text = "PMC";
             // 
+            // cboReasonCode
+            // 
+            this.cboReasonCode.BorderStyle = Gizmox.WebGUI.Forms.BorderStyle.Fixed3D;
+            this.cboReasonCode.DropDownStyle = Gizmox.WebGUI.Forms.ComboBoxStyle.DropDownList;
+            this.cboReasonCode.Location = new System.Drawing.Point(302, 37);
+            this.cboReasonCode.Name = "cboReasonCode";
+            this.cboReasonCode.Size = new System.Drawing.Size(100, 21);
+            this.cboReasonCode.TabIndex = 6;
+            // 
             // lblTxType
             // 
-            this.lblTxType.Location = new System.Drawing.Point(32, 22);
+            this.lblTxType.Location = new System.Drawing.Point(10, 11);
             this.lblTxType.Name = "lblTxType";
-            this.lblTxType.Size = new System.Drawing.Size(42, 23);
+            this.lblTxType.Size = new System.Drawing.Size(80, 20);
             this.lblTxType.TabIndex = 0;
             this.lblTxType.Text = "Type: ";
+            this.lblTxType.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // dtpEffectiveDate
+            // 
+            this.dtpEffectiveDate.CustomFormat = "dd/MM/yyyy";
+            this.dtpEffectiveDate.Format = Gizmox.WebGUI.Forms.DateTimePickerFormat.Custom;
+            this.dtpEffectiveDate.Location = new System.Drawing.Point(302, 11);
+            this.dtpEffectiveDate.Name = "dtpEffectiveDate";
+            this.dtpEffectiveDate.Size = new System.Drawing.Size(100, 21);
+            this.dtpEffectiveDate.TabIndex = 5;
+            // 
+            // lblEffectiveDate
+            // 
+            this.lblEffectiveDate.Location = new System.Drawing.Point(202, 11);
+            this.lblEffectiveDate.Name = "lblEffectiveDate";
+            this.lblEffectiveDate.Size = new System.Drawing.Size(100, 20);
+            this.lblEffectiveDate.TabIndex = 0;
+            this.lblEffectiveDate.Text = "Effective Date: ";
+            this.lblEffectiveDate.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // lblReasonCode
+            // 
+            this.lblReasonCode.Location = new System.Drawing.Point(202, 37);
+            this.lblReasonCode.Name = "lblReasonCode";
+            this.lblReasonCode.Size = new System.Drawing.Size(100, 20);
+            this.lblReasonCode.TabIndex = 1;
+            this.lblReasonCode.Text = "Reason Code: ";
+            this.lblReasonCode.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // lblRemarks
+            // 
+            this.lblRemarks.Location = new System.Drawing.Point(202, 63);
+            this.lblRemarks.Name = "lblRemarks";
+            this.lblRemarks.Size = new System.Drawing.Size(100, 20);
+            this.lblRemarks.TabIndex = 2;
+            this.lblRemarks.Text = "Remarks: ";
+            this.lblRemarks.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // colDetailId
+            // 
+            this.colDetailId.Text = "DetailsId";
+            this.colDetailId.Visible = false;
+            this.colDetailId.Width = 150;
+            // 
+            // colStatus
+            // 
+            this.colStatus.Text = "Status";
+            this.colStatus.Width = 50;
+            // 
+            // colSTKCODE
+            // 
+            this.colSTKCODE.Text = "STKCODE";
+            this.colSTKCODE.Width = 90;
+            // 
+            // colAPPENDIX1
+            // 
+            this.colAPPENDIX1.Text = "APPENDIX1";
+            this.colAPPENDIX1.Width = 60;
+            // 
+            // colAPPENDIX2
+            // 
+            this.colAPPENDIX2.Text = "APPENDIX2";
+            this.colAPPENDIX2.Width = 60;
+            // 
+            // colAPPENDIX3
+            // 
+            this.colAPPENDIX3.Text = "APPENDIX3";
+            this.colAPPENDIX3.Width = 60;
+            // 
+            // colAverageCost
+            // 
+            this.colAverageCost.Text = "Avg. Cost";
+            this.colAverageCost.Width = 80;
+            // 
+            // colOldPrice
+            // 
+            this.colOldPrice.Text = "Old Price";
+            this.colOldPrice.Width = 80;
+            // 
+            // colOldMarkUp
+            // 
+            this.colOldMarkUp.Text = "Old MU%";
+            this.colOldMarkUp.Width = 80;
+            // 
+            // colNewPrice
+            // 
+            this.colNewPrice.Text = "New Price";
+            this.colNewPrice.Width = 80;
+            // 
+            // colNewMarkUp
+            // 
+            this.colNewMarkUp.Text = "New MU%";
+            this.colNewMarkUp.Width = 80;
+            // 
+            // colDiff
+            // 
+            this.colDiff.Text = "Diff.%";
+            this.colDiff.Width = 80;
+            // 
+            // colOldDiscount
+            // 
+            this.colOldDiscount.Text = "Old Disc. %";
+            this.colOldDiscount.Width = 80;
+            // 
+            // colNewDiscount
+            // 
+            this.colNewDiscount.Text = "New Disc. %";
+            this.colNewDiscount.Width = 80;
+            // 
+            // colDescription
+            // 
+            this.colDescription.Text = "Description";
+            this.colDescription.Width = 90;
+            // 
+            // colClass1
+            // 
+            this.colClass1.Text = "Class1";
+            this.colClass1.Width = 50;
+            // 
+            // colClass2
+            // 
+            this.colClass2.Text = "Class2";
+            this.colClass2.Width = 50;
+            // 
+            // colClass3
+            // 
+            this.colClass3.Text = "Class3";
+            this.colClass3.Width = 50;
+            // 
+            // colClass4
+            // 
+            this.colClass4.Text = "Class4";
+            this.colClass4.Width = 50;
+            // 
+            // colClass5
+            // 
+            this.colClass5.Text = "Class5";
+            this.colClass5.Width = 50;
+            // 
+            // colClass6
+            // 
+            this.colClass6.Text = "Class6";
+            this.colClass6.Width = 50;
+            // 
+            // colUpdateVipDiscount
+            // 
+            this.colUpdateVipDiscount.Text = "Update Vip Discount";
+            this.colUpdateVipDiscount.Width = 50;
+            // 
+            // colFixedPriceItem
+            // 
+            this.colFixedPriceItem.Text = "Fixed Price Item";
+            this.colFixedPriceItem.Width = 50;
+            // 
+            // colDiscountForFixedPriceItem
+            // 
+            this.colDiscountForFixedPriceItem.Text = "Disc. For Fixed Price item";
+            this.colDiscountForFixedPriceItem.Width = 50;
+            // 
+            // colDiscountForDiscountItem
+            // 
+            this.colDiscountForDiscountItem.Text = "Disc. for Discount Item";
+            this.colDiscountForDiscountItem.Width = 50;
+            // 
+            // colDiscountForNoDiscountItem
+            // 
+            this.colDiscountForNoDiscountItem.Text = "Disc. for No Discount item";
+            this.colDiscountForNoDiscountItem.Width = 50;
+            // 
+            // colStaffDiscount
+            // 
+            this.colStaffDiscount.Text = "Staff Discount";
+            this.colStaffDiscount.Width = 50;
+            // 
+            // colProductId
+            // 
+            this.colProductId.Text = "ProductId";
+            this.colProductId.Visible = false;
+            this.colProductId.Width = 150;
+            // 
+            // lvItemList
+            // 
+            this.lvItemList.BorderStyle = Gizmox.WebGUI.Forms.BorderStyle.None;
+            this.lvItemList.Columns.AddRange(new Gizmox.WebGUI.Forms.ColumnHeader[] {
+            this.colDetailId,
+            this.colStatus,
+            this.colSTKCODE,
+            this.colAPPENDIX1,
+            this.colAPPENDIX2,
+            this.colAPPENDIX3,
+            this.colAverageCost,
+            this.colOldPrice,
+            this.colOldMarkUp,
+            this.colNewPrice,
+            this.colNewMarkUp,
+            this.colDiff,
+            this.colOldDiscount,
+            this.colNewDiscount,
+            this.colDescription,
+            this.colClass1,
+            this.colClass2,
+            this.colClass3,
+            this.colClass4,
+            this.colClass5,
+            this.colClass6,
+            this.colUpdateVipDiscount,
+            this.colFixedPriceItem,
+            this.colDiscountForFixedPriceItem,
+            this.colDiscountForDiscountItem,
+            this.colDiscountForNoDiscountItem,
+            this.colStaffDiscount,
+            this.colProductId});
+            this.lvItemList.DataMember = null;
+            this.lvItemList.Location = new System.Drawing.Point(21, 113);
+            this.lvItemList.Name = "lvItemList";
+            this.lvItemList.Size = new System.Drawing.Size(743, 175);
+            this.lvItemList.TabIndex = 22;
             // 
             // PriceMgmtWizard
             // 
             this.Controls.Add(this.mainPane);
             this.Controls.Add(this.tbWizardAction);
             this.FormBorderStyle = Gizmox.WebGUI.Forms.FormBorderStyle.FixedDialog;
-            this.Size = new System.Drawing.Size(798, 500);
+            this.Size = new System.Drawing.Size(784, 530);
             this.Text = "PriceMgmtWizard";
+            this.Load += new System.EventHandler(this.PriceMgmtWizard_Load);
+            this.mainPane.ResumeLayout(false);
+            this.pnlDetails.ResumeLayout(false);
+            this.gbxStatus.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -259,9 +487,6 @@ namespace RT2020.PriceMgmt
         private Gizmox.WebGUI.Forms.Label lblTxType;
         private Gizmox.WebGUI.Forms.TextBox txtTxNumber;
         private Gizmox.WebGUI.Forms.Label lblTxNumber;
-        private Gizmox.WebGUI.Forms.TabControl tbPriceMgmt;
-        private Gizmox.WebGUI.Forms.TabPage tpMain;
-        private Gizmox.WebGUI.Forms.TabPage tpDetails;
         private Gizmox.WebGUI.Forms.Label lblCreatedOn;
         private Gizmox.WebGUI.Forms.Label lblModified;
         private Gizmox.WebGUI.Forms.Label lblRemarks;
@@ -273,7 +498,38 @@ namespace RT2020.PriceMgmt
         private Gizmox.WebGUI.Forms.TextBox txtRemarks;
         private Gizmox.WebGUI.Forms.ComboBox cboReasonCode;
         private Gizmox.WebGUI.Forms.DateTimePicker dtpEffectiveDate;
-
-
+        private Gizmox.WebGUI.Forms.GroupBox gbxStatus;
+        private Gizmox.WebGUI.Forms.Panel pnlDetails;
+        private Gizmox.WebGUI.Forms.ToolBar tbrDetails;
+        private Gizmox.WebGUI.Forms.ToolTip toolTip1;
+        public Gizmox.WebGUI.Forms.ListView lvItemList;
+        private Gizmox.WebGUI.Forms.ColumnHeader colDetailId;
+        private Gizmox.WebGUI.Forms.ColumnHeader colStatus;
+        private Gizmox.WebGUI.Forms.ColumnHeader colSTKCODE;
+        private Gizmox.WebGUI.Forms.ColumnHeader colAPPENDIX1;
+        private Gizmox.WebGUI.Forms.ColumnHeader colAPPENDIX2;
+        private Gizmox.WebGUI.Forms.ColumnHeader colAPPENDIX3;
+        private Gizmox.WebGUI.Forms.ColumnHeader colAverageCost;
+        private Gizmox.WebGUI.Forms.ColumnHeader colOldPrice;
+        private Gizmox.WebGUI.Forms.ColumnHeader colOldMarkUp;
+        private Gizmox.WebGUI.Forms.ColumnHeader colNewPrice;
+        private Gizmox.WebGUI.Forms.ColumnHeader colNewMarkUp;
+        private Gizmox.WebGUI.Forms.ColumnHeader colDiff;
+        private Gizmox.WebGUI.Forms.ColumnHeader colOldDiscount;
+        private Gizmox.WebGUI.Forms.ColumnHeader colNewDiscount;
+        private Gizmox.WebGUI.Forms.ColumnHeader colDescription;
+        private Gizmox.WebGUI.Forms.ColumnHeader colClass1;
+        private Gizmox.WebGUI.Forms.ColumnHeader colClass2;
+        private Gizmox.WebGUI.Forms.ColumnHeader colClass3;
+        private Gizmox.WebGUI.Forms.ColumnHeader colClass4;
+        private Gizmox.WebGUI.Forms.ColumnHeader colClass5;
+        private Gizmox.WebGUI.Forms.ColumnHeader colClass6;
+        private Gizmox.WebGUI.Forms.ColumnHeader colUpdateVipDiscount;
+        private Gizmox.WebGUI.Forms.ColumnHeader colFixedPriceItem;
+        private Gizmox.WebGUI.Forms.ColumnHeader colDiscountForFixedPriceItem;
+        private Gizmox.WebGUI.Forms.ColumnHeader colDiscountForDiscountItem;
+        private Gizmox.WebGUI.Forms.ColumnHeader colDiscountForNoDiscountItem;
+        private Gizmox.WebGUI.Forms.ColumnHeader colStaffDiscount;
+        private Gizmox.WebGUI.Forms.ColumnHeader colProductId;
     }
 }

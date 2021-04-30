@@ -270,5 +270,29 @@ namespace RT2020.Helper
             TenderType,
             EventCode
         }
+
+        /// <summary>
+        /// dbo.PriceManagementBatchHeader.PM_TYPE VARCHAR(1)
+        /// P:Price; D:Disc; M:Mix & Match
+        /// </summary>
+        public enum PriceMgmtPMType
+        {
+            None,
+            Price,
+            Discount,
+            MixMatch
+        }
+
+        /// <summary>
+        /// dbo.PriceManagementBatchHeader.TxType VARCHAR(3)
+        /// P:Price; D:Disc; M:Mix & Match
+        /// PMC: Price Change Control; PMP: Price Promotion Control;
+        /// </summary>
+        public enum PriceMgmtTxType
+        {
+            None,
+            PMC,    // PriceMgmt Change
+            PMP     // PriceMgmt Promotion
+        }
     }
 }

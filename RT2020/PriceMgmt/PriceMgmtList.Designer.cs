@@ -1,6 +1,6 @@
 namespace RT2020.PriceMgmt
 {
-    partial class DefaultList
+    partial class PriceMgmtList
     {
         /// <summary>
         /// Required designer variable.

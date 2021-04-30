@@ -179,13 +179,13 @@ namespace RT2020.NavPane
                         wizTender.ShowDialog();
                         break;
                     case "product.pricemanagement.pricechange":
-                        RT2020.PriceMgmt.PriceMgmtList wizPriceChangeList = new RT2020.PriceMgmt.PriceMgmtList(controls[0], EnumHelper.PriceMgmtType.Price);
+                        RT2020.PriceMgmt.PriceMgmtList wizPriceChangeList = new RT2020.PriceMgmt.PriceMgmtList(controls[0], EnumHelper.PriceMgmtPMType.Price);
                         wizPriceChangeList.DockPadding.All = 6;
                         wizPriceChangeList.Dock = DockStyle.Fill;
                         wspPane.Controls.Add(wizPriceChangeList);
                         break;
                     case "product.pricemanagement.discountchange":
-                        RT2020.PriceMgmt.PriceMgmtList wizDiscChangeList = new RT2020.PriceMgmt.PriceMgmtList(controls[0], EnumHelper.PriceMgmtType.Discount);
+                        RT2020.PriceMgmt.PriceMgmtList wizDiscChangeList = new RT2020.PriceMgmt.PriceMgmtList(controls[0], EnumHelper.PriceMgmtPMType.Discount);
                         wizDiscChangeList.DockPadding.All = 6;
                         wizDiscChangeList.Dock = DockStyle.Fill;
                         wspPane.Controls.Add(wizDiscChangeList);

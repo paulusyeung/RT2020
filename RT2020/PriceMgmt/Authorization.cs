@@ -22,6 +22,31 @@ namespace RT2020.PriceMgmt
 {
     public partial class Authorization : Form
     {
+        #region public Properties
+
+        /// <summary>
+        /// the type of the list.
+        /// </summary>
+        private EnumHelper.PriceMgmtPMType listType = EnumHelper.PriceMgmtPMType.Price;
+
+        /// <summary>
+        /// Gets or sets the type of the list.
+        /// </summary>
+        /// <value>The type of the list.</value>
+        public EnumHelper.PriceMgmtPMType ListType
+        {
+            get
+            {
+                return listType;
+            }
+            set
+            {
+                listType = value;
+            }
+        }
+
+        #endregion
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Authentication"/> class.
         /// </summary>
@@ -64,31 +89,6 @@ namespace RT2020.PriceMgmt
             this.cboOperator.SelectedIndex = 0;
             this.cboOrdering.SelectedIndex = 0;
         }
-
-        #region Properties
-
-        /// <summary>
-        /// the type of the list.
-        /// </summary>
-        private PriceUtility.PriceMgmtType listType = PriceUtility.PriceMgmtType.Price;
-
-        /// <summary>
-        /// Gets or sets the type of the list.
-        /// </summary>
-        /// <value>The type of the list.</value>
-        public PriceUtility.PriceMgmtType ListType
-        {
-            get
-            {
-                return listType;
-            }
-            set
-            {
-                listType = value;
-            }
-        }
-
-        #endregion
 
         #region Bind auth list
 
@@ -439,11 +439,11 @@ namespace RT2020.PriceMgmt
                                             var oProduct = ctx.Product.Find(srcDetail.ProductId);
                                             if (oProduct != null)
                                             {
-                                                if (this.ListType == PriceUtility.PriceMgmtType.Price)
+                                                if (this.ListType == EnumHelper.PriceMgmtPMType.Price)
                                                 {
                                                     oProduct.RetailPrice = updatedValue;
                                                 }
-                                                else if (this.ListType == PriceUtility.PriceMgmtType.Discount)
+                                                else if (this.ListType == EnumHelper.PriceMgmtPMType.Discount)
                                                 {
                                                     oProduct.NormalDiscount = updatedValue;
                                                 }
