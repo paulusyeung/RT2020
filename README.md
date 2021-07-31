@@ -52,6 +52,14 @@ dbo.Staff.NameAlt2
 ```
 
 3. Translation 係用 [Westwind.Globalization](https://github.com/RickStrahl/Westwind.Globalization)
+4. Microsoft ReportViewer Related Error
+
+2021.08.01 paulus: 今日打開 RT2020，debug 出現：
+```
+Could not load file or assembly 'Microsoft.ReportViewer.WebForms, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91' or one of its dependencies. The located assembly's manifest definition does not match the assembly reference. (Exception from HRESULT: 0x80131040)
+```
+要去下載安裝 [ReportViewer 2015 Rintime](https://www.microsoft.com/en-us/download/details.aspx?id=45496) ，奇怪？因為之前都冇事嘅。
+
 
 
 
