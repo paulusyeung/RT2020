@@ -40,7 +40,9 @@ regioncode2 = [BCP-47 language tag](https://tools.ietf.org/html/bcp47) region = 
 2. Alt-1 = zh-CN 簡體：中文（中国）NativeName
 3. Alt-2 = zh-HK 繁體：中文（香港特別行政區）NativeName
 
-##### Notes
+——— ＊＊＊ ———
+
+#### Notes
 
 1. RT2020 Settings > System > Translation 內 General.logon 有幾多種 locale，Theme Language Switcher 就可以有幾多種選擇。
 
@@ -58,7 +60,16 @@ dbo.Staff.NameAlt2
 ```
 Could not load file or assembly 'Microsoft.ReportViewer.WebForms, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91' or one of its dependencies. The located assembly's manifest definition does not match the assembly reference. (Exception from HRESULT: 0x80131040)
 ```
-要去下載安裝 [ReportViewer 2015 Rintime](https://www.microsoft.com/en-us/download/details.aspx?id=45496) ，奇怪？因為之前都冇事嘅。
+要去下載安裝 [ReportViewer 2015 Rintime](https://www.microsoft.com/en-us/download/details.aspx?id=45496) ，奇怪？因為之前都冇事嘅。仲有啲其他嘢要跟進：
+
+4.1 Controls.Reporting.Viewer.resx
+
+4.2 安裝 Report Designer for VS 2015
+
+   IIS 也要安裝，可能要加裝 [System CLR Types](https://www.microsoft.com/en-us/download/details.aspx?id=42295)
+
+4.3 Upgrade rdlc 檔案
+
 
 
 
