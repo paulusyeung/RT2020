@@ -79,12 +79,12 @@ namespace RT2020.Member
 
         private void SetAttributes()
         {
-            txtLargestVipNumber.BackColor = RT2020.SystemInfo.ControlBackColor.DisabledBox;
-            cboNature.BackColor = RT2020.SystemInfo.ControlBackColor.RequiredBox;
+            txtLargestVipNumber.BackColor = SystemInfoHelper.ControlBackColor.DisabledBox;
+            cboNature.BackColor = SystemInfoHelper.ControlBackColor.RequiredBox;
             cboNature.SelectedIndex = 0;
-            cboLineOfOperation.BackColor = RT2020.SystemInfo.ControlBackColor.RequiredBox;
-            txtNormalDiscount.BackColor = RT2020.SystemInfo.ControlBackColor.RequiredBox;
-            txtPromotionDiscount.BackColor = RT2020.SystemInfo.ControlBackColor.RequiredBox;
+            cboLineOfOperation.BackColor = SystemInfoHelper.ControlBackColor.RequiredBox;
+            txtNormalDiscount.BackColor = SystemInfoHelper.ControlBackColor.RequiredBox;
+            txtPromotionDiscount.BackColor = SystemInfoHelper.ControlBackColor.RequiredBox;
 
             #region 設定 clickable Nature label
             lblNature.AutoSize = true;                     // 減少 whitespace，有字嘅位置先可以 click

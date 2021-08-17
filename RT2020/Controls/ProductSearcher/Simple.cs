@@ -9,6 +9,7 @@ using System.Text;
 
 using Gizmox.WebGUI.Common;
 using Gizmox.WebGUI.Forms;
+using RT2020.Helper;
 
 #endregion
 
@@ -27,10 +28,10 @@ namespace RT2020.Controls.ProductSearcher
         #region System Labels
         private void SetSystemLabels()
         {
-            this.lblStockCode.Text = RT2020.SystemInfo.Settings.GetSystemLabelByKey("STKCODE");
-            this.lblAppendix1.Text = RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX1");
-            this.lblAppendix2.Text = RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX2");
-            this.lblAppendix3.Text = RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX3");
+            this.lblStockCode.Text = SystemInfoHelper.Settings.GetSystemLabelByKey("STKCODE");
+            this.lblAppendix1.Text = SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX1");
+            this.lblAppendix2.Text = SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX2");
+            this.lblAppendix3.Text = SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX3");
 
             this.lblDescription.Text = RT2020.Controls.Utility.Dictionary.GetWord("description");
             this.btnFind.Text = RT2020.Controls.Utility.Dictionary.GetWord("Find");

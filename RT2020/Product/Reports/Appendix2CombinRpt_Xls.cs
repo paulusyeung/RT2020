@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Collections;
 using System.ComponentModel;
 using DevExpress.XtraReports.UI;
+using RT2020.Helper;
 
 namespace RT2020.Product.Reports
 {
@@ -15,8 +16,8 @@ namespace RT2020.Product.Reports
         {
             InitializeComponent();
 
-            this.lblCaption.Text = RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX2") + " Combin List";
-            this.lblAppendix2.Text = RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX2") + " Combin#";
+            this.lblCaption.Text = SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX2") + " Combin List";
+            this.lblAppendix2.Text = SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX2") + " Combin#";
         }
       
         private void ColorCombinListRptc_BeforePrint(object sender, System.Drawing.Printing.PrintEventArgs e)
@@ -25,10 +26,10 @@ namespace RT2020.Product.Reports
             this.hdrtoApp11.Text = _toCode;
             this.ID1.DataBindings.Add("Text", DataSource, "APPENDIX2");
             this.lblAppendix2.DataBindings.Add("Text", DataSource, "DimCode");
-            this.DATECREATE1.DataBindings.Add("Text", DataSource, "CreatedOn", "{0:" + RT2020.SystemInfo.Settings.GetDateFormat() + "}");
-            this.DATELCHG1.DataBindings.Add("Text", DataSource, "ModifiedOn", "{0:" + RT2020.SystemInfo.Settings.GetDateFormat() + "}");
+            this.DATECREATE1.DataBindings.Add("Text", DataSource, "CreatedOn", "{0:" + DateTimeHelper.GetDateFormat() + "}");
+            this.DATELCHG1.DataBindings.Add("Text", DataSource, "ModifiedOn", "{0:" + DateTimeHelper.GetDateFormat() + "}");
             this.USERLCHG1.DataBindings.Add("Text", DataSource, "StaffName");
-            this.PrintDate1.Text = RT2020.SystemInfo.Settings.DateTimeToString(System.DateTime.Now, true);
+            this.PrintDate1.Text = DateTimeHelper.DateTimeToString(System.DateTime.Now, true);
         }
 
         #region Attribute

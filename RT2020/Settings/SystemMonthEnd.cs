@@ -14,6 +14,8 @@ using System.IO;
 using RT2020.Controls;
 
 using System.Threading;
+using RT2020.Helper;
+using RT2020.ModelEx;
 
 #endregion
 
@@ -49,11 +51,11 @@ namespace RT2020.Settings
         {
             txtProgessMessage.Text = "Preparing...";
 
-            txtCompanyName.Text = SystemInfo.CurrentInfo.Default.CompanyName;
-            txtMonthEnded.Text = SystemInfo.CurrentInfo.Default.CurrentSystemDate.ToString("MMMM yyyy");
+            txtCompanyName.Text = SystemInfoEx.CurrentInfo.Default.CompanyName;
+            txtMonthEnded.Text = SystemInfoEx.CurrentInfo.Default.CurrentSystemDate.ToString("MMMM yyyy");
 
-            txtCompanyName.BackColor = SystemInfo.ControlBackColor.DisabledBox;
-            txtMonthEnded.BackColor = SystemInfo.ControlBackColor.DisabledBox;
+            txtCompanyName.BackColor = SystemInfoHelper.ControlBackColor.DisabledBox;
+            txtMonthEnded.BackColor = SystemInfoHelper.ControlBackColor.DisabledBox;
         }
 
         /// <summary>

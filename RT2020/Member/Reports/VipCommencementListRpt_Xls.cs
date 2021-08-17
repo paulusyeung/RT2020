@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Collections;
 using System.ComponentModel;
 using DevExpress.XtraReports.UI;
+using RT2020.Helper;
 
 namespace RT2020.Member.Reports
 {
@@ -65,7 +66,7 @@ namespace RT2020.Member.Reports
 
         private void VipCommencementListRpt_BeforePrint(object sender, System.Drawing.Printing.PrintEventArgs e)
         {
-            this.PrintDate1.Text = RT2020.SystemInfo.Settings.DateTimeToString(DateTime.Now, true);
+            this.PrintDate1.Text = DateTimeHelper.DateTimeToString(DateTime.Now, true);
 
             this.txtCommencementDate.DataBindings.Add("Text", DataSource, "Date Commence");
             this.txtVipNumber.DataBindings.Add("Text", DataSource, "VipNumber");

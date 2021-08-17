@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Collections;
 using System.ComponentModel;
 using DevExpress.XtraReports.UI;
+using RT2020.Helper;
 
 namespace RT2020.Product.Reports
 {
@@ -35,7 +36,7 @@ namespace RT2020.Product.Reports
             this.VPRC1.DataBindings.Add("Text", DataSource, "VendorPrice", "{0:n2}");
             this.VCURR1.DataBindings.Add("Text", DataSource, "VendorCurrencyCode", "{0:n2}");
             this.ORIPRC1.DataBindings.Add("Text", DataSource, "OriginalRetailPrice", "{0:n2}");
-            this.PrintDate1.Text = RT2020.SystemInfo.Settings.DateTimeToString(System.DateTime.Now, true);
+            this.PrintDate1.Text = DateTimeHelper.DateTimeToString(System.DateTime.Now, true);
             this.DESC1.DataBindings.Add("Text", DataSource, "ProductName");
             this.BASPRC1.DataBindings.Add("Text", DataSource, "RetailPrice", "{0:n2}");
 
@@ -71,17 +72,17 @@ namespace RT2020.Product.Reports
         #region Set System label
         private void SetSystemLabels()
         {
-            hdrStkCode1.Text = RT2020.SystemInfo.Settings.GetSystemLabelByKey("STKCODE");
-            hdrAppendix11.Text = RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX1");
-            hdrAppendix21.Text = RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX2");
-            hdrAppendix31.Text = RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX3");
+            hdrStkCode1.Text = SystemInfoHelper.Settings.GetSystemLabelByKey("STKCODE");
+            hdrAppendix11.Text = SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX1");
+            hdrAppendix21.Text = SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX2");
+            hdrAppendix31.Text = SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX3");
 
-            hdrClass11.Text = "C1 : " + RT2020.SystemInfo.Settings.GetSystemLabelByKey("CLASS1");
-            hdrClass21.Text = "C1 : " + RT2020.SystemInfo.Settings.GetSystemLabelByKey("CLASS2");
-            hdrClass31.Text = "C1 : " + RT2020.SystemInfo.Settings.GetSystemLabelByKey("CLASS3");
-            hdrClass41.Text = "C1 : " + RT2020.SystemInfo.Settings.GetSystemLabelByKey("CLASS4");
-            hdrClass51.Text = "C1 : " + RT2020.SystemInfo.Settings.GetSystemLabelByKey("CLASS5");
-            hdrClass61.Text = "C1 : " + RT2020.SystemInfo.Settings.GetSystemLabelByKey("CLASS6");
+            hdrClass11.Text = "C1 : " + SystemInfoHelper.Settings.GetSystemLabelByKey("CLASS1");
+            hdrClass21.Text = "C1 : " + SystemInfoHelper.Settings.GetSystemLabelByKey("CLASS2");
+            hdrClass31.Text = "C1 : " + SystemInfoHelper.Settings.GetSystemLabelByKey("CLASS3");
+            hdrClass41.Text = "C1 : " + SystemInfoHelper.Settings.GetSystemLabelByKey("CLASS4");
+            hdrClass51.Text = "C1 : " + SystemInfoHelper.Settings.GetSystemLabelByKey("CLASS5");
+            hdrClass61.Text = "C1 : " + SystemInfoHelper.Settings.GetSystemLabelByKey("CLASS6");
         }
         #endregion
     }

@@ -15,8 +15,9 @@ namespace RT2020.Purchasing.Reports.Others
     using Gizmox.WebGUI.Common.Resources;
     using Gizmox.WebGUI.Forms;
 
-    
+
     using Helper;
+    using ModelEx;
 
     /// <summary>
     /// Remarks class
@@ -91,8 +92,8 @@ namespace RT2020.Purchasing.Reports.Others
             {
                 { "FromCode", this.cboFrom.Text.Trim() },
                 { "ToCode", this.cboTo.Text.Trim() },
-                { "PrintedOn", DateTime.Now.ToString(RT2020.SystemInfo.Settings.GetDateTimeFormat()) },
-                { "Company", RT2020.SystemInfo.Settings.GetSystemLabelByKey("Company") } ////test data
+                { "PrintedOn", DateTime.Now.ToString(DateTimeHelper.GetDateTimeFormat()) },
+                { "Company", SystemInfoHelper.Settings.GetSystemLabelByKey("Company") } ////test data
              };
 
             RT2020.Controls.Reporting.RdlExport rdlExport = new RT2020.Controls.Reporting.RdlExport();
@@ -114,8 +115,8 @@ namespace RT2020.Purchasing.Reports.Others
             {
                 { "FromCode", this.cboFrom.Text.Trim() },
                 { "ToCode", this.cboTo.Text.Trim() },
-                { "PrintedOn", DateTime.Now.ToString(RT2020.SystemInfo.Settings.GetDateTimeFormat()) },
-                { "Company", RT2020.SystemInfo.Settings.GetSystemLabelByKey("Company") } ////test data
+                { "PrintedOn", DateTime.Now.ToString(DateTimeHelper.GetDateTimeFormat()) },
+                { "Company", SystemInfoHelper.Settings.GetSystemLabelByKey("Company") } ////test data
             };
 
             RT2020.Controls.Reporting.RdlExport rdlExport = new RT2020.Controls.Reporting.RdlExport();
@@ -204,8 +205,8 @@ ORDER BY RemarkCode
                 {
                     { "FromCode", this.cboFrom.Text.Trim() },
                     { "ToCode", this.cboTo.Text.Trim() },
-                    { "PrintedOn", DateTime.Now.ToString(RT2020.SystemInfo.Settings.GetDateTimeFormat()) },
-                    { "Company", RT2020.SystemInfo.CurrentInfo.Default.CompanyName }
+                    { "PrintedOn", DateTime.Now.ToString(DateTimeHelper.GetDateTimeFormat()) },
+                    { "Company", SystemInfoEx.CurrentInfo.Default.CompanyName }
                 };
 
                 RT2020.Controls.Reporting.Viewer rptViewer = new RT2020.Controls.Reporting.Viewer();

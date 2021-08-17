@@ -419,7 +419,7 @@ namespace RT2020.Member.Import
 
                             ctx.MemberSmartTag.Add(oGradeTag);
                         }
-                        oDateOfBirthTag.SmartTagValue = RT2020.SystemInfo.Settings.DateTimeToString(member.DATE_BIRTH, false);
+                        oDateOfBirthTag.SmartTagValue = DateTimeHelper.DateTimeToString(member.DATE_BIRTH, false);
                         #endregion
 
                         #region DateOfRegister
@@ -434,7 +434,7 @@ namespace RT2020.Member.Import
 
                             ctx.MemberSmartTag.Add(oGradeTag);
                         }
-                        oDateOfRegisterTag.SmartTagValue = RT2020.SystemInfo.Settings.DateTimeToString(member.DATE_REGIS, false);
+                        oDateOfRegisterTag.SmartTagValue = DateTimeHelper.DateTimeToString(member.DATE_REGIS, false);
                         #endregion
 
                         #region HKID

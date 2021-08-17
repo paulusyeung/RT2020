@@ -12,6 +12,7 @@ using Gizmox.WebGUI.Common;
 using Gizmox.WebGUI.Forms;
 
 using System.Data.Entity;
+using RT2020.Helper;
 
 #endregion
 
@@ -36,24 +37,24 @@ namespace RT2020.Inventory.StockTake
 
         private void SetAttributes()
         {
-            txtTxNumber.BackColor = SystemInfo.ControlBackColor.DisabledBox;
-            txtWorkplace.BackColor = SystemInfo.ControlBackColor.DisabledBox;
-            txtHHTId.BackColor = SystemInfo.ControlBackColor.DisabledBox;
-            txtUploadedOn.BackColor = SystemInfo.ControlBackColor.DisabledBox;
-            txtTotalLine_HHTData.BackColor = SystemInfo.ControlBackColor.DisabledBox;
-            txtTotalLine_StockTake.BackColor = SystemInfo.ControlBackColor.DisabledBox;
-            txtTotalLine_MissingBarcode.BackColor = SystemInfo.ControlBackColor.DisabledBox;
-            txtTotalQty_HHTData.BackColor = SystemInfo.ControlBackColor.DisabledBox;
-            txtTotalQty_StockTake.BackColor = SystemInfo.ControlBackColor.DisabledBox;
-            txtTotalQty_MissingBarcode.BackColor = SystemInfo.ControlBackColor.DisabledBox;
+            txtTxNumber.BackColor = SystemInfoHelper.ControlBackColor.DisabledBox;
+            txtWorkplace.BackColor = SystemInfoHelper.ControlBackColor.DisabledBox;
+            txtHHTId.BackColor = SystemInfoHelper.ControlBackColor.DisabledBox;
+            txtUploadedOn.BackColor = SystemInfoHelper.ControlBackColor.DisabledBox;
+            txtTotalLine_HHTData.BackColor = SystemInfoHelper.ControlBackColor.DisabledBox;
+            txtTotalLine_StockTake.BackColor = SystemInfoHelper.ControlBackColor.DisabledBox;
+            txtTotalLine_MissingBarcode.BackColor = SystemInfoHelper.ControlBackColor.DisabledBox;
+            txtTotalQty_HHTData.BackColor = SystemInfoHelper.ControlBackColor.DisabledBox;
+            txtTotalQty_StockTake.BackColor = SystemInfoHelper.ControlBackColor.DisabledBox;
+            txtTotalQty_MissingBarcode.BackColor = SystemInfoHelper.ControlBackColor.DisabledBox;
 
-            txtCreatedOn.BackColor = SystemInfo.ControlBackColor.DisabledBox;
-            txtCreatedBy.BackColor = SystemInfo.ControlBackColor.DisabledBox;
+            txtCreatedOn.BackColor = SystemInfoHelper.ControlBackColor.DisabledBox;
+            txtCreatedBy.BackColor = SystemInfoHelper.ControlBackColor.DisabledBox;
 
-            colSTKCODE.Text = SystemInfo.Settings.GetSystemLabelByKey("STKCODE");
-            colAPPENDIX1.Text = SystemInfo.Settings.GetSystemLabelByKey("APPENDIX1");
-            colAPPENDIX2.Text = SystemInfo.Settings.GetSystemLabelByKey("APPENDIX2");
-            colAPPENDIX3.Text = SystemInfo.Settings.GetSystemLabelByKey("APPENDIX3");
+            colSTKCODE.Text = SystemInfoHelper.Settings.GetSystemLabelByKey("STKCODE");
+            colAPPENDIX1.Text = SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX1");
+            colAPPENDIX2.Text = SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX2");
+            colAPPENDIX3.Text = SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX3");
         }
 
         private void LoadHeaderInfo()

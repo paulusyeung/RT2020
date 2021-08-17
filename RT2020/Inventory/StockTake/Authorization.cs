@@ -17,6 +17,7 @@ using System.Configuration;
 using System.Linq;
 using System.Data.Entity;
 using RT2020.Helper;
+using RT2020.ModelEx;
 
 #endregion
 
@@ -38,9 +39,9 @@ namespace RT2020.Inventory.StockTake
         #region Init
         private void InitComboBox()
         {
-            txtPostedOn.Text = RT2020.SystemInfo.Settings.DateTimeToString(DateTime.Now, true);
-            txtSysMonth.Text = RT2020.SystemInfo.CurrentInfo.Default.CurrentSystemMonth;
-            txtSysYear.Text = RT2020.SystemInfo.CurrentInfo.Default.CurrentSystemYear;
+            txtPostedOn.Text = DateTimeHelper.DateTimeToString(DateTime.Now, true);
+            txtSysMonth.Text = SystemInfoEx.CurrentInfo.Default.CurrentSystemMonth;
+            txtSysYear.Text = SystemInfoEx.CurrentInfo.Default.CurrentSystemYear;
 
             cboFieldName.SelectedIndex = 0;
             cboOperator.SelectedIndex = 0;
@@ -70,8 +71,8 @@ namespace RT2020.Inventory.StockTake
                     objItem.SubItems.Add(iCount.ToString()); // Line Number
                     objItem.SubItems.Add(reader.GetString(1)); // TxNumber
                     objItem.SubItems.Add(reader.GetString(3)); // Location
-                    objItem.SubItems.Add(RT2020.SystemInfo.Settings.DateTimeToString(reader.GetDateTime(2), false)); // TxDate
-                    objItem.SubItems.Add(RT2020.SystemInfo.Settings.DateTimeToString(reader.GetDateTime(4), false)); // Modified On
+                    objItem.SubItems.Add(DateTimeHelper.DateTimeToString(reader.GetDateTime(2), false)); // TxDate
+                    objItem.SubItems.Add(DateTimeHelper.DateTimeToString(reader.GetDateTime(4), false)); // Modified On
 
                     iCount++;
                 }
@@ -100,9 +101,9 @@ namespace RT2020.Inventory.StockTake
                     objItem.SubItems.Add(iCount.ToString()); // Line Number
                     objItem.SubItems.Add(reader.GetString(1)); // TxNumber
                     objItem.SubItems.Add(reader.GetString(3)); // Location
-                    objItem.SubItems.Add(RT2020.SystemInfo.Settings.DateTimeToString(reader.GetDateTime(2), false)); // TxDate
-                    objItem.SubItems.Add(RT2020.SystemInfo.Settings.DateTimeToString(reader.GetDateTime(4), false)); // Modified On
-                    objItem.BackColor = CheckTxDate(reader.GetDateTime(2)) ? Color.Transparent : RT2020.SystemInfo.ControlBackColor.DisabledBox;
+                    objItem.SubItems.Add(DateTimeHelper.DateTimeToString(reader.GetDateTime(2), false)); // TxDate
+                    objItem.SubItems.Add(DateTimeHelper.DateTimeToString(reader.GetDateTime(4), false)); // Modified On
+                    objItem.BackColor = CheckTxDate(reader.GetDateTime(2)) ? Color.Transparent : SystemInfoHelper.ControlBackColor.DisabledBox;
 
                     iCount++;
                 }
@@ -380,8 +381,8 @@ namespace RT2020.Inventory.StockTake
         {
             bool isChecked = false;
 
-            isChecked = (txDate.Year.ToString() == RT2020.SystemInfo.CurrentInfo.Default.CurrentSystemYear);
-            isChecked = isChecked & (txDate.Month.ToString().PadLeft(2, '0') == RT2020.SystemInfo.CurrentInfo.Default.CurrentSystemMonth);
+            isChecked = (txDate.Year.ToString() == SystemInfoEx.CurrentInfo.Default.CurrentSystemYear);
+            isChecked = isChecked & (txDate.Month.ToString().PadLeft(2, '0') == SystemInfoEx.CurrentInfo.Default.CurrentSystemMonth);
 
             return isChecked;
         }
@@ -434,7 +435,7 @@ namespace RT2020.Inventory.StockTake
                     this.UpdateProduct(oBatchHeader.HeaderId, oBatchHeader.WorkplaceId.Value);
 
                     // Create Ledger for TxType 'STK'
-                    string txNumber_Ledger = SystemInfo.Settings.QueuingTxNumber(EnumHelper.TxType.ADJ);
+                    string txNumber_Ledger = SystemInfoHelper.Settings.QueuingTxNumber(EnumHelper.TxType.ADJ);
                     Guid ledgerHeaderId = CreateLedgerHeader(txNumber_Ledger, oBatchHeader);
                     CreateLedgerDetails(
                         txNumber_Ledger, ledgerHeaderId, oBatchHeader.HeaderId,
@@ -769,7 +770,7 @@ namespace RT2020.Inventory.StockTake
         {
             if (e.NewValue == CheckState.Checked)
             {
-                lvPostTxList.Items[e.Index].Checked = !(lvPostTxList.Items[e.Index].BackColor == RT2020.SystemInfo.ControlBackColor.DisabledBox);
+                lvPostTxList.Items[e.Index].Checked = !(lvPostTxList.Items[e.Index].BackColor == SystemInfoHelper.ControlBackColor.DisabledBox);
             }
         }
 

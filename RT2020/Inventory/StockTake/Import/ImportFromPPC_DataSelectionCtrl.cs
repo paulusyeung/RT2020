@@ -9,6 +9,7 @@ using System.Text;
 
 using Gizmox.WebGUI.Common;
 using Gizmox.WebGUI.Forms;
+using RT2020.Helper;
 
 #endregion
 
@@ -71,7 +72,7 @@ namespace RT2020.Inventory.StockTake.Import
 
             LoadWorkplaceList();
 
-            txtHHTTxNumber.BackColor = SystemInfo.ControlBackColor.DisabledBox;
+            txtHHTTxNumber.BackColor = SystemInfoHelper.ControlBackColor.DisabledBox;
         }
 
         private void LoadWorkplaceList()

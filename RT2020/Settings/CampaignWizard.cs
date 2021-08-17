@@ -329,7 +329,7 @@ FROM        vwPaymentFactorList";
 
                     listItem.SubItems.Add(DateTimeHelper.DateTimeToString(reader.GetDateTime(5), false)); // Start date
                     listItem.SubItems.Add(DateTimeHelper.DateTimeToString(reader.GetDateTime(6), false)); // End date
-                    listItem.SubItems.Add(reader.GetDecimal(7).ToString("n" + RT2020.SystemInfo.Settings.GetQtyDecimalPoint().ToString())); // Factor rate
+                    listItem.SubItems.Add(reader.GetDecimal(7).ToString("n" + SystemInfoHelper.Settings.GetQtyDecimalPoint().ToString())); // Factor rate
                     listItem.SubItems.Add(DateTimeHelper.DateTimeToString(reader.GetDateTime(8), true)); // Created On
                     listItem.SubItems.Add(DateTimeHelper.DateTimeToString(reader.GetDateTime(10), true)); // Modified On
 
@@ -354,7 +354,7 @@ FROM        vwPaymentFactorList";
                     listItem.SubItems.Add(item.EventCode);
                     listItem.SubItems.Add(DateTimeHelper.DateTimeToString(item.StartOn.Value, false));
                     listItem.SubItems.Add(DateTimeHelper.DateTimeToString(item.EndOn.Value, false));
-                    listItem.SubItems.Add(item.FactorRate.ToString("n2"));  // " + RT2020.SystemInfo.Settings.GetQtyDecimalPoint().ToString()));
+                    listItem.SubItems.Add(item.FactorRate.ToString("n2"));  // " + SystemInfoHelper.Settings.GetQtyDecimalPoint().ToString()));
                     listItem.SubItems.Add(DateTimeHelper.DateTimeToString(item.CreatedOn, true));
                     listItem.SubItems.Add(DateTimeHelper.DateTimeToString(item.ModifiedOn, true));
 

@@ -568,7 +568,7 @@ namespace RT2020.Purchasing.Wizard
 
                     if (this.OrderHeaderId != System.Guid.Empty)
                     {
-                        RT2020.SystemInfo.Settings.RefreshMainList<DefaultPOList>();
+                        SystemInfoHelper.Settings.RefreshMainList<DefaultPOList>();
                         MessageBox.Show("Success!", "Save Result");
 
                         this.Close();
@@ -598,7 +598,7 @@ namespace RT2020.Purchasing.Wizard
 
                     if (this.OrderHeaderId != System.Guid.Empty)
                     {
-                        RT2020.SystemInfo.Settings.RefreshMainList<DefaultPOList>();
+                        SystemInfoHelper.Settings.RefreshMainList<DefaultPOList>();
                         this.Close();
                         ByMultipleLocation objLocation = new ByMultipleLocation();
                         objLocation.ShowDialog();
@@ -626,7 +626,7 @@ namespace RT2020.Purchasing.Wizard
 
                     if (this.OrderHeaderId != System.Guid.Empty)
                     {
-                        RT2020.SystemInfo.Settings.RefreshMainList<DefaultPOList>();
+                        SystemInfoHelper.Settings.RefreshMainList<DefaultPOList>();
                         this.Close();
                     }
                 }
@@ -715,15 +715,15 @@ namespace RT2020.Purchasing.Wizard
                                 switch (this.cboType.SelectedItem.ToString().ToUpper())
                                 {
                                     case "FPO":
-                                        orderNumber = RT2020.SystemInfo.Settings.QueuingTxNumber(EnumHelper.POType.FPO);
+                                        orderNumber = SystemInfoHelper.Settings.QueuingTxNumber(EnumHelper.POType.FPO);
                                         type = Convert.ToInt32(EnumHelper.POType.FPO);
                                         break;
                                     case "LPO":
-                                        orderNumber = RT2020.SystemInfo.Settings.QueuingTxNumber(EnumHelper.POType.LPO);
+                                        orderNumber = SystemInfoHelper.Settings.QueuingTxNumber(EnumHelper.POType.LPO);
                                         type = Convert.ToInt32(EnumHelper.POType.LPO);
                                         break;
                                     case "OPO":
-                                        orderNumber = RT2020.SystemInfo.Settings.QueuingTxNumber(EnumHelper.POType.OPO);
+                                        orderNumber = SystemInfoHelper.Settings.QueuingTxNumber(EnumHelper.POType.OPO);
                                         type = Convert.ToInt32(EnumHelper.POType.OPO);
                                         break;
                                 }

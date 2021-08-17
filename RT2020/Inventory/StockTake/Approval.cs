@@ -14,6 +14,7 @@ using System.Data.SqlClient;
 using System.Text.RegularExpressions;
 using System.Configuration;
 using RT2020.Helper;
+using RT2020.ModelEx;
 
 #endregion
 
@@ -31,8 +32,8 @@ namespace RT2020.Inventory.StockTake
         #region Init
         private void InitComboBox()
         {
-            txtSysMonth.Text = RT2020.SystemInfo.CurrentInfo.Default.CurrentSystemMonth;
-            txtSysYear.Text = RT2020.SystemInfo.CurrentInfo.Default.CurrentSystemYear;
+            txtSysMonth.Text = SystemInfoEx.CurrentInfo.Default.CurrentSystemMonth;
+            txtSysYear.Text = SystemInfoEx.CurrentInfo.Default.CurrentSystemYear;
 
             cboFieldName.SelectedIndex = 0;
             cboOperator.SelectedIndex = 0;
@@ -63,8 +64,8 @@ namespace RT2020.Inventory.StockTake
                     objItem.SubItems.Add(iCount.ToString()); // Line Number
                     objItem.SubItems.Add(reader.GetString(1)); // TxNumber
                     objItem.SubItems.Add(reader.GetString(3)); // Location
-                    objItem.SubItems.Add(RT2020.SystemInfo.Settings.DateTimeToString(reader.GetDateTime(2), false)); // TxDate
-                    objItem.SubItems.Add(RT2020.SystemInfo.Settings.DateTimeToString(reader.GetDateTime(6), false) + " " + ModelEx.StaffEx.GetStaffNumberById(reader.GetGuid(7))); // Last Update
+                    objItem.SubItems.Add(DateTimeHelper.DateTimeToString(reader.GetDateTime(2), false)); // TxDate
+                    objItem.SubItems.Add(DateTimeHelper.DateTimeToString(reader.GetDateTime(6), false) + " " + ModelEx.StaffEx.GetStaffNumberById(reader.GetGuid(7))); // Last Update
                     objItem.SubItems.Add(string.Empty);
 
                     iCount++;
@@ -183,7 +184,7 @@ namespace RT2020.Inventory.StockTake
             {
                 string[] txDate = value.Split('/');
 
-                if (txDate[2].Equals(RT2020.SystemInfo.CurrentInfo.Default.CurrentSystemYear) && txDate[1].Equals(RT2020.SystemInfo.CurrentInfo.Default.CurrentSystemMonth))
+                if (txDate[2].Equals(SystemInfoEx.CurrentInfo.Default.CurrentSystemYear) && txDate[1].Equals(SystemInfoEx.CurrentInfo.Default.CurrentSystemMonth))
                 {
                     result = true;
                 }

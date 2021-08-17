@@ -13,6 +13,7 @@ using Gizmox.WebGUI.Forms;
 using System.IO;
 using System.Web.Configuration;
 using FileHelpers.DataLink;
+using RT2020.Helper;
 
 #endregion
 
@@ -34,11 +35,11 @@ namespace RT2020.Inventory.StockTake.Import
 
         private void SetAttributes()
         {
-            txtStockTakeNumber.BackColor = SystemInfo.ControlBackColor.DisabledBox;
-            txtWorkplaceCode.BackColor = SystemInfo.ControlBackColor.DisabledBox;
-            txtHHTID.BackColor = SystemInfo.ControlBackColor.DisabledBox;
-            txtUploadedOn.BackColor = SystemInfo.ControlBackColor.DisabledBox;
-            txtStatus.BackColor = SystemInfo.ControlBackColor.DisabledBox;
+            txtStockTakeNumber.BackColor = SystemInfoHelper.ControlBackColor.DisabledBox;
+            txtWorkplaceCode.BackColor = SystemInfoHelper.ControlBackColor.DisabledBox;
+            txtHHTID.BackColor = SystemInfoHelper.ControlBackColor.DisabledBox;
+            txtUploadedOn.BackColor = SystemInfoHelper.ControlBackColor.DisabledBox;
+            txtStatus.BackColor = SystemInfoHelper.ControlBackColor.DisabledBox;
 
             txtUploadedOn.Text = DateTime.Now.ToString("dd MMM yyyy HH:mm:ss");
 

@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Collections;
 using System.ComponentModel;
 using DevExpress.XtraReports.UI;
+using RT2020.Helper;
 
 namespace RT2020.Member.Reports
 {
@@ -65,9 +66,9 @@ namespace RT2020.Member.Reports
 
         private void VipExpireListRpt_Pdf_BeforePrint(object sender, System.Drawing.Printing.PrintEventArgs e)
         {
-            this.PrintDate1.Text = RT2020.SystemInfo.Settings.DateTimeToString(DateTime.Now, true);
+            this.PrintDate1.Text = DateTimeHelper.DateTimeToString(DateTime.Now, true);
 
-            this.txtExpiry.DataBindings.Add("Text", DataSource, "CARD_EXPIRE", "{0:" + RT2020.SystemInfo.Settings.GetDateFormat() + "}");
+            this.txtExpiry.DataBindings.Add("Text", DataSource, "CARD_EXPIRE", "{0:" + DateTimeHelper.GetDateFormat() + "}");
             this.txtVipNumber.DataBindings.Add("Text", DataSource, "VipNumber");
             this.txtStaffName.DataBindings.Add("Text", DataSource, "FullName");
             this.txtGroup.DataBindings.Add("Text", DataSource, "GROUP");

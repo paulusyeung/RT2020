@@ -17,6 +17,7 @@ using System.Configuration;
 using System.Linq;
 using System.Data.Entity;
 using RT2020.Helper;
+using RT2020.ModelEx;
 
 #endregion
 
@@ -179,10 +180,10 @@ SELECT *, FirstName + ',' + LastName AS FullName
             string[,] param = {
             {"FromVIPNO",this.cmbFrom.Text.Trim()},
             {"ToVIPNO",this.cmbTo.Text.Trim()},
-            {"FromExpiryDate",this.dtpFromExpiryDate.Value.ToString(RT2020.SystemInfo.Settings.GetDateFormat())},
-            {"ToExpiryDate",this.dtpToExpiryDate.Value.ToString(RT2020.SystemInfo.Settings.GetDateFormat())},
-            {"PrintedOn",DateTime.Now.ToString(RT2020.SystemInfo.Settings.GetDateTimeFormat())},
-            {"CompanyName",RT2020.SystemInfo.CurrentInfo.Default.CompanyName}
+            {"FromExpiryDate",this.dtpFromExpiryDate.Value.ToString(DateTimeHelper.GetDateFormat())},
+            {"ToExpiryDate",this.dtpToExpiryDate.Value.ToString(DateTimeHelper.GetDateFormat())},
+            {"PrintedOn",DateTime.Now.ToString(DateTimeHelper.GetDateTimeFormat())},
+            {"CompanyName",SystemInfoEx.CurrentInfo.Default.CompanyName}
             };
 
             RT2020.Controls.Reporting.Viewer view = new RT2020.Controls.Reporting.Viewer();

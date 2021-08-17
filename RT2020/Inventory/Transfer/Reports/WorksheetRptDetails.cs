@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Collections;
 using System.ComponentModel;
 using DevExpress.XtraReports.UI;
+using RT2020.Helper;
 
 namespace RT2020.Inventory.Transfer.Reports
 {
@@ -20,7 +21,7 @@ namespace RT2020.Inventory.Transfer.Reports
             this.txtAppendix2.DataBindings.Add("Text", DataSource, "APPENDIX2");
             this.txtAppendix3.DataBindings.Add("Text", DataSource, "APPENDIX3");
             this.txtDescription.DataBindings.Add("Text", DataSource, "ProductName");
-            this.txtQtyRequested.DataBindings.Add("Text", DataSource, "QtyRequested", "{0:n" + RT2020.SystemInfo.Settings.GetQtyDecimalPoint().ToString() + "}");
+            this.txtQtyRequested.DataBindings.Add("Text", DataSource, "QtyRequested", "{0:n" + SystemInfoHelper.Settings.GetQtyDecimalPoint().ToString() + "}");
             this.txtUnitAmount.DataBindings.Add("Text", DataSource, "UnitAmount", "{0:n2}");
             this.txtAmount.DataBindings.Add("Text", DataSource, "Amount", "{0:n2}");
             this.txtNotes.DataBindings.Add("Text", DataSource, "Notes");

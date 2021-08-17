@@ -33,8 +33,8 @@ namespace RT2020.Member.Reports
         }
         private void SetCaptions()
         {
-            this.chkClass1.Text = RT2020.SystemInfo.Settings.GetSystemLabelByKey("CLASS1");
-            this.Text = "Top Vip Spending by " + RT2020.SystemInfo.Settings.GetSystemLabelByKey("CLASS1");
+            this.chkClass1.Text = SystemInfoHelper.Settings.GetSystemLabelByKey("CLASS1");
+            this.Text = "Top Vip Spending by " + SystemInfoHelper.Settings.GetSystemLabelByKey("CLASS1");
         }
 
         #region Fill ListView
@@ -732,7 +732,7 @@ AND LEN(Address1)>0 AND LEN(Address2)>0 AND LEN(Address3)>0";
             if (IsSelValid())
             {
                 string[,] param = {
-                {"PrintedOn",DateTime.Now.ToString(RT2020.SystemInfo.Settings.GetDateTimeFormat())}
+                {"PrintedOn",DateTime.Now.ToString(DateTimeHelper.GetDateTimeFormat())}
                 };
 
                 RT2020.Controls.Reporting.Viewer view = new RT2020.Controls.Reporting.Viewer();

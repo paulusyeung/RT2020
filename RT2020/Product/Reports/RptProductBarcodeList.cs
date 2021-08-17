@@ -18,6 +18,7 @@ using System.Data.Common;
 using System.Configuration;
 using System.Linq;
 using RT2020.Helper;
+using RT2020.ModelEx;
 #endregion
 
 namespace RT2020.Product.Reports
@@ -35,7 +36,7 @@ namespace RT2020.Product.Reports
         #region Set System Labels
         private void SetSystemLabels()
         {
-            string syslbl = RT2020.SystemInfo.Settings.GetSystemLabelByKey("STKCODE");
+            string syslbl = SystemInfoHelper.Settings.GetSystemLabelByKey("STKCODE");
 
             this.lblFrom.Text = "From " + syslbl;
             this.lblTo.Text = "To " + syslbl;
@@ -179,8 +180,8 @@ namespace RT2020.Product.Reports
             string[,] param = {
               {"FromSTKCODE",this.cmbFrom.Text.Trim()},
               {"ToSTKCODE",this.cmbTo.Text.Trim()},
-              {"PrintedOn",DateTime.Now.ToString(RT2020.SystemInfo.Settings.GetDateTimeFormat())},
-              {"CompanyName",RT2020.SystemInfo.CurrentInfo.Default.CompanyName}
+              {"PrintedOn",DateTime.Now.ToString(DateTimeHelper.GetDateTimeFormat())},
+              {"CompanyName",SystemInfoEx.CurrentInfo.Default.CompanyName}
              };
 
             RT2020.Controls.Reporting.Viewer view = new RT2020.Controls.Reporting.Viewer();

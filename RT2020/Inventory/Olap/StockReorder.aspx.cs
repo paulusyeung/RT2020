@@ -12,6 +12,7 @@ using System.IO;
 using DevExpress.Utils;
 using System.Collections;
 using RT2020.Helper;
+using RT2020.ModelEx;
 
 namespace RT2020.Inventory.Olap
 {
@@ -72,7 +73,7 @@ namespace RT2020.Inventory.Olap
         /// <param name="e"></param>
         public string SetFieldsName(string key)
         {
-            return RT2020.SystemInfo.Settings.GetSystemLabelByKey(key);
+            return SystemInfoHelper.Settings.GetSystemLabelByKey(key);
         }
 
         /// <summary>
@@ -395,8 +396,8 @@ namespace RT2020.Inventory.Olap
         {
             get
             {
-                return new DateTime(Convert.ToInt32(RT2020.SystemInfo.CurrentInfo.Default.CurrentSystemYear),
-                    Convert.ToInt32(RT2020.SystemInfo.CurrentInfo.Default.CurrentSystemMonth), 1);
+                return new DateTime(Convert.ToInt32(SystemInfoEx.CurrentInfo.Default.CurrentSystemYear),
+                    Convert.ToInt32(SystemInfoEx.CurrentInfo.Default.CurrentSystemMonth), 1);
             }
         }
 

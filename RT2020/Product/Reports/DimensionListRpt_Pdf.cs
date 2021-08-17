@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Collections;
 using System.ComponentModel;
 using DevExpress.XtraReports.UI;
+using RT2020.Helper;
 
 namespace RT2020.Product.Reports
 {
@@ -15,9 +16,9 @@ namespace RT2020.Product.Reports
         {
             InitializeComponent();
 
-            lblA1.Text = RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX1");
-            lblA2.Text = RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX2");
-            lblA3.Text = RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX3");
+            lblA1.Text = SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX1");
+            lblA2.Text = SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX2");
+            lblA3.Text = SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX3");
         }
 
         private void DimensionListRpt_BeforePrint(object sender, System.Drawing.Printing.PrintEventArgs e)
@@ -29,7 +30,7 @@ namespace RT2020.Product.Reports
             this.txtAppendix2.DataBindings.Add("Text", DataSource, "Appendix2");
             this.txtAppendix3.DataBindings.Add("Text", DataSource, "Appendix3");
             this.txtgfCT.DataBindings.Add("Text", DataSource, "DimCode");
-            this.txtPrint.Text = RT2020.SystemInfo.Settings.DateTimeToString(DateTime.Now, true);
+            this.txtPrint.Text = DateTimeHelper.DateTimeToString(DateTime.Now, true);
         }
 
     }

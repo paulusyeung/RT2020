@@ -243,7 +243,7 @@ namespace RT2020.Purchasing.Wizard
 
                     if (this.OrderHeaderId != System.Guid.Empty)
                     {
-                        RT2020.SystemInfo.Settings.RefreshMainList<DefaultRECList>();
+                        SystemInfoHelper.Settings.RefreshMainList<DefaultRECList>();
                         MessageBox.Show("Success!", "Save Result");
 
                         this.Close();
@@ -273,7 +273,7 @@ namespace RT2020.Purchasing.Wizard
 
                     if (this.OrderHeaderId != System.Guid.Empty)
                     {
-                        RT2020.SystemInfo.Settings.RefreshMainList<DefaultRECList>();
+                        SystemInfoHelper.Settings.RefreshMainList<DefaultRECList>();
                         this.Close();
                         Receiving receiving = new Receiving();
                         receiving.ShowDialog();
@@ -301,7 +301,7 @@ namespace RT2020.Purchasing.Wizard
 
                     if (this.OrderHeaderId != System.Guid.Empty)
                     {
-                        RT2020.SystemInfo.Settings.RefreshMainList<DefaultRECList>();
+                        SystemInfoHelper.Settings.RefreshMainList<DefaultRECList>();
                         this.Close();
                     }
                 }
@@ -371,7 +371,7 @@ namespace RT2020.Purchasing.Wizard
                     objHeader.CreatedBy = ConfigHelper.CurrentUserId;
                     objHeader.CreatedOn = DateTime.Now;
 
-                    this.txtTRNo.Text = RT2020.SystemInfo.Settings.QueuingTxNumber(EnumHelper.TxType.REC);
+                    this.txtTRNo.Text = SystemInfoHelper.Settings.QueuingTxNumber(EnumHelper.TxType.REC);
                     objHeader.TxNumber = this.txtTRNo.Text;
 
                     ctx.PurchaseOrderReceiveHeader.Add(objHeader);
@@ -552,13 +552,13 @@ namespace RT2020.Purchasing.Wizard
         {
             string[,] param = 
             {
-                { "PrintedOn", DateTime.Now.ToString(RT2020.SystemInfo.Settings.GetDateTimeFormat()) },
-                { "STKCODE", RT2020.SystemInfo.Settings.GetSystemLabelByKey("STKCODE") },
-                { "Appendix1", RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX1") },
-                { "Appendix2", RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX2") },
-                { "Appendix3", RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX3") },
-                { "Company", RT2020.SystemInfo.Settings.GetSystemLabelByKey("Company") }, ////test
-                { "DateFormat", RT2020.SystemInfo.Settings.GetDateFormat() }
+                { "PrintedOn", DateTime.Now.ToString(DateTimeHelper.GetDateTimeFormat()) },
+                { "STKCODE", SystemInfoHelper.Settings.GetSystemLabelByKey("STKCODE") },
+                { "Appendix1", SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX1") },
+                { "Appendix2", SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX2") },
+                { "Appendix3", SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX3") },
+                { "Company", SystemInfoHelper.Settings.GetSystemLabelByKey("Company") }, ////test
+                { "DateFormat", DateTimeHelper.GetDateFormat() }
             };
 
             RT2020.Controls.Reporting.RdlExport rdlExport = new RT2020.Controls.Reporting.RdlExport();

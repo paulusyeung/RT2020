@@ -111,7 +111,7 @@ WHERE VipNumber BETWEEN '" + from + @"' AND '" + to + @"'
         private void btnPriview_Click(object sender, EventArgs e)
         {
             string[,] param = {
-            {"PrintedOn",DateTime.Now.ToString(RT2020.SystemInfo.Settings.GetDateTimeFormat())}
+            {"PrintedOn",DateTime.Now.ToString(DateTimeHelper.GetDateTimeFormat())}
             };
 
             RT2020.Controls.Reporting.Viewer view = new RT2020.Controls.Reporting.Viewer();

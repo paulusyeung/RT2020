@@ -16,6 +16,7 @@ using Gizmox.WebGUI.Common.Interfaces;
 using RT2020.Controls;
 using System.Linq;
 using RT2020.Helper;
+using RT2020.ModelEx;
 
 namespace RT2020.Inventory.GoodsReceive
 {
@@ -63,7 +64,7 @@ namespace RT2020.Inventory.GoodsReceive
 
             lblTxType.Text = Utility.Dictionary.GetWordWithColon("TxType");
             lblTxNumber.Text = Utility.Dictionary.GetWordWithColon("TxNumber");
-            lblTotalAmount.Text = string.Format(Utility.Dictionary.GetWordWithColon("total_amount_with_currency"), SystemInfo.CurrentInfo.Default.SysInfo.BasicCurrency);
+            lblTotalAmount.Text = string.Format(Utility.Dictionary.GetWordWithColon("total_amount_with_currency"), SystemInfoEx.CurrentInfo.Default.SysInfo.BasicCurrency);
 
             tpGeneral.Text = Utility.Dictionary.GetWord("General");
             tpDetails.Text = Utility.Dictionary.GetWord("Details");
@@ -87,21 +88,21 @@ namespace RT2020.Inventory.GoodsReceive
             lblStockCode.Text = Utility.Dictionary.GetWordWithColon("Product");
             lblDescription.Text = Utility.Dictionary.GetWordWithColon("Description");
             lblQty.Text = Utility.Dictionary.GetWordWithColon("Qty");
-            lblUnitPrice_1.Text = string.Format(Utility.Dictionary.GetWord("unit_amount_with_currency"), SystemInfo.CurrentInfo.Default.SysInfo.BasicCurrency);
-            lblUnitPrice_2.Text = string.Format(Utility.Dictionary.GetWord("unit_amount_with_currency"), SystemInfo.CurrentInfo.Default.SysInfo.BasicCurrency);
-            lblLastCost_1.Text = string.Format(Utility.Dictionary.GetWord("last_cost_with_currency"), SystemInfo.CurrentInfo.Default.SysInfo.BasicCurrency);
-            lblLastCost_2.Text = string.Format(Utility.Dictionary.GetWord("last_cost_with_currency"), SystemInfo.CurrentInfo.Default.SysInfo.BasicCurrency);
-            lblAvrCost_1.Text = string.Format(Utility.Dictionary.GetWord("average_cost_with_currency"), SystemInfo.CurrentInfo.Default.SysInfo.BasicCurrency);
-            lblAvrCost_2.Text = string.Format(Utility.Dictionary.GetWord("average_cost_with_currency"), SystemInfo.CurrentInfo.Default.SysInfo.BasicCurrency);
+            lblUnitPrice_1.Text = string.Format(Utility.Dictionary.GetWord("unit_amount_with_currency"), SystemInfoEx.CurrentInfo.Default.SysInfo.BasicCurrency);
+            lblUnitPrice_2.Text = string.Format(Utility.Dictionary.GetWord("unit_amount_with_currency"), SystemInfoEx.CurrentInfo.Default.SysInfo.BasicCurrency);
+            lblLastCost_1.Text = string.Format(Utility.Dictionary.GetWord("last_cost_with_currency"), SystemInfoEx.CurrentInfo.Default.SysInfo.BasicCurrency);
+            lblLastCost_2.Text = string.Format(Utility.Dictionary.GetWord("last_cost_with_currency"), SystemInfoEx.CurrentInfo.Default.SysInfo.BasicCurrency);
+            lblAvrCost_1.Text = string.Format(Utility.Dictionary.GetWord("average_cost_with_currency"), SystemInfoEx.CurrentInfo.Default.SysInfo.BasicCurrency);
+            lblAvrCost_2.Text = string.Format(Utility.Dictionary.GetWord("average_cost_with_currency"), SystemInfoEx.CurrentInfo.Default.SysInfo.BasicCurrency);
             lblNumberOfLine.Text = Utility.Dictionary.GetWordWithColon("number_of_line");
 
             colLN.Text = Utility.Dictionary.GetWord("LN");
             colStatus.Text = Utility.Dictionary.GetWord("Status");
             colDescription.Text = Utility.Dictionary.GetWord("Description");
             colQty.Text = Utility.Dictionary.GetWord("Qty");
-            colUnitAmount.Text = string.Format(Utility.Dictionary.GetWord("unit_amount_with_currency"), SystemInfo.CurrentInfo.Default.SysInfo.BasicCurrency);
-            colUnitAmount_HKD.Text = string.Format(Utility.Dictionary.GetWord("unit_amount_with_currency"), SystemInfo.CurrentInfo.Default.SysInfo.BasicCurrency);
-            colAmount.Text = string.Format(Utility.Dictionary.GetWord("amount_with_currency"), SystemInfo.CurrentInfo.Default.SysInfo.BasicCurrency);
+            colUnitAmount.Text = string.Format(Utility.Dictionary.GetWord("unit_amount_with_currency"), SystemInfoEx.CurrentInfo.Default.SysInfo.BasicCurrency);
+            colUnitAmount_HKD.Text = string.Format(Utility.Dictionary.GetWord("unit_amount_with_currency"), SystemInfoEx.CurrentInfo.Default.SysInfo.BasicCurrency);
+            colAmount.Text = string.Format(Utility.Dictionary.GetWord("amount_with_currency"), SystemInfoEx.CurrentInfo.Default.SysInfo.BasicCurrency);
 
             btnAddItem.Text = Utility.Dictionary.GetWord("Add Item");
             btnEditItem.Text = Utility.Dictionary.GetWord("Edit Item");
@@ -110,10 +111,10 @@ namespace RT2020.Inventory.GoodsReceive
 
         private void SetSystemLabel()
         {
-            colStockCode.Text = RT2020.SystemInfo.Settings.GetSystemLabelByKey("STKCODE");
-            colAppendix1.Text = RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX1");
-            colAppendix2.Text = RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX2");
-            colAppendix3.Text = RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX3");
+            colStockCode.Text = SystemInfoHelper.Settings.GetSystemLabelByKey("STKCODE");
+            colAppendix1.Text = SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX1");
+            colAppendix2.Text = SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX2");
+            colAppendix3.Text = SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX3");
         }
         #endregion
 
@@ -421,16 +422,16 @@ namespace RT2020.Inventory.GoodsReceive
             string[,] param = {
                 { "FromTxNumber", this.txtTxNumber.Text.Trim() },
                 { "ToTxNumber", this.txtTxNumber.Text.Trim() },
-                { "FromTxDate", this.dtpRecvDate.Value.ToString(RT2020.SystemInfo.Settings.GetDateFormat()) },
-                { "ToTxDate", this.dtpRecvDate.Value.ToString(RT2020.SystemInfo.Settings.GetDateFormat()) },
-                { "PrintedOn", DateTime.Now.ToString(RT2020.SystemInfo.Settings.GetDateTimeFormat()) },
+                { "FromTxDate", this.dtpRecvDate.Value.ToString(DateTimeHelper.GetDateFormat()) },
+                { "ToTxDate", this.dtpRecvDate.Value.ToString(DateTimeHelper.GetDateFormat()) },
+                { "PrintedOn", DateTime.Now.ToString(DateTimeHelper.GetDateTimeFormat()) },
                 { "PrintedBy", ModelEx.StaffEx.GetStaffNameById(ConfigHelper.CurrentUserId) },
-                { "StockCode", RT2020.SystemInfo.Settings.GetSystemLabelByKey("STKCODE") },
-                { "Appendix1", RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX1") },
-                { "Appendix2", RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX2") },
-                { "Appendix3", RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX3") },
-                { "DateFormat", RT2020.SystemInfo.Settings.GetDateFormat() },
-                { "CompanyName", RT2020.SystemInfo.CurrentInfo.Default.CompanyName}
+                { "StockCode", SystemInfoHelper.Settings.GetSystemLabelByKey("STKCODE") },
+                { "Appendix1", SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX1") },
+                { "Appendix2", SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX2") },
+                { "Appendix3", SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX3") },
+                { "DateFormat", DateTimeHelper.GetDateFormat() },
+                { "CompanyName", SystemInfoEx.CurrentInfo.Default.CompanyName}
                 };
 
             RT2020.Controls.Reporting.Viewer oViewer = new RT2020.Controls.Reporting.Viewer();
@@ -477,7 +478,7 @@ namespace RT2020.Inventory.GoodsReceive
 
             if (cboCurrency.Items.Count > 0)
             {
-                cboCurrency.Text = SystemInfo.CurrentInfo.Default.SysInfo.BasicCurrency;
+                cboCurrency.Text = SystemInfoEx.CurrentInfo.Default.SysInfo.BasicCurrency;
 
                 InitCurrency(cboCurrency.Text);
             }
@@ -515,7 +516,7 @@ namespace RT2020.Inventory.GoodsReceive
                             #region add new InvtBatchCAP_Header
                             oHeader = new EF6.InvtBatchCAP_Header();
 
-                            txtTxNumber.Text = RT2020.SystemInfo.Settings.QueuingTxNumber(EnumHelper.TxType.CAP);
+                            txtTxNumber.Text = SystemInfoHelper.Settings.QueuingTxNumber(EnumHelper.TxType.CAP);
 
                             oHeader.HeaderId = Guid.NewGuid();
                             oHeader.TxNumber = txtTxNumber.Text;
@@ -675,7 +676,7 @@ namespace RT2020.Inventory.GoodsReceive
                 txtCoefficient.Text = oHeader.ExchangeRate.Value.ToString("n4");
                 InitCurrency(oHeader.CurrencyCode);
 
-                txtLastUpdateOn.Text = RT2020.SystemInfo.Settings.DateTimeToString(oHeader.ModifiedOn, false);
+                txtLastUpdateOn.Text = DateTimeHelper.DateTimeToString(oHeader.ModifiedOn, false);
                 txtLastUpdateBy.Text = ModelEx.StaffEx.GetStaffNumberById(oHeader.ModifiedBy);
 
                 txtAmendmentRetrict.Text = oHeader.ReadOnly ? "Y" : "N";
@@ -761,7 +762,7 @@ namespace RT2020.Inventory.GoodsReceive
                 {
                     if (Save())
                     {
-                        RT2020.SystemInfo.Settings.RefreshMainList<Default>();
+                        SystemInfoHelper.Settings.RefreshMainList<Default>();
                         MessageBox.Show(Utility.Dictionary.GetWord("Success"), Utility.Dictionary.GetWord("Save") + " " + Utility.Dictionary.GetWord("Result"));
 
                         this.Close();
@@ -784,7 +785,7 @@ namespace RT2020.Inventory.GoodsReceive
                 {
                     if (Save())
                     {
-                        RT2020.SystemInfo.Settings.RefreshMainList<Default>();
+                        SystemInfoHelper.Settings.RefreshMainList<Default>();
                         this.Close();
                         RT2020.Inventory.GoodsReceive.Wizard wizard = new RT2020.Inventory.GoodsReceive.Wizard();
                         wizard.ShowDialog();
@@ -805,7 +806,7 @@ namespace RT2020.Inventory.GoodsReceive
                 {
                     if (Save())
                     {
-                        RT2020.SystemInfo.Settings.RefreshMainList<Default>();
+                        SystemInfoHelper.Settings.RefreshMainList<Default>();
                         this.Close();
                     }
                 }

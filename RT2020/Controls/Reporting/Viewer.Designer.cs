@@ -30,21 +30,27 @@ namespace RT2020.Controls.Reporting
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Viewer));
             this.RptViewer = new RT2020.Controls.Reporting.ReportViewer();
+            this._RT2020_Controls_Reporting_DataSource1 = new RT2020.Controls.Reporting._RT2020_Controls_Reporting_DataSource();
+            ((System.ComponentModel.ISupportInitialize)(this._RT2020_Controls_Reporting_DataSource1)).BeginInit();
             this.SuspendLayout();
             // 
             // RptViewer
             // 
             this.RptViewer.Anchor = Gizmox.WebGUI.Forms.AnchorStyles.None;
             this.RptViewer.ControlCode = resources.GetString("RptViewer.ControlCode");
-            this.RptViewer.Dock = Gizmox.WebGUI.Forms.DockStyle.Fill;
-            this.RptViewer.Location = new System.Drawing.Point(0, 0);
+            this.RptViewer.Location = new System.Drawing.Point(351, 372);
             this.RptViewer.Name = "RptViewer";
-            this.RptViewer.Size = new System.Drawing.Size(800, 600);
+            this.RptViewer.Size = new System.Drawing.Size(345, 159);
             this.RptViewer.SizeToReportContent = true;
             this.RptViewer.TabIndex = 0;
             this.RptViewer.ZoomMode = Microsoft.Reporting.WebForms.ZoomMode.PageWidth;
             this.RptViewer.HostedPageLoad += new Gizmox.WebGUI.Forms.Hosts.AspPageEventHandler(this.RptViewer_HostedPageLoad);
             this.RptViewer.HostedPageLoadComplete += new Gizmox.WebGUI.Forms.Hosts.AspPageEventHandler(this.RptViewer_HostedPageLoadComplete);
+            // 
+            // _RT2020_Controls_Reporting_DataSource1
+            // 
+            this._RT2020_Controls_Reporting_DataSource1.DataSetName = "RT2020.Controls.Reporting.DataSource";
+            this._RT2020_Controls_Reporting_DataSource1.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
             // 
             // Viewer
             // 
@@ -53,6 +59,7 @@ namespace RT2020.Controls.Reporting
             this.Size = new System.Drawing.Size(800, 600);
             this.Text = "Report Viewer";
             this.Load += new System.EventHandler(this.Viewer_Load);
+            ((System.ComponentModel.ISupportInitialize)(this._RT2020_Controls_Reporting_DataSource1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -60,7 +67,6 @@ namespace RT2020.Controls.Reporting
         #endregion
 
         private ReportViewer RptViewer;
-
-
+        private _RT2020_Controls_Reporting_DataSource _RT2020_Controls_Reporting_DataSource1;
     }
 }

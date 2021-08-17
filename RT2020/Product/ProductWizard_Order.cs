@@ -156,7 +156,7 @@ namespace RT2020.Product
             {
                 while (reader.Read())
                 {
-                    ListViewItem objItem = this.lvPurchaseHistory.Items.Add(reader.GetDateTime(0).ToString(RT2020.SystemInfo.Settings.GetDateFormat())); // TxDate
+                    ListViewItem objItem = this.lvPurchaseHistory.Items.Add(reader.GetDateTime(0).ToString(DateTimeHelper.GetDateFormat())); // TxDate
                     objItem.SubItems.Add(reader.GetString(1)); // Supplier Code
                     objItem.SubItems.Add(reader.GetString(2)); // Supplier Name
                     objItem.SubItems.Add(reader.GetString(3)); // TxNumber

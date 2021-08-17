@@ -45,8 +45,8 @@ namespace RT2020.Inventory.Olap
                     this.chkPost.Checked = Convert.ToBoolean(parameterTable["PostedRecord"].ToString());
                     this.chkUnPost.Checked = Convert.ToBoolean(parameterTable["UnPostRecord"].ToString());
 
-                    //this.txtFromData.Text = new DateTime(int.Parse(RT2020.SystemInfo.CurrentInfo.Default.CurrentSystemYear),
-                    //    int.Parse(RT2020.SystemInfo.CurrentInfo.Default.CurrentSystemMonth), 1).ToString("dd/MM/yyyy");
+                    //this.txtFromData.Text = new DateTime(int.Parse(SystemInfoEx.CurrentInfo.Default.CurrentSystemYear),
+                    //    int.Parse(SystemInfoEx.CurrentInfo.Default.CurrentSystemMonth), 1).ToString("dd/MM/yyyy");
                     //this.txtToData.Text = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day).ToString("dd/MM/yyyy");
 
                     this.divOptions.Visible = false;
@@ -64,7 +64,7 @@ namespace RT2020.Inventory.Olap
         /// <returns></returns>
         private string SetFieldsName(string key)
         {
-            return RT2020.SystemInfo.Settings.GetSystemLabelByKey(key);
+            return SystemInfoHelper.Settings.GetSystemLabelByKey(key);
         }
 
         /// <summary>

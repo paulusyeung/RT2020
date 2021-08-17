@@ -7,6 +7,7 @@ using System.Configuration;
 
 using RT2020.Controls;
 using RT2020.Helper;
+using RT2020.ModelEx;
 
 namespace RT2020.Settings.MonthEndProcess
 {
@@ -65,14 +66,14 @@ namespace RT2020.Settings.MonthEndProcess
                 while (reader.Read())
                 {
                     // Transaction Date
-                    if (SystemInfo.CurrentInfo.Default.CurrentSystemDate.Month == DateTime.Now.Month &&
-                        SystemInfo.CurrentInfo.Default.CurrentSystemDate.Year == DateTime.Now.Year)
+                    if (SystemInfoEx.CurrentInfo.Default.CurrentSystemDate.Month == DateTime.Now.Month &&
+                        SystemInfoEx.CurrentInfo.Default.CurrentSystemDate.Year == DateTime.Now.Year)
                     {
                         txDate = DateTime.Now;
                     }
                     else
                     {
-                        txDate = SystemInfo.CurrentInfo.Default.CurrentSystemDate.AddMonths(1).AddDays(-1);
+                        txDate = SystemInfoEx.CurrentInfo.Default.CurrentSystemDate.AddMonths(1).AddDays(-1);
                     }
 
                     // If record(s) found then generating ADJ transaction
@@ -124,7 +125,7 @@ namespace RT2020.Settings.MonthEndProcess
                 {
                     objHeader = new EF6.InvtSubLedgerADJ_Header();
                     objHeader.HeaderId = Guid.NewGuid();
-                    objHeader.TxNumber = SystemInfo.Settings.QueuingTxNumber(EnumHelper.TxType.ADJ);
+                    objHeader.TxNumber = SystemInfoHelper.Settings.QueuingTxNumber(EnumHelper.TxType.ADJ);
                     objHeader.TxType = EnumHelper.TxType.ADJ.ToString();
                     objHeader.TxDate = txDate;
                     objHeader.WorkplaceId = workplaceId;

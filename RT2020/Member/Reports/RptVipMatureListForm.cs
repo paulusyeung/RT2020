@@ -17,6 +17,7 @@ using System.Configuration;
 using System.Linq;
 using System.Data.Entity;
 using RT2020.Helper;
+using RT2020.ModelEx;
 
 #endregion
 
@@ -166,9 +167,9 @@ namespace RT2020.Member.Reports
             string[,] param = {
             {"FromVipMature",this.cmbFrom.Text.Trim()},
             {"ToVipMature",this.cmbTo.Text.Trim()},
-            {"PrintedOn",DateTime.Now.ToString(RT2020.SystemInfo.Settings.GetDateTimeFormat())},
+            {"PrintedOn",DateTime.Now.ToString(DateTimeHelper.GetDateTimeFormat())},
             {"TotalNetSales",this.txtNetSalesAmtOver.Text.Trim()},
-            {"CompanyName",RT2020.SystemInfo.CurrentInfo.Default.CompanyName}
+            {"CompanyName",SystemInfoEx.CurrentInfo.Default.CompanyName}
             };
 
             RT2020.Controls.Reporting.Viewer view = new RT2020.Controls.Reporting.Viewer();

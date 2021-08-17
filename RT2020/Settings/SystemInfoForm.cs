@@ -15,6 +15,7 @@ using RT2020.Controls;
 
 using RT2020.Helper;
 using System.Linq;
+using RT2020.ModelEx;
 
 #endregion
 
@@ -55,20 +56,20 @@ namespace RT2020.Settings
         {
 
             // Company Info.
-            txtOfficeNumber.Text = SystemInfo.CurrentInfo.Default.SysInfo.ShopNumber;
-            txtCompanyInitial.Text = SystemInfo.CurrentInfo.Default.SysInfo.CompanyNameInitial;
-            txtPhoneNumber.Text = SystemInfo.CurrentInfo.Default.SysInfo.TEL;
-            txtFaxNumber.Text = SystemInfo.CurrentInfo.Default.SysInfo.FAX;
-            txtEmail.Text = SystemInfo.CurrentInfo.Default.SysInfo.EMail;
-            txtInternetUrl.Text = SystemInfo.CurrentInfo.Default.SysInfo.URL;
+            txtOfficeNumber.Text = SystemInfoEx.CurrentInfo.Default.SysInfo.ShopNumber;
+            txtCompanyInitial.Text = SystemInfoEx.CurrentInfo.Default.SysInfo.CompanyNameInitial;
+            txtPhoneNumber.Text = SystemInfoEx.CurrentInfo.Default.SysInfo.TEL;
+            txtFaxNumber.Text = SystemInfoEx.CurrentInfo.Default.SysInfo.FAX;
+            txtEmail.Text = SystemInfoEx.CurrentInfo.Default.SysInfo.EMail;
+            txtInternetUrl.Text = SystemInfoEx.CurrentInfo.Default.SysInfo.URL;
 
             #region Address Info.
 
             #region Default
             gbAddressDefault.Text = WestwindHelper.GetWord("language.en", "Menu");
 
-            txtCompanyNameEn.Text = SystemInfo.CurrentInfo.Default.SysInfo.CompanyName;
-            txtAddressEn.Text = SystemInfo.CurrentInfo.Default.SysInfo.CompanyAddess;
+            txtCompanyNameEn.Text = SystemInfoEx.CurrentInfo.Default.SysInfo.CompanyName;
+            txtAddressEn.Text = SystemInfoEx.CurrentInfo.Default.SysInfo.CompanyAddess;
             #endregion
 
             #region Alt-1
@@ -77,8 +78,8 @@ namespace RT2020.Settings
                 // 攞個 Alt1，不過唔用個 Value (NativeName)，去 Westwind 搵自己叫嘅名
                 gbAddressAlt1.Text = WestwindHelper.GetWord(String.Format("language.{0}", LanguageHelper.AlternateLanguage1.Key.ToLower()), "Menu");
 
-                txtCompanyNameAlt1.Text = SystemInfo.CurrentInfo.Default.SysInfo.CompanyName_Chs;
-                txtAddressAlt1.Text = SystemInfo.CurrentInfo.Default.SysInfo.CompanyAddress_Chs;
+                txtCompanyNameAlt1.Text = SystemInfoEx.CurrentInfo.Default.SysInfo.CompanyName_Chs;
+                txtAddressAlt1.Text = SystemInfoEx.CurrentInfo.Default.SysInfo.CompanyAddress_Chs;
             }
             else
             {
@@ -92,8 +93,8 @@ namespace RT2020.Settings
                 // 攞個 Alt2，不過唔用個 Value (NativeName)，去 Westwind 搵自己叫嘅名
                 gbAddressAlt2.Text = WestwindHelper.GetWord(String.Format("language.{0}", LanguageHelper.AlternateLanguage2.Key.ToLower()), "Menu");
 
-                txtCompanyNameAlt2.Text = SystemInfo.CurrentInfo.Default.SysInfo.CompanyName_Cht;
-                txtAddressAlt2.Text = SystemInfo.CurrentInfo.Default.SysInfo.CompanyAddress_Cht;
+                txtCompanyNameAlt2.Text = SystemInfoEx.CurrentInfo.Default.SysInfo.CompanyName_Cht;
+                txtAddressAlt2.Text = SystemInfoEx.CurrentInfo.Default.SysInfo.CompanyAddress_Cht;
             }
             else
             {
@@ -104,42 +105,42 @@ namespace RT2020.Settings
             #endregion
 
             // System Info.
-            txtLastAPMonthEnd.BackColor = SystemInfo.ControlBackColor.DisabledBox;
-            txtLastAPYearEnd.BackColor = SystemInfo.ControlBackColor.DisabledBox;
-            txtLastARMonthEnd.BackColor = SystemInfo.ControlBackColor.DisabledBox;
-            txtLastARYearEnd.BackColor = SystemInfo.ControlBackColor.DisabledBox;
-            txtLastMonthEnd.BackColor = SystemInfo.ControlBackColor.DisabledBox;
-            txtLastYearEnd.BackColor = SystemInfo.ControlBackColor.DisabledBox;
+            txtLastAPMonthEnd.BackColor = SystemInfoHelper.ControlBackColor.DisabledBox;
+            txtLastAPYearEnd.BackColor = SystemInfoHelper.ControlBackColor.DisabledBox;
+            txtLastARMonthEnd.BackColor = SystemInfoHelper.ControlBackColor.DisabledBox;
+            txtLastARYearEnd.BackColor = SystemInfoHelper.ControlBackColor.DisabledBox;
+            txtLastMonthEnd.BackColor = SystemInfoHelper.ControlBackColor.DisabledBox;
+            txtLastYearEnd.BackColor = SystemInfoHelper.ControlBackColor.DisabledBox;
 
-            txtLastMonthEnd.Text = SystemInfo.CurrentInfo.Default.LastMonthEnd;
-            txtLastYearEnd.Text = SystemInfo.CurrentInfo.Default.LastYearEnd;
-            txtLastARMonthEnd.Text = SystemInfo.CurrentInfo.Default.SysInfo.LastMonthEnd_AR == 0 ? "" : SystemInfo.CurrentInfo.Default.SysInfo.LastMonthEnd_AR.ToString();
-            txtLastARYearEnd.Text = SystemInfo.CurrentInfo.Default.SysInfo.LastYearEnd_AR == 0 ? "" : SystemInfo.CurrentInfo.Default.SysInfo.LastYearEnd_AR.ToString();
-            txtLastAPMonthEnd.Text = SystemInfo.CurrentInfo.Default.SysInfo.LastMonthEnd_AP == 0 ? "" : SystemInfo.CurrentInfo.Default.SysInfo.LastMonthEnd_AP.ToString();
-            txtLastAPYearEnd.Text = SystemInfo.CurrentInfo.Default.SysInfo.LastYearEnd_AP == 0 ? "" : SystemInfo.CurrentInfo.Default.SysInfo.LastYearEnd_AP.ToString();
+            txtLastMonthEnd.Text = SystemInfoEx.CurrentInfo.Default.LastMonthEnd;
+            txtLastYearEnd.Text = SystemInfoEx.CurrentInfo.Default.LastYearEnd;
+            txtLastARMonthEnd.Text = SystemInfoEx.CurrentInfo.Default.SysInfo.LastMonthEnd_AR == 0 ? "" : SystemInfoEx.CurrentInfo.Default.SysInfo.LastMonthEnd_AR.ToString();
+            txtLastARYearEnd.Text = SystemInfoEx.CurrentInfo.Default.SysInfo.LastYearEnd_AR == 0 ? "" : SystemInfoEx.CurrentInfo.Default.SysInfo.LastYearEnd_AR.ToString();
+            txtLastAPMonthEnd.Text = SystemInfoEx.CurrentInfo.Default.SysInfo.LastMonthEnd_AP == 0 ? "" : SystemInfoEx.CurrentInfo.Default.SysInfo.LastMonthEnd_AP.ToString();
+            txtLastAPYearEnd.Text = SystemInfoEx.CurrentInfo.Default.SysInfo.LastYearEnd_AP == 0 ? "" : SystemInfoEx.CurrentInfo.Default.SysInfo.LastYearEnd_AP.ToString();
 
             // Logo
-            txtCompanyLogo.Text = SystemInfo.CurrentInfo.Default.SysInfo.LOGO;
-            imgLogo.ImageName = SystemInfo.CurrentInfo.Default.SysInfo.LOGO;
+            txtCompanyLogo.Text = SystemInfoEx.CurrentInfo.Default.SysInfo.LOGO;
+            imgLogo.ImageName = SystemInfoEx.CurrentInfo.Default.SysInfo.LOGO;
 
             // Letter Head
-            txtLetterHead.Text = SystemInfo.CurrentInfo.Default.SysInfo.LetterHead;
-            imgLetterHead.ImageName = SystemInfo.CurrentInfo.Default.SysInfo.LetterHead;
+            txtLetterHead.Text = SystemInfoEx.CurrentInfo.Default.SysInfo.LetterHead;
+            imgLetterHead.ImageName = SystemInfoEx.CurrentInfo.Default.SysInfo.LetterHead;
 
             // Others
-            txtTransferHHTMode.BackColor = SystemInfo.ControlBackColor.DisabledBox;
-            txtPacketType.BackColor = SystemInfo.ControlBackColor.DisabledBox;
+            txtTransferHHTMode.BackColor = SystemInfoHelper.ControlBackColor.DisabledBox;
+            txtPacketType.BackColor = SystemInfoHelper.ControlBackColor.DisabledBox;
 
-            txtTaxRate.Text = SystemInfo.CurrentInfo.Default.SysInfo.TaxRate.Value.ToString("n2");
-            txtTaxRegisterNumber.Text = SystemInfo.CurrentInfo.Default.SysInfo.TaxRegisterNumber;
-            chkPriceTagIncludeTax.Checked = SystemInfo.CurrentInfo.Default.SysInfo.PriceTag_TaxInclusive.Value;
+            txtTaxRate.Text = SystemInfoEx.CurrentInfo.Default.SysInfo.TaxRate.Value.ToString("n2");
+            txtTaxRegisterNumber.Text = SystemInfoEx.CurrentInfo.Default.SysInfo.TaxRegisterNumber;
+            chkPriceTagIncludeTax.Checked = SystemInfoEx.CurrentInfo.Default.SysInfo.PriceTag_TaxInclusive.Value;
 
-            txtDomesticCurrency.Text = SystemInfo.CurrentInfo.Default.SysInfo.BasicCurrency;
-            txtOTBClassLevel.Text = SystemInfo.CurrentInfo.Default.SysInfo.OTBClassLevel;
-            txtBarcodeLabelFormat.Text = SystemInfo.CurrentInfo.Default.SysInfo.BarcodeLabelFormat;
-            txtTransferHHTMode.Text = string.IsNullOrEmpty(SystemInfo.CurrentInfo.Default.SysInfo.HotSyncMode_HHT) ? "F" : SystemInfo.CurrentInfo.Default.SysInfo.HotSyncMode_HHT;
-            txtPacketType.Text = string.IsNullOrEmpty(SystemInfo.CurrentInfo.Default.SysInfo.PacketType) ? "UNICODE" : SystemInfo.CurrentInfo.Default.SysInfo.PacketType;
-            chkUseMultiplePricebook.Checked = SystemInfo.CurrentInfo.Default.SysInfo.AllowMultiplePricebook.Value;
+            txtDomesticCurrency.Text = SystemInfoEx.CurrentInfo.Default.SysInfo.BasicCurrency;
+            txtOTBClassLevel.Text = SystemInfoEx.CurrentInfo.Default.SysInfo.OTBClassLevel;
+            txtBarcodeLabelFormat.Text = SystemInfoEx.CurrentInfo.Default.SysInfo.BarcodeLabelFormat;
+            txtTransferHHTMode.Text = string.IsNullOrEmpty(SystemInfoEx.CurrentInfo.Default.SysInfo.HotSyncMode_HHT) ? "F" : SystemInfoEx.CurrentInfo.Default.SysInfo.HotSyncMode_HHT;
+            txtPacketType.Text = string.IsNullOrEmpty(SystemInfoEx.CurrentInfo.Default.SysInfo.PacketType) ? "UNICODE" : SystemInfoEx.CurrentInfo.Default.SysInfo.PacketType;
+            chkUseMultiplePricebook.Checked = SystemInfoEx.CurrentInfo.Default.SysInfo.AllowMultiplePricebook.Value;
 
             this.SetBackColor();
         }
@@ -182,11 +183,11 @@ namespace RT2020.Settings
                         if (txtCtrl.Name == "txtPricePromotion")
                         {
                             txtCtrl.Enabled = false;
-                            txtCtrl.BackColor = SystemInfo.ControlBackColor.DisabledBox;
+                            txtCtrl.BackColor = SystemInfoHelper.ControlBackColor.DisabledBox;
                         }
                         else
                         {
-                            txtCtrl.BackColor = SystemInfo.ControlBackColor.RequiredBox;
+                            txtCtrl.BackColor = SystemInfoHelper.ControlBackColor.RequiredBox;
                         }
                     }
                 }
@@ -305,7 +306,7 @@ namespace RT2020.Settings
                     {
                         File.Delete(picPath);
 
-                        if (ModelEx.SystemInfoEx.ClearLogoInfo(SystemInfo.CurrentInfo.Default.SysInfo.InfoId))
+                        if (ModelEx.SystemInfoEx.ClearLogoInfo(SystemInfoEx.CurrentInfo.Default.SysInfo.InfoId))
                         {
                             MessageBox.Show("The picture '" + txtCompanyLogo.Text + "' is deleted.", "Deleted", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         }
@@ -341,7 +342,7 @@ namespace RT2020.Settings
                     {
                         File.Delete(picPath);
 
-                        if (ModelEx.SystemInfoEx.ClearLogoInfo(SystemInfo.CurrentInfo.Default.SysInfo.InfoId))
+                        if (ModelEx.SystemInfoEx.ClearLogoInfo(SystemInfoEx.CurrentInfo.Default.SysInfo.InfoId))
                         {
                             MessageBox.Show("The picture '" + txtLetterHead.Text + "' is deleted.", "Deleted", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         }
@@ -428,7 +429,7 @@ namespace RT2020.Settings
         {
             using (var ctx = new EF6.RT2020Entities())
             {
-                var oSysInfo = ctx.SystemInfo.Find(SystemInfo.CurrentInfo.Default.SysInfo.InfoId);
+                var oSysInfo = ctx.SystemInfo.Find(SystemInfoEx.CurrentInfo.Default.SysInfo.InfoId);
                 if (oSysInfo != null)
                 {
                     // Company Info.

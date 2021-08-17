@@ -28,12 +28,12 @@ namespace RT2020.Inventory.StockTake
             FillListView();
             InitComboBoxes();
 
-            lblClass1.Text = SystemInfo.Settings.GetSystemLabelByKey("CLASS1");
-            lblClass2.Text = SystemInfo.Settings.GetSystemLabelByKey("CLASS2");
-            lblClass3.Text = SystemInfo.Settings.GetSystemLabelByKey("CLASS3");
-            lblClass4.Text = SystemInfo.Settings.GetSystemLabelByKey("CLASS4");
-            lblClass5.Text = SystemInfo.Settings.GetSystemLabelByKey("CLASS5");
-            lblClass6.Text = SystemInfo.Settings.GetSystemLabelByKey("CLASS6");
+            lblClass1.Text = SystemInfoHelper.Settings.GetSystemLabelByKey("CLASS1");
+            lblClass2.Text = SystemInfoHelper.Settings.GetSystemLabelByKey("CLASS2");
+            lblClass3.Text = SystemInfoHelper.Settings.GetSystemLabelByKey("CLASS3");
+            lblClass4.Text = SystemInfoHelper.Settings.GetSystemLabelByKey("CLASS4");
+            lblClass5.Text = SystemInfoHelper.Settings.GetSystemLabelByKey("CLASS5");
+            lblClass6.Text = SystemInfoHelper.Settings.GetSystemLabelByKey("CLASS6");
         }
 
         #region Fill ListView
@@ -68,7 +68,7 @@ namespace RT2020.Inventory.StockTake
                     .FirstOrDefault();
                 if (oHeader != null)
                 {
-                    result = oHeader.TxNumber + "  " + RT2020.SystemInfo.Settings.DateTimeToString(oHeader.TxDate.Value, false);
+                    result = oHeader.TxNumber + "  " + DateTimeHelper.DateTimeToString(oHeader.TxDate.Value, false);
                 }
             }
 
@@ -422,7 +422,7 @@ namespace RT2020.Inventory.StockTake
                 if (lvItem.Checked && Guid.TryParse(lvItem.Text, out wpId))
                 {
                     //System.Guid wpId = new Guid(lvItem.Text);
-                    string stkNum = RT2020.SystemInfo.Settings.QueuingTxNumber(EnumHelper.TxType.STK);
+                    string stkNum = SystemInfoHelper.Settings.QueuingTxNumber(EnumHelper.TxType.STK);
 
                     Guid headerId = CreateSTK(stkNum, wpId);
                     SetProgress(iCount, "Creating Transaction# " + stkNum);
@@ -563,7 +563,7 @@ namespace RT2020.Inventory.StockTake
             int result = CreateSTK();
             if (result > 0)
             {
-                RT2020.SystemInfo.Settings.RefreshMainList<Default>();
+                SystemInfoHelper.Settings.RefreshMainList<Default>();
                 MessageBox.Show(result.ToString() + " Transaction(s) Creation Complete !", "Creation Succeed", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, new EventHandler(CreationMessageHandler));
             }
             else

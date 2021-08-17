@@ -17,6 +17,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Data.Entity;
 using RT2020.Helper;
+using RT2020.ModelEx;
 
 #endregion
 
@@ -38,8 +39,8 @@ namespace RT2020.Inventory.Reports.StockStatus
 
         private void SetAttributes()
         {
-            currentYeaar = RT2020.SystemInfo.CurrentInfo.Default.CurrentSystemYear;
-            currentMonth = RT2020.SystemInfo.CurrentInfo.Default.CurrentSystemMonth;
+            currentYeaar = SystemInfoEx.CurrentInfo.Default.CurrentSystemYear;
+            currentMonth = SystemInfoEx.CurrentInfo.Default.CurrentSystemMonth;
 
             this.txtYear.Text = currentYeaar;
             this.txtMonth.Text = currentMonth;
@@ -282,21 +283,21 @@ AND Location BETWEEN '" + this.cboLocationFrom.Text.Trim() + "' AND '" + this.cb
                 {"CurrentMonth",currentMonth},
                 {"FromYear",this.txtYear.Text.Trim().ToString()},
                 {"FromMonth",this.txtMonth.Text.Trim().ToString()},
-                {"PrintedOn", DateTime.Now.ToString(RT2020.SystemInfo.Settings.GetDateTimeFormat())},
-                {"DateFormat", RT2020.SystemInfo.Settings.GetDateFormat()},
-                {"STKLabel",RT2020.SystemInfo.Settings.GetSystemLabelByKey("STKCODE")},
-                {"APPENDIX1",RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX1")},
-                {"APPENDIX2",RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX2")},
-                {"APPENDIX3",RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX3")},
-                {"CLASS1",RT2020.SystemInfo.Settings.GetSystemLabelByKey("CLASS1")},
-                {"CLASS2",RT2020.SystemInfo.Settings.GetSystemLabelByKey("CLASS2")},
-                {"CLASS3",RT2020.SystemInfo.Settings.GetSystemLabelByKey("CLASS3")},
-                {"CLASS4",RT2020.SystemInfo.Settings.GetSystemLabelByKey("CLASS4")},
-                {"CLASS5",RT2020.SystemInfo.Settings.GetSystemLabelByKey("CLASS5")},
-                {"CLASS6",RT2020.SystemInfo.Settings.GetSystemLabelByKey("CLASS6")},
+                {"PrintedOn", DateTime.Now.ToString(DateTimeHelper.GetDateTimeFormat())},
+                {"DateFormat", DateTimeHelper.GetDateFormat()},
+                {"STKLabel",SystemInfoHelper.Settings.GetSystemLabelByKey("STKCODE")},
+                {"APPENDIX1",SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX1")},
+                {"APPENDIX2",SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX2")},
+                {"APPENDIX3",SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX3")},
+                {"CLASS1",SystemInfoHelper.Settings.GetSystemLabelByKey("CLASS1")},
+                {"CLASS2",SystemInfoHelper.Settings.GetSystemLabelByKey("CLASS2")},
+                {"CLASS3",SystemInfoHelper.Settings.GetSystemLabelByKey("CLASS3")},
+                {"CLASS4",SystemInfoHelper.Settings.GetSystemLabelByKey("CLASS4")},
+                {"CLASS5",SystemInfoHelper.Settings.GetSystemLabelByKey("CLASS5")},
+                {"CLASS6",SystemInfoHelper.Settings.GetSystemLabelByKey("CLASS6")},
                 {"FromLocation",this.cboLocationFrom.Text.Trim().ToString()},
                 {"ToLocation",this.cboLocationTo.Text.Trim().ToString()},
-                {"CompanyName", RT2020.SystemInfo.CurrentInfo.Default.CompanyName}
+                {"CompanyName", SystemInfoEx.CurrentInfo.Default.CompanyName}
                 };
 
                 RT2020.Controls.Reporting.Viewer view = new RT2020.Controls.Reporting.Viewer();

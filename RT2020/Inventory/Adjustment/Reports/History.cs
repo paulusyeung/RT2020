@@ -16,6 +16,7 @@ using FileHelpers.MasterDetail;
 
 
 using RT2020.Helper;
+using RT2020.ModelEx;
 
 namespace RT2020.Inventory.Adjustment.Reports
 {
@@ -29,7 +30,7 @@ namespace RT2020.Inventory.Adjustment.Reports
         {
             InitializeComponent();
 
-            dtpTxDateFrom.Value = Convert.ToDateTime(RT2020.SystemInfo.CurrentInfo.Default.LastMonthEnd.Insert(4, "-") + "-01");
+            dtpTxDateFrom.Value = Convert.ToDateTime(SystemInfoEx.CurrentInfo.Default.LastMonthEnd.Insert(4, "-") + "-01");
             dtpTxDateTo.Value = DateTime.Now;
 
             RT2020.Controls.InvtUtility.ShowCriteria(ref txtTxNumberFrom, ref txtTxNumberTo, "vwRptSubLedgerADJ", EnumHelper.TxType.ADJ, dtpTxDateFrom.Value, dtpTxDateTo.Value);
@@ -137,16 +138,16 @@ namespace RT2020.Inventory.Adjustment.Reports
                 string[,] param = {
                 { "FromTxNumber", this._TxNumberFrom },
                 { "ToTxNumber", this._TxNumberTo },
-                { "FromTxDate", this.dtpTxDateFrom.Value.ToString(RT2020.SystemInfo.Settings.GetDateFormat()) },
-                { "ToTxDate", this.dtpTxDateTo.Value.ToString(RT2020.SystemInfo.Settings.GetDateFormat()) },
-                { "PrintedOn", DateTime.Now.ToString(RT2020.SystemInfo.Settings.GetDateTimeFormat()) },
+                { "FromTxDate", this.dtpTxDateFrom.Value.ToString(DateTimeHelper.GetDateFormat()) },
+                { "ToTxDate", this.dtpTxDateTo.Value.ToString(DateTimeHelper.GetDateFormat()) },
+                { "PrintedOn", DateTime.Now.ToString(DateTimeHelper.GetDateTimeFormat()) },
                 { "PrintedBy", ModelEx.StaffEx.GetStaffNameById(ConfigHelper.CurrentUserId) },
-                { "DateFormat", RT2020.SystemInfo.Settings.GetDateFormat() },
-                { "CompanyName", RT2020.SystemInfo.CurrentInfo.Default.CompanyName},
-                { "StockCode", RT2020.SystemInfo.Settings.GetSystemLabelByKey("STKCODE") },
-                { "Appendix1", RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX1") },
-                { "Appendix2", RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX2") },
-                { "Appendix3", RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX3") }
+                { "DateFormat", DateTimeHelper.GetDateFormat() },
+                { "CompanyName", SystemInfoEx.CurrentInfo.Default.CompanyName},
+                { "StockCode", SystemInfoHelper.Settings.GetSystemLabelByKey("STKCODE") },
+                { "Appendix1", SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX1") },
+                { "Appendix2", SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX2") },
+                { "Appendix3", SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX3") }
                 };
 
                 RT2020.Controls.Reporting.Viewer oViewer = new RT2020.Controls.Reporting.Viewer();

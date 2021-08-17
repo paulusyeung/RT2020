@@ -313,7 +313,7 @@ namespace RT2020.Product
                 // log activity (New Record)
                 RT2020.Controls.Log4net.LogInfo(RT2020.Controls.Log4net.LogAction.Create, item.ToString());
 
-                RT2020.SystemInfo.Settings.RefreshMainList<AnalysisCodeList>();
+                SystemInfoHelper.Settings.RefreshMainList<AnalysisCodeList>();
             }
         }
         #endregion

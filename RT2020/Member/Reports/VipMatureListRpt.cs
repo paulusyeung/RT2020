@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Collections;
 using System.ComponentModel;
 using DevExpress.XtraReports.UI;
+using RT2020.Helper;
 
 namespace RT2020.Member.Reports
 {
@@ -61,7 +62,7 @@ namespace RT2020.Member.Reports
             this.RACE1.DataBindings.Add("Text", DataSource, "Race");
             this.NRDISC1.DataBindings.Add("Text", DataSource, "NormalDiscount", "{0:n2}");
 
-            this.PrintDate1.Text = RT2020.SystemInfo.Settings.DateTimeToString(DateTime.Now, true);
+            this.PrintDate1.Text = DateTimeHelper.DateTimeToString(DateTime.Now, true);
         }
     }
 }

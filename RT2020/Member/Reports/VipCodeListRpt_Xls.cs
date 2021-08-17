@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Collections;
 using System.ComponentModel;
 using DevExpress.XtraReports.UI;
+using RT2020.Helper;
 
 namespace RT2020.Member.Reports
 {
@@ -90,7 +91,7 @@ namespace RT2020.Member.Reports
             this.CARDRECEIVE1.DataBindings.Add("Text", DataSource, "CARD_RECEIVE");
             this.CARDACTIVE1.DataBindings.Add("Text", DataSource, "CARD_ACTIVE");
 
-            this.PrintDate1.Text = RT2020.SystemInfo.Settings.DateTimeToString(System.DateTime.Now, true);
+            this.PrintDate1.Text = DateTimeHelper.DateTimeToString(System.DateTime.Now, true);
         }
     }
 }

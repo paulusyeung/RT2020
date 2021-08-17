@@ -481,7 +481,7 @@ namespace RT2020.Product
 
             if (this.CombinId != Guid.Empty)
             {
-                RT2020.SystemInfo.Settings.RefreshMainList<CombinationList>();
+                SystemInfoHelper.Settings.RefreshMainList<CombinationList>();
             }
         }
         #endregion

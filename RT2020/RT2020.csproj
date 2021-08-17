@@ -113,6 +113,7 @@
     <Reference Include="DevExpress.XtraEditors.v15.2, Version=15.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <Private>True</Private>
     </Reference>
+    <Reference Include="DevExpress.XtraGauges.v15.2.Core, Version=15.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraPivotGrid.v15.2, Version=15.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <Private>True</Private>
     </Reference>
@@ -180,6 +181,7 @@
       <HintPath>..\packages\Microsoft.ReportViewer.WebForms.v12.12.0.0.0\lib\Microsoft.ReportViewer.WebForms.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.ReportViewer.WinForms, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
     <Reference Include="NetSqlAzMan, Version=3.6.0.15, Culture=neutral, PublicKeyToken=ad1153f7ddd0e504, processorArchitecture=MSIL">
       <HintPath>..\packages\NetSqlAzMan-x64.3.6.0.15\lib\net40\NetSqlAzMan.dll</HintPath>
       <Private>True</Private>
@@ -935,6 +937,7 @@
     <Compile Include="Helper\NetSqlAzManHelper.cs" />
     <Compile Include="Helper\ProductHelper.cs" />
     <Compile Include="Helper\SqlHelper.cs" />
+    <Compile Include="Helper\SystemInfoHelper.cs" />
     <Compile Include="Helper\ThemeHelper.cs" />
     <Compile Include="Helper\WebConfigHelper.cs" />
     <Compile Include="Helper\WestwindHelper.cs" />
@@ -1333,10 +1336,10 @@
     <Compile Include="Inventory\Reports\History\InOutHistory_Summary.Designer.cs">
       <DependentUpon>InOutHistory_Summary.cs</DependentUpon>
     </Compile>
-    <Compile Include="Inventory\Reports\Journal.cs">
+    <Compile Include="Inventory\Reports\Journal\Journal.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Inventory\Reports\Journal.Designer.cs">
+    <Compile Include="Inventory\Reports\Journal\Journal.Designer.cs">
       <DependentUpon>Journal.cs</DependentUpon>
     </Compile>
     <Compile Include="Inventory\Reports\History\InOutHistory_Monthly.cs">
@@ -1344,6 +1347,12 @@
     </Compile>
     <Compile Include="Inventory\Reports\History\InOutHistory_Monthly.Designer.cs">
       <DependentUpon>InOutHistory_Monthly.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Inventory\Reports\Journal\Monthly.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Inventory\Reports\Journal\Monthly.Designer.cs">
+      <DependentUpon>Monthly.cs</DependentUpon>
     </Compile>
     <Compile Include="Inventory\Reports\StockStatus\StockStatus_Monthly.cs">
       <SubType>Form</SubType>
@@ -2869,7 +2878,6 @@
     </Compile>
     <Compile Include="Helper\SmartTagHelper.cs">
     </Compile>
-    <Compile Include="SystemInfo\CurrentInfo.cs" />
     <Compile Include="Controls\PagePreference.cs" />
     <Compile Include="Settings\PoSTenderTypeWizard.cs">
       <SubType>Form</SubType>
@@ -2925,7 +2933,6 @@
     <Compile Include="Settings\SystemLabels.Designer.cs">
       <DependentUpon>SystemLabels.cs</DependentUpon>
     </Compile>
-    <Compile Include="SystemInfo\Settings.cs" />
     <Compile Include="Settings\ZoneWizard.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -3134,6 +3141,7 @@
     <Content Include="LocalizationAdmin\scripts\vendor\angular-sanitize.min.js.map" />
     <Content Include="LocalizationAdmin\LocalizationService.ashx" />
     <Content Include="LocalizationAdmin\bower.json" />
+    <Content Include="Resources\Reports\Inventory\Journal\Monthly.frx" />
     <None Include="Resources\Templates\CAP Import Template.XLS" />
     <None Include="Resources\Templates\CAP Import Template.xlsx" />
     <None Include="Resources\Templates\VIPThanksLetter.dotx" />
@@ -3760,7 +3768,9 @@
     <EmbeddedResource Include="Inventory\Reports\History\InOutHistory_SummaryStkRdl.rdlc" />
     <EmbeddedResource Include="Inventory\Reports\History\InOutHistory_SummaryLocRdl.rdlc" />
     <EmbeddedResource Include="Inventory\Reports\History\InOutHistory_ListRdl.rdlc" />
-    <EmbeddedResource Include="Inventory\Reports\History\InOutHistory_MonthlyRdl.rdlc" />
+    <EmbeddedResource Include="Inventory\Reports\History\InOutHistory_MonthlyRdl.rdlc">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Inventory\Reports\History\InOutHistory_List.resx">
       <DependentUpon>InOutHistory_List.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -3770,12 +3780,16 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Inventory\Reports\History\InOutHistory_SummaryStkAndLocRdl.rdlc" />
-    <EmbeddedResource Include="Inventory\Reports\Journal.resx">
+    <EmbeddedResource Include="Inventory\Reports\Journal\Journal.resx">
       <DependentUpon>Journal.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Inventory\Reports\History\InOutHistory_Monthly.resx">
       <DependentUpon>InOutHistory_Monthly.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Inventory\Reports\Journal\Monthly.resx">
+      <DependentUpon>Monthly.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Inventory\Reports\StockStatus\StockStatus_MonthlyPeriodWithClassRdl.rdlc" />
@@ -4960,6 +4974,10 @@
       <Project>{80747ba9-d766-4dca-b58a-e8426bf72ace}</Project>
       <Name>RT2020.EF6</Name>
     </ProjectReference>
+    <ProjectReference Include="..\RT2020.Reports\RT2020.Reports.csproj">
+      <Project>{c533ecab-4c48-4270-85af-0a61e7f92831}</Project>
+      <Name>RT2020.Reports</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <CustomReference Include="Gizmox.WebGUI.Forms.Themes">
@@ -4975,6 +4993,7 @@
     <Folder Include="App_LocalResources\" />
     <Folder Include="Resources\Icons\neutral\" />
     <Folder Include="Staff\Import\" />
+    <Folder Include="SystemInfo\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- <Import Project="..\ExternalTools\StyleCop\v4.3\Microsoft.SourceAnalysis.Targets" /> -->

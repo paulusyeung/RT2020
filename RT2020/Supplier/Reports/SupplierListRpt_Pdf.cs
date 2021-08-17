@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Collections;
 using System.ComponentModel;
 using DevExpress.XtraReports.UI;
+using RT2020.Helper;
 
 namespace RT2020.Supplier.Reports
 {
@@ -26,15 +27,15 @@ namespace RT2020.Supplier.Reports
             this.txtAddress.DataBindings.Add("Text", DataSource, "Address");
             this.txtTERMS.DataBindings.Add("Text", DataSource, "TermsCode");
             this.txtMktCode.DataBindings.Add("Text", DataSource, "MarketSectorCode");
-            this.txtDateCreate.DataBindings.Add("Text", DataSource, "CreatedOn", "{0:" + RT2020.SystemInfo.Settings.GetDateFormat() + "}");
-            this.txtDateLchg.DataBindings.Add("Text", DataSource, "ModifiedOn", "{0:" + RT2020.SystemInfo.Settings.GetDateFormat() + "}");
+            this.txtDateCreate.DataBindings.Add("Text", DataSource, "CreatedOn", "{0:" + DateTimeHelper.GetDateFormat() + "}");
+            this.txtDateLchg.DataBindings.Add("Text", DataSource, "ModifiedOn", "{0:" + DateTimeHelper.GetDateFormat() + "}");
             this.txtUserLChg.DataBindings.Add("Text", DataSource, "ModifiedBy");
             this.txtTel.DataBindings.Add("Text", DataSource, "Phone");
            // this.txtPSN.DataBindings.Add("Text",DataSource,"");
             this.txtTLX.DataBindings.Add("Text", DataSource, "Tlx");
             this.txtFax.DataBindings.Add("Text", DataSource, "Fax");
            // this.txtALTERNATE_SUPPNUM.DataBindings.Add("Text",DataSource,"");
-            this.txtPrint.Text = RT2020.SystemInfo.Settings.DateTimeToString(DateTime.Now, true);
+            this.txtPrint.Text = DateTimeHelper.DateTimeToString(DateTime.Now, true);
             
         }
 

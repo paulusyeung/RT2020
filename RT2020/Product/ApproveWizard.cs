@@ -117,7 +117,7 @@ namespace RT2020.Product
                     objItem.SubItems.Add(reader.GetString(4)); // Product Name Chs
                     objItem.SubItems.Add(reader.GetString(5)); // Product name Cht
                     objItem.SubItems.Add(reader.GetString(6)); // Nature
-                    objItem.SubItems.Add(RT2020.SystemInfo.Settings.DateTimeToString(reader.GetDateTime(7), false)); // CreatedOn
+                    objItem.SubItems.Add(DateTimeHelper.DateTimeToString(reader.GetDateTime(7), false)); // CreatedOn
 
                     iCount++;
                 }

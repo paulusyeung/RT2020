@@ -15,6 +15,7 @@ using Gizmox.WebGUI.Common.Interfaces;
 
 using RT2020.Controls;
 using RT2020.Helper;
+using RT2020.ModelEx;
 
 namespace RT2020.Inventory.Adjustment
 {
@@ -140,10 +141,10 @@ namespace RT2020.Inventory.Adjustment
 
         private void SetSystemLabel()
         {
-            colStockCode.Text = RT2020.SystemInfo.Settings.GetSystemLabelByKey("STKCODE");
-            colAppendix1.Text = RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX1");
-            colAppendix2.Text = RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX2");
-            colAppendix3.Text = RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX3");
+            colStockCode.Text = SystemInfoHelper.Settings.GetSystemLabelByKey("STKCODE");
+            colAppendix1.Text = SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX1");
+            colAppendix2.Text = SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX2");
+            colAppendix3.Text = SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX3");
         }
         #endregion
 
@@ -295,16 +296,16 @@ namespace RT2020.Inventory.Adjustment
             string[,] param = {
                 { "FromTxNumber", this.txtTxNumber.Text.Trim() },
                 { "ToTxNumber", this.txtTxNumber.Text.Trim() },
-                { "FromTxDate", this.dtpTxDate.Value.ToString(RT2020.SystemInfo.Settings.GetDateFormat()) },
-                { "ToTxDate", this.dtpTxDate.Value.ToString(RT2020.SystemInfo.Settings.GetDateFormat()) },
-                { "PrintedOn", DateTime.Now.ToString(RT2020.SystemInfo.Settings.GetDateTimeFormat()) },
+                { "FromTxDate", this.dtpTxDate.Value.ToString(DateTimeHelper.GetDateFormat()) },
+                { "ToTxDate", this.dtpTxDate.Value.ToString(DateTimeHelper.GetDateFormat()) },
+                { "PrintedOn", DateTime.Now.ToString(DateTimeHelper.GetDateTimeFormat()) },
                 { "PrintedBy", ModelEx.StaffEx.GetStaffNameById(ConfigHelper.CurrentUserId) },
-                { "DateFormat", RT2020.SystemInfo.Settings.GetDateFormat() },
-                { "CompanyName", RT2020.SystemInfo.CurrentInfo.Default.CompanyName},
-                { "StockCode", RT2020.SystemInfo.Settings.GetSystemLabelByKey("STKCODE") },
-                { "Appendix1", RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX1") },
-                { "Appendix2", RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX2") },
-                { "Appendix3", RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX3") }
+                { "DateFormat", DateTimeHelper.GetDateFormat() },
+                { "CompanyName", SystemInfoEx.CurrentInfo.Default.CompanyName},
+                { "StockCode", SystemInfoHelper.Settings.GetSystemLabelByKey("STKCODE") },
+                { "Appendix1", SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX1") },
+                { "Appendix2", SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX2") },
+                { "Appendix3", SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX3") }
                 };
 
             RT2020.Controls.Reporting.Viewer oViewer = new RT2020.Controls.Reporting.Viewer();
@@ -357,7 +358,7 @@ namespace RT2020.Inventory.Adjustment
                                     #region add new InvtBatchADJ_Header
                                     oHeader = new EF6.InvtBatchADJ_Header();
 
-                                    txtTxNumber.Text = RT2020.SystemInfo.Settings.QueuingTxNumber(EnumHelper.TxType.ADJ);
+                                    txtTxNumber.Text = SystemInfoHelper.Settings.QueuingTxNumber(EnumHelper.TxType.ADJ);
                                     oHeader.HeaderId = Guid.NewGuid();
                                     oHeader.TxNumber = txtTxNumber.Text;
                                     oHeader.TxType = EnumHelper.TxType.ADJ.ToString();
@@ -483,7 +484,7 @@ namespace RT2020.Inventory.Adjustment
                 txtRemarks.Text = oHeader.Remarks;
                 txtRefNumber.Text = oHeader.Reference;
 
-                txtLastUpdateOn.Text = RT2020.SystemInfo.Settings.DateTimeToString(oHeader.ModifiedOn, false);
+                txtLastUpdateOn.Text = DateTimeHelper.DateTimeToString(oHeader.ModifiedOn, false);
                 txtLastUpdateBy.Text = ModelEx.StaffEx.GetStaffNumberById(oHeader.ModifiedBy);
 
                 txtTotalQty.Text = ModelEx.InvtBatchADJ_DetailsEx.GetTotalQty(this.ADJId).ToString("n0");
@@ -567,7 +568,7 @@ namespace RT2020.Inventory.Adjustment
 
                     if (this.ADJId != System.Guid.Empty)
                     {
-                        RT2020.SystemInfo.Settings.RefreshMainList<Default>();
+                        SystemInfoHelper.Settings.RefreshMainList<Default>();
                         MessageBox.Show("Success!", "Save Result");
 
                         this.Close();
@@ -592,7 +593,7 @@ namespace RT2020.Inventory.Adjustment
 
                     if (this.ADJId != System.Guid.Empty)
                     {
-                        RT2020.SystemInfo.Settings.RefreshMainList<Default>();
+                        SystemInfoHelper.Settings.RefreshMainList<Default>();
                         this.Close();
                         RT2020.Inventory.Adjustment.Wizard wizard = new RT2020.Inventory.Adjustment.Wizard();
                         wizard.ShowDialog();
@@ -615,7 +616,7 @@ namespace RT2020.Inventory.Adjustment
 
                     if (this.ADJId != System.Guid.Empty)
                     {
-                        RT2020.SystemInfo.Settings.RefreshMainList<Default>();
+                        SystemInfoHelper.Settings.RefreshMainList<Default>();
                         this.Close();
                     }
                 }

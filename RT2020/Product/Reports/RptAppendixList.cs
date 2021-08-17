@@ -17,6 +17,7 @@ using System.Web;
 using System.Data.Common;
 using System.Configuration;
 using RT2020.Helper;
+using RT2020.ModelEx;
 
 #endregion
 
@@ -57,7 +58,7 @@ namespace RT2020.Product.Reports
         #region Set System Labels
         private void SetSystemLabels()
         {
-            string syslbl = RT2020.SystemInfo.Settings.GetSystemLabelByKey(this.AppendixType.Trim().ToUpper());
+            string syslbl = SystemInfoHelper.Settings.GetSystemLabelByKey(this.AppendixType.Trim().ToUpper());
             this.Text = syslbl + " List Printing Wizard";
 
             this.lblFrom.Text = "From " + syslbl;
@@ -118,7 +119,7 @@ namespace RT2020.Product.Reports
 
         //public IGatewayHandler GetGatewayHandler(IContext objContext, string strAction)
         //{
-        //    string syslbl = RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX1");
+        //    string syslbl = SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX1");
 
         //    // Create a report instance.
         //    if (rbnPDF.Checked == true)
@@ -209,9 +210,9 @@ namespace RT2020.Product.Reports
                 string[,] param = {
             {"FromAppendix",this.cmbFrom.Text.Trim()},
             {"ToAppendix",this.cmbTo.Text.Trim()},
-            {"PrintedOn",DateTime.Now.ToString(RT2020.SystemInfo.Settings.GetDateTimeFormat())},
-            {this.AppendixType.Trim(),RT2020.SystemInfo.Settings.GetSystemLabelByKey(this.AppendixType.Trim().ToUpper())},
-            {"CompanyName",RT2020.SystemInfo.CurrentInfo.Default.CompanyName}
+            {"PrintedOn",DateTime.Now.ToString(DateTimeHelper.GetDateTimeFormat())},
+            {this.AppendixType.Trim(),SystemInfoHelper.Settings.GetSystemLabelByKey(this.AppendixType.Trim().ToUpper())},
+            {"CompanyName",SystemInfoEx.CurrentInfo.Default.CompanyName}
             };
 
                 RT2020.Controls.Reporting.Viewer view = new RT2020.Controls.Reporting.Viewer();

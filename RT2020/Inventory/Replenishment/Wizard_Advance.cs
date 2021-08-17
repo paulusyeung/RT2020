@@ -169,7 +169,7 @@ namespace RT2020.Inventory.Replenishment
 
                 if (this.RplId != System.Guid.Empty)
                 {
-                    RT2020.SystemInfo.Settings.RefreshMainList<Default>();
+                    SystemInfoHelper.Settings.RefreshMainList<Default>();
                     MessageBox.Show("Success!", "Save Result");
 
                     this.Close();
@@ -187,7 +187,7 @@ namespace RT2020.Inventory.Replenishment
 
                 if (this.RplId != System.Guid.Empty)
                 {
-                    RT2020.SystemInfo.Settings.RefreshMainList<Default>();
+                    SystemInfoHelper.Settings.RefreshMainList<Default>();
                     this.Close();
                     RT2020.Inventory.Replenishment.Wizard wizard = new RT2020.Inventory.Replenishment.Wizard();
                     wizard.ShowDialog();
@@ -203,7 +203,7 @@ namespace RT2020.Inventory.Replenishment
 
                 if (this.RplId != System.Guid.Empty)
                 {
-                    RT2020.SystemInfo.Settings.RefreshMainList<Default>();
+                    SystemInfoHelper.Settings.RefreshMainList<Default>();
                     this.Close();
                 }
             }

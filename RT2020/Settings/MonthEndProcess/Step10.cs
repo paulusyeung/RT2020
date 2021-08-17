@@ -5,6 +5,7 @@ using System.Text;
 
 using RT2020.Controls;
 using RT2020.Helper;
+using RT2020.ModelEx;
 
 namespace RT2020.Settings.MonthEndProcess
 {
@@ -38,8 +39,8 @@ namespace RT2020.Settings.MonthEndProcess
         private string BuildLog()
         {
             StringBuilder log = new StringBuilder();
-            log.Append("COMPANY: ").Append(SystemInfo.CurrentInfo.Default.CompanyName).AppendLine();
-            log.Append("MONTH: ").Append(SystemInfo.CurrentInfo.Default.CurrentSystemDate.ToString("MMMM yyyy")).AppendLine();
+            log.Append("COMPANY: ").Append(SystemInfoEx.CurrentInfo.Default.CompanyName).AppendLine();
+            log.Append("MONTH: ").Append(SystemInfoEx.CurrentInfo.Default.CurrentSystemDate.ToString("MMMM yyyy")).AppendLine();
             log.Append("Reset Service Item's CDQty = 0: ").Append(ResetSerivceItemsCDQty ? "YES" : "NO").AppendLine();
             log.Append("USER: ").Append(ModelEx.StaffEx.GetStaffNumberById(ConfigHelper.CurrentUserId)).AppendLine();
             log.Append("START TIME: ").Append(StartOn.ToString("dd/MM/yyyy HH:mm:ss")).AppendLine();

@@ -1,0 +1,113 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{FE19461D-CDA2-4F6A-AEA2-691D42387268}</ProjectGuid>
+    <ProjectTypeGuids>{80d85812-7475-4db8-9a61-dd0ef1ebd354};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>FastReport.OpenSource.Web</RootNamespace>
+    <AssemblyName>FastReport.OpenSource.Web</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Gizmox.WebGUI.Forms, Version=4.5.25701.0, Culture=neutral, PublicKeyToken=c508b41386c60f1d">
+      <SpecificVersion>True</SpecificVersion>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Gizmox.WebGUI.Forms.Themes, Version=4.5.25701.0, Culture=neutral, PublicKeyToken=263fa4ef694acff6">
+      <SpecificVersion>True</SpecificVersion>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Gizmox.WebGUI.Common, Version=4.5.25701.0, Culture=neutral, PublicKeyToken=263fa4ef694acff6">
+      <SpecificVersion>True</SpecificVersion>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Application\Constants.cs" />
+    <Compile Include="Application\ExportMenuSettings.cs" />
+    <Compile Include="Application\Extensions.cs" />
+    <Compile Include="Application\FastReportBuilderExtensions.cs" />
+    <Compile Include="Application\FastReportGlobal.cs" />
+    <Compile Include="Application\FastReportMiddleware.cs" />
+    <Compile Include="Application\FastReportOptions.cs" />
+    <Compile Include="Application\ReportTab.cs" />
+    <Compile Include="Application\Resources.cs" />
+    <Compile Include="Application\ToolbarSettings.cs" />
+    <Compile Include="Application\WebReport.cs" />
+    <Compile Include="Application\WebReport.Exports.cs" />
+    <Compile Include="Application\WebReportCache.cs" />
+    <Compile Include="Application\WebReportDesigner.cs" />
+    <Compile Include="Application\WebReportHtml.cs" />
+    <Compile Include="Application\WebResources.cs" />
+    <Compile Include="Application\WebUtils.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\DesignerController.cs" />
+    <Compile Include="Controllers\ReportController.cs" />
+    <Compile Include="Controllers\ResourceController.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Templates\body.cs" />
+    <Compile Include="Templates\main.cs" />
+    <Compile Include="Templates\outline.cs" />
+    <Compile Include="Templates\script.cs" />
+    <Compile Include="Templates\style.cs" />
+    <Compile Include="Templates\tabs.cs" />
+    <Compile Include="Templates\toolbar.cs" />
+    <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\angle-double-left.svg" />
+    <Content Include="Resources\angle-double-right.svg" />
+    <Content Include="Resources\angle-left.svg" />
+    <Content Include="Resources\angle-right.svg" />
+    <Content Include="Resources\caret-down.svg" />
+    <Content Include="Resources\caret-right.svg" />
+    <Content Include="Resources\close.svg" />
+    <Content Include="Resources\file.svg" />
+    <Content Include="Resources\magnifier.svg" />
+    <Content Include="Resources\print.svg" />
+    <Content Include="Resources\reload.svg" />
+    <Content Include="Resources\save.svg" />
+    <Content Include="Resources\slash.svg" />
+    <Content Include="Resources\spinner.svg" />
+    <Content Include="Resources\split.min.js" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Condition="" Project="$(MSBuildExtensionsPath)\Gizmox\v14.0\Net4.5.2\Gizmox.VWGLibrary.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

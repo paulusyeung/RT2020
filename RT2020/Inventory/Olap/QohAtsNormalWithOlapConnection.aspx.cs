@@ -10,6 +10,7 @@ using System.Data.SqlClient;
 using DevExpress.Web.ASPxPivotGrid;
 using System.IO;
 using DevExpress.Utils;
+using RT2020.Helper;
 
 namespace RT2020.Inventory.Olap
 {
@@ -77,7 +78,7 @@ namespace RT2020.Inventory.Olap
         /// </summary>
         public string SetFieldsName(string key)
         {
-            return string.IsNullOrEmpty(RT2020.SystemInfo.Settings.GetSystemLabelByKey(key)) ? key : RT2020.SystemInfo.Settings.GetSystemLabelByKey(key);
+            return string.IsNullOrEmpty(SystemInfoHelper.Settings.GetSystemLabelByKey(key)) ? key : SystemInfoHelper.Settings.GetSystemLabelByKey(key);
         }
 
         /// <summary>

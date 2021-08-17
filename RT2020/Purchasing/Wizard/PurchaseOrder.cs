@@ -271,7 +271,7 @@ namespace RT2020.Purchasing.Wizard
         /// </summary>
         private void LoadLastUpdate()
         {
-            this.txtLastUpdate.Text = RT2020.SystemInfo.Settings.DateTimeToString(DateTime.Now, false);
+            this.txtLastUpdate.Text = DateTimeHelper.DateTimeToString(DateTime.Now, false);
         }
         #endregion
 
@@ -725,15 +725,15 @@ namespace RT2020.Purchasing.Wizard
                         {
                             case "FPO":
                             default:
-                                this.txtPurchaseOrderNo.Text = RT2020.SystemInfo.Settings.QueuingTxNumber(EnumHelper.POType.FPO);
+                                this.txtPurchaseOrderNo.Text = SystemInfoHelper.Settings.QueuingTxNumber(EnumHelper.POType.FPO);
                                 type = Convert.ToInt32(EnumHelper.POType.FPO);
                                 break;
                             case "LPO":
-                                this.txtPurchaseOrderNo.Text = RT2020.SystemInfo.Settings.QueuingTxNumber(EnumHelper.POType.LPO);
+                                this.txtPurchaseOrderNo.Text = SystemInfoHelper.Settings.QueuingTxNumber(EnumHelper.POType.LPO);
                                 type = Convert.ToInt32(EnumHelper.POType.LPO);
                                 break;
                             case "OPO":
-                                this.txtPurchaseOrderNo.Text = RT2020.SystemInfo.Settings.QueuingTxNumber(EnumHelper.POType.OPO);
+                                this.txtPurchaseOrderNo.Text = SystemInfoHelper.Settings.QueuingTxNumber(EnumHelper.POType.OPO);
                                 type = Convert.ToInt32(EnumHelper.POType.OPO);
                                 break;
                         }
@@ -873,7 +873,7 @@ namespace RT2020.Purchasing.Wizard
 
                     if (this.OrderHeaderId != System.Guid.Empty)
                     {
-                        RT2020.SystemInfo.Settings.RefreshMainList<DefaultPOList>();
+                        SystemInfoHelper.Settings.RefreshMainList<DefaultPOList>();
                         MessageBox.Show("Success!", "Save Result");
 
                         this.Close();
@@ -903,7 +903,7 @@ namespace RT2020.Purchasing.Wizard
 
                     if (this.OrderHeaderId != System.Guid.Empty)
                     {
-                        RT2020.SystemInfo.Settings.RefreshMainList<DefaultPOList>();
+                        SystemInfoHelper.Settings.RefreshMainList<DefaultPOList>();
                         this.Close();
                         PurchaseOrder purchaseOrder = new PurchaseOrder();
                         purchaseOrder.ShowDialog();
@@ -931,7 +931,7 @@ namespace RT2020.Purchasing.Wizard
 
                     if (this.OrderHeaderId != System.Guid.Empty)
                     {
-                        RT2020.SystemInfo.Settings.RefreshMainList<DefaultPOList>();
+                        SystemInfoHelper.Settings.RefreshMainList<DefaultPOList>();
                         this.Close();
                     }
                 }
@@ -1083,13 +1083,13 @@ namespace RT2020.Purchasing.Wizard
         {
             string[,] param = 
             {
-                { "PrintedOn", DateTime.Now.ToString(RT2020.SystemInfo.Settings.GetDateTimeFormat()) },
-                { "STKCODE", RT2020.SystemInfo.Settings.GetSystemLabelByKey("STKCODE") },
-                { "Appendix1", RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX1") },
-                { "Appendix2", RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX2") },
-                { "Appendix3", RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX3") },
-                { "Company", RT2020.SystemInfo.Settings.GetSystemLabelByKey("Company") }, ////test
-                { "DateFormat", RT2020.SystemInfo.Settings.GetDateFormat() }
+                { "PrintedOn", DateTime.Now.ToString(DateTimeHelper.GetDateTimeFormat()) },
+                { "STKCODE", SystemInfoHelper.Settings.GetSystemLabelByKey("STKCODE") },
+                { "Appendix1", SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX1") },
+                { "Appendix2", SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX2") },
+                { "Appendix3", SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX3") },
+                { "Company", SystemInfoHelper.Settings.GetSystemLabelByKey("Company") }, ////test
+                { "DateFormat", DateTimeHelper.GetDateFormat() }
             };
 
             RT2020.Controls.Reporting.RdlExport rdlExport = new RT2020.Controls.Reporting.RdlExport();

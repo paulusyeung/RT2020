@@ -15,6 +15,7 @@ using System.Data.SqlClient;
 using System.Configuration;
 using System.Linq;
 using RT2020.Helper;
+using RT2020.ModelEx;
 
 #endregion
 
@@ -77,13 +78,13 @@ namespace RT2020.PriceMgmt
 
             this.txtTxNumberToLookup.Focus();
 
-            this.txtPostedOn.BackColor = RT2020.SystemInfo.ControlBackColor.DisabledBox;
-            this.txtCurrentSystemMonth.BackColor = RT2020.SystemInfo.ControlBackColor.DisabledBox;
-            this.txtCurrentSystemYear.BackColor = RT2020.SystemInfo.ControlBackColor.DisabledBox;
+            this.txtPostedOn.BackColor = SystemInfoHelper.ControlBackColor.DisabledBox;
+            this.txtCurrentSystemMonth.BackColor = SystemInfoHelper.ControlBackColor.DisabledBox;
+            this.txtCurrentSystemYear.BackColor = SystemInfoHelper.ControlBackColor.DisabledBox;
 
-            this.txtPostedOn.Text = RT2020.SystemInfo.Settings.DateTimeToString(DateTime.Now, true);
-            this.txtCurrentSystemMonth.Text = RT2020.SystemInfo.CurrentInfo.Default.CurrentSystemMonth;
-            this.txtCurrentSystemYear.Text = RT2020.SystemInfo.CurrentInfo.Default.CurrentSystemYear;
+            this.txtPostedOn.Text = DateTimeHelper.DateTimeToString(DateTime.Now, true);
+            this.txtCurrentSystemMonth.Text = SystemInfoEx.CurrentInfo.Default.CurrentSystemMonth;
+            this.txtCurrentSystemYear.Text = SystemInfoEx.CurrentInfo.Default.CurrentSystemYear;
 
             this.cboSortAndFilterBy.SelectedIndex = 0;
             this.cboOperator.SelectedIndex = 0;
@@ -116,8 +117,8 @@ namespace RT2020.PriceMgmt
                     objItem.SubItems.Add(reader.GetString(1)); // TxNumber
                     objItem.SubItems.Add(reader.GetString(2)); // TxType
                     objItem.SubItems.Add(reader.GetString(5)); // Reason
-                    objItem.SubItems.Add(RT2020.SystemInfo.Settings.DateTimeToString(reader.GetDateTime(3), false)); // Effective Date
-                    objItem.SubItems.Add(RT2020.SystemInfo.Settings.DateTimeToString(reader.GetDateTime(8), false)); // Modified On
+                    objItem.SubItems.Add(DateTimeHelper.DateTimeToString(reader.GetDateTime(3), false)); // Effective Date
+                    objItem.SubItems.Add(DateTimeHelper.DateTimeToString(reader.GetDateTime(8), false)); // Modified On
 
                     iCount++;
                 }

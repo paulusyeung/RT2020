@@ -84,26 +84,26 @@ namespace RT2020.PriceMgmt
         /// </summary>
         private void SetAttributes()
         {
-            txtSTKCODE.BackColor = RT2020.SystemInfo.ControlBackColor.DisabledBox;
-            txtDescription.BackColor = RT2020.SystemInfo.ControlBackColor.DisabledBox;
-            txtAverageCost.BackColor = RT2020.SystemInfo.ControlBackColor.DisabledBox;
-            txtOldPrice.BackColor = RT2020.SystemInfo.ControlBackColor.DisabledBox;
-            txtDifference.BackColor = RT2020.SystemInfo.ControlBackColor.DisabledBox;
-            txtOldMarkUp.BackColor = RT2020.SystemInfo.ControlBackColor.DisabledBox;
-            txtNewMarkUp.BackColor = RT2020.SystemInfo.ControlBackColor.DisabledBox;
-            txtOldDiscount.BackColor = RT2020.SystemInfo.ControlBackColor.DisabledBox;
+            txtSTKCODE.BackColor = SystemInfoHelper.ControlBackColor.DisabledBox;
+            txtDescription.BackColor = SystemInfoHelper.ControlBackColor.DisabledBox;
+            txtAverageCost.BackColor = SystemInfoHelper.ControlBackColor.DisabledBox;
+            txtOldPrice.BackColor = SystemInfoHelper.ControlBackColor.DisabledBox;
+            txtDifference.BackColor = SystemInfoHelper.ControlBackColor.DisabledBox;
+            txtOldMarkUp.BackColor = SystemInfoHelper.ControlBackColor.DisabledBox;
+            txtNewMarkUp.BackColor = SystemInfoHelper.ControlBackColor.DisabledBox;
+            txtOldDiscount.BackColor = SystemInfoHelper.ControlBackColor.DisabledBox;
 
-            colSTKCODE.Text = RT2020.SystemInfo.Settings.GetSystemLabelByKey("STKCODE");
-            colAPPENDIX1.Text = RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX1");
-            colAPPENDIX2.Text = RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX2");
-            colAPPENDIX3.Text = RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX3");
+            colSTKCODE.Text = SystemInfoHelper.Settings.GetSystemLabelByKey("STKCODE");
+            colAPPENDIX1.Text = SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX1");
+            colAPPENDIX2.Text = SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX2");
+            colAPPENDIX3.Text = SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX3");
 
-            colClass1.Text = RT2020.SystemInfo.Settings.GetSystemLabelByKey("CLASS1");
-            colClass2.Text = RT2020.SystemInfo.Settings.GetSystemLabelByKey("CLASS2");
-            colClass3.Text = RT2020.SystemInfo.Settings.GetSystemLabelByKey("CLASS3");
-            colClass4.Text = RT2020.SystemInfo.Settings.GetSystemLabelByKey("CLASS4");
-            colClass5.Text = RT2020.SystemInfo.Settings.GetSystemLabelByKey("CLASS5");
-            colClass6.Text = RT2020.SystemInfo.Settings.GetSystemLabelByKey("CLASS6");
+            colClass1.Text = SystemInfoHelper.Settings.GetSystemLabelByKey("CLASS1");
+            colClass2.Text = SystemInfoHelper.Settings.GetSystemLabelByKey("CLASS2");
+            colClass3.Text = SystemInfoHelper.Settings.GetSystemLabelByKey("CLASS3");
+            colClass4.Text = SystemInfoHelper.Settings.GetSystemLabelByKey("CLASS4");
+            colClass5.Text = SystemInfoHelper.Settings.GetSystemLabelByKey("CLASS5");
+            colClass6.Text = SystemInfoHelper.Settings.GetSystemLabelByKey("CLASS6");
 
             this.lvItemList.ListViewItemSorter = new ListViewItemSorter(this.lvItemList);
 

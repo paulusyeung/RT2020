@@ -8,6 +8,7 @@ using System.Data;
 using System.Configuration;
 using RT2020.Controls;
 using RT2020.Helper;
+using RT2020.ModelEx;
 
 namespace RT2020.Settings.MonthEndProcess
 {
@@ -77,7 +78,7 @@ CREATE TABLE [dbo].[MonthEndWorkplaceSummary](
 
         private void CopyWorkplaceCurrentSummary()
         {
-            DateTime currSystemMonth = SystemInfo.CurrentInfo.Default.CurrentSystemDate;
+            DateTime currSystemMonth = SystemInfoEx.CurrentInfo.Default.CurrentSystemDate;
 
             UpdatedProgress(this, new ProgressUpdateEventArgs("Step05 - Delete from [MonthEndWorkplaceSummary].", 60, 100));
             // delete data

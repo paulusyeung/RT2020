@@ -1373,8 +1373,8 @@ namespace RT2020.Product
 
                     general.txtStatus_Counter.Text = "";
                     general.txtStatus_Office.Text = "";
-                    general.txtCreatedOn.Text = RT2020.SystemInfo.Settings.DateTimeToString(oItem.CreatedOn, false);
-                    general.txtModifiedOn.Text = RT2020.SystemInfo.Settings.DateTimeToString(oItem.ModifiedOn, false);
+                    general.txtCreatedOn.Text = DateTimeHelper.DateTimeToString(oItem.CreatedOn, false);
+                    general.txtModifiedOn.Text = DateTimeHelper.DateTimeToString(oItem.ModifiedOn, false);
                     general.txtModifiedBy.Text = ModelEx.StaffEx.GetStaffNumberById(oItem.ModifiedBy);
 
                     // Quantity Info
@@ -1613,7 +1613,7 @@ namespace RT2020.Product
             {
                 if (Save())
                 {
-                    RT2020.SystemInfo.Settings.RefreshMainList<ProductList>();
+                    SystemInfoHelper.Settings.RefreshMainList<ProductList>();
                     MessageBox.Show("Success!", "Save Result");
 
                     this.Close();
@@ -1631,7 +1631,7 @@ namespace RT2020.Product
             {
                 if (Save())
                 {
-                    RT2020.SystemInfo.Settings.RefreshMainList<ProductList>();
+                    SystemInfoHelper.Settings.RefreshMainList<ProductList>();
                     this.Close();
                     ProductWizard wizard = new ProductWizard();
                     wizard.EditMode = EnumHelper.EditMode.Add;
@@ -1646,7 +1646,7 @@ namespace RT2020.Product
             {
                 if (Save())
                 {
-                    RT2020.SystemInfo.Settings.RefreshMainList<ProductList>();
+                    SystemInfoHelper.Settings.RefreshMainList<ProductList>();
                     this.Close();
                 }
             }

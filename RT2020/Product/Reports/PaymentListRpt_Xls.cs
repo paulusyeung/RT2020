@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Collections;
 using System.ComponentModel;
 using DevExpress.XtraReports.UI;
+using RT2020.Helper;
 
 namespace RT2020.Product.Reports
 {
@@ -25,13 +26,13 @@ namespace RT2020.Product.Reports
                                    
            // this.ChargeWay1.DataBindings.Add("Text",DataSource,"");
             this.CURR1.DataBindings.Add("Text", DataSource, "CurrencyCode");
-            this.DATECREATE1.DataBindings.Add("Text", DataSource, "CreatedOn", "{0:" + RT2020.SystemInfo.Settings.GetDateFormat() + "}");
-            this.DATELCHG1.DataBindings.Add("Text", DataSource, "ModifiedOn", "{0:" + RT2020.SystemInfo.Settings.GetDateFormat() + "}");
+            this.DATECREATE1.DataBindings.Add("Text", DataSource, "CreatedOn", "{0:" + DateTimeHelper.GetDateFormat() + "}");
+            this.DATELCHG1.DataBindings.Add("Text", DataSource, "ModifiedOn", "{0:" + DateTimeHelper.GetDateFormat() + "}");
             this.USERLCHG1.DataBindings.Add("Text", DataSource, "StaffName");
             //this.MonthlyCharge1.DataBindings.Add("Text",DataSource,"");
             this.PAYTYPE1.DataBindings.Add("Text", fDataBrowser, "TypeCode");       // refer: https://supportcenter.devexpress.com/ticket/details/q482879/xtrareport-databrowser-error-after-upgrading
             this.XCHGRATE1.DataBindings.Add("Text", fDataBrowser, "ExchangeRate", "{0:n4}");
-            this.PrintDate1.Text = RT2020.SystemInfo.Settings.DateTimeToString(System.DateTime.Now, true);
+            this.PrintDate1.Text = DateTimeHelper.DateTimeToString(System.DateTime.Now, true);
             
         }
 

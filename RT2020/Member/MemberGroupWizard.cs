@@ -197,7 +197,7 @@ namespace RT2020.Member
         #region MemberGroup Code
         private void SetCtrlEditable()
         {
-            txtGroupCode.BackColor = (_GroupId == Guid.Empty) ? SystemInfo.ControlBackColor.RequiredBox : SystemInfo.ControlBackColor.DisabledBox;
+            txtGroupCode.BackColor = (_GroupId == Guid.Empty) ? SystemInfoHelper.ControlBackColor.RequiredBox : SystemInfoHelper.ControlBackColor.DisabledBox;
             txtGroupCode.ReadOnly = (_GroupId != Guid.Empty);
 
             ClearError();

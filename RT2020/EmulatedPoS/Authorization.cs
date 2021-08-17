@@ -17,6 +17,7 @@ using Gizmox.WebGUI.Common.Resources;
 
 using System.Configuration;
 using RT2020.Helper;
+using RT2020.ModelEx;
 
 #endregion
 
@@ -47,9 +48,9 @@ namespace RT2020.EmulatedPoS
         /// </summary>
         private void InitComboBox()
         {
-            txtPostedOn.Text = RT2020.SystemInfo.Settings.DateTimeToString(DateTime.Now, true);
-            lblSysMonth.Text = RT2020.SystemInfo.CurrentInfo.Default.CurrentSystemMonth;
-            lblSysYear.Text = RT2020.SystemInfo.CurrentInfo.Default.CurrentSystemYear;
+            txtPostedOn.Text = DateTimeHelper.DateTimeToString(DateTime.Now, true);
+            lblSysMonth.Text = SystemInfoEx.CurrentInfo.Default.CurrentSystemMonth;
+            lblSysYear.Text = SystemInfoEx.CurrentInfo.Default.CurrentSystemYear;
 
             cboFieldName.SelectedIndex = 0;
             cboOperator.SelectedIndex = 0;
@@ -113,8 +114,8 @@ namespace RT2020.EmulatedPoS
                 objItem.SubItems.Add(reader.GetString(1)); // TxNumber
                 objItem.SubItems.Add(reader.GetString(2)); // Type
                 objItem.SubItems.Add(reader.GetDecimal(4).ToString("n2")); // Total Amount
-                objItem.SubItems.Add(RT2020.SystemInfo.Settings.DateTimeToString(reader.GetDateTime(3), false)); // TxDate
-                objItem.SubItems.Add(RT2020.SystemInfo.Settings.DateTimeToString(reader.GetDateTime(5), false)); // ModifiedOn
+                objItem.SubItems.Add(DateTimeHelper.DateTimeToString(reader.GetDateTime(3), false)); // TxDate
+                objItem.SubItems.Add(DateTimeHelper.DateTimeToString(reader.GetDateTime(5), false)); // ModifiedOn
             }
 
             reader.Close();
@@ -136,9 +137,9 @@ namespace RT2020.EmulatedPoS
                 objItem.SubItems.Add(reader.GetString(1)); // TxNumber
                 objItem.SubItems.Add(reader.GetString(2)); // Type
                 objItem.SubItems.Add(reader.GetDecimal(4).ToString("n2")); // Total Amount
-                objItem.SubItems.Add(RT2020.SystemInfo.Settings.DateTimeToString(reader.GetDateTime(3), false)); // TxDate
-                objItem.SubItems.Add(RT2020.SystemInfo.Settings.DateTimeToString(reader.GetDateTime(5), false)); // ModifiedOn
-                objItem.BackColor = CheckTxDate(reader.GetDateTime(3)) ? Color.Transparent : RT2020.SystemInfo.ControlBackColor.DisabledBox;
+                objItem.SubItems.Add(DateTimeHelper.DateTimeToString(reader.GetDateTime(3), false)); // TxDate
+                objItem.SubItems.Add(DateTimeHelper.DateTimeToString(reader.GetDateTime(5), false)); // ModifiedOn
+                objItem.BackColor = CheckTxDate(reader.GetDateTime(3)) ? Color.Transparent : SystemInfoHelper.ControlBackColor.DisabledBox;
             }
 
             reader.Close();
@@ -486,8 +487,8 @@ namespace RT2020.EmulatedPoS
         {
             bool isChecked = false;
 
-            isChecked = (txDate.Year.ToString() == RT2020.SystemInfo.CurrentInfo.Default.CurrentSystemYear);
-            isChecked = isChecked & (txDate.Month.ToString().PadLeft(2, '0') == RT2020.SystemInfo.CurrentInfo.Default.CurrentSystemMonth);
+            isChecked = (txDate.Year.ToString() == SystemInfoEx.CurrentInfo.Default.CurrentSystemYear);
+            isChecked = isChecked & (txDate.Month.ToString().PadLeft(2, '0') == SystemInfoEx.CurrentInfo.Default.CurrentSystemMonth);
 
             return isChecked;
         }
@@ -1467,7 +1468,7 @@ namespace RT2020.EmulatedPoS
         {
             if (e.NewValue == CheckState.Checked)
             {
-                lvPostTransaction.Items[e.Index].Checked = !(lvPostTransaction.Items[e.Index].BackColor == RT2020.SystemInfo.ControlBackColor.DisabledBox);
+                lvPostTransaction.Items[e.Index].Checked = !(lvPostTransaction.Items[e.Index].BackColor == SystemInfoHelper.ControlBackColor.DisabledBox);
             }
         }
 

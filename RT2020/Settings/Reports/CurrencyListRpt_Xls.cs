@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Collections;
 using System.ComponentModel;
 using DevExpress.XtraReports.UI;
+using RT2020.Helper;
 
 namespace RT2020.Settings.Reports
 {
@@ -22,11 +23,11 @@ namespace RT2020.Settings.Reports
             this.CURR1.DataBindings.Add("Text", DataSource, "CurrencyCode");
             this.txtCountry.DataBindings.Add("Text", DataSource, "CountryName");
             this.DESC1.DataBindings.Add("Text", DataSource, "CurrencyName");   
-            this.DATECREATE1.DataBindings.Add("Text", DataSource, "CreatedOn", "{0:" + RT2020.SystemInfo.Settings.GetDateFormat() + "}");
-            this.DATELCHG1.DataBindings.Add("Text", DataSource, "ModifiedOn", "{0:" + RT2020.SystemInfo.Settings.GetDateFormat() + "}");
+            this.DATECREATE1.DataBindings.Add("Text", DataSource, "CreatedOn", "{0:" + DateTimeHelper.GetDateFormat() + "}");
+            this.DATELCHG1.DataBindings.Add("Text", DataSource, "ModifiedOn", "{0:" + DateTimeHelper.GetDateFormat() + "}");
             this.USERLCHG1.DataBindings.Add("Text", DataSource, "ModifiedBy");
             this.XCHGRATE1.DataBindings.Add("Text", DataSource, "ExchangeRate", "{0:n4}");
-            this.PrintDate1.Text = RT2020.SystemInfo.Settings.DateTimeToString(DateTime.Now, true);
+            this.PrintDate1.Text = DateTimeHelper.DateTimeToString(DateTime.Now, true);
         }
 
 

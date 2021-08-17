@@ -365,7 +365,7 @@ namespace RT2020.Product
                 RT2020.Controls.Log4net.LogInfo(RT2020.Controls.Log4net.LogAction.Create, item.ToString());
 
                 this.AnalysisCodeId = item.AnalysisCodeId;
-                RT2020.SystemInfo.Settings.RefreshMainList<AnalysisCodeList>();
+                SystemInfoHelper.Settings.RefreshMainList<AnalysisCodeList>();
 
                 result = true;
             }

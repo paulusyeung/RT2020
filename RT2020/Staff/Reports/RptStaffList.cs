@@ -15,6 +15,7 @@ using Gizmox.WebGUI.Common.Interfaces;
 using System.Web;
 using System.Configuration;
 using RT2020.Helper;
+using RT2020.ModelEx;
 #endregion
 
 namespace RT2020.Staff.Reports
@@ -83,9 +84,9 @@ namespace RT2020.Staff.Reports
                 string[,] param = {
             {"FromStaffCode",this.cmbFrmStaffCode.Text.Trim().Substring(0,4)},
             {"ToStaffCode",this.cmbToStaffCode.Text.Trim().Substring(0,4)},
-            {"PrintedOn",DateTime.Now.ToString(RT2020.SystemInfo.Settings.GetDateTimeFormat())},
-            {"DateFormat",RT2020.SystemInfo.Settings.GetDateTimeFormat()},
-            {"CompanyName",RT2020.SystemInfo.CurrentInfo.Default.CompanyName}
+            {"PrintedOn",DateTime.Now.ToString(DateTimeHelper.GetDateTimeFormat())},
+            {"DateFormat",DateTimeHelper.GetDateTimeFormat()},
+            {"CompanyName",SystemInfoEx.CurrentInfo.Default.CompanyName}
             };
 
                 RT2020.Controls.Reporting.Viewer view = new RT2020.Controls.Reporting.Viewer();

@@ -16,6 +16,7 @@ using System.Web;
 using System.Data.Common;
 using System.Configuration;
 using RT2020.Helper;
+using RT2020.ModelEx;
 
 
 #endregion
@@ -85,8 +86,8 @@ namespace RT2020.Supplier.Reports
                 string[,] param = {
             {"FromSupplierList",this.cmbFrom.Text.Trim()},
             {"ToSupplierList",this.cmbTo.Text.Trim()},
-            {"PrintedOn",DateTime.Now.ToString(RT2020.SystemInfo.Settings.GetDateTimeFormat())},
-            {"CompanyName",RT2020.SystemInfo.CurrentInfo.Default.CompanyName}
+            {"PrintedOn",DateTime.Now.ToString(DateTimeHelper.GetDateTimeFormat())},
+            {"CompanyName",SystemInfoEx.CurrentInfo.Default.CompanyName}
             };
 
                 RT2020.Controls.Reporting.Viewer view = new RT2020.Controls.Reporting.Viewer();

@@ -38,8 +38,8 @@ namespace RT2020.Inventory.Olap
                     this.txtFromDate.Text = parameterTable["FromMonth"].ToString();
                     this.txtToDate.Text = parameterTable["ToMonth"].ToString();
 
-                    //string currentYear = RT2020.SystemInfo.CurrentInfo.Default.CurrentSystemYear;
-                    //string currentMonth = (int.Parse(RT2020.SystemInfo.CurrentInfo.Default.CurrentSystemMonth) - 1).ToString("00");
+                    //string currentYear = SystemInfoEx.CurrentInfo.Default.CurrentSystemYear;
+                    //string currentMonth = (int.Parse(SystemInfoEx.CurrentInfo.Default.CurrentSystemMonth) - 1).ToString("00");
 
                     //this.txtFromDate.Text = currentYear + currentMonth;
                     //this.txtToDate.Text = currentYear + currentMonth;
@@ -59,7 +59,7 @@ namespace RT2020.Inventory.Olap
         /// <returns></returns>
         private string SetFieldsName(string key)
         {
-            return RT2020.SystemInfo.Settings.GetSystemLabelByKey(key);
+            return SystemInfoHelper.Settings.GetSystemLabelByKey(key);
         }
 
         /// <summary>

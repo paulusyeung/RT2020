@@ -16,6 +16,7 @@ using System.Configuration;
 using System.Linq;
 using System.Data.Entity;
 using RT2020.Helper;
+using RT2020.ModelEx;
 #endregion
 
 namespace RT2020.Purchasing.Reports.Receiving
@@ -293,15 +294,15 @@ ORDER BY " + orderlist + "";
                 reportName = "RT2020.Purchasing.Reports.Receiving.Reports.WeeklyExpectedReceivingSummary_MondayRdl.rdlc";
             }
             string[,] param ={
-            {"DateBegin",this.dtDateFrom.Value.ToString(RT2020.SystemInfo.Settings.GetDateFormat())},
-            {"DateEnd",this.dtDateTo.Value.ToString(RT2020.SystemInfo.Settings.GetDateFormat())},
+            {"DateBegin",this.dtDateFrom.Value.ToString(DateTimeHelper.GetDateFormat())},
+            {"DateEnd",this.dtDateTo.Value.ToString(DateTimeHelper.GetDateFormat())},
             {"SupplierCodeFrom",this.cboSupplierFrom.Text.Trim()},
             {"SupplierCodeTo",this.cboSupplierTo.Text.Trim()},
             {"STKCODEFrom",this.cboStockCodeFrom.Text.Trim()},
             {"STKCODETo",this.cboStockCodeTo.Text.Trim()},
             {"StartOn",StartOn.ToString()},
             {"SelectedWorkplaceCode",this.SelectedWorkplaceList().ToString().Trim(',')},
-            {"CompanyName",RT2020.SystemInfo.CurrentInfo.Default.CompanyName}
+            {"CompanyName",SystemInfoEx.CurrentInfo.Default.CompanyName}
             };
 
             RT2020.Controls.Reporting.Viewer viewer = new RT2020.Controls.Reporting.Viewer();

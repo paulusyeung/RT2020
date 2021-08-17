@@ -40,7 +40,7 @@ namespace RT2020.Purchasing.Wizard
         /// </summary>
         private void InitComboBox()
         {
-            this.txtPostedOn.Text = RT2020.SystemInfo.Settings.DateTimeToString(DateTime.Now, true);
+            this.txtPostedOn.Text = DateTimeHelper.DateTimeToString(DateTime.Now, true);
             this.txtSysMonth.Text = DateTime.Now.Month.ToString().PadLeft(2, '0');
             this.txtSysYear.Text = DateTime.Now.Year.ToString();
 
@@ -364,8 +364,8 @@ namespace RT2020.Purchasing.Wizard
                 objItem.SubItems.Add(reader.GetString(2)); //// OrderNumber
                 objItem.SubItems.Add(orderType); //// Type
                 objItem.SubItems.Add(reader.GetString(4)); //// Location
-                objItem.SubItems.Add(RT2020.SystemInfo.Settings.DateTimeToString(reader.GetDateTime(3), false)); //// OrderDate
-                objItem.SubItems.Add(RT2020.SystemInfo.Settings.DateTimeToString(reader.GetDateTime(7), false)); //// LastUpdate
+                objItem.SubItems.Add(DateTimeHelper.DateTimeToString(reader.GetDateTime(3), false)); //// OrderDate
+                objItem.SubItems.Add(DateTimeHelper.DateTimeToString(reader.GetDateTime(7), false)); //// LastUpdate
 
                 iCount++;
             }
@@ -408,8 +408,8 @@ namespace RT2020.Purchasing.Wizard
                 objItem.SubItems.Add(reader.GetString(2)); // OrderNumber
                 objItem.SubItems.Add(orderType); // Type
                 objItem.SubItems.Add(reader.GetString(4)); // Location
-                objItem.SubItems.Add(RT2020.SystemInfo.Settings.DateTimeToString(reader.GetDateTime(3), false)); // OrderDate
-                objItem.SubItems.Add(RT2020.SystemInfo.Settings.DateTimeToString(reader.GetDateTime(7), false)); // LastUpdate
+                objItem.SubItems.Add(DateTimeHelper.DateTimeToString(reader.GetDateTime(3), false)); // OrderDate
+                objItem.SubItems.Add(DateTimeHelper.DateTimeToString(reader.GetDateTime(7), false)); // LastUpdate
 
                 iCount++;
             }

@@ -17,6 +17,7 @@ using FileHelpers.MasterDetail;
 
 
 using RT2020.Helper;
+using RT2020.ModelEx;
 
 namespace RT2020.Inventory.Transfer.Reports
 {
@@ -30,7 +31,7 @@ namespace RT2020.Inventory.Transfer.Reports
             InitializeComponent();
             FillComboList();
 
-            dtpTxDateFrom.Value = Convert.ToDateTime(RT2020.SystemInfo.CurrentInfo.Default.CurrentSystemDate.ToString("yyyy-MM-01"));
+            dtpTxDateFrom.Value = Convert.ToDateTime(SystemInfoEx.CurrentInfo.Default.CurrentSystemDate.ToString("yyyy-MM-01"));
             dtpTxDateTo.Value = DateTime.Now;
         }
 
@@ -173,16 +174,16 @@ namespace RT2020.Inventory.Transfer.Reports
                 string[,] param = {
                     {"FromToTxNumber",this.cboFrom.Text.Trim()},
                     {"ToTxNumber",this.cboTo.Text.Trim()},
-                    {"FromTxDate",this.dtpTxDateFrom.Value.ToString(RT2020.SystemInfo.Settings.GetDateFormat())},
-                    {"ToTxDate",this.dtpTxDateTo.Value.ToString(RT2020.SystemInfo.Settings.GetDateFormat())},
+                    {"FromTxDate",this.dtpTxDateFrom.Value.ToString(DateTimeHelper.GetDateFormat())},
+                    {"ToTxDate",this.dtpTxDateTo.Value.ToString(DateTimeHelper.GetDateFormat())},
                     {"PrintedBy",ModelEx.StaffEx.GetStaffNameById(ConfigHelper.CurrentUserId) },
-                    {"PrintedOn",DateTime.Now.ToString(RT2020.SystemInfo.Settings.GetDateFormat())},
-                    {"DateFormat",RT2020.SystemInfo.Settings.GetDateFormat()},
-                    {"CompanyName",RT2020.SystemInfo.CurrentInfo.Default.CompanyName},
-                    { "StockCode", RT2020.SystemInfo.Settings.GetSystemLabelByKey("STKCODE") },
-                    { "Appendix1", RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX1") },
-                    { "Appendix2", RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX2") },
-                    { "Appendix3", RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX3") }
+                    {"PrintedOn",DateTime.Now.ToString(DateTimeHelper.GetDateFormat())},
+                    {"DateFormat",DateTimeHelper.GetDateFormat()},
+                    {"CompanyName",SystemInfoEx.CurrentInfo.Default.CompanyName},
+                    { "StockCode", SystemInfoHelper.Settings.GetSystemLabelByKey("STKCODE") },
+                    { "Appendix1", SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX1") },
+                    { "Appendix2", SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX2") },
+                    { "Appendix3", SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX3") }
                 };
 
                 viewer.Datasource = BindData();

@@ -16,10 +16,11 @@ namespace RT2020.Purchasing.Reports.Receiving
     using Gizmox.WebGUI.Common.Interfaces;
     using Gizmox.WebGUI.Forms;
 
-    
+
     using System.Linq;
     using System.Data.Entity;
     using Helper;
+    using ModelEx;
 
     /// <summary>
     /// Discrepancy class
@@ -163,18 +164,18 @@ namespace RT2020.Purchasing.Reports.Receiving
             {
                 { "FromTxNumber", this.cboFrom.Text.Trim() },
                 { "ToTxNumber", this.cboTo.Text.Trim() },
-                { "FromDate", this.dtpDateFrom.Value.ToString(RT2020.SystemInfo.Settings.GetDateFormat()) },
-                { "ToDate", this.dtpDateTo.Value.ToString(RT2020.SystemInfo.Settings.GetDateFormat()) },
+                { "FromDate", this.dtpDateFrom.Value.ToString(DateTimeHelper.GetDateFormat()) },
+                { "ToDate", this.dtpDateTo.Value.ToString(DateTimeHelper.GetDateFormat()) },
                 { "FromLOC", this.cboLocFrom.Text.Trim() },
                 { "ToLOC", this.cboLocTo.Text.Trim() },
-                { "PrintedOn", DateTime.Now.ToString(RT2020.SystemInfo.Settings.GetDateTimeFormat()) },
-                { "PrintedOn", DateTime.Now.ToString(RT2020.SystemInfo.Settings.GetDateTimeFormat()) },
-                { "STKCODE", RT2020.SystemInfo.Settings.GetSystemLabelByKey("STKCODE") },
-                { "Appendix1", RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX1") },
-                { "Appendix2", RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX2") },
-                { "Appendix3", RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX3") },
-                { "Company", RT2020.SystemInfo.Settings.GetSystemLabelByKey("Company") }, ////test
-                { "DateFormat", RT2020.SystemInfo.Settings.GetDateFormat() }
+                { "PrintedOn", DateTime.Now.ToString(DateTimeHelper.GetDateTimeFormat()) },
+                { "PrintedOn", DateTime.Now.ToString(DateTimeHelper.GetDateTimeFormat()) },
+                { "STKCODE", SystemInfoHelper.Settings.GetSystemLabelByKey("STKCODE") },
+                { "Appendix1", SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX1") },
+                { "Appendix2", SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX2") },
+                { "Appendix3", SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX3") },
+                { "Company", SystemInfoHelper.Settings.GetSystemLabelByKey("Company") }, ////test
+                { "DateFormat", DateTimeHelper.GetDateFormat() }
              };
 
             RT2020.Controls.Reporting.RdlExport rdlExport = new RT2020.Controls.Reporting.RdlExport();
@@ -196,17 +197,17 @@ namespace RT2020.Purchasing.Reports.Receiving
             {
                 { "FromTxNumber", this.cboFrom.Text.Trim() },
                 { "ToTxNumber", this.cboTo.Text.Trim() },
-                { "FromDate", this.dtpDateFrom.Value.ToString(RT2020.SystemInfo.Settings.GetDateFormat()) },
-                { "ToDate", this.dtpDateTo.Value.ToString(RT2020.SystemInfo.Settings.GetDateFormat()) },
+                { "FromDate", this.dtpDateFrom.Value.ToString(DateTimeHelper.GetDateFormat()) },
+                { "ToDate", this.dtpDateTo.Value.ToString(DateTimeHelper.GetDateFormat()) },
                 { "FromLOC", this.cboLocFrom.Text.Trim() },
                 { "ToLOC", this.cboLocTo.Text.Trim() },
-                { "PrintedOn", DateTime.Now.ToString(RT2020.SystemInfo.Settings.GetDateTimeFormat()) },
-                { "STKCODE", RT2020.SystemInfo.Settings.GetSystemLabelByKey("STKCODE") },
-                { "Appendix1", RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX1") },
-                { "Appendix2", RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX2") },
-                { "Appendix3", RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX3") },
-                { "Company", RT2020.SystemInfo.Settings.GetSystemLabelByKey("Company") }, ////test
-                { "DateFormat", RT2020.SystemInfo.Settings.GetDateFormat() }
+                { "PrintedOn", DateTime.Now.ToString(DateTimeHelper.GetDateTimeFormat()) },
+                { "STKCODE", SystemInfoHelper.Settings.GetSystemLabelByKey("STKCODE") },
+                { "Appendix1", SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX1") },
+                { "Appendix2", SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX2") },
+                { "Appendix3", SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX3") },
+                { "Company", SystemInfoHelper.Settings.GetSystemLabelByKey("Company") }, ////test
+                { "DateFormat", DateTimeHelper.GetDateFormat() }
             };
 
             RT2020.Controls.Reporting.RdlExport rdlExport = new RT2020.Controls.Reporting.RdlExport();
@@ -318,17 +319,17 @@ WHERE	TxNumber BETWEEN '" + this.cboFrom.Text.Trim() + @"' AND '" + this.cboTo.T
                 {
                     { "FromTxNumber", this.cboFrom.Text.Trim() },
                     { "ToTxNumber", this.cboTo.Text.Trim() },
-                    { "FromDate", this.dtpDateFrom.Value.ToString(RT2020.SystemInfo.Settings.GetDateFormat()) },
-                    { "ToDate", this.dtpDateTo.Value.ToString(RT2020.SystemInfo.Settings.GetDateFormat()) },
+                    { "FromDate", this.dtpDateFrom.Value.ToString(DateTimeHelper.GetDateFormat()) },
+                    { "ToDate", this.dtpDateTo.Value.ToString(DateTimeHelper.GetDateFormat()) },
                     { "FromLOC", this.cboLocFrom.Text.Trim() },
                     { "ToLOC", this.cboLocTo.Text.Trim() },
-                    { "PrintedOn", DateTime.Now.ToString(RT2020.SystemInfo.Settings.GetDateTimeFormat()) },
-                    { "STKCODE", RT2020.SystemInfo.Settings.GetSystemLabelByKey("STKCODE") },
-                    { "Appendix1", RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX1") },
-                    { "Appendix2", RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX2") },
-                    { "Appendix3", RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX3") },
-                    { "Company", RT2020.SystemInfo.CurrentInfo.Default.CompanyName }, 
-                    { "DateFormat", RT2020.SystemInfo.Settings.GetDateFormat() }
+                    { "PrintedOn", DateTime.Now.ToString(DateTimeHelper.GetDateTimeFormat()) },
+                    { "STKCODE", SystemInfoHelper.Settings.GetSystemLabelByKey("STKCODE") },
+                    { "Appendix1", SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX1") },
+                    { "Appendix2", SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX2") },
+                    { "Appendix3", SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX3") },
+                    { "Company", SystemInfoEx.CurrentInfo.Default.CompanyName }, 
+                    { "DateFormat", DateTimeHelper.GetDateFormat() }
                 };
 
                 RT2020.Controls.Reporting.Viewer rptViewer = new RT2020.Controls.Reporting.Viewer();

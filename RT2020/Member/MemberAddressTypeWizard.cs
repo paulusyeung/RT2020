@@ -202,7 +202,7 @@ namespace RT2020.Member
         #region MemberAddressType Code
         private void SetCtrlEditable()
         {
-            txtAddressTypeCode.BackColor = (_AddressTypeId == System.Guid.Empty) ? SystemInfo.ControlBackColor.RequiredBox : SystemInfo.ControlBackColor.DisabledBox;
+            txtAddressTypeCode.BackColor = (_AddressTypeId == System.Guid.Empty) ? SystemInfoHelper.ControlBackColor.RequiredBox : SystemInfoHelper.ControlBackColor.DisabledBox;
             txtAddressTypeCode.ReadOnly = (_AddressTypeId != System.Guid.Empty);
 
             ClearError();

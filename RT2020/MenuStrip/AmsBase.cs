@@ -174,7 +174,7 @@ namespace RT2020.MenuStrip
 
                                 if (keyWords.Exists(key => key == node.Attributes["Caption"].Value))
                                 {
-                                    oNode.Text = RT2020.SystemInfo.Settings.GetSystemLabelByKey(node.Attributes["Caption"].Value);
+                                    oNode.Text = SystemInfoHelper.Settings.GetSystemLabelByKey(node.Attributes["Caption"].Value);
                                 }
                                 else
                                 {

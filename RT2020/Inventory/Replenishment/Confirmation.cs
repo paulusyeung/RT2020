@@ -59,12 +59,12 @@ namespace RT2020.Inventory.Replenishment
                     objItem.SubItems.Add(string.Empty);
                     objItem.SubItems.Add(iCount.ToString()); // Line Number
                     objItem.SubItems.Add(reader.GetString(1)); // TxNumber
-                    objItem.SubItems.Add(RT2020.SystemInfo.Settings.DateTimeToString(reader.GetDateTime(2), false)); // TxDate
-                    objItem.SubItems.Add(RT2020.SystemInfo.Settings.DateTimeToString(reader.GetDateTime(2), false)); // TxferDate
+                    objItem.SubItems.Add(DateTimeHelper.DateTimeToString(reader.GetDateTime(2), false)); // TxDate
+                    objItem.SubItems.Add(DateTimeHelper.DateTimeToString(reader.GetDateTime(2), false)); // TxferDate
                     objItem.SubItems.Add(string.Empty); // CompletedDate
                     objItem.SubItems.Add(reader.GetString(4)); // From Location
                     objItem.SubItems.Add(reader.GetString(5)); // To Location
-                    objItem.SubItems.Add(RT2020.SystemInfo.Settings.DateTimeToString(reader.GetDateTime(13), false) + " " + ModelEx.StaffEx.GetStaffNumberById(reader.GetGuid(14))); // Last Update
+                    objItem.SubItems.Add(DateTimeHelper.DateTimeToString(reader.GetDateTime(13), false) + " " + ModelEx.StaffEx.GetStaffNumberById(reader.GetGuid(14))); // Last Update
 
                     iCount++;
                 }

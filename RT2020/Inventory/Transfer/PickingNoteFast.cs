@@ -14,6 +14,7 @@ using DevExpress.Web;
 using Gizmox.WebGUI.Common.Resources;
 using System.Linq;
 using RT2020.Helper;
+using RT2020.ModelEx;
 
 #endregion
 
@@ -36,9 +37,9 @@ namespace RT2020.Inventory.Transfer
             dgvToLocation.RowHeadersVisible = false;
             dataGridViewTextBoxColumn2.Width = 50;
 
-            dtpTxDate.Value = Convert.ToDateTime(RT2020.SystemInfo.CurrentInfo.Default.CurrentSystemDate.ToString("yyyy-MM-" + DateTime.Now.ToString("dd")));
-            dtpTxferDate.Value = Convert.ToDateTime(RT2020.SystemInfo.CurrentInfo.Default.CurrentSystemDate.ToString("yyyy-MM-" + DateTime.Now.ToString("dd")));
-            dtpCompDate.Value = Convert.ToDateTime(RT2020.SystemInfo.CurrentInfo.Default.CurrentSystemDate.ToString("yyyy-MM-" + DateTime.Now.ToString("dd")));
+            dtpTxDate.Value = Convert.ToDateTime(SystemInfoEx.CurrentInfo.Default.CurrentSystemDate.ToString("yyyy-MM-" + DateTime.Now.ToString("dd")));
+            dtpTxferDate.Value = Convert.ToDateTime(SystemInfoEx.CurrentInfo.Default.CurrentSystemDate.ToString("yyyy-MM-" + DateTime.Now.ToString("dd")));
+            dtpCompDate.Value = Convert.ToDateTime(SystemInfoEx.CurrentInfo.Default.CurrentSystemDate.ToString("yyyy-MM-" + DateTime.Now.ToString("dd")));
         }
 
         #region Fill Combo List
@@ -198,7 +199,7 @@ namespace RT2020.Inventory.Transfer
 
                                 var oHeader = new EF6.InvtBatchTXF_Header();
                                 oHeader.HeaderId = Guid.NewGuid();
-                                oHeader.TxNumber = RT2020.SystemInfo.Settings.QueuingTxNumber(EnumHelper.TxType.PNQ);
+                                oHeader.TxNumber = SystemInfoHelper.Settings.QueuingTxNumber(EnumHelper.TxType.PNQ);
                                 oHeader.TxType = EnumHelper.TxType.PNQ.ToString();
                                 oHeader.TxDate = dtpTxDate.Value;
 
@@ -245,7 +246,7 @@ namespace RT2020.Inventory.Transfer
             System.Guid headerId = System.Guid.Empty;
             InvtBatchTXF_Header oHeader = new InvtBatchTXF_Header();
 
-            oHeader.TxNumber = RT2020.SystemInfo.Settings.QueuingTxNumber(EnumHelper.TxType.PNQ);
+            oHeader.TxNumber = SystemInfoHelper.Settings.QueuingTxNumber(EnumHelper.TxType.PNQ);
             oHeader.TxType = EnumHelper.TxType.PNQ.ToString();
             oHeader.TxDate = dtpTxDate.Value;
 
@@ -380,7 +381,7 @@ namespace RT2020.Inventory.Transfer
 
                 if (result > 0)
                 {
-                    RT2020.SystemInfo.Settings.RefreshMainList<Default>();
+                    SystemInfoHelper.Settings.RefreshMainList<Default>();
                     MessageBox.Show("Result : Successfully generated " + result.ToString() + " picking note(s)", "Success!");
 
                     //this.Close();

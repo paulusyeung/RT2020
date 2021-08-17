@@ -653,7 +653,7 @@ namespace RT2020.Inventory.Transfer
                     cboToLocation.SelectedValue = oBatchHeader.ToLocation;
                     dtpTxDate.Value = oBatchHeader.TxDate.Value;
 
-                    txtLatestConfirmedOn.Text = RT2020.SystemInfo.Settings.DateTimeToString(oBatchHeader.CONFIRM_TRF_LASTUPDATE.Value, false);
+                    txtLatestConfirmedOn.Text = DateTimeHelper.DateTimeToString(oBatchHeader.CONFIRM_TRF_LASTUPDATE.Value, false);
                     txtLatestConfirmedBy.Text = ModelEx.StaffEx.GetStaffNumberById(oBatchHeader.CONFIRM_TRF_LASTUSER.Value);
 
                     txtRecordStatus.Text = string.Format(txtRecordStatus.Text, oBatchHeader.TxType);
@@ -673,7 +673,7 @@ namespace RT2020.Inventory.Transfer
                         cboToLocation.SelectedValue = oLedgerHeader.VsLocationId;
                         dtpTxDate.Value = oLedgerHeader.TxDate.Value;
 
-                        txtLatestConfirmedOn.Text = RT2020.SystemInfo.Settings.DateTimeToString(oLedgerHeader.CONFIRM_TRF_LASTUPDATE.Value, false);
+                        txtLatestConfirmedOn.Text = DateTimeHelper.DateTimeToString(oLedgerHeader.CONFIRM_TRF_LASTUPDATE.Value, false);
                         txtLatestConfirmedBy.Text = oLedgerHeader.CONFIRM_TRF_LASTUSER;
 
                         txtRecordStatus.Text = string.Format(txtRecordStatus.Text, oLedgerHeader.TxType);
@@ -691,7 +691,7 @@ namespace RT2020.Inventory.Transfer
                         cboToLocation.SelectedValue = ModelEx.WorkplaceEx.GetWorkplaceIdByCode(oFepHeader.FTSHOP);
                         dtpTxDate.Value = oFepHeader.TxDate.Value;
 
-                        txtLatestConfirmedOn.Text = RT2020.SystemInfo.Settings.DateTimeToString(oFepHeader.CONFIRM_TRF_LASTUPDATE.Value, false);
+                        txtLatestConfirmedOn.Text = DateTimeHelper.DateTimeToString(oFepHeader.CONFIRM_TRF_LASTUPDATE.Value, false);
                         txtLatestConfirmedBy.Text = oFepHeader.CONFIRM_TRF_LASTUSER;
 
                         txtRecordStatus.Text = string.Format(txtRecordStatus.Text, oFepHeader.TxType);
@@ -716,7 +716,7 @@ namespace RT2020.Inventory.Transfer
                 cboToLocation.SelectedValue = oHeader.VsLocationId;
                 dtpTxDate.Value = oHeader.TxDate;
 
-                txtLatestConfirmedOn.Text = RT2020.SystemInfo.Settings.DateTimeToString(oHeader.CONFIRM_TRF_LASTUPDATE, false);
+                txtLatestConfirmedOn.Text = DateTimeHelper.DateTimeToString(oHeader.CONFIRM_TRF_LASTUPDATE, false);
                 txtLatestConfirmedBy.Text = oHeader.CONFIRM_TRF_LASTUSER;
 
                 txtRecordStatus.Text = string.Format(txtRecordStatus.Text, oHeader.TxType);
@@ -735,7 +735,7 @@ namespace RT2020.Inventory.Transfer
                 cboToLocation.SelectedValue = ModelEx.WorkplaceEx.GetWorkplaceIdByCode(oHeader.FTSHOP);
                 dtpTxDate.Value = oHeader.TxDate;
 
-                txtLatestConfirmedOn.Text = RT2020.SystemInfo.Settings.DateTimeToString(oHeader.CONFIRM_TRF_LASTUPDATE, false);
+                txtLatestConfirmedOn.Text = DateTimeHelper.DateTimeToString(oHeader.CONFIRM_TRF_LASTUPDATE, false);
                 txtLatestConfirmedBy.Text = oHeader.CONFIRM_TRF_LASTUSER;
 
                 txtRecordStatus.Text = string.Format(txtRecordStatus.Text, oHeader.TxType);

@@ -44,8 +44,8 @@ namespace RT2020.Settings
 
         private void SetAttributes()
         {
-            this.txtStaffNumber.BackColor = SystemInfo.ControlBackColor.DisabledBox;
-            this.txtFullName.BackColor = SystemInfo.ControlBackColor.DisabledBox;
+            this.txtStaffNumber.BackColor = SystemInfoHelper.ControlBackColor.DisabledBox;
+            this.txtFullName.BackColor = SystemInfoHelper.ControlBackColor.DisabledBox;
         }
 
         private void FillGradeList()

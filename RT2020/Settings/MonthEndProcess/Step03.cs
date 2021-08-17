@@ -6,6 +6,7 @@ using System.Text;
 using System.Data.SqlClient;
 using System.Configuration;
 using RT2020.Controls;
+using RT2020.ModelEx;
 
 namespace RT2020.Settings.MonthEndProcess
 {
@@ -35,7 +36,7 @@ namespace RT2020.Settings.MonthEndProcess
                 {
                     try
                     {
-                        DateTime currMonth = SystemInfo.CurrentInfo.Default.CurrentSystemDate;
+                        DateTime currMonth = SystemInfoEx.CurrentInfo.Default.CurrentSystemDate;
                         string whereClause = "TxDate >= CAST('" + currMonth.AddMonths(-1).ToString("yyyy-MM-dd 00:00:00") + "' AS DATETIME) AND TxDate < CAST('" + currMonth.ToString("yyyy-MM-dd 00:00:00") + "' AS DATETIME)";
 
                         var oHeaderList = ctx.InvtLedgerHeader.SqlQuery(

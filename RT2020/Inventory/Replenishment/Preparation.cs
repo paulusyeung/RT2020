@@ -305,7 +305,7 @@ namespace RT2020.Inventory.Replenishment
                     {
                         #region single item
                         DateTime txDate = DateTime.Now;
-                        string txNumber = RT2020.SystemInfo.Settings.QueuingTxNumber(EnumHelper.TxType.RPL);
+                        string txNumber = SystemInfoHelper.Settings.QueuingTxNumber(EnumHelper.TxType.RPL);
                         #region Guid headerId = CreateRPLHeader(txNumber, txDate, cboFromWorkplace.Text, cboToWorkplace.Text, sRemarks);
                         string fromLocation = cboFromWorkplace.Text, toLocation = cboToWorkplace.Text;
 
@@ -441,7 +441,7 @@ namespace RT2020.Inventory.Replenishment
                             if (listItem.Checked)
                             {
                                 DateTime txDate = DateTime.Now;
-                                string txNumber = RT2020.SystemInfo.Settings.QueuingTxNumber(EnumHelper.TxType.RPL);
+                                string txNumber = SystemInfoHelper.Settings.QueuingTxNumber(EnumHelper.TxType.RPL);
                                 #region Guid headerId = CreateRPLHeader(txNumber, txDate, cboFromWorkplace.Text, listItem.SubItems[2].Text, sRemarks);
                                 string fromLocation = cboFromWorkplace.Text, toLocation = cboToWorkplace.Text;
 
@@ -807,7 +807,7 @@ namespace RT2020.Inventory.Replenishment
                     int result = SaveRec();
                     if (result > 0)
                     {
-                        RT2020.SystemInfo.Settings.RefreshMainList<Default>();
+                        SystemInfoHelper.Settings.RefreshMainList<Default>();
                         MessageBox.Show(result.ToString() + " succeed!", "Preparation result", MessageBoxButtons.OK, new EventHandler(PreparationMessageHandler));
                     }
                     else

@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Collections;
 using System.ComponentModel;
 using DevExpress.XtraReports.UI;
+using RT2020.Helper;
 
 namespace RT2020.Staff.Reports
 {
@@ -25,17 +26,17 @@ namespace RT2020.Staff.Reports
             //this.INITIAL1.DataBindings.Add("Text", DataSource, "WorkplaceInitial");
             //this.INITIAL2.DataBindings.Add("Text",DataSource,"WorkplaceInitial");
             this.ADDRESS.DataBindings.Add("Text", DataSource, "Address");
-            this.DATECREATE1.DataBindings.Add("Text", DataSource, "CreatedOn", "{0:" + RT2020.SystemInfo.Settings.GetDateFormat() + "}");
-            this.DATELCHG1.DataBindings.Add("Text", DataSource, "ModifiedOn", "{0:" + RT2020.SystemInfo.Settings.GetDateFormat() + "}");
+            this.DATECREATE1.DataBindings.Add("Text", DataSource, "CreatedOn", "{0:" + DateTimeHelper.GetDateFormat() + "}");
+            this.DATELCHG1.DataBindings.Add("Text", DataSource, "ModifiedOn", "{0:" + DateTimeHelper.GetDateFormat() + "}");
             this.USERLCHG1.DataBindings.Add("Text", DataSource, "ModifiedBy");
             this.TEL1.DataBindings.Add("Text", DataSource, "Phone");
             this.DEPTNO1.DataBindings.Add("Text", DataSource, "DeptCode");
             this.GRADE1.DataBindings.Add("Text", DataSource, "GradeName");
             this.STATUS1.DataBindings.Add("Text", DataSource, "Status");
             this.POST1.DataBindings.Add("Text", DataSource, "PostalCode");
-            this.BIRTHDAY1.DataBindings.Add("Text", DataSource, "Birthdate", "{0:" + RT2020.SystemInfo.Settings.GetDateFormat() + "}");
+            this.BIRTHDAY1.DataBindings.Add("Text", DataSource, "Birthdate", "{0:" + DateTimeHelper.GetDateFormat() + "}");
             this.IDNO1.DataBindings.Add("Text", DataSource, "IdNo");
-            this.PrintDate1.Text = RT2020.SystemInfo.Settings.DateTimeToString(System.DateTime.Now, true);
+            this.PrintDate1.Text = DateTimeHelper.DateTimeToString(System.DateTime.Now, true);
         }
 
         #region Attribute

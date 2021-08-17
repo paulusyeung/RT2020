@@ -8,6 +8,7 @@ using System.Data.SqlClient;
 using System.Configuration;
 using RT2020.Controls;
 using RT2020.Helper;
+using RT2020.ModelEx;
 
 namespace RT2020.Settings.MonthEndProcess
 {
@@ -160,7 +161,7 @@ CREATE TABLE [dbo].[TempTableForMonthEndWithQty](
 
         private void CopyCurrentSummary()
         {
-            DateTime currSystemMonth = SystemInfo.CurrentInfo.Default.CurrentSystemDate;
+            DateTime currSystemMonth = SystemInfoEx.CurrentInfo.Default.CurrentSystemDate;
 
             UpdatedProgress(this, new ProgressUpdateEventArgs("Step04 - Delete Data from [MonthEndSummary].", 21, 100));
             // Delete Data

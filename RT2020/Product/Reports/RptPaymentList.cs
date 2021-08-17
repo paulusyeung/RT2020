@@ -19,6 +19,7 @@ using System.Configuration;
 using System.Linq;
 using System.Data.Entity;
 using RT2020.Helper;
+using RT2020.ModelEx;
 
 #endregion
 
@@ -172,8 +173,8 @@ namespace RT2020.Product.Reports
             string[,] param = {
             {"FromPayment",this.cmbFrom.Text.Trim()},
             {"ToPayment",this.cmbTo.Text.Trim()},
-            {"PrintedOn",DateTime.Now.ToString(RT2020.SystemInfo.Settings.GetDateTimeFormat())},
-            {"CompanyName",RT2020.SystemInfo.CurrentInfo.Default.CompanyName}
+            {"PrintedOn",DateTime.Now.ToString(DateTimeHelper.GetDateTimeFormat())},
+            {"CompanyName",SystemInfoEx.CurrentInfo.Default.CompanyName}
             };
 
             RT2020.Controls.Reporting.Viewer view = new RT2020.Controls.Reporting.Viewer();

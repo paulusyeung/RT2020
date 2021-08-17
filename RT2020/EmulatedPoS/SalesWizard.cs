@@ -18,6 +18,7 @@ using Gizmox.WebGUI.Common.Interfaces;
 
 using RT2020.Controls;
 using RT2020.Helper;
+using RT2020.ModelEx;
 #endregion
 
 namespace RT2020.EmulatedPoS
@@ -317,19 +318,19 @@ namespace RT2020.EmulatedPoS
                 title = "Sales Return Worksheet";
             }
             string[,] param = { 
-                                  {"CompanyName", RT2020.SystemInfo.CurrentInfo.Default.CompanyName},
+                                  {"CompanyName", SystemInfoEx.CurrentInfo.Default.CompanyName},
                                   {"WorksheetTitle",title},
-                                  {"PrintedOn", DateTime.Now.ToString(RT2020.SystemInfo.Settings.GetDateTimeFormat())},
+                                  {"PrintedOn", DateTime.Now.ToString(DateTimeHelper.GetDateTimeFormat())},
                                   {"FromTRN",txtTxNumber.Text.Trim()},
                                   {"ToTRN",txtTxNumber.Text.Trim()},
-                                  {"FromDate",dtpTxDate.Value.ToString(RT2020.SystemInfo.Settings.GetDateFormat())},
-                                  {"ToDate",dtpTxDate.Value.ToString(RT2020.SystemInfo.Settings.GetDateFormat())},
-                                  {"CLASS1",RT2020.SystemInfo.Settings.GetSystemLabelByKey("CLASS1")},
-                                  {"CLASS2",RT2020.SystemInfo.Settings.GetSystemLabelByKey("CLASS2")},
-                                  {"CLASS3",RT2020.SystemInfo.Settings.GetSystemLabelByKey("CLASS3")},
-                                  {"CLASS4",RT2020.SystemInfo.Settings.GetSystemLabelByKey("CLASS4")},
-                                  {"CLASS5",RT2020.SystemInfo.Settings.GetSystemLabelByKey("CLASS5")},
-                                  {"CLASS6",RT2020.SystemInfo.Settings.GetSystemLabelByKey("CLASS6")},
+                                  {"FromDate",dtpTxDate.Value.ToString(DateTimeHelper.GetDateFormat())},
+                                  {"ToDate",dtpTxDate.Value.ToString(DateTimeHelper.GetDateFormat())},
+                                  {"CLASS1",SystemInfoHelper.Settings.GetSystemLabelByKey("CLASS1")},
+                                  {"CLASS2",SystemInfoHelper.Settings.GetSystemLabelByKey("CLASS2")},
+                                  {"CLASS3",SystemInfoHelper.Settings.GetSystemLabelByKey("CLASS3")},
+                                  {"CLASS4",SystemInfoHelper.Settings.GetSystemLabelByKey("CLASS4")},
+                                  {"CLASS5",SystemInfoHelper.Settings.GetSystemLabelByKey("CLASS5")},
+                                  {"CLASS6",SystemInfoHelper.Settings.GetSystemLabelByKey("CLASS6")},
                               };
             RT2020.Controls.Reporting.Viewer oViewer = new RT2020.Controls.Reporting.Viewer();
 
@@ -403,7 +404,7 @@ namespace RT2020.EmulatedPoS
 
             if (cboCurrencyCode.Items.Count > 0)
             {
-                cboCurrencyCode.Text = SystemInfo.CurrentInfo.Default.SysInfo.BasicCurrency;
+                cboCurrencyCode.Text = SystemInfoEx.CurrentInfo.Default.SysInfo.BasicCurrency;
 
                 InitCurrency(cboCurrencyCode.Text);
             }
@@ -524,7 +525,7 @@ namespace RT2020.EmulatedPoS
                                     #region add new EPOSBatchHeader
                                     oHeader = new EF6.EPOSBatchHeader();
 
-                                    txtTxNumber.Text = RT2020.SystemInfo.Settings.QueuingTxNumber(this.SalesType);
+                                    txtTxNumber.Text = SystemInfoHelper.Settings.QueuingTxNumber(this.SalesType);
                                     oHeader.HeaderId = Guid.NewGuid();
                                     oHeader.TxNumber = txtTxNumber.Text;
                                     oHeader.TxType = this.SalesType.ToString();
@@ -748,9 +749,9 @@ namespace RT2020.EmulatedPoS
                 cboAnalysisCode09.Text = oHeader.ANALYSIS_CODE09;
                 cboAnalysisCode10.Text = oHeader.ANALYSIS_CODE10;
 
-                txtLastUpdateOn.Text = RT2020.SystemInfo.Settings.DateTimeToString(oHeader.ModifiedOn.Value, false);
+                txtLastUpdateOn.Text = DateTimeHelper.DateTimeToString(oHeader.ModifiedOn.Value, false);
                 txtLastUpdateBy.Text = ModelEx.StaffEx.GetStaffNumberById(oHeader.ModifiedBy.Value);
-                txtCreateDate.Text = RT2020.SystemInfo.Settings.DateTimeToString(oHeader.CreatedOn.Value, false);
+                txtCreateDate.Text = DateTimeHelper.DateTimeToString(oHeader.CreatedOn.Value, false);
 
                 txtTotalQty.Text = ModelEx.EPOSBatchDetailsEx.GetTotalQty(this.HeaderId).ToString("n0");
                 txtTotalAmount.Text = oHeader.TotalAmount.Value.ToString("n2");
@@ -848,7 +849,7 @@ namespace RT2020.EmulatedPoS
 
                     if (this.HeaderId != System.Guid.Empty)
                     {
-                        RT2020.SystemInfo.Settings.RefreshMainList<Default>();
+                        SystemInfoHelper.Settings.RefreshMainList<Default>();
                         MessageBox.Show("Success!", "Save Result");
 
                         this.Close();
@@ -882,7 +883,7 @@ namespace RT2020.EmulatedPoS
 
                     if (this.HeaderId != System.Guid.Empty)
                     {
-                        RT2020.SystemInfo.Settings.RefreshMainList<Default>();
+                        SystemInfoHelper.Settings.RefreshMainList<Default>();
                         this.Close();
                         RT2020.EmulatedPoS.SalesWizard wizard = new RT2020.EmulatedPoS.SalesWizard(this.SalesType);
                         wizard.ShowDialog();
@@ -914,7 +915,7 @@ namespace RT2020.EmulatedPoS
 
                     if (this.HeaderId != System.Guid.Empty)
                     {
-                        RT2020.SystemInfo.Settings.RefreshMainList<Default>();
+                        SystemInfoHelper.Settings.RefreshMainList<Default>();
                         this.Close();
                     }
                 }

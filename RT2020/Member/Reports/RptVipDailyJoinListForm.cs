@@ -85,9 +85,9 @@ ORDER BY DateOfRegister";
             worksheet.Cell(1, 1).Value = "VIP2800 - VIP Daily Join In Report (Excel)";
             // Report Criteria
             worksheet.Cell(2, 1).Value = "DATE RANGE:";
-            worksheet.Cell(2, 2).Value = dtpFromRegDate.Value.ToString(RT2020.SystemInfo.Settings.GetDateFormat()) + " TO " + dtpToRegDate.Value.ToString(RT2020.SystemInfo.Settings.GetDateFormat());
+            worksheet.Cell(2, 2).Value = dtpFromRegDate.Value.ToString(DateTimeHelper.GetDateFormat()) + " TO " + dtpToRegDate.Value.ToString(DateTimeHelper.GetDateFormat());
             worksheet.Cell(3, 1).Value = "PRINTED ON:";
-            worksheet.Cell(3, 2).Value = DateTime.Now.ToString(RT2020.SystemInfo.Settings.GetDateFormat());
+            worksheet.Cell(3, 2).Value = DateTime.Now.ToString(DateTimeHelper.GetDateFormat());
             // Header
             worksheet.Cell(5, 1).Value = "REGISTRATION DATE";
             worksheet.Cell(5, 2).Value = "VIP#";
@@ -139,7 +139,7 @@ ORDER BY DateOfRegister";
             if (fileName.Length > 0)
             {
                 Stream stream = File.Open(fileName, FileMode.Open);
-                byte[] streamByte = RT2020.SystemInfo.Settings.ReadFully(stream, stream.Length);
+                byte[] streamByte = SystemInfoHelper.Settings.ReadFully(stream, stream.Length);
                 stream.Close();
 
                 HttpResponse objResponse = this.Context.HttpContext.Response;

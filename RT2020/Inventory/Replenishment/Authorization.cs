@@ -16,6 +16,7 @@ using Gizmox.WebGUI.Common.Resources;
 using System.Configuration;
 using System.Linq;
 using RT2020.Helper;
+using RT2020.ModelEx;
 
 #endregion
 
@@ -37,9 +38,9 @@ namespace RT2020.Inventory.Replenishment
         #region Init
         private void InitForm()
         {
-            txtPostedOn.Text = RT2020.SystemInfo.Settings.DateTimeToString(DateTime.Now, true);
-            txtSysMonth.Text = RT2020.SystemInfo.CurrentInfo.Default.CurrentSystemMonth;
-            txtSysYear.Text = RT2020.SystemInfo.CurrentInfo.Default.CurrentSystemYear;
+            txtPostedOn.Text = DateTimeHelper.DateTimeToString(DateTime.Now, true);
+            txtSysMonth.Text = SystemInfoEx.CurrentInfo.Default.CurrentSystemMonth;
+            txtSysYear.Text = SystemInfoEx.CurrentInfo.Default.CurrentSystemYear;
 
             cboFieldName.SelectedIndex = 0;
             cboOperator.SelectedIndex = 0;
@@ -76,9 +77,9 @@ namespace RT2020.Inventory.Replenishment
                     objItem.SubItems.Add(reader.GetString(1)); // TxNumber
                     objItem.SubItems.Add(reader.GetString(4)); // From Location
                     objItem.SubItems.Add(reader.GetString(5)); // To Location
-                    objItem.SubItems.Add(RT2020.SystemInfo.Settings.DateTimeToString(reader.GetDateTime(2), false)); // TxDate
-                    objItem.SubItems.Add(RT2020.SystemInfo.Settings.DateTimeToString(reader.GetDateTime(10), false) + " " + ModelEx.StaffEx.GetStaffNumberById(reader.GetGuid(11))); // Last Update
-                    objItem.BackColor = CheckTxDate(reader.GetDateTime(2)) ? Color.Transparent : RT2020.SystemInfo.ControlBackColor.DisabledBox;
+                    objItem.SubItems.Add(DateTimeHelper.DateTimeToString(reader.GetDateTime(2), false)); // TxDate
+                    objItem.SubItems.Add(DateTimeHelper.DateTimeToString(reader.GetDateTime(10), false) + " " + ModelEx.StaffEx.GetStaffNumberById(reader.GetGuid(11))); // Last Update
+                    objItem.BackColor = CheckTxDate(reader.GetDateTime(2)) ? Color.Transparent : SystemInfoHelper.ControlBackColor.DisabledBox;
 
                     iCount++;
                 }
@@ -387,8 +388,8 @@ namespace RT2020.Inventory.Replenishment
         {
             bool isChecked = false;
 
-            isChecked = (txDate.Year.ToString() == RT2020.SystemInfo.CurrentInfo.Default.CurrentSystemYear);
-            isChecked = isChecked & (txDate.Month.ToString().PadLeft(2, '0') == RT2020.SystemInfo.CurrentInfo.Default.CurrentSystemMonth);
+            isChecked = (txDate.Year.ToString() == SystemInfoEx.CurrentInfo.Default.CurrentSystemYear);
+            isChecked = isChecked & (txDate.Month.ToString().PadLeft(2, '0') == SystemInfoEx.CurrentInfo.Default.CurrentSystemMonth);
 
             return isChecked;
         }
@@ -533,7 +534,7 @@ namespace RT2020.Inventory.Replenishment
                                 #region string txfNumber = CreateTXFBatchHeader(oBatchHeader);
                                 var oHeader = new EF6.InvtBatchTXF_Header();
                                 oHeader.HeaderId = Guid.NewGuid();
-                                oHeader.TxNumber = RT2020.SystemInfo.Settings.QueuingTxNumber(EnumHelper.TxType.TXF);
+                                oHeader.TxNumber = SystemInfoHelper.Settings.QueuingTxNumber(EnumHelper.TxType.TXF);
                                 oHeader.TxType = EnumHelper.TxType.TXF.ToString();
 
                                 oHeader.Status = (int)EnumHelper.Status.Active;
@@ -702,7 +703,7 @@ namespace RT2020.Inventory.Replenishment
         {
             InvtBatchTXF_Header oHeader = new InvtBatchTXF_Header();
 
-            oHeader.TxNumber = RT2020.SystemInfo.Settings.QueuingTxNumber(EnumHelper.TxType.TXF);
+            oHeader.TxNumber = SystemInfoHelper.Settings.QueuingTxNumber(EnumHelper.TxType.TXF);
             oHeader.TxType = EnumHelper.TxType.TXF.ToString();
 
             oHeader.Status = (int)EnumHelper.Status.Active;
@@ -981,7 +982,7 @@ namespace RT2020.Inventory.Replenishment
 
                         if (consolidatedList.Count > 0)
                         {
-                            string txNumber = RT2020.SystemInfo.Settings.QueuingTxNumber(EnumHelper.TxType.TXF);
+                            string txNumber = SystemInfoHelper.Settings.QueuingTxNumber(EnumHelper.TxType.TXF);
                             var headerId = Guid.Empty;
                             #region Guid headerId = ConsolidatedTXFBatchHeader(txNumber, fromLoc, toLoc, consolidatedTxNumber);
                             var fromLocation = ModelEx.WorkplaceEx.GetWorkplaceIdByCode(fromLoc);
@@ -1320,7 +1321,7 @@ namespace RT2020.Inventory.Replenishment
         {
             if (e.NewValue == CheckState.Checked)
             {
-                lvPostTxList.Items[e.Index].Checked = !(lvPostTxList.Items[e.Index].BackColor == RT2020.SystemInfo.ControlBackColor.DisabledBox);
+                lvPostTxList.Items[e.Index].Checked = !(lvPostTxList.Items[e.Index].BackColor == SystemInfoHelper.ControlBackColor.DisabledBox);
             }
         }
     }

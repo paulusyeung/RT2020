@@ -15,6 +15,7 @@ using System.Web;
 using System.Data.SqlClient;
 using System.Configuration;
 using RT2020.Helper;
+using RT2020.ModelEx;
 
 #endregion
 
@@ -82,11 +83,11 @@ namespace RT2020.Product.Reports
             string[,] param = {
             {"FromCombin",this.cmbFrom.Text.Trim()},
             {"ToCombin",this.cmbTo.Text.Trim()},
-            {"PrintedOn",DateTime.Now.ToString(RT2020.SystemInfo.Settings.GetDateTimeFormat())},
-            {"Appendix1",RT2020.SystemInfo.Settings.GetSystemLabelByKey("Appendix1")},
-            {"Appendix2",RT2020.SystemInfo.Settings.GetSystemLabelByKey("Appendix2")},
-            {"Appendix3",RT2020.SystemInfo.Settings.GetSystemLabelByKey("Appendix3")},
-            {"CompanyName",RT2020.SystemInfo.CurrentInfo.Default.CompanyName}
+            {"PrintedOn",DateTime.Now.ToString(DateTimeHelper.GetDateTimeFormat())},
+            {"Appendix1",SystemInfoHelper.Settings.GetSystemLabelByKey("Appendix1")},
+            {"Appendix2",SystemInfoHelper.Settings.GetSystemLabelByKey("Appendix2")},
+            {"Appendix3",SystemInfoHelper.Settings.GetSystemLabelByKey("Appendix3")},
+            {"CompanyName",SystemInfoEx.CurrentInfo.Default.CompanyName}
             };
 
             RT2020.Controls.Reporting.Viewer view = new RT2020.Controls.Reporting.Viewer();

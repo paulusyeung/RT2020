@@ -40,8 +40,8 @@ namespace RT2020.Inventory.Olap
                     this.txtForMonth.Text = parameterTable["Month"].ToString();
                     this.chkDIFFNoZERO.Checked = Convert.ToBoolean(parameterTable["ShowDiff"].ToString());
 
-                    //this.txtForMonth.Text = RT2020.SystemInfo.CurrentInfo.Default.CurrentSystemYear +
-                    //    int.Parse(RT2020.SystemInfo.CurrentInfo.Default.CurrentSystemMonth).ToString("00");
+                    //this.txtForMonth.Text = SystemInfoEx.CurrentInfo.Default.CurrentSystemYear +
+                    //    int.Parse(SystemInfoEx.CurrentInfo.Default.CurrentSystemMonth).ToString("00");
 
                     //this.txtFromDate.Text = FromDate.ToString("dd/MM/yyyy");
                     //this.txtToDate.Text = ToDate.ToString("dd/MM/yyyy");
@@ -79,7 +79,7 @@ namespace RT2020.Inventory.Olap
         /// <returns></returns>
         private string SetFieldsName(string key)
         {
-            return RT2020.SystemInfo.Settings.GetSystemLabelByKey(key);
+            return SystemInfoHelper.Settings.GetSystemLabelByKey(key);
         }
 
         /// <summary>

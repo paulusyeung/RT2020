@@ -14,6 +14,7 @@ using Gizmox.WebGUI.Common.Resources;
 using System.Linq;
 using RT2020.Helper;
 using Gizmox.WebGUI.Forms.Dialogs;
+using RT2020.ModelEx;
 
 #endregion
 
@@ -109,13 +110,13 @@ namespace RT2020.PriceMgmt
         private void SetAttributes()
         {
             #region color boxes
-            this.dtpEffectiveDate.BackColor = RT2020.SystemInfo.ControlBackColor.RequiredBox;
+            this.dtpEffectiveDate.BackColor = SystemInfoHelper.ControlBackColor.RequiredBox;
 
-            this.txtTxType.BackColor = RT2020.SystemInfo.ControlBackColor.DisabledBox;
-            this.txtCreatedOn.BackColor = RT2020.SystemInfo.ControlBackColor.DisabledBox;
-            this.txtModifiedBy.BackColor = RT2020.SystemInfo.ControlBackColor.DisabledBox;
-            this.txtModifiedOn.BackColor = RT2020.SystemInfo.ControlBackColor.DisabledBox;
-            this.txtTxNumber.BackColor = RT2020.SystemInfo.ControlBackColor.DisabledBox;
+            this.txtTxType.BackColor = SystemInfoHelper.ControlBackColor.DisabledBox;
+            this.txtCreatedOn.BackColor = SystemInfoHelper.ControlBackColor.DisabledBox;
+            this.txtModifiedBy.BackColor = SystemInfoHelper.ControlBackColor.DisabledBox;
+            this.txtModifiedOn.BackColor = SystemInfoHelper.ControlBackColor.DisabledBox;
+            this.txtTxNumber.BackColor = SystemInfoHelper.ControlBackColor.DisabledBox;
             #endregion
 
             // Loading Details Page
@@ -551,21 +552,21 @@ AND CONVERT(NVARCHAR(10),EffectDate,126) BETWEEN '" + this.dtpEffectiveDate.Valu
             string[,] param = { 
                 {"FromTxNumber",this.txtTxNumber.Text.Trim()},
                 {"ToTxNumber",this.txtTxNumber.Text.Trim()},
-                {"FromTxDate", this.dtpEffectiveDate.Value.ToString(RT2020.SystemInfo.Settings.GetDateFormat())},
-                {"ToTxDate", this.dtpEffectiveDate.Value.ToString(RT2020.SystemInfo.Settings.GetDateFormat())},
-                {"PrintedOn", DateTime.Now.ToString(RT2020.SystemInfo.Settings.GetDateTimeFormat())},
-                {"DateFormat", RT2020.SystemInfo.Settings.GetDateFormat()},
-                {"STKCODE",RT2020.SystemInfo.Settings.GetSystemLabelByKey("STKCODE")},
-                {"APPENDIX1",RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX1")},
-                {"APPENDIX2",RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX2")},
-                {"APPENDIX3",RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX3")},
-                {"CLASS1",RT2020.SystemInfo.Settings.GetSystemLabelByKey("CLASS1")},
-                {"CLASS2",RT2020.SystemInfo.Settings.GetSystemLabelByKey("CLASS2")},
-                {"CLASS3",RT2020.SystemInfo.Settings.GetSystemLabelByKey("CLASS3")},
-                {"CLASS4",RT2020.SystemInfo.Settings.GetSystemLabelByKey("CLASS4")},
-                {"CLASS5",RT2020.SystemInfo.Settings.GetSystemLabelByKey("CLASS5")},
-                {"CLASS6",RT2020.SystemInfo.Settings.GetSystemLabelByKey("CLASS6")},
-                {"CompanyName",RT2020.SystemInfo.CurrentInfo.Default.CompanyName}
+                {"FromTxDate", this.dtpEffectiveDate.Value.ToString(DateTimeHelper.GetDateFormat())},
+                {"ToTxDate", this.dtpEffectiveDate.Value.ToString(DateTimeHelper.GetDateFormat())},
+                {"PrintedOn", DateTime.Now.ToString(DateTimeHelper.GetDateTimeFormat())},
+                {"DateFormat", DateTimeHelper.GetDateFormat()},
+                {"STKCODE",SystemInfoHelper.Settings.GetSystemLabelByKey("STKCODE")},
+                {"APPENDIX1",SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX1")},
+                {"APPENDIX2",SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX2")},
+                {"APPENDIX3",SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX3")},
+                {"CLASS1",SystemInfoHelper.Settings.GetSystemLabelByKey("CLASS1")},
+                {"CLASS2",SystemInfoHelper.Settings.GetSystemLabelByKey("CLASS2")},
+                {"CLASS3",SystemInfoHelper.Settings.GetSystemLabelByKey("CLASS3")},
+                {"CLASS4",SystemInfoHelper.Settings.GetSystemLabelByKey("CLASS4")},
+                {"CLASS5",SystemInfoHelper.Settings.GetSystemLabelByKey("CLASS5")},
+                {"CLASS6",SystemInfoHelper.Settings.GetSystemLabelByKey("CLASS6")},
+                {"CompanyName",SystemInfoEx.CurrentInfo.Default.CompanyName}
                 };
 
             RT2020.Controls.Reporting.Viewer view = new RT2020.Controls.Reporting.Viewer();
@@ -607,9 +608,9 @@ AND CONVERT(NVARCHAR(10),EffectDate,126) BETWEEN '" + this.dtpEffectiveDate.Valu
                     cboReasonCode.SelectedValue = oHeader.ReasonId;
                     txtRemarks.Text = oHeader.Remarks;
 
-                    txtModifiedOn.Text = RT2020.SystemInfo.Settings.DateTimeToString(oHeader.ModifiedOn.Value, true);
+                    txtModifiedOn.Text = DateTimeHelper.DateTimeToString(oHeader.ModifiedOn.Value, true);
                     txtModifiedBy.Text = ModelEx.StaffEx.GetStaffNumberById(oHeader.ModifiedBy);
-                    txtCreatedOn.Text = RT2020.SystemInfo.Settings.DateTimeToString(oHeader.CreatedOn.Value, true);
+                    txtCreatedOn.Text = DateTimeHelper.DateTimeToString(oHeader.CreatedOn.Value, true);
 
                 }
             }
@@ -677,7 +678,7 @@ AND CONVERT(NVARCHAR(10),EffectDate,126) BETWEEN '" + this.dtpEffectiveDate.Valu
                             #region add new PriceManagementBatchHeader
                             oHeader = new EF6.PriceManagementBatchHeader();
                             oHeader.HeaderId = Guid.NewGuid();
-                            txtTxNumber.Text = RT2020.SystemInfo.Settings.QueuingTxNumber(EnumHelper.TxType.PMS);
+                            txtTxNumber.Text = SystemInfoHelper.Settings.QueuingTxNumber(EnumHelper.TxType.PMS);
                             oHeader.TxNumber = txtTxNumber.Text;
                             oHeader.TxType = EnumHelper.TxType.PMC.ToString();
                             oHeader.PM_TYPE = this.PMType.ToString().Substring(0, 1);
@@ -914,7 +915,7 @@ AND CONVERT(NVARCHAR(10),EffectDate,126) BETWEEN '" + this.dtpEffectiveDate.Valu
             {
                 if (Save())
                 {
-                    RT2020.SystemInfo.Settings.RefreshMainList<DiscountReasonList>();
+                    SystemInfoHelper.Settings.RefreshMainList<DiscountReasonList>();
                     MessageBox.Show("Success!", "Save Result");
 
                     this.Close();
@@ -937,7 +938,7 @@ AND CONVERT(NVARCHAR(10),EffectDate,126) BETWEEN '" + this.dtpEffectiveDate.Valu
             {
                 if (Save())
                 {
-                    RT2020.SystemInfo.Settings.RefreshMainList<DiscountReasonList>();
+                    SystemInfoHelper.Settings.RefreshMainList<DiscountReasonList>();
                     this.Close();
                     PriceMgmtWizard wizard = new PriceMgmtWizard();
                     wizard.PMType = this.PMType;
@@ -957,7 +958,7 @@ AND CONVERT(NVARCHAR(10),EffectDate,126) BETWEEN '" + this.dtpEffectiveDate.Valu
             {
                 if (Save())
                 {
-                    RT2020.SystemInfo.Settings.RefreshMainList<DiscountReasonList>();
+                    SystemInfoHelper.Settings.RefreshMainList<DiscountReasonList>();
                     this.Close();
                 }
             }

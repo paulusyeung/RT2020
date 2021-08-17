@@ -24,10 +24,7 @@ namespace RT2020.SystemInfo
         /// <value>The default of Current System Information.</value>
         public static CurrentInfo Default
         {
-            get
-            {
-                return new CurrentInfo();
-            }
+            get { return new CurrentInfo(); }
         }
 
         #region Variables

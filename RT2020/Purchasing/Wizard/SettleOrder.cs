@@ -119,7 +119,7 @@ namespace RT2020.Purchasing.Wizard
         /// </summary>
         private void LoadLastUpdate()
         {
-            this.txtLastUpdate.Text = RT2020.SystemInfo.Settings.DateTimeToString(DateTime.Now, false);
+            this.txtLastUpdate.Text = DateTimeHelper.DateTimeToString(DateTime.Now, false);
         }
 
         /// <summary>
@@ -351,7 +351,7 @@ namespace RT2020.Purchasing.Wizard
 
                     if (this.ReceivingHeaderId != System.Guid.Empty)
                     {
-                        RT2020.SystemInfo.Settings.RefreshMainList<DefaultOSTList>();
+                        SystemInfoHelper.Settings.RefreshMainList<DefaultOSTList>();
                         MessageBox.Show("Success!", "Save Result");
 
                         this.Close();
@@ -381,7 +381,7 @@ namespace RT2020.Purchasing.Wizard
 
                     if (this.ReceivingHeaderId != System.Guid.Empty)
                     {
-                        RT2020.SystemInfo.Settings.RefreshMainList<DefaultOSTList>();
+                        SystemInfoHelper.Settings.RefreshMainList<DefaultOSTList>();
                         this.Close();
                         SettleOrder settleOrder = new SettleOrder();
                         settleOrder.ShowDialog();
@@ -409,7 +409,7 @@ namespace RT2020.Purchasing.Wizard
 
                     if (this.ReceivingHeaderId != System.Guid.Empty)
                     {
-                        RT2020.SystemInfo.Settings.RefreshMainList<DefaultOSTList>();
+                        SystemInfoHelper.Settings.RefreshMainList<DefaultOSTList>();
                         this.Close();
                     }
                 }

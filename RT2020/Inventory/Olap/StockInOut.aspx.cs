@@ -83,7 +83,7 @@ namespace RT2020.Inventory.Olap
         /// <returns></returns>
         private string SetFieldsName(string key)
         {
-            return RT2020.SystemInfo.Settings.GetSystemLabelByKey(key);
+            return SystemInfoHelper.Settings.GetSystemLabelByKey(key);
         }
 
         #region Validation Selections

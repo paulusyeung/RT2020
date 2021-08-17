@@ -16,6 +16,7 @@ using System.Data.SqlClient;
 using System.Configuration;
 
 using RT2020.Helper;
+using RT2020.ModelEx;
 
 #endregion
 
@@ -31,8 +32,8 @@ namespace RT2020.Inventory.Transfer.Import
 
         private void Invt_TxferImportWizard_Advance_Load(object sender, EventArgs e)
         {
-            lblYear.Text = SystemInfo.CurrentInfo.Default.CurrentSystemYear;
-            lblMonth.Text = SystemInfo.CurrentInfo.Default.CurrentSystemMonth;
+            lblYear.Text = SystemInfoEx.CurrentInfo.Default.CurrentSystemYear;
+            lblMonth.Text = SystemInfoEx.CurrentInfo.Default.CurrentSystemMonth;
             lblDay.Text = DateTime.Today.Day.ToString().PadLeft(2, '0');
             mstrDirectory = Path.Combine(Context.Config.GetDirectory("Upload"), "Invt_Txfer_Advance");
 

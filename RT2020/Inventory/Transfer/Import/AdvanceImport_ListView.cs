@@ -35,10 +35,10 @@ namespace RT2020.Inventory.Transfer.Import
 
         private void SetSystemLabel()
         {
-            colStockCode.Text = RT2020.SystemInfo.Settings.GetSystemLabelByKey("STKCODE");
-            colAppendix1.Text = RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX1");
-            colAppendix2.Text = RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX2");
-            colAppendix3.Text = RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX3");
+            colStockCode.Text = SystemInfoHelper.Settings.GetSystemLabelByKey("STKCODE");
+            colAppendix1.Text = SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX1");
+            colAppendix2.Text = SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX2");
+            colAppendix3.Text = SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX3");
         }
 
         private void BindList(string query, bool notInMatch)
@@ -60,7 +60,7 @@ namespace RT2020.Inventory.Transfer.Import
                     lvItem.SubItems.Add(reader.GetString(5)); // Barcode
                     lvItem.SubItems.Add(reader.GetString(6)); // Description
                     lvItem.SubItems.Add(reader.GetDecimal(7).ToString("n0")); // Qty
-                    lvItem.BackColor = notInMatch ? SystemInfo.ControlBackColor.DisabledBox : Color.White;
+                    lvItem.BackColor = notInMatch ? SystemInfoHelper.ControlBackColor.DisabledBox : Color.White;
                 }
             }
         }
@@ -69,7 +69,7 @@ namespace RT2020.Inventory.Transfer.Import
         {
             if (e.NewValue == CheckState.Checked)
             {
-                lvDetailList.Items[e.Index].Checked = (lvDetailList.Items[e.Index].BackColor != SystemInfo.ControlBackColor.DisabledBox);
+                lvDetailList.Items[e.Index].Checked = (lvDetailList.Items[e.Index].BackColor != SystemInfoHelper.ControlBackColor.DisabledBox);
             }
         }
     }

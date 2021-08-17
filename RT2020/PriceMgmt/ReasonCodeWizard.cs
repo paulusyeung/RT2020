@@ -95,12 +95,12 @@ namespace RT2020.PriceMgmt
             switch (_EditMode)
             {
                 case EnumHelper.EditMode.Add:
-                    txtCode.BackColor = RT2020.SystemInfo.ControlBackColor.RequiredBox;
+                    txtCode.BackColor = SystemInfoHelper.ControlBackColor.RequiredBox;
                     txtCode.Focus();
                     break;
                 case EnumHelper.EditMode.Edit:
                 case EnumHelper.EditMode.Delete:
-                    txtCode.BackColor = RT2020.SystemInfo.ControlBackColor.DisabledBox;
+                    txtCode.BackColor = SystemInfoHelper.ControlBackColor.DisabledBox;
                     txtCode.ReadOnly = true;
                     txtName.Focus();
                     break;
@@ -274,7 +274,7 @@ namespace RT2020.PriceMgmt
             {
                 if (Save())
                 {
-                    RT2020.SystemInfo.Settings.RefreshMainList<DiscountReasonList>();
+                    SystemInfoHelper.Settings.RefreshMainList<DiscountReasonList>();
                     MessageBox.Show("Success!", "Save Result");
 
                     this.Close();
@@ -297,7 +297,7 @@ namespace RT2020.PriceMgmt
             {
                 if (Save())
                 {
-                    RT2020.SystemInfo.Settings.RefreshMainList<DiscountReasonList>();
+                    SystemInfoHelper.Settings.RefreshMainList<DiscountReasonList>();
                     this.Close();
                     ReasonCodeWizard wizard = new ReasonCodeWizard();
                     wizard.EditMode = EnumHelper.EditMode.Add;
@@ -317,7 +317,7 @@ namespace RT2020.PriceMgmt
             {
                 if (Save())
                 {
-                    RT2020.SystemInfo.Settings.RefreshMainList<DiscountReasonList>();
+                    SystemInfoHelper.Settings.RefreshMainList<DiscountReasonList>();
                     this.Close();
                 }
             }

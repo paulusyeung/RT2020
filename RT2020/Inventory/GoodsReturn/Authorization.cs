@@ -13,12 +13,13 @@ namespace RT2020.Inventory.GoodsReturn
     using Gizmox.WebGUI.Forms;
     using System.Data.SqlClient;
     using System.Text.RegularExpressions;
-    
+
     using Gizmox.WebGUI.Common.Resources;
     using System.Configuration;
     using Helper;
     using System.Linq;
     using System.Data.Entity;
+    using ModelEx;
 
     #endregion
 
@@ -39,9 +40,9 @@ namespace RT2020.Inventory.GoodsReturn
         #region Init
         private void InitComboBox()
         {
-            txtPostedOn.Text = RT2020.SystemInfo.Settings.DateTimeToString(DateTime.Now, true);
-            txtSysMonth.Text = RT2020.SystemInfo.CurrentInfo.Default.CurrentSystemMonth;
-            txtSysYear.Text = RT2020.SystemInfo.CurrentInfo.Default.CurrentSystemYear;
+            txtPostedOn.Text = DateTimeHelper.DateTimeToString(DateTime.Now, true);
+            txtSysMonth.Text = SystemInfoEx.CurrentInfo.Default.CurrentSystemMonth;
+            txtSysYear.Text = SystemInfoEx.CurrentInfo.Default.CurrentSystemYear;
 
             cboFieldName.SelectedIndex = 0;
             cboOperator.SelectedIndex = 0;
@@ -92,10 +93,10 @@ namespace RT2020.Inventory.GoodsReturn
                 objItem.SubItems.Add(reader.GetString(2)); // TxNumber
                 objItem.SubItems.Add(reader.GetString(1)); // Type
                 objItem.SubItems.Add(reader.GetString(5)); // Location
-                objItem.SubItems.Add(RT2020.SystemInfo.Settings.DateTimeToString(reader.GetDateTime(3), false)); // TxDate
+                objItem.SubItems.Add(DateTimeHelper.DateTimeToString(reader.GetDateTime(3), false)); // TxDate
                 objItem.SubItems.Add(reader.GetString(6)); // Supplier
                 objItem.SubItems.Add(reader.GetString(4)); // StaffNumber
-                objItem.SubItems.Add(RT2020.SystemInfo.Settings.DateTimeToString(reader.GetDateTime(9), false)); // CreatedOn
+                objItem.SubItems.Add(DateTimeHelper.DateTimeToString(reader.GetDateTime(9), false)); // CreatedOn
 
                 iCount++;
             }
@@ -116,11 +117,11 @@ namespace RT2020.Inventory.GoodsReturn
                 objItem.SubItems.Add(reader.GetString(2)); // TxNumber
                 objItem.SubItems.Add(reader.GetString(1)); // Type
                 objItem.SubItems.Add(reader.GetString(5)); // Location
-                objItem.SubItems.Add(RT2020.SystemInfo.Settings.DateTimeToString(reader.GetDateTime(3), false)); // TxDate
+                objItem.SubItems.Add(DateTimeHelper.DateTimeToString(reader.GetDateTime(3), false)); // TxDate
                 objItem.SubItems.Add(reader.GetString(6)); // Supplier
                 objItem.SubItems.Add(reader.GetString(4)); // StaffNumber
-                objItem.SubItems.Add(RT2020.SystemInfo.Settings.DateTimeToString(reader.GetDateTime(9), false)); // CreatedOn
-                objItem.BackColor = CheckTxDate(reader.GetDateTime(3)) ? Color.Transparent : RT2020.SystemInfo.ControlBackColor.DisabledBox;
+                objItem.SubItems.Add(DateTimeHelper.DateTimeToString(reader.GetDateTime(9), false)); // CreatedOn
+                objItem.BackColor = CheckTxDate(reader.GetDateTime(3)) ? Color.Transparent : SystemInfoHelper.ControlBackColor.DisabledBox;
 
                 iCount++;
             }
@@ -407,8 +408,8 @@ namespace RT2020.Inventory.GoodsReturn
         {
             bool isChecked = false;
 
-            isChecked = (txDate.Year.ToString() == RT2020.SystemInfo.CurrentInfo.Default.CurrentSystemYear);
-            isChecked = isChecked & (txDate.Month.ToString().PadLeft(2, '0') == RT2020.SystemInfo.CurrentInfo.Default.CurrentSystemMonth);
+            isChecked = (txDate.Year.ToString() == SystemInfoEx.CurrentInfo.Default.CurrentSystemYear);
+            isChecked = isChecked & (txDate.Month.ToString().PadLeft(2, '0') == SystemInfoEx.CurrentInfo.Default.CurrentSystemMonth);
 
             return isChecked;
         }
@@ -1147,7 +1148,7 @@ namespace RT2020.Inventory.GoodsReturn
         {
             if (e.NewValue == CheckState.Checked)
             {
-                lvPostTxList.Items[e.Index].Checked = !(lvPostTxList.Items[e.Index].BackColor == RT2020.SystemInfo.ControlBackColor.DisabledBox);
+                lvPostTxList.Items[e.Index].Checked = !(lvPostTxList.Items[e.Index].BackColor == SystemInfoHelper.ControlBackColor.DisabledBox);
             }
         }
     }

@@ -58,7 +58,7 @@ namespace RT2020.Inventory.StockTake
                     .FirstOrDefault();
                 if (oHeader != null)
                 {
-                    result = oHeader.TxNumber + "  " + RT2020.SystemInfo.Settings.DateTimeToString(oHeader.TxDate.Value, false);
+                    result = oHeader.TxNumber + "  " + DateTimeHelper.DateTimeToString(oHeader.TxDate.Value, false);
                 }
             }
             return result;
@@ -81,7 +81,7 @@ namespace RT2020.Inventory.StockTake
                 {
                     //System.Guid wpId = new Guid(lvItem.Text);
 
-                    string stkNum = RT2020.SystemInfo.Settings.QueuingTxNumber(EnumHelper.TxType.STK);
+                    string stkNum = SystemInfoHelper.Settings.QueuingTxNumber(EnumHelper.TxType.STK);
 
                     SetProgress(iCount, "Creating Transaction# " + stkNum);
 
@@ -214,7 +214,7 @@ namespace RT2020.Inventory.StockTake
             int result = CreateSTK();
             if (result > 0)
             {
-                RT2020.SystemInfo.Settings.RefreshMainList<Default>();
+                SystemInfoHelper.Settings.RefreshMainList<Default>();
                 MessageBox.Show(result.ToString() + " Transaction(s) Creation Complete !", "Creation Succeed", MessageBoxButtons.OK, MessageBoxIcon.Information, new EventHandler(CreationMessageHandler));
             }
             else

@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Collections;
 using System.ComponentModel;
 using DevExpress.XtraReports.UI;
+using RT2020.Helper;
 
 namespace RT2020.Product.Reports
 {
@@ -30,7 +31,7 @@ namespace RT2020.Product.Reports
             this.txtTYPE.DataBindings.Add("Text", DataSource, "BarcodeType");
             this.txtDEFAULT.DataBindings.Add("Text", DataSource, "PrimaryBarcode");
             this.txtDesc.DataBindings.Add("Text", DataSource, "ProductName");
-            this.txtPrint.Text = RT2020.SystemInfo.Settings.DateTimeToString(System.DateTime.Now, true);
+            this.txtPrint.Text = DateTimeHelper.DateTimeToString(System.DateTime.Now, true);
         }
 
         #region Attribute
@@ -63,10 +64,10 @@ namespace RT2020.Product.Reports
         #region Set System label
         private void SetSystemLabels()
         {
-            lblSTK.Text = RT2020.SystemInfo.Settings.GetSystemLabelByKey("STKCODE");
-            lblA1.Text = RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX1");
-            lblA2.Text = RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX2");
-            lblA3.Text = RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX3");
+            lblSTK.Text = SystemInfoHelper.Settings.GetSystemLabelByKey("STKCODE");
+            lblA1.Text = SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX1");
+            lblA2.Text = SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX2");
+            lblA3.Text = SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX3");
         }
         #endregion
     }

@@ -92,7 +92,7 @@ namespace RT2020.Inventory.Olap
         /// </summary>
         public string SetFieldsName(string key)
         {
-            return RT2020.SystemInfo.Settings.GetSystemLabelByKey(key);
+            return SystemInfoHelper.Settings.GetSystemLabelByKey(key);
         }
 
         /// <summary>

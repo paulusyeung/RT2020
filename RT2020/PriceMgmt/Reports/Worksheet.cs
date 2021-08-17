@@ -13,6 +13,7 @@ using Gizmox.WebGUI.Forms;
 using System.Data.SqlClient;
 using System.Configuration;
 using RT2020.Helper;
+using RT2020.ModelEx;
 
 #endregion
 
@@ -126,21 +127,21 @@ AND CONVERT(NVARCHAR(10),EffectDate,126) BETWEEN '" + this.dtpTxDateFrom.Value.T
                 string[,] param = { 
                 {"FromTxNumber",this.cboFrom.Text.Trim()},
                 {"ToTxNumber",this.cboTo.Text.Trim()},
-                {"FromTxDate", this.dtpTxDateFrom.Value.ToString(RT2020.SystemInfo.Settings.GetDateFormat())},
-                {"ToTxDate", this.dtpTxDateTo.Value.ToString(RT2020.SystemInfo.Settings.GetDateFormat())},
-                {"PrintedOn", DateTime.Now.ToString(RT2020.SystemInfo.Settings.GetDateTimeFormat())},
-                {"DateFormat", RT2020.SystemInfo.Settings.GetDateFormat()},
-                {"STKCODE",RT2020.SystemInfo.Settings.GetSystemLabelByKey("STKCODE")},
-                {"APPENDIX1",RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX1")},
-                {"APPENDIX2",RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX2")},
-                {"APPENDIX3",RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX3")},
-                {"CLASS1",RT2020.SystemInfo.Settings.GetSystemLabelByKey("CLASS1")},
-                {"CLASS2",RT2020.SystemInfo.Settings.GetSystemLabelByKey("CLASS2")},
-                {"CLASS3",RT2020.SystemInfo.Settings.GetSystemLabelByKey("CLASS3")},
-                {"CLASS4",RT2020.SystemInfo.Settings.GetSystemLabelByKey("CLASS4")},
-                {"CLASS5",RT2020.SystemInfo.Settings.GetSystemLabelByKey("CLASS5")},
-                {"CLASS6",RT2020.SystemInfo.Settings.GetSystemLabelByKey("CLASS6")},
-                {"CompanyName",RT2020.SystemInfo.CurrentInfo.Default.CompanyName}
+                {"FromTxDate", this.dtpTxDateFrom.Value.ToString(DateTimeHelper.GetDateFormat())},
+                {"ToTxDate", this.dtpTxDateTo.Value.ToString(DateTimeHelper.GetDateFormat())},
+                {"PrintedOn", DateTime.Now.ToString(DateTimeHelper.GetDateTimeFormat())},
+                {"DateFormat", DateTimeHelper.GetDateFormat()},
+                {"STKCODE",SystemInfoHelper.Settings.GetSystemLabelByKey("STKCODE")},
+                {"APPENDIX1",SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX1")},
+                {"APPENDIX2",SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX2")},
+                {"APPENDIX3",SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX3")},
+                {"CLASS1",SystemInfoHelper.Settings.GetSystemLabelByKey("CLASS1")},
+                {"CLASS2",SystemInfoHelper.Settings.GetSystemLabelByKey("CLASS2")},
+                {"CLASS3",SystemInfoHelper.Settings.GetSystemLabelByKey("CLASS3")},
+                {"CLASS4",SystemInfoHelper.Settings.GetSystemLabelByKey("CLASS4")},
+                {"CLASS5",SystemInfoHelper.Settings.GetSystemLabelByKey("CLASS5")},
+                {"CLASS6",SystemInfoHelper.Settings.GetSystemLabelByKey("CLASS6")},
+                {"CompanyName",SystemInfoEx.CurrentInfo.Default.CompanyName}
                 };
 
                 RT2020.Controls.Reporting.Viewer view = new RT2020.Controls.Reporting.Viewer();

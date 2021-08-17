@@ -44,10 +44,10 @@ namespace RT2020.Controls.ProductSearcher
 
         private void SetCaptions()
         {
-            lblStockCode.Text = SystemInfo.Settings.GetSystemLabelByKey("STKCODE") + RT2020.Controls.Utility.Dictionary.GetColon();
-            colAppendix1.HeaderText = SystemInfo.Settings.GetSystemLabelByKey("APPENDIX1");
-            colAppendix2.HeaderText = SystemInfo.Settings.GetSystemLabelByKey("APPENDIX2");
-            colAppendix3.HeaderText = SystemInfo.Settings.GetSystemLabelByKey("APPENDIX3");
+            lblStockCode.Text = SystemInfoHelper.Settings.GetSystemLabelByKey("STKCODE") + RT2020.Controls.Utility.Dictionary.GetColon();
+            colAppendix1.HeaderText = SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX1");
+            colAppendix2.HeaderText = SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX2");
+            colAppendix3.HeaderText = SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX3");
 
             lblProductName.Text = RT2020.Controls.Utility.Dictionary.GetWordWithColon("description");
             lblTotalQty.Text = RT2020.Controls.Utility.Dictionary.GetWordWithColon("total_qty");
@@ -71,9 +71,9 @@ namespace RT2020.Controls.ProductSearcher
 
         private void SetAttributes()
         {
-            this.txtProductName.BackColor = SystemInfo.ControlBackColor.DisabledBox;
-            this.txtTotalQty.BackColor = SystemInfo.ControlBackColor.DisabledBox;
-            this.txtTotalAmount.BackColor = SystemInfo.ControlBackColor.DisabledBox;
+            this.txtProductName.BackColor = SystemInfoHelper.ControlBackColor.DisabledBox;
+            this.txtTotalQty.BackColor = SystemInfoHelper.ControlBackColor.DisabledBox;
+            this.txtTotalAmount.BackColor = SystemInfoHelper.ControlBackColor.DisabledBox;
 
             this.colWorkplace.Visible = false;
         }
@@ -335,13 +335,13 @@ WHERE wpn.NatureCode = '2'"; // 2 => Workplace Nature: Warehouse
 
                     if (cell.ReadOnly)
                     {
-                        cell.Style.BackColor = SystemInfo.ControlBackColor.DisabledBox;
+                        cell.Style.BackColor = SystemInfoHelper.ControlBackColor.DisabledBox;
                     }
 
                     if (cell.ColumnIndex == 4 && cell.Value.ToString().Trim().Length > 0) // Workplace
                     {
                         row.ReadOnly = true;
-                        row.DefaultCellStyle.BackColor = SystemInfo.ControlBackColor.DisabledBox;
+                        row.DefaultCellStyle.BackColor = SystemInfoHelper.ControlBackColor.DisabledBox;
                         ignore = true;
                     }
 

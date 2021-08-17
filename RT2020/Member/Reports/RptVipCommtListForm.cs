@@ -17,6 +17,7 @@ using System.Configuration;
 using System.Linq;
 using System.Data.Entity;
 using RT2020.Helper;
+using RT2020.ModelEx;
 
 #endregion
 
@@ -179,10 +180,10 @@ WHERE VipNumber BETWEEN '" + from + @"' AND '" + to + @"'
             string[,] param = {
             {"FromVIPNO",this.cmbFrom.Text.Trim()},
             {"ToVIPNO",this.cmbTo.Text.Trim()},
-            {"FromCommencementDate",this.dtpFromCommencementDate.Value.ToString(RT2020.SystemInfo.Settings.GetDateFormat())},
-            {"ToCommencementDate",this.dtpToCommencementDate.Value.ToString(RT2020.SystemInfo.Settings.GetDateFormat())},
-            {"PrintedOn",DateTime.Now.ToString(RT2020.SystemInfo.Settings.GetDateTimeFormat())},
-            {"CompanyName",RT2020.SystemInfo.CurrentInfo.Default.CompanyName}
+            {"FromCommencementDate",this.dtpFromCommencementDate.Value.ToString(DateTimeHelper.GetDateFormat())},
+            {"ToCommencementDate",this.dtpToCommencementDate.Value.ToString(DateTimeHelper.GetDateFormat())},
+            {"PrintedOn",DateTime.Now.ToString(DateTimeHelper.GetDateTimeFormat())},
+            {"CompanyName",SystemInfoEx.CurrentInfo.Default.CompanyName}
             };
 
             RT2020.Controls.Reporting.Viewer view = new RT2020.Controls.Reporting.Viewer();

@@ -15,6 +15,7 @@ using Gizmox.WebGUI.Common.Interfaces;
 
 using RT2020.Controls;
 using RT2020.Helper;
+using RT2020.ModelEx;
 
 namespace RT2020.Inventory.Replenishment
 {
@@ -93,10 +94,10 @@ namespace RT2020.Inventory.Replenishment
 
         private void SetSystemLabel()
         {
-            colStockCode.Text = RT2020.SystemInfo.Settings.GetSystemLabelByKey("STKCODE");
-            colAppendix1.Text = RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX1");
-            colAppendix2.Text = RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX2");
-            colAppendix3.Text = RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX3");
+            colStockCode.Text = SystemInfoHelper.Settings.GetSystemLabelByKey("STKCODE");
+            colAppendix1.Text = SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX1");
+            colAppendix2.Text = SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX2");
+            colAppendix3.Text = SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX3");
         }
         #endregion
 
@@ -104,24 +105,24 @@ namespace RT2020.Inventory.Replenishment
         private void SetCtrlEditable()
         {
             cboFromLocation.Enabled = false;
-            cboFromLocation.BackColor = SystemInfo.ControlBackColor.DisabledBox;
+            cboFromLocation.BackColor = SystemInfoHelper.ControlBackColor.DisabledBox;
 
             cboToLocation.Enabled = false;
-            cboToLocation.BackColor = SystemInfo.ControlBackColor.DisabledBox;
+            cboToLocation.BackColor = SystemInfoHelper.ControlBackColor.DisabledBox;
 
             cboOperatorCode.Enabled = false;
-            cboOperatorCode.BackColor = SystemInfo.ControlBackColor.DisabledBox;
+            cboOperatorCode.BackColor = SystemInfoHelper.ControlBackColor.DisabledBox;
 
-            txtTxNumber.BackColor = SystemInfo.ControlBackColor.DisabledBox;
-            txtTxConfirmed.BackColor = SystemInfo.ControlBackColor.DisabledBox;
-            txtConfirmedOn.BackColor = SystemInfo.ControlBackColor.DisabledBox;
-            txtConfirmedBy.BackColor = SystemInfo.ControlBackColor.DisabledBox;
-            txtSpecialRequest.BackColor = SystemInfo.ControlBackColor.DisabledBox;
-            txtLastUpdateBy.BackColor = SystemInfo.ControlBackColor.DisabledBox;
-            txtLastUpdateOn.BackColor = SystemInfo.ControlBackColor.DisabledBox;
+            txtTxNumber.BackColor = SystemInfoHelper.ControlBackColor.DisabledBox;
+            txtTxConfirmed.BackColor = SystemInfoHelper.ControlBackColor.DisabledBox;
+            txtConfirmedOn.BackColor = SystemInfoHelper.ControlBackColor.DisabledBox;
+            txtConfirmedBy.BackColor = SystemInfoHelper.ControlBackColor.DisabledBox;
+            txtSpecialRequest.BackColor = SystemInfoHelper.ControlBackColor.DisabledBox;
+            txtLastUpdateBy.BackColor = SystemInfoHelper.ControlBackColor.DisabledBox;
+            txtLastUpdateOn.BackColor = SystemInfoHelper.ControlBackColor.DisabledBox;
 
-            txtDescription.BackColor = SystemInfo.ControlBackColor.DisabledBox;
-            txtReplenishQty.BackColor = SystemInfo.ControlBackColor.DisabledBox;
+            txtDescription.BackColor = SystemInfoHelper.ControlBackColor.DisabledBox;
+            txtReplenishQty.BackColor = SystemInfoHelper.ControlBackColor.DisabledBox;
         }
         #endregion
 
@@ -332,16 +333,16 @@ namespace RT2020.Inventory.Replenishment
             string[,] param = {
                 { "FromTxNumber", this.txtTxNumber.Text.Trim() },
                 { "ToTxNumber", this.txtTxNumber.Text.Trim() },
-                { "FromTxDate", this.dtpTxDate.Value.ToString(RT2020.SystemInfo.Settings.GetDateFormat()) },
-                { "ToTxDate", this.dtpTxDate.Value.ToString(RT2020.SystemInfo.Settings.GetDateFormat()) },
-                { "PrintedOn", DateTime.Now.ToString(RT2020.SystemInfo.Settings.GetDateTimeFormat()) },
+                { "FromTxDate", this.dtpTxDate.Value.ToString(DateTimeHelper.GetDateFormat()) },
+                { "ToTxDate", this.dtpTxDate.Value.ToString(DateTimeHelper.GetDateFormat()) },
+                { "PrintedOn", DateTime.Now.ToString(DateTimeHelper.GetDateTimeFormat()) },
                 { "PrintedBy", ModelEx.StaffEx.GetStaffNameById(ConfigHelper.CurrentUserId) },
-                { "DateFormat", RT2020.SystemInfo.Settings.GetDateFormat() },
-                { "CompanyName", RT2020.SystemInfo.CurrentInfo.Default.CompanyName},
-                { "StockCode", RT2020.SystemInfo.Settings.GetSystemLabelByKey("STKCODE") },
-                { "Appendix1", RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX1") },
-                { "Appendix2", RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX2") },
-                { "Appendix3", RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX3") }
+                { "DateFormat", DateTimeHelper.GetDateFormat() },
+                { "CompanyName", SystemInfoEx.CurrentInfo.Default.CompanyName},
+                { "StockCode", SystemInfoHelper.Settings.GetSystemLabelByKey("STKCODE") },
+                { "Appendix1", SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX1") },
+                { "Appendix2", SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX2") },
+                { "Appendix3", SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX3") }
                 };
 
             RT2020.Controls.Reporting.Viewer oViewer = new RT2020.Controls.Reporting.Viewer();
@@ -503,12 +504,12 @@ namespace RT2020.Inventory.Replenishment
 
                 txtRemarks.Text = oHeader.Remarks;
 
-                txtLastUpdateOn.Text = RT2020.SystemInfo.Settings.DateTimeToString(oHeader.ModifiedOn, false);
+                txtLastUpdateOn.Text = DateTimeHelper.DateTimeToString(oHeader.ModifiedOn, false);
                 txtLastUpdateBy.Text = ModelEx.StaffEx.GetStaffNumberById(oHeader.ModifiedBy);
 
                 txtTxConfirmed.Text = oHeader.Confirmed ? "Y" : "N";
                 txtConfirmedBy.Text = ModelEx.StaffEx.GetStaffNumberById(oHeader.ConfirmedBy.Value);
-                txtConfirmedOn.Text = RT2020.SystemInfo.Settings.DateTimeToString(oHeader.ConfirmedOn.Value, false);
+                txtConfirmedOn.Text = DateTimeHelper.DateTimeToString(oHeader.ConfirmedOn.Value, false);
                 txtSpecialRequest.Text = oHeader.SpecialRequest ? "Y" : "N";
 
                 this.tbWizardAction.Buttons[0].Enabled = !oHeader.Confirmed;
@@ -555,7 +556,7 @@ namespace RT2020.Inventory.Replenishment
 
                 if (this.RplId != System.Guid.Empty)
                 {
-                    RT2020.SystemInfo.Settings.RefreshMainList<Default>();
+                    SystemInfoHelper.Settings.RefreshMainList<Default>();
                     MessageBox.Show("Success!", "Save Result");
 
                     this.Close();
@@ -573,7 +574,7 @@ namespace RT2020.Inventory.Replenishment
 
                 if (this.RplId != System.Guid.Empty)
                 {
-                    RT2020.SystemInfo.Settings.RefreshMainList<Default>();
+                    SystemInfoHelper.Settings.RefreshMainList<Default>();
                     this.Close();
                     RT2020.Inventory.Replenishment.Wizard wizard = new RT2020.Inventory.Replenishment.Wizard();
                     wizard.ShowDialog();
@@ -589,7 +590,7 @@ namespace RT2020.Inventory.Replenishment
 
                 if (this.RplId != System.Guid.Empty)
                 {
-                    RT2020.SystemInfo.Settings.RefreshMainList<Default>();
+                    SystemInfoHelper.Settings.RefreshMainList<Default>();
                     this.Close();
                 }
             }

@@ -16,8 +16,9 @@ namespace RT2020.Purchasing.Reports.PurchaseOrder
     using Gizmox.WebGUI.Common.Interfaces;
     using Gizmox.WebGUI.Forms;
 
-    
+
     using Helper;
+    using ModelEx;
 
     /// <summary>
     /// Purchase Order Status
@@ -148,15 +149,15 @@ namespace RT2020.Purchasing.Reports.PurchaseOrder
             {
                 { "FromOrderNumber", this.cboFrom.Text.Trim() },
                 { "ToOrderNumber", this.cboTo.Text.Trim() },
-                { "FromDate", this.dtpDateFrom.Value.ToString(RT2020.SystemInfo.Settings.GetDateFormat()) },
-                { "ToDate", this.dtpDateTo.Value.ToString(RT2020.SystemInfo.Settings.GetDateFormat()) },
-                { "PrintedOn", DateTime.Now.ToString(RT2020.SystemInfo.Settings.GetDateTimeFormat()) },
-                { "STKCODE", RT2020.SystemInfo.Settings.GetSystemLabelByKey("STKCODE") },
-                { "Appendix1", RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX1") },
-                { "Appendix2", RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX2") },
-                { "Appendix3", RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX3") },
-                { "DateFormat", RT2020.SystemInfo.Settings.GetDateFormat() },
-                { "Company",RT2020.SystemInfo.CurrentInfo.Default.CompanyName}
+                { "FromDate", this.dtpDateFrom.Value.ToString(DateTimeHelper.GetDateFormat()) },
+                { "ToDate", this.dtpDateTo.Value.ToString(DateTimeHelper.GetDateFormat()) },
+                { "PrintedOn", DateTime.Now.ToString(DateTimeHelper.GetDateTimeFormat()) },
+                { "STKCODE", SystemInfoHelper.Settings.GetSystemLabelByKey("STKCODE") },
+                { "Appendix1", SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX1") },
+                { "Appendix2", SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX2") },
+                { "Appendix3", SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX3") },
+                { "DateFormat", DateTimeHelper.GetDateFormat() },
+                { "Company",SystemInfoEx.CurrentInfo.Default.CompanyName}
              };
 
             RT2020.Controls.Reporting.RdlExport rdlExport = new RT2020.Controls.Reporting.RdlExport();
@@ -178,15 +179,15 @@ namespace RT2020.Purchasing.Reports.PurchaseOrder
             {
                 { "FromOrderNumber", this.cboFrom.Text.Trim() },
                 { "ToOrderNumber", this.cboTo.Text.Trim() },
-                { "FromDate", this.dtpDateFrom.Value.ToString(RT2020.SystemInfo.Settings.GetDateFormat()) },
-                { "ToDate", this.dtpDateTo.Value.ToString(RT2020.SystemInfo.Settings.GetDateFormat()) },
-                { "PrintedOn", DateTime.Now.ToString(RT2020.SystemInfo.Settings.GetDateTimeFormat()) },
-                { "STKCODE", RT2020.SystemInfo.Settings.GetSystemLabelByKey("STKCODE") },
-                { "Appendix1", RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX1") },
-                { "Appendix2", RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX2") },
-                { "Appendix3", RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX3") },
-                { "DateFormat", RT2020.SystemInfo.Settings.GetDateFormat() },
-                { "Company",RT2020.SystemInfo.CurrentInfo.Default.CompanyName}
+                { "FromDate", this.dtpDateFrom.Value.ToString(DateTimeHelper.GetDateFormat()) },
+                { "ToDate", this.dtpDateTo.Value.ToString(DateTimeHelper.GetDateFormat()) },
+                { "PrintedOn", DateTime.Now.ToString(DateTimeHelper.GetDateTimeFormat()) },
+                { "STKCODE", SystemInfoHelper.Settings.GetSystemLabelByKey("STKCODE") },
+                { "Appendix1", SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX1") },
+                { "Appendix2", SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX2") },
+                { "Appendix3", SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX3") },
+                { "DateFormat", DateTimeHelper.GetDateFormat() },
+                { "Company",SystemInfoEx.CurrentInfo.Default.CompanyName}
             };
 
             RT2020.Controls.Reporting.RdlExport rdlExport = new RT2020.Controls.Reporting.RdlExport();
@@ -208,15 +209,15 @@ namespace RT2020.Purchasing.Reports.PurchaseOrder
             {
                 { "FromSupplier", this.cboSuppFrom.Text.Trim() },
                 { "ToSupplier", this.cboSuppTo.Text.Trim() },
-                { "FromDate", this.dtpSuppDateFrom.Value.ToString(RT2020.SystemInfo.Settings.GetDateFormat()) },
-                { "ToDate", this.dtpSuppDateTo.Value.ToString(RT2020.SystemInfo.Settings.GetDateFormat()) },
-                { "PrintedOn", DateTime.Now.ToString(RT2020.SystemInfo.Settings.GetDateTimeFormat()) },
-                { "STKCODE", RT2020.SystemInfo.Settings.GetSystemLabelByKey("STKCODE") },
-                { "Appendix1", RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX1") },
-                { "Appendix2", RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX2") },
-                { "Appendix3", RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX3") },
-                { "Company",RT2020.SystemInfo.CurrentInfo.Default.CompanyName},
-                { "DateFormat", RT2020.SystemInfo.Settings.GetDateFormat() }
+                { "FromDate", this.dtpSuppDateFrom.Value.ToString(DateTimeHelper.GetDateFormat()) },
+                { "ToDate", this.dtpSuppDateTo.Value.ToString(DateTimeHelper.GetDateFormat()) },
+                { "PrintedOn", DateTime.Now.ToString(DateTimeHelper.GetDateTimeFormat()) },
+                { "STKCODE", SystemInfoHelper.Settings.GetSystemLabelByKey("STKCODE") },
+                { "Appendix1", SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX1") },
+                { "Appendix2", SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX2") },
+                { "Appendix3", SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX3") },
+                { "Company",SystemInfoEx.CurrentInfo.Default.CompanyName},
+                { "DateFormat", DateTimeHelper.GetDateFormat() }
             };
 
             RT2020.Controls.Reporting.RdlExport rdlExport = new RT2020.Controls.Reporting.RdlExport();
@@ -238,15 +239,15 @@ namespace RT2020.Purchasing.Reports.PurchaseOrder
             {
                 { "FromSupplier", this.cboSuppFrom.Text.Trim() },
                 { "ToSupplier", this.cboSuppTo.Text.Trim() },
-                { "FromDate", this.dtpSuppDateFrom.Value.ToString(RT2020.SystemInfo.Settings.GetDateFormat()) },
-                { "ToDate", this.dtpSuppDateTo.Value.ToString(RT2020.SystemInfo.Settings.GetDateFormat()) },
-                { "PrintedOn", DateTime.Now.ToString(RT2020.SystemInfo.Settings.GetDateTimeFormat()) },
-                { "STKCODE", RT2020.SystemInfo.Settings.GetSystemLabelByKey("STKCODE") },
-                { "Appendix1", RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX1") },
-                { "Appendix2", RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX2") },
-                { "Appendix3", RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX3") },
-                { "Company",RT2020.SystemInfo.CurrentInfo.Default.CompanyName},
-                { "DateFormat", RT2020.SystemInfo.Settings.GetDateFormat() }
+                { "FromDate", this.dtpSuppDateFrom.Value.ToString(DateTimeHelper.GetDateFormat()) },
+                { "ToDate", this.dtpSuppDateTo.Value.ToString(DateTimeHelper.GetDateFormat()) },
+                { "PrintedOn", DateTime.Now.ToString(DateTimeHelper.GetDateTimeFormat()) },
+                { "STKCODE", SystemInfoHelper.Settings.GetSystemLabelByKey("STKCODE") },
+                { "Appendix1", SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX1") },
+                { "Appendix2", SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX2") },
+                { "Appendix3", SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX3") },
+                { "Company",SystemInfoEx.CurrentInfo.Default.CompanyName},
+                { "DateFormat", DateTimeHelper.GetDateFormat() }
             };
 
             RT2020.Controls.Reporting.RdlExport rdlExport = new RT2020.Controls.Reporting.RdlExport();
@@ -266,15 +267,15 @@ namespace RT2020.Purchasing.Reports.PurchaseOrder
         {
             string[,] param = 
             {
-                { "FromOrderDate", this.dtpOrderDateFrom.Value.ToString(RT2020.SystemInfo.Settings.GetDateFormat()) },
-                { "ToOrderDate", this.dtpOrderDateTo.Value.ToString(RT2020.SystemInfo.Settings.GetDateFormat()) },
-                { "PrintedOn", DateTime.Now.ToString(RT2020.SystemInfo.Settings.GetDateTimeFormat()) },
-                { "STKCODE", RT2020.SystemInfo.Settings.GetSystemLabelByKey("STKCODE") },
-                { "Appendix1", RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX1") },
-                { "Appendix2", RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX2") },
-                { "Appendix3", RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX3") },
-                { "Company",RT2020.SystemInfo.CurrentInfo.Default.CompanyName},
-                { "DateFormat", RT2020.SystemInfo.Settings.GetDateFormat() }
+                { "FromOrderDate", this.dtpOrderDateFrom.Value.ToString(DateTimeHelper.GetDateFormat()) },
+                { "ToOrderDate", this.dtpOrderDateTo.Value.ToString(DateTimeHelper.GetDateFormat()) },
+                { "PrintedOn", DateTime.Now.ToString(DateTimeHelper.GetDateTimeFormat()) },
+                { "STKCODE", SystemInfoHelper.Settings.GetSystemLabelByKey("STKCODE") },
+                { "Appendix1", SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX1") },
+                { "Appendix2", SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX2") },
+                { "Appendix3", SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX3") },
+                { "Company",SystemInfoEx.CurrentInfo.Default.CompanyName},
+                { "DateFormat", DateTimeHelper.GetDateFormat() }
             };
 
             RT2020.Controls.Reporting.RdlExport rdlExport = new RT2020.Controls.Reporting.RdlExport();
@@ -294,15 +295,15 @@ namespace RT2020.Purchasing.Reports.PurchaseOrder
         {
             string[,] param = 
             {
-                { "FromOrderDate", this.dtpOrderDateFrom.Value.ToString(RT2020.SystemInfo.Settings.GetDateFormat()) },
-                { "ToOrderDate", this.dtpOrderDateTo.Value.ToString(RT2020.SystemInfo.Settings.GetDateFormat()) },
-                { "PrintedOn", DateTime.Now.ToString(RT2020.SystemInfo.Settings.GetDateTimeFormat()) },
-                { "STKCODE", RT2020.SystemInfo.Settings.GetSystemLabelByKey("STKCODE") },
-                { "Appendix1", RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX1") },
-                { "Appendix2", RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX2") },
-                { "Appendix3", RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX3") },
-                { "Company",RT2020.SystemInfo.CurrentInfo.Default.CompanyName},
-                { "DateFormat", RT2020.SystemInfo.Settings.GetDateFormat() }
+                { "FromOrderDate", this.dtpOrderDateFrom.Value.ToString(DateTimeHelper.GetDateFormat()) },
+                { "ToOrderDate", this.dtpOrderDateTo.Value.ToString(DateTimeHelper.GetDateFormat()) },
+                { "PrintedOn", DateTime.Now.ToString(DateTimeHelper.GetDateTimeFormat()) },
+                { "STKCODE", SystemInfoHelper.Settings.GetSystemLabelByKey("STKCODE") },
+                { "Appendix1", SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX1") },
+                { "Appendix2", SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX2") },
+                { "Appendix3", SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX3") },
+                { "Company",SystemInfoEx.CurrentInfo.Default.CompanyName},
+                { "DateFormat", DateTimeHelper.GetDateFormat() }
             };
 
             RT2020.Controls.Reporting.RdlExport rdlExport = new RT2020.Controls.Reporting.RdlExport();
@@ -487,15 +488,15 @@ WHERE	OrderOn BETWEEN '" + this.dtpOrderDateFrom.Value.ToString("MM/dd/yyyy 00:0
                 {
                     { "FromOrderNumber", this.cboFrom.Text.Trim() },
                     { "ToOrderNumber", this.cboTo.Text.Trim() },
-                    { "FromDate", this.dtpDateFrom.Value.ToString(RT2020.SystemInfo.Settings.GetDateFormat()) },
-                    { "ToDate", this.dtpDateTo.Value.ToString(RT2020.SystemInfo.Settings.GetDateFormat()) },
-                    { "PrintedOn", DateTime.Now.ToString(RT2020.SystemInfo.Settings.GetDateTimeFormat()) },
-                    { "STKCODE", RT2020.SystemInfo.Settings.GetSystemLabelByKey("STKCODE") },
-                    { "Appendix1", RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX1") },
-                    { "Appendix2", RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX2") },
-                    { "Appendix3", RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX3") },
-                    { "Company",RT2020.SystemInfo.CurrentInfo.Default.CompanyName},
-                    { "DateFormat", RT2020.SystemInfo.Settings.GetDateFormat() }
+                    { "FromDate", this.dtpDateFrom.Value.ToString(DateTimeHelper.GetDateFormat()) },
+                    { "ToDate", this.dtpDateTo.Value.ToString(DateTimeHelper.GetDateFormat()) },
+                    { "PrintedOn", DateTime.Now.ToString(DateTimeHelper.GetDateTimeFormat()) },
+                    { "STKCODE", SystemInfoHelper.Settings.GetSystemLabelByKey("STKCODE") },
+                    { "Appendix1", SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX1") },
+                    { "Appendix2", SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX2") },
+                    { "Appendix3", SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX3") },
+                    { "Company",SystemInfoEx.CurrentInfo.Default.CompanyName},
+                    { "DateFormat", DateTimeHelper.GetDateFormat() }
                 };
 
                 RT2020.Controls.Reporting.Viewer rptViewer = new RT2020.Controls.Reporting.Viewer();
@@ -522,15 +523,15 @@ WHERE	OrderOn BETWEEN '" + this.dtpOrderDateFrom.Value.ToString("MM/dd/yyyy 00:0
                 {
                     { "FromSupplier", this.cboSuppFrom.Text.Trim() },
                     { "ToSupplier", this.cboSuppTo.Text.Trim() },
-                    { "FromDate", this.dtpSuppDateFrom.Value.ToString(RT2020.SystemInfo.Settings.GetDateFormat()) },
-                    { "ToDate", this.dtpSuppDateTo.Value.ToString(RT2020.SystemInfo.Settings.GetDateFormat()) },
-                    { "PrintedOn", DateTime.Now.ToString(RT2020.SystemInfo.Settings.GetDateTimeFormat()) },
-                    { "STKCODE", RT2020.SystemInfo.Settings.GetSystemLabelByKey("STKCODE") },
-                    { "Appendix1", RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX1") },
-                    { "Appendix2", RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX2") },
-                    { "Appendix3", RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX3") },
-                    { "Company",RT2020.SystemInfo.CurrentInfo.Default.CompanyName},
-                    { "DateFormat", RT2020.SystemInfo.Settings.GetDateFormat() }
+                    { "FromDate", this.dtpSuppDateFrom.Value.ToString(DateTimeHelper.GetDateFormat()) },
+                    { "ToDate", this.dtpSuppDateTo.Value.ToString(DateTimeHelper.GetDateFormat()) },
+                    { "PrintedOn", DateTime.Now.ToString(DateTimeHelper.GetDateTimeFormat()) },
+                    { "STKCODE", SystemInfoHelper.Settings.GetSystemLabelByKey("STKCODE") },
+                    { "Appendix1", SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX1") },
+                    { "Appendix2", SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX2") },
+                    { "Appendix3", SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX3") },
+                    { "Company",SystemInfoEx.CurrentInfo.Default.CompanyName},
+                    { "DateFormat", DateTimeHelper.GetDateFormat() }
                 };
 
                 RT2020.Controls.Reporting.Viewer rptViewer = new RT2020.Controls.Reporting.Viewer();
@@ -555,15 +556,15 @@ WHERE	OrderOn BETWEEN '" + this.dtpOrderDateFrom.Value.ToString("MM/dd/yyyy 00:0
             {
                 string[,] param = 
                 {
-                    { "FromOrderDate", this.dtpOrderDateFrom.Value.ToString(RT2020.SystemInfo.Settings.GetDateFormat()) },
-                    { "ToOrderDate", this.dtpOrderDateTo.Value.ToString(RT2020.SystemInfo.Settings.GetDateFormat()) },
-                    { "PrintedOn", DateTime.Now.ToString(RT2020.SystemInfo.Settings.GetDateTimeFormat()) },
-                    { "STKCODE", RT2020.SystemInfo.Settings.GetSystemLabelByKey("STKCODE") },
-                    { "Appendix1", RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX1") },
-                    { "Appendix2", RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX2") },
-                    { "Appendix3", RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX3") },
-                    { "Company",RT2020.SystemInfo.CurrentInfo.Default.CompanyName},
-                    { "DateFormat", RT2020.SystemInfo.Settings.GetDateFormat() }
+                    { "FromOrderDate", this.dtpOrderDateFrom.Value.ToString(DateTimeHelper.GetDateFormat()) },
+                    { "ToOrderDate", this.dtpOrderDateTo.Value.ToString(DateTimeHelper.GetDateFormat()) },
+                    { "PrintedOn", DateTime.Now.ToString(DateTimeHelper.GetDateTimeFormat()) },
+                    { "STKCODE", SystemInfoHelper.Settings.GetSystemLabelByKey("STKCODE") },
+                    { "Appendix1", SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX1") },
+                    { "Appendix2", SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX2") },
+                    { "Appendix3", SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX3") },
+                    { "Company",SystemInfoEx.CurrentInfo.Default.CompanyName},
+                    { "DateFormat", DateTimeHelper.GetDateFormat() }
                 };
 
                 RT2020.Controls.Reporting.Viewer rptViewer = new RT2020.Controls.Reporting.Viewer();

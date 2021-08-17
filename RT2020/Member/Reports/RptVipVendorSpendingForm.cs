@@ -13,6 +13,7 @@ using Gizmox.WebGUI.Forms;
 using System.Linq;
 using System.Data.Entity;
 using RT2020.Helper;
+using RT2020.ModelEx;
 
 #endregion
 
@@ -32,8 +33,8 @@ namespace RT2020.Member.Reports
         }
         private void SetCaptions()
         {
-            chkClass1.Text = RT2020.SystemInfo.Settings.GetSystemLabelByKey("CLASS1");
-            this.Text = "Top Vip Spending by " + RT2020.SystemInfo.Settings.GetSystemLabelByKey("CLASS1");
+            chkClass1.Text = SystemInfoHelper.Settings.GetSystemLabelByKey("CLASS1");
+            this.Text = "Top Vip Spending by " + SystemInfoHelper.Settings.GetSystemLabelByKey("CLASS1");
         }
 
         #region Fill ListView
@@ -674,13 +675,13 @@ ORDER BY VipRow.Salute
             if (IsSelValid())
             {
                 string[,] param = {
-                {"FromTxDate",this.dtpTrnFromTime.Value.ToString(RT2020.SystemInfo.Settings.GetDateFormat())},
-                {"ToTxDate",this.dtpTrnToTime.Value.ToString(RT2020.SystemInfo.Settings.GetDateFormat())},
+                {"FromTxDate",this.dtpTrnFromTime.Value.ToString(DateTimeHelper.GetDateFormat())},
+                {"ToTxDate",this.dtpTrnToTime.Value.ToString(DateTimeHelper.GetDateFormat())},
                 {"TOPNumber",this.txtTopVipSpendingNumber.Text.Trim()},
                 {"SalesAmount",this.txtSalesAmountOver.Text.Trim()},
                 {"BRAND",SelectedList(this.lvVendorList,2)},
-                {"PrintedOn",DateTime.Now.ToString(RT2020.SystemInfo.Settings.GetDateTimeFormat())},
-                {"CompanyName",RT2020.SystemInfo.CurrentInfo.Default.CompanyName}
+                {"PrintedOn",DateTime.Now.ToString(DateTimeHelper.GetDateTimeFormat())},
+                {"CompanyName",SystemInfoEx.CurrentInfo.Default.CompanyName}
                 };
 
                 RT2020.Controls.Reporting.Viewer view = new RT2020.Controls.Reporting.Viewer();
@@ -696,7 +697,7 @@ ORDER BY VipRow.Salute
                 }
                 else
                 {
-                    MessageBox.Show(String.Format("Must select at least one {0}!", RT2020.SystemInfo.Settings.GetSystemLabelByKey("CLASS1")), "Please Select");
+                    MessageBox.Show(String.Format("Must select at least one {0}!", SystemInfoHelper.Settings.GetSystemLabelByKey("CLASS1")), "Please Select");
                     view.Close();
                 }
             }

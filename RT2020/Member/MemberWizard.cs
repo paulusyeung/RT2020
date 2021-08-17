@@ -241,10 +241,10 @@ namespace RT2020.Member
         #region Member Code
         private void SetCtrlEditable()
         {
-            txtMemberNumber.BackColor = (this.MemberId == System.Guid.Empty) ? RT2020.SystemInfo.ControlBackColor.RequiredBox : RT2020.SystemInfo.ControlBackColor.DisabledBox;
+            txtMemberNumber.BackColor = (this.MemberId == System.Guid.Empty) ? SystemInfoHelper.ControlBackColor.RequiredBox : SystemInfoHelper.ControlBackColor.DisabledBox;
             txtMemberNumber.ReadOnly = (this.MemberId != System.Guid.Empty);
 
-            cboLineOfOperation.BackColor = RT2020.SystemInfo.ControlBackColor.RequiredBox;
+            cboLineOfOperation.BackColor = SystemInfoHelper.ControlBackColor.RequiredBox;
         }
         #endregion
 
@@ -1072,8 +1072,8 @@ namespace RT2020.Member
                 //tabOthers.txtNormalItemDiscount.Text = oMember.NormalDiscount.HasValue ? oMember.NormalDiscount.Value.ToString("n2") : "";
 
                 tabGeneral.txtLastUpdatedBy.Text = ModelEx.StaffEx.GetStaffNumberById(oMember.ModifiedBy);
-                tabGeneral.txtLastUpdatedOn.Text = RT2020.SystemInfo.Settings.DateTimeToString(oMember.ModifiedOn, false);
-                tabGeneral.txtCreatedOn.Text = RT2020.SystemInfo.Settings.DateTimeToString(oMember.CreatedOn, false);
+                tabGeneral.txtLastUpdatedOn.Text = DateTimeHelper.DateTimeToString(oMember.ModifiedOn, false);
+                tabGeneral.txtCreatedOn.Text = DateTimeHelper.DateTimeToString(oMember.CreatedOn, false);
                 tabGeneral.txtStatus.Text = Enum.GetName(typeof(EnumHelper.Status), oMember.Status);
 
                 LoadSmartTag(oMember.MemberId);
@@ -1546,7 +1546,7 @@ namespace RT2020.Member
                     Save();
                     if (this.MemberId != System.Guid.Empty)
                     {
-                        RT2020.SystemInfo.Settings.RefreshMainList<MemberList>();
+                        SystemInfoHelper.Settings.RefreshMainList<MemberList>();
                         MessageBox.Show("Success!", "Save Result");
 
                         this.Close();
@@ -1568,7 +1568,7 @@ namespace RT2020.Member
                     Save();
                     if (this.MemberId != System.Guid.Empty)
                     {
-                        RT2020.SystemInfo.Settings.RefreshMainList<MemberList>();
+                        SystemInfoHelper.Settings.RefreshMainList<MemberList>();
                         this.Close();
                         MemberWizard wizard = new MemberWizard();
                         wizard.EditMode = EnumHelper.EditMode.Add;
@@ -1587,7 +1587,7 @@ namespace RT2020.Member
                     Save();
                     if (this.MemberId != System.Guid.Empty && Verify())
                     {
-                        RT2020.SystemInfo.Settings.RefreshMainList<MemberList>();
+                        SystemInfoHelper.Settings.RefreshMainList<MemberList>();
                         this.Close();
                     }
                 }

@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Collections;
 using System.ComponentModel;
 using DevExpress.XtraReports.UI;
+using RT2020.Helper;
 
 namespace RT2020.Inventory.Replenishment.Reports
 {
@@ -20,9 +21,9 @@ namespace RT2020.Inventory.Replenishment.Reports
             this.txtAppendix2.DataBindings.Add("Text", DataSource, "APPENDIX2");
             this.txtAppendix3.DataBindings.Add("Text", DataSource, "APPENDIX3");
             this.txtDescription.DataBindings.Add("Text", DataSource, "ProductName");
-            this.txtQtyRequested.DataBindings.Add("Text", DataSource, "QtyRequested", "{0:n" + RT2020.SystemInfo.Settings.GetQtyDecimalPoint().ToString() + "}");
-            this.txtQtyIssued.DataBindings.Add("Text", DataSource, "QtyIssued", "{0:n" + RT2020.SystemInfo.Settings.GetQtyDecimalPoint().ToString() + "}");
-            this.txtQtyOnhand.DataBindings.Add("Text", DataSource, "QtyOnhand", "{0:n" + RT2020.SystemInfo.Settings.GetQtyDecimalPoint().ToString() + "}");
+            this.txtQtyRequested.DataBindings.Add("Text", DataSource, "QtyRequested", "{0:n" + SystemInfoHelper.Settings.GetQtyDecimalPoint().ToString() + "}");
+            this.txtQtyIssued.DataBindings.Add("Text", DataSource, "QtyIssued", "{0:n" + SystemInfoHelper.Settings.GetQtyDecimalPoint().ToString() + "}");
+            this.txtQtyOnhand.DataBindings.Add("Text", DataSource, "QtyOnhand", "{0:n" + SystemInfoHelper.Settings.GetQtyDecimalPoint().ToString() + "}");
         }
 
     }

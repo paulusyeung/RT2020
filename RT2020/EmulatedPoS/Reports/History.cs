@@ -14,6 +14,7 @@ using Gizmox.WebGUI.Forms;
 
 
 using RT2020.Helper;
+using RT2020.ModelEx;
 
 #endregion
 
@@ -32,8 +33,8 @@ namespace RT2020.EmulatedPoS.Reports
             InitializeComponent();
 
             this.SalesType = salesType;
-            dtpFromDate.Value = Convert.ToDateTime(RT2020.SystemInfo.CurrentInfo.Default.LastMonthEnd.Insert(4, "-") + "-01");
-            dtpToDate.Value = Convert.ToDateTime(RT2020.SystemInfo.CurrentInfo.Default.CurrentSystemDate.ToString("yyyy-MM-" + DateTime.Now.ToString("dd")));
+            dtpFromDate.Value = Convert.ToDateTime(SystemInfoEx.CurrentInfo.Default.LastMonthEnd.Insert(4, "-") + "-01");
+            dtpToDate.Value = Convert.ToDateTime(SystemInfoEx.CurrentInfo.Default.CurrentSystemDate.ToString("yyyy-MM-" + DateTime.Now.ToString("dd")));
             FillComboList();
         }
 
@@ -122,19 +123,19 @@ namespace RT2020.EmulatedPoS.Reports
                     title = "Sales Return History";
                 }
                 string[,] param = { 
-                                  {"CompanyName", RT2020.SystemInfo.CurrentInfo.Default.CompanyName},
+                                  {"CompanyName", SystemInfoEx.CurrentInfo.Default.CompanyName},
                                   {"WorksheetTitle",title},
-                                  {"PrintedOn", DateTime.Now.ToString(RT2020.SystemInfo.Settings.GetDateTimeFormat())},
+                                  {"PrintedOn", DateTime.Now.ToString(DateTimeHelper.GetDateTimeFormat())},
                                   {"FromTRN",cboFromTrn.Text.Trim()},
                                   {"ToTRN",cboToTrn.Text.Trim()},
-                                  {"FromDate",dtpFromDate.Value.ToString(RT2020.SystemInfo.Settings.GetDateFormat())},
-                                  {"ToDate",dtpToDate.Value.ToString(RT2020.SystemInfo.Settings.GetDateFormat())},
-                                  {"CLASS1",RT2020.SystemInfo.Settings.GetSystemLabelByKey("CLASS1")},
-                                  {"CLASS2",RT2020.SystemInfo.Settings.GetSystemLabelByKey("CLASS2")},
-                                  {"CLASS3",RT2020.SystemInfo.Settings.GetSystemLabelByKey("CLASS3")},
-                                  {"CLASS4",RT2020.SystemInfo.Settings.GetSystemLabelByKey("CLASS4")},
-                                  {"CLASS5",RT2020.SystemInfo.Settings.GetSystemLabelByKey("CLASS5")},
-                                  {"CLASS6",RT2020.SystemInfo.Settings.GetSystemLabelByKey("CLASS6")},
+                                  {"FromDate",dtpFromDate.Value.ToString(DateTimeHelper.GetDateFormat())},
+                                  {"ToDate",dtpToDate.Value.ToString(DateTimeHelper.GetDateFormat())},
+                                  {"CLASS1",SystemInfoHelper.Settings.GetSystemLabelByKey("CLASS1")},
+                                  {"CLASS2",SystemInfoHelper.Settings.GetSystemLabelByKey("CLASS2")},
+                                  {"CLASS3",SystemInfoHelper.Settings.GetSystemLabelByKey("CLASS3")},
+                                  {"CLASS4",SystemInfoHelper.Settings.GetSystemLabelByKey("CLASS4")},
+                                  {"CLASS5",SystemInfoHelper.Settings.GetSystemLabelByKey("CLASS5")},
+                                  {"CLASS6",SystemInfoHelper.Settings.GetSystemLabelByKey("CLASS6")},
                                   };
                 RT2020.Controls.Reporting.Viewer oViewer = new RT2020.Controls.Reporting.Viewer();
 

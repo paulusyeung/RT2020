@@ -13,6 +13,7 @@ using Gizmox.WebGUI.Forms;
 using System.Linq;
 using System.Data.Entity;
 using RT2020.Helper;
+using RT2020.ModelEx;
 
 #endregion
 
@@ -229,8 +230,8 @@ AND LEN(STKCODE)<>0)";
                 }
                 else if (rbtnSpecifiedRange.Checked)
                 {
-                    DateRange = this.dtpSpecifiedRangeFrom.Value.ToString(RT2020.SystemInfo.Settings.GetDateFormat()) + "-" +
-                                this.dtpSpecifiedRangeTo.Value.ToString(RT2020.SystemInfo.Settings.GetDateFormat());
+                    DateRange = this.dtpSpecifiedRangeFrom.Value.ToString(DateTimeHelper.GetDateFormat()) + "-" +
+                                this.dtpSpecifiedRangeTo.Value.ToString(DateTimeHelper.GetDateFormat());
                 }
 
                 string[,] param = {
@@ -240,12 +241,12 @@ AND LEN(STKCODE)<>0)";
                 {"Appendix1",Appendix1},
                 {"Appendix2",Appendix2},
                 {"Appendix3",Appendix3},
-                {"Appendix1Name",RT2020.SystemInfo.Settings.GetSystemLabelByKey("Appendix1")},
-                {"Appendix2Name",RT2020.SystemInfo.Settings.GetSystemLabelByKey("Appendix2")},
-                {"Appendix3Name",RT2020.SystemInfo.Settings.GetSystemLabelByKey("Appendix3")},
-                {"PrintedOn",DateTime.Now.ToString(RT2020.SystemInfo.Settings.GetDateTimeFormat())},
+                {"Appendix1Name",SystemInfoHelper.Settings.GetSystemLabelByKey("Appendix1")},
+                {"Appendix2Name",SystemInfoHelper.Settings.GetSystemLabelByKey("Appendix2")},
+                {"Appendix3Name",SystemInfoHelper.Settings.GetSystemLabelByKey("Appendix3")},
+                {"PrintedOn",DateTime.Now.ToString(DateTimeHelper.GetDateTimeFormat())},
                 {"SubTotal",SubTotal},
-                {"CompanyName",RT2020.SystemInfo.CurrentInfo.Default.CompanyName}
+                {"CompanyName",SystemInfoEx.CurrentInfo.Default.CompanyName}
                 };
 
                 RT2020.Controls.Reporting.Viewer view = new RT2020.Controls.Reporting.Viewer();

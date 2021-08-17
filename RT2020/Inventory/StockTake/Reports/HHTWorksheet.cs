@@ -12,6 +12,7 @@ using Gizmox.WebGUI.Common;
 using Gizmox.WebGUI.Forms;
 
 using RT2020.Helper;
+using RT2020.ModelEx;
 
 #endregion
 
@@ -56,15 +57,15 @@ namespace RT2020.Inventory.StockTake.Reports
                 string[,] param = {
                 { "FromTxNumber",txNumber},
                 { "ToTxNumber",txNumber},
-                { "PrintedOn",DateTime.Now.ToString(RT2020.SystemInfo.Settings.GetDateTimeFormat())},
-                { "DateFormat",RT2020.SystemInfo.Settings.GetDateFormat()},
-                { "DateFormatWithTime",RT2020.SystemInfo.Settings.GetDateTimeFormat()},
-                { "CompanyName", RT2020.SystemInfo.CurrentInfo.Default.CompanyName},
+                { "PrintedOn",DateTime.Now.ToString(DateTimeHelper.GetDateTimeFormat())},
+                { "DateFormat",DateTimeHelper.GetDateFormat()},
+                { "DateFormatWithTime",DateTimeHelper.GetDateTimeFormat()},
+                { "CompanyName", SystemInfoEx.CurrentInfo.Default.CompanyName},
                 { "DataType", rbtnAllData.Checked.ToString()},
-                { "StockCode", RT2020.SystemInfo.Settings.GetSystemLabelByKey("STKCODE") },
-                { "Appendix1", RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX1") },
-                { "Appendix2", RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX2") },
-                { "Appendix3", RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX3") }
+                { "StockCode", SystemInfoHelper.Settings.GetSystemLabelByKey("STKCODE") },
+                { "Appendix1", SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX1") },
+                { "Appendix2", SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX2") },
+                { "Appendix3", SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX3") }
                 };
 
                 RT2020.Controls.Reporting.Viewer view = new RT2020.Controls.Reporting.Viewer();

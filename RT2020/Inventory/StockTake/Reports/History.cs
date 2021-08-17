@@ -13,6 +13,7 @@ using Gizmox.WebGUI.Forms;
 
 using System.Data.SqlClient;
 using RT2020.Helper;
+using RT2020.ModelEx;
 #endregion
 
 namespace RT2020.Inventory.StockTake.Reports
@@ -61,8 +62,8 @@ namespace RT2020.Inventory.StockTake.Reports
         #region Bind Data to Report
         private DataTable BindData()
         {
-            FromDate = new DateTime(Convert.ToInt32(RT2020.SystemInfo.CurrentInfo.Default.CurrentSystemYear),
-                Convert.ToInt32(RT2020.SystemInfo.CurrentInfo.Default.CurrentSystemMonth), 1);
+            FromDate = new DateTime(Convert.ToInt32(SystemInfoEx.CurrentInfo.Default.CurrentSystemYear),
+                Convert.ToInt32(SystemInfoEx.CurrentInfo.Default.CurrentSystemMonth), 1);
 
             string sql = @"
                       SELECT TOP 100 PERCENT *
@@ -98,16 +99,16 @@ namespace RT2020.Inventory.StockTake.Reports
                 string[,] param = {
                 {"FromTxNumber",this.txtTxNumberFrom.Text.Trim()},
                 {"ToTxNumber",this.txtTxNumberTo.Text.Trim()},
-                {"FromTxDate",this.dtpTxDateFrom.Value.ToString(RT2020.SystemInfo.Settings.GetDateFormat())},
-                {"ToTxDate",this.dtpTxDateTo.Value.ToString(RT2020.SystemInfo.Settings.GetDateFormat())},
-                {"PrintedOn",DateTime.Now.ToString(RT2020.SystemInfo.Settings.GetDateTimeFormat())},
+                {"FromTxDate",this.dtpTxDateFrom.Value.ToString(DateTimeHelper.GetDateFormat())},
+                {"ToTxDate",this.dtpTxDateTo.Value.ToString(DateTimeHelper.GetDateFormat())},
+                {"PrintedOn",DateTime.Now.ToString(DateTimeHelper.GetDateTimeFormat())},
                 {"PrintedBy", ModelEx.StaffEx.GetStaffNameById(ConfigHelper.CurrentUserId) },
-                {"DateFormat",RT2020.SystemInfo.Settings.GetDateFormat()},
-                { "CompanyName", RT2020.SystemInfo.CurrentInfo.Default.CompanyName},
-                { "StockCode", RT2020.SystemInfo.Settings.GetSystemLabelByKey("STKCODE") },
-                { "Appendix1", RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX1") },
-                { "Appendix2", RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX2") },
-                { "Appendix3", RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX3") }
+                {"DateFormat",DateTimeHelper.GetDateFormat()},
+                { "CompanyName", SystemInfoEx.CurrentInfo.Default.CompanyName},
+                { "StockCode", SystemInfoHelper.Settings.GetSystemLabelByKey("STKCODE") },
+                { "Appendix1", SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX1") },
+                { "Appendix2", SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX2") },
+                { "Appendix3", SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX3") }
                 };
 
                 RT2020.Controls.Reporting.Viewer view = new RT2020.Controls.Reporting.Viewer();

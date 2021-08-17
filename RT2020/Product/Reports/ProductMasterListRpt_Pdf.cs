@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Collections;
 using System.ComponentModel;
 using DevExpress.XtraReports.UI;
+using RT2020.Helper;
 
 namespace RT2020.Product.Reports
 {
@@ -34,7 +35,7 @@ namespace RT2020.Product.Reports
             this.txtVprc.DataBindings.Add("Text", DataSource, "VendorPrice", "{0:n2}");
             this.txtVcurr.DataBindings.Add("Text", DataSource, "VendorCurrencyCode", "{0:n2}");
             this.txtORIPRC.DataBindings.Add("Text", DataSource, "OriginalRetailPrice", "{0:n2}");
-            this.txtPrint.Text = RT2020.SystemInfo.Settings.DateTimeToString(System.DateTime.Now, true);
+            this.txtPrint.Text = DateTimeHelper.DateTimeToString(System.DateTime.Now, true);
             this.txtDesc.DataBindings.Add("Text", DataSource, "ProductName");
             this.txtBasPrc.DataBindings.Add("Text", DataSource, "RetailPrice", "{0:n2}");
            
@@ -70,17 +71,17 @@ namespace RT2020.Product.Reports
         #region Set System label
         private void SetSystemLabels()
         {
-            lblSTK.Text = RT2020.SystemInfo.Settings.GetSystemLabelByKey("STKCODE");
-            lblA1.Text = RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX1");
-            lblA2.Text = RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX2");
-            lblA3.Text = RT2020.SystemInfo.Settings.GetSystemLabelByKey("APPENDIX3");
+            lblSTK.Text = SystemInfoHelper.Settings.GetSystemLabelByKey("STKCODE");
+            lblA1.Text = SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX1");
+            lblA2.Text = SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX2");
+            lblA3.Text = SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX3");
 
-            lblClass1.Text = "C1 : " + RT2020.SystemInfo.Settings.GetSystemLabelByKey("CLASS1");
-            lblClass2.Text = "C1 : " + RT2020.SystemInfo.Settings.GetSystemLabelByKey("CLASS2");
-            lblClass3.Text = "C1 : " + RT2020.SystemInfo.Settings.GetSystemLabelByKey("CLASS3");
-            lblClass4.Text = "C1 : " + RT2020.SystemInfo.Settings.GetSystemLabelByKey("CLASS4");
-            lblClass5.Text = "C1 : " + RT2020.SystemInfo.Settings.GetSystemLabelByKey("CLASS5");
-            lblClass6.Text = "C1 : " + RT2020.SystemInfo.Settings.GetSystemLabelByKey("CLASS6");
+            lblClass1.Text = "C1 : " + SystemInfoHelper.Settings.GetSystemLabelByKey("CLASS1");
+            lblClass2.Text = "C1 : " + SystemInfoHelper.Settings.GetSystemLabelByKey("CLASS2");
+            lblClass3.Text = "C1 : " + SystemInfoHelper.Settings.GetSystemLabelByKey("CLASS3");
+            lblClass4.Text = "C1 : " + SystemInfoHelper.Settings.GetSystemLabelByKey("CLASS4");
+            lblClass5.Text = "C1 : " + SystemInfoHelper.Settings.GetSystemLabelByKey("CLASS5");
+            lblClass6.Text = "C1 : " + SystemInfoHelper.Settings.GetSystemLabelByKey("CLASS6");
         }
         #endregion
     }

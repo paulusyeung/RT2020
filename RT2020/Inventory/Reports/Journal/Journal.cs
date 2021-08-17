@@ -4,11 +4,11 @@ using System.Collections;
 using System.ComponentModel;
 using DevExpress.XtraReports.UI;
 
-namespace RT2020.Inventory.Reports
+namespace RT2020.Inventory.Reports.Journal
 {
-    public partial class Journal : DevExpress.XtraReports.UI.XtraReport
+    public partial class Xrpt : DevExpress.XtraReports.UI.XtraReport
     {
-        public Journal()
+        public Xrpt()
         {
             InitializeComponent();
         }

@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Collections;
 using System.ComponentModel;
 using DevExpress.XtraReports.UI;
+using RT2020.Helper;
 
 namespace RT2020.Product.Reports
 {
@@ -27,13 +28,13 @@ namespace RT2020.Product.Reports
             this.txtCharge_Rate.DataBindings.Add("Text", DataSource, "ChargeRate", "{0:n2}");
             //this.txtChargeWay.DataBindings.Add("Text",DataSource,"");
             this.txtCurr.DataBindings.Add("Text", DataSource, "CurrencyCode");
-            this.txtDateCreate.DataBindings.Add("Text", DataSource, "CreatedOn", "{0:" + RT2020.SystemInfo.Settings.GetDateFormat() + "}");
-            this.txtDateLchg.DataBindings.Add("Text", DataSource, "ModifiedOn", "{0:" + RT2020.SystemInfo.Settings.GetDateFormat() + "}");
+            this.txtDateCreate.DataBindings.Add("Text", DataSource, "CreatedOn", "{0:" + DateTimeHelper.GetDateFormat() + "}");
+            this.txtDateLchg.DataBindings.Add("Text", DataSource, "ModifiedOn", "{0:" + DateTimeHelper.GetDateFormat() + "}");
             this.txtUserLchg.DataBindings.Add("Text", DataSource, "StaffName");
            // this.txtMonthCharge.DataBindings.Add("Text",DataSource,"");
             this.txtPayType.DataBindings.Add("Text", fDataBrowser, "TypeCode");     // refer: https://supportcenter.devexpress.com/ticket/details/q482879/xtrareport-databrowser-error-after-upgrading
             this.txtXChgRate.DataBindings.Add("Text", fDataBrowser, "ExchangeRate", "{0:n4}");
-            this.txtPrint.Text = RT2020.SystemInfo.Settings.DateTimeToString(System.DateTime.Now, true);
+            this.txtPrint.Text = DateTimeHelper.DateTimeToString(System.DateTime.Now, true);
         }
 
         #region Attribute

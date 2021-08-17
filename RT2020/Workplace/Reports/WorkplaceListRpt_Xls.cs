@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Collections;
 using System.ComponentModel;
 using DevExpress.XtraReports.UI;
+using RT2020.Helper;
 
 namespace RT2020.Workplace.Reports
 {
@@ -24,11 +25,11 @@ namespace RT2020.Workplace.Reports
             this.INITIAL1.DataBindings.Add("Text", DataSource, "WorkplaceInitial");
             this.NAME1.DataBindings.Add("Text", DataSource, "WorkplaceName");
             this.txtAddress.DataBindings.Add("Text",DataSource,"Address");
-            this.DATECREATE1.DataBindings.Add("Text", DataSource, "CreatedOn", "{0:" + RT2020.SystemInfo.Settings.GetDateFormat() + "}");
-            this.DATELCHG1.DataBindings.Add("Text", DataSource, "ModifiedOn", "{0:" + RT2020.SystemInfo.Settings.GetDateFormat() + "}");
+            this.DATECREATE1.DataBindings.Add("Text", DataSource, "CreatedOn", "{0:" + DateTimeHelper.GetDateFormat() + "}");
+            this.DATELCHG1.DataBindings.Add("Text", DataSource, "ModifiedOn", "{0:" + DateTimeHelper.GetDateFormat() + "}");
             this.USERLCHG1.DataBindings.Add("Text", DataSource, "ModifiedBy");
             this.TEL1.DataBindings.Add("Text",DataSource,"Phone");
-            this.PrintDate1.Text = RT2020.SystemInfo.Settings.DateTimeToString(DateTime.Now, true);
+            this.PrintDate1.Text = DateTimeHelper.DateTimeToString(DateTime.Now, true);
             //this.PSN1.DataBindings.Add("Text",DataSource,"");
             //this.ALTERNATELOCNO1.DataBindings.Add("Text",DataSource,"");
         }

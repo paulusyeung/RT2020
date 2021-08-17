@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Collections;
 using System.ComponentModel;
 using DevExpress.XtraReports.UI;
+using RT2020.Helper;
 
 namespace RT2020.Product.Reports
 {
@@ -15,7 +16,7 @@ namespace RT2020.Product.Reports
         {
             InitializeComponent();
 
-            this.lblCaption.Text = RT2020.SystemInfo.Settings.GetSystemLabelByKey("CLASS2") + " List";
+            this.lblCaption.Text = SystemInfoHelper.Settings.GetSystemLabelByKey("CLASS2") + " List";
         }
 
         private void GenderListRptc_BeforePrint(object sender, System.Drawing.Printing.PrintEventArgs e)
@@ -25,10 +26,10 @@ namespace RT2020.Product.Reports
             this.ID1.DataBindings.Add("Text", DataSource, "Class2Code");
             this.DESC1.DataBindings.Add("Text", DataSource, "Class2Initial");
             this.DESCLONG1.DataBindings.Add("Text", DataSource, "Class2Name");
-            this.DATECREATE1.DataBindings.Add("Text", DataSource, "CreatedOn", "{0:" + RT2020.SystemInfo.Settings.GetDateFormat() + "}");
-            this.DATELCHG1.DataBindings.Add("Text", DataSource, "ModifiedOn", "{0:" + RT2020.SystemInfo.Settings.GetDateFormat() + "}");
+            this.DATECREATE1.DataBindings.Add("Text", DataSource, "CreatedOn", "{0:" + DateTimeHelper.GetDateFormat() + "}");
+            this.DATELCHG1.DataBindings.Add("Text", DataSource, "ModifiedOn", "{0:" + DateTimeHelper.GetDateFormat() + "}");
             this.USERLCHG1.DataBindings.Add("Text", DataSource, "StaffName");
-            this.PrintDate1.Text = RT2020.SystemInfo.Settings.DateTimeToString(System.DateTime.Now, true);
+            this.PrintDate1.Text = DateTimeHelper.DateTimeToString(System.DateTime.Now, true);
         }
 
         #region Attribute

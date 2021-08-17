@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 
 using RT2020.Controls;
+using RT2020.ModelEx;
 
 namespace RT2020.Settings.MonthEndProcess
 {
@@ -34,7 +35,7 @@ namespace RT2020.Settings.MonthEndProcess
                 var oSysInfo = ctx.SystemInfo.FirstOrDefault();
                 if (oSysInfo != null)
                 {
-                    oSysInfo.LastMonthEnd = Convert.ToInt32(SystemInfo.CurrentInfo.Default.CurrentSystemDate.ToString("yyyyMM"));
+                    oSysInfo.LastMonthEnd = Convert.ToInt32(SystemInfoEx.CurrentInfo.Default.CurrentSystemDate.ToString("yyyyMM"));
                     ctx.SaveChanges();
                 }
             }

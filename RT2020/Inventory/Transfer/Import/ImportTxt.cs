@@ -140,9 +140,9 @@ namespace RT2020.Inventory.Transfer.Import
                 oItem.SubItems.Add(txferItem.FromLocation);
                 oItem.SubItems.Add(txferItem.ToLocation);
                 oItem.SubItems.Add(txferItem.Operator);
-                oItem.SubItems.Add(RT2020.SystemInfo.Settings.DateTimeToString(txferItem.TxDate, false));
-                oItem.SubItems.Add(RT2020.SystemInfo.Settings.DateTimeToString(txferItem.TxferDate, false));
-                oItem.SubItems.Add(RT2020.SystemInfo.Settings.DateTimeToString(txferItem.CompletionDate, false));
+                oItem.SubItems.Add(DateTimeHelper.DateTimeToString(txferItem.TxDate, false));
+                oItem.SubItems.Add(DateTimeHelper.DateTimeToString(txferItem.TxferDate, false));
+                oItem.SubItems.Add(DateTimeHelper.DateTimeToString(txferItem.CompletionDate, false));
                 oItem.SubItems.Add(txferItem.RefNumber);
                 oItem.SubItems.Add(txferItem.Remarks);
             }
@@ -183,7 +183,7 @@ namespace RT2020.Inventory.Transfer.Import
                     {
                         for (int i = 0; i < md.Length; i++)
                         {
-                            string txNumber = RT2020.SystemInfo.Settings.QueuingTxNumber(EnumHelper.TxType.TXF);
+                            string txNumber = SystemInfoHelper.Settings.QueuingTxNumber(EnumHelper.TxType.TXF);
 
                             #region Guid headerId = ImportTxferHeader(md[i].Master as TxferTxtIEMaster, txNumber);
                             var master = md[i].Master as TxferTxtIEMaster;

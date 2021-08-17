@@ -54,20 +54,20 @@ namespace RT2020.Inventory.StockTake.Import
             backupDirectory = Path.Combine(mstrDirectory, "Backup");
             logFile = Path.Combine(Path.Combine(mstrDirectory, "Log"), "STK1300M_PPC_" + DateTime.Now.ToString("yyyyMMdd") + ".log");
 
-            lblRecordNotFound.BackColor = SystemInfo.ControlBackColor.DisabledBox;
-            lblLedgendOfStockTakeNumber.BackColor = SystemInfo.ControlBackColor.RequiredBox;
+            lblRecordNotFound.BackColor = SystemInfoHelper.ControlBackColor.DisabledBox;
+            lblLedgendOfStockTakeNumber.BackColor = SystemInfoHelper.ControlBackColor.RequiredBox;
 
-            txtUploadOn.BackColor = SystemInfo.ControlBackColor.DisabledBox;
-            txtHHTId.BackColor = SystemInfo.ControlBackColor.DisabledBox;
-            txtHHTTxNumber.BackColor = SystemInfo.ControlBackColor.DisabledBox;
-            txtStockTakeNumber.BackColor = SystemInfo.ControlBackColor.DisabledBox;
+            txtUploadOn.BackColor = SystemInfoHelper.ControlBackColor.DisabledBox;
+            txtHHTId.BackColor = SystemInfoHelper.ControlBackColor.DisabledBox;
+            txtHHTTxNumber.BackColor = SystemInfoHelper.ControlBackColor.DisabledBox;
+            txtStockTakeNumber.BackColor = SystemInfoHelper.ControlBackColor.DisabledBox;
         }
 
         private string GetUploadOn(string fileName)
         {
             FileInfo fileInfo = new FileInfo(fileName);
 
-            return SystemInfo.Settings.DateTimeToString(fileInfo.LastWriteTime, true);
+            return DateTimeHelper.DateTimeToString(fileInfo.LastWriteTime, true);
         }
 
         #endregion
@@ -281,7 +281,7 @@ namespace RT2020.Inventory.StockTake.Import
                             lvItem.SubItems.Add(headerInfo[2]); // HHT ID
 
                             lvItem.UseItemStyleForSubItems = false;
-                            lvItem.SubItems[1].BackColor = SystemInfo.ControlBackColor.RequiredBox;
+                            lvItem.SubItems[1].BackColor = SystemInfoHelper.ControlBackColor.RequiredBox;
 
                             stocktakeNumber = headerInfo[3];
                             loc = headerInfo[1];
@@ -531,7 +531,7 @@ namespace RT2020.Inventory.StockTake.Import
                     {
                         if (stktkNumber.Trim().Length == 0)
                         {
-                            stktkNumber = SystemInfo.Settings.QueuingTxNumber(EnumHelper.TxType.STK);
+                            stktkNumber = SystemInfoHelper.Settings.QueuingTxNumber(EnumHelper.TxType.STK);
                         }
 
                         Utility.WriteLog("	[OK] System Queue ", logFile);

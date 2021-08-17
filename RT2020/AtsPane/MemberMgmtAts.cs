@@ -98,7 +98,7 @@ namespace RT2020.AtsPane
             ddlReport.MenuItems.Add(new MenuItem("-"));
             ddlReport.MenuItems.Add(new MenuItem(oDict.GetWord("VIP Sales Summay List"), string.Empty, "vip_sales_summay_list"));
             ddlReport.MenuItems.Add(new MenuItem("-"));
-            ddlReport.MenuItems.Add(new MenuItem(string.Format(oDict.GetWord("Top VIP Spending by"), RT2020.SystemInfo.Settings.GetSystemLabelByKey("CLASS1")), string.Empty, "top_vip_spending_by_class1"));
+            ddlReport.MenuItems.Add(new MenuItem(string.Format(oDict.GetWord("Top VIP Spending by"), SystemInfoHelper.Settings.GetSystemLabelByKey("CLASS1")), string.Empty, "top_vip_spending_by_class1"));
 
             ToolBarButton cmdReport = new ToolBarButton("Reports", WestwindHelper.GetWord("edit.reports", "General"));
             cmdReport.Style = ToolBarButtonStyle.DropDownButton;

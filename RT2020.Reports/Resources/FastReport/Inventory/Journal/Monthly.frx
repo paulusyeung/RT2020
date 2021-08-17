@@ -1,0 +1,130 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report ScriptLanguage="CSharp" DoublePass="true" ReportInfo.Created="08/07/2021 07:30:34" ReportInfo.Modified="08/16/2021 05:56:35" ReportInfo.CreatorVersion="2021.3.21.0">
+  <Dictionary>
+    <MsSqlDataConnection Name="Connection" ConnectionString="rijcmlqHwzMSgwTFaHpjtG3vsOj8TlmOa+vVLsJKVkUIPzV7rvIXuYFPjzRP+O5WEhZXifpxobFNJumm0Rve3Ml6++4NWfHGwE1jvsi0WRlWGXmDKf0FbUqz2HzmGqi95ls1vVMJtBFmWB4sfx3c70PukumtqmGoegUDwwwYrbxbeQ6+ZYGMfPoN4ckcWPZcqsOn5wud4g3W12kzPx3ykq7hbmoUA==">
+      <TableDataSource Name="Table" DataType="System.Int32" Enabled="true" SelectCommand="select * from&#13;&#10;(&#13;&#10;SELECT TOP(100) V.STKCODE, V.APPENDIX1, V.APPENDIX2, V.APPENDIX3, V.CLASS1, V.CLASS2, V.CLASS3, V.CLASS4, V.CLASS5, V.CLASS6, V.TxDate, V.TxType, V.TxNumber, V.SupplierCode, V.Price, V.FromLocation, V.ToLocation, V.QTYIN, V.QTYOUT, V.Qty, V.AverageCost, V.BFQTY, V.BFAMT, V.CDQTY, V.CDAMT, V.Reference, V.Remarks&#13;&#10;FROM vwInOutHistory AS V&#13;&#10;) as vw&#13;&#10;order by STKCODE, APPENDIX1, APPENDIX2, APPENDIX3, TxDate, TxType, TxNumber">
+        <Column Name="STKCODE" DataType="System.String"/>
+        <Column Name="APPENDIX1" DataType="System.String"/>
+        <Column Name="APPENDIX2" DataType="System.String"/>
+        <Column Name="APPENDIX3" DataType="System.String"/>
+        <Column Name="CLASS1" DataType="System.String"/>
+        <Column Name="CLASS2" DataType="System.String"/>
+        <Column Name="CLASS3" DataType="System.String"/>
+        <Column Name="CLASS4" DataType="System.String"/>
+        <Column Name="CLASS5" DataType="System.String"/>
+        <Column Name="CLASS6" DataType="System.String"/>
+        <Column Name="TxDate" DataType="System.DateTime"/>
+        <Column Name="TxType" DataType="System.String"/>
+        <Column Name="TxNumber" DataType="System.String"/>
+        <Column Name="SupplierCode" DataType="System.String"/>
+        <Column Name="Price" DataType="System.Decimal"/>
+        <Column Name="FromLocation" DataType="System.String"/>
+        <Column Name="ToLocation" DataType="System.String"/>
+        <Column Name="QTYIN" DataType="System.Decimal"/>
+        <Column Name="QTYOUT" DataType="System.Decimal"/>
+        <Column Name="Qty" DataType="System.Decimal"/>
+        <Column Name="AverageCost" DataType="System.Decimal"/>
+        <Column Name="BFQTY" DataType="System.Decimal"/>
+        <Column Name="BFAMT" DataType="System.Decimal"/>
+        <Column Name="CDQTY" DataType="System.Decimal"/>
+        <Column Name="CDAMT" DataType="System.Decimal"/>
+        <Column Name="Reference" DataType="System.String"/>
+        <Column Name="Remarks" DataType="System.String"/>
+      </TableDataSource>
+    </MsSqlDataConnection>
+    <Parameter Name="pSelectedStockCode" DataType="System.String"/>
+    <Parameter Name="pSelectedDate" DataType="System.String"/>
+    <Parameter Name="pCompanyName" DataType="System.String"/>
+    <Parameter Name="pReportTitle" DataType="System.String"/>
+    <Parameter Name="pReportSubTitle" DataType="System.String"/>
+    <Total Name="SubTotalQtyIN" Expression="[Table.QTYIN]" Evaluator="Data1" PrintOn="GroupFooter1"/>
+    <Total Name="SubTotalQtyOut" Expression="[Table.QTYOUT]" Evaluator="Data1" PrintOn="GroupFooter1"/>
+  </Dictionary>
+  <ReportPage Name="Page1" LeftMargin="8.889999" TopMargin="8.889999" RightMargin="8.889999" BottomMargin="8.889999" Watermark.Font="Arial, 60pt">
+    <PageHeaderBand Name="PageHeader1" Width="726.59" Height="85.05" PrintOn="FirstPage, LastPage, OddPages, EvenPages, RepeatedBand">
+      <TextObject Name="lblReportTitle" Top="16.8" Width="480" Height="16.8" CanGrow="true" Text="IN / OUT HISTORY LIST FOR MONTH" Padding="2, 2, 2, 2" Font="Arial, 8pt, style=Bold"/>
+      <TextObject Name="lblSelectedStockCode" Top="50.4" Width="98.4" Height="16.8" CanGrow="true" Text="STOCK CODE :" Padding="2, 2, 2, 2" Font="Arial, 7pt"/>
+      <TextObject Name="lblSelectedDate" Top="67.2" Width="98.4" Height="16.8" CanGrow="true" Text="DATE :" Padding="2, 2, 2, 2" Font="Arial, 7pt"/>
+      <TextObject Name="lblPrintedOn" Left="517.6" Top="50.4" Width="77.6" Height="16.8" CanGrow="true" Text="PRINTED ON :" Padding="2, 2, 2, 2" HorzAlign="Right" Font="Arial, 7pt"/>
+      <TextObject Name="lblPage" Left="517.6" Top="67.2" Width="77.6" Height="16.8" CanGrow="true" Text="PAGE :" Padding="2, 2, 2, 2" HorzAlign="Right" Font="Arial, 7pt"/>
+      <TextObject Name="lblReportSubTitle" Top="33.53" Width="480.06" Height="16.63" Text="[pReportSubTitle]" Font="Arial, 7pt"/>
+      <TextObject Name="txtPageNofM" Left="595.35" Top="67.15" Width="103.95" Height="16.63" Text="[PageNofM]" VertAlign="Center" Font="Arial, 7pt"/>
+      <TextObject Name="txtPrintedOn" Left="595.35" Top="50.25" Width="103.95" Height="16.63" Text="[Date]" Format="Custom" Format.Format="yyyy-MM-dd HH:mm" VertAlign="Center" Font="Arial, 7pt"/>
+      <TextObject Name="txtSelectedStockCOde" Left="98.95" Top="50.27" Width="381" Height="16.63" Text="[pSelectedStockCode]" Font="Arial, 7pt"/>
+      <TextObject Name="txtSelectedDate" Left="98.95" Top="67.28" Width="381" Height="16.63" Text="[pSelectedDate]" Font="Arial, 7pt"/>
+      <TextObject Name="txtCompanyName" Width="480.06" Height="16.63" Text="[pCompanyName]" Font="Arial, 8pt, style=Bold"/>
+    </PageHeaderBand>
+    <GroupHeaderBand Name="GroupHeader1" Top="87.05" Width="726.59" Condition="[Table.STKCODE]">
+      <GroupHeaderBand Name="GroupHeader2" Top="89.05" Width="726.59" Condition="[Table.APPENDIX1]">
+        <GroupHeaderBand Name="GroupHeader3" Top="91.05" Width="726.59" Condition="[Table.APPENDIX2]">
+          <GroupHeaderBand Name="GroupHeader4" Top="93.05" Width="726.59" Height="98.76" Border.Lines="Top" Condition="[Table.APPENDIX3]">
+            <TextObject Name="lblAppendix1" Top="17.8" Width="98.5" Height="16.63" Text="APPENDIX1:" VertAlign="Center" Font="Arial, 7pt"/>
+            <TextObject Name="lblAppendix2" Top="35.7" Width="98.5" Height="16.63" Text="APPENDIX2:" VertAlign="Center" Font="Arial, 7pt"/>
+            <TextObject Name="lblAppendix3" Top="52.6" Width="98.5" Height="16.63" Text="APPENDIX3:" VertAlign="Center" Font="Arial, 7pt"/>
+            <TextObject Name="lblClass2" Left="245.7" Top="35.65" Width="98.5" Height="16.63" Text="CLASS2:" HorzAlign="Right" VertAlign="Center" Font="Arial, 7pt"/>
+            <TextObject Name="lblClass3" Left="245.7" Top="52.66" Width="98.5" Height="16.63" Text="CLASS3:" HorzAlign="Right" VertAlign="Center" Font="Arial, 7pt"/>
+            <TextObject Name="lblClass1" Left="245.7" Top="17.78" Width="98.5" Height="16.63" Text="CLASS1:" HorzAlign="Right" VertAlign="Center" Font="Arial, 7pt"/>
+            <TextObject Name="lblClass5" Left="481.95" Top="35.65" Width="98.5" Height="16.63" Text="CLASS5:" HorzAlign="Right" VertAlign="Center" Font="Arial, 7pt"/>
+            <TextObject Name="lblClass6" Left="481.95" Top="52.66" Width="98.5" Height="16.63" Text="CLASS6:" HorzAlign="Right" VertAlign="Center" Font="Arial, 7pt"/>
+            <TextObject Name="lblClass4" Left="481.95" Top="17.78" Width="98.5" Height="16.63" Text="CLASS4:" HorzAlign="Right" VertAlign="Center" Font="Arial, 7pt"/>
+            <TextObject Name="Text17" Top="84.4" Width="48.01" Height="14.36" Border.Lines="All" Border.Color="Silver" Fill.Color="WhiteSmoke" Text="DATE" HorzAlign="Center" VertAlign="Bottom" Font="Arial, 6pt"/>
+            <TextObject Name="Text18" Left="48.25" Top="84.4" Width="85.05" Height="14.36" Border.Lines="Right, Top, Bottom" Border.Color="Silver" Fill.Color="WhiteSmoke" Text="TYPE" HorzAlign="Center" VertAlign="Bottom" Font="Arial, 6pt"/>
+            <TextObject Name="Text19" Left="133.1" Top="84.4" Width="43.47" Height="14.36" Border.Lines="Right, Top, Bottom" Border.Color="Silver" Fill.Color="WhiteSmoke" Text="QTY IN" HorzAlign="Center" VertAlign="Bottom" Font="Arial, 6pt"/>
+            <TextObject Name="Text20" Left="177.35" Top="84.4" Width="43.47" Height="14.36" Border.Lines="Right, Top, Bottom" Border.Color="Silver" Fill.Color="WhiteSmoke" Text="QTY OUT" HorzAlign="Center" VertAlign="Bottom" Font="Arial, 6pt"/>
+            <TextObject Name="Text21" Left="221.15" Top="84.4" Width="43.09" Height="14.36" Border.Lines="Right, Top, Bottom" Border.Color="Silver" Fill.Color="WhiteSmoke" Text="PRICE($)" HorzAlign="Center" VertAlign="Bottom" Font="Arial, 6pt"/>
+            <TextObject Name="Text22" Left="264.4" Top="84.4" Width="43.09" Height="14.36" Border.Lines="Right, Top, Bottom" Border.Color="Silver" Fill.Color="WhiteSmoke" Text="COST($)" HorzAlign="Center" VertAlign="Bottom" Font="Arial, 6pt"/>
+            <TextObject Name="Text23" Left="307.2" Top="84.4" Width="76.73" Height="14.36" Border.Lines="Right, Top, Bottom" Border.Color="Silver" Fill.Color="WhiteSmoke" Text="DOCUMENT#" HorzAlign="Center" VertAlign="Bottom" Font="Arial, 6pt"/>
+            <TextObject Name="Text24" Left="384.25" Top="84.4" Width="96.01" Height="14.36" Border.Lines="Right, Top, Bottom" Border.Color="Silver" Fill.Color="WhiteSmoke" Text="REF#" HorzAlign="Center" VertAlign="Bottom" Font="Arial, 6pt"/>
+            <TextObject Name="Text25" Left="480.75" Top="84.4" Width="43.09" Height="14.36" Border.Lines="Right, Top, Bottom" Border.Color="Silver" Fill.Color="WhiteSmoke" Text="LOC#" HorzAlign="Center" VertAlign="Bottom" Font="Arial, 6pt"/>
+            <TextObject Name="Text26" Left="524.55" Top="84.4" Width="43.09" Height="14.36" Border.Lines="Right, Top, Bottom" Border.Color="Silver" Fill.Color="WhiteSmoke" Text="VS LOC#" HorzAlign="Center" VertAlign="Bottom" Font="Arial, 6pt"/>
+            <TextObject Name="Text27" Left="567.8" Top="84.4" Width="62.37" Height="14.36" Border.Lines="Right, Top, Bottom" Border.Color="Silver" Fill.Color="WhiteSmoke" Text="SUPP#" HorzAlign="Center" VertAlign="Bottom" Font="Arial, 6pt"/>
+            <TextObject Name="Text28" Left="630.5" Top="84.4" Width="96.17" Height="14.36" Border.Lines="Right, Top, Bottom" Border.Color="Silver" Fill.Color="WhiteSmoke" Text="REMARKS" HorzAlign="Center" VertAlign="Bottom" Font="Arial, 6pt"/>
+            <TextObject Name="lblBFQty" Top="69.55" Width="98.5" Height="14.36" Text="B/F QTY:" HorzAlign="Right" VertAlign="Center" Font="Arial, 6pt"/>
+            <TextObject Name="lblBFAmount" Left="189" Top="69.49" Width="51.25" Height="14.36" Text="B/F AMT($):" HorzAlign="Right" VertAlign="Center" Font="Arial, 6pt"/>
+            <TextObject Name="lblCDQty" Left="340.2" Top="69.55" Width="51.25" Height="14.36" Text="C/D QTY:" HorzAlign="Right" VertAlign="Center" Font="Arial, 6pt"/>
+            <TextObject Name="lblCDAmount" Left="481.95" Top="69.49" Width="52.92" Height="14.36" Text="C/D AMT($):" HorzAlign="Right" VertAlign="Center" Font="Arial, 6pt"/>
+            <TextObject Name="txtAppendix1" Left="98.95" Top="17.8" Width="113.4" Height="16.63" Text="[Table.APPENDIX1]" VertAlign="Center" Font="Arial, 7pt"/>
+            <TextObject Name="txtAppendix2" Left="98.95" Top="35.7" Width="113.4" Height="16.63" Text="[Table.APPENDIX2]" VertAlign="Center" Font="Arial, 7pt"/>
+            <TextObject Name="txtAppendix3" Left="98.4" Top="51.7" Width="113.4" Height="16.63" Text="[Table.APPENDIX3]" VertAlign="Center" Font="Arial, 7pt"/>
+            <TextObject Name="txtBFQty" Left="98.95" Top="69.55" Width="75.6" Height="13.61" Text="[Table.BFQTY]" Format="Custom" Format.Format="#,##0" VertAlign="Center" WordWrap="false" Font="Arial, 6pt" Trimming="EllipsisCharacter"/>
+            <TextObject Name="txtBFAmount" Left="239.7" Top="69.55" Width="75.6" Height="13.61" Text="[Table.BFAMT]" Format="Currency" Format.UseLocale="true" Format.DecimalDigits="2" VertAlign="Center" WordWrap="false" Font="Arial, 6pt" Trimming="EllipsisCharacter"/>
+            <TextObject Name="txtCDQty" Left="390.9" Top="69.55" Width="75.6" Height="14.36" Text="[Table.CDQTY]" Format="Custom" Format.Format="#,##0" VertAlign="Center" WordWrap="false" Font="Arial, 6pt" Trimming="EllipsisCharacter"/>
+            <TextObject Name="txtCDAmount" Left="534.65" Top="69.55" Width="75.6" Height="14.36" Text="[Table.CDAMT]" Format="Currency" Format.UseLocale="true" Format.DecimalDigits="2" VertAlign="Center" WordWrap="false" Font="Arial, 6pt" Trimming="EllipsisCharacter"/>
+            <TextObject Name="txtClass1" Left="343.65" Top="17.8" Width="94.5" Height="16.63" Text="[Table.CLASS1]" VertAlign="Center" Font="Arial, 7pt"/>
+            <TextObject Name="txtClass2" Left="343.65" Top="35.7" Width="94.5" Height="16.63" Text="[Table.CLASS2]" VertAlign="Center" Font="Arial, 7pt"/>
+            <TextObject Name="txtClass3" Left="343.65" Top="52.7" Width="94.5" Height="16.63" Text="[Table.CLASS3]" VertAlign="Center" Font="Arial, 7pt"/>
+            <TextObject Name="txtClass4" Left="580.9" Top="17.91" Width="94.5" Height="16.63" Text="[Table.CLASS4]" VertAlign="Center" Font="Arial, 7pt"/>
+            <TextObject Name="txtClass5" Left="580.9" Top="35.7" Width="94.5" Height="16.63" Text="[Table.CLASS5]" VertAlign="Center" Font="Arial, 7pt"/>
+            <TextObject Name="txtClass6" Left="580.9" Top="51.7" Width="94.5" Height="16.63" Text="[Table.CLASS6]" VertAlign="Center" Font="Arial, 7pt"/>
+            <TextObject Name="lblStockCode" Top="1.45" Width="98.28" Height="16.63" Text="STKCODE:" VertAlign="Center" Font="Arial, 7pt"/>
+            <TextObject Name="txtStockCode" Left="98.95" Top="1.45" Width="113.4" Height="16.63" Text="[Table.STKCODE]" VertAlign="Center" Font="Arial, 7pt"/>
+            <DataBand Name="Data1" Top="193.81" Width="726.59" Height="16.63" DataSource="Table">
+              <TextObject Name="txtTxDate" Top="1.13" Width="48.01" Height="14.36" Text="[Table.TxDate]" Padding="0, 0, 0, 0" Format="Custom" Format.Format="yyyy-MM-dd" HorzAlign="Center" VertAlign="Center" Font="Arial, 6pt"/>
+              <TextObject Name="txtQtyIn" Left="133.06" Top="1.13" Width="43.47" Height="14.36" Text="[Table.QTYIN]" Format="Custom" Format.Format="#,###" HorzAlign="Right" VertAlign="Center" WordWrap="false" Font="Arial, 6pt" Trimming="EllipsisCharacter"/>
+              <TextObject Name="txtTxType" Left="48.25" Top="1.13" Width="85.05" Height="14.36" Text="[Table.TxType]" VertAlign="Center" Font="Arial, 6pt"/>
+              <TextObject Name="txtQtyOut" Left="176.55" Top="1.13" Width="43.8" Height="14.36" Text="[Table.QTYOUT]" Format="Custom" Format.Format="#,###" HorzAlign="Right" VertAlign="Center" WordWrap="false" Font="Arial, 6pt" Trimming="EllipsisCharacter"/>
+              <TextObject Name="txtPrice" Left="220.8" Top="1.13" Width="43.25" Height="14.36" Text="[Table.Price]" Format="Custom" Format.Format="#,###.##" HorzAlign="Right" VertAlign="Center" WordWrap="false" Font="Arial, 6pt" Trimming="EllipsisCharacter"/>
+              <TextObject Name="txtAverageCost" Left="264.05" Top="1.13" Width="43.6" Height="14.36" Text="[Table.AverageCost]" Format="Custom" Format.Format="#,###.##" HorzAlign="Right" VertAlign="Center" WordWrap="false" Font="Arial, 6pt" Trimming="EllipsisCharacter"/>
+              <TextObject Name="txtTxNumber" Left="306.85" Top="1.13" Width="76.5" Height="14.36" Text="[Table.TxNumber]" VertAlign="Center" Font="Arial, 6pt"/>
+              <TextObject Name="txtReference" Left="383.45" Top="1.13" Width="96.5" Height="14.36" Text="[Table.Reference]" VertAlign="Center" Font="Arial, 6pt"/>
+              <TextObject Name="txtFromLocation" Left="479.95" Top="1.13" Width="43.5" Height="14.36" Text="[Table.FromLocation]" HorzAlign="Center" VertAlign="Center" Font="Arial, 6pt"/>
+              <TextObject Name="txtToLocation" Left="524.2" Top="1.13" Width="43.5" Height="14.36" Text="[Table.ToLocation]" HorzAlign="Center" VertAlign="Center" Font="Arial, 6pt"/>
+              <TextObject Name="txtSupplierCode" Left="567.45" Top="1.13" Width="62.5" Height="14.36" Text="[Table.SupplierCode]" VertAlign="Center" Font="Arial, 6pt"/>
+              <TextObject Name="txtRemarks" Left="630.15" Top="1.13" Width="96.5" Height="14.36" Text="[Table.Remarks]" VertAlign="Center" Font="Arial, 6pt"/>
+            </DataBand>
+            <GroupFooterBand Name="GroupFooter4" Top="212.44" Width="726.59" Height="18.9">
+              <TextObject Name="Text4" Left="47.49" Top="1" Width="84.36" Height="14.36" Text="SUB-TOTAL::" VertAlign="Center" Font="Arial, 6pt"/>
+              <TextObject Name="Text6" Left="176.49" Top="1" Width="43.5" Height="14.36" Text="[SubTotalQtyOut]" Format="Custom" Format.Format="#,###" HorzAlign="Right" VertAlign="Center" Font="Arial, 6pt"/>
+              <LineObject Name="Line2" Left="47.25" Top="0.38" Width="173.12"/>
+              <TextObject Name="Text5" Left="131.54" Width="44.5" Height="14.36" Text="[SubTotalQtyIN]" Format="Custom" Format.Format="#,###" HorzAlign="Right" VertAlign="Center" Font="Arial, 6pt"/>
+            </GroupFooterBand>
+          </GroupHeaderBand>
+          <GroupFooterBand Name="GroupFooter3" Top="233.34" Width="726.59"/>
+        </GroupHeaderBand>
+        <GroupFooterBand Name="GroupFooter2" Top="235.34" Width="726.59"/>
+      </GroupHeaderBand>
+      <GroupFooterBand Name="GroupFooter1" Top="237.34" Width="726.59" KeepWithData="true"/>
+    </GroupHeaderBand>
+    <PageFooterBand Name="PageFooter1" Top="239.34" Width="726.59" PrintOn="FirstPage, LastPage, OddPages, EvenPages, RepeatedBand"/>
+  </ReportPage>
+</Report>

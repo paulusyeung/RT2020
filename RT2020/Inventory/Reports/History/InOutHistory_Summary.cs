@@ -16,6 +16,7 @@ using System.Collections;
 using System.Linq;
 using System.Data.Entity;
 using RT2020.Helper;
+using RT2020.ModelEx;
 
 #endregion
 
@@ -36,8 +37,8 @@ namespace RT2020.Inventory.Reports.History
 
         private void SetAttributes()
         {
-            currentDate = RT2020.SystemInfo.CurrentInfo.Default.CurrentSystemYear +
-                RT2020.SystemInfo.CurrentInfo.Default.CurrentSystemMonth;
+            currentDate = SystemInfoEx.CurrentInfo.Default.CurrentSystemYear +
+                SystemInfoEx.CurrentInfo.Default.CurrentSystemMonth;
             txtForMonth.Text = currentDate;
 
             cboSTKCodeFrom.DropDownStyle = ComboBoxStyle.DropDown;
@@ -316,12 +317,12 @@ namespace RT2020.Inventory.Reports.History
             string[,] param = {
             {"STKCODEFrom",this.cboSTKCodeFrom.Text.Trim()},
             {"STKCODETo",this.cboSTKCodeTo.Text.Trim()},
-            {"FromDate",dtDateFrom.Value.ToString(RT2020.SystemInfo.Settings.GetDateFormat())},
-            {"ToDate",dtDateTo.Value.ToString(RT2020.SystemInfo.Settings.GetDateFormat())},
-            {"PrintedOn",DateTime.Now.ToString(RT2020.SystemInfo.Settings.GetDateTimeFormat())},
+            {"FromDate",dtDateFrom.Value.ToString(DateTimeHelper.GetDateFormat())},
+            {"ToDate",dtDateTo.Value.ToString(DateTimeHelper.GetDateFormat())},
+            {"PrintedOn",DateTime.Now.ToString(DateTimeHelper.GetDateTimeFormat())},
             {"CalculatedCD",chkReCalulated.Checked.ToString()},
             {"Locations",this.SelectedWorkplaceCodeList()},
-            {"CompanyName",RT2020.SystemInfo.CurrentInfo.Default.CompanyName}
+            {"CompanyName",SystemInfoEx.CurrentInfo.Default.CompanyName}
             };
 
             view.Parameters = param;
