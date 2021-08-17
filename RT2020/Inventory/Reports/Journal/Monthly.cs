@@ -98,7 +98,7 @@ namespace RT2020.Inventory.Reports.Journal
             {
                 DateTime FromDate = new DateTime(FromYear, FromMonth, 1);
                 DateTime ToDate = new DateTime(FromYear, FromMonth, DateTime.DaysInMonth(FromYear, FromMonth));
-
+                /** deprecated
                 string[,] param = {
                 {"STKFrom",this.txtFrom.Text.Trim()},
                 {"STKTo",this.txtTo.Text.Trim()},
@@ -120,7 +120,7 @@ namespace RT2020.Inventory.Reports.Journal
                 };
 
                 var sysInfo = new  ModelEx.SystemInfoEx.CurrentInfo();
-
+                */
                 htmlBox1.Html = RT2020.Reports.Inventory.Journal.Monthly.HTML(txtFrom.Text.Trim(), txtTo.Text.Trim(), FromDate.ToString("yyyy-MM-dd"), ToDate.ToString("yyyy-MM-dd"));
             }
 

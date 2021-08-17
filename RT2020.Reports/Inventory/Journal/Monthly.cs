@@ -14,6 +14,8 @@ using FastReport.Utils;
 using FastReport.Export.Image;
 using FastReport.Export.Html;
 using FastReport.Export.PdfSimple;
+using RT2020.Reports.ModelEx;
+using RT2020.Reports.Helper;
 
 namespace RT2020.Reports.Inventory.Journal
 {
@@ -86,11 +88,18 @@ order by STKCODE, APPENDIX1, APPENDIX2, APPENDIX3, TxDate, TxType, TxNumber
                         #endregion
 
                         #region render 個 report 前作最後處理
-                        //report.SetParameterValue("pReportTitle", "每月報表");                                        // 塞個 report title 入去
-                        //((PageHeaderBand)report.Report.FindObject("PageHeader1")).PrintOn = PrintOn.FirstPage;      // PageHeader1 淨係喺第一頁出現，出 HTML 有用
+                        //report.SetParameterValue("pReportTitle", WestwindHelper.GetWord("report.SA1330", "Setting"));                                        // 塞個 report title 入去
+                        // Do not use parameter, instead keep the report title for easy reconize
+                        ((TextObject)report.Report.FindObject("lblReportTitle")).Text = WestwindHelper.GetWord("report.SA1330", "Setting");
+
+                        // 如果用 PrintOn.FirstPage，咁就祇能用 [Page]
+                        //((PageHeaderBand)report.Report.FindObject("PageHeader1")).PrintOn = PrintOn.FirstPage;              // PageHeader1 淨係喺第一頁出現，出 HTML 有用
+                        ((TextObject)report.Report.FindObject("txtPageNofM")).Text = "[Page] of [TotalPages]";
+
+                        report.SetParameterValue("pCompanyName", WestwindHelper.GetWord("companyInfo.name", "Setting"));    // SystemInfoEx.CurrentInfo.Default.CompanyName);
                         report.SetParameterValue("pSelectedStockCode", string.Format("{0} ~ {1}", fromCode, toCode));
                         report.SetParameterValue("pSelectedDate", string.Format("{0} ~ {1}", fromDate, toDate));
-                        ((TextObject)report.Report.FindObject("txtPageNofM")).Text = "[Page] of [TotalPages]";
+
                         ((TextObject)report.Report.FindObject("lblStockCode")).Text = "貨品編號：";                  // 示範英轉中
                         #endregion
 
@@ -161,8 +170,9 @@ order by STKCODE, APPENDIX1, APPENDIX2, APPENDIX3, TxDate, TxType, TxNumber
                         #endregion
 
                         #region render 個 report 前作最後處理
-                        //report.SetParameterValue("pReportTitle", "每月報表");                                        // 塞個 report title 入去
-                        //((PageHeaderBand)report.Report.FindObject("PageHeader1")).PrintOn = PrintOn.FirstPage;      // PageHeader1 淨係喺第一頁出現，出 HTML 有用
+                        ((TextObject)report.Report.FindObject("lblReportTitle")).Text = WestwindHelper.GetWord("report.SA1330", "Setting");
+
+                        report.SetParameterValue("pCompanyName", WestwindHelper.GetWord("companyInfo.name", "Setting"));    // SystemInfoEx.CurrentInfo.Default.CompanyName);
                         report.SetParameterValue("pSelectedStockCode", string.Format("{0} ~ {1}", fromCode, toCode));
                         report.SetParameterValue("pSelectedDate", string.Format("{0} ~ {1}", fromDate, toDate));
                         ((TextObject)report.Report.FindObject("txtPageNofM")).Text = "[Page] of [TotalPages]";
