@@ -3142,6 +3142,7 @@
     <Content Include="LocalizationAdmin\LocalizationService.ashx" />
     <Content Include="LocalizationAdmin\bower.json" />
     <Content Include="Resources\Reports\Inventory\Journal\Monthly.frx" />
+    <Content Include="Resources\Reports\Inventory\Journal\Monthly.xlsx" />
     <None Include="Resources\Templates\CAP Import Template.XLS" />
     <None Include="Resources\Templates\CAP Import Template.xlsx" />
     <None Include="Resources\Templates\VIPThanksLetter.dotx" />

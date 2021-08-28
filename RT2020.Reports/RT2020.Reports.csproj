@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\FastReport.OpenSource.2021.3.22\build\FastReport.OpenSource.props" Condition="Exists('..\packages\FastReport.OpenSource.2021.3.22\build\FastReport.OpenSource.props')" />
+  <Import Project="..\packages\FastReport.OpenSource.2021.3.29\build\FastReport.OpenSource.props" Condition="Exists('..\packages\FastReport.OpenSource.2021.3.29\build\FastReport.OpenSource.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -63,12 +63,12 @@
       <HintPath>..\packages\ExcelNumberFormat.1.0.10\lib\net20\ExcelNumberFormat.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="FastReport, Version=2021.3.22.0, Culture=neutral, PublicKeyToken=5ceb240df42bf6e8, processorArchitecture=MSIL">
-      <HintPath>..\packages\FastReport.OpenSource.2021.3.22\lib\net40\FastReport.dll</HintPath>
+    <Reference Include="FastReport, Version=2021.3.29.0, Culture=neutral, PublicKeyToken=5ceb240df42bf6e8, processorArchitecture=MSIL">
+      <HintPath>..\packages\FastReport.OpenSource.2021.3.29\lib\net40\FastReport.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="FastReport.Compat, Version=2021.2.10.0, Culture=neutral, PublicKeyToken=406e1f4c3c8ef97e, processorArchitecture=MSIL">
-      <HintPath>..\packages\FastReport.Compat.2021.2.10\lib\net40\FastReport.Compat.dll</HintPath>
+    <Reference Include="FastReport.Compat, Version=2021.3.0.0, Culture=neutral, PublicKeyToken=406e1f4c3c8ef97e, processorArchitecture=MSIL">
+      <HintPath>..\packages\FastReport.Compat.2021.3.0\lib\net40\FastReport.Compat.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="FastReport.Data.MsSql, Version=2021.3.0.0, Culture=neutral, PublicKeyToken=b33a9a06fcc00c4c, processorArchitecture=MSIL">
@@ -201,7 +201,7 @@
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\FastReport.OpenSource.2021.3.22\build\FastReport.OpenSource.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\FastReport.OpenSource.2021.3.22\build\FastReport.OpenSource.props'))" />
+    <Error Condition="!Exists('..\packages\FastReport.OpenSource.2021.3.29\build\FastReport.OpenSource.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\FastReport.OpenSource.2021.3.29\build\FastReport.OpenSource.props'))" />
   </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
