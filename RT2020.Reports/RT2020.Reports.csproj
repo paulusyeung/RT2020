@@ -84,6 +84,10 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Gizmox.WebGUI.Forms.Extended, Version=4.5.25701.0, Culture=neutral, PublicKeyToken=85eae29607c9f5f3, processorArchitecture=MSIL" />
+    <Reference Include="linq2db, Version=3.4.3.0, Culture=neutral, PublicKeyToken=e41013125f9e410a, processorArchitecture=MSIL">
+      <HintPath>..\packages\linq2db.3.4.3\lib\net45\linq2db.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.Practices.EnterpriseLibrary.Common, Version=6.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\EnterpriseLibrary.Common.6.0.1304.0\lib\NET45\Microsoft.Practices.EnterpriseLibrary.Common.dll</HintPath>
       <Private>True</Private>
@@ -165,8 +169,15 @@
     <Compile Include="Helper\SqlHelper.cs" />
     <Compile Include="Helper\WestwindHelper.cs" />
     <Compile Include="Inventory\Journal\Monthly.cs" />
+    <Compile Include="ModelEx\InOutHistoryEx.cs" />
     <Compile Include="ModelEx\SystemInfoEx.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestModels\Address.cs" />
+    <Compile Include="TestModels\Customer.cs" />
+    <Compile Include="TestModels\DbDemos.cs" />
+    <Compile Include="TestModels\item.cs" />
+    <Compile Include="TestModels\Order.cs" />
+    <Compile Include="TestModels\TestEntity.cs" />
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
   </ItemGroup>
   <ItemGroup>

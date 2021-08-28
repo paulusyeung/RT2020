@@ -33,6 +33,8 @@ namespace RT2020.Inventory.Reports.Journal
         {
             this.splitContainer1 = new Gizmox.WebGUI.Forms.SplitContainer();
             this.groupBox1 = new Gizmox.WebGUI.Forms.GroupBox();
+            this.txtTo = new Gizmox.WebGUI.Forms.TextBox();
+            this.txtFrom = new Gizmox.WebGUI.Forms.TextBox();
             this.lblSTkFrom = new Gizmox.WebGUI.Forms.Label();
             this.lblSTkTo = new Gizmox.WebGUI.Forms.Label();
             this.lblYear = new Gizmox.WebGUI.Forms.Label();
@@ -43,8 +45,7 @@ namespace RT2020.Inventory.Reports.Journal
             this.btnPreview = new Gizmox.WebGUI.Forms.Button();
             this.cmdPDF = new Gizmox.WebGUI.Forms.Button();
             this.htmlBox1 = new Gizmox.WebGUI.Forms.HtmlBox();
-            this.txtFrom = new Gizmox.WebGUI.Forms.TextBox();
-            this.txtTo = new Gizmox.WebGUI.Forms.TextBox();
+            this.cmdExcel = new Gizmox.WebGUI.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -58,6 +59,7 @@ namespace RT2020.Inventory.Reports.Journal
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.cmdExcel);
             this.splitContainer1.Panel1.Controls.Add(this.groupBox1);
             this.splitContainer1.Panel1.Controls.Add(this.btnPreview);
             this.splitContainer1.Panel1.Controls.Add(this.cmdPDF);
@@ -88,6 +90,22 @@ namespace RT2020.Inventory.Reports.Journal
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Selections";
+            // 
+            // txtTo
+            // 
+            this.txtTo.Location = new System.Drawing.Point(106, 61);
+            this.txtTo.Name = "txtTo";
+            this.txtTo.Size = new System.Drawing.Size(100, 20);
+            this.txtTo.TabIndex = 3;
+            this.txtTo.Enter += new System.EventHandler(this.txtTo_Enter);
+            // 
+            // txtFrom
+            // 
+            this.txtFrom.Location = new System.Drawing.Point(106, 24);
+            this.txtFrom.Name = "txtFrom";
+            this.txtFrom.Size = new System.Drawing.Size(100, 20);
+            this.txtFrom.TabIndex = 1;
+            this.txtFrom.Enter += new System.EventHandler(this.txtFrom_Enter);
             // 
             // lblSTkFrom
             // 
@@ -147,18 +165,18 @@ namespace RT2020.Inventory.Reports.Journal
             // 
             // btnPreview
             // 
-            this.btnPreview.Location = new System.Drawing.Point(64, 226);
+            this.btnPreview.Location = new System.Drawing.Point(12, 226);
             this.btnPreview.Name = "btnPreview";
-            this.btnPreview.Size = new System.Drawing.Size(75, 23);
+            this.btnPreview.Size = new System.Drawing.Size(64, 23);
             this.btnPreview.TabIndex = 1;
             this.btnPreview.Text = "Preview";
             this.btnPreview.Click += new System.EventHandler(this.btnPreview_Click);
             // 
             // cmdPDF
             // 
-            this.cmdPDF.Location = new System.Drawing.Point(145, 226);
+            this.cmdPDF.Location = new System.Drawing.Point(81, 226);
             this.cmdPDF.Name = "cmdPDF";
-            this.cmdPDF.Size = new System.Drawing.Size(75, 23);
+            this.cmdPDF.Size = new System.Drawing.Size(64, 23);
             this.cmdPDF.TabIndex = 2;
             this.cmdPDF.Text = "PDF";
             this.cmdPDF.Click += new System.EventHandler(this.cmdPDF_Click);
@@ -173,21 +191,14 @@ namespace RT2020.Inventory.Reports.Journal
             this.htmlBox1.Size = new System.Drawing.Size(161, 306);
             this.htmlBox1.TabIndex = 0;
             // 
-            // txtFrom
+            // cmdExcel
             // 
-            this.txtFrom.Location = new System.Drawing.Point(106, 24);
-            this.txtFrom.Name = "txtFrom";
-            this.txtFrom.Size = new System.Drawing.Size(100, 20);
-            this.txtFrom.TabIndex = 1;
-            this.txtFrom.Enter += new System.EventHandler(this.txtFrom_Enter);
-            // 
-            // txtTo
-            // 
-            this.txtTo.Location = new System.Drawing.Point(106, 61);
-            this.txtTo.Name = "txtTo";
-            this.txtTo.Size = new System.Drawing.Size(100, 20);
-            this.txtTo.TabIndex = 3;
-            this.txtTo.Enter += new System.EventHandler(this.txtTo_Enter);
+            this.cmdExcel.Location = new System.Drawing.Point(150, 226);
+            this.cmdExcel.Name = "cmdExcel";
+            this.cmdExcel.Size = new System.Drawing.Size(64, 23);
+            this.cmdExcel.TabIndex = 3;
+            this.cmdExcel.Text = "Excel";
+            this.cmdExcel.Click += new System.EventHandler(this.cmdExcel_Click);
             // 
             // Monthly
             // 
@@ -217,5 +228,6 @@ namespace RT2020.Inventory.Reports.Journal
         private HtmlBox htmlBox1;
         private TextBox txtTo;
         private TextBox txtFrom;
+        private Button cmdExcel;
     }
 }

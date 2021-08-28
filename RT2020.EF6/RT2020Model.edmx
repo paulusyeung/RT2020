@@ -3133,6 +3133,37 @@ warning 6002: The table/view 'RT2020.dbo.TxferAdvanceImportSummary' does not hav
           <Property Name="MetadataXml" Type="xml" />
         </EntityType>
         <!--Errors Found During Generation:
+warning 6013: The table/view 'RT2020.dbo.vwInOutHistoryWrapper' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="vwInOutHistoryWrapper">
+          <Property Name="STKCODE" Type="varchar" MaxLength="10" />
+          <Property Name="APPENDIX1" Type="varchar" MaxLength="4" />
+          <Property Name="APPENDIX2" Type="varchar" MaxLength="4" />
+          <Property Name="APPENDIX3" Type="varchar" MaxLength="4" />
+          <Property Name="CLASS1" Type="varchar" MaxLength="6" />
+          <Property Name="CLASS2" Type="varchar" MaxLength="6" />
+          <Property Name="CLASS3" Type="varchar" MaxLength="6" />
+          <Property Name="CLASS4" Type="varchar" MaxLength="6" />
+          <Property Name="CLASS5" Type="varchar" MaxLength="6" />
+          <Property Name="CLASS6" Type="varchar" MaxLength="6" />
+          <Property Name="TxDate" Type="datetime" />
+          <Property Name="TxType" Type="varchar" MaxLength="22" />
+          <Property Name="TxNumber" Type="varchar" MaxLength="12" />
+          <Property Name="SupplierCode" Type="nvarchar" MaxLength="10" />
+          <Property Name="Price" Type="money" />
+          <Property Name="FromLocation" Type="varchar" MaxLength="4" />
+          <Property Name="ToLocation" Type="varchar" MaxLength="4" />
+          <Property Name="QTYIN" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="QTYOUT" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="Qty" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="AverageCost" Type="money" />
+          <Property Name="BFQTY" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="BFAMT" Type="money" />
+          <Property Name="CDQTY" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="CDAMT" Type="decimal" Precision="38" Scale="8" />
+          <Property Name="Reference" Type="nvarchar" MaxLength="32" />
+          <Property Name="Remarks" Type="nvarchar" MaxLength="512" />
+        </EntityType>-->
+        <!--Errors Found During Generation:
 warning 6002: The table/view 'RT2020.dbo.vwPhonebookList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwPhonebookList">
           <Key>
@@ -3827,6 +3858,8 @@ warning 6002: The table/view 'RT2020.dbo.vwWorkplaceList' does not have a primar
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <!--Errors Found During Generation:
+warning 6037: Foreign key constraint 'FK_MemberVipData_MemberVipSupplement' has been omitted from the storage model. Column 'MemberVipId' of table 'RT2020Model.Store.MemberVipSupplement' is a foreign key participating in multiple relationships. A one-to-one Entity Model will not validate since data inconsistency is possible.
         <Association Name="FK_MemberVipData_MemberVipSupplement">
           <End Role="MemberVipData" Type="Self.MemberVipData" Multiplicity="1" />
           <End Role="MemberVipSupplement" Type="Self.MemberVipSupplement" Multiplicity="*" />
@@ -3838,7 +3871,7 @@ warning 6002: The table/view 'RT2020.dbo.vwWorkplaceList' does not have a primar
               <PropertyRef Name="MemberVipId" />
             </Dependent>
           </ReferentialConstraint>
-        </Association>
+        </Association>-->
         <Association Name="FK_PosAnalysisCode_PosAnalysisCode">
           <End Role="PosAnalysisCode" Type="Self.PosAnalysisCode" Multiplicity="0..1" />
           <End Role="PosAnalysisCode1" Type="Self.PosAnalysisCode" Multiplicity="*" />
@@ -6229,10 +6262,6 @@ warning 6002: The table/view 'RT2020.dbo.vwWorkplaceList' does not have a primar
             <End Role="MemberVipLineOfOperation" EntitySet="MemberVipLineOfOperation" />
           </AssociationSet>
           <AssociationSet Name="FK_MemberVipData_MemberVipSupple" Association="Self.FK_MemberVipData_MemberVipSupple">
-            <End Role="MemberVipData" EntitySet="MemberVipData" />
-            <End Role="MemberVipSupplement" EntitySet="MemberVipSupplement" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MemberVipData_MemberVipSupplement" Association="Self.FK_MemberVipData_MemberVipSupplement">
             <End Role="MemberVipData" EntitySet="MemberVipData" />
             <End Role="MemberVipSupplement" EntitySet="MemberVipSupplement" />
           </AssociationSet>
@@ -17416,7 +17445,7 @@ warning 6002: The table/view 'RT2020.dbo.vwWorkplaceList' does not have a primar
       <DesignerInfoPropertySet>
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
         <DesignerProperty Name="EnablePluralization" Value="false" />
-        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="False" />
         <DesignerProperty Name="UseLegacyProvider" Value="false" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
       </DesignerInfoPropertySet>

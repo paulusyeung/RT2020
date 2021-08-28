@@ -42,7 +42,7 @@ namespace RT2020.Controls
 
         public FileDownloadGateway()
         {
-            linkparameters.Target = "_blank";
+            linkparameters.Target = "_self";
         }
 
         public void SetContentType(DownloadContentType argContentType)

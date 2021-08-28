@@ -98,29 +98,7 @@ namespace RT2020.Inventory.Reports.Journal
             {
                 DateTime FromDate = new DateTime(FromYear, FromMonth, 1);
                 DateTime ToDate = new DateTime(FromYear, FromMonth, DateTime.DaysInMonth(FromYear, FromMonth));
-                /** deprecated
-                string[,] param = {
-                {"STKFrom",this.txtFrom.Text.Trim()},
-                {"STKTo",this.txtTo.Text.Trim()},
-                {"FromDate",FromDate.ToString("dd/MM/yyyy")},
-                {"ToDate",ToDate.ToString("dd/MM/yyyy")},
-                {"PrintedOn", DateTime.Now.ToString(DateTimeHelper.GetDateTimeFormat())},
-                {"DateFormat", DateTimeHelper.GetDateFormat()},
-                {"STKLabel",SystemInfoHelper.Settings.GetSystemLabelByKey("STKCODE")},
-                {"APPENDIX1",SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX1")},
-                {"APPENDIX2",SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX2")},
-                {"APPENDIX3",SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX3")},
-                {"CLASS1",SystemInfoHelper.Settings.GetSystemLabelByKey("CLASS1")},
-                {"CLASS2",SystemInfoHelper.Settings.GetSystemLabelByKey("CLASS2")},
-                {"CLASS3",SystemInfoHelper.Settings.GetSystemLabelByKey("CLASS3")},
-                {"CLASS4",SystemInfoHelper.Settings.GetSystemLabelByKey("CLASS4")},
-                {"CLASS5",SystemInfoHelper.Settings.GetSystemLabelByKey("CLASS5")},
-                {"CLASS6",SystemInfoHelper.Settings.GetSystemLabelByKey("CLASS6")},
-                {"CompanyName",SystemInfoEx.CurrentInfo.Default.CompanyName}
-                };
 
-                var sysInfo = new  ModelEx.SystemInfoEx.CurrentInfo();
-                */
                 htmlBox1.Html = RT2020.Reports.Inventory.Journal.Monthly.HTML(txtFrom.Text.Trim(), txtTo.Text.Trim(), FromDate.ToString("yyyy-MM-dd"), ToDate.ToString("yyyy-MM-dd"));
             }
 
@@ -135,10 +113,32 @@ namespace RT2020.Inventory.Reports.Journal
 
                 var pdf = RT2020.Reports.Inventory.Journal.Monthly.PDF(txtFrom.Text.Trim(), txtTo.Text.Trim(), FromDate.ToString("yyyy-MM-dd"), ToDate.ToString("yyyy-MM-dd"));
 
-                var dl = new Controls.FileDownloadGateway();
-                dl.Filename = string.Format("Monthly In Out {0}.pdf", DateTime.Now.ToString("yyyyMMddHHmmss"));
-                dl.SetContentType(RT2020.Controls.DownloadContentType.OctetStream);
-                dl.StartBytesDownload(this, pdf);
+                if (pdf != null)
+                {
+                    var dl = new Controls.FileDownloadGateway();
+                    dl.Filename = string.Format("{0}.{1}.pdf", WestwindHelper.GetWord("report.SA1330", "Setting"), DateTime.Now.ToString("yyyyMMddHHmmss"));
+                    dl.SetContentType(RT2020.Controls.DownloadContentType.OctetStream);
+                    dl.StartBytesDownload(this, pdf);
+                }
+            }
+        }
+
+        private void cmdExcel_Click(object sender, EventArgs e)
+        {
+            if (IsSelValid())
+            {
+                DateTime FromDate = new DateTime(FromYear, FromMonth, 1);
+                DateTime ToDate = new DateTime(FromYear, FromMonth, DateTime.DaysInMonth(FromYear, FromMonth));
+
+                var xls = RT2020.Reports.Inventory.Journal.Monthly.Excel(txtFrom.Text.Trim(), txtTo.Text.Trim(), FromDate.ToString("yyyy-MM-dd"), ToDate.ToString("yyyy-MM-dd"));
+
+                if (xls != null)
+                {
+                    var dl = new Controls.FileDownloadGateway();
+                    dl.Filename = string.Format("{0}.{1}.xlsx", WestwindHelper.GetWord("report.SA1330", "Setting"), DateTime.Now.ToString("yyyyMMddHHmmss"));
+                    dl.SetContentType(RT2020.Controls.DownloadContentType.MicrosoftExcel);
+                    dl.StartBytesDownload(this, xls);
+                }
             }
         }
 
@@ -149,7 +149,7 @@ namespace RT2020.Inventory.Reports.Journal
 
         private void txtTo_Enter(object sender, EventArgs e)
         {
-            if (txtTo.Text == "" & txtFrom.Text != "") txtTo.Text = txtFrom.Text;
+            if (txtTo.Text == "" & txtFrom.Text != "") txtTo.Text = txtFrom.Text + "Z";
             txtTo.SelectAll();
         }
 
