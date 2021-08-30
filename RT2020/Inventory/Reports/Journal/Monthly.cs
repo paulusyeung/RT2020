@@ -142,6 +142,25 @@ namespace RT2020.Inventory.Reports.Journal
             }
         }
 
+        private void cmdPivot_Click(object sender, EventArgs e)
+        {
+            if (IsSelValid())
+            {
+                DateTime FromDate = new DateTime(FromYear, FromMonth, 1);
+                DateTime ToDate = new DateTime(FromYear, FromMonth, DateTime.DaysInMonth(FromYear, FromMonth));
+
+                var xls = RT2020.Reports.Inventory.Journal.Monthly.Pivot(txtFrom.Text.Trim(), txtTo.Text.Trim(), FromDate.ToString("yyyy-MM-dd"), ToDate.ToString("yyyy-MM-dd"));
+
+                if (xls != null)
+                {
+                    var dl = new Controls.FileDownloadGateway();
+                    dl.Filename = string.Format("{0}.{1}.xlsx", WestwindHelper.GetWord("report.SA1330", "Setting"), DateTime.Now.ToString("yyyyMMddHHmmss"));
+                    dl.SetContentType(RT2020.Controls.DownloadContentType.MicrosoftExcel);
+                    dl.StartBytesDownload(this, xls);
+                }
+            }
+        }
+
         private void txtFrom_Enter(object sender, EventArgs e)
         {
             txtFrom.SelectAll();

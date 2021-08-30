@@ -38,6 +38,7 @@ order by STKCODE, APPENDIX1, APPENDIX2, APPENDIX3, TxDate, TxType, TxNumber
 ";
         private static string _ReportName = "Inventory\\Journal\\Monthly.frx";
         private static string _ExcelTemplate = "Inventory\\Journal\\Monthly.xlsx";
+        private static string _PivotTemplate = "Inventory\\Journal\\MonthlyPivot.xlsx";
 
         private static string ReportFilePath
         {
@@ -52,6 +53,11 @@ order by STKCODE, APPENDIX1, APPENDIX2, APPENDIX3, TxDate, TxType, TxNumber
         private static string ExcelFilePath
         {
             get { return Path.Combine(VWGContext.Current.Config.GetDirectory("Reports"), _ExcelTemplate); ; }
+        }
+
+        private static string PivotFilePath
+        {
+            get { return Path.Combine(VWGContext.Current.Config.GetDirectory("Reports"), _PivotTemplate); ; }
         }
         #endregion
 
@@ -465,6 +471,121 @@ order by STKCODE, APPENDIX1, APPENDIX2, APPENDIX3, TxDate, TxType, TxNumber
                     tpl.AddVariable("lblTxNumber", WestwindHelper.GetWord("transaction.number", "Transaction"));
                     tpl.AddVariable("lblReference", WestwindHelper.GetWord("transaction.reference", "Transaction"));
                     tpl.AddVariable("lblLocation", WestwindHelper.GetWord("workplace", "Model"));
+                    tpl.AddVariable("lblSupplierCode", WestwindHelper.GetWord("supplier", "Model"));
+                    tpl.AddVariable("lblRemarks", WestwindHelper.GetWord("transaction.remarks", "Transaction"));
+                    tpl.AddVariable("lblSubTotal", WestwindHelper.GetWordWithColon("transaction.subtotal", "Transaction"));
+                    tpl.AddVariable("lblGrandTotal", WestwindHelper.GetWordWithColon("transaction.grandtotal", "Transaction"));
+                    #endregion
+
+                    tpl.Generate();
+                    tpl.SaveAs(stream);
+
+                    stream.Position = 0;
+                    result = stream.ToArray();
+
+                    stream.Flush();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.ToString());
+                }
+                finally
+                {
+                    stream.Dispose();
+                }
+            }
+
+            return result;
+        }
+
+        public static byte[] Pivot(string fromCode, string toCode, string fromDate, string toDate)
+        {
+            byte[] result = null;
+
+            var sql = string.Format(_Sql, fromDate, toDate, fromCode, toCode);
+
+            using (MemoryStream stream = new MemoryStream())
+            {
+                try
+                {
+                    var tpl = new XLTemplate(PivotFilePath);
+
+                    var ds = Helper.SqlHelper.Default.ExecuteDataSet(CommandType.Text, sql);
+                    var dt = ds.Tables[0];
+                    var dr = from row in dt.AsEnumerable() select row;
+
+                    #region create tx = List<InOutHistoryEx.Tx> from dt
+                    var tx = dt.AsEnumerable()
+                        .Select(x => new ModelEx.InOutHistoryEx.Tx()
+                        {
+                            Id = Guid.NewGuid(),
+                            STKCODE = x.Field<string>("STKCODE"),
+                            APPENDIX1 = x.Field<string>("APPENDIX1"),
+                            APPENDIX2 = x.Field<string>("APPENDIX2"),
+                            APPENDIX3 = x.Field<string>("APPENDIX3"),
+                            CLASS1 = x.Field<string>("CLASS1"),
+                            CLASS2 = x.Field<string>("CLASS2"),
+                            CLASS3 = x.Field<string>("CLASS3"),
+                            CLASS4 = x.Field<string>("CLASS4"),
+                            CLASS5 = x.Field<string>("CLASS5"),
+                            CLASS6 = x.Field<string>("CLASS6"),
+                            TxDate = x.Field<DateTime>("TxDate").Date,
+                            TxYear = x.Field<DateTime>("TxDate").Year,
+                            TxMonth = x.Field<DateTime>("TxDate").Month,
+                            TxDay = x.Field<DateTime>("TxDate").Day,
+                            TxNumber = x.Field<string>("TxNumber"),
+                            TxType = x.Field<string>("TxType"),
+                            QTYIN = x.Field<decimal>("QTYIN"),
+                            QTYOUT = x.Field<decimal>("QTYOUT"),
+                            Price = x.Field<decimal>("Price"),
+                            AverageCost = x.Field<decimal>("AverageCost"),
+                            Reference = x.Field<string>("Reference"),
+                            FromLocation = x.Field<string>("FromLocation"),
+                            ToLocation = x.Field<string>("ToLocation"),
+                            SupplierCode = x.Field<string>("SupplierCode"),
+                            Remarks = x.Field<string>("Remarks")
+                        })
+                        .ToList();
+                    #endregion
+
+                    tpl.AddVariable("item", tx);
+
+                    #region labels 中英互換
+                    tpl.AddVariable("CompanyName", WestwindHelper.GetWord("companyInfo.name", "Setting"));
+                    tpl.AddVariable("ReportTitle", WestwindHelper.GetWord("report.SA1330", "Setting"));
+                    tpl.AddVariable("lblSelectedRange", WestwindHelper.GetWordWithColon("reports.selectedRange", "General"));
+                    tpl.AddVariable("lblSelectedStockCode", WestwindHelper.GetWordWithColon("article.code", "Product"));
+                    tpl.AddVariable("lblSelectedDate", WestwindHelper.GetWordWithColon("transaction.date", "Transaction"));
+                    tpl.AddVariable("pSelectedStockCode", string.Format("{0} ⇔ {1}", fromCode, toCode));
+                    tpl.AddVariable("pSelectedDate", string.Format("{0} ⇔ {1}", fromDate, toDate));
+                    tpl.AddVariable("lblPrintedOn", WestwindHelper.GetWordWithColon("reports.printedOn", "General"));
+                    tpl.AddVariable("PrintedOn", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+
+                    tpl.AddVariable("lblStockCode", WestwindHelper.GetWord("article.code", "Product"));
+                    tpl.AddVariable("lblAppendix1", WestwindHelper.GetWord("appendix.appendix1", "Product"));
+                    tpl.AddVariable("lblAppendix2", WestwindHelper.GetWord("appendix.appendix2", "Product"));
+                    tpl.AddVariable("lblAppendix3", WestwindHelper.GetWord("appendix.appendix3", "Product"));
+                    tpl.AddVariable("lblClass1", WestwindHelper.GetWord("class.class1", "Product"));
+                    tpl.AddVariable("lblClass2", WestwindHelper.GetWord("class.class2", "Product"));
+                    tpl.AddVariable("lblClass3", WestwindHelper.GetWord("class.class3", "Product"));
+                    tpl.AddVariable("lblClass4", WestwindHelper.GetWord("class.class4", "Product"));
+                    tpl.AddVariable("lblClass5", WestwindHelper.GetWord("class.class5", "Product"));
+                    tpl.AddVariable("lblClass6", WestwindHelper.GetWord("class.class6", "Product"));
+                    tpl.AddVariable("lblBFQty", WestwindHelper.GetWord("inventory.bfQty", "Product"));
+                    tpl.AddVariable("lblBFAmount", WestwindHelper.GetWord("inventory.bfAmount", "Product"));
+                    tpl.AddVariable("lblCDQty", WestwindHelper.GetWord("inventory.cdQty", "Product"));
+                    tpl.AddVariable("lblCDAmount", WestwindHelper.GetWord("inventory.cdAmount", "Product"));
+
+                    tpl.AddVariable("lblTxDate", WestwindHelper.GetWord("transaction.date", "Transaction"));
+                    tpl.AddVariable("lblTxType", WestwindHelper.GetWord("transaction.type", "Transaction"));
+                    tpl.AddVariable("lblQtyIn", WestwindHelper.GetWord("transaction.qtyIn", "Transaction"));
+                    tpl.AddVariable("lblQtyOut", WestwindHelper.GetWord("transaction.qtyOut", "Transaction"));
+                    tpl.AddVariable("lblPrice", WestwindHelper.GetWord("transaction.price", "Transaction"));
+                    tpl.AddVariable("lblCost", WestwindHelper.GetWord("transaction.cost", "Transaction"));
+                    tpl.AddVariable("lblTxNumber", WestwindHelper.GetWord("transaction.number", "Transaction"));
+                    tpl.AddVariable("lblReference", WestwindHelper.GetWord("transaction.reference", "Transaction"));
+                    tpl.AddVariable("lblLocation", WestwindHelper.GetWord("workplace", "Model"));
+                    tpl.AddVariable("lblVsLocation", "VS " + WestwindHelper.GetWord("workplace", "Model"));
                     tpl.AddVariable("lblSupplierCode", WestwindHelper.GetWord("supplier", "Model"));
                     tpl.AddVariable("lblRemarks", WestwindHelper.GetWord("transaction.remarks", "Transaction"));
                     tpl.AddVariable("lblSubTotal", WestwindHelper.GetWordWithColon("transaction.subtotal", "Transaction"));

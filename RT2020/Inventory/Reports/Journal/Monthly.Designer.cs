@@ -32,6 +32,7 @@ namespace RT2020.Inventory.Reports.Journal
         private void InitializeComponent()
         {
             this.splitContainer1 = new Gizmox.WebGUI.Forms.SplitContainer();
+            this.cmdExcel = new Gizmox.WebGUI.Forms.Button();
             this.groupBox1 = new Gizmox.WebGUI.Forms.GroupBox();
             this.txtTo = new Gizmox.WebGUI.Forms.TextBox();
             this.txtFrom = new Gizmox.WebGUI.Forms.TextBox();
@@ -45,7 +46,7 @@ namespace RT2020.Inventory.Reports.Journal
             this.btnPreview = new Gizmox.WebGUI.Forms.Button();
             this.cmdPDF = new Gizmox.WebGUI.Forms.Button();
             this.htmlBox1 = new Gizmox.WebGUI.Forms.HtmlBox();
-            this.cmdExcel = new Gizmox.WebGUI.Forms.Button();
+            this.cmdPivot = new Gizmox.WebGUI.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -59,6 +60,7 @@ namespace RT2020.Inventory.Reports.Journal
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.cmdPivot);
             this.splitContainer1.Panel1.Controls.Add(this.cmdExcel);
             this.splitContainer1.Panel1.Controls.Add(this.groupBox1);
             this.splitContainer1.Panel1.Controls.Add(this.btnPreview);
@@ -71,6 +73,15 @@ namespace RT2020.Inventory.Reports.Journal
             this.splitContainer1.SplitterDistance = 228;
             this.splitContainer1.SplitterWidth = 2;
             this.splitContainer1.TabIndex = 0;
+            // 
+            // cmdExcel
+            // 
+            this.cmdExcel.Location = new System.Drawing.Point(130, 226);
+            this.cmdExcel.Name = "cmdExcel";
+            this.cmdExcel.Size = new System.Drawing.Size(80, 23);
+            this.cmdExcel.TabIndex = 3;
+            this.cmdExcel.Text = "Excel";
+            this.cmdExcel.Click += new System.EventHandler(this.cmdExcel_Click);
             // 
             // groupBox1
             // 
@@ -165,18 +176,18 @@ namespace RT2020.Inventory.Reports.Journal
             // 
             // btnPreview
             // 
-            this.btnPreview.Location = new System.Drawing.Point(12, 226);
+            this.btnPreview.Location = new System.Drawing.Point(25, 226);
             this.btnPreview.Name = "btnPreview";
-            this.btnPreview.Size = new System.Drawing.Size(64, 23);
+            this.btnPreview.Size = new System.Drawing.Size(80, 23);
             this.btnPreview.TabIndex = 1;
             this.btnPreview.Text = "Preview";
             this.btnPreview.Click += new System.EventHandler(this.btnPreview_Click);
             // 
             // cmdPDF
             // 
-            this.cmdPDF.Location = new System.Drawing.Point(81, 226);
+            this.cmdPDF.Location = new System.Drawing.Point(25, 258);
             this.cmdPDF.Name = "cmdPDF";
-            this.cmdPDF.Size = new System.Drawing.Size(64, 23);
+            this.cmdPDF.Size = new System.Drawing.Size(80, 23);
             this.cmdPDF.TabIndex = 2;
             this.cmdPDF.Text = "PDF";
             this.cmdPDF.Click += new System.EventHandler(this.cmdPDF_Click);
@@ -191,14 +202,14 @@ namespace RT2020.Inventory.Reports.Journal
             this.htmlBox1.Size = new System.Drawing.Size(161, 306);
             this.htmlBox1.TabIndex = 0;
             // 
-            // cmdExcel
+            // cmdPivot
             // 
-            this.cmdExcel.Location = new System.Drawing.Point(150, 226);
-            this.cmdExcel.Name = "cmdExcel";
-            this.cmdExcel.Size = new System.Drawing.Size(64, 23);
-            this.cmdExcel.TabIndex = 3;
-            this.cmdExcel.Text = "Excel";
-            this.cmdExcel.Click += new System.EventHandler(this.cmdExcel_Click);
+            this.cmdPivot.Location = new System.Drawing.Point(130, 258);
+            this.cmdPivot.Name = "cmdPivot";
+            this.cmdPivot.Size = new System.Drawing.Size(80, 23);
+            this.cmdPivot.TabIndex = 3;
+            this.cmdPivot.Text = "Pivot";
+            this.cmdPivot.Click += new System.EventHandler(this.cmdPivot_Click);
             // 
             // Monthly
             // 
@@ -229,5 +240,6 @@ namespace RT2020.Inventory.Reports.Journal
         private TextBox txtTo;
         private TextBox txtFrom;
         private Button cmdExcel;
+        private Button cmdPivot;
     }
 }
