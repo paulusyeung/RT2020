@@ -51,6 +51,10 @@ namespace RT2020.Reports.ModelEx
             public string CLASS4 { get; set; }
             public string CLASS5 { get; set; }
             public string CLASS6 { get; set; }
+            public decimal BFQTY { get; set; }
+            public decimal BFAMT { get; set; }
+            public decimal CDQTY { get; set; }
+            public decimal CDAMT { get; set; }
             public DateTime TxDate { get; set; }
             public int TxYear { get; set; }
             public int TxMonth { get; set; }

@@ -529,6 +529,10 @@ order by STKCODE, APPENDIX1, APPENDIX2, APPENDIX3, TxDate, TxType, TxNumber
                             CLASS4 = x.Field<string>("CLASS4"),
                             CLASS5 = x.Field<string>("CLASS5"),
                             CLASS6 = x.Field<string>("CLASS6"),
+                            BFQTY = x.Field<decimal>("BFQTY"),
+                            BFAMT = x.Field<decimal>("BFAMT"),
+                            CDQTY = x.Field<decimal>("CDQTY"),
+                            CDAMT = x.Field<decimal>("CDAMT"),
                             TxDate = x.Field<DateTime>("TxDate").Date,
                             TxYear = x.Field<DateTime>("TxDate").Year,
                             TxMonth = x.Field<DateTime>("TxDate").Month,
@@ -577,6 +581,9 @@ order by STKCODE, APPENDIX1, APPENDIX2, APPENDIX3, TxDate, TxType, TxNumber
                     tpl.AddVariable("lblCDAmount", WestwindHelper.GetWord("inventory.cdAmount", "Product"));
 
                     tpl.AddVariable("lblTxDate", WestwindHelper.GetWord("transaction.date", "Transaction"));
+                    tpl.AddVariable("lblYear", WestwindHelper.GetWord("glossary.year", "General"));
+                    tpl.AddVariable("lblMonth", WestwindHelper.GetWord("glossary.month", "General"));
+                    tpl.AddVariable("lblDay", WestwindHelper.GetWord("glossary.day", "General"));
                     tpl.AddVariable("lblTxType", WestwindHelper.GetWord("transaction.type", "Transaction"));
                     tpl.AddVariable("lblQtyIn", WestwindHelper.GetWord("transaction.qtyIn", "Transaction"));
                     tpl.AddVariable("lblQtyOut", WestwindHelper.GetWord("transaction.qtyOut", "Transaction"));
