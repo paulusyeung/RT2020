@@ -20,25 +20,20 @@ using ClosedXML.Excel;
 using ClosedXML.Report;
 using RT2020.Inventory.Reports.TestModels;
 using LinqToDB;
+using System.Data.SqlClient;
 
 namespace RT2020.Reports.Inventory.Journal
 {
-    public class Monthly
+    public class Summary
     {
         #region private properties: _Sql, _ReportName
-        private const string _Sql = @"
-select * from
-(
-SELECT TOP 100 PERCENT
-    V.STKCODE, V.APPENDIX1, V.APPENDIX2, V.APPENDIX3, V.CLASS1, V.CLASS2, V.CLASS3, V.CLASS4, V.CLASS5, V.CLASS6, V.TxDate, V.TxType, V.TxNumber, V.SupplierCode, V.Price, V.FromLocation, V.ToLocation, V.QTYIN, V.QTYOUT, V.Qty, V.AverageCost, V.BFQTY, V.BFAMT, V.CDQTY, V.CDAMT, V.Reference, V.Remarks
-FROM vwInOutHistory AS V
-WHERE V.TxDate >= '{0}' AND V.TxDate <= '{1}' AND V.STKCODE >= '{2}' AND V.STKCODE <= '{3}'
-) as vw
-order by STKCODE, APPENDIX1, APPENDIX2, APPENDIX3, TxDate, TxType, TxNumber
-";
-        private static string _ReportName = "Inventory\\Journal\\Monthly.frx";
-        private static string _ExcelTemplate = "Inventory\\Journal\\Monthly.xlsx";
-        private static string _PivotTemplate = "Inventory\\Journal\\MonthlyPivot.xlsx";
+        private const string _SpNameForCurrentPeriod = "apStockInOutSummary_CurrentMonth";
+        private const string _SpNameForOtherPeriods = "apStockInOutSummary_HistoryMonth";
+        private const string _Sql = @"";
+
+        private static string _ReportName = "Inventory\\Journal\\Summary.frx";
+        private static string _ExcelTemplate = "Inventory\\Journal\\Summary.xlsx";
+        private static string _PivotTemplate = "Inventory\\Journal\\SummaryPivot.xlsx";
 
         private static string ReportFilePath
         {
@@ -498,53 +493,80 @@ order by STKCODE, APPENDIX1, APPENDIX2, APPENDIX3, TxDate, TxType, TxNumber
             return result;
         }
 
-        public static byte[] Pivot(string fromCode, string toCode, string fromDate, string toDate)
+        public static byte[] Pivot(SqlParameter[] param)
         {
             byte[] result = null;
-
-            var sql = string.Format(_Sql, fromDate, toDate, fromCode, toCode);
 
             using (MemoryStream stream = new MemoryStream())
             {
                 try
                 {
+                    #region 喺 param 搵出 selected stockcode & date ranges
+                    var fromCode = (string)param.Where(x => x.ParameterName == "@fromSTKCODE").FirstOrDefault().Value;
+                    var toCode = (string)param.Where(x => x.ParameterName == "@toSTKCODE").FirstOrDefault().Value;
+                    var fromDate = (DateTime)param.Where(x => x.ParameterName == "@fromDate").FirstOrDefault().Value;
+                    var toDate = (DateTime)param.Where(x => x.ParameterName == "@toDate").FirstOrDefault().Value;
+                    #endregion
+
                     var tpl = new XLTemplate(PivotFilePath);
 
-                    var ds = Helper.SqlHelper.Default.ExecuteDataSet(CommandType.Text, sql);
+                    var ds = Helper.SqlHelper.Default.ExecuteDataSet(IsCurrentPeriod(fromDate, toDate) ? _SpNameForCurrentPeriod : _SpNameForOtherPeriods, param);
                     var dt = ds.Tables[0];
                     var dr = from row in dt.AsEnumerable() select row;
 
                     #region create tx = List<InOutHistoryEx.Tx> from dt
                     var tx = dt.AsEnumerable()
-                        .Select(x => new ModelEx.InOutHistoryEx.Tx()
+                        .Select(x => new ModelEx.InOutSummaryEx.Product()
                         {
                             Id = Guid.NewGuid(),
+                            TxType = x.Field<string>("TxType"),
+                            TRRNO = x.Field<string>("TRRNO"),
+                            LOCNO = x.Field<string>("LOCNO"),
                             STKCODE = x.Field<string>("STKCODE"),
                             APPENDIX1 = x.Field<string>("APPENDIX1"),
                             APPENDIX2 = x.Field<string>("APPENDIX2"),
                             APPENDIX3 = x.Field<string>("APPENDIX3"),
-                            CLASS1 = x.Field<string>("CLASS1"),
-                            CLASS2 = x.Field<string>("CLASS2"),
-                            CLASS3 = x.Field<string>("CLASS3"),
-                            CLASS4 = x.Field<string>("CLASS4"),
-                            CLASS5 = x.Field<string>("CLASS5"),
-                            CLASS6 = x.Field<string>("CLASS6"),
+                            SEQNO = x.Field<int>("SEQNO"),
+                            DESCRIPTION = x.Field<string>("DESCRIPTION"),
+
+                            PW_CDQTY = x.Field<decimal>("PW_CDQTY"),
+                            BF_AVRCOST = x.Field<decimal>("BF_AVRCOST"),
+                            AVRCOST = x.Field<decimal>("AVRCOST"),
+                            QTY = x.Field<decimal>("QTY"),
+                            PCS_BFQTY = x.Field<decimal>("PCS_BFQTY"),
+                            PW_BFQTY = x.Field<decimal>("PW_BFQTY"),
                             BFQTY = x.Field<decimal>("BFQTY"),
                             BFAMT = x.Field<decimal>("BFAMT"),
+
+                            RECQTY = x.Field<decimal>("RECQTY"),
+                            RECAMT = x.Field<decimal>("RECAMT"),
+                            CAPQTY = x.Field<decimal>("CAPQTY"),
+                            CAPAMT = x.Field<decimal>("CAPAMT"),
+                            REJQTY = x.Field<decimal>("REJQTY"),
+                            REJAMT = x.Field<decimal>("REJAMT"),
+                            ADJQTY = x.Field<decimal>("ADJQTY"),
+                            ADJAMT = x.Field<decimal>("ADJAMT"),
+                            TXIQTY = x.Field<decimal>("TXIQTY"),
+                            TXIAMT = x.Field<decimal>("TXIAMT"),
+                            TXOQTY = x.Field<decimal>("TXOQTY"),
+                            TXOAMT = x.Field<decimal>("TXOAMT"),
+                            CASQTY = x.Field<decimal>("CASQTY"),
+                            CASAMT = x.Field<decimal>("CASAMT"),
+                            CRTQTY = x.Field<decimal>("CRTQTY"),
+                            CRTAMT = x.Field<decimal>("CRTAMT"),
+                            VODQTY = x.Field<decimal>("VODQTY"),
+                            VODAMT = x.Field<decimal>("VODAMT"),
+                            SALQTY = x.Field<decimal>("SALQTY"),
+                            SALAMT = x.Field<decimal>("SALAMT"),
+                            SRTQTY = x.Field<decimal>("SRTQTY"),
+                            SRTAMT = x.Field<decimal>("SRTAMT"),
+
                             CDQTY = x.Field<decimal>("CDQTY"),
                             CDAMT = x.Field<decimal>("CDAMT"),
-                            TxDate = x.Field<DateTime>("TxDate").Date,
-                            TxNumber = x.Field<string>("TxNumber"),
-                            TxType = x.Field<string>("TxType"),
-                            QTYIN = x.Field<decimal>("QTYIN"),
-                            QTYOUT = x.Field<decimal>("QTYOUT"),
-                            Price = x.Field<decimal>("Price"),
-                            AverageCost = x.Field<decimal>("AverageCost"),
-                            Reference = x.Field<string>("Reference"),
-                            FromLocation = x.Field<string>("FromLocation"),
-                            ToLocation = x.Field<string>("ToLocation"),
-                            SupplierCode = x.Field<string>("SupplierCode"),
-                            Remarks = x.Field<string>("Remarks")
+                            CAL_CDQTY = x.Field<decimal>("CAL_CDQTY"),
+                            CAL_CDAMT = x.Field<decimal>("CAL_CDAMT"),
+                            DIFF_CDQTY = x.Field<decimal>("DIFF_CDQTY"),
+                            DIFF_CDAMT = x.Field<decimal>("DIFF_CDAMT")
                         })
                         .ToList();
                     #endregion
@@ -553,12 +575,12 @@ order by STKCODE, APPENDIX1, APPENDIX2, APPENDIX3, TxDate, TxType, TxNumber
 
                     #region labels 中英互換
                     tpl.AddVariable("CompanyName", WestwindHelper.GetWord("companyInfo.name", "Setting"));
-                    tpl.AddVariable("ReportTitle", WestwindHelper.GetWord("report.SA1330", "Setting"));
+                    tpl.AddVariable("ReportTitle", WestwindHelper.GetWord("report.SA1340", "Setting"));
                     tpl.AddVariable("lblSelectedRange", WestwindHelper.GetWordWithColon("reports.selectedRange", "General"));
                     tpl.AddVariable("lblSelectedStockCode", WestwindHelper.GetWordWithColon("article.code", "Product"));
                     tpl.AddVariable("lblSelectedDate", WestwindHelper.GetWordWithColon("transaction.date", "Transaction"));
                     tpl.AddVariable("pSelectedStockCode", string.Format("{0} ⇔ {1}", fromCode, toCode));
-                    tpl.AddVariable("pSelectedDate", string.Format("{0} ⇔ {1}", fromDate, toDate));
+                    tpl.AddVariable("pSelectedDate", string.Format("{0} ⇔ {1}", fromDate.ToString("yyyy-MM-dd"), toDate.ToString("yyyy-MM-dd")));
                     tpl.AddVariable("lblPrintedOn", WestwindHelper.GetWordWithColon("reports.printedOn", "General"));
                     tpl.AddVariable("PrintedOn", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
 
@@ -566,12 +588,7 @@ order by STKCODE, APPENDIX1, APPENDIX2, APPENDIX3, TxDate, TxType, TxNumber
                     tpl.AddVariable("lblAppendix1", WestwindHelper.GetWord("appendix.appendix1", "Product"));
                     tpl.AddVariable("lblAppendix2", WestwindHelper.GetWord("appendix.appendix2", "Product"));
                     tpl.AddVariable("lblAppendix3", WestwindHelper.GetWord("appendix.appendix3", "Product"));
-                    tpl.AddVariable("lblClass1", WestwindHelper.GetWord("class.class1", "Product"));
-                    tpl.AddVariable("lblClass2", WestwindHelper.GetWord("class.class2", "Product"));
-                    tpl.AddVariable("lblClass3", WestwindHelper.GetWord("class.class3", "Product"));
-                    tpl.AddVariable("lblClass4", WestwindHelper.GetWord("class.class4", "Product"));
-                    tpl.AddVariable("lblClass5", WestwindHelper.GetWord("class.class5", "Product"));
-                    tpl.AddVariable("lblClass6", WestwindHelper.GetWord("class.class6", "Product"));
+
                     tpl.AddVariable("lblBFQty", WestwindHelper.GetWord("inventory.bfQty", "Product"));
                     tpl.AddVariable("lblBFAmount", WestwindHelper.GetWord("inventory.bfAmount", "Product"));
                     tpl.AddVariable("lblCDQty", WestwindHelper.GetWord("inventory.cdQty", "Product"));
@@ -582,18 +599,48 @@ order by STKCODE, APPENDIX1, APPENDIX2, APPENDIX3, TxDate, TxType, TxNumber
                     tpl.AddVariable("lblMonth", WestwindHelper.GetWord("glossary.month", "General"));
                     tpl.AddVariable("lblDay", WestwindHelper.GetWord("glossary.day", "General"));
                     tpl.AddVariable("lblTxType", WestwindHelper.GetWord("transaction.type", "Transaction"));
-                    tpl.AddVariable("lblQtyIn", WestwindHelper.GetWord("transaction.qtyIn", "Transaction"));
-                    tpl.AddVariable("lblQtyOut", WestwindHelper.GetWord("transaction.qtyOut", "Transaction"));
-                    tpl.AddVariable("lblPrice", WestwindHelper.GetWord("transaction.price", "Transaction"));
-                    tpl.AddVariable("lblCost", WestwindHelper.GetWord("transaction.cost", "Transaction"));
+
+                    tpl.AddVariable("lblAverageCost", WestwindHelper.GetWord("transaction.cost", "Transaction"));
                     tpl.AddVariable("lblTxNumber", WestwindHelper.GetWord("transaction.number", "Transaction"));
-                    tpl.AddVariable("lblReference", WestwindHelper.GetWord("transaction.reference", "Transaction"));
                     tpl.AddVariable("lblLocation", WestwindHelper.GetWord("workplace", "Model"));
-                    tpl.AddVariable("lblVsLocation", "VS " + WestwindHelper.GetWord("workplace", "Model"));
-                    tpl.AddVariable("lblSupplierCode", WestwindHelper.GetWord("supplier", "Model"));
-                    tpl.AddVariable("lblRemarks", WestwindHelper.GetWord("transaction.remarks", "Transaction"));
+
                     tpl.AddVariable("lblSubTotal", WestwindHelper.GetWordWithColon("transaction.subtotal", "Transaction"));
                     tpl.AddVariable("lblGrandTotal", WestwindHelper.GetWordWithColon("transaction.grandtotal", "Transaction"));
+
+                    tpl.AddVariable("lblSeqNo", "SeqNo");
+                    tpl.AddVariable("lblDescription", "Description");
+                    tpl.AddVariable("lblPW_CDQTY", "PW_CDQTY");
+                    tpl.AddVariable("lblBF_AVRCOST", "BF_AVRCOST");
+                    tpl.AddVariable("lblQTY", "QTY");
+                    tpl.AddVariable("lblPCS_BFQTY", "PCS_BFQTY");
+                    tpl.AddVariable("lblPW_BFQTY", "PW_BFQTY");
+
+                    tpl.AddVariable("lblRECQTY", "REC (+)");
+                    tpl.AddVariable("lblRECAMT", "REC ($)");
+                    tpl.AddVariable("lblCAPQTY", "CAP (+)");
+                    tpl.AddVariable("lblCAPAMT", "CAP ($)");
+                    tpl.AddVariable("lblREJQTY", "REJ (-)");
+                    tpl.AddVariable("lblREJAMT", "REJ ($)");
+                    tpl.AddVariable("lblADJQTY", "ADJ (+/-)");
+                    tpl.AddVariable("lblADJAMT", "ADJ ($)");
+                    tpl.AddVariable("lblTXIQTY", "TXI (+)");
+                    tpl.AddVariable("lblTXIAMT", "TXI ($)");
+                    tpl.AddVariable("lblTXOQTY", "TXO (-)");
+                    tpl.AddVariable("lblTXOAMT", "TXO ($)");
+                    tpl.AddVariable("lblCASQTY", "CAS (-)");
+                    tpl.AddVariable("lblCASAMT", "CAS ($)");
+                    tpl.AddVariable("lblCRTQTY", "CRT (+)");
+                    tpl.AddVariable("lblCRTAMT", "CRT ($)");
+                    tpl.AddVariable("lblVODQTY", "VOD (+)");
+                    tpl.AddVariable("lblVODAMT", "VOD ($)");
+                    tpl.AddVariable("lblSALQTY", "SAL (-)");
+                    tpl.AddVariable("lblSALAMT", "SAL ($)");
+                    tpl.AddVariable("lblSRTQTY", "SRT (+)");
+                    tpl.AddVariable("lblSRTAMT", "SRT ($)");
+                    tpl.AddVariable("lblCAL_CDQTY", "CAL CDQTY");
+                    tpl.AddVariable("lblCAL_CDAMT", "CAL CDAMT");
+                    tpl.AddVariable("lblDIFF_CDQTY", "DIFF CDQTY");
+                    tpl.AddVariable("lblDIFF_CDAMT", "DIFF CDAMT");
                     #endregion
 
                     tpl.Generate();
@@ -613,6 +660,25 @@ order by STKCODE, APPENDIX1, APPENDIX2, APPENDIX3, TxDate, TxType, TxNumber
                     stream.Dispose();
                 }
             }
+
+            return result;
+        }
+
+        /// <summary>
+        /// 睇下 selected date range 係咪屬於 current period
+        /// </summary>
+        /// <param name="fromDate"></param>
+        /// <param name="toDate"></param>
+        /// <returns></returns>
+        private static bool IsCurrentPeriod(DateTime fromDate, DateTime toDate)
+        {
+            var result = false;
+
+            var currentPeriod = SystemInfoEx.CurrentInfo.Default.CurrentSystemYear + SystemInfoEx.CurrentInfo.Default.CurrentSystemMonth;
+            result = string.Compare(fromDate.ToString("yyyyMM"), currentPeriod) == 0 &&
+                string.Compare(toDate.ToString("yyyyMM"), currentPeriod) == 0 ?
+                true :
+                false;
 
             return result;
         }

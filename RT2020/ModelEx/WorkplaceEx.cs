@@ -90,6 +90,91 @@ namespace RT2020.ModelEx
 
             return result;
         }
+
+        public static void LoadHierarchyTree(ref TreeView target)
+        {
+            var where = "ParentZone Is Null";
+            string[] orderBy = new string[] { "ZoneCode" };
+            var parentZone = ModelEx.WorkplaceZoneEx.GetList(where, orderBy);
+
+            if (parentZone.Count > 0)
+            {
+                target.Nodes.Clear();
+
+                foreach (var zone in parentZone)
+                {
+                    var text = CookieHelper.CurrentLocaleId == LanguageHelper.AlternateLanguage2.Key ?
+                        zone.ZoneName_Cht : CookieHelper.CurrentLocaleId == LanguageHelper.AlternateLanguage1.Key ?
+                        zone.ZoneName_Chs :
+                        zone.ZoneName;
+
+                    var nodes = new TreeNode()
+                    {
+                        Name = "Zone",
+                        Tag = zone.ZoneId,
+                        Text = zone.ZoneCode + " - " + text
+                    };
+
+                    FillWorkplaceZoneChild(ref nodes, zone);
+                    FillWorkplaceChild(ref nodes, zone);
+                    target.Nodes.Add(nodes);
+                }
+            }
+        }
+
+        private static void FillWorkplaceZoneChild(ref TreeNode nodes, EF6.WorkplaceZone item)
+        {
+            var where = string.Format("ParentZone = '{0}'", item.ZoneId);
+            string[] orderBy = new string[] { "ZoneCode" };
+            var child = ModelEx.WorkplaceZoneEx.GetList(where, orderBy);
+            if (child.Count > 0)
+            {
+                foreach (var zone in child)
+                {
+                    var text = CookieHelper.CurrentLocaleId == LanguageHelper.AlternateLanguage2.Key ?
+                        zone.ZoneName_Cht : CookieHelper.CurrentLocaleId == LanguageHelper.AlternateLanguage1.Key ?
+                        zone.ZoneName_Chs :
+                        zone.ZoneName;
+
+                    var node = new TreeNode()
+                    {
+                        Name = "Zone",
+                        Tag = zone.ZoneId,
+                        Text = zone.ZoneCode + " - " + text
+                    };
+                    FillWorkplaceZoneChild(ref node, zone);
+
+                    nodes.Nodes.Add(node);
+                }
+            }
+        }
+
+        private static void FillWorkplaceChild(ref TreeNode nodes, EF6.WorkplaceZone item)
+        {
+            var where = string.Format("ZoneId = '{0}'", item.ZoneId);
+            string[] orderBy = new string[] { "WorkplaceCode" };
+            var child = GetList(where, orderBy);
+            if (child.Count > 0)
+            {
+                foreach (var zone in child)
+                {
+                    var text = CookieHelper.CurrentLocaleId == LanguageHelper.AlternateLanguage2.Key ?
+                        zone.WorkplaceName_Cht : CookieHelper.CurrentLocaleId == LanguageHelper.AlternateLanguage1.Key ?
+                        zone.WorkplaceName_Chs :
+                        zone.WorkplaceName;
+
+                    var node = new TreeNode()
+                    {
+                        Name = "Workplace",
+                        Tag = zone.WorkplaceId,
+                        Text = zone.WorkplaceCode + " - " + text
+                };
+
+                    nodes.Nodes.Add(node);
+                }
+            }
+        }
+
         /// <summary>
         /// Get a EF6.Workplace object from the database using the given WorkplaceId
         /// </summary>

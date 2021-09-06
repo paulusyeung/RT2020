@@ -939,6 +939,7 @@
     <Compile Include="Helper\SqlHelper.cs" />
     <Compile Include="Helper\SystemInfoHelper.cs" />
     <Compile Include="Helper\ThemeHelper.cs" />
+    <Compile Include="Helper\TreeViewHelper.cs" />
     <Compile Include="Helper\WebConfigHelper.cs" />
     <Compile Include="Helper\WestwindHelper.cs" />
     <Compile Include="Help\About.cs">
@@ -1347,6 +1348,18 @@
     </Compile>
     <Compile Include="Inventory\Reports\History\InOutHistory_Monthly.Designer.cs">
       <DependentUpon>InOutHistory_Monthly.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Inventory\Reports\Journal\Summary.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Inventory\Reports\Journal\Summary.Designer.cs">
+      <DependentUpon>Summary.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Inventory\Reports\Journal\List.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Inventory\Reports\Journal\List.Designer.cs">
+      <DependentUpon>List.cs</DependentUpon>
     </Compile>
     <Compile Include="Inventory\Reports\Journal\Monthly.cs">
       <SubType>UserControl</SubType>
@@ -3143,6 +3156,11 @@
     <Content Include="LocalizationAdmin\bower.json" />
     <Content Include="Resources\Reports\Inventory\Journal\Monthly.frx" />
     <Content Include="Resources\Reports\Inventory\Journal\Monthly.xlsx" />
+    <Content Include="Resources\Reports\Inventory\Journal\MonthlyPivot.xlsx" />
+    <Content Include="Resources\Reports\Inventory\Journal\ListPivot.xlsx" />
+    <Content Include="Resources\Reports\Inventory\Journal\List.xlsx" />
+    <Content Include="Resources\Reports\Inventory\Journal\List.frx" />
+    <Content Include="Resources\Reports\Inventory\Journal\SummaryPivot.xlsx" />
     <None Include="Resources\Templates\CAP Import Template.XLS" />
     <None Include="Resources\Templates\CAP Import Template.xlsx" />
     <None Include="Resources\Templates\VIPThanksLetter.dotx" />
@@ -3787,6 +3805,14 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Inventory\Reports\History\InOutHistory_Monthly.resx">
       <DependentUpon>InOutHistory_Monthly.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Inventory\Reports\Journal\Summary.resx">
+      <DependentUpon>Summary.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Inventory\Reports\Journal\List.resx">
+      <DependentUpon>List.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Inventory\Reports\Journal\Monthly.resx">

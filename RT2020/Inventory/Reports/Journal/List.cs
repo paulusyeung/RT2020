@@ -19,29 +19,29 @@ using RT2020.ModelEx;
 
 namespace RT2020.Inventory.Reports.Journal
 {
-    public partial class Monthly : UserControl
+    public partial class List : UserControl
     {
         #region private properties
         String[] _StockCodeList = null;
 
-        private int FromYear
+        private DateTime FromDate
         {
             get
             {
-                return int.Parse(this.txtYear.Text.Trim());
+                return datFromDate.Value;
             }
         }
 
-        private int FromMonth
+        private DateTime ToDate
         {
             get
             {
-                return int.Parse(this.txtMonth.Text.Trim());
+                return datToDate.Value;
             }
         }
         #endregion
 
-        public Monthly()
+        public List()
         {
             InitializeComponent();
         }
@@ -53,8 +53,6 @@ namespace RT2020.Inventory.Reports.Journal
 
         private void SetAttributes()
         {
-            this.txtYear.Text = SystemInfoEx.CurrentInfo.Default.CurrentSystemYear;
-            this.txtMonth.Text = SystemInfoEx.CurrentInfo.Default.CurrentSystemMonth;
             this.txtFrom.Focus();
         }
 
@@ -65,28 +63,15 @@ namespace RT2020.Inventory.Reports.Journal
             int year = 0;
             int month = 0;
 
-            if (int.TryParse(this.txtMonth.Text.Trim(), out month) && int.TryParse(this.txtYear.Text.Trim(), out year))
-            {
-                if (month < 1 || month > 12)
-                {
-                    result = false;
-                    MessageBox.Show("Format Error: Month Error", "Message");
-                }
-                else if (year < 0 || year > 9999)
-                {
-                    result = false;
-                    MessageBox.Show("Format Error: Year Error", "Message");
-                }
-                else if (String.Compare(this.txtFrom.Text.Trim(), this.txtTo.Text.Trim()) > 0)
-                {
-                    result = false;
-                    MessageBox.Show("Range Error: STKCODE Error ", "Message");
-                }
-            }
-            else
+            if (String.Compare(txtFrom.Text.Trim(), txtTo.Text.Trim()) > 0)
             {
                 result = false;
-                MessageBox.Show("Format Error:Year and Month Must be a number of", "Message");
+                MessageBox.Show("Range Error: STKCODE Error ", "Message");
+            }
+            else if (datFromDate.Value.ToString("yyyy-MM-dd").CompareTo(datToDate.Value.ToString("yyyy-MM-dd")) > 0)
+            {
+                result = false;
+                MessageBox.Show("Range Error: Date", "Message");
             }
             return result;
         }
@@ -96,18 +81,16 @@ namespace RT2020.Inventory.Reports.Journal
         {
             if (!IsSelValid()) return;
 
-            DateTime FromDate = new DateTime(FromYear, FromMonth, 1);
-            DateTime ToDate = new DateTime(FromYear, FromMonth, DateTime.DaysInMonth(FromYear, FromMonth));
-
             var cmd = (Button)sender;
+
             switch (cmd.Name)
             {
                 case "cmdPreview":
-                    htmlBox1.Html = RT2020.Reports.Inventory.Journal.Monthly.HTML(txtFrom.Text.Trim(), txtTo.Text.Trim(), FromDate.ToString("yyyy-MM-dd"), ToDate.ToString("yyyy-MM-dd"));
+                    htmlBox1.Html = RT2020.Reports.Inventory.Journal.List.HTML(txtFrom.Text.Trim(), txtTo.Text.Trim(), FromDate.ToString("yyyy-MM-dd"), ToDate.ToString("yyyy-MM-dd"));
                     break;
                 case "cmdPDF":
                     #region export PDF
-                    var pdf = RT2020.Reports.Inventory.Journal.Monthly.PDF(txtFrom.Text.Trim(), txtTo.Text.Trim(), FromDate.ToString("yyyy-MM-dd"), ToDate.ToString("yyyy-MM-dd"));
+                    var pdf = RT2020.Reports.Inventory.Journal.List.PDF(txtFrom.Text.Trim(), txtTo.Text.Trim(), FromDate.ToString("yyyy-MM-dd"), ToDate.ToString("yyyy-MM-dd"));
 
                     if (pdf != null)
                     {
@@ -120,7 +103,7 @@ namespace RT2020.Inventory.Reports.Journal
                     #endregion
                 case "cmdExcel":
                     #region export Excel
-                    var xls = RT2020.Reports.Inventory.Journal.Monthly.Excel(txtFrom.Text.Trim(), txtTo.Text.Trim(), FromDate.ToString("yyyy-MM-dd"), ToDate.ToString("yyyy-MM-dd"));
+                    var xls = RT2020.Reports.Inventory.Journal.List.Excel(txtFrom.Text.Trim(), txtTo.Text.Trim(), FromDate.ToString("yyyy-MM-dd"), ToDate.ToString("yyyy-MM-dd"));
 
                     if (xls != null)
                     {
@@ -133,7 +116,7 @@ namespace RT2020.Inventory.Reports.Journal
                     #endregion
                 case "cmdPivot":
                     #region export PivotTable
-                    var pvt = RT2020.Reports.Inventory.Journal.Monthly.Pivot(txtFrom.Text.Trim(), txtTo.Text.Trim(), FromDate.ToString("yyyy-MM-dd"), ToDate.ToString("yyyy-MM-dd"));
+                    var pvt = RT2020.Reports.Inventory.Journal.List.Pivot(txtFrom.Text.Trim(), txtTo.Text.Trim(), FromDate.ToString("yyyy-MM-dd"), ToDate.ToString("yyyy-MM-dd"));
 
                     if (pvt != null)
                     {
@@ -158,14 +141,11 @@ namespace RT2020.Inventory.Reports.Journal
             txtTo.SelectAll();
         }
 
-        private void txtYear_Enter(object sender, EventArgs e)
+        private void datFromDate_ValueChanged(object sender, EventArgs e)
         {
-            txtYear.SelectAll();
-        }
+            var dtp = (DateTimePicker)sender;
 
-        private void txtMonth_Enter(object sender, EventArgs e)
-        {
-            txtMonth.SelectAll();
+            datToDate.Value = dtp.Value.AddMonths(1).AddDays(-1) <= DateTime.Now.Date ? dtp.Value.AddMonths(1).AddDays(-1) : DateTime.Now;
         }
     }
 }

@@ -168,7 +168,10 @@
     <Compile Include="Helper\CookieHelper.cs" />
     <Compile Include="Helper\SqlHelper.cs" />
     <Compile Include="Helper\WestwindHelper.cs" />
+    <Compile Include="Inventory\Journal\Summary.cs" />
+    <Compile Include="Inventory\Journal\List.cs" />
     <Compile Include="Inventory\Journal\Monthly.cs" />
+    <Compile Include="ModelEx\InOutSummaryEx.cs" />
     <Compile Include="ModelEx\InOutHistoryEx.cs" />
     <Compile Include="ModelEx\SystemInfoEx.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

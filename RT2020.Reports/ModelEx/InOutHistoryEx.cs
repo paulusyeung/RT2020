@@ -56,9 +56,6 @@ namespace RT2020.Reports.ModelEx
             public decimal CDQTY { get; set; }
             public decimal CDAMT { get; set; }
             public DateTime TxDate { get; set; }
-            public int TxYear { get; set; }
-            public int TxMonth { get; set; }
-            public int TxDay { get; set; }
             public string TxType { get; set; }
             public string TxNumber { get; set; }
             public decimal QTYIN { get; set; }
