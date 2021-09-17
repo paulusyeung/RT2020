@@ -3041,6 +3041,14 @@ warning 6002: The table/view 'RT2020.dbo.TxferAdvanceImportSummary' does not hav
           <Property Name="LoginName" Type="nvarchar" MaxLength="64" />
           <Property Name="LoginPassword" Type="nvarchar" MaxLength="32" />
           <Property Name="Alias" Type="nvarchar" MaxLength="64" />
+          <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="CreatedOn" Type="datetime" Nullable="false" />
+          <Property Name="CreatedBy" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ModifiedOn" Type="datetime" Nullable="false" />
+          <Property Name="ModifiedBy" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Retired" Type="bit" Nullable="false" />
+          <Property Name="RetiredOn" Type="datetime" />
+          <Property Name="RetiredBy" Type="uniqueidentifier" />
         </EntityType>
         <EntityType Name="Workplace">
           <Key>
@@ -3132,37 +3140,6 @@ warning 6002: The table/view 'RT2020.dbo.TxferAdvanceImportSummary' does not hav
           <Property Name="PromaryZone" Type="bit" Nullable="false" />
           <Property Name="MetadataXml" Type="xml" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6013: The table/view 'RT2020.dbo.vwInOutHistoryWrapper' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
-        <EntityType Name="vwInOutHistoryWrapper">
-          <Property Name="STKCODE" Type="varchar" MaxLength="10" />
-          <Property Name="APPENDIX1" Type="varchar" MaxLength="4" />
-          <Property Name="APPENDIX2" Type="varchar" MaxLength="4" />
-          <Property Name="APPENDIX3" Type="varchar" MaxLength="4" />
-          <Property Name="CLASS1" Type="varchar" MaxLength="6" />
-          <Property Name="CLASS2" Type="varchar" MaxLength="6" />
-          <Property Name="CLASS3" Type="varchar" MaxLength="6" />
-          <Property Name="CLASS4" Type="varchar" MaxLength="6" />
-          <Property Name="CLASS5" Type="varchar" MaxLength="6" />
-          <Property Name="CLASS6" Type="varchar" MaxLength="6" />
-          <Property Name="TxDate" Type="datetime" />
-          <Property Name="TxType" Type="varchar" MaxLength="22" />
-          <Property Name="TxNumber" Type="varchar" MaxLength="12" />
-          <Property Name="SupplierCode" Type="nvarchar" MaxLength="10" />
-          <Property Name="Price" Type="money" />
-          <Property Name="FromLocation" Type="varchar" MaxLength="4" />
-          <Property Name="ToLocation" Type="varchar" MaxLength="4" />
-          <Property Name="QTYIN" Type="decimal" Precision="18" Scale="4" />
-          <Property Name="QTYOUT" Type="decimal" Precision="18" Scale="4" />
-          <Property Name="Qty" Type="decimal" Precision="18" Scale="4" />
-          <Property Name="AverageCost" Type="money" />
-          <Property Name="BFQTY" Type="decimal" Precision="18" Scale="4" />
-          <Property Name="BFAMT" Type="money" />
-          <Property Name="CDQTY" Type="decimal" Precision="18" Scale="4" />
-          <Property Name="CDAMT" Type="decimal" Precision="38" Scale="8" />
-          <Property Name="Reference" Type="nvarchar" MaxLength="32" />
-          <Property Name="Remarks" Type="nvarchar" MaxLength="512" />
-        </EntityType>-->
         <!--Errors Found During Generation:
 warning 6002: The table/view 'RT2020.dbo.vwPhonebookList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vwPhonebookList">
@@ -3858,8 +3835,6 @@ warning 6002: The table/view 'RT2020.dbo.vwWorkplaceList' does not have a primar
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <!--Errors Found During Generation:
-warning 6037: Foreign key constraint 'FK_MemberVipData_MemberVipSupplement' has been omitted from the storage model. Column 'MemberVipId' of table 'RT2020Model.Store.MemberVipSupplement' is a foreign key participating in multiple relationships. A one-to-one Entity Model will not validate since data inconsistency is possible.
         <Association Name="FK_MemberVipData_MemberVipSupplement">
           <End Role="MemberVipData" Type="Self.MemberVipData" Multiplicity="1" />
           <End Role="MemberVipSupplement" Type="Self.MemberVipSupplement" Multiplicity="*" />
@@ -3871,7 +3846,7 @@ warning 6037: Foreign key constraint 'FK_MemberVipData_MemberVipSupplement' has 
               <PropertyRef Name="MemberVipId" />
             </Dependent>
           </ReferentialConstraint>
-        </Association>-->
+        </Association>
         <Association Name="FK_PosAnalysisCode_PosAnalysisCode">
           <End Role="PosAnalysisCode" Type="Self.PosAnalysisCode" Multiplicity="0..1" />
           <End Role="PosAnalysisCode1" Type="Self.PosAnalysisCode" Multiplicity="*" />
@@ -6262,6 +6237,10 @@ warning 6037: Foreign key constraint 'FK_MemberVipData_MemberVipSupplement' has 
             <End Role="MemberVipLineOfOperation" EntitySet="MemberVipLineOfOperation" />
           </AssociationSet>
           <AssociationSet Name="FK_MemberVipData_MemberVipSupple" Association="Self.FK_MemberVipData_MemberVipSupple">
+            <End Role="MemberVipData" EntitySet="MemberVipData" />
+            <End Role="MemberVipSupplement" EntitySet="MemberVipSupplement" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MemberVipData_MemberVipSupplement" Association="Self.FK_MemberVipData_MemberVipSupplement">
             <End Role="MemberVipData" EntitySet="MemberVipData" />
             <End Role="MemberVipSupplement" EntitySet="MemberVipSupplement" />
           </AssociationSet>
@@ -10202,19 +10181,7 @@ warning 6037: Foreign key constraint 'FK_MemberVipData_MemberVipSupplement' has 
           <Property Name="UserId" Type="Guid" Nullable="false" />
           <Property Name="PreferenceObjectId" Type="Guid" />
           <Property Name="MetadataXml" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="UserProfile" Relationship="Self.FK_UserProfile_UserPreference" FromRole="UserPreference" ToRole="UserProfile" />
-        </EntityType>
-        <EntityType Name="UserProfile">
-          <Key>
-            <PropertyRef Name="UserId" />
-          </Key>
-          <Property Name="UserId" Type="Guid" Nullable="false" />
-          <Property Name="UserSid" Type="Guid" Nullable="false" />
-          <Property Name="UserType" Type="Int32" />
-          <Property Name="LoginName" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
-          <Property Name="LoginPassword" Type="String" MaxLength="32" FixedLength="false" Unicode="true" />
-          <Property Name="Alias" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="UserPreference" Relationship="Self.FK_UserProfile_UserPreference" FromRole="UserProfile" ToRole="UserPreference" />
+          <NavigationProperty Name="UserProfile" Relationship="RT2020Model.FK_UserProfile_UserPreference" FromRole="UserPreference" ToRole="UserProfile" />
         </EntityType>
         <EntityType Name="Workplace">
           <Key>
@@ -12809,18 +12776,6 @@ warning 6037: Foreign key constraint 'FK_MemberVipData_MemberVipSupplement' has 
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_UserProfile_UserPreference">
-          <End Role="UserProfile" Type="Self.UserProfile" Multiplicity="1" />
-          <End Role="UserPreference" Type="Self.UserPreference" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="UserProfile">
-              <PropertyRef Name="UserId" />
-            </Principal>
-            <Dependent Role="UserPreference">
-              <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Workplace_WorkplaceAddress">
           <End Role="Workplace" Type="Self.Workplace" Multiplicity="1" />
           <End Role="WorkplaceAddress" Type="Self.WorkplaceAddress" Multiplicity="*" />
@@ -13024,7 +12979,6 @@ warning 6037: Foreign key constraint 'FK_MemberVipData_MemberVipSupplement' has 
           <EntitySet Name="SystemQueue" EntityType="Self.SystemQueue" />
           <EntitySet Name="TransferReason" EntityType="Self.TransferReason" />
           <EntitySet Name="UserPreference" EntityType="Self.UserPreference" />
-          <EntitySet Name="UserProfile" EntityType="Self.UserProfile" />
           <EntitySet Name="Workplace" EntityType="Self.Workplace" />
           <EntitySet Name="WorkplaceAddress" EntityType="Self.WorkplaceAddress" />
           <EntitySet Name="WorkplaceNature" EntityType="Self.WorkplaceNature" />
@@ -13837,10 +13791,6 @@ warning 6037: Foreign key constraint 'FK_MemberVipData_MemberVipSupplement' has 
             <End Role="WorkplaceZone" EntitySet="WorkplaceZone" />
             <End Role="SystemInfo" EntitySet="SystemInfo" />
           </AssociationSet>
-          <AssociationSet Name="FK_UserProfile_UserPreference" Association="Self.FK_UserProfile_UserPreference">
-            <End Role="UserProfile" EntitySet="UserProfile" />
-            <End Role="UserPreference" EntitySet="UserPreference" />
-          </AssociationSet>
           <AssociationSet Name="FK_Workplace_WorkplaceAddress" Association="Self.FK_Workplace_WorkplaceAddress">
             <End Role="Workplace" EntitySet="Workplace" />
             <End Role="WorkplaceAddress" EntitySet="WorkplaceAddress" />
@@ -13895,6 +13845,11 @@ warning 6037: Foreign key constraint 'FK_MemberVipData_MemberVipSupplement' has 
           <AssociationSet Name="FK_Workplace_PromotionPaymentFactor" Association="RT2020Model.FK_Workplace_PromotionPaymentFactor">
             <End Role="Workplace" EntitySet="Workplace" />
             <End Role="PromotionPaymentFactor" EntitySet="PromotionPaymentFactor" />
+          </AssociationSet>
+          <EntitySet Name="UserProfile" EntityType="RT2020Model.UserProfile" />
+          <AssociationSet Name="FK_UserProfile_UserPreference" Association="RT2020Model.FK_UserProfile_UserPreference">
+            <End Role="UserProfile" EntitySet="UserProfile" />
+            <End Role="UserPreference" EntitySet="UserPreference" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="vwPhonebookList">
@@ -14100,6 +14055,38 @@ warning 6037: Foreign key constraint 'FK_MemberVipData_MemberVipSupplement' has 
             </Principal>
             <Dependent Role="PromotionPaymentFactor">
               <PropertyRef Name="WorkplaceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="UserProfile">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="Guid" Nullable="false" />
+          <Property Name="UserSid" Type="Guid" Nullable="false" />
+          <Property Name="UserType" Type="Int32" />
+          <Property Name="LoginName" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="LoginPassword" Type="String" MaxLength="32" FixedLength="false" Unicode="true" />
+          <Property Name="Alias" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedBy" Type="Guid" Nullable="false" />
+          <Property Name="ModifiedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifiedBy" Type="Guid" Nullable="false" />
+          <Property Name="Retired" Type="Boolean" Nullable="false" />
+          <Property Name="RetiredOn" Type="DateTime" Precision="3" />
+          <Property Name="RetiredBy" Type="Guid" />
+          <NavigationProperty Name="UserPreference" Relationship="RT2020Model.FK_UserProfile_UserPreference" FromRole="UserProfile" ToRole="UserPreference" />
+        </EntityType>
+        <Association Name="FK_UserProfile_UserPreference">
+          <End Type="RT2020Model.UserProfile" Role="UserProfile" Multiplicity="1" />
+          <End Type="RT2020Model.UserPreference" Role="UserPreference" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserProfile">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="UserPreference">
+              <PropertyRef Name="UserId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -17141,18 +17128,6 @@ warning 6037: Foreign key constraint 'FK_MemberVipData_MemberVipSupplement' has 
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="UserProfile">
-            <EntityTypeMapping TypeName="RT2020Model.UserProfile">
-              <MappingFragment StoreEntitySet="UserProfile">
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="UserSid" ColumnName="UserSid" />
-                <ScalarProperty Name="UserType" ColumnName="UserType" />
-                <ScalarProperty Name="LoginName" ColumnName="LoginName" />
-                <ScalarProperty Name="LoginPassword" ColumnName="LoginPassword" />
-                <ScalarProperty Name="Alias" ColumnName="Alias" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Workplace">
             <EntityTypeMapping TypeName="RT2020Model.Workplace">
               <MappingFragment StoreEntitySet="Workplace">
@@ -17430,6 +17405,26 @@ warning 6037: Foreign key constraint 'FK_MemberVipData_MemberVipSupplement' has 
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="UserProfile">
+            <EntityTypeMapping TypeName="RT2020Model.UserProfile">
+              <MappingFragment StoreEntitySet="UserProfile">
+                <ScalarProperty Name="RetiredBy" ColumnName="RetiredBy" />
+                <ScalarProperty Name="RetiredOn" ColumnName="RetiredOn" />
+                <ScalarProperty Name="Retired" ColumnName="Retired" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Alias" ColumnName="Alias" />
+                <ScalarProperty Name="LoginPassword" ColumnName="LoginPassword" />
+                <ScalarProperty Name="LoginName" ColumnName="LoginName" />
+                <ScalarProperty Name="UserType" ColumnName="UserType" />
+                <ScalarProperty Name="UserSid" ColumnName="UserSid" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
@@ -17445,7 +17440,7 @@ warning 6037: Foreign key constraint 'FK_MemberVipData_MemberVipSupplement' has 
       <DesignerInfoPropertySet>
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
         <DesignerProperty Name="EnablePluralization" Value="false" />
-        <DesignerProperty Name="IncludeForeignKeysInModel" Value="False" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
         <DesignerProperty Name="UseLegacyProvider" Value="false" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
       </DesignerInfoPropertySet>

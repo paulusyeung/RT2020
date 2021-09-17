@@ -26,6 +26,14 @@ namespace RT2020.EF6
         public string LoginName { get; set; }
         public string LoginPassword { get; set; }
         public string Alias { get; set; }
+        public int Status { get; set; }
+        public System.DateTime CreatedOn { get; set; }
+        public System.Guid CreatedBy { get; set; }
+        public System.DateTime ModifiedOn { get; set; }
+        public System.Guid ModifiedBy { get; set; }
+        public bool Retired { get; set; }
+        public Nullable<System.DateTime> RetiredOn { get; set; }
+        public Nullable<System.Guid> RetiredBy { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UserPreference> UserPreference { get; set; }
