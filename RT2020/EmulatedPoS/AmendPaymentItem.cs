@@ -15,6 +15,8 @@ using Gizmox.WebGUI.Forms;
 using System.Linq;
 using System.Data.Entity;
 
+using RT2020.Common.ModelEx;
+
 #endregion
 
 namespace RT2020.EmulatedPoS
@@ -167,7 +169,7 @@ namespace RT2020.EmulatedPoS
         {
             //string sqlWhere = "TypeCode = '" + cboTypeCode.Text + "' AND CurrencyCode = '" + cboCurrencyCode.Text + "'";
             //RT2020.DAL.PosTenderType posTender = RT2020.DAL.PosTenderType.LoadWhere(sqlWhere);
-            typeId = ModelEx.PosTenderTypeEx.GetId(typeCode, currencyCode);
+            typeId = PosTenderTypeEx.GetId(typeCode, currencyCode);
             typeCode = cboTypeCode.Text;
             currencyCode = cboCurrencyCode.Text;
             amount = txtAmount.Text;
@@ -186,7 +188,7 @@ namespace RT2020.EmulatedPoS
         {
             //string sqlWhere = "TypeCode = '" + cboTypeCode.Text + "' AND CurrencyCode = '" + cboCurrencyCode.Text + "'";
             //RT2020.DAL.PosTenderType posType = RT2020.DAL.PosTenderType.LoadWhere(sqlWhere);
-            txtXchgRate.Text = ModelEx.PosTenderTypeEx.GetExchageRte(cboTypeCode.Text, cboCurrencyCode.Text).ToString("n4");
+            txtXchgRate.Text = PosTenderTypeEx.GetExchageRte(cboTypeCode.Text, cboCurrencyCode.Text).ToString("n4");
         }
 
         /// <summary>

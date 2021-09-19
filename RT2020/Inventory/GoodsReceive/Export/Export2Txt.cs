@@ -15,7 +15,9 @@ using System.IO;
 using FileHelpers.DataLink;
 using FileHelpers.MasterDetail;
 using System.Web;
-using RT2020.Helper;
+
+using RT2020.Common.Helper;
+using RT2020.Common.ModelEx;
 
 #endregion
 
@@ -48,11 +50,11 @@ namespace RT2020.Inventory.GoodsReceive.Export
 
             if (rbtnPosted.Checked)
             {
-                ModelEx.InvtSubLedgerCAP_HeaderEx.LoadCombo(ref cboFrom, "TxNumber", false, false, string.Empty, "TxType = 'CAP'");
+                InvtSubLedgerCAP_HeaderEx.LoadCombo(ref cboFrom, "TxNumber", false, false, string.Empty, "TxType = 'CAP'");
             }
             else
             {
-                ModelEx.InvtBatchCAP_HeaderEx.LoadCombo(ref cboFrom, "TxNumber", false, false, string.Empty, "TxType = 'CAP'");
+                InvtBatchCAP_HeaderEx.LoadCombo(ref cboFrom, "TxNumber", false, false, string.Empty, "TxType = 'CAP'");
             }
         }
 
@@ -64,11 +66,11 @@ namespace RT2020.Inventory.GoodsReceive.Export
 
             if (rbtnPosted.Checked)
             {
-                ModelEx.InvtSubLedgerCAP_HeaderEx.LoadCombo(ref cboTo, "TxNumber", false, false, string.Empty, "TxType = 'CAP'");
+                InvtSubLedgerCAP_HeaderEx.LoadCombo(ref cboTo, "TxNumber", false, false, string.Empty, "TxType = 'CAP'");
             }
             else
             {
-                ModelEx.InvtBatchCAP_HeaderEx.LoadCombo(ref cboTo, "TxNumber", false, false, string.Empty, "TxType = 'CAP'");
+                InvtBatchCAP_HeaderEx.LoadCombo(ref cboTo, "TxNumber", false, false, string.Empty, "TxType = 'CAP'");
             }
 
             if (cboTo.Items.Count > 0)

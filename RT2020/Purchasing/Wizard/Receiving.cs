@@ -17,7 +17,9 @@ namespace RT2020.Purchasing.Wizard
     
     using System.Linq;
     using System.Data.Entity;
-    using Helper;
+
+    using RT2020.Common.Helper;
+    using RT2020.Common.ModelEx;
 
     /// <summary>
     /// Documentation for the second part of Receiving.
@@ -129,7 +131,7 @@ namespace RT2020.Purchasing.Wizard
         /// </summary>
         private void FillLocationList()
         {
-            ModelEx.WorkplaceEx.LoadCombo(ref this.cboLocation, "WorkplaceCode", false);
+            WorkplaceEx.LoadCombo(ref this.cboLocation, "WorkplaceCode", false);
         } 
         #endregion
 
@@ -243,7 +245,7 @@ namespace RT2020.Purchasing.Wizard
 
                     if (this.OrderHeaderId != System.Guid.Empty)
                     {
-                        SystemInfoHelper.Settings.RefreshMainList<DefaultRECList>();
+                        Helper.DesktopHelper.RefreshMainList<DefaultRECList>();
                         MessageBox.Show("Success!", "Save Result");
 
                         this.Close();
@@ -273,7 +275,7 @@ namespace RT2020.Purchasing.Wizard
 
                     if (this.OrderHeaderId != System.Guid.Empty)
                     {
-                        SystemInfoHelper.Settings.RefreshMainList<DefaultRECList>();
+                        Helper.DesktopHelper.RefreshMainList<DefaultRECList>();
                         this.Close();
                         Receiving receiving = new Receiving();
                         receiving.ShowDialog();
@@ -301,7 +303,7 @@ namespace RT2020.Purchasing.Wizard
 
                     if (this.OrderHeaderId != System.Guid.Empty)
                     {
-                        SystemInfoHelper.Settings.RefreshMainList<DefaultRECList>();
+                        Helper.DesktopHelper.RefreshMainList<DefaultRECList>();
                         this.Close();
                     }
                 }
@@ -740,7 +742,7 @@ WHERE ReceiveHeaderId = '" + this.ReceivingHeaderId.ToString() + "'";
             {
                 //RT2020.DAL.Product objProd = RT2020.DAL.Product.Load(new Guid(this.basicProduct.SelectedItem.ToString()));
                 var productId = new Guid(this.basicProduct.SelectedItem.ToString());
-                var objProd = ModelEx.ProductEx.Get(productId);
+                var objProd = ProductEx.Get(productId);
                 if (objProd != null)
                 {
                     stkCode = objProd.STKCODE;
@@ -880,12 +882,12 @@ WHERE ReceiveHeaderId = '" + this.ReceivingHeaderId.ToString() + "'";
                     this.txtType.Text = objHeader.TxType;
 
                     this.txtPoType.Text = strPoType;
-                    this.txtSupplierCode.Text = ModelEx.SupplierEx.GetSupplierCodeById(pohHeader.SupplierId.Value);
-                    this.txtOperatorCode.Text = ModelEx.StaffEx.GetStaffNumberById(objHeader.StaffId);
+                    this.txtSupplierCode.Text = SupplierEx.GetSupplierCodeById(pohHeader.SupplierId.Value);
+                    this.txtOperatorCode.Text = StaffEx.GetStaffNumberById(objHeader.StaffId);
                     this.txtOrderDate.Text = pohHeader.OrderOn.Value.ToShortDateString();
                     this.txtDeliveryDate.Text = pohHeader.DeliverOn.Value.ToShortDateString();
                     this.txtCancellationDate.Text = pohHeader.CancellationOn.Value.ToShortDateString();
-                    this.txtPaymentMethod.Text = ModelEx.SupplierTermsEx.GetTermsCode(pohHeader.TermsId.Value);
+                    this.txtPaymentMethod.Text = SupplierTermsEx.GetTermsCode(pohHeader.TermsId.Value);
                     this.txtPaymentTerm.Text = pohHeader.CreditDays.ToString();
                     this.txtDeposit.Text = pohHeader.DepositPercentage.ToString("n2");
                     this.txtPaymentRemark.Text = pohHeader.PaymentRemarks;
@@ -900,7 +902,7 @@ WHERE ReceiveHeaderId = '" + this.ReceivingHeaderId.ToString() + "'";
                     this.txtPartialShipment.Text = pohHeader.PartialShipment ? "YES" : "NO";
                     this.txtShipmentMethod.Text = pohHeader.ShipmentMethod;
                     this.txtShipmentRemark.Text = pohHeader.ShipmentRemarks;
-                    this.txtLastUser.Text = ModelEx.StaffEx.GetStaffNumberById(objHeader.ModifiedBy);
+                    this.txtLastUser.Text = StaffEx.GetStaffNumberById(objHeader.ModifiedBy);
 
                     #region statusName
                     string statusName = string.Empty;
@@ -1000,12 +1002,12 @@ WHERE ReceiveHeaderId = '" + this.ReceivingHeaderId.ToString() + "'";
                     #endregion
 
                     this.txtPoType.Text = strPoType;
-                    this.txtSupplierCode.Text = ModelEx.SupplierEx.GetSupplierCodeById(objHeader.SupplierId.Value);
-                    this.txtOperatorCode.Text = ModelEx.StaffEx.GetStaffNumberById(objHeader.StaffId.Value);
+                    this.txtSupplierCode.Text = SupplierEx.GetSupplierCodeById(objHeader.SupplierId.Value);
+                    this.txtOperatorCode.Text = StaffEx.GetStaffNumberById(objHeader.StaffId.Value);
                     this.txtOrderDate.Text = objHeader.OrderOn.Value.ToShortDateString();
                     this.txtDeliveryDate.Text = objHeader.DeliverOn.Value.ToShortDateString();
                     this.txtCancellationDate.Text = objHeader.CancellationOn.Value.ToShortDateString();
-                    this.txtPaymentMethod.Text = ModelEx.SupplierTermsEx.GetTermsCode(objHeader.TermsId.Value);
+                    this.txtPaymentMethod.Text = SupplierTermsEx.GetTermsCode(objHeader.TermsId.Value);
                     this.txtPaymentTerm.Text = objHeader.CreditDays.ToString();
                     this.txtDeposit.Text = objHeader.DepositPercentage.ToString("n2");
                     this.txtPaymentRemark.Text = objHeader.PaymentRemarks;
@@ -1020,7 +1022,7 @@ WHERE ReceiveHeaderId = '" + this.ReceivingHeaderId.ToString() + "'";
                     this.txtPartialShipment.Text = objHeader.PartialShipment ? "YES" : "NO";
                     this.txtShipmentMethod.Text = objHeader.ShipmentMethod;
                     this.txtShipmentRemark.Text = objHeader.ShipmentRemarks;
-                    this.txtLastUser.Text = ModelEx.StaffEx.GetStaffNumberById(objHeader.ModifiedBy);
+                    this.txtLastUser.Text = StaffEx.GetStaffNumberById(objHeader.ModifiedBy);
 
                     this.cboStatus.SelectedIndex = objHeader.Status;
                     this.txtFreightCharge.Text = objHeader.FreightChargePcn.ToString("n2");
@@ -1152,7 +1154,7 @@ WHERE ReceiveHeaderId = '" + this.ReceivingHeaderId.ToString() + "'";
         {
             decimal result = 0;
 
-            var objProduct = ModelEx.ProductEx.Get(productId);
+            var objProduct = ProductEx.Get(productId);
             if (objProduct != null)
             {
                 switch (stockName.ToUpper())

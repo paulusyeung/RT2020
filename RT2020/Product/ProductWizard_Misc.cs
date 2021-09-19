@@ -15,7 +15,7 @@ using System.IO;
 using RT2020.Controls;
 using System.Threading;
 using System.Linq;
-using RT2020.Helper;
+using RT2020.Common.Helper;
 using System.Data.Entity;
 
 #endregion

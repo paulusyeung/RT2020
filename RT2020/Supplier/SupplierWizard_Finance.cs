@@ -9,7 +9,9 @@ using System.Text;
 
 using Gizmox.WebGUI.Common;
 using Gizmox.WebGUI.Forms;
-using RT2020.Helper;
+
+using RT2020.Common.Helper;
+using RT2020.Common.ModelEx;
 
 #endregion
 
@@ -108,12 +110,12 @@ namespace RT2020.Supplier
 
         private void FillTermsList()
         {
-            ModelEx.SupplierTermsEx.LoadCombo(ref cboTerms, "TermsCode", false, true, String.Empty, String.Empty);
+            SupplierTermsEx.LoadCombo(ref cboTerms, "TermsCode", false, true, String.Empty, String.Empty);
         }
 
         private void FillCurrencyList()
         {
-            ModelEx.CurrencyEx.LoadCombo(ref cboCurrency, "CurrencyCode", false, true, String.Empty, String.Empty);
+            CurrencyEx.LoadCombo(ref cboCurrency, "CurrencyCode", false, true, String.Empty, String.Empty);
         }
         #endregion
 

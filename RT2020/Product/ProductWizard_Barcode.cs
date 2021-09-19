@@ -16,8 +16,10 @@ using DevExpress.Web;
 using System.Data.SqlClient;
 using System.Configuration;
 using System.Linq;
-using RT2020.Helper;
 using System.Data.Entity;
+
+using RT2020.Common.Helper;
+using RT2020.Common.ModelEx;
 
 #endregion
 
@@ -262,7 +264,7 @@ namespace RT2020.Product
             {
                 string sql = "ProductId = '" + this.ProductId.ToString() + "' AND Barcode = '" + txtBarcode.Text.Trim() + "'";
                 //ProductBarcode oBarcode = ProductBarcode.LoadWhere(sql);
-                if (ModelEx.ProductBarcodeEx.IsBarcodeInUse(this.ProductId, txtBarcode.Text.Trim()))
+                if (ProductBarcodeEx.IsBarcodeInUse(this.ProductId, txtBarcode.Text.Trim()))
                 {
                     errorProvider.SetError(txtBarcode, "Barcode Already Exists");
                 }
@@ -431,7 +433,7 @@ namespace RT2020.Product
         private void GenBarcode()
         {
             StringBuilder barcode = new StringBuilder();
-            var oItem = ModelEx.ProductEx.Get(this.ProductId);
+            var oItem = ProductEx.Get(this.ProductId);
             if (oItem != null)
             {
                 barcode.Append(oItem.STKCODE);

@@ -11,9 +11,12 @@ using Gizmox.WebGUI.Common;
 using Gizmox.WebGUI.Forms;
 
 using RT2020.Controls;
-using RT2020.Helper;
 using System.Linq;
 using System.Data.Entity;
+
+using RT2020.Common.Helper;
+using RT2020.Common.ModelEx;
+
 #endregion
 
 namespace RT2020.Staff
@@ -212,7 +215,7 @@ namespace RT2020.Staff
         private void SetSmartTags()
         {
             string[] orderBy = new string[] { "Priority" };
-            var smartTagList = ModelEx.SmartTag4StaffEx.GetListOrderBy(orderBy, true);
+            var smartTagList = SmartTag4StaffEx.GetListOrderBy(orderBy, true);
 
             SmartTagHelper oTag = new SmartTagHelper(this);
             oTag.StaffSmartTagList = smartTagList;
@@ -239,7 +242,7 @@ namespace RT2020.Staff
             var sql = "";
             var orderBy = new string[] { "CountryCode" };
 
-            ModelEx.CountryEx.LoadCombo(ref cmbCountry, textFields, pattern, true, true, "", sql, orderBy);
+            CountryEx.LoadCombo(ref cmbCountry, textFields, pattern, true, true, "", sql, orderBy);
 
             cmbProvince.DataSource = null;
             cmbProvince.Items.Clear();
@@ -253,7 +256,7 @@ namespace RT2020.Staff
             cmbProvince.Items.Clear();
 
             string sql = " CountryId = '" + CountryId.ToString() + "'";
-            ModelEx.ProvinceEx.LoadCombo(ref cmbProvince, "ProvinceName", true, true, String.Empty, sql);
+            ProvinceEx.LoadCombo(ref cmbProvince, "ProvinceName", true, true, String.Empty, sql);
 
             cmbCity.DataSource = null;
             cmbCity.Items.Clear();
@@ -266,7 +269,7 @@ namespace RT2020.Staff
 
             string sql = " ProvinceId = '" + ProvinceId.ToString() + "'";
 
-            ModelEx.CityEx.LoadCombo(ref cmbCity, "CityName", true, true, String.Empty, sql);
+            CityEx.LoadCombo(ref cmbCity, "CityName", true, true, String.Empty, sql);
         }
         #endregion
 
@@ -326,7 +329,7 @@ namespace RT2020.Staff
         {
             foreach (Control Ctrl in Controls)
             {
-                ModelEx.StaffSmartTagEx.LoadSmartTagValue(_StaffId, Ctrl);
+                StaffSmartTagEx.LoadSmartTagValue(_StaffId, Ctrl);
             }
         }
 
@@ -342,7 +345,7 @@ namespace RT2020.Staff
                 {
                     tagId = (Guid)Ctrl.Tag;
 
-                    var oTag = ModelEx.StaffSmartTagEx.Get(staffId, tagId);
+                    var oTag = StaffSmartTagEx.Get(staffId, tagId);
                     if (oTag != null)
                     {
                         if (Ctrl.GetType().Equals(typeof(TextBox)))
@@ -410,7 +413,7 @@ namespace RT2020.Staff
                 {
                     if (Ctrl.Name.Contains("SmartTag") && !Ctrl.Name.StartsWith("lbl"))
                     {
-                        ModelEx.StaffSmartTagEx.SaveSmartTagValue(_StaffId, Ctrl);
+                        StaffSmartTagEx.SaveSmartTagValue(_StaffId, Ctrl);
                     }
                 }
                 #endregion

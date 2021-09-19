@@ -11,8 +11,8 @@ using System.Text;
 using Gizmox.WebGUI.Common;
 using Gizmox.WebGUI.Forms;
 
-using RT2020.Helper;
-using RT2020.ModelEx;
+using RT2020.Common.Helper;
+using RT2020.Common.ModelEx;
 
 #endregion
 
@@ -87,14 +87,14 @@ namespace RT2020.Inventory.StockTake.Reports
         {
             cboFromTxNumber.Items.Clear();
 
-            ModelEx.StockTakeHeaderEx.LoadCombo(ref cboFromTxNumber, "TxNumber", false);
+            StockTakeHeaderEx.LoadCombo(ref cboFromTxNumber, "TxNumber", false);
         }
 
         private void FillToList(string whereClause)
         {
             cboToTxNumber.Items.Clear();
 
-            ModelEx.StockTakeHeaderEx.LoadCombo(ref cboToTxNumber, "TxNumber", false, false, string.Empty, whereClause);
+            StockTakeHeaderEx.LoadCombo(ref cboToTxNumber, "TxNumber", false, false, string.Empty, whereClause);
 
             cboToTxNumber.SelectedIndex = cboToTxNumber.Items.Count - 1;
         }

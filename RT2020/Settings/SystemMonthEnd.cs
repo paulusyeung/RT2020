@@ -14,8 +14,8 @@ using System.IO;
 using RT2020.Controls;
 
 using System.Threading;
-using RT2020.Helper;
-using RT2020.ModelEx;
+using RT2020.Common.Helper;
+using RT2020.Common.ModelEx;
 
 #endregion
 

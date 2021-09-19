@@ -14,7 +14,9 @@ using Gizmox.WebGUI.Common.Resources;
 using System.IO;
 using System.Linq;
 using System.Data.Entity;
-using RT2020.Helper;
+
+using RT2020.Common.Helper;
+using RT2020.Common.ModelEx;
 
 #endregion
 
@@ -232,7 +234,7 @@ namespace RT2020.Member
         #region Fill Combo List
         private void FillLineOfOperationList()
         {
-            ModelEx.LineOfOperationEx.LoadCombo(ref cboLineOfOperation, "LineOfOperationName", true);
+            LineOfOperationEx.LoadCombo(ref cboLineOfOperation, "LineOfOperationName", true);
         }
         #endregion
 
@@ -389,7 +391,7 @@ namespace RT2020.Member
         #region set defaults
         private void SetAddressDefaults()
         {
-            tabAddress.cboAddressType.SelectedValue = ModelEx.MemberAddressTypeEx.GetIdByCode("ADDR_EN");
+            tabAddress.cboAddressType.SelectedValue = MemberAddressTypeEx.GetIdByCode("ADDR_EN");
         }
 
         private void SetCardDefaults()
@@ -422,7 +424,7 @@ namespace RT2020.Member
                 {
                     //string sql = "MemberNumber = '" + txtMemberNumber.Text + "'";
                     //RT2020.DAL.Member oMember = RT2020.DAL.Member.LoadWhere(sql);
-                    if (ModelEx.MemberEx.IsMemberNumberInUse(txtMemberNumber.Text))
+                    if (MemberEx.IsMemberNumberInUse(txtMemberNumber.Text))
                     {
                         errorProvider.SetError(txtMemberNumber, "Member Number exists!");
                         result = false;
@@ -1055,7 +1057,7 @@ namespace RT2020.Member
         #region Load Member Info
         private void LoadGeneral()
         {
-            var oMember = ModelEx.MemberEx.Get(this.MemberId);
+            var oMember = MemberEx.Get(this.MemberId);
             if (oMember != null)
             {
                 txtMemberNumber.Text = oMember.MemberNumber;
@@ -1071,7 +1073,7 @@ namespace RT2020.Member
                 tabGeneral.txtRemarks.Text = oMember.Remarks;
                 //tabOthers.txtNormalItemDiscount.Text = oMember.NormalDiscount.HasValue ? oMember.NormalDiscount.Value.ToString("n2") : "";
 
-                tabGeneral.txtLastUpdatedBy.Text = ModelEx.StaffEx.GetStaffNumberById(oMember.ModifiedBy);
+                tabGeneral.txtLastUpdatedBy.Text = StaffEx.GetStaffNumberById(oMember.ModifiedBy);
                 tabGeneral.txtLastUpdatedOn.Text = DateTimeHelper.DateTimeToString(oMember.ModifiedOn, false);
                 tabGeneral.txtCreatedOn.Text = DateTimeHelper.DateTimeToString(oMember.CreatedOn, false);
                 tabGeneral.txtStatus.Text = Enum.GetName(typeof(EnumHelper.Status), oMember.Status);
@@ -1218,7 +1220,7 @@ namespace RT2020.Member
                     // Default to show AddressTypeCode = ADDR_EN
                     int foundRow = 0;
                     bool foundAddrEn = false;
-                    Guid addressTypeId_ADDR_EN = ModelEx.MemberAddressTypeEx.GetIdByCode("ADDR_EN");
+                    Guid addressTypeId_ADDR_EN = MemberAddressTypeEx.GetIdByCode("ADDR_EN");
                     foreach (var oAddress in oAddressList)
                     {
                         if (oAddress.AddressTypeId == addressTypeId_ADDR_EN)
@@ -1267,7 +1269,7 @@ namespace RT2020.Member
                 }
                 else
                 {
-                    tabAddress.cboAddressType.SelectedValue = ModelEx.MemberAddressTypeEx.GetIdByCode("ADDR_EN");
+                    tabAddress.cboAddressType.SelectedValue = MemberAddressTypeEx.GetIdByCode("ADDR_EN");
                 }
             }
         }
@@ -1546,7 +1548,7 @@ namespace RT2020.Member
                     Save();
                     if (this.MemberId != System.Guid.Empty)
                     {
-                        SystemInfoHelper.Settings.RefreshMainList<MemberList>();
+                        Helper.DesktopHelper.RefreshMainList<MemberList>();
                         MessageBox.Show("Success!", "Save Result");
 
                         this.Close();
@@ -1568,7 +1570,7 @@ namespace RT2020.Member
                     Save();
                     if (this.MemberId != System.Guid.Empty)
                     {
-                        SystemInfoHelper.Settings.RefreshMainList<MemberList>();
+                        Helper.DesktopHelper.RefreshMainList<MemberList>();
                         this.Close();
                         MemberWizard wizard = new MemberWizard();
                         wizard.EditMode = EnumHelper.EditMode.Add;
@@ -1587,7 +1589,7 @@ namespace RT2020.Member
                     Save();
                     if (this.MemberId != System.Guid.Empty && Verify())
                     {
-                        SystemInfoHelper.Settings.RefreshMainList<MemberList>();
+                        Helper.DesktopHelper.RefreshMainList<MemberList>();
                         this.Close();
                     }
                 }

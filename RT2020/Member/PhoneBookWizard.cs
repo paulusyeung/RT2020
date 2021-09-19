@@ -14,7 +14,8 @@ using System.Data.SqlClient;
 
 using System.Configuration;
 using System.Linq;
-using RT2020.Helper;
+using RT2020.Common.Helper;
+using RT2020.Common.ModelEx;
 
 #endregion
 
@@ -139,7 +140,7 @@ namespace RT2020.Member
                     txtPhoneTag3.Text = reader.GetString(5);
                     txtPhoneTag4.Text = reader.GetString(6);
                     //txtPhoneTag5.Text = reader.GetString(7);
-                    txtPhoneTag5.Text = ModelEx.MemberVipDataEx.GetAttribute(vipNumber, "Pager", this.AddressTypeId.ToString().Replace("-", ""));
+                    txtPhoneTag5.Text = MemberVipDataEx.GetAttribute(vipNumber, "Pager", this.AddressTypeId.ToString().Replace("-", ""));
                 }
             }
         }
@@ -170,7 +171,7 @@ namespace RT2020.Member
                         var key = "Pager_" + this.AddressTypeId.ToString().Replace("-", "");    //! 點解唔要 dash 呢?
                         var value = txtPhoneTag5.Text;
 
-                        oVip.MetadataXml = ModelEx.MemberVipDataEx.SetAttribute(oVip.MetadataXml, "Address", "Phone", "Pager", this.AddressTypeId.ToString("N"), value);
+                        oVip.MetadataXml = MemberVipDataEx.SetAttribute(oVip.MetadataXml, "Address", "Phone", "Pager", this.AddressTypeId.ToString("N"), value);
                         ctx.SaveChanges();
                     }
 

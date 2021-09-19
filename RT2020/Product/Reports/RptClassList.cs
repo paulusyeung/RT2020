@@ -16,8 +16,8 @@ using System.Web;
 
 using System.Data.Common;
 using System.Configuration;
-using RT2020.Helper;
-using RT2020.ModelEx;
+using RT2020.Common.Helper;
+using RT2020.Common.ModelEx;
 
 
 #endregion
@@ -75,28 +75,28 @@ namespace RT2020.Product.Reports
             switch (this.ClassType.Trim().ToUpper())
             {
                 case "CLASS1":
-                    ModelEx.ProductClass1Ex.LoadCombo(ref cmbFrom, fieldText, false);
-                    ModelEx.ProductClass1Ex.LoadCombo(ref cmbTo, fieldText, false);
+                    ProductClass1Ex.LoadCombo(ref cmbFrom, fieldText, false);
+                    ProductClass1Ex.LoadCombo(ref cmbTo, fieldText, false);
                     break;
                 case "CLASS2":
-                    ModelEx.ProductClass2Ex.LoadCombo(ref cmbFrom, fieldText, false);
-                    ModelEx.ProductClass2Ex.LoadCombo(ref cmbTo, fieldText, false);
+                    ProductClass2Ex.LoadCombo(ref cmbFrom, fieldText, false);
+                    ProductClass2Ex.LoadCombo(ref cmbTo, fieldText, false);
                     break;
                 case "CLASS3":
-                    ModelEx.ProductClass3Ex.LoadCombo(ref cmbFrom, fieldText, false);
-                    ModelEx.ProductClass3Ex.LoadCombo(ref cmbTo, fieldText, false);
+                    ProductClass3Ex.LoadCombo(ref cmbFrom, fieldText, false);
+                    ProductClass3Ex.LoadCombo(ref cmbTo, fieldText, false);
                     break;
                 case "CLASS4":
-                    ModelEx.ProductClass4Ex.LoadCombo(ref cmbFrom, fieldText, false);
-                    ModelEx.ProductClass4Ex.LoadCombo(ref cmbTo, fieldText, false);
+                    ProductClass4Ex.LoadCombo(ref cmbFrom, fieldText, false);
+                    ProductClass4Ex.LoadCombo(ref cmbTo, fieldText, false);
                     break;
                 case "CLASS5":
-                    ModelEx.ProductClass5Ex.LoadCombo(ref cmbFrom, fieldText, false);
-                    ModelEx.ProductClass5Ex.LoadCombo(ref cmbTo, fieldText, false);
+                    ProductClass5Ex.LoadCombo(ref cmbFrom, fieldText, false);
+                    ProductClass5Ex.LoadCombo(ref cmbTo, fieldText, false);
                     break;
                 case "CLASS6":
-                    ModelEx.ProductClass6Ex.LoadCombo(ref cmbFrom, fieldText, false);
-                    ModelEx.ProductClass6Ex.LoadCombo(ref cmbTo, fieldText, false);
+                    ProductClass6Ex.LoadCombo(ref cmbFrom, fieldText, false);
+                    ProductClass6Ex.LoadCombo(ref cmbTo, fieldText, false);
                     break;
             }
 

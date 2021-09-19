@@ -12,7 +12,9 @@ using Gizmox.WebGUI.Forms;
 
 using System.Data.SqlClient;
 using System.Configuration;
-using RT2020.Helper;
+
+using RT2020.Common.Helper;
+using RT2020.Common.ModelEx;
 
 #endregion
 
@@ -213,7 +215,7 @@ namespace RT2020.Inventory.Transfer
 
                 if (query.Length > 0)
                 {
-                    var oProd = ModelEx.ProductEx.Get(query);
+                    var oProd = ProductEx.Get(query);
                     if (oProd != null)
                     {
                         stkCode = oProd.STKCODE;

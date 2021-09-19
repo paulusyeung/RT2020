@@ -14,7 +14,9 @@ using System.Data.SqlClient;
 using System.Configuration;
 using System.Linq;
 using System.Data.Entity;
-using RT2020.Helper;
+
+using RT2020.Common.Helper;
+using RT2020.Common.ModelEx;
 
 #endregion
 
@@ -40,16 +42,16 @@ namespace RT2020.Inventory.Replenishment
 
         private void FillFromList()
         {
-            string sql = "NatureId = '" + ModelEx.WorkplaceNatureEx.GetNatureIdeByCode("2").ToString() + "'";
+            string sql = "NatureId = '" + WorkplaceNatureEx.GetNatureIdeByCode("2").ToString() + "'";
 
-            ModelEx.WorkplaceEx.LoadCombo(ref cboFromWorkplace, "WorkplaceCode", false, false, string.Empty, sql);
+            WorkplaceEx.LoadCombo(ref cboFromWorkplace, "WorkplaceCode", false, false, string.Empty, sql);
         }
 
         private void FillToList()
         {
-            string sql = "NatureId = '" + ModelEx.WorkplaceNatureEx.GetNatureIdeByCode("2").ToString() + "'";
+            string sql = "NatureId = '" + WorkplaceNatureEx.GetNatureIdeByCode("2").ToString() + "'";
 
-            ModelEx.WorkplaceEx.LoadCombo(ref cboToWorkplace, "WorkplaceCode", false, false, string.Empty, sql);
+            WorkplaceEx.LoadCombo(ref cboToWorkplace, "WorkplaceCode", false, false, string.Empty, sql);
             cboToWorkplace.SelectedIndex = cboToWorkplace.Items.Count - 1;
         }
 
@@ -59,7 +61,7 @@ namespace RT2020.Inventory.Replenishment
             {
                 int iCount = 1;
 
-                var natureId = ModelEx.WorkplaceNatureEx.GetNatureIdeByCode("3");   // Workplace Nature Code (2) presents Shop
+                var natureId = WorkplaceNatureEx.GetNatureIdeByCode("3");   // Workplace Nature Code (2) presents Shop
                 var list = ctx.Workplace
                     .Where(x => x.NatureId == natureId)
                     .OrderBy(x => x.WorkplaceCode)
@@ -807,7 +809,7 @@ namespace RT2020.Inventory.Replenishment
                     int result = SaveRec();
                     if (result > 0)
                     {
-                        SystemInfoHelper.Settings.RefreshMainList<Default>();
+                        Helper.DesktopHelper.RefreshMainList<Default>();
                         MessageBox.Show(result.ToString() + " succeed!", "Preparation result", MessageBoxButtons.OK, new EventHandler(PreparationMessageHandler));
                     }
                     else
@@ -853,7 +855,7 @@ namespace RT2020.Inventory.Replenishment
             Guid id = Guid.Empty;
             if (Guid.TryParse(cboFromWorkplace.SelectedValue.ToString(), out id))
             {
-                txtSelectedFromWorkplace.Text = ModelEx.WorkplaceEx.GetWorkplaceNameById(id);
+                txtSelectedFromWorkplace.Text = WorkplaceEx.GetWorkplaceNameById(id);
             }
         }
 
@@ -862,7 +864,7 @@ namespace RT2020.Inventory.Replenishment
             Guid id = Guid.Empty;
             if (Guid.TryParse(cboToWorkplace.SelectedValue.ToString(), out id))
             {
-                txtSelectedToWorkplace.Text = ModelEx.WorkplaceEx.GetWorkplaceNameById(id);
+                txtSelectedToWorkplace.Text = WorkplaceEx.GetWorkplaceNameById(id);
             }
         }
     }

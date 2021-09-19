@@ -10,7 +10,8 @@ using System.Text;
 using Gizmox.WebGUI.Common;
 using Gizmox.WebGUI.Forms;
 
-using RT2020.Helper;
+using RT2020.Common.Helper;
+using RT2020.Common.ModelEx;
 
 #endregion
 
@@ -105,7 +106,7 @@ namespace RT2020.Controls.ProductSearcher
             switch (this.TxType)
             {
                 case EnumHelper.TxType.ADJ:
-                    result = ModelEx.ProductCurrentSummaryEx.GetAverageCode(productId);
+                    result = ProductCurrentSummaryEx.GetAverageCode(productId);
                     break;
                 case EnumHelper.TxType.TXF:
                     //DAL.Product product = DAL.Product.Load(productId);
@@ -113,7 +114,7 @@ namespace RT2020.Controls.ProductSearcher
                     //{
                     //    result = product.RetailPrice;
                     //}
-                    result = ModelEx.ProductEx.GetRetailPrice(productId);
+                    result = ProductEx.GetRetailPrice(productId);
                     break;
             }
 
@@ -245,7 +246,7 @@ WHERE wpn.NatureCode = '2'"; // 2 => Workplace Nature: Warehouse
                 this.txtProductName.Text = oProd.ProductName;
             }
             */
-            this.txtProductName.Text = ModelEx.ProductEx.GetProductNameBySTKCODE(txtStockCode.Text.Trim());
+            this.txtProductName.Text = ProductEx.GetProductNameBySTKCODE(txtStockCode.Text.Trim());
             BindData();
         }
 

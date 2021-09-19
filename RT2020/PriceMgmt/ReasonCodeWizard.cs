@@ -10,8 +10,9 @@ using System.Text;
 using Gizmox.WebGUI.Common;
 using Gizmox.WebGUI.Forms;
 using Gizmox.WebGUI.Common.Resources;
-using RT2020.Helper;
 
+using RT2020.Common.Helper;
+using RT2020.Common.ModelEx;
 
 #endregion
 
@@ -192,7 +193,7 @@ namespace RT2020.PriceMgmt
         /// </summary>
         private void LoadReason()
         {
-            var objReason = ModelEx.PriceManagementReasonEx.Get(_ReasonId);
+            var objReason = PriceManagementReasonEx.Get(_ReasonId);
             if (objReason != null)
             {
                 txtCode.Text = objReason.ReasonCode;
@@ -274,7 +275,7 @@ namespace RT2020.PriceMgmt
             {
                 if (Save())
                 {
-                    SystemInfoHelper.Settings.RefreshMainList<DiscountReasonList>();
+                    Helper.DesktopHelper.RefreshMainList<DiscountReasonList>();
                     MessageBox.Show("Success!", "Save Result");
 
                     this.Close();
@@ -297,7 +298,7 @@ namespace RT2020.PriceMgmt
             {
                 if (Save())
                 {
-                    SystemInfoHelper.Settings.RefreshMainList<DiscountReasonList>();
+                    Helper.DesktopHelper.RefreshMainList<DiscountReasonList>();
                     this.Close();
                     ReasonCodeWizard wizard = new ReasonCodeWizard();
                     wizard.EditMode = EnumHelper.EditMode.Add;
@@ -317,7 +318,7 @@ namespace RT2020.PriceMgmt
             {
                 if (Save())
                 {
-                    SystemInfoHelper.Settings.RefreshMainList<DiscountReasonList>();
+                    Helper.DesktopHelper.RefreshMainList<DiscountReasonList>();
                     this.Close();
                 }
             }

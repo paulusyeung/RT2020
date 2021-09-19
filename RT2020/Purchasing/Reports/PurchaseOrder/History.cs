@@ -17,8 +17,8 @@ namespace RT2020.Purchasing.Reports.PurchaseOrder
     using Gizmox.WebGUI.Forms;
 
 
-    using Helper;
-    using ModelEx;
+    using RT2020.Common.Helper;
+    using RT2020.Common.ModelEx;
 
     /// <summary>
     /// Purchase Order Worksheet
@@ -54,7 +54,7 @@ namespace RT2020.Purchasing.Reports.PurchaseOrder
             string[] orderBy = { "OrderNumber" };
             string sql = " Retired = 0 AND Status = 1 AND PostedOn != '1900-01-01' ";
 
-            ModelEx.PurchaseOrderHeaderEx.LoadCombo(ref cboFrom, "OrderNumber", false, true, "", sql, orderBy);
+            PurchaseOrderHeaderEx.LoadCombo(ref cboFrom, "OrderNumber", false, true, "", sql, orderBy);
             if (cboFrom.Items.Count == 1)
             {
                 //cboFrom.Text = "** No Record **";
@@ -74,7 +74,7 @@ namespace RT2020.Purchasing.Reports.PurchaseOrder
             string[] orderBy = { "OrderNumber" };
             string sql = " Retired = 0 AND Status = 1 AND PostedOn != '1900-01-01' ";
 
-            ModelEx.PurchaseOrderHeaderEx.LoadCombo(ref cboTo, "OrderNumber", false, true, "", sql, orderBy);
+            PurchaseOrderHeaderEx.LoadCombo(ref cboTo, "OrderNumber", false, true, "", sql, orderBy);
             if (cboTo.Items.Count > 1)
             {
                 cboTo.SelectedIndex = cboTo.Items.Count - 1;

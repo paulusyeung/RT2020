@@ -12,9 +12,11 @@ using Gizmox.WebGUI.Forms;
 using Gizmox.WebGUI.Common.Resources;
 using System.Data.SqlClient;
 using System.Configuration;
-using RT2020.Helper;
 using System.Linq;
 using System.Data.Entity;
+
+using RT2020.Common.Helper;
+using RT2020.Common.ModelEx;
 
 #endregion
 
@@ -225,7 +227,7 @@ namespace RT2020.Supplier
         {
             string sql = "TermsId NOT IN ('" + _TermsId.ToString() + "')";
             string[] orderBy = new string[] { "TermsCode" };
-            ModelEx.SupplierTermsEx.LoadCombo(ref cboParentTerms, "TermsCode", true, true, "", sql, orderBy);
+            SupplierTermsEx.LoadCombo(ref cboParentTerms, "TermsCode", true, true, "", sql, orderBy);
         }
         #endregion
 
@@ -282,7 +284,7 @@ namespace RT2020.Supplier
             errorProvider.SetError(txtTermsCode, string.Empty);
             if (_TermsId == Guid.Empty)
             {
-                if (ModelEx.SupplierTermsEx.IsTermsCodeInUse(txtTermsCode.Text.Trim()))
+                if (SupplierTermsEx.IsTermsCodeInUse(txtTermsCode.Text.Trim()))
                 {
                     errorProvider.SetError(txtTermsCode, "Terms Code in use");
                     errorProvider.SetIconAlignment(txtTermsCode, ErrorIconAlignment.TopLeft);
@@ -328,7 +330,7 @@ namespace RT2020.Supplier
         {
             bool result = true;
 
-            result = ModelEx.SupplierTermsEx.Delete(_TermsId);
+            result = SupplierTermsEx.Delete(_TermsId);
 
             if (!result)
             {
@@ -346,7 +348,7 @@ namespace RT2020.Supplier
 
                 if (Guid.TryParse(lvTermsList.SelectedItem.Text, out id))
                 {
-                    var oSupplierTerms = ModelEx.SupplierTermsEx.Get(id);
+                    var oSupplierTerms = SupplierTermsEx.Get(id);
                     if (oSupplierTerms != null)
                     {
                         _TermsId = oSupplierTerms.TermsId;

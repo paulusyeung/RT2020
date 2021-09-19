@@ -12,7 +12,7 @@ using System.Web.UI.WebControls.WebParts;
 using System.Xml.Linq;
 
 
-using RT2020.Helper;
+using RT2020.Common.Helper;
 
 namespace RT2020.Inventory.GoodsReturn.Reports
 {

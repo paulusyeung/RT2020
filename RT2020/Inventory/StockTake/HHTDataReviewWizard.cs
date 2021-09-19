@@ -12,7 +12,9 @@ using Gizmox.WebGUI.Common;
 using Gizmox.WebGUI.Forms;
 
 using System.Data.Entity;
-using RT2020.Helper;
+
+using RT2020.Common.Helper;
+using RT2020.Common.ModelEx;
 
 #endregion
 
@@ -67,11 +69,11 @@ namespace RT2020.Inventory.StockTake
                     if (hhtHeader != null)
                     {
                         txtTxNumber.Text = hhtHeader.TxNumber;
-                        txtWorkplace.Text = ModelEx.WorkplaceEx.GetWorkplaceCodeById(hhtHeader.WorkplaceId.Value);
+                        txtWorkplace.Text = WorkplaceEx.GetWorkplaceCodeById(hhtHeader.WorkplaceId.Value);
                         txtHHTId.Text = hhtHeader.HHTId;
                         txtUploadedOn.Text = hhtHeader.UploadedOn.Value.ToString("dd MMM yyyy HH:mm:ss");
                         txtCreatedOn.Text = hhtHeader.CreatedOn.ToString("dd MMM yyyy HH:mm:ss");
-                        txtCreatedBy.Text = ModelEx.StaffEx.GetStaffNumberById(hhtHeader.CreatedBy);
+                        txtCreatedBy.Text = StaffEx.GetStaffNumberById(hhtHeader.CreatedBy);
 
                         txtTotalLine_HHTData.Text = hhtHeader.TotalRows.Value.ToString("n0");
                         txtTotalLine_StockTake.Text = hhtHeader.TotalRows.Value.ToString("n0");
@@ -119,7 +121,7 @@ namespace RT2020.Inventory.StockTake
         {
             List<string> productCode = new List<string>();
 
-            var product = ModelEx.ProductEx.Get(productId);
+            var product = ProductEx.Get(productId);
             if (product != null)
             {
                 productCode.Add(product.STKCODE);

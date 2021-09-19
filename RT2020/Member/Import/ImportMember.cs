@@ -15,7 +15,9 @@ using FileHelpers;
 
 using System.Linq;
 using System.Data.Entity;
-using RT2020.Helper;
+
+using RT2020.Common.Helper;
+using RT2020.Common.ModelEx;
 
 #endregion
 
@@ -209,7 +211,7 @@ namespace RT2020.Member.Import
         #region IDs
         private Guid GetSmartTagId(string priority)
         {
-            return ModelEx.SmartTag4MemberEx.GetIdByPriority(int.Parse(priority));
+            return SmartTag4MemberEx.GetIdByPriority(int.Parse(priority));
         }
 
         private Guid GetCityId(string cityName)
@@ -276,16 +278,16 @@ namespace RT2020.Member.Import
                         }
 
                         oMember.WorkplaceId = System.Guid.Empty;
-                        oMember.ClassId = ModelEx.MemberClassEx.GetIdByCode(member.PHONEBOOK);
-                        oMember.GroupId = ModelEx.MemberGroupEx.GetIdByCode(member.GROUP);
+                        oMember.ClassId = MemberClassEx.GetIdByCode(member.PHONEBOOK);
+                        oMember.GroupId = MemberGroupEx.GetIdByCode(member.GROUP);
                         oMember.MemberInitial = member.NNAME;
-                        oMember.SalutationId = ModelEx.SalutationEx.GetIdByCode(member.SALUTE);
+                        oMember.SalutationId = SalutationEx.GetIdByCode(member.SALUTE);
                         oMember.FirstName = member.FNAME;
                         oMember.LastName = member.LNAME;
                         oMember.FullName = member.LNAME + ", " + member.FNAME;
                         oMember.FullName_Chs = member.CNAME;
                         oMember.FullName_Cht = member.CNAME;
-                        oMember.JobTitleId = ModelEx.JobTitleEx.GetJobTitleIdByName(member.TITLE);
+                        oMember.JobTitleId = JobTitleEx.GetJobTitleIdByName(member.TITLE);
                         oMember.AssignedTo = System.Guid.Empty;
                         oMember.Remarks = member.REMARKS;
                         oMember.NormalDiscount = member.NRDISC;
@@ -531,18 +533,18 @@ namespace RT2020.Member.Import
                         }
                         oAddress.Address = member.ADDRESS4;
                         oAddress.PostalCode = string.Empty;
-                        oAddress.CountryId = ModelEx.CountryEx.GetCountryIdByName(member.ADDRESS1);
-                        oAddress.ProvinceId = ModelEx.ProvinceEx.GetProvinceIdByName(member.ADDRESS2);
+                        oAddress.CountryId = CountryEx.GetCountryIdByName(member.ADDRESS1);
+                        oAddress.ProvinceId = ProvinceEx.GetProvinceIdByName(member.ADDRESS2);
                         oAddress.CityId = GetCityId(member.ADDRESS3);
                         oAddress.District = string.Empty;
                         oAddress.Mailing = true;
-                        oAddress.PhoneTag1 = ModelEx.PhoneTagEx.GetPhoneTagIdByPriority(1);
+                        oAddress.PhoneTag1 = PhoneTagEx.GetPhoneTagIdByPriority(1);
                         oAddress.PhoneTag1Value = member.TELW;
-                        oAddress.PhoneTag2 = ModelEx.PhoneTagEx.GetPhoneTagIdByPriority(2);
+                        oAddress.PhoneTag2 = PhoneTagEx.GetPhoneTagIdByPriority(2);
                         oAddress.PhoneTag2Value = member.TELH;
-                        oAddress.PhoneTag3 = ModelEx.PhoneTagEx.GetPhoneTagIdByPriority(3);
+                        oAddress.PhoneTag3 = PhoneTagEx.GetPhoneTagIdByPriority(3);
                         oAddress.PhoneTag3Value = member.FAX;
-                        oAddress.PhoneTag4 = ModelEx.PhoneTagEx.GetPhoneTagIdByPriority(4);
+                        oAddress.PhoneTag4 = PhoneTagEx.GetPhoneTagIdByPriority(4);
                         oAddress.PhoneTag4Value = member.TELOTHER;
 
                         ctx.SaveChanges();

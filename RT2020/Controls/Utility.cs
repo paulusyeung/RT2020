@@ -18,7 +18,9 @@ using System.Xml.Serialization;
 
 using System.Linq;
 using System.Data.Entity;
-using RT2020.Helper;
+
+using RT2020.Common.Helper;
+using RT2020.Common.ModelEx;
 
 #endregion Using
 
@@ -223,7 +225,7 @@ namespace RT2020.Controls
         public static void LoadPosTenderTypeToCombo(ref ComboBox cbo)
         {
             string sql = "SELECT DISTINCT TypeCode FROM PosTenderType WHERE Retired = 0";
-            ModelEx.PosTenderTypeEx.LoadCombo(ref cbo, "TypeCode", false, false, "", sql);
+            PosTenderTypeEx.LoadCombo(ref cbo, "TypeCode", false, false, "", sql);
             /**
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = sql;
@@ -437,10 +439,10 @@ namespace RT2020.Controls
         {
             string result = "1"; // Guest
 
-            var user = ModelEx.StaffEx.GetByStaffId(ConfigHelper.CurrentUserId);
+            var user = StaffEx.GetByStaffId(ConfigHelper.CurrentUserId);
             if (user != null)
             {
-                result = ModelEx.StaffGroupEx.GetGradeCodeById(user.GroupId.Value);
+                result = StaffGroupEx.GetGradeCodeById(user.GroupId.Value);
             }
 
             return result;
@@ -461,7 +463,7 @@ namespace RT2020.Controls
             EnumHelper.Permission allowedPermission = EnumHelper.Permission.Read;
 
             //string query = "StaffId = '" + ConfigHelper.CurrentUserId.ToString() + "' AND GradeCode = '" + PermissionLevel() + "'";
-            var oSecurity = ModelEx.StaffSecurityEx.GetByStaffId(ConfigHelper.CurrentUserId, PermissionLevel());
+            var oSecurity = StaffSecurityEx.GetByStaffId(ConfigHelper.CurrentUserId, PermissionLevel());
             if (oSecurity != null)
             {
                 canRead = oSecurity.CanRead.Value;
@@ -471,10 +473,10 @@ namespace RT2020.Controls
             }
             else
             {
-                var oStaff = ModelEx.StaffEx.GetByStaffId(ConfigHelper.CurrentUserId);
+                var oStaff = StaffEx.GetByStaffId(ConfigHelper.CurrentUserId);
                 if (oStaff != null)
                 {
-                    var oGroup = ModelEx.StaffGroupEx.GetById(oStaff.GroupId.Value);
+                    var oGroup = StaffGroupEx.GetById(oStaff.GroupId.Value);
                     if (oGroup != null)
                     {
                         canRead = oGroup.CanRead.Value;
@@ -545,7 +547,7 @@ namespace RT2020.Controls
                                 break;
 
                             case (int)EnumHelper.Status.Draft:
-                                result = ModelEx.StaffAddressEx.Delete(userId);
+                                result = StaffAddressEx.Delete(userId);
                                 break;
                         }
                     }
@@ -557,11 +559,11 @@ namespace RT2020.Controls
         public static String SecurityLevel()
         {
             String result = String.Empty;
-            var staff = ModelEx.StaffEx.GetByStaffId(ConfigHelper.CurrentUserId);
+            var staff = StaffEx.GetByStaffId(ConfigHelper.CurrentUserId);
 
             if (staff != null)
             {
-                result = ModelEx.StaffGroupEx.GetGradeCodeById(staff.GroupId.Value);
+                result = StaffGroupEx.GetGradeCodeById(staff.GroupId.Value);
             }
 
             return result;
@@ -765,7 +767,7 @@ namespace RT2020.Controls
                                 break;
 
                             case (int)EnumHelper.Status.Draft:
-                                result = ModelEx.StaffAddressEx.Delete(userId);
+                                result = StaffAddressEx.Delete(userId);
                                 break;
                         }
 
@@ -784,7 +786,7 @@ namespace RT2020.Controls
         {
             bool result = false;
 
-            var staff = ModelEx.StaffEx.GetByStaffId(userId);
+            var staff = StaffEx.GetByStaffId(userId);
             if (staff != null)
             {
                 if (staff.CreatedBy == Guid.Empty)
@@ -870,7 +872,7 @@ namespace RT2020.Controls
 
         public static Guid GetSuperUserId()
         {
-            return ModelEx.UserProfileEx.GetUserIdBySid(Staff.GetSuperStaffId());
+            return UserProfileEx.GetUserIdBySid(Staff.GetSuperStaffId());
         }
     }
 
@@ -990,13 +992,13 @@ namespace RT2020.Controls
         public static void LoadComboBox_Shops(ref ComboBox target)
         {
             String shop = "3";
-            if (ModelEx.WorkplaceNatureEx.IsNatureCodeInUse("3"))
+            if (WorkplaceNatureEx.IsNatureCodeInUse("3"))
             {
                 string[] textField = { "WorkplaceCode", "WorkplaceName" };
                 string pattern = "{0} - {1}";
                 string[] orderBy = { "WorkplaceCode" };
 
-                ModelEx.WorkplaceEx.LoadCombo(ref target, textField, pattern, true, true, String.Empty, String.Empty, orderBy);
+                WorkplaceEx.LoadCombo(ref target, textField, pattern, true, true, String.Empty, String.Empty, orderBy);
             }
         }
     }

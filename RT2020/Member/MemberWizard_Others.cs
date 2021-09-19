@@ -9,7 +9,9 @@ using System.Text;
 
 using Gizmox.WebGUI.Common;
 using Gizmox.WebGUI.Forms;
-using RT2020.Helper;
+
+using RT2020.Common.Helper;
+using RT2020.Common.ModelEx;
 
 #endregion
 
@@ -61,7 +63,7 @@ namespace RT2020.Member
             lblNature.Click += (s, e) =>                   // 彈出 wizard
             {
                 var dialog = new SmartTag4Member_OptionsWizard();
-                dialog.SmartTagId = ModelEx.SmartTag4MemberEx.GetIdByPriority(99);
+                dialog.SmartTagId = SmartTag4MemberEx.GetIdByPriority(99);
                 dialog.FormClosed += (sender, eventArgs) =>     // 關閉後 refresh 個 combo box items
                 {
                     FillComboBox_Nature();
@@ -74,13 +76,13 @@ namespace RT2020.Member
 
         private void FillComboBox_Nature()
         {
-            var id = ModelEx.SmartTag4MemberEx.GetIdByPriority(99); // member nature
+            var id = SmartTag4MemberEx.GetIdByPriority(99); // member nature
             var textFields = new string[] { "OptionCode", "OptionName" };
             var pattern = "{0} - {1}";
             var where = string.Format("TagId = '{0}'", id.ToString());
             var orderBy = new string[] { "OptionCode" };
 
-            ModelEx.SmartTag4Member_OptionsEx.LoadCombo(ref cboNature, textFields, pattern, true, true, "", where, orderBy);
+            SmartTag4Member_OptionsEx.LoadCombo(ref cboNature, textFields, pattern, true, true, "", where, orderBy);
         }
     }
 }

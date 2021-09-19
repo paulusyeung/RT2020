@@ -11,8 +11,8 @@ using Gizmox.WebGUI.Common;
 using Gizmox.WebGUI.Forms;
 
 using System.Data.SqlClient;
-using RT2020.Helper;
-using RT2020.ModelEx;
+using RT2020.Common.Helper;
+using RT2020.Common.ModelEx;
 
 #endregion
 
@@ -44,14 +44,14 @@ namespace RT2020.PriceMgmt.Reports
         {
             string type = this.ReportType.ToString().Substring(0, 1);
 
-            ModelEx.PriceManagementActiveHeaderEx.LoadCombo(ref cboFrom, "TxNumber", false, false, string.Empty, "PM_TYPE ='" + type + "'");
+            PriceManagementActiveHeaderEx.LoadCombo(ref cboFrom, "TxNumber", false, false, string.Empty, "PM_TYPE ='" + type + "'");
         }
 
         private void FillToList()
         {
             string type = this.ReportType.ToString().Substring(0, 1);
 
-            ModelEx.PriceManagementActiveHeaderEx.LoadCombo(ref cboTo, "TxNumber", false, false, string.Empty, "PM_TYPE ='" + type + "'");
+            PriceManagementActiveHeaderEx.LoadCombo(ref cboTo, "TxNumber", false, false, string.Empty, "PM_TYPE ='" + type + "'");
 
             this.cboTo.SelectedIndex = cboTo.Items.Count - 1;
         }

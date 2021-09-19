@@ -14,6 +14,8 @@ using Gizmox.WebGUI.Forms;
 using RT2020.NavPane;
 using System.Linq;
 
+using RT2020.Common.ModelEx;
+
 #endregion
 
 namespace RT2020.Settings
@@ -36,7 +38,7 @@ namespace RT2020.Settings
         // Default, English
         private void LoadLabel()
         {
-            var oLabel = ModelEx.SystemLabelEx.GetByLanguageCode("en-US");
+            var oLabel = SystemLabelEx.GetByLanguageCode("en-US");
             if (oLabel != null)
             {
                 this.txtStockCode.Text = oLabel.STKCODE;
@@ -64,7 +66,7 @@ namespace RT2020.Settings
 
         private void LoadLabel_Chs()
         {
-            var oLabel = ModelEx.SystemLabelEx.GetByLanguageCode("zh-CHS");
+            var oLabel = SystemLabelEx.GetByLanguageCode("zh-CHS");
             if (oLabel != null)
             {
                 this.txtStockCode_Chs.Text = oLabel.STKCODE;
@@ -92,7 +94,7 @@ namespace RT2020.Settings
 
         private void LoadLabel_Cht()
         {
-            var oLabel = ModelEx.SystemLabelEx.GetByLanguageCode("zh-CHT");
+            var oLabel = SystemLabelEx.GetByLanguageCode("zh-CHT");
             if (oLabel != null)
             {
                 this.txtStockCode_Cht.Text = oLabel.STKCODE;

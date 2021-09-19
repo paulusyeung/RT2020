@@ -11,6 +11,8 @@ using Gizmox.WebGUI.Common;
 using Gizmox.WebGUI.Forms;
 using System.Linq;
 
+using RT2020.Common.ModelEx;
+
 #endregion
 
 namespace RT2020.Staff
@@ -71,10 +73,10 @@ namespace RT2020.Staff
             EF6.Staff staff = null;
             if (!txtStaff.Text.Trim().Equals("*"))
             {
-                staff = ModelEx.StaffEx.GetByStaffNumber(txtStaff.Text.Trim());
+                staff = StaffEx.GetByStaffNumber(txtStaff.Text.Trim());
             }
 
-            var smartTag4Staff = ModelEx.SmartTag4StaffEx.GetByTagCode("HKID");
+            var smartTag4Staff = SmartTag4StaffEx.GetByTagCode("HKID");
 
             if (!txtHKID.Text.Trim().Equals("*"))
             {
@@ -123,7 +125,7 @@ namespace RT2020.Staff
                         ListViewItem objItem = this.lvStaffList.Items.Add(iCount.ToString());
                         if (staff == null)
                         {
-                            var sta = ModelEx.StaffEx.GetByStaffId(item.StaffId);
+                            var sta = StaffEx.GetByStaffId(item.StaffId);
                             if (sta != null)
                             {
                                 objItem.SubItems.Add(sta.StaffNumber);

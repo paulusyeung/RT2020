@@ -14,7 +14,9 @@ using Gizmox.WebGUI.Common.Resources;
 using System.IO;
 using System.Linq;
 using System.Data.Entity;
-using RT2020.Helper;
+
+using RT2020.Common.Helper;
+using RT2020.Common.ModelEx;
 
 #endregion
 
@@ -383,7 +385,7 @@ namespace RT2020.Product
 
             if (cboAppendix1.Text.Trim().Length > 0)
             {
-                if (!ModelEx.ProductAppendix1Ex.IsAppendixCodeInUse(cboAppendix1.Text))
+                if (!ProductAppendix1Ex.IsAppendixCodeInUse(cboAppendix1.Text))
                 {
                     errorProvider.SetError(cboAppendix1, "The code is invalid! Try to select a value from the list!");
                     result = false;
@@ -400,7 +402,7 @@ namespace RT2020.Product
 
             if (cboAppendix2.Text.Trim().Length > 0)
             {
-                if (!ModelEx.ProductAppendix2Ex.IsAppendixCodeInUse(cboAppendix2.Text))
+                if (!ProductAppendix2Ex.IsAppendixCodeInUse(cboAppendix2.Text))
                 {
                     errorProvider.SetError(cboAppendix2, "The code is invalid! Try to select a value from the list!");
                     result = false;
@@ -417,7 +419,7 @@ namespace RT2020.Product
 
             if (cboAppendix3.Text.Trim().Length > 0)
             {
-                if (!ModelEx.ProductAppendix3Ex.IsAppendixCodeInUse(cboAppendix3.Text))
+                if (!ProductAppendix3Ex.IsAppendixCodeInUse(cboAppendix3.Text))
                 {
                     errorProvider.SetError(cboAppendix3, "The code is invalid! Try to select a value from the list!");
                     result = false;
@@ -649,7 +651,7 @@ namespace RT2020.Product
                                 var price = general.txtCurrentRetailPrice.Text;
                                 var currencyCode = general.txtCurrentRetailCurrency.Text;
                                 var priceType = ProductHelper.Prices.BASPRC.ToString();
-                                var priceTypeId = ModelEx.ProductPriceTypeEx.GetIdByPriceType(priceType);
+                                var priceTypeId = ProductPriceTypeEx.GetIdByPriceType(priceType);
 
                                 var oBPrice = ctx.ProductPrice.Where(x => x.ProductId == _ProductId && x.PriceTypeId == priceTypeId).FirstOrDefault();
                                 if (oBPrice == null)
@@ -659,7 +661,7 @@ namespace RT2020.Product
                                     oBPrice.ProductId = _ProductId;
                                     ctx.ProductPrice.Add(oBPrice);
                                 }
-                                oBPrice.PriceTypeId = ModelEx.ProductPriceTypeEx.GetIdByPriceType(priceType);
+                                oBPrice.PriceTypeId = ProductPriceTypeEx.GetIdByPriceType(priceType);
                                 oBPrice.CurrencyCode = currencyCode;
                                 oBPrice.Price = Convert.ToDecimal((price == string.Empty) ? "0" : price);
                                 ctx.SaveChanges();
@@ -669,7 +671,7 @@ namespace RT2020.Product
                                 price = general.txtOriginalRetailPrice.Text;
                                 currencyCode = general.txtOriginalRetailCurrency.Text;
                                 priceType = ProductHelper.Prices.ORIPRC.ToString();
-                                priceTypeId = ModelEx.ProductPriceTypeEx.GetIdByPriceType(priceType);
+                                priceTypeId = ProductPriceTypeEx.GetIdByPriceType(priceType);
 
                                 var oOPrice = ctx.ProductPrice.Where(x => x.ProductId == _ProductId && x.PriceTypeId == priceTypeId).FirstOrDefault();
                                 if (oOPrice == null)
@@ -679,7 +681,7 @@ namespace RT2020.Product
                                     oOPrice.ProductId = _ProductId;
                                     ctx.ProductPrice.Add(oOPrice);
                                 }
-                                oOPrice.PriceTypeId = ModelEx.ProductPriceTypeEx.GetIdByPriceType(priceType);
+                                oOPrice.PriceTypeId = ProductPriceTypeEx.GetIdByPriceType(priceType);
                                 oOPrice.CurrencyCode = currencyCode;
                                 oOPrice.Price = Convert.ToDecimal((price == string.Empty) ? "0" : price);
                                 ctx.SaveChanges();
@@ -689,7 +691,7 @@ namespace RT2020.Product
                                 price = general.txtVendorPrice.Text;
                                 currencyCode = general.cboVendorCurrency.Text;
                                 priceType = ProductHelper.Prices.VPRC.ToString();
-                                priceTypeId = ModelEx.ProductPriceTypeEx.GetIdByPriceType(priceType);
+                                priceTypeId = ProductPriceTypeEx.GetIdByPriceType(priceType);
 
                                 var oVPrice = ctx.ProductPrice.Where(x => x.ProductId == _ProductId && x.PriceTypeId == priceTypeId).FirstOrDefault();
                                 if (oVPrice == null)
@@ -699,7 +701,7 @@ namespace RT2020.Product
                                     oVPrice.ProductId = _ProductId;
                                     ctx.ProductPrice.Add(oVPrice);
                                 }
-                                oVPrice.PriceTypeId = ModelEx.ProductPriceTypeEx.GetIdByPriceType(priceType);
+                                oVPrice.PriceTypeId = ProductPriceTypeEx.GetIdByPriceType(priceType);
                                 oVPrice.CurrencyCode = currencyCode;
                                 oVPrice.Price = Convert.ToDecimal((price == string.Empty) ? "0" : price);
                                 ctx.SaveChanges();
@@ -709,7 +711,7 @@ namespace RT2020.Product
                                 price = general.txtWholesalesPrice.Text;
                                 currencyCode = general.txtWholesalesCurrency.Text;
                                 priceType = ProductHelper.Prices.WHLPRC.ToString();
-                                priceTypeId = ModelEx.ProductPriceTypeEx.GetIdByPriceType(priceType);
+                                priceTypeId = ProductPriceTypeEx.GetIdByPriceType(priceType);
 
                                 var oWPrice = ctx.ProductPrice.Where(x => x.ProductId == _ProductId && x.PriceTypeId == priceTypeId).FirstOrDefault();
                                 if (oWPrice == null)
@@ -719,7 +721,7 @@ namespace RT2020.Product
                                     oWPrice.ProductId = _ProductId;
                                     ctx.ProductPrice.Add(oWPrice);
                                 }
-                                oWPrice.PriceTypeId = ModelEx.ProductPriceTypeEx.GetIdByPriceType(priceType);
+                                oWPrice.PriceTypeId = ProductPriceTypeEx.GetIdByPriceType(priceType);
                                 oWPrice.CurrencyCode = currencyCode;
                                 oWPrice.Price = Convert.ToDecimal((price == string.Empty) ? "0" : price);
                                 ctx.SaveChanges();
@@ -976,7 +978,7 @@ namespace RT2020.Product
                         var price = general.txtCurrentRetailPrice.Text;
                         var currencyCode = general.txtCurrentRetailCurrency.Text;
                         var priceType = ProductHelper.Prices.BASPRC.ToString();
-                        var priceTypeId = ModelEx.ProductPriceTypeEx.GetIdByPriceType(priceType);
+                        var priceTypeId = ProductPriceTypeEx.GetIdByPriceType(priceType);
 
                         var oBPrice = ctx.ProductPrice.Where(x => x.ProductId == productId && x.PriceTypeId == priceTypeId).FirstOrDefault();
                         if (oBPrice == null)
@@ -986,7 +988,7 @@ namespace RT2020.Product
                             oBPrice.ProductId = productId;
                             ctx.ProductPrice.Add(oBPrice);
                         }
-                        oBPrice.PriceTypeId = ModelEx.ProductPriceTypeEx.GetIdByPriceType(priceType);
+                        oBPrice.PriceTypeId = ProductPriceTypeEx.GetIdByPriceType(priceType);
                         oBPrice.CurrencyCode = currencyCode;
                         oBPrice.Price = Convert.ToDecimal((price == string.Empty) ? "0" : price);
                         ctx.SaveChanges();
@@ -996,7 +998,7 @@ namespace RT2020.Product
                         price = general.txtOriginalRetailPrice.Text;
                         currencyCode = general.txtOriginalRetailCurrency.Text;
                         priceType = ProductHelper.Prices.ORIPRC.ToString();
-                        priceTypeId = ModelEx.ProductPriceTypeEx.GetIdByPriceType(priceType);
+                        priceTypeId = ProductPriceTypeEx.GetIdByPriceType(priceType);
 
                         var oOPrice = ctx.ProductPrice.Where(x => x.ProductId == productId && x.PriceTypeId == priceTypeId).FirstOrDefault();
                         if (oOPrice == null)
@@ -1006,7 +1008,7 @@ namespace RT2020.Product
                             oOPrice.ProductId = productId;
                             ctx.ProductPrice.Add(oOPrice);
                         }
-                        oOPrice.PriceTypeId = ModelEx.ProductPriceTypeEx.GetIdByPriceType(priceType);
+                        oOPrice.PriceTypeId = ProductPriceTypeEx.GetIdByPriceType(priceType);
                         oOPrice.CurrencyCode = currencyCode;
                         oOPrice.Price = Convert.ToDecimal((price == string.Empty) ? "0" : price);
                         ctx.SaveChanges();
@@ -1016,7 +1018,7 @@ namespace RT2020.Product
                         price = general.txtVendorPrice.Text;
                         currencyCode = general.cboVendorCurrency.Text;
                         priceType = ProductHelper.Prices.VPRC.ToString();
-                        priceTypeId = ModelEx.ProductPriceTypeEx.GetIdByPriceType(priceType);
+                        priceTypeId = ProductPriceTypeEx.GetIdByPriceType(priceType);
 
                         var oVPrice = ctx.ProductPrice.Where(x => x.ProductId == productId && x.PriceTypeId == priceTypeId).FirstOrDefault();
                         if (oVPrice == null)
@@ -1026,7 +1028,7 @@ namespace RT2020.Product
                             oVPrice.ProductId = productId;
                             ctx.ProductPrice.Add(oVPrice);
                         }
-                        oVPrice.PriceTypeId = ModelEx.ProductPriceTypeEx.GetIdByPriceType(priceType);
+                        oVPrice.PriceTypeId = ProductPriceTypeEx.GetIdByPriceType(priceType);
                         oVPrice.CurrencyCode = currencyCode;
                         oVPrice.Price = Convert.ToDecimal((price == string.Empty) ? "0" : price);
                         ctx.SaveChanges();
@@ -1036,7 +1038,7 @@ namespace RT2020.Product
                         price = general.txtWholesalesPrice.Text;
                         currencyCode = general.txtWholesalesCurrency.Text;
                         priceType = ProductHelper.Prices.WHLPRC.ToString();
-                        priceTypeId = ModelEx.ProductPriceTypeEx.GetIdByPriceType(priceType);
+                        priceTypeId = ProductPriceTypeEx.GetIdByPriceType(priceType);
 
                         var oWPrice = ctx.ProductPrice.Where(x => x.ProductId == productId && x.PriceTypeId == priceTypeId).FirstOrDefault();
                         if (oWPrice == null)
@@ -1046,7 +1048,7 @@ namespace RT2020.Product
                             oWPrice.ProductId = productId;
                             ctx.ProductPrice.Add(oWPrice);
                         }
-                        oWPrice.PriceTypeId = ModelEx.ProductPriceTypeEx.GetIdByPriceType(priceType);
+                        oWPrice.PriceTypeId = ProductPriceTypeEx.GetIdByPriceType(priceType);
                         oWPrice.CurrencyCode = currencyCode;
                         oWPrice.Price = Convert.ToDecimal((price == string.Empty) ? "0" : price);
                         ctx.SaveChanges();
@@ -1613,7 +1615,7 @@ namespace RT2020.Product
             {
                 if (Save())
                 {
-                    SystemInfoHelper.Settings.RefreshMainList<ProductList>();
+                    Helper.DesktopHelper.RefreshMainList<ProductList>();
                     MessageBox.Show("Success!", "Save Result");
 
                     this.Close();
@@ -1631,7 +1633,7 @@ namespace RT2020.Product
             {
                 if (Save())
                 {
-                    SystemInfoHelper.Settings.RefreshMainList<ProductList>();
+                    Helper.DesktopHelper.RefreshMainList<ProductList>();
                     this.Close();
                     ProductWizard wizard = new ProductWizard();
                     wizard.EditMode = EnumHelper.EditMode.Add;
@@ -1646,7 +1648,7 @@ namespace RT2020.Product
             {
                 if (Save())
                 {
-                    SystemInfoHelper.Settings.RefreshMainList<ProductList>();
+                    Helper.DesktopHelper.RefreshMainList<ProductList>();
                     this.Close();
                 }
             }

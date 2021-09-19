@@ -3,7 +3,7 @@
 using Gizmox.WebGUI.Common.Resources;
 using Gizmox.WebGUI.Forms;
 using RT2020.Controls;
-using RT2020.Helper;
+using RT2020.Common.Helper;
 
 #endregion Using
 

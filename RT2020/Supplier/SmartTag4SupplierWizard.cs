@@ -13,9 +13,11 @@ using Gizmox.WebGUI.Common.Resources;
 
 using System.Data.SqlClient;
 using System.Configuration;
-using RT2020.Helper;
 using System.Linq;
 using System.Data.Entity;
+
+using RT2020.Common.Helper;
+using RT2020.Common.ModelEx;
 
 #endregion
 
@@ -272,7 +274,7 @@ namespace RT2020.Supplier
 
             #region 新增，要 check Tag Code 係咪 in use
             errorProvider.SetError(txtTagCode, string.Empty);
-            if (_TagId == Guid.Empty && ModelEx.SmartTag4WorkplaceEx.IsTagCodeInUse(txtTagCode.Text.Trim()))
+            if (_TagId == Guid.Empty && SmartTag4WorkplaceEx.IsTagCodeInUse(txtTagCode.Text.Trim()))
             {
                 errorProvider.SetError(txtTagCode, "Tag Code in use");
                 return false;
@@ -318,7 +320,7 @@ namespace RT2020.Supplier
 
         private void Delete()
         {
-            var result = ModelEx.SmartTag4SupplierEx.DeleteOptionsToo(_TagId);
+            var result = SmartTag4SupplierEx.DeleteOptionsToo(_TagId);
             MessageBox.Show(result ? "Record Removed" : "Can't Delete Record...", "Delete Result");
         }
 

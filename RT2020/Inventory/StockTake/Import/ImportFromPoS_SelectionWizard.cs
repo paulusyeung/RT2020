@@ -16,7 +16,9 @@ using System.Web.Configuration;
 using FileHelpers.DataLink;
 
 using System.Data.Entity;
-using RT2020.Helper;
+
+using RT2020.Common.Helper;
+using RT2020.Common.ModelEx;
 
 #endregion
 
@@ -277,7 +279,7 @@ namespace RT2020.Inventory.StockTake.Import
                 DateTime uploadOn = DateTime.Now;
                 string shop = PacketDataList[0].Shop;
                 string hht = PacketDataList[0].HHT.Length == 0 ? "POS_ADV1" : PacketDataList[0].HHT;
-                System.Guid workplaceId = ModelEx.WorkplaceEx.GetWorkplaceIdByCode(shop);
+                System.Guid workplaceId = WorkplaceEx.GetWorkplaceIdByCode(shop);
 
                 if (workplaceId != System.Guid.Empty)
                 {
@@ -439,7 +441,7 @@ namespace RT2020.Inventory.StockTake.Import
         private Guid GetProductId(string stkCode, string appendix1, string appendix2, string appendix3)
         {
             string sql = "STKCODE = '" + stkCode + "' AND APPENDIX1 = '" + appendix1 + "' AND APPENDIX2 = '" + appendix2 + "' AND APPENDIX3 = '" + appendix3 + "'";
-            var oProduct = ModelEx.ProductEx.Get(sql);
+            var oProduct = ProductEx.Get(sql);
             if (oProduct != null)
             {
                 return oProduct.ProductId;

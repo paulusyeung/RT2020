@@ -16,7 +16,7 @@ namespace RT2020.Purchasing.Wizard
     
     using System.Linq;
     using System.Data.Entity;
-    using Helper;
+    using RT2020.Common.Helper;
 
     /// <summary>
     /// Documentation for the second part of AuthPurchaseOrder.

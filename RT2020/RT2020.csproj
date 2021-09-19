@@ -962,31 +962,11 @@
       <DependentUpon>SearchMember.cs</DependentUpon>
     </Compile>
     <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="Helper\BotHelper.cs" />
-    <Compile Include="Helper\ComboBoxHelper.cs" />
-    <Compile Include="Helper\CommonHelper.cs" />
-    <Compile Include="Helper\ConfigHelper.cs" />
-    <Compile Include="Helper\CookieHelper.cs" />
-    <Compile Include="Helper\DateTimeHelper.cs" />
-    <Compile Include="Helper\DecimalHelper.cs" />
-    <Compile Include="Helper\EnumHelper.cs" />
+    <Compile Include="Helper\DesktopHelper.cs" />
     <Compile Include="Helper\GenData\ChinaData.cs" />
     <Compile Include="Helper\GenData\TaiwanData.cs" />
     <Compile Include="Helper\GenData\MacaoData.cs" />
     <Compile Include="Helper\GenData\HongKongData.cs" />
-    <Compile Include="Helper\GlobalVars.cs" />
-    <Compile Include="Helper\LanguageHelper.cs" />
-    <Compile Include="Helper\ListViewHelper.cs" />
-    <Compile Include="Helper\MemberHelper.cs" />
-    <Compile Include="Helper\MenuHelper.cs" />
-    <Compile Include="Helper\NetSqlAzManHelper.cs" />
-    <Compile Include="Helper\ProductHelper.cs" />
-    <Compile Include="Helper\SqlHelper.cs" />
-    <Compile Include="Helper\SystemInfoHelper.cs" />
-    <Compile Include="Helper\ThemeHelper.cs" />
-    <Compile Include="Helper\TreeViewHelper.cs" />
-    <Compile Include="Helper\WebConfigHelper.cs" />
-    <Compile Include="Helper\WestwindHelper.cs" />
     <Compile Include="Help\About.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -1776,107 +1756,6 @@
     <Compile Include="MenuStrip\SettingsAms.cs" />
     <Compile Include="MenuStrip\ToolsAms.cs" />
     <Compile Include="MenuStrip\ViewAms.cs" />
-    <Compile Include="ModelEx\EPOSBatchDetailsEx.cs" />
-    <Compile Include="ModelEx\EPOSBatchHeaderEx.cs" />
-    <Compile Include="ModelEx\EPOSBatchTenderEx.cs" />
-    <Compile Include="ModelEx\EPOSSubLedgerDetailsEx.cs" />
-    <Compile Include="ModelEx\EPOSSubLedgerHeaderEx.cs" />
-    <Compile Include="ModelEx\EPOSSubLedgerTenderEx.cs" />
-    <Compile Include="ModelEx\FepBatchDetailEx.cs" />
-    <Compile Include="ModelEx\FepBatchHeaderEx.cs" />
-    <Compile Include="ModelEx\FepBatchTenderEx.cs" />
-    <Compile Include="ModelEx\InvtBatchADJ_DetailsEx.cs" />
-    <Compile Include="ModelEx\InvtBatchADJ_HeaderEx.cs" />
-    <Compile Include="ModelEx\InvtBatchCAP_DetailsEx.cs" />
-    <Compile Include="ModelEx\InvtBatchCAP_HeaderEx.cs" />
-    <Compile Include="ModelEx\InvtBatchRPL_DetailsEx.cs" />
-    <Compile Include="ModelEx\InvtBatchRPL_HeaderEx.cs" />
-    <Compile Include="ModelEx\InvtBatchTXF_DetailsEx.cs" />
-    <Compile Include="ModelEx\InvtBatchTXF_HeaderEx.cs" />
-    <Compile Include="ModelEx\InvtSubLedgerCAP_HeaderEx.cs" />
-    <Compile Include="ModelEx\MemberAddressTypeEx.cs" />
-    <Compile Include="ModelEx\MemberClassEx.cs" />
-    <Compile Include="ModelEx\MemberEx.cs" />
-    <Compile Include="ModelEx\MemberGroupEx.cs" />
-    <Compile Include="ModelEx\MemberVipDataEx.cs" />
-    <Compile Include="ModelEx\MemberVipLineOfOperationEx.cs" />
-    <Compile Include="ModelEx\PosAnalysisCodeEx.cs" />
-    <Compile Include="ModelEx\PosTenderTypeEx.cs" />
-    <Compile Include="ModelEx\PriceManagementActiveHeaderEx.cs" />
-    <Compile Include="ModelEx\PriceManagementBatchHeaderEx.cs" />
-    <Compile Include="ModelEx\PriceManagementReasonEx.cs" />
-    <Compile Include="ModelEx\ProductAppendix1Ex.cs" />
-    <Compile Include="ModelEx\ProductAppendix2Ex.cs" />
-    <Compile Include="ModelEx\ProductAppendix3Ex.cs" />
-    <Compile Include="ModelEx\ProductBarcodeEx.cs" />
-    <Compile Include="ModelEx\ProductClass5Ex.cs" />
-    <Compile Include="ModelEx\ProductClass4Ex.cs" />
-    <Compile Include="ModelEx\ProductClass3Ex.cs" />
-    <Compile Include="ModelEx\ProductClass2Ex.cs" />
-    <Compile Include="ModelEx\ProductClass1Ex.cs" />
-    <Compile Include="ModelEx\ProductCurrentSummaryEx.cs" />
-    <Compile Include="ModelEx\ProductDimEx.cs" />
-    <Compile Include="ModelEx\ProductDim_DetailsEx.cs" />
-    <Compile Include="ModelEx\ProductClass6Ex.cs" />
-    <Compile Include="ModelEx\ProductEx.cs" />
-    <Compile Include="ModelEx\ProductNatureEx.cs" />
-    <Compile Include="ModelEx\ProductPriceEx.cs" />
-    <Compile Include="ModelEx\ProductPriceTypeEx.cs" />
-    <Compile Include="ModelEx\ProductWorkplaceEx.cs" />
-    <Compile Include="ModelEx\PromotionPaymentFactorEx.cs" />
-    <Compile Include="ModelEx\PurchaseOrderDetailsEx.cs" />
-    <Compile Include="ModelEx\PurchaseOrderHeaderEx.cs" />
-    <Compile Include="ModelEx\SalutationEx.cs" />
-    <Compile Include="ModelEx\SmartTag4MemberEx.cs" />
-    <Compile Include="ModelEx\SmartTag4Staff_OptionsEx.cs" />
-    <Compile Include="ModelEx\SmartTag4Member_OptionsEx.cs" />
-    <Compile Include="ModelEx\SmartTag4StaffEx.cs" />
-    <Compile Include="ModelEx\SmartTag4SupplierEx.cs" />
-    <Compile Include="ModelEx\SmartTag4Workplace_OptionsEx.cs" />
-    <Compile Include="ModelEx\SmartTag4Supplier_OptionsEx.cs" />
-    <Compile Include="ModelEx\SmartTag4WorkplaceEx.cs" />
-    <Compile Include="ModelEx\ShipmentMethodEx.cs" />
-    <Compile Include="ModelEx\MemberSmartTagEx.cs" />
-    <Compile Include="ModelEx\MemberAddressEx.cs" />
-    <Compile Include="ModelEx\StockTakeDetailsEx.cs" />
-    <Compile Include="ModelEx\StockTakeHeaderEx.cs" />
-    <Compile Include="ModelEx\StocktakeHeader_HHTEx.cs" />
-    <Compile Include="ModelEx\SupplierEx.cs" />
-    <Compile Include="ModelEx\SupplierContactEx.cs" />
-    <Compile Include="ModelEx\SupplierAddressEx.cs" />
-    <Compile Include="ModelEx\StaffAddressEx.cs" />
-    <Compile Include="ModelEx\SupplierSmartTagEx.cs" />
-    <Compile Include="ModelEx\SupplierTermsEx.cs" />
-    <Compile Include="ModelEx\StaffEx.cs" />
-    <Compile Include="ModelEx\StaffGroupEx.cs" />
-    <Compile Include="ModelEx\StaffHREx.cs" />
-    <Compile Include="ModelEx\StaffInternetTagEx.cs" />
-    <Compile Include="ModelEx\MetadataXml.cs" />
-    <Compile Include="ModelEx\StaffPreferenceEx.cs" />
-    <Compile Include="ModelEx\StaffSecurityEx.cs" />
-    <Compile Include="ModelEx\StaffSmartTagEx.cs" />
-    <Compile Include="ModelEx\SystemInfoEx.cs" />
-    <Compile Include="ModelEx\SystemLabelEx.cs" />
-    <Compile Include="ModelEx\UserPreferenceEx.cs" />
-    <Compile Include="ModelEx\UserProfileEx.cs" />
-    <Compile Include="ModelEx\WorkplaceEx.cs" />
-    <Compile Include="ModelEx\WorkplaceAddressEx.cs" />
-    <Compile Include="ModelEx\SupplierAddressTypeEx.cs" />
-    <Compile Include="ModelEx\WorkplaceSmartTagEx.cs" />
-    <Compile Include="ModelEx\RemarksEx.cs" />
-    <Compile Include="ModelEx\PhoneTagEx.cs" />
-    <Compile Include="ModelEx\WorkplaceNatureEx.cs" />
-    <Compile Include="ModelEx\WorkplaceZoneEx.cs" />
-    <Compile Include="ModelEx\StaffJobTitleEx.cs" />
-    <Compile Include="ModelEx\LineOfOperationEx.cs" />
-    <Compile Include="ModelEx\MarketSectorEx.cs" />
-    <Compile Include="ModelEx\JobTitleEx.cs" />
-    <Compile Include="ModelEx\InternetTagEx.cs" />
-    <Compile Include="ModelEx\CurrencyEx.cs" />
-    <Compile Include="ModelEx\CountryEx.cs" />
-    <Compile Include="ModelEx\CityEx.cs" />
-    <Compile Include="ModelEx\ProvinceEx.cs" />
-    <Compile Include="ModelEx\StaffDeptEx.cs" />
     <Compile Include="NavPane\NavMenu.cs" />
     <Compile Include="NavPane\PurchasingNav.cs">
       <SubType>UserControl</SubType>
@@ -2930,11 +2809,8 @@
       <DependentUpon>MemberAddressTypeWizard.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\IRTList.cs" />
-    <Compile Include="Helper\PhoneTagHelper.cs" />
     <Compile Include="Controls\RTImage.cs">
       <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Helper\SmartTagHelper.cs">
     </Compile>
     <Compile Include="Controls\PagePreference.cs" />
     <Compile Include="Settings\PoSTenderTypeWizard.cs">
@@ -5042,6 +4918,10 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\RT2020.Common\RT2020.Common.csproj">
+      <Project>{25d1ff78-1326-4b16-9cf3-aace9b3a4151}</Project>
+      <Name>RT2020.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\RT2020.EF6\RT2020.EF6.csproj">
       <Project>{80747ba9-d766-4dca-b58a-e8426bf72ace}</Project>
       <Name>RT2020.EF6</Name>

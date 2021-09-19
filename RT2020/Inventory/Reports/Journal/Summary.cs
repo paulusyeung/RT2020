@@ -1,20 +1,21 @@
 ﻿#region Using
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 
 using Gizmox.WebGUI.Common;
 using Gizmox.WebGUI.Forms;
-using System.Data.SqlClient;
-using RT2020.Helper;
-using System.Collections;
-using System.IO;
-using RT2020.ModelEx;
+
+using RT2020.Common.Helper;
+using RT2020.Common.ModelEx;
 
 #endregion
 
@@ -70,7 +71,7 @@ namespace RT2020.Inventory.Reports.Journal
 
         private void SetAttributes()
         {
-            ModelEx.WorkplaceEx.LoadHierarchyTree(ref tvwWorkplace);
+            WorkplaceEx.LoadHierarchyTree(ref tvwWorkplace);
             tvwWorkplace.Dock = DockStyle.Fill;
             tvwWorkplace.CheckBoxes = true;
             tvwWorkplace.AfterCheck += OnAfterCheck;

@@ -12,7 +12,7 @@ using Gizmox.WebGUI.Forms;
 using System.Data.SqlClient;
 
 using System.Configuration;
-using RT2020.Helper;
+using RT2020.Common.Helper;
 using System.Linq;
 
 #endregion

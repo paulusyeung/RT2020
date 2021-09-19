@@ -12,7 +12,8 @@ using Gizmox.WebGUI.Common;
 using Gizmox.WebGUI.Forms;
 
 using Gizmox.WebGUI.Common.Resources;
-using RT2020.Helper;
+using RT2020.Common.Helper;
+using RT2020.Common.ModelEx;
 
 #endregion
 
@@ -50,12 +51,12 @@ namespace RT2020.Settings
 
         private void FillGradeList()
         {
-            ModelEx.StaffGroupEx.LoadCombo(ref cboGrade, "GradeCode", false);
+            StaffGroupEx.LoadCombo(ref cboGrade, "GradeCode", false);
         }
 
         private void LoadDetail()
         {
-            var oStaff = ModelEx.StaffEx.GetByStaffId(_StaffId);
+            var oStaff = StaffEx.GetByStaffId(_StaffId);
             if (oStaff != null)
             {
                 txtStaffNumber.Text = oStaff.StaffNumber;
@@ -63,7 +64,7 @@ namespace RT2020.Settings
                 cboGrade.SelectedValue = oStaff.GroupId;
             }
 
-            var oSecurity = ModelEx.StaffSecurityEx.GetById(_SecurityId);
+            var oSecurity = StaffSecurityEx.GetById(_SecurityId);
             if (oSecurity != null)
             {
                 chkCanRead.Checked = oSecurity.CanRead.Value;
@@ -151,7 +152,7 @@ namespace RT2020.Settings
                     ctx.StaffSecurity.Add(oSecurity);
                 }
 
-                string gradeCode = ModelEx.StaffGroupEx.GetGradeCodeById((Guid)cboGrade.SelectedValue);
+                string gradeCode = StaffGroupEx.GetGradeCodeById((Guid)cboGrade.SelectedValue);
                 if (gradeCode.Length > 0)
                 {
                     oSecurity.GradeCode = gradeCode;

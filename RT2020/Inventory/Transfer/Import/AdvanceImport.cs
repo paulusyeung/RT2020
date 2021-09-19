@@ -15,8 +15,8 @@ using RT2020.Controls;
 using System.Data.SqlClient;
 using System.Configuration;
 
-using RT2020.Helper;
-using RT2020.ModelEx;
+using RT2020.Common.Helper;
+using RT2020.Common.ModelEx;
 
 #endregion
 
@@ -273,7 +273,7 @@ ORDER BY TxNumber, NotInMatch";
                     bool notInMatch = string.IsNullOrEmpty(reader.GetString(1)) || reader.GetString(1) == "N" ? false : true;
                     // Check Detail HACK: check 嚟做咩? 都冇用到
                     var txNumber = reader.GetString(0);
-                    bool noDetail = ModelEx.InvtBatchTXF_DetailsEx.CountByTxNumber(txNumber) > 0;
+                    bool noDetail = InvtBatchTXF_DetailsEx.CountByTxNumber(txNumber) > 0;
 
                     string sql = @"
 SELECT S.TxNumber, S.STKCODE, S.APPENDIX1, S.APPENDIX2, S.APPENDIX3, S.BARCODE, STK.ProductName, SUM(S.Qty) AS Qty

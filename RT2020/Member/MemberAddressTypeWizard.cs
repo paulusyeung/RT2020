@@ -13,9 +13,11 @@ using Gizmox.WebGUI.Common.Resources;
 
 using System.Data.SqlClient;
 using System.Configuration;
-using RT2020.Helper;
 using System.Linq;
 using System.Data.Entity;
+
+using RT2020.Common.Helper;
+using RT2020.Common.ModelEx;
 
 #endregion
 
@@ -274,7 +276,7 @@ namespace RT2020.Member
                 errorProvider.SetError(txtPriority, Resources.Common.DigitalNeeded);
                 result = false;
             }
-            if (ModelEx.MemberAddressTypeEx.IsTypeCodeInUse(txtAddressTypeCode.Text))
+            if (MemberAddressTypeEx.IsTypeCodeInUse(txtAddressTypeCode.Text))
             {
                 errorProvider.SetError(txtAddressTypeCode, "Type Code in use");
                 result = false;
@@ -342,7 +344,7 @@ namespace RT2020.Member
                 {
                     _AddressTypeId = id;
 
-                    var oAddressType = ModelEx.MemberAddressTypeEx.Get(id);
+                    var oAddressType = MemberAddressTypeEx.Get(id);
                     if (oAddressType != null)
                     {
                         txtAddressTypeCode.Text = oAddressType.AddressTypeCode;

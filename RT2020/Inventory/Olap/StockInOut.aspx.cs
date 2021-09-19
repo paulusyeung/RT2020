@@ -13,7 +13,7 @@ using System.IO;
 using DevExpress.Utils;
 using System.Collections;
 using System.Data.Entity;
-using RT2020.Helper;
+using RT2020.Common.Helper;
 
 #endregion
 

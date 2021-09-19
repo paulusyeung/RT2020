@@ -16,8 +16,8 @@ using Gizmox.WebGUI.Common.Resources;
 
 
 using System.Configuration;
-using RT2020.Helper;
-using RT2020.ModelEx;
+using RT2020.Common.Helper;
+using RT2020.Common.ModelEx;
 
 #endregion
 
@@ -154,10 +154,10 @@ namespace RT2020.EmulatedPoS
             ListViewItem oItem = lvPostingResult.Items.Add(objItem.Text);
             oItem.SubItems.Add(new IconResourceHandle("16x16.16_succeeded.png").ToString());
             oItem.SubItems.Add(objItem.SubItems[2].Text);//TxNumber
-            var detailList = ModelEx.EPOSBatchDetailsEx.GetList("HeaderId = '" + objItem.Text + "'");
+            var detailList = EPOSBatchDetailsEx.GetList("HeaderId = '" + objItem.Text + "'");
             foreach (var detail in detailList)
             {
-                var oProduct = ModelEx.ProductEx.Get(detail.ProductId);
+                var oProduct = ProductEx.Get(detail.ProductId);
                 if (oProduct != null)
                 {
                     oItem.SubItems.Add(oProduct.STKCODE);//StkCode(STYLE)
@@ -420,7 +420,7 @@ namespace RT2020.EmulatedPoS
                         bool retired = false;
                         string stk = string.Empty, a1 = string.Empty, a2 = string.Empty, a3 = string.Empty;
 
-                        var oProduct = ModelEx.ProductEx.Get(detail.ProductId);
+                        var oProduct = ProductEx.Get(detail.ProductId);
                         if (oProduct != null)
                         {
                             stk = oProduct.STKCODE;
@@ -786,8 +786,8 @@ namespace RT2020.EmulatedPoS
                             txnumber = txNumber_Ledger;
                             //Guid subledgerHeaderId = subLedgerHeaderId;
                             //Guid ledgerHeaderId = ledgerHeaderId;
-                            string shop = ModelEx.WorkplaceEx.GetWorkplaceCodeById(oBatchHeader.WorkplaceId);
-                            string staffNumber = ModelEx.StaffEx.GetStaffNumberById(oBatchHeader.StaffId);
+                            string shop = WorkplaceEx.GetWorkplaceCodeById(oBatchHeader.WorkplaceId);
+                            string staffNumber = StaffEx.GetStaffNumberById(oBatchHeader.StaffId);
 
                             #region CreatePosLedgerDetails(txNumber_Ledger, subLedgerHeaderId, ledgerHeaderId, ModelEx.WorkplaceEx.GetWorkplaceCodeById(oBatchHeader.WorkplaceId), ModelEx.StaffEx.GetStaffNumberById(oBatchHeader.StaffId));
                             //string sql = "HeaderId = '" + subledgerHeaderId.ToString() + "'";
@@ -818,12 +818,12 @@ namespace RT2020.EmulatedPoS
                                 oLedgerDetail.OPERATOR = staffNumber;
 
                                 // Product Info
-                                var oItem = ModelEx.ProductEx.Get(oSDetail.ProductId);
+                                var oItem = ProductEx.Get(oSDetail.ProductId);
                                 if (oItem != null)
                                 {
                                     oLedgerDetail.BasicPrice = oItem.RetailPrice.Value;
                                     //oLedgerDetail.Discount = oItem.NormalDiscount;
-                                    oLedgerDetail.AverageCost = ModelEx.ProductCurrentSummaryEx.GetAverageCode(oItem.ProductId);
+                                    oLedgerDetail.AverageCost = ProductCurrentSummaryEx.GetAverageCode(oItem.ProductId);
                                 }
 
                                 ctx.PosLedgerDetails.Add(oLedgerDetail);
@@ -1268,7 +1268,7 @@ namespace RT2020.EmulatedPoS
             if (txtTxNumber.Text.Trim().Length > 0)
             {
                 string sql = "TxNumber LIKE '%" + txtTxNumber.Text.Trim() + "%'";
-                var oHeader = ModelEx.EPOSBatchHeaderEx.Get(sql);                
+                var oHeader = EPOSBatchHeaderEx.Get(sql);                
                 if (oHeader != null)
                 {
                     EnumHelper.Status oStatus = (EnumHelper.Status)Enum.Parse(typeof(EnumHelper.Status), oHeader.Status.ToString());
@@ -1507,9 +1507,9 @@ namespace RT2020.EmulatedPoS
         private bool CheckQty(Guid headerId)
         {
             bool result = true;
-            var oBatchHeader = ModelEx.EPOSBatchHeaderEx.Get(headerId);
+            var oBatchHeader = EPOSBatchHeaderEx.Get(headerId);
             string sqlWhere = "HeaderId = '" + headerId.ToString() + "'";
-            var oBatchDetails = ModelEx.EPOSBatchDetailsEx.GetList(sqlWhere);
+            var oBatchDetails = EPOSBatchDetailsEx.GetList(sqlWhere);
             for (int i = 0; i < oBatchDetails.Count; i++)
             {
                 var detail = oBatchDetails[i];

@@ -13,9 +13,11 @@ using Gizmox.WebGUI.Common.Resources;
 
 using System.Data.SqlClient;
 using System.Configuration;
-using RT2020.Helper;
 using System.Linq;
 using System.Data.Entity;
+
+using RT2020.Common.Helper;
+using RT2020.Common.ModelEx;
 
 #endregion
 
@@ -204,7 +206,7 @@ namespace RT2020.Product
             string sql = "NatureId NOT IN ('" + _NatureId.ToString() + "')";
             string[] orderBy = new string[] { "NatureCode" };
 
-            ModelEx.ProductNatureEx.LoadCombo(ref cboParentNature, textFields, pattern, true, true, "", sql, orderBy);
+            ProductNatureEx.LoadCombo(ref cboParentNature, textFields, pattern, true, true, "", sql, orderBy);
         }
         #endregion
 
@@ -257,7 +259,7 @@ namespace RT2020.Product
 
             #region 新增，要 check Nature Code 係咪 in use
             errorProvider.SetError(txtNatureCode, string.Empty);
-            if (_NatureId == System.Guid.Empty && ModelEx.ProductNatureEx.IsNatureCodeInUse(txtNatureCode.Text.Trim()))
+            if (_NatureId == System.Guid.Empty && ProductNatureEx.IsNatureCodeInUse(txtNatureCode.Text.Trim()))
             {
                 errorProvider.SetError(txtNatureCode, "Nature Code in use");
                 return false;

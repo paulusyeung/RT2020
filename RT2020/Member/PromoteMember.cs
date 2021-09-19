@@ -11,8 +11,10 @@ using Gizmox.WebGUI.Common;
 using Gizmox.WebGUI.Forms;
 
 using System.Linq;
-using RT2020.Helper;
 using System.Data.Entity;
+
+using RT2020.Common.Helper;
+using RT2020.Common.ModelEx;
 
 #endregion
 
@@ -321,7 +323,7 @@ namespace RT2020.Member
                 objMember.FullName = objTempVip.FNAME + "," + objTempVip.LNAME; // Full Name
                 objMember.FullName_Chs = objTempVip.CNAME; // Chinese Name (S)
                 objMember.FullName_Cht = objTempVip.CNAME; // Chinese Name (T)
-                objMember.JobTitleId = ModelEx.JobTitleEx.GetJobTitleIdByName(objTempVip.TITLE);
+                objMember.JobTitleId = JobTitleEx.GetJobTitleIdByName(objTempVip.TITLE);
                 objMember.AssignedTo = Guid.Empty;
                 objMember.Remarks = objTempVip.REMARKS;
                 objMember.NormalDiscount = (decimal)objTempVip.NRDISC;
@@ -355,7 +357,7 @@ namespace RT2020.Member
         /// <returns></returns>
         private Guid GetSmartTagId(string tagCode, int priority)
         {
-            return ModelEx.SmartTag4MemberEx.GetIdByTagCodeAndPriority(tagCode, priority);
+            return SmartTag4MemberEx.GetIdByTagCodeAndPriority(tagCode, priority);
         }
 
         #endregion
@@ -364,12 +366,12 @@ namespace RT2020.Member
         private void SaveMemberAddresses(Guid memberId, EF6.MemberApply4TempVip objTempVip)
         {
             // English Address
-            var enAddressTypeId = ModelEx.MemberAddressTypeEx.GetIdByCode("ADDR_EN");
+            var enAddressTypeId = MemberAddressTypeEx.GetIdByCode("ADDR_EN");
             string enAddress = objTempVip.ADDRESS1 + Environment.NewLine + objTempVip.ADDRESS2 + Environment.NewLine + objTempVip.ADDRESS3 + Environment.NewLine + objTempVip.ADDRESS4; 
             SaveMemberAddress(memberId, enAddress, objTempVip.TELW, objTempVip.TELH, objTempVip.FAX, objTempVip.TELOTHER, objTempVip.TELP, enAddressTypeId);
 
             // Chinese Address
-            var chAddressTypeId = ModelEx.MemberAddressTypeEx.GetIdByCode("ADDR_CN");
+            var chAddressTypeId = MemberAddressTypeEx.GetIdByCode("ADDR_CN");
             string chAddress = objTempVip.ADDRESS1C + Environment.NewLine + objTempVip.ADDRESS2C + Environment.NewLine + objTempVip.ADDRESS3C + Environment.NewLine + objTempVip.ADDRESS4C;
             SaveMemberAddress(memberId, chAddress, objTempVip.TELW, objTempVip.TELH, objTempVip.FAX, objTempVip.TELOTHER, objTempVip.TELP, chAddressTypeId);
         }
@@ -397,15 +399,15 @@ namespace RT2020.Member
                 objAddress.CityId = Guid.Empty;
                 objAddress.District = string.Empty;
                 objAddress.Mailing = false;
-                objAddress.PhoneTag1 = ModelEx.PhoneTagEx.GetPhoneTagIdByPriority(1);
+                objAddress.PhoneTag1 = PhoneTagEx.GetPhoneTagIdByPriority(1);
                 objAddress.PhoneTag1Value = workPhone;
-                objAddress.PhoneTag2 = ModelEx.PhoneTagEx.GetPhoneTagIdByPriority(2);
+                objAddress.PhoneTag2 = PhoneTagEx.GetPhoneTagIdByPriority(2);
                 objAddress.PhoneTag2Value = homePhone;
-                objAddress.PhoneTag3 = ModelEx.PhoneTagEx.GetPhoneTagIdByPriority(3);
+                objAddress.PhoneTag3 = PhoneTagEx.GetPhoneTagIdByPriority(3);
                 objAddress.PhoneTag3Value = fax;
-                objAddress.PhoneTag4 = ModelEx.PhoneTagEx.GetPhoneTagIdByPriority(4);
+                objAddress.PhoneTag4 = PhoneTagEx.GetPhoneTagIdByPriority(4);
                 objAddress.PhoneTag4Value = otherPhone;
-                objAddress.PhoneTag5 = ModelEx.PhoneTagEx.GetPhoneTagIdByPriority(5);
+                objAddress.PhoneTag5 = PhoneTagEx.GetPhoneTagIdByPriority(5);
                 objAddress.PhoneTag5Value = pager;
 
                 ctx.SaveChanges();
@@ -522,7 +524,7 @@ namespace RT2020.Member
                     oVipLoo.VipLooId = Guid.NewGuid();
                     oVipLoo.VipLooId = System.Guid.NewGuid();
                     oVipLoo.MemberVipId = memberVipId;
-                    oVipLoo.LineOfOperationId = ModelEx.LineOfOperationEx.GetLineOfOperationIdByName(objTempVip.LOOID);
+                    oVipLoo.LineOfOperationId = LineOfOperationEx.GetLineOfOperationIdByName(objTempVip.LOOID);
 
                     ctx.MemberVipLineOfOperation.Add(oVipLoo);
                 }

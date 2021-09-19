@@ -11,7 +11,8 @@ using Gizmox.WebGUI.Common;
 using Gizmox.WebGUI.Forms;
 using Gizmox.WebGUI.Common.Resources;
 
-using RT2020.Helper;
+using RT2020.Common.Helper;
+using RT2020.Common.ModelEx;
 
 #endregion
 
@@ -187,7 +188,7 @@ namespace RT2020.Product
         private void FillAppendixe1()
         {
             string[] orderBy = new string[] { "Appendix1Code" };
-            ModelEx.ProductAppendix1Ex.LoadCombo(ref cboAppendix1, "Appendix1Code", false, true, "", "", orderBy);
+            ProductAppendix1Ex.LoadCombo(ref cboAppendix1, "Appendix1Code", false, true, "", "", orderBy);
             /**
             cboAppendix1.Items.Clear();
 
@@ -204,7 +205,7 @@ namespace RT2020.Product
         private void FillAppendixe2()
         {
             string[] orderBy = new string[] { "Appendix2Code" };
-            ModelEx.ProductAppendix2Ex.LoadCombo(ref cboAppendix2, "Appendix2Code", false, true, "", "", orderBy);
+            ProductAppendix2Ex.LoadCombo(ref cboAppendix2, "Appendix2Code", false, true, "", "", orderBy);
             /**
             cboAppendix2.Items.Clear();
 
@@ -221,7 +222,7 @@ namespace RT2020.Product
         private void FillAppendixe3()
         {
             string[] orderBy = new string[] { "Appendix3Code" };
-            ModelEx.ProductAppendix3Ex.LoadCombo(ref cboAppendix3, "Appendix3Code", false, true, "", "", orderBy);
+            ProductAppendix3Ex.LoadCombo(ref cboAppendix3, "Appendix3Code", false, true, "", "", orderBy);
             /**
             cboAppendix3.Items.Clear();
 
@@ -241,7 +242,7 @@ namespace RT2020.Product
         #region Set Form Layout with type
         private void InitialFormWithType()
         {
-            var detailList = ModelEx.ProductDim_DetailsEx.GetListByDimensionId(this.CombinId);
+            var detailList = ProductDim_DetailsEx.GetListByDimensionId(this.CombinId);
             foreach (var detail in detailList)
             {
                 if (detail.APPENDIX1.Length > 0 && detail.APPENDIX2.Length == 0 && detail.APPENDIX3.Length == 0)
@@ -449,7 +450,7 @@ namespace RT2020.Product
                         {
                             oTable = dgvCombinationList.DataSource as DataTable;
 
-                            ModelEx.ProductDim_DetailsEx.DeleteByDimensionId(dimensionId);
+                            ProductDim_DetailsEx.DeleteByDimensionId(dimensionId);
                             foreach (DataRow row in oTable.Rows)
                             {
                                 var oDetail = ctx.ProductDim_Details.Find(row["DimDetailId"]);
@@ -481,7 +482,7 @@ namespace RT2020.Product
 
             if (this.CombinId != Guid.Empty)
             {
-                SystemInfoHelper.Settings.RefreshMainList<CombinationList>();
+                Helper.DesktopHelper.RefreshMainList<CombinationList>();
             }
         }
         #endregion
@@ -489,7 +490,7 @@ namespace RT2020.Product
         #region Load Methods
         private void LoadCombinationList()
         {
-            txtCombinNumber.Text = ModelEx.ProductDimEx.GetDimCode(_CombinId);
+            txtCombinNumber.Text = ProductDimEx.GetDimCode(_CombinId);
             BindAppendixList();
         }
 
@@ -624,7 +625,7 @@ Where   DimensionId = '" + this.CombinId.ToString() + "'";
         {
             if (((Form)sender).DialogResult == DialogResult.Yes)
             {
-                ModelEx.ProductDimEx.Delete(this.CombinId);
+                ProductDimEx.Delete(this.CombinId);
 
                 this.Close();
             }

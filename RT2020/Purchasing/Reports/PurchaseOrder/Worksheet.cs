@@ -17,8 +17,8 @@ namespace RT2020.Purchasing.Reports.PurchaseOrder
     using Gizmox.WebGUI.Forms;
 
 
-    using Helper;
-    using ModelEx;
+    using RT2020.Common.Helper;
+    using RT2020.Common.ModelEx;
 
     /// <summary>
     /// Purchase Order Worksheet
@@ -68,7 +68,7 @@ namespace RT2020.Purchasing.Reports.PurchaseOrder
             string[] orderBy = { "OrderNumber" };
             string sql = " Retired = 0 ";
 
-            ModelEx.PurchaseOrderHeaderEx.LoadCombo(ref cboFrom, "OrderNumber", false, false, "", sql, orderBy);
+            PurchaseOrderHeaderEx.LoadCombo(ref cboFrom, "OrderNumber", false, false, "", sql, orderBy);
         }
 
         /// <summary>
@@ -81,7 +81,7 @@ namespace RT2020.Purchasing.Reports.PurchaseOrder
             string[] orderBy = { "OrderNumber" };
             string sql = " Retired = 0 ";
 
-            ModelEx.PurchaseOrderHeaderEx.LoadCombo(ref cboTo, "OrderNumber", false, false, "", sql, orderBy);
+            PurchaseOrderHeaderEx.LoadCombo(ref cboTo, "OrderNumber", false, false, "", sql, orderBy);
 
             cboTo.SelectedIndex = cboTo.Items.Count - 1;
         }
@@ -93,7 +93,7 @@ namespace RT2020.Purchasing.Reports.PurchaseOrder
         {
             string[] orderBy = { "SupplierCode" };
             string sql = " Retired = 0";
-            ModelEx.SupplierEx.LoadCombo(ref cboSuppFrom, "SupplierCode", false, false, "", sql, orderBy);
+            SupplierEx.LoadCombo(ref cboSuppFrom, "SupplierCode", false, false, "", sql, orderBy);
         }
 
         /// <summary>
@@ -103,7 +103,7 @@ namespace RT2020.Purchasing.Reports.PurchaseOrder
         {
             string[] orderBy = { "SupplierCode" };
             string sql = " Retired = 0";
-            ModelEx.SupplierEx.LoadCombo(ref cboSuppTo, "SupplierCode", false, false, "", sql, orderBy);
+            SupplierEx.LoadCombo(ref cboSuppTo, "SupplierCode", false, false, "", sql, orderBy);
 
             cboSuppTo.SelectedIndex = cboSuppTo.Items.Count - 1;
         }
@@ -115,7 +115,7 @@ namespace RT2020.Purchasing.Reports.PurchaseOrder
         {
             string[] orderBy = { "WorkplaceCode" };
             string sql = " Retired = 0";
-            ModelEx.WorkplaceEx.LoadCombo(ref cboLocFrom, "WorkplaceCode", false, false, "", sql, orderBy);
+            WorkplaceEx.LoadCombo(ref cboLocFrom, "WorkplaceCode", false, false, "", sql, orderBy);
         }
 
         /// <summary>
@@ -125,7 +125,7 @@ namespace RT2020.Purchasing.Reports.PurchaseOrder
         {
             string[] orderBy = { "WorkplaceCode" };
             string sql = " Retired = 0";
-            ModelEx.WorkplaceEx.LoadCombo(ref cboLocTo, "WorkplaceCode", false, false, "", sql, orderBy);
+            WorkplaceEx.LoadCombo(ref cboLocTo, "WorkplaceCode", false, false, "", sql, orderBy);
             cboLocTo.SelectedIndex = cboLocTo.Items.Count - 1;
         }
         #endregion        

@@ -13,7 +13,9 @@ using Gizmox.WebGUI.Common.Resources;
 
 using System.Data.SqlClient;
 using System.Configuration;
-using RT2020.Helper;
+
+using RT2020.Common.Helper;
+using RT2020.Common.ModelEx;
 
 #endregion
 
@@ -281,7 +283,7 @@ namespace RT2020.Settings
         #region Fill Currency List
         private void FillCurrencyList()
         {
-            ModelEx.CurrencyEx.LoadCombo(ref cboCurrency, "CurrencyCode", false, true, "", "");
+            CurrencyEx.LoadCombo(ref cboCurrency, "CurrencyCode", false, true, "", "");
         }
         #endregion
 
@@ -336,7 +338,7 @@ namespace RT2020.Settings
                     {
                         oPosTenderType = new EF6.PosTenderType();
                         oPosTenderType.TypeId = Guid.NewGuid();
-                        if (ModelEx.PosTenderTypeEx.IsTypeCodeInUse(txtTypeCode.Text.Trim()))
+                        if (PosTenderTypeEx.IsTypeCodeInUse(txtTypeCode.Text.Trim()))
                         {
                             errorProvider.SetError(txtTypeCode, string.Format(Resources.Common.DuplicatedCode, "PoS Tender Type Code"));
                             return false;
@@ -408,7 +410,7 @@ namespace RT2020.Settings
                             txtTypeName.Text = oPosTenderType.TypeName;
                             txtTypeNameAlt1.Text = oPosTenderType.TypeName_Chs;
                             txtTypeNameAlt2.Text = oPosTenderType.TypeName_Cht;
-                            cboCurrency.SelectedValue = ModelEx.CurrencyEx.GetCurrencyIdByCode(oPosTenderType.CurrencyCode);
+                            cboCurrency.SelectedValue = CurrencyEx.GetCurrencyIdByCode(oPosTenderType.CurrencyCode);
                             txtExchangeRate.Text = oPosTenderType.ExchangeRate.Value.ToString("n4");
                             chkDownloadToPoS.Checked = true;
                             txtChargeRate.Text = oPosTenderType.ChargeRate.ToString("n2");
@@ -447,7 +449,7 @@ namespace RT2020.Settings
                 {
                     if (id != Guid.Empty)
                     {
-                        txtExchangeRate.Text = ModelEx.CurrencyEx.GetExchangeRateById(id).ToString("n4");
+                        txtExchangeRate.Text = CurrencyEx.GetExchangeRateById(id).ToString("n4");
                     }
                 }
             }

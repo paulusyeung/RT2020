@@ -1,0 +1,243 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{25D1FF78-1326-4B16-9CF3-AACE9B3A4151}</ProjectGuid>
+    <ProjectTypeGuids>{80d85812-7475-4db8-9a61-dd0ef1ebd354};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>RT2020.Common</RootNamespace>
+    <AssemblyName>RT2020.Common</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CommonMark, Version=0.1.0.0, Culture=neutral, PublicKeyToken=001ef8810438905d, processorArchitecture=MSIL">
+      <HintPath>..\packages\CommonMark.NET.0.15.1\lib\net45\CommonMark.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.Common, Version=6.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\EnterpriseLibrary.Common.6.0.1304.0\lib\NET45\Microsoft.Practices.EnterpriseLibrary.Common.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.Data, Version=6.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\EnterpriseLibrary.Data.6.0.1304.0\lib\NET45\Microsoft.Practices.EnterpriseLibrary.Data.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="RestSharp, Version=106.11.7.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
+      <HintPath>..\packages\RestSharp.106.11.7\lib\net452\RestSharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Design" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Gizmox.WebGUI.Forms, Version=4.5.25701.0, Culture=neutral, PublicKeyToken=c508b41386c60f1d">
+      <SpecificVersion>True</SpecificVersion>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Gizmox.WebGUI.Forms.Themes, Version=4.5.25701.0, Culture=neutral, PublicKeyToken=263fa4ef694acff6">
+      <SpecificVersion>True</SpecificVersion>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Gizmox.WebGUI.Common, Version=4.5.25701.0, Culture=neutral, PublicKeyToken=263fa4ef694acff6">
+      <SpecificVersion>True</SpecificVersion>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Westwind.Globalization, Version=3.1.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Westwind.Globalization.3.1.2\lib\net45\Westwind.Globalization.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Westwind.Utilities, Version=3.0.47.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Westwind.Utilities.3.0.47\lib\net40\Westwind.Utilities.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Helper\BotHelper.cs" />
+    <Compile Include="Helper\ComboBoxHelper.cs" />
+    <Compile Include="Helper\ConfigHelper.cs" />
+    <Compile Include="Helper\CookieHelper.cs" />
+    <Compile Include="Helper\DateTimeHelper.cs" />
+    <Compile Include="Helper\DecimalHelper.cs" />
+    <Compile Include="Helper\EnumHelper.cs" />
+    <Compile Include="Helper\GlobalVars.cs" />
+    <Compile Include="Helper\LanguageHelper.cs" />
+    <Compile Include="Helper\ListViewHelper.cs" />
+    <Compile Include="Helper\MemberHelper.cs" />
+    <Compile Include="Helper\MenuHelper.cs" />
+    <Compile Include="Helper\NetSqlAzManHelper.cs" />
+    <Compile Include="Helper\PhoneTagHelper.cs" />
+    <Compile Include="Helper\ProductHelper.cs" />
+    <Compile Include="Helper\SmartTagHelper.cs" />
+    <Compile Include="Helper\SqlHelper.cs" />
+    <Compile Include="Helper\SystemInfoHelper.cs" />
+    <Compile Include="Helper\ThemeHelper.cs" />
+    <Compile Include="Helper\TreeViewHelper.cs" />
+    <Compile Include="Helper\WebConfigHelper.cs" />
+    <Compile Include="Helper\WestwindHelper.cs" />
+    <Compile Include="ModelEx\CityEx.cs" />
+    <Compile Include="ModelEx\CountryEx.cs" />
+    <Compile Include="ModelEx\CurrencyEx.cs" />
+    <Compile Include="ModelEx\EPOSBatchDetailsEx.cs" />
+    <Compile Include="ModelEx\EPOSBatchHeaderEx.cs" />
+    <Compile Include="ModelEx\EPOSBatchTenderEx.cs" />
+    <Compile Include="ModelEx\EPOSSubLedgerDetailsEx.cs" />
+    <Compile Include="ModelEx\EPOSSubLedgerHeaderEx.cs" />
+    <Compile Include="ModelEx\EPOSSubLedgerTenderEx.cs" />
+    <Compile Include="ModelEx\FepBatchDetailEx.cs" />
+    <Compile Include="ModelEx\FepBatchHeaderEx.cs" />
+    <Compile Include="ModelEx\FepBatchTenderEx.cs" />
+    <Compile Include="ModelEx\InternetTagEx.cs" />
+    <Compile Include="ModelEx\InvtBatchADJ_DetailsEx.cs" />
+    <Compile Include="ModelEx\InvtBatchADJ_HeaderEx.cs" />
+    <Compile Include="ModelEx\InvtBatchCAP_DetailsEx.cs" />
+    <Compile Include="ModelEx\InvtBatchCAP_HeaderEx.cs" />
+    <Compile Include="ModelEx\InvtBatchRPL_DetailsEx.cs" />
+    <Compile Include="ModelEx\InvtBatchRPL_HeaderEx.cs" />
+    <Compile Include="ModelEx\InvtBatchTXF_DetailsEx.cs" />
+    <Compile Include="ModelEx\InvtBatchTXF_HeaderEx.cs" />
+    <Compile Include="ModelEx\InvtSubLedgerCAP_HeaderEx.cs" />
+    <Compile Include="ModelEx\JobTitleEx.cs" />
+    <Compile Include="ModelEx\LineOfOperationEx.cs" />
+    <Compile Include="ModelEx\MarketSectorEx.cs" />
+    <Compile Include="ModelEx\MemberAddressEx.cs" />
+    <Compile Include="ModelEx\MemberAddressTypeEx.cs" />
+    <Compile Include="ModelEx\MemberClassEx.cs" />
+    <Compile Include="ModelEx\MemberEx.cs" />
+    <Compile Include="ModelEx\MemberGroupEx.cs" />
+    <Compile Include="ModelEx\MemberSmartTagEx.cs" />
+    <Compile Include="ModelEx\MemberVipDataEx.cs" />
+    <Compile Include="ModelEx\MemberVipLineOfOperationEx.cs" />
+    <Compile Include="ModelEx\MetadataXml.cs" />
+    <Compile Include="ModelEx\PhoneTagEx.cs" />
+    <Compile Include="ModelEx\PosAnalysisCodeEx.cs" />
+    <Compile Include="ModelEx\PosTenderTypeEx.cs" />
+    <Compile Include="ModelEx\PriceManagementActiveHeaderEx.cs" />
+    <Compile Include="ModelEx\PriceManagementBatchHeaderEx.cs" />
+    <Compile Include="ModelEx\PriceManagementReasonEx.cs" />
+    <Compile Include="ModelEx\ProductAppendix1Ex.cs" />
+    <Compile Include="ModelEx\ProductAppendix2Ex.cs" />
+    <Compile Include="ModelEx\ProductAppendix3Ex.cs" />
+    <Compile Include="ModelEx\ProductBarcodeEx.cs" />
+    <Compile Include="ModelEx\ProductClass1Ex.cs" />
+    <Compile Include="ModelEx\ProductClass2Ex.cs" />
+    <Compile Include="ModelEx\ProductClass3Ex.cs" />
+    <Compile Include="ModelEx\ProductClass4Ex.cs" />
+    <Compile Include="ModelEx\ProductClass5Ex.cs" />
+    <Compile Include="ModelEx\ProductClass6Ex.cs" />
+    <Compile Include="ModelEx\ProductCurrentSummaryEx.cs" />
+    <Compile Include="ModelEx\ProductDimEx.cs" />
+    <Compile Include="ModelEx\ProductDim_DetailsEx.cs" />
+    <Compile Include="ModelEx\ProductEx.cs" />
+    <Compile Include="ModelEx\ProductNatureEx.cs" />
+    <Compile Include="ModelEx\ProductPriceEx.cs" />
+    <Compile Include="ModelEx\ProductPriceTypeEx.cs" />
+    <Compile Include="ModelEx\ProductWorkplaceEx.cs" />
+    <Compile Include="ModelEx\PromotionPaymentFactorEx.cs" />
+    <Compile Include="ModelEx\ProvinceEx.cs" />
+    <Compile Include="ModelEx\PurchaseOrderDetailsEx.cs" />
+    <Compile Include="ModelEx\PurchaseOrderHeaderEx.cs" />
+    <Compile Include="ModelEx\RemarksEx.cs" />
+    <Compile Include="ModelEx\SalutationEx.cs" />
+    <Compile Include="ModelEx\ShipmentMethodEx.cs" />
+    <Compile Include="ModelEx\SmartTag4MemberEx.cs" />
+    <Compile Include="ModelEx\SmartTag4Member_OptionsEx.cs" />
+    <Compile Include="ModelEx\SmartTag4StaffEx.cs" />
+    <Compile Include="ModelEx\SmartTag4Staff_OptionsEx.cs" />
+    <Compile Include="ModelEx\SmartTag4SupplierEx.cs" />
+    <Compile Include="ModelEx\SmartTag4Supplier_OptionsEx.cs" />
+    <Compile Include="ModelEx\SmartTag4WorkplaceEx.cs" />
+    <Compile Include="ModelEx\SmartTag4Workplace_OptionsEx.cs" />
+    <Compile Include="ModelEx\StaffAddressEx.cs" />
+    <Compile Include="ModelEx\StaffDeptEx.cs" />
+    <Compile Include="ModelEx\StaffEx.cs" />
+    <Compile Include="ModelEx\StaffGroupEx.cs" />
+    <Compile Include="ModelEx\StaffHREx.cs" />
+    <Compile Include="ModelEx\StaffInternetTagEx.cs" />
+    <Compile Include="ModelEx\StaffJobTitleEx.cs" />
+    <Compile Include="ModelEx\StaffPreferenceEx.cs" />
+    <Compile Include="ModelEx\StaffSecurityEx.cs" />
+    <Compile Include="ModelEx\StaffSmartTagEx.cs" />
+    <Compile Include="ModelEx\StockTakeDetailsEx.cs" />
+    <Compile Include="ModelEx\StockTakeHeaderEx.cs" />
+    <Compile Include="ModelEx\StocktakeHeader_HHTEx.cs" />
+    <Compile Include="ModelEx\SupplierAddressEx.cs" />
+    <Compile Include="ModelEx\SupplierAddressTypeEx.cs" />
+    <Compile Include="ModelEx\SupplierContactEx.cs" />
+    <Compile Include="ModelEx\SupplierEx.cs" />
+    <Compile Include="ModelEx\SupplierSmartTagEx.cs" />
+    <Compile Include="ModelEx\SupplierTermsEx.cs" />
+    <Compile Include="ModelEx\SystemInfoEx.cs" />
+    <Compile Include="ModelEx\SystemLabelEx.cs" />
+    <Compile Include="ModelEx\UserPreferenceEx.cs" />
+    <Compile Include="ModelEx\UserProfileEx.cs" />
+    <Compile Include="ModelEx\WorkplaceAddressEx.cs" />
+    <Compile Include="ModelEx\WorkplaceEx.cs" />
+    <Compile Include="ModelEx\WorkplaceNatureEx.cs" />
+    <Compile Include="ModelEx\WorkplaceSmartTagEx.cs" />
+    <Compile Include="ModelEx\WorkplaceZoneEx.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\RT2020.EF6\RT2020.EF6.csproj">
+      <Project>{80747ba9-d766-4dca-b58a-e8426bf72ace}</Project>
+      <Name>RT2020.EF6</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Condition="" Project="$(MSBuildExtensionsPath)\Gizmox\v14.0\Net4.5.2\Gizmox.VWGLibrary.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -14,8 +14,8 @@ using Gizmox.WebGUI.Common.Interfaces;
 
 
 using RT2020.Controls;
-using RT2020.Helper;
-using RT2020.ModelEx;
+using RT2020.Common.Helper;
+using RT2020.Common.ModelEx;
 
 namespace RT2020.Inventory.Replenishment
 {
@@ -336,7 +336,7 @@ namespace RT2020.Inventory.Replenishment
                 { "FromTxDate", this.dtpTxDate.Value.ToString(DateTimeHelper.GetDateFormat()) },
                 { "ToTxDate", this.dtpTxDate.Value.ToString(DateTimeHelper.GetDateFormat()) },
                 { "PrintedOn", DateTime.Now.ToString(DateTimeHelper.GetDateTimeFormat()) },
-                { "PrintedBy", ModelEx.StaffEx.GetStaffNameById(ConfigHelper.CurrentUserId) },
+                { "PrintedBy", StaffEx.GetStaffNameById(ConfigHelper.CurrentUserId) },
                 { "DateFormat", DateTimeHelper.GetDateFormat() },
                 { "CompanyName", SystemInfoEx.CurrentInfo.Default.CompanyName},
                 { "StockCode", SystemInfoHelper.Settings.GetSystemLabelByKey("STKCODE") },
@@ -366,18 +366,18 @@ namespace RT2020.Inventory.Replenishment
 
         private void FillFromLocationList()
         {
-            ModelEx.WorkplaceEx.LoadCombo(ref cboFromLocation, "WorkplaceCode", false);
+            WorkplaceEx.LoadCombo(ref cboFromLocation, "WorkplaceCode", false);
         }
 
         private void FillToLocationList()
         {
-            ModelEx.WorkplaceEx.LoadCombo(ref cboToLocation, "WorkplaceCode", false);
+            WorkplaceEx.LoadCombo(ref cboToLocation, "WorkplaceCode", false);
             cboToLocation.SelectedIndex = cboToLocation.Items.Count - 1;
         }
 
         private void FillStaffList()
         {
-            ModelEx.StaffEx.LoadCombo(ref cboOperatorCode, "StaffNumber", false);
+            StaffEx.LoadCombo(ref cboOperatorCode, "StaffNumber", false);
         }
         #endregion
 
@@ -488,7 +488,7 @@ namespace RT2020.Inventory.Replenishment
         #region Load Rpl Header Info
         private void LoadRplInfo()
         {
-            var oHeader = ModelEx.InvtBatchRPL_HeaderEx.Get(this.RplId);
+            var oHeader = InvtBatchRPL_HeaderEx.Get(this.RplId);
             if (oHeader != null)
             {
                 txtTxNumber.Text = oHeader.TxNumber;
@@ -505,10 +505,10 @@ namespace RT2020.Inventory.Replenishment
                 txtRemarks.Text = oHeader.Remarks;
 
                 txtLastUpdateOn.Text = DateTimeHelper.DateTimeToString(oHeader.ModifiedOn, false);
-                txtLastUpdateBy.Text = ModelEx.StaffEx.GetStaffNumberById(oHeader.ModifiedBy);
+                txtLastUpdateBy.Text = StaffEx.GetStaffNumberById(oHeader.ModifiedBy);
 
                 txtTxConfirmed.Text = oHeader.Confirmed ? "Y" : "N";
-                txtConfirmedBy.Text = ModelEx.StaffEx.GetStaffNumberById(oHeader.ConfirmedBy.Value);
+                txtConfirmedBy.Text = StaffEx.GetStaffNumberById(oHeader.ConfirmedBy.Value);
                 txtConfirmedOn.Text = DateTimeHelper.DateTimeToString(oHeader.ConfirmedOn.Value, false);
                 txtSpecialRequest.Text = oHeader.SpecialRequest ? "Y" : "N";
 
@@ -556,7 +556,7 @@ namespace RT2020.Inventory.Replenishment
 
                 if (this.RplId != System.Guid.Empty)
                 {
-                    SystemInfoHelper.Settings.RefreshMainList<Default>();
+                    Helper.DesktopHelper.RefreshMainList<Default>();
                     MessageBox.Show("Success!", "Save Result");
 
                     this.Close();
@@ -574,7 +574,7 @@ namespace RT2020.Inventory.Replenishment
 
                 if (this.RplId != System.Guid.Empty)
                 {
-                    SystemInfoHelper.Settings.RefreshMainList<Default>();
+                    Helper.DesktopHelper.RefreshMainList<Default>();
                     this.Close();
                     RT2020.Inventory.Replenishment.Wizard wizard = new RT2020.Inventory.Replenishment.Wizard();
                     wizard.ShowDialog();
@@ -590,7 +590,7 @@ namespace RT2020.Inventory.Replenishment
 
                 if (this.RplId != System.Guid.Empty)
                 {
-                    SystemInfoHelper.Settings.RefreshMainList<Default>();
+                    Helper.DesktopHelper.RefreshMainList<Default>();
                     this.Close();
                 }
             }
@@ -600,7 +600,7 @@ namespace RT2020.Inventory.Replenishment
         {
             if (((Form)sender).DialogResult == DialogResult.Yes)
             {
-                ModelEx.InvtBatchRPL_HeaderEx.DeleteChildToo(this.RplId); // Delete();
+                InvtBatchRPL_HeaderEx.DeleteChildToo(this.RplId); // Delete();
 
                 this.Close();
             }
@@ -793,7 +793,7 @@ namespace RT2020.Inventory.Replenishment
         {
             if (basicProduct.SelectedItem != null)
             {
-                var oProd = ModelEx.ProductEx.Get((Guid)basicProduct.SelectedItem);
+                var oProd = ProductEx.Get((Guid)basicProduct.SelectedItem);
                 if (oProd != null)
                 {
                     stkCode = oProd.STKCODE;

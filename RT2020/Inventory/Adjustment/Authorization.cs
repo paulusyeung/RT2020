@@ -14,10 +14,10 @@ using System.Text.RegularExpressions;
 
 using Gizmox.WebGUI.Common.Resources;
 using System.Configuration;
-using RT2020.Helper;
+using RT2020.Common.Helper;
 using System.Linq;
 using System.Data.Entity;
-using RT2020.ModelEx;
+using RT2020.Common.ModelEx;
 
 #endregion
 
@@ -276,7 +276,7 @@ namespace RT2020.Inventory.Adjustment
                 Guid id = Guid.Empty;
                 if (Guid.TryParse(headerId, out id))
                 {
-                    var oBatchHeader = ModelEx.InvtBatchADJ_HeaderEx.Get(id);
+                    var oBatchHeader = InvtBatchADJ_HeaderEx.Get(id);
                     if (oBatchHeader != null)
                     {
                         if (!CheckTxDate(oBatchHeader.TxDate.Value))
@@ -321,7 +321,7 @@ namespace RT2020.Inventory.Adjustment
                             bool retired = false;
                             string stk = string.Empty, a1 = string.Empty, a2 = string.Empty, a3 = string.Empty;
 
-                            var oProduct = ModelEx.ProductEx.Get(detail.ProductId);
+                            var oProduct = ProductEx.Get(detail.ProductId);
                             if (oProduct != null)
                             {
                                 stk = oProduct.STKCODE;
@@ -369,7 +369,7 @@ namespace RT2020.Inventory.Adjustment
                             }
                         }
 
-                        var oStaff = ModelEx.StaffEx.GetByStaffId(oBatchHeader.StaffId);
+                        var oStaff = StaffEx.GetByStaffId(oBatchHeader.StaffId);
                         if (oStaff != null)
                         {
                             if (oStaff.Retired)
@@ -653,20 +653,20 @@ namespace RT2020.Inventory.Adjustment
                                     oLedgerDetail.Amount = oLedgerDetail.Qty * oLedgerDetail.AverageCost;
                                     oLedgerDetail.Notes = string.Empty;
                                     oLedgerDetail.SerialNumber = string.Empty;
-                                    oLedgerDetail.SHOP = ModelEx.WorkplaceEx.GetWorkplaceCodeById(oBatchHeader.WorkplaceId);
-                                    oLedgerDetail.OPERATOR = ModelEx.StaffEx.GetStaffNumberById(oBatchHeader.StaffId);
+                                    oLedgerDetail.SHOP = WorkplaceEx.GetWorkplaceCodeById(oBatchHeader.WorkplaceId);
+                                    oLedgerDetail.OPERATOR = StaffEx.GetStaffNumberById(oBatchHeader.StaffId);
 
                                     // Product Info
                                     var oItem = ctx.Product.Find(oSDetail.ProductId);
                                     if (oItem != null)
                                     {
                                         oLedgerDetail.BasicPrice = oItem.RetailPrice.Value;
-                                        oLedgerDetail.UnitAmount = ModelEx.ProductCurrentSummaryEx.GetAverageCode(oItem.ProductId);
+                                        oLedgerDetail.UnitAmount = ProductCurrentSummaryEx.GetAverageCode(oItem.ProductId);
                                         oLedgerDetail.Discount = oItem.NormalDiscount;
                                         oLedgerDetail.Amount = oLedgerDetail.UnitAmount * oLedgerDetail.Qty;
-                                        oLedgerDetail.AverageCost = ModelEx.ProductCurrentSummaryEx.GetAverageCode(oItem.ProductId);
+                                        oLedgerDetail.AverageCost = ProductCurrentSummaryEx.GetAverageCode(oItem.ProductId);
 
-                                        var priceTypeId = ModelEx.ProductPriceTypeEx.GetIdByPriceType(ProductHelper.Prices.VPRC.ToString());
+                                        var priceTypeId = ProductPriceTypeEx.GetIdByPriceType(ProductHelper.Prices.VPRC.ToString());
                                         //sql = "ProductId = '" + oSDetail.ProductId.ToString() + "' AND PriceTypeId = '" + priceTypeId.ToString() + "'";
 
                                         var oPrice = ctx.ProductPrice.Where(x => x.ProductId == oSDetail.ProductId && x.PriceTypeId == priceTypeId).FirstOrDefault();

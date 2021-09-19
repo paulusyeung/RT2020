@@ -9,7 +9,9 @@ using System.Text;
 
 using Gizmox.WebGUI.Common;
 using Gizmox.WebGUI.Forms;
-using RT2020.Helper;
+
+using RT2020.Common.Helper;
+using RT2020.Common.ModelEx;
 
 #endregion
 
@@ -51,7 +53,7 @@ namespace RT2020.Workplace
 
             if (_WorkplaceId != Guid.Empty)
             {
-                var password = ModelEx.WorkplaceEx.GetWorkplacePasswordById(_WorkplaceId);
+                var password = WorkplaceEx.GetWorkplacePasswordById(_WorkplaceId);
                 if (password != "")
                 {
                     _Password = password;

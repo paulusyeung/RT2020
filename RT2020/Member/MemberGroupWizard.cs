@@ -13,7 +13,9 @@ using Gizmox.WebGUI.Common.Resources;
 
 using System.Data.SqlClient;
 using System.Configuration;
-using RT2020.Helper;
+
+using RT2020.Common.Helper;
+using RT2020.Common.ModelEx;
 
 #endregion
 
@@ -227,7 +229,7 @@ namespace RT2020.Member
             string sql = "GroupId NOT IN ('" + _GroupId.ToString() + "')";
             string[] orderBy = new string[] { "GroupCode" };
 
-            ModelEx.MemberGroupEx.LoadCombo(ref cboParentGroup, "GroupCode", true, true, "", sql, orderBy);
+            MemberGroupEx.LoadCombo(ref cboParentGroup, "GroupCode", true, true, "", sql, orderBy);
             /**
             MemberGroupCollection oMemberGroupList = MemberGroup.LoadCollection(sql, orderBy, true);
             oMemberGroupList.Add(new MemberGroup(System.Guid.Empty, System.Guid.Empty, string.Empty, string.Empty, string.Empty, string.Empty));
@@ -290,7 +292,7 @@ namespace RT2020.Member
 
             #region 新增，要 check Group Code 係咪 in use
             errorProvider.SetError(txtGroupCode, string.Empty);
-            if (_GroupId == System.Guid.Empty && ModelEx.MemberGroupEx.IsGroupCodeInUse(txtGroupCode.Text.Trim()))
+            if (_GroupId == System.Guid.Empty && MemberGroupEx.IsGroupCodeInUse(txtGroupCode.Text.Trim()))
             {
                 errorProvider.SetError(txtGroupCode, "Groud Code in use");
                 return false;
@@ -358,7 +360,7 @@ namespace RT2020.Member
                 Guid id = Guid.Empty;
                 if (Guid.TryParse(lvMemberGroupList.SelectedItem.Text, out id))
                 {
-                    var oMemberGroup = ModelEx.MemberGroupEx.Get(id);
+                    var oMemberGroup = MemberGroupEx.Get(id);
                     if (oMemberGroup != null)
                     {
                         _GroupId = oMemberGroup.GroupId;

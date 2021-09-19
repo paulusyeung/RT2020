@@ -10,9 +10,12 @@ using System.Text;
 using Gizmox.WebGUI.Common;
 using Gizmox.WebGUI.Forms;
 using RT2020.Controls;
-using RT2020.Helper;
 using System.Linq;
 using System.Data.Entity;
+
+using RT2020.Common.Helper;
+using RT2020.Common.ModelEx;
+
 #endregion
 
 namespace RT2020.Staff
@@ -194,7 +197,7 @@ namespace RT2020.Staff
         private void SetSmartTags()
         {
             string[] orderBy = new string[] { "Priority" };
-            var smartTagList = ModelEx.SmartTag4StaffEx.GetListOrderBy(orderBy, true);
+            var smartTagList = SmartTag4StaffEx.GetListOrderBy(orderBy, true);
 
             SmartTagHelper oTag = new SmartTagHelper(this);
             oTag.StaffSmartTagList = smartTagList;
@@ -212,8 +215,8 @@ namespace RT2020.Staff
             //FillSex();
             FillAssistants();
 
-            ModelEx.SmartTag4Staff_OptionsEx.FillSmartTagComboBox(ref cboSmartTag1, 1);
-            ModelEx.SmartTag4Staff_OptionsEx.FillSmartTagComboBox(ref cboSmartTag2, 2);
+            SmartTag4Staff_OptionsEx.FillSmartTagComboBox(ref cboSmartTag1, 1);
+            SmartTag4Staff_OptionsEx.FillSmartTagComboBox(ref cboSmartTag2, 2);
         }
         #endregion
 
@@ -224,7 +227,7 @@ namespace RT2020.Staff
             var pattern = "{0} - {1}";
             var orderBy = new string[] { "GradeCode" };
 
-            ModelEx.StaffGroupEx.LoadCombo(ref cmbStaffGrade, textFields, pattern, true, false, "", "", orderBy);
+            StaffGroupEx.LoadCombo(ref cmbStaffGrade, textFields, pattern, true, false, "", "", orderBy);
         }
         #endregion
 
@@ -235,7 +238,7 @@ namespace RT2020.Staff
             var pattern = "{0} - {1}";
             var orderBy = new string[] { "DeptCode" };
 
-            ModelEx.StaffDeptEx.LoadCombo(ref cboDeptCode, textFields, pattern, true, true, "", "", orderBy);
+            StaffDeptEx.LoadCombo(ref cboDeptCode, textFields, pattern, true, true, "", "", orderBy);
         }
         #endregion
 
@@ -246,7 +249,7 @@ namespace RT2020.Staff
             var pattern = "{0} - {1}";
             var orderBy = new string[] { "JobTitleCode" };
 
-            ModelEx.StaffJobTitleEx.LoadCombo(ref cboPosition, textFields, pattern, true, true, "", "", orderBy);
+            StaffJobTitleEx.LoadCombo(ref cboPosition, textFields, pattern, true, true, "", "", orderBy);
         }
         #endregion
 
@@ -269,10 +272,10 @@ namespace RT2020.Staff
             var sql = string.Format("StaffId NOT IN ('{0}') AND Status > 0", _StaffId.ToString());
             var orderBy = new string[] { "StaffNumber" };
 
-            ModelEx.StaffEx.LoadCombo(ref cboSmartTag5, textFields, pattern, true, true, string.Empty, sql, orderBy);
+            StaffEx.LoadCombo(ref cboSmartTag5, textFields, pattern, true, true, string.Empty, sql, orderBy);
             //if (cboSmartTag6.Items.Count > 0) cboSmartTag6.SelectedIndex = 0;
 
-            ModelEx.StaffEx.LoadCombo(ref cboSmartTag6, textFields, pattern, true, true, string.Empty, sql, orderBy);
+            StaffEx.LoadCombo(ref cboSmartTag6, textFields, pattern, true, true, string.Empty, sql, orderBy);
             //if (cboSmartTag7.Items.Count > 0) cboSmartTag7.SelectedIndex = 0;  
         }
 
@@ -315,7 +318,7 @@ namespace RT2020.Staff
                     txtPassword.Text = staff.Password;
                     txtCreationDate.Text = DateTimeHelper.DateTimeToString(staff.CreatedOn, false);
                     txtLastUpdate.Text = DateTimeHelper.DateTimeToString(staff.ModifiedOn, false);
-                    txtModified.Text = ModelEx.StaffEx.GetStaffNumberById(staff.ModifiedBy);
+                    txtModified.Text = StaffEx.GetStaffNumberById(staff.ModifiedBy);
                     txtStateOffice.Text = "";
                     txtStateCounter.Text = "";
                     cboPosition.SelectedValue = staff.JobTitleId.HasValue ? staff.JobTitleId.Value : Guid.Empty;
@@ -442,7 +445,7 @@ namespace RT2020.Staff
             {
                 if (Ctrl.Name.Contains("SmartTag") && !Ctrl.Name.StartsWith("lbl"))
                 {
-                    ModelEx.StaffSmartTagEx.LoadSmartTagValue(_StaffId, Ctrl);
+                    StaffSmartTagEx.LoadSmartTagValue(_StaffId, Ctrl);
                 }
             }
         }
@@ -459,7 +462,7 @@ namespace RT2020.Staff
                 {
                     tagId = (Guid)Ctrl.Tag;
 
-                    var oTag = ModelEx.StaffSmartTagEx.Get(staffId, tagId);
+                    var oTag = StaffSmartTagEx.Get(staffId, tagId);
                     if (oTag != null)
                     {
                         if (Ctrl.GetType().Equals(typeof(TextBox)))
@@ -603,7 +606,7 @@ namespace RT2020.Staff
                 {
                     if (Ctrl.Name.Contains("SmartTag") && !Ctrl.Name.StartsWith("lbl"))
                     {
-                        ModelEx.StaffSmartTagEx.SaveSmartTagValue(_StaffId, Ctrl);
+                        StaffSmartTagEx.SaveSmartTagValue(_StaffId, Ctrl);
                     }
                 }
                 #endregion

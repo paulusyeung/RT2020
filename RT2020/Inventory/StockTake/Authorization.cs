@@ -16,8 +16,8 @@ using Gizmox.WebGUI.Common.Resources;
 using System.Configuration;
 using System.Linq;
 using System.Data.Entity;
-using RT2020.Helper;
-using RT2020.ModelEx;
+using RT2020.Common.Helper;
+using RT2020.Common.ModelEx;
 
 #endregion
 
@@ -270,7 +270,7 @@ namespace RT2020.Inventory.StockTake
             if (Guid.TryParse(headerId, out id))
             {
                 
-                var oBatchHeader = ModelEx.StockTakeHeaderEx.Get(id);
+                var oBatchHeader = StockTakeHeaderEx.Get(id);
                 if (oBatchHeader != null)
                 {
                     if (!CheckTxDate(oBatchHeader.TxDate.Value))
@@ -307,13 +307,13 @@ namespace RT2020.Inventory.StockTake
                         isPostable = isPostable & false;
                     }
 
-                    var detailList = ModelEx.StockTakeDetailsEx.GetByHeaderIdr(oBatchHeader.HeaderId);
+                    var detailList = StockTakeDetailsEx.GetByHeaderIdr(oBatchHeader.HeaderId);
                     foreach (var detail in detailList)
                     {
                         bool retired = false;
                         string stk = string.Empty, a1 = string.Empty, a2 = string.Empty, a3 = string.Empty;
 
-                        var oProduct = ModelEx.ProductEx.Get(detail.ProductId.Value);
+                        var oProduct = ProductEx.Get(detail.ProductId.Value);
                         if (oProduct != null)
                         {
                             stk = oProduct.STKCODE;
@@ -345,7 +345,7 @@ namespace RT2020.Inventory.StockTake
                             decimal stkTtlQty = (detail.Book1Qty.Value + detail.Book2Qty.Value + detail.Book3Qty.Value + detail.Book4Qty.Value + detail.Book5Qty.Value + detail.HHTQty.Value) - detail.CapturedQty.Value;
 
                             //string sql = "ProductId = '" + detail.ProductId + "' AND WorkplaceId = '" + oBatchHeader.WorkplaceId.ToString() + "'";
-                            var pw = ModelEx.ProductWorkplaceEx.Get(detail.ProductId.Value, oBatchHeader.WorkplaceId.Value);
+                            var pw = ProductWorkplaceEx.Get(detail.ProductId.Value, oBatchHeader.WorkplaceId.Value);
                             if (pw != null)
                             {
                                 if ((pw.CDQTY + stkTtlQty) < 0)
@@ -439,8 +439,8 @@ namespace RT2020.Inventory.StockTake
                     Guid ledgerHeaderId = CreateLedgerHeader(txNumber_Ledger, oBatchHeader);
                     CreateLedgerDetails(
                         txNumber_Ledger, ledgerHeaderId, oBatchHeader.HeaderId,
-                        ModelEx.StaffEx.GetStaffNumberById(ConfigHelper.CurrentUserId),
-                        ModelEx.WorkplaceEx.GetWorkplaceCodeById(oBatchHeader.WorkplaceId.Value)
+                        StaffEx.GetStaffNumberById(ConfigHelper.CurrentUserId),
+                        WorkplaceEx.GetWorkplaceCodeById(oBatchHeader.WorkplaceId.Value)
                         );
 
                     oBatchHeader.ADJNUM = txNumber_Ledger;
@@ -516,7 +516,7 @@ namespace RT2020.Inventory.StockTake
                             {
                                 oLedgerDetail.BasicPrice = oItem.RetailPrice;
 
-                                var priceTypeId = ModelEx.ProductPriceTypeEx.GetIdByPriceType(ProductHelper.Prices.VPRC.ToString());
+                                var priceTypeId = ProductPriceTypeEx.GetIdByPriceType(ProductHelper.Prices.VPRC.ToString());
                                 var oPrice = ctx.ProductPrice
                                         .Where(x => x.ProductId == stkDetail.ProductId && x.PriceTypeId == priceTypeId)
                                         .AsNoTracking()

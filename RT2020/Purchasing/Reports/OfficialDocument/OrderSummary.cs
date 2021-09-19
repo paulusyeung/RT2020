@@ -18,8 +18,8 @@ namespace RT2020.Purchasing.Reports.OfficialDocument
     using System.Collections;
     using System.IO;
     using System.Configuration;
-    using Helper;
-    using ModelEx;
+    using RT2020.Common.Helper;
+    using RT2020.Common.ModelEx;
 
     /// <summary>
     /// OrderSummary class
@@ -56,7 +56,7 @@ namespace RT2020.Purchasing.Reports.OfficialDocument
         {
             string[] orderBy = { "SupplierCode" };
             string sql = " Retired = 0 ";
-            ModelEx.SupplierEx.LoadCombo(ref cboFrom, "SupplierCode", false, false, "", sql, orderBy);
+            SupplierEx.LoadCombo(ref cboFrom, "SupplierCode", false, false, "", sql, orderBy);
         }
 
         /// <summary>
@@ -66,7 +66,7 @@ namespace RT2020.Purchasing.Reports.OfficialDocument
         {
             string[] orderBy = { "SupplierCode" };
             string sql = " Retired = 0 ";
-            ModelEx.SupplierEx.LoadCombo(ref cboTo, "SupplierCode", false, false, "", sql, orderBy);
+            SupplierEx.LoadCombo(ref cboTo, "SupplierCode", false, false, "", sql, orderBy);
             cboTo.SelectedIndex = cboTo.Items.Count - 1;
         }
 

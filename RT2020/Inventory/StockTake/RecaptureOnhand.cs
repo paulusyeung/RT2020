@@ -12,7 +12,9 @@ using Gizmox.WebGUI.Forms;
 
 using System.Linq;
 using System.Data.Entity;
-using RT2020.Helper;
+
+using RT2020.Common.Helper;
+using RT2020.Common.ModelEx;
 
 #endregion
 
@@ -41,7 +43,7 @@ namespace RT2020.Inventory.StockTake
                     StringBuilder stk = new StringBuilder();
                     stk.Append(stkHeader.TxNumber);
                     stk.Append(" - ");
-                    stk.Append(ModelEx.WorkplaceEx.GetWorkplaceCodeById(stkHeader.WorkplaceId.Value));
+                    stk.Append(WorkplaceEx.GetWorkplaceCodeById(stkHeader.WorkplaceId.Value));
                     lbStockTakeList.Items.Add(stk.ToString());
                 }
             }
@@ -77,7 +79,7 @@ namespace RT2020.Inventory.StockTake
         {
             Guid stkHeaderId = Guid.Empty;
 
-            var stkHeader = ModelEx.StockTakeHeaderEx.GetByTxNumber(txNumber);
+            var stkHeader = StockTakeHeaderEx.GetByTxNumber(txNumber);
             if (stkHeader != null)
             {
                 stkHeaderId = stkHeader.HeaderId;

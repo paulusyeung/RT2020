@@ -18,8 +18,8 @@ namespace RT2020.Inventory.GoodsReceive
     using System.Configuration;
     using System.Linq;
     using System.Data.Entity;
-    using Helper;
-    using ModelEx;
+    using RT2020.Common.Helper;
+    using RT2020.Common.ModelEx;
 
     #endregion
 
@@ -340,7 +340,7 @@ namespace RT2020.Inventory.GoodsReceive
                             bool retired = false;
                             string stk = string.Empty, a1 = string.Empty, a2 = string.Empty, a3 = string.Empty;
 
-                            var oProduct = ModelEx.ProductEx.Get(detail.ProductId);
+                            var oProduct = ProductEx.Get(detail.ProductId);
                             if (oProduct != null)
                             {
                                 stk = oProduct.STKCODE;
@@ -368,7 +368,7 @@ namespace RT2020.Inventory.GoodsReceive
                             }
                         }
 
-                        var oStaff = ModelEx.StaffEx.GetByStaffId(oBatchHeader.StaffId);
+                        var oStaff = StaffEx.GetByStaffId(oBatchHeader.StaffId);
                         if (oStaff != null)
                         {
                             if (oStaff.Retired)
@@ -631,8 +631,8 @@ namespace RT2020.Inventory.GoodsReceive
                             //Guid subLedgerHeaderId = subLedgerHeaderId;
                             //Guid ledgerHeaderId = ledgerHeaderId;
                             DateTime txDate = oBatchHeader.TxDate.Value;
-                            string shop = ModelEx.WorkplaceEx.GetWorkplaceCodeById(oBatchHeader.WorkplaceId);
-                            string staffNumber = ModelEx.StaffEx.GetStaffNumberById(oBatchHeader.StaffId);
+                            string shop = WorkplaceEx.GetWorkplaceCodeById(oBatchHeader.WorkplaceId);
+                            string staffNumber = StaffEx.GetStaffNumberById(oBatchHeader.StaffId);
 
                             var oSubLedgerDetails = ctx.InvtSubLedgerCAP_Details
                             .Where(x => x.HeaderId == subLedgerHeaderId)    //sql, orderBy, true);
@@ -664,9 +664,9 @@ namespace RT2020.Inventory.GoodsReceive
                                 {
                                     oLedgerDetail.BasicPrice = oItem.RetailPrice;
                                     oLedgerDetail.Discount = oItem.NormalDiscount;
-                                    oLedgerDetail.AverageCost = ModelEx.ProductCurrentSummaryEx.GetAverageCode(oItem.ProductId);
+                                    oLedgerDetail.AverageCost = ProductCurrentSummaryEx.GetAverageCode(oItem.ProductId);
 
-                                    var priceTypeId = ModelEx.ProductPriceTypeEx.GetIdByPriceType(ProductHelper.Prices.VPRC.ToString());
+                                    var priceTypeId = ProductPriceTypeEx.GetIdByPriceType(ProductHelper.Prices.VPRC.ToString());
                                     //sql = "ProductId = '" + oSDetail.ProductId.ToString() + "' AND PriceTypeId = '" + priceTypeId.ToString() + "'";
 
                                     var oPrice = ctx.ProductPrice.Where(x => x.ProductId == oSDetail.ProductId && x.PriceTypeId == priceTypeId).FirstOrDefault();
@@ -990,7 +990,7 @@ namespace RT2020.Inventory.GoodsReceive
             if (txtTxNumber.Text.Trim().Length > 0)
             {
                 string sql = "TxNumber LIKE '%" + txtTxNumber.Text.Trim() + "%'";
-                var oHeader = ModelEx.InvtBatchCAP_HeaderEx.Get(sql);
+                var oHeader = InvtBatchCAP_HeaderEx.Get(sql);
                 if (oHeader != null)
                 {
                     EnumHelper.Status oStatus = (EnumHelper.Status)Enum.Parse(typeof(EnumHelper.Status), oHeader.Status.ToString());

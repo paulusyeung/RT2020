@@ -13,9 +13,11 @@ using Gizmox.WebGUI.Common.Resources;
 
 using System.Data.SqlClient;
 using System.Configuration;
-using RT2020.Helper;
 using System.Linq;
 using System.Data.Entity;
+
+using RT2020.Common.Helper;
+using RT2020.Common.ModelEx;
 
 #endregion
 
@@ -219,7 +221,7 @@ namespace RT2020.Settings
                     var objItem = this.lvZoneList.Items.Add(item.ZoneId.ToString());
                     objItem.SubItems.Add(iCount.ToString());
                     objItem.SubItems.Add(item.ParentZone.HasValue ?
-                        ModelEx.WorkplaceZoneEx.GetZoneNameById(item.ParentZone.Value) : "");
+                        WorkplaceZoneEx.GetZoneNameById(item.ParentZone.Value) : "");
                     objItem.SubItems.Add(item.ZoneCode);
                     objItem.SubItems.Add(item.ZoneName);
                     objItem.SubItems.Add(item.ZoneName_Chs);
@@ -240,14 +242,14 @@ namespace RT2020.Settings
 
         private void FillCurrencyList()
         {
-            ModelEx.CurrencyEx.LoadCombo(ref cboCurrency, "CurrencyCode", false);
+            CurrencyEx.LoadCombo(ref cboCurrency, "CurrencyCode", false);
         }
 
         private void FillParentLineList()
         {
             string sql = "ZoneId NOT IN ('" + this.ZoneId.ToString() + "')";
             string[] orderBy = new string[] { "ZoneCode" };
-            ModelEx.WorkplaceZoneEx.LoadCombo(ref cboParent, "ZoneCode", true, true, "", sql, orderBy);
+            WorkplaceZoneEx.LoadCombo(ref cboParent, "ZoneCode", true, true, "", sql, orderBy);
         }
         #endregion
 
@@ -268,7 +270,7 @@ namespace RT2020.Settings
 
             #region 新增，要 check ZoneCode 係咪 in use
             errorProvider.SetError(txtZoneCode, string.Empty);
-            if (ModelEx.WorkplaceZoneEx.IsZoneCodeInUse(txtZoneCode.Text.Trim()))
+            if (WorkplaceZoneEx.IsZoneCodeInUse(txtZoneCode.Text.Trim()))
             {
                 errorProvider.SetError(txtZoneCode, "Zone Code in use");
                 return false;

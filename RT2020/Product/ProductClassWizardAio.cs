@@ -13,10 +13,11 @@ using Gizmox.WebGUI.Common.Resources;
 
 using System.Data.SqlClient;
 using System.Configuration;
-using RT2020.Helper;
 using System.Linq;
 using System.Data.Entity;
-using static RT2020.Helper.EnumHelper;
+
+using RT2020.Common.Helper;
+using RT2020.Common.ModelEx;
 
 #endregion
 
@@ -391,7 +392,7 @@ namespace RT2020.Product
                 {
                     case ProductHelper.Classes.Class1:
                         #region ProductClass1
-                        if (ModelEx.ProductClass1Ex.IsClassCodeInUse(txtClassCode.Text.Trim()))
+                        if (ProductClass1Ex.IsClassCodeInUse(txtClassCode.Text.Trim()))
                         {
                             errorProvider.SetError(txtClassCode, "Class Code in use");
                             errorProvider.SetIconAlignment(txtClassCode, ErrorIconAlignment.TopLeft);
@@ -401,7 +402,7 @@ namespace RT2020.Product
                         #endregion
                     case ProductHelper.Classes.Class2:
                         #region ProductClass2
-                        if (ModelEx.ProductClass2Ex.IsClassCodeInUse(txtClassCode.Text.Trim()))
+                        if (ProductClass2Ex.IsClassCodeInUse(txtClassCode.Text.Trim()))
                         {
                             errorProvider.SetError(txtClassCode, "Class Code in use");
                             errorProvider.SetIconAlignment(txtClassCode, ErrorIconAlignment.TopLeft);
@@ -411,7 +412,7 @@ namespace RT2020.Product
                     #endregion
                     case ProductHelper.Classes.Class3:
                         #region ProductClass3
-                        if (ModelEx.ProductClass3Ex.IsClassCodeInUse(txtClassCode.Text.Trim()))
+                        if (ProductClass3Ex.IsClassCodeInUse(txtClassCode.Text.Trim()))
                         {
                             errorProvider.SetError(txtClassCode, "Class Code in use");
                             errorProvider.SetIconAlignment(txtClassCode, ErrorIconAlignment.TopLeft);
@@ -421,7 +422,7 @@ namespace RT2020.Product
                         #endregion
                     case ProductHelper.Classes.Class4:
                         #region ProductClass4
-                        if (ModelEx.ProductClass4Ex.IsClassCodeInUse(txtClassCode.Text.Trim()))
+                        if (ProductClass4Ex.IsClassCodeInUse(txtClassCode.Text.Trim()))
                         {
                             errorProvider.SetError(txtClassCode, "Class Code in use");
                             errorProvider.SetIconAlignment(txtClassCode, ErrorIconAlignment.TopLeft);
@@ -431,7 +432,7 @@ namespace RT2020.Product
                         #endregion
                     case ProductHelper.Classes.Class5:
                         #region ProductClass5
-                        if (ModelEx.ProductClass5Ex.IsClassCodeInUse(txtClassCode.Text.Trim()))
+                        if (ProductClass5Ex.IsClassCodeInUse(txtClassCode.Text.Trim()))
                         {
                             errorProvider.SetError(txtClassCode, "Class Code in use");
                             errorProvider.SetIconAlignment(txtClassCode, ErrorIconAlignment.TopLeft);
@@ -441,7 +442,7 @@ namespace RT2020.Product
                         #endregion
                     case ProductHelper.Classes.Class6:
                         #region ProductClass6
-                        if (ModelEx.ProductClass6Ex.IsClassCodeInUse(txtClassCode.Text.Trim()))
+                        if (ProductClass6Ex.IsClassCodeInUse(txtClassCode.Text.Trim()))
                         {
                             errorProvider.SetError(txtClassCode, "Class Code in use");
                             errorProvider.SetIconAlignment(txtClassCode, ErrorIconAlignment.TopLeft);
@@ -633,22 +634,22 @@ namespace RT2020.Product
             switch (_ClassType)
             {
                 case ProductHelper.Classes.Class1:
-                    result = ModelEx.ProductClass1Ex.Delete(_ClassId);
+                    result = ProductClass1Ex.Delete(_ClassId);
                     break;
                 case ProductHelper.Classes.Class2:
-                    result = ModelEx.ProductClass2Ex.Delete(_ClassId);
+                    result = ProductClass2Ex.Delete(_ClassId);
                     break;
                 case ProductHelper.Classes.Class3:
-                    result = ModelEx.ProductClass3Ex.Delete(_ClassId);
+                    result = ProductClass3Ex.Delete(_ClassId);
                     break;
                 case ProductHelper.Classes.Class4:
-                    result = ModelEx.ProductClass4Ex.Delete(_ClassId);
+                    result = ProductClass4Ex.Delete(_ClassId);
                     break;
                 case ProductHelper.Classes.Class5:
-                    result = ModelEx.ProductClass5Ex.Delete(_ClassId);
+                    result = ProductClass5Ex.Delete(_ClassId);
                     break;
                 case ProductHelper.Classes.Class6:
-                    result = ModelEx.ProductClass6Ex.Delete(_ClassId);
+                    result = ProductClass6Ex.Delete(_ClassId);
                     break;
             }
             MessageBox.Show(result ? "Record Removed" : "Can't Delete Record...", "Delete Result");

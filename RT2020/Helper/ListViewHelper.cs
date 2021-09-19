@@ -9,7 +9,7 @@ using Newtonsoft.Json;
 using System.Dynamic;
 using System.Xml.Linq;
 
-namespace RT2020.Helper
+namespace RT2020.Common.Helper
 {
     public class ListViewHelper
     {

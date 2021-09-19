@@ -16,7 +16,9 @@ namespace RT2020.Purchasing.Wizard
 
     
     using System.Linq;
-    using Helper;
+
+    using RT2020.Common.Helper;
+    using RT2020.Common.ModelEx;
 
     /// <summary>
     /// Documentation for the second part of ByMultipleLocation.
@@ -532,7 +534,7 @@ namespace RT2020.Purchasing.Wizard
         /// </summary>
         private void FillSupplierList()
         {
-            ModelEx.SupplierEx.LoadCombo(ref this.cboSupplierCode, "SupplierCode", false);
+            SupplierEx.LoadCombo(ref this.cboSupplierCode, "SupplierCode", false);
         }
 
         /// <summary>
@@ -540,7 +542,7 @@ namespace RT2020.Purchasing.Wizard
         /// </summary>
         private void FillOperationList()
         {
-            ModelEx.StaffEx.LoadCombo(ref this.cboOperatorCode, "StaffNumber", false);
+            StaffEx.LoadCombo(ref this.cboOperatorCode, "StaffNumber", false);
         }
 
         /// <summary>
@@ -548,7 +550,7 @@ namespace RT2020.Purchasing.Wizard
         /// </summary>
         private void FillCurrencyList()
         {
-            ModelEx.CurrencyEx.LoadCombo(ref this.cboCurrency, "CurrencyCode", false);
+            CurrencyEx.LoadCombo(ref this.cboCurrency, "CurrencyCode", false);
         }
         #endregion
 
@@ -568,7 +570,7 @@ namespace RT2020.Purchasing.Wizard
 
                     if (this.OrderHeaderId != System.Guid.Empty)
                     {
-                        SystemInfoHelper.Settings.RefreshMainList<DefaultPOList>();
+                        Helper.DesktopHelper.RefreshMainList<DefaultPOList>();
                         MessageBox.Show("Success!", "Save Result");
 
                         this.Close();
@@ -598,7 +600,7 @@ namespace RT2020.Purchasing.Wizard
 
                     if (this.OrderHeaderId != System.Guid.Empty)
                     {
-                        SystemInfoHelper.Settings.RefreshMainList<DefaultPOList>();
+                        Helper.DesktopHelper.RefreshMainList<DefaultPOList>();
                         this.Close();
                         ByMultipleLocation objLocation = new ByMultipleLocation();
                         objLocation.ShowDialog();
@@ -626,7 +628,7 @@ namespace RT2020.Purchasing.Wizard
 
                     if (this.OrderHeaderId != System.Guid.Empty)
                     {
-                        SystemInfoHelper.Settings.RefreshMainList<DefaultPOList>();
+                        Helper.DesktopHelper.RefreshMainList<DefaultPOList>();
                         this.Close();
                     }
                 }
@@ -761,7 +763,7 @@ namespace RT2020.Purchasing.Wizard
                                     {
                                         //System.Guid detailId = RT2020.Purchasing.PurchasingUtils.Convert.ToGuid(listItem.Text.Trim());
                                         var objDetail = ctx.PurchaseOrderDetails.Find(detailId);
-                                        var wpCode = ModelEx.WorkplaceEx.GetWorkplaceCodeById(objHeader.WorkplaceId.Value);
+                                        var wpCode = WorkplaceEx.GetWorkplaceCodeById(objHeader.WorkplaceId.Value);
                                         if (objDetail == null)
                                         {
                                             objDetail = new EF6.PurchaseOrderDetails();
@@ -836,7 +838,7 @@ namespace RT2020.Purchasing.Wizard
                             {
                                 //System.Guid detailId = RT2020.Purchasing.PurchasingUtils.Convert.ToGuid(listItem.Text.Trim());
                                 var objDetail = ctx.PurchaseOrderDetails.Find(detailId);
-                                var wpCode = ModelEx.WorkplaceEx.GetWorkplaceCodeById(header.WorkplaceId.Value);
+                                var wpCode = WorkplaceEx.GetWorkplaceCodeById(header.WorkplaceId.Value);
                                 if (objDetail == null)
                                 {
                                     objDetail = new EF6.PurchaseOrderDetails();
@@ -1063,7 +1065,7 @@ namespace RT2020.Purchasing.Wizard
             {
                 var productId = RT2020.Purchasing.PurchasingUtils.Convert.ToGuid(this.basicProduct.SelectedItem.ToString());
                 //RT2020.DAL.Product objProd = RT2020.DAL.Product.Load(RT2020.Purchasing.PurchasingUtils.Convert.ToGuid(this.basicProduct.SelectedItem.ToString()));
-                var objProd = ModelEx.ProductEx.Get(productId);
+                var objProd = ProductEx.Get(productId);
                 if (objProd != null)
                 {
                     stkCode = objProd.STKCODE;

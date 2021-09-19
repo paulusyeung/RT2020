@@ -16,8 +16,8 @@ namespace RT2020.Purchasing.Reports.OfficialDocument
     using Gizmox.WebGUI.Common.Interfaces;
     using Gizmox.WebGUI.Forms;
 
-    
-    using Helper;
+    using RT2020.Common.Helper;
+    using RT2020.Common.ModelEx;
 
     /// <summary>
     /// PrintableOrders class
@@ -53,7 +53,7 @@ namespace RT2020.Purchasing.Reports.OfficialDocument
             string[] orderBy = { "OrderNumber" };
             string sql = " Retired = 0 ";
 
-            ModelEx.PurchaseOrderHeaderEx.LoadCombo(ref cboFrom, "OrderNumber", false, true, "", sql, orderBy);
+            PurchaseOrderHeaderEx.LoadCombo(ref cboFrom, "OrderNumber", false, true, "", sql, orderBy);
             if (cboFrom.Items.Count == 1)
             {
                 //cboFrom.Text = "** No Record **";
@@ -73,7 +73,7 @@ namespace RT2020.Purchasing.Reports.OfficialDocument
             string[] orderBy = { "OrderNumber" };
             string sql = " Retired = 0 ";
 
-            ModelEx.PurchaseOrderHeaderEx.LoadCombo(ref cboTo, "OrderNumber", false, true, "", sql, orderBy);
+            PurchaseOrderHeaderEx.LoadCombo(ref cboTo, "OrderNumber", false, true, "", sql, orderBy);
             if (cboTo.Items.Count > 1)
             {
                 cboTo.SelectedIndex = cboTo.Items.Count - 1;

@@ -15,7 +15,9 @@ using System.Data.SqlClient;
 using System.Configuration;
 using System.Linq;
 using System.Data.Entity;
-using RT2020.Helper;
+
+using RT2020.Common.Helper;
+using RT2020.Common.ModelEx;
 
 #endregion
 
@@ -234,7 +236,7 @@ namespace RT2020.Settings
 
             #region 新增，要 check CountryCode 係咪 in use
             errorProvider.SetError(txtCountryCode, string.Empty);
-            if (this.CountryId == System.Guid.Empty && ModelEx.ProvinceEx.IsProvinceCodeInUse(txtCountryCode.Text.Trim()))
+            if (this.CountryId == System.Guid.Empty && ProvinceEx.IsProvinceCodeInUse(txtCountryCode.Text.Trim()))
             {
                 errorProvider.SetError(txtCountryCode, "Country Code in use");
                 return false;

@@ -10,6 +10,7 @@ using System.Text;
 using Gizmox.WebGUI.Common;
 using Gizmox.WebGUI.Forms;
 
+using RT2020.Common.ModelEx;
 
 #endregion
 
@@ -58,7 +59,7 @@ namespace RT2020.EmulatedPoS
 
             if (sqlWhere.Length > 0)
             {
-                this.MemberId = ModelEx.MemberEx.GetIdBySql(sqlWhere.ToString());
+                this.MemberId = MemberEx.GetIdBySql(sqlWhere.ToString());
                 /**
                 RT2020.DAL.Member oMember = RT2020.DAL.Member.LoadWhere(sqlWhere.ToString());
                 if (oMember != null)

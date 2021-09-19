@@ -13,9 +13,11 @@ using Gizmox.WebGUI.Common.Resources;
 
 using System.Data.SqlClient;
 using System.Configuration;
-using RT2020.Helper;
 using System.Linq;
 using System.Data.Entity;
+
+using RT2020.Common.Helper;
+using RT2020.Common.ModelEx;
 
 #endregion
 
@@ -223,7 +225,7 @@ namespace RT2020.Settings
             var fields = new string[] { "CountryCode", "CountryName" };
             var pattern = "{0} - {1}";
             var orderby = new string[] { "CountryCode" };
-            ModelEx.CountryEx.LoadCombo(ref cboCountryName, fields, pattern, true, true, "", "", orderby);
+            CountryEx.LoadCombo(ref cboCountryName, fields, pattern, true, true, "", "", orderby);
         }
         #endregion
 
@@ -277,7 +279,7 @@ namespace RT2020.Settings
             #region 新增，要 check CountryCode 係咪 in use
             if (_CurrencyId == Guid.Empty)
             {
-                if (ModelEx.CurrencyEx.IsCurrencyCodeInUse(txtCurrencyCode.Text.Trim()))
+                if (CurrencyEx.IsCurrencyCodeInUse(txtCurrencyCode.Text.Trim()))
                 {
                     errorProvider.SetError(txtCurrencyCode, "Currency Code in use");
                     errorProvider.SetIconAlignment(txtCurrencyCode, ErrorIconAlignment.TopLeft);
@@ -321,7 +323,7 @@ namespace RT2020.Settings
 
                     ctx.Currency.Add(currency);
                 }
-                currency.CountryName = (Guid)cboCountryName.SelectedValue != Guid.Empty ? ModelEx.CountryEx.GetCountryCode((Guid)cboCountryName.SelectedValue) : "";
+                currency.CountryName = (Guid)cboCountryName.SelectedValue != Guid.Empty ? CountryEx.GetCountryCode((Guid)cboCountryName.SelectedValue) : "";
                 currency.CurrencyName = txtCurrencyName.Text;
                 currency.UnicodeDecimal = Convert.ToInt32((txtUnicodeDecimal.Text == string.Empty) ? "0" : txtUnicodeDecimal.Text);
                 currency.ExchangeRate = Convert.ToDecimal((txtExchangeRate.Text == string.Empty) ? "0" : txtExchangeRate.Text);
@@ -343,7 +345,7 @@ namespace RT2020.Settings
                 var currency = ctx.Currency.Find(_CurrencyId);
                 if (currency != null)
                 {
-                    var countryId = ModelEx.CountryEx.GetCountryIdByCode(currency.CountryName);
+                    var countryId = CountryEx.GetCountryIdByCode(currency.CountryName);
 
                     txtCurrencyCode.Text = currency.CurrencyCode;
                     txtCurrencyName.Text = currency.CurrencyName;

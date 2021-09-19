@@ -15,8 +15,8 @@ using Gizmox.WebGUI.Common.Interfaces;
 using System.Web;
 using System.Data.Common;
 using System.Configuration;
-using RT2020.Helper;
-using RT2020.ModelEx;
+using RT2020.Common.Helper;
+using RT2020.Common.ModelEx;
 
 #endregion
 
@@ -33,8 +33,8 @@ namespace RT2020.Workplace.Reports
         #region FillComboBox
         private void FillComboBox()
         {
-            ModelEx.WorkplaceEx.LoadCombo(ref cmbFrom, "WorkplaceCode", false);
-            ModelEx.WorkplaceEx.LoadCombo(ref cmbTo, "WorkplaceCode", false);
+            WorkplaceEx.LoadCombo(ref cmbFrom, "WorkplaceCode", false);
+            WorkplaceEx.LoadCombo(ref cmbTo, "WorkplaceCode", false);
             cmbTo.SelectedIndex = cmbTo.Items.Count - 1;
         }
 

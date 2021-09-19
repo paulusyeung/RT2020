@@ -19,8 +19,8 @@ namespace RT2020.Purchasing.Reports.Receiving
 
     using System.Linq;
     using System.Data.Entity;
-    using Helper;
-    using ModelEx;
+    using RT2020.Common.Helper;
+    using RT2020.Common.ModelEx;
 
     /// <summary>
     /// Discrepancy class
@@ -119,7 +119,7 @@ namespace RT2020.Purchasing.Reports.Receiving
 
             string[] orderBy = { "WorkplaceCode" };
             string sql = " Retired = 0";
-            ModelEx.WorkplaceEx.LoadCombo(ref cboLocFrom, "WorkplaceCode", false, false, "", sql, orderBy);
+            WorkplaceEx.LoadCombo(ref cboLocFrom, "WorkplaceCode", false, false, "", sql, orderBy);
         }
 
         /// <summary>
@@ -129,7 +129,7 @@ namespace RT2020.Purchasing.Reports.Receiving
         {
             string[] orderBy = { "WorkplaceCode" };
             string sql = " Retired = 0";
-            ModelEx.WorkplaceEx.LoadCombo(ref cboLocTo, "WorkplaceCode", false, false, "", sql, orderBy);
+            WorkplaceEx.LoadCombo(ref cboLocTo, "WorkplaceCode", false, false, "", sql, orderBy);
             cboLocTo.SelectedIndex = cboLocTo.Items.Count - 1;
         }
 

@@ -13,7 +13,7 @@ using Gizmox.WebGUI.Forms;
 using RT2020.Product;
 
 using RT2020.Inventory;
-using RT2020.Helper;
+using RT2020.Common.Helper;
 
 #endregion
 

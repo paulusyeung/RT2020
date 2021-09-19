@@ -6,8 +6,8 @@ using System.Data.SqlClient;
 using System.Configuration;
 
 using RT2020.Controls;
-using RT2020.Helper;
-using RT2020.ModelEx;
+using RT2020.Common.Helper;
+using RT2020.Common.ModelEx;
 
 namespace RT2020.Settings.MonthEndProcess
 {
@@ -168,7 +168,7 @@ namespace RT2020.Settings.MonthEndProcess
                 objDetail.TxType = EnumHelper.TxType.ADJ.ToString();
                 objDetail.ProductId = productId;
                 objDetail.Qty = Math.Abs(cdQty) * (-1);
-                objDetail.AverageCost = ModelEx.ProductCurrentSummaryEx.GetAverageCode(productId);
+                objDetail.AverageCost = ProductCurrentSummaryEx.GetAverageCode(productId);
                 objDetail.ReasonCode = string.Empty;
                 objDetail.Remarks = string.Empty;
 
@@ -277,9 +277,9 @@ namespace RT2020.Settings.MonthEndProcess
                             objDetail.TxNumber = detail.TxNumber;
                             objDetail.LineNumber = 0;
                             objDetail.ProductId = detail.ProductId;
-                            objDetail.SHOP = ModelEx.WorkplaceEx.GetWorkplaceCodeById(workplaceId);
+                            objDetail.SHOP = WorkplaceEx.GetWorkplaceCodeById(workplaceId);
                             objDetail.TxDate = txDate;
-                            objDetail.OPERATOR = ModelEx.StaffEx.GetStaffNumberById(ConfigHelper.CurrentUserId);
+                            objDetail.OPERATOR = StaffEx.GetStaffNumberById(ConfigHelper.CurrentUserId);
                             objDetail.Qty = detail.Qty;
                             objDetail.AverageCost = detail.AverageCost;
                             objDetail.UnitAmount = detail.AverageCost;

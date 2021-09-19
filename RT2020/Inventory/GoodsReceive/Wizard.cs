@@ -15,8 +15,8 @@ using Gizmox.WebGUI.Common.Interfaces;
 
 using RT2020.Controls;
 using System.Linq;
-using RT2020.Helper;
-using RT2020.ModelEx;
+using RT2020.Common.Helper;
+using RT2020.Common.ModelEx;
 
 namespace RT2020.Inventory.GoodsReceive
 {
@@ -425,7 +425,7 @@ namespace RT2020.Inventory.GoodsReceive
                 { "FromTxDate", this.dtpRecvDate.Value.ToString(DateTimeHelper.GetDateFormat()) },
                 { "ToTxDate", this.dtpRecvDate.Value.ToString(DateTimeHelper.GetDateFormat()) },
                 { "PrintedOn", DateTime.Now.ToString(DateTimeHelper.GetDateTimeFormat()) },
-                { "PrintedBy", ModelEx.StaffEx.GetStaffNameById(ConfigHelper.CurrentUserId) },
+                { "PrintedBy", StaffEx.GetStaffNameById(ConfigHelper.CurrentUserId) },
                 { "StockCode", SystemInfoHelper.Settings.GetSystemLabelByKey("STKCODE") },
                 { "Appendix1", SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX1") },
                 { "Appendix2", SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX2") },
@@ -457,24 +457,24 @@ namespace RT2020.Inventory.GoodsReceive
 
         private void FillLocationList()
         {
-            ModelEx.WorkplaceEx.LoadCombo(ref cboWorkplace, "WorkplaceCode", false);
+            WorkplaceEx.LoadCombo(ref cboWorkplace, "WorkplaceCode", false);
         }
 
         private void FillStaffList()
         {
-            ModelEx.StaffEx.LoadCombo(ref cboOperatorCode, "StaffNumber", false);
+            StaffEx.LoadCombo(ref cboOperatorCode, "StaffNumber", false);
 
             cboOperatorCode.SelectedValue = ConfigHelper.CurrentUserId;
         }
 
         private void FillSupplierList()
         {
-            ModelEx.SupplierEx.LoadCombo(ref cboSupplierList, "SupplierCode", false);
+            SupplierEx.LoadCombo(ref cboSupplierList, "SupplierCode", false);
         }
 
         private void FillCurrencyList()
         {
-            ModelEx.CurrencyEx.LoadCombo(ref cboCurrency, "CurrencyCode", false);
+            CurrencyEx.LoadCombo(ref cboCurrency, "CurrencyCode", false);
 
             if (cboCurrency.Items.Count > 0)
             {
@@ -655,7 +655,7 @@ namespace RT2020.Inventory.GoodsReceive
         #region Load CAP Header Info
         private void LoadCAPInfo()
         {
-            var oHeader = ModelEx.InvtBatchCAP_HeaderEx.Get(this.CAPId);
+            var oHeader = InvtBatchCAP_HeaderEx.Get(this.CAPId);
             if (oHeader != null)
             {
                 txtTxNumber.Text = oHeader.TxNumber;
@@ -677,13 +677,13 @@ namespace RT2020.Inventory.GoodsReceive
                 InitCurrency(oHeader.CurrencyCode);
 
                 txtLastUpdateOn.Text = DateTimeHelper.DateTimeToString(oHeader.ModifiedOn, false);
-                txtLastUpdateBy.Text = ModelEx.StaffEx.GetStaffNumberById(oHeader.ModifiedBy);
+                txtLastUpdateBy.Text = StaffEx.GetStaffNumberById(oHeader.ModifiedBy);
 
                 txtAmendmentRetrict.Text = oHeader.ReadOnly ? "Y" : "N";
                 chkAPLink.Checked = oHeader.LinkToAP;
 
-                txtTotalQty.Text = ModelEx.InvtBatchCAP_DetailsEx.GetTotalQty(this.CAPId).ToString("n0");
-                txtTotalAmount.Text = ModelEx.InvtBatchCAP_DetailsEx.GetTotalAmount(this.CAPId).ToString("n2");
+                txtTotalQty.Text = InvtBatchCAP_DetailsEx.GetTotalQty(this.CAPId).ToString("n0");
+                txtTotalAmount.Text = InvtBatchCAP_DetailsEx.GetTotalAmount(this.CAPId).ToString("n2");
 
                 this.Text += oHeader.ReadOnly ? " (ReadOnly)" : "";
 
@@ -762,7 +762,7 @@ namespace RT2020.Inventory.GoodsReceive
                 {
                     if (Save())
                     {
-                        SystemInfoHelper.Settings.RefreshMainList<Default>();
+                        Helper.DesktopHelper.RefreshMainList<Default>();
                         MessageBox.Show(Utility.Dictionary.GetWord("Success"), Utility.Dictionary.GetWord("Save") + " " + Utility.Dictionary.GetWord("Result"));
 
                         this.Close();
@@ -785,7 +785,7 @@ namespace RT2020.Inventory.GoodsReceive
                 {
                     if (Save())
                     {
-                        SystemInfoHelper.Settings.RefreshMainList<Default>();
+                        Helper.DesktopHelper.RefreshMainList<Default>();
                         this.Close();
                         RT2020.Inventory.GoodsReceive.Wizard wizard = new RT2020.Inventory.GoodsReceive.Wizard();
                         wizard.ShowDialog();
@@ -806,7 +806,7 @@ namespace RT2020.Inventory.GoodsReceive
                 {
                     if (Save())
                     {
-                        SystemInfoHelper.Settings.RefreshMainList<Default>();
+                        Helper.DesktopHelper.RefreshMainList<Default>();
                         this.Close();
                     }
                 }
@@ -821,7 +821,7 @@ namespace RT2020.Inventory.GoodsReceive
         {
             if (((Form)sender).DialogResult == DialogResult.Yes)
             {
-                ModelEx.InvtBatchCAP_HeaderEx.DeleteChildToo(this.CAPId);   // Delete();
+                InvtBatchCAP_HeaderEx.DeleteChildToo(this.CAPId);   // Delete();
 
                 this.Close();
             }
@@ -974,7 +974,7 @@ namespace RT2020.Inventory.GoodsReceive
 
         private void SetStockCode(Guid productId)
         {
-            var oProd = ModelEx.ProductEx.Get(productId);
+            var oProd = ProductEx.Get(productId);
             if (oProd != null)
             {
                 if (rbtnBarcode.Checked)
@@ -1069,8 +1069,8 @@ namespace RT2020.Inventory.GoodsReceive
                 //ProductBarcode oBarcode = ProductBarcode.LoadWhere(sql);
                 //if (oBarcode != null)
                 //{
-                    var productId = ModelEx.ProductBarcodeEx.GetProductIdByBarcode(txtBarcode.Text);
-                    var oProd = ModelEx.ProductEx.Get(productId);
+                    var productId = ProductBarcodeEx.GetProductIdByBarcode(txtBarcode.Text);
+                    var oProd = ProductEx.Get(productId);
                     if (oProd != null)
                     {
                         stkCode = oProd.STKCODE;
@@ -1084,7 +1084,7 @@ namespace RT2020.Inventory.GoodsReceive
             }
             if (rbtnStockCode_1.Checked)
             {
-                var oProd = ModelEx.ProductEx.Get(this.ProductId);
+                var oProd = ProductEx.Get(this.ProductId);
                 if (oProd != null)
                 {
                     stkCode = oProd.STKCODE;
@@ -1099,7 +1099,7 @@ namespace RT2020.Inventory.GoodsReceive
             {
                 if (basicProduct.SelectedItem != null)
                 {
-                    var oProd = ModelEx.ProductEx.Get(new Guid(basicProduct.SelectedItem.ToString()));
+                    var oProd = ProductEx.Get(new Guid(basicProduct.SelectedItem.ToString()));
                     if (oProd != null)
                     {
                         stkCode = oProd.STKCODE;
@@ -1185,7 +1185,7 @@ namespace RT2020.Inventory.GoodsReceive
             decimal xchgrate = 0;
             decimal.TryParse(txtCoefficient.Text.Trim(), out xchgrate);
 
-            var oSummary = ModelEx.ProductCurrentSummaryEx.GetByProductCode(productId);
+            var oSummary = ProductCurrentSummaryEx.GetByProductCode(productId);
             if (oSummary != null)
             {
                 txtLastCost_1.Text = oSummary.LastCost.ToString("n2");
@@ -1218,10 +1218,10 @@ namespace RT2020.Inventory.GoodsReceive
         private void txtBarcode_TextChanged(object sender, EventArgs e)
         {
             //string sql = "Barcode = '" + txtBarcode.Text + "'";
-            var productId = ModelEx.ProductBarcodeEx.GetProductIdByBarcode(txtBarcode.Text);
+            var productId = ProductBarcodeEx.GetProductIdByBarcode(txtBarcode.Text);
             if (productId != Guid.Empty)
             {
-                var oProd = ModelEx.ProductEx.Get(productId);
+                var oProd = ProductEx.Get(productId);
                 if (oProd != null)
                 {
                     txtDescription.Text = oProd.ProductName;
@@ -1349,7 +1349,7 @@ namespace RT2020.Inventory.GoodsReceive
         private bool FindProduct(string whereClause)
         {
             //RT2020.DAL.ProductCollection oProdList = RT2020.DAL.Product.LoadCollection(whereClause);
-            if (ModelEx.ProductEx.Count(whereClause) > 0)
+            if (ProductEx.Count(whereClause) > 0)
             {
                 return true;
             }
@@ -1363,7 +1363,7 @@ namespace RT2020.Inventory.GoodsReceive
         {
             if (whereClause.Length > 0)
             {
-                var oProd = ModelEx.ProductEx.Get(whereClause);
+                var oProd = ProductEx.Get(whereClause);
                 if (oProd != null)
                 {
                     if (rbtnStockCode_1.Checked)
@@ -1418,7 +1418,7 @@ namespace RT2020.Inventory.GoodsReceive
         {
             foreach (RT2020.Controls.ProductSearcher.DetailData detail in resultList)
             {
-                var oProduct = ModelEx.ProductEx.Get(detail.ProductId);
+                var oProduct = ProductEx.Get(detail.ProductId);
                 if (oProduct != null)
                 {
                     string stkCode = oProduct.STKCODE;

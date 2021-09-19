@@ -13,9 +13,11 @@ using Gizmox.WebGUI.Common.Resources;
 
 using System.Data.SqlClient;
 using System.Configuration;
-using RT2020.Helper;
 using System.Linq;
 using System.Data.Entity;
+
+using RT2020.Common.Helper;
+using RT2020.Common.ModelEx;
 
 #endregion
 
@@ -261,7 +263,7 @@ namespace RT2020.Settings
             errorProvider.SetError(txtPhoneCode, string.Empty);
             if (_PhoneId == Guid.Empty)
             {
-                if (ModelEx.PhoneTagEx.IsPhoneTagCodeInUse(txtPhoneCode.Text.Trim()))
+                if (PhoneTagEx.IsPhoneTagCodeInUse(txtPhoneCode.Text.Trim()))
                 {
                     errorProvider.SetError(txtPhoneCode, "Tag Code in use");
                     errorProvider.SetIconAlignment(txtPhoneCode, ErrorIconAlignment.TopLeft);

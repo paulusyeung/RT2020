@@ -19,8 +19,8 @@ namespace RT2020.Purchasing.Reports.Receiving
 
     using System.Linq;
     using System.Data.Entity;
-    using Helper;
-    using ModelEx;
+    using RT2020.Common.Helper;
+    using RT2020.Common.ModelEx;
 
     /// <summary>
     /// Receiving History

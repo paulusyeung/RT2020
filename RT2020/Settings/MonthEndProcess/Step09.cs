@@ -7,7 +7,7 @@ using System.Data;
 using System.Configuration;
 
 using RT2020.Controls;
-using RT2020.Helper;
+using RT2020.Common.Helper;
 
 namespace RT2020.Settings.MonthEndProcess
 {

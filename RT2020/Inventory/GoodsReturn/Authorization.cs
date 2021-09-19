@@ -16,10 +16,11 @@ namespace RT2020.Inventory.GoodsReturn
 
     using Gizmox.WebGUI.Common.Resources;
     using System.Configuration;
-    using Helper;
     using System.Linq;
     using System.Data.Entity;
-    using ModelEx;
+
+    using RT2020.Common.Helper;
+    using RT2020.Common.ModelEx;
 
     #endregion
 
@@ -316,7 +317,7 @@ namespace RT2020.Inventory.GoodsReturn
                             isPostable = isPostable & false;
                         }
 
-                        var wp = ModelEx.WorkplaceEx.GetWorkplaceById(oBatchHeader.WorkplaceId);
+                        var wp = WorkplaceEx.GetWorkplaceById(oBatchHeader.WorkplaceId);
                         if (wp != null)
                         {
                             if (wp.Retired)
@@ -328,7 +329,7 @@ namespace RT2020.Inventory.GoodsReturn
                             }
                         }
 
-                        var staff = ModelEx.StaffEx.GetByStaffId(oBatchHeader.StaffId);
+                        var staff = StaffEx.GetByStaffId(oBatchHeader.StaffId);
                         if (staff != null)
                         {
                             if (staff.Retired)
@@ -354,7 +355,7 @@ namespace RT2020.Inventory.GoodsReturn
                             bool retired = false;
                             string stk = string.Empty, a1 = string.Empty, a2 = string.Empty, a3 = string.Empty;
 
-                            var oProduct = ModelEx.ProductEx.Get(detail.ProductId);
+                            var oProduct = ProductEx.Get(detail.ProductId);
                             if (oProduct != null)
                             {
                                 stk = oProduct.STKCODE;
@@ -637,8 +638,8 @@ namespace RT2020.Inventory.GoodsReturn
                             #region CreateLedgerDetails(txNumber_Ledger, subLedgerHeaderId, ledgerHeaderId, oBatchHeader.TxDate, ModelEx.WorkplaceEx.GetWorkplaceCodeById(oBatchHeader.WorkplaceId), ModelEx.StaffEx.GetStaffCodeById(oBatchHeader.StaffId));
                             txnumber = txNumber_Ledger;
                             DateTime txDate = oBatchHeader.TxDate.Value;
-                            string shop = ModelEx.WorkplaceEx.GetWorkplaceCodeById(oBatchHeader.WorkplaceId);
-                            string staffNumber = ModelEx.StaffEx.GetStaffCodeById(oBatchHeader.StaffId);
+                            string shop = WorkplaceEx.GetWorkplaceCodeById(oBatchHeader.WorkplaceId);
+                            string staffNumber = StaffEx.GetStaffCodeById(oBatchHeader.StaffId);
 
                             //string sql = "HeaderId = '" + subledgerHeaderId.ToString() + "'";
                             //string[] orderBy = new string[] { "LineNumber" };
@@ -676,7 +677,7 @@ namespace RT2020.Inventory.GoodsReturn
                                         oLedgerDetail.AverageCost = summary.AverageCost;
                                     }
 
-                                    var priceTypeId = ModelEx.ProductPriceTypeEx.GetIdByPriceType(ProductHelper.Prices.VPRC.ToString());
+                                    var priceTypeId = ProductPriceTypeEx.GetIdByPriceType(ProductHelper.Prices.VPRC.ToString());
 
                                     //sql += " AND PriceTypeId = '" + priceTypeId.ToString() + "'";
                                     var oPrice = ctx.ProductPrice.Where(x => x.ProductId == oSDetail.ProductId && x.PriceTypeId == priceTypeId).FirstOrDefault();
@@ -989,7 +990,7 @@ namespace RT2020.Inventory.GoodsReturn
             if (txtTxNumber.Text.Trim().Length > 0)
             {
                 string sql = "TxNumber LIKE '%" + txtTxNumber.Text.Trim() + "%'";
-                var oHeader = ModelEx.InvtBatchCAP_HeaderEx.Get(sql);
+                var oHeader = InvtBatchCAP_HeaderEx.Get(sql);
                 if (oHeader != null)
                 {
                     EnumHelper.Status oStatus = (EnumHelper.Status)Enum.Parse(typeof(EnumHelper.Status), oHeader.Status.ToString());

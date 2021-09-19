@@ -12,8 +12,10 @@ using Gizmox.WebGUI.Forms;
 using Gizmox.WebGUI.Common.Resources;
 
 using Westwind.Globalization;
-using RT2020.Helper;
 using System.Linq;
+
+using RT2020.Common.Helper;
+using RT2020.Common.ModelEx;
 
 #endregion
 
@@ -208,7 +210,7 @@ namespace RT2020.Product
             string sql = "ParentCode IS NULL OR ParentCode = '" + System.Guid.Empty.ToString() + "'";
             string[] orderBy = new string[] { "AnalysisCode" };
 
-            ModelEx.PosAnalysisCodeEx.LoadCombo(ref cboParentAnalysisCode, "AnalysisCode", false, true, "", sql, orderBy);
+            PosAnalysisCodeEx.LoadCombo(ref cboParentAnalysisCode, "AnalysisCode", false, true, "", sql, orderBy);
         }
 
         private void VerifyFixedAnalysisCode()
@@ -265,7 +267,7 @@ namespace RT2020.Product
 
             //string sql = "AnalysisCode = '" + txtCode.Text + "'";
             //PosAnalysisCode oAnalysisCode = PosAnalysisCode.LoadWhere(sql);
-            if (ModelEx.PosAnalysisCodeEx.IsAnalysisCodeInUse(txtCode.Text))
+            if (PosAnalysisCodeEx.IsAnalysisCodeInUse(txtCode.Text))
             {
                 result = false;
                 errorProvider.SetError(txtCode, "Duplicated Analysis Code!");
@@ -313,7 +315,7 @@ namespace RT2020.Product
                 // log activity (New Record)
                 RT2020.Controls.Log4net.LogInfo(RT2020.Controls.Log4net.LogAction.Create, item.ToString());
 
-                SystemInfoHelper.Settings.RefreshMainList<AnalysisCodeList>();
+                Helper.DesktopHelper.RefreshMainList<AnalysisCodeList>();
             }
         }
         #endregion
@@ -321,7 +323,7 @@ namespace RT2020.Product
         #region Load
         private void LoadAnalysisCode()
         {
-            var item = ModelEx.PosAnalysisCodeEx.Get(this.AnalysisCodeId);
+            var item = PosAnalysisCodeEx.Get(this.AnalysisCodeId);
             if (item != null)
             {
                 txtCode.Text = item.AnalysisCode;

@@ -11,8 +11,8 @@ using System.Data.SqlClient;
 using DevExpress.Web.ASPxPivotGrid;
 using System.IO;
 using DevExpress.Utils;
-using RT2020.Helper;
-using RT2020.ModelEx;
+using RT2020.Common.Helper;
+using RT2020.Common.ModelEx;
 
 namespace RT2020.Inventory.Olap
 {

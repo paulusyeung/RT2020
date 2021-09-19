@@ -18,7 +18,9 @@ using Gizmox.WebGUI.Common.Gateways;
 using RT2020.Controls;
 using System.Collections;
 using System.Linq;
-using RT2020.Helper;
+
+using RT2020.Common.Helper;
+using RT2020.Common.ModelEx;
 
 #endregion
 
@@ -351,7 +353,7 @@ namespace RT2020.Product.Import
                 //string sql = "CurrencyCode = '" + row[colVendorCurrency].ToString() + "'";
                 //Currency oCurr = Currency.LoadWhere(sql);
                 //if (oCurr != null)
-                if (ModelEx.CurrencyEx.IsCurrencyCodeInUse(row[colVendorCurrency].ToString()))
+                if (CurrencyEx.IsCurrencyCodeInUse(row[colVendorCurrency].ToString()))
                 {
                     // TODO:Set the cell style of DataGridView
                 }
@@ -391,7 +393,7 @@ namespace RT2020.Product.Import
             //sql = "Appendix1Code = '" + Utility.VerifyQuotes(row[colAppendix1].ToString().Trim()) + "'";
             //ProductAppendix1 oApp1 = ProductAppendix1.LoadWhere(sql);
             //if (oApp1 != null)
-            if (ModelEx.ProductAppendix1Ex.IsAppendixCodeInUse(Utility.VerifyQuotes(row[colAppendix3].ToString())))
+            if (ProductAppendix1Ex.IsAppendixCodeInUse(Utility.VerifyQuotes(row[colAppendix3].ToString())))
             {
                 verifiedResult.Append(colAppendix1).Append(";");
             }
@@ -400,7 +402,7 @@ namespace RT2020.Product.Import
             //sql = "Appednix2Code = '" + Utility.VerifyQuotes(row[colAppendix2].ToString().Trim()) + "'";
             //ProductAppendix2 oApp2 = ProductAppendix2.LoadWhere(sql);
             //if (oApp2 != null)
-            if (ModelEx.ProductAppendix2Ex.IsAppendixCodeInUse(Utility.VerifyQuotes(row[colAppendix3].ToString())))
+            if (ProductAppendix2Ex.IsAppendixCodeInUse(Utility.VerifyQuotes(row[colAppendix3].ToString())))
             {
                 verifiedResult.Append(colAppendix2).Append(";");
             }
@@ -409,7 +411,7 @@ namespace RT2020.Product.Import
             //sql = "Appendix3Code = '" + Utility.VerifyQuotes(row[colAppendix3].ToString().Trim()) + "'";
             //ProductAppendix3 oApp3 = ProductAppendix3.LoadWhere(sql);
             //if (oApp3 != null)
-            if (ModelEx.ProductAppendix3Ex.IsAppendixCodeInUse(Utility.VerifyQuotes(row[colAppendix3].ToString())))
+            if (ProductAppendix3Ex.IsAppendixCodeInUse(Utility.VerifyQuotes(row[colAppendix3].ToString())))
             {
                 verifiedResult.Append(colAppendix3).Append(";");
             }
@@ -418,7 +420,7 @@ namespace RT2020.Product.Import
             //sql = "Class1Code = '" + Utility.VerifyQuotes(row[colClass1].ToString().Trim()) + "'";
             //ProductClass1 oCls1 = ProductClass1.LoadWhere(sql);
             //if (oCls1 != null)
-            if (ModelEx.ProductClass1Ex.IsClassCodeInUse(Utility.VerifyQuotes(row[colClass1].ToString().Trim())))
+            if (ProductClass1Ex.IsClassCodeInUse(Utility.VerifyQuotes(row[colClass1].ToString().Trim())))
             {
                 verifiedResult.Append(colClass1).Append(";");
             }
@@ -427,7 +429,7 @@ namespace RT2020.Product.Import
             //sql = "Class2Code = '" + Utility.VerifyQuotes(row[colClass2].ToString().Trim()) + "'";
             //ProductClass2 oCls2 = ProductClass2.LoadWhere(sql);
             //if (oCls2 != null)
-            if (ModelEx.ProductClass2Ex.IsClassCodeInUse(Utility.VerifyQuotes(row[colClass2].ToString().Trim())))
+            if (ProductClass2Ex.IsClassCodeInUse(Utility.VerifyQuotes(row[colClass2].ToString().Trim())))
             {
                 verifiedResult.Append(colClass2).Append(";");
             }
@@ -436,7 +438,7 @@ namespace RT2020.Product.Import
             //sql = "Class3Code = '" + Utility.VerifyQuotes(row[colClass3].ToString().Trim()) + "'";
             //ProductClass3 oCls3 = ProductClass3.LoadWhere(sql);
             //if (oCls3 != null)
-            if (ModelEx.ProductClass3Ex.IsClassCodeInUse(Utility.VerifyQuotes(row[colClass3].ToString().Trim())))
+            if (ProductClass3Ex.IsClassCodeInUse(Utility.VerifyQuotes(row[colClass3].ToString().Trim())))
             {
                 verifiedResult.Append(colClass3).Append(";");
             }
@@ -445,7 +447,7 @@ namespace RT2020.Product.Import
             //sql = "Class4Code = '" + Utility.VerifyQuotes(row[colClass4].ToString().Trim()) + "'";
             //ProductClass4 oCls4 = ProductClass4.LoadWhere(sql);
             //if (oCls4 != null)
-            if (ModelEx.ProductClass4Ex.IsClassCodeInUse(Utility.VerifyQuotes(row[colClass4].ToString().Trim())))
+            if (ProductClass4Ex.IsClassCodeInUse(Utility.VerifyQuotes(row[colClass4].ToString().Trim())))
             {
                 verifiedResult.Append(colClass4).Append(";");
             }
@@ -454,7 +456,7 @@ namespace RT2020.Product.Import
             //sql = "Class5Code = '" + Utility.VerifyQuotes(row[colClass5].ToString().Trim()) + "'";
             //ProductClass5 oCls5 = ProductClass5.LoadWhere(sql);
             //if (oCls5 != null)
-            if (ModelEx.ProductClass5Ex.IsClassCodeInUse(Utility.VerifyQuotes(row[colClass5].ToString().Trim())))
+            if (ProductClass5Ex.IsClassCodeInUse(Utility.VerifyQuotes(row[colClass5].ToString().Trim())))
             {
                 verifiedResult.Append(colClass5).Append(";");
             }
@@ -463,7 +465,7 @@ namespace RT2020.Product.Import
             //sql = "Class6Code = '" + Utility.VerifyQuotes(row[colClass6].ToString().Trim()) + "'";
             //ProductClass6 oCls6 = ProductClass6.LoadWhere(sql);
             //if (oCls6 != null)
-            if (ModelEx.ProductClass6Ex.IsClassCodeInUse(Utility.VerifyQuotes(row[colClass6].ToString().Trim())))
+            if (ProductClass6Ex.IsClassCodeInUse(Utility.VerifyQuotes(row[colClass6].ToString().Trim())))
             {
                 verifiedResult.Append(colClass6).Append(";");
             }
@@ -472,7 +474,7 @@ namespace RT2020.Product.Import
             var barcode = Utility.VerifyQuotes(row[colSTKCode].ToString().Trim()) + Utility.VerifyQuotes(row[colAppendix1].ToString().Trim()) + Utility.VerifyQuotes(row[colAppendix2].ToString().Trim()) + Utility.VerifyQuotes(row[colAppendix3].ToString().Trim());
             var sql = "BARCODE = '" + barcode + "'";
 
-            if (ModelEx.ProductBarcodeEx.IsBarcodeInUse(barcode))
+            if (ProductBarcodeEx.IsBarcodeInUse(barcode))
             {
                 returnResult.Append("Duplicated Barcode;");
             }

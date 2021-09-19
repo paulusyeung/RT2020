@@ -13,9 +13,11 @@ using Gizmox.WebGUI.Common.Resources;
 
 using System.Data.SqlClient;
 using System.Configuration;
-using RT2020.Helper;
 using System.Linq;
 using System.Data.Entity;
+
+using RT2020.Common.Helper;
+using RT2020.Common.ModelEx;
 
 #endregion
 
@@ -229,7 +231,7 @@ namespace RT2020.Settings
         {
             string sql = "SalutationId NOT IN ('" + _SalutationId.ToString() + "')";
             string[] orderBy = new string[] { "SalutationCode" };
-            ModelEx.SalutationEx.LoadCombo(ref cboParentSalutation, "SalutationCode", false, true, "", sql, orderBy);
+            SalutationEx.LoadCombo(ref cboParentSalutation, "SalutationCode", false, true, "", sql, orderBy);
         }
         #endregion
 
@@ -246,7 +248,7 @@ namespace RT2020.Settings
                 var list = ctx.Salutation.OrderBy(x => x.SalutationCode).AsNoTracking().ToList();
                 foreach (var item in list)
                 {
-                    var parent = ModelEx.SalutationEx.GetParentName(item);
+                    var parent = SalutationEx.GetParentName(item);
 
                     ListViewItem objItem = this.lvSalutationList.Items.Add(item.SalutationId.ToString());
                     objItem.SubItems.Add(iCount.ToString()); // Line Number
@@ -279,7 +281,7 @@ namespace RT2020.Settings
 
             #region 新增，要 check Salutation Code 係咪 in use
             errorProvider.SetError(txtSalutationCode, string.Empty);
-            if (_SalutationId == Guid.Empty && ModelEx.SalutationEx.IsSalutationCodeInUse(txtSalutationCode.Text.Trim()))
+            if (_SalutationId == Guid.Empty && SalutationEx.IsSalutationCodeInUse(txtSalutationCode.Text.Trim()))
             {
                 errorProvider.SetError(txtSalutationCode, "Salutation Code in use");
                 return false;

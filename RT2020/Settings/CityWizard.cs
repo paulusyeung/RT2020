@@ -14,8 +14,10 @@ using Gizmox.WebGUI.Common.Resources;
 using System.Data.SqlClient;
 using System.Configuration;
 using System.Linq;
-using RT2020.Helper;
 using System.Data.Entity;
+
+using RT2020.Common.Helper;
+using RT2020.Common.ModelEx;
 
 #endregion
 
@@ -392,7 +394,7 @@ namespace RT2020.Settings
             var sql = (_Filter_CountryId != Guid.Empty) ?
                 String.Format("CountryId = '{0}'", _Filter_CountryId.ToString()) :
                 "";
-            ModelEx.ProvinceEx.LoadCombo(ref cboProvince, "ProvinceName", true, true, "", sql);
+            ProvinceEx.LoadCombo(ref cboProvince, "ProvinceName", true, true, "", sql);
 
         }
         #endregion
@@ -463,7 +465,7 @@ namespace RT2020.Settings
 
             #region 新增，要 check CityCode 係咪 in use
             errorProvider.SetError(txtCityCode, string.Empty);
-            if (this.CityId == System.Guid.Empty && ModelEx.CityEx.IsCityCodeInUse(txtCityCode.Text.Trim()))
+            if (this.CityId == System.Guid.Empty && CityEx.IsCityCodeInUse(txtCityCode.Text.Trim()))
             {
                 errorProvider.SetError(txtCityCode, "City Code in use");
                 return false;

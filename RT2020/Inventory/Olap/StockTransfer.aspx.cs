@@ -8,7 +8,7 @@ using System.IO;
 using DevExpress.Utils;
 using DevExpress.Web.ASPxPivotGrid;
 using System.Collections;
-using RT2020.Helper;
+using RT2020.Common.Helper;
 
 namespace RT2020.Inventory.Olap
 {

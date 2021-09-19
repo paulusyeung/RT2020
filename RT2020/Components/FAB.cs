@@ -8,7 +8,7 @@ using Gizmox.WebGUI.Forms;
 using Gizmox.WebGUI.Common;
 using Gizmox.WebGUI.Forms.Skins;
 using Gizmox.WebGUI.Common.Resources;
-using RT2020.Helper;
+using RT2020.Common.Helper;
 
 #endregion Using
 

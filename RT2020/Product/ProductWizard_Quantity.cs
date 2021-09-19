@@ -14,7 +14,9 @@ using System.Collections;
 using System.Configuration;
 using System.Linq;
 using System.Data.Entity;
-using RT2020.Helper;
+
+using RT2020.Common.Helper;
+using RT2020.Common.ModelEx;
 
 namespace RT2020.Product
 {
@@ -181,7 +183,7 @@ namespace RT2020.Product
 
         private void ShowCurrentSummaryInfo()
         {
-            var oCurrentSummary = ModelEx.ProductCurrentSummaryEx.GetByProductCode(_ProductId);
+            var oCurrentSummary = ProductCurrentSummaryEx.GetByProductCode(_ProductId);
             if (oCurrentSummary != null)
             {
                 this.txtOnHandQty.Text = oCurrentSummary.CDQTY.ToString("n0");

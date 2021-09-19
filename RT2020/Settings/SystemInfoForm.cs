@@ -13,9 +13,9 @@ using Gizmox.WebGUI.Common.Resources;
 using System.IO;
 using RT2020.Controls;
 
-using RT2020.Helper;
+using RT2020.Common.Helper;
 using System.Linq;
-using RT2020.ModelEx;
+using RT2020.Common.ModelEx;
 
 #endregion
 
@@ -306,7 +306,7 @@ namespace RT2020.Settings
                     {
                         File.Delete(picPath);
 
-                        if (ModelEx.SystemInfoEx.ClearLogoInfo(SystemInfoEx.CurrentInfo.Default.SysInfo.InfoId))
+                        if (SystemInfoEx.ClearLogoInfo(SystemInfoEx.CurrentInfo.Default.SysInfo.InfoId))
                         {
                             MessageBox.Show("The picture '" + txtCompanyLogo.Text + "' is deleted.", "Deleted", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         }
@@ -342,7 +342,7 @@ namespace RT2020.Settings
                     {
                         File.Delete(picPath);
 
-                        if (ModelEx.SystemInfoEx.ClearLogoInfo(SystemInfoEx.CurrentInfo.Default.SysInfo.InfoId))
+                        if (SystemInfoEx.ClearLogoInfo(SystemInfoEx.CurrentInfo.Default.SysInfo.InfoId))
                         {
                             MessageBox.Show("The picture '" + txtLetterHead.Text + "' is deleted.", "Deleted", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         }

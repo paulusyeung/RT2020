@@ -7,7 +7,7 @@ using System.Xml.Linq;
 using Gizmox.WebGUI.Forms;
 using Gizmox.WebGUI.Common.Resources;
 
-using RT2020.Helper;
+using RT2020.Common.Helper;
 using Westwind.Globalization;
 
 namespace RT2020.Product

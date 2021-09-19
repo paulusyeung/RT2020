@@ -14,8 +14,8 @@ using Gizmox.WebGUI.Common.Interfaces;
 
 
 using RT2020.Controls;
-using RT2020.Helper;
-using RT2020.ModelEx;
+using RT2020.Common.Helper;
+using RT2020.Common.ModelEx;
 
 namespace RT2020.Inventory.GoodsReturn
 {
@@ -302,7 +302,7 @@ ORDER BY TxNumber, TxDate, LineNumber
                 { "FromTxDate", this.dtpRecvDate.Value.ToString(DateTimeHelper.GetDateFormat()) },
                 { "ToTxDate", this.dtpRecvDate.Value.ToString(DateTimeHelper.GetDateFormat()) },
                 { "PrintedOn", DateTime.Now.ToString(DateTimeHelper.GetDateTimeFormat()) },
-                { "PrintedBy", ModelEx.StaffEx.GetStaffNameById(ConfigHelper.CurrentUserId) },
+                { "PrintedBy", StaffEx.GetStaffNameById(ConfigHelper.CurrentUserId) },
                 { "StockCode", SystemInfoHelper.Settings.GetSystemLabelByKey("STKCODE") },
                 { "Appendix1", SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX1") },
                 { "Appendix2", SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX2") },
@@ -332,19 +332,19 @@ ORDER BY TxNumber, TxDate, LineNumber
 
         private void FillLocationList()
         {
-            ModelEx.WorkplaceEx.LoadCombo(ref cboWorkplace, "WorkplaceCode", false);
+            WorkplaceEx.LoadCombo(ref cboWorkplace, "WorkplaceCode", false);
         }
 
         private void FillStaffList()
         {
-            ModelEx.StaffEx.LoadCombo(ref cboOperatorCode, "StaffNumber", false);
+            StaffEx.LoadCombo(ref cboOperatorCode, "StaffNumber", false);
 
             cboOperatorCode.SelectedValue = ConfigHelper.CurrentUserId;
         }
 
         private void FillSupplierList()
         {
-            ModelEx.SupplierEx.LoadCombo(ref cboSupplierList, "SupplierCode", false);
+            SupplierEx.LoadCombo(ref cboSupplierList, "SupplierCode", false);
         }
         #endregion
 
@@ -490,7 +490,7 @@ ORDER BY TxNumber, TxDate, LineNumber
         #region Load REJ Header Info
         private void LoadREJInfo()
         {
-            var oHeader = ModelEx.InvtBatchCAP_HeaderEx.Get(this.REJId);
+            var oHeader = InvtBatchCAP_HeaderEx.Get(this.REJId);
             if (oHeader != null)
             {
                 txtTxNumber.Text = oHeader.TxNumber;
@@ -508,13 +508,13 @@ ORDER BY TxNumber, TxDate, LineNumber
                 txtRefNumber.Text = oHeader.Reference;
 
                 txtLastUpdateOn.Text = DateTimeHelper.DateTimeToString(oHeader.ModifiedOn, false);
-                txtLastUpdateBy.Text = ModelEx.StaffEx.GetStaffNumberById(oHeader.ModifiedBy);
+                txtLastUpdateBy.Text = StaffEx.GetStaffNumberById(oHeader.ModifiedBy);
 
                 txtAmendmentRetrict.Text = oHeader.ReadOnly ? "Y" : "N";
                 chkAPLink.Checked = oHeader.LinkToAP;
 
-                txtTotalQty.Text = ModelEx.InvtBatchCAP_DetailsEx.GetTotalQty(this.REJId).ToString("n0");
-                txtTotalAmount.Text = ModelEx.InvtBatchCAP_DetailsEx.GetTotalAmount(this.REJId).ToString("n2");
+                txtTotalQty.Text = InvtBatchCAP_DetailsEx.GetTotalQty(this.REJId).ToString("n0");
+                txtTotalAmount.Text = InvtBatchCAP_DetailsEx.GetTotalAmount(this.REJId).ToString("n2");
 
                 this.Text += oHeader.ReadOnly ? " (ReadOnly)" : "";
 
@@ -563,7 +563,7 @@ ORDER BY TxNumber, TxDate, LineNumber
                 {
                     if (Save())
                     {
-                        SystemInfoHelper.Settings.RefreshMainList<Default>();
+                        Helper.DesktopHelper.RefreshMainList<Default>();
                         MessageBox.Show("Success!", "Save Result");
 
                         this.Close();
@@ -586,7 +586,7 @@ ORDER BY TxNumber, TxDate, LineNumber
                 {
                     if (Save())
                     {
-                        SystemInfoHelper.Settings.RefreshMainList<Default>();
+                        Helper.DesktopHelper.RefreshMainList<Default>();
                         this.Close();
                         RT2020.Inventory.GoodsReturn.Wizard wizard = new RT2020.Inventory.GoodsReturn.Wizard();
                         wizard.ShowDialog();
@@ -607,7 +607,7 @@ ORDER BY TxNumber, TxDate, LineNumber
                 {
                     if (Save())
                     {
-                        SystemInfoHelper.Settings.RefreshMainList<Default>();
+                        Helper.DesktopHelper.RefreshMainList<Default>();
                         this.Close();
                     }
                 }
@@ -622,7 +622,7 @@ ORDER BY TxNumber, TxDate, LineNumber
         {
             if (((Form)sender).DialogResult == DialogResult.Yes)
             {
-                ModelEx.InvtBatchCAP_HeaderEx.DeleteChildToo(this.REJId);   //Delete();
+                InvtBatchCAP_HeaderEx.DeleteChildToo(this.REJId);   //Delete();
 
                 this.Close();
             }
@@ -786,7 +786,7 @@ ORDER BY TxNumber, TxDate, LineNumber
         {
             if (basicProduct.SelectedItem != null)
             {
-                var oProd = ModelEx.ProductEx.Get((Guid)basicProduct.SelectedItem);
+                var oProd = ProductEx.Get((Guid)basicProduct.SelectedItem);
                 if (oProd != null)
                 {
                     if (IsDuplicated(oProd.STKCODE, oProd.APPENDIX1, oProd.APPENDIX2, oProd.APPENDIX3))
@@ -828,7 +828,7 @@ ORDER BY TxNumber, TxDate, LineNumber
             {
                 if (basicProduct.SelectedItem != null)
                 {
-                    var oProd = ModelEx.ProductEx.Get(this.ProductId);
+                    var oProd = ProductEx.Get(this.ProductId);
                     if (oProd != null)
                     {
                         ListViewItem listItem = lvDetailsList.SelectedItem;
@@ -940,7 +940,7 @@ ORDER BY TxNumber, TxDate, LineNumber
         {
             foreach (RT2020.Controls.ProductSearcher.DetailData detail in resultList)
             {
-                var oProduct = ModelEx.ProductEx.Get(detail.ProductId);
+                var oProduct = ProductEx.Get(detail.ProductId);
                 if (oProduct != null)
                 {
                     string stkCode = oProduct.STKCODE;

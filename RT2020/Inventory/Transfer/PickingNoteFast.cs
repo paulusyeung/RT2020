@@ -13,8 +13,8 @@ using Gizmox.WebGUI.Forms;
 using DevExpress.Web;
 using Gizmox.WebGUI.Common.Resources;
 using System.Linq;
-using RT2020.Helper;
-using RT2020.ModelEx;
+using RT2020.Common.Helper;
+using RT2020.Common.ModelEx;
 
 #endregion
 
@@ -51,12 +51,12 @@ namespace RT2020.Inventory.Transfer
 
         private void FillFromLocationList()
         {
-            ModelEx.WorkplaceEx.LoadCombo(ref cboFromLocation, "WorkplaceCode", false);
+            WorkplaceEx.LoadCombo(ref cboFromLocation, "WorkplaceCode", false);
         }
 
         private void FillStaffList()
         {
-            ModelEx.StaffEx.LoadCombo(ref cboOperatorCode, "StaffNumber", false);
+            StaffEx.LoadCombo(ref cboOperatorCode, "StaffNumber", false);
 
             cboOperatorCode.SelectedValue = ConfigHelper.CurrentUserId;
         }
@@ -381,7 +381,7 @@ namespace RT2020.Inventory.Transfer
 
                 if (result > 0)
                 {
-                    SystemInfoHelper.Settings.RefreshMainList<Default>();
+                    Helper.DesktopHelper.RefreshMainList<Default>();
                     MessageBox.Show("Result : Successfully generated " + result.ToString() + " picking note(s)", "Success!");
 
                     //this.Close();
@@ -418,7 +418,7 @@ namespace RT2020.Inventory.Transfer
                 string wpCode = cboFromLocation.Text.Trim();
                 if (wpCode.Length >= 4)
                 {
-                    if (ModelEx.WorkplaceEx.IsWorkplaceCodeInUse(wpCode.Substring(0, 4)))
+                    if (WorkplaceEx.IsWorkplaceCodeInUse(wpCode.Substring(0, 4)))
                     {
                         errorProvider.SetError(cboFromLocation, "Location code does exist!");
                     }
@@ -441,7 +441,7 @@ namespace RT2020.Inventory.Transfer
                 string staffNumber = cboOperatorCode.Text.Trim();
                 if (staffNumber.Length >= 4)
                 {
-                    var staff = ModelEx.StaffEx.GetByStaffNumber(staffNumber.Substring(0, 4));
+                    var staff = StaffEx.GetByStaffNumber(staffNumber.Substring(0, 4));
                     if (staff == null)
                     {
                         errorProvider.SetError(cboOperatorCode, "Operator code does exist!");

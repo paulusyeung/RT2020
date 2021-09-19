@@ -10,7 +10,7 @@ using System.Text;
 using Gizmox.WebGUI.Common;
 using Gizmox.WebGUI.Common.Resources;
 using Gizmox.WebGUI.Forms;
-using RT2020.Helper;
+using RT2020.Common.Helper;
 
 #endregion
 

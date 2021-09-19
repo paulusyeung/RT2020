@@ -12,9 +12,11 @@ using Gizmox.WebGUI.Forms;
 using Gizmox.WebGUI.Common.Resources;
 using System.Data.SqlClient;
 using System.Configuration;
-using RT2020.Helper;
 using System.Linq;
 using System.Data.Entity;
+
+using RT2020.Common.Helper;
+using RT2020.Common.ModelEx;
 
 #endregion
 
@@ -215,7 +217,7 @@ namespace RT2020.Staff
         #region Fill Combo List
         private void FillParentDeptList()
         {
-            ModelEx.StaffDeptEx.LoadCombo(ref cboParentDept, "DeptName", true, true, string.Empty, "");
+            StaffDeptEx.LoadCombo(ref cboParentDept, "DeptName", true, true, string.Empty, "");
         }
         #endregion
 
@@ -265,7 +267,7 @@ namespace RT2020.Staff
 
             #region 新增，要 check CityCode 係咪 in use
             errorProvider.SetError(txtStaffDeptCode, string.Empty);
-            if (ModelEx.StaffDeptEx.IsDeptCodeInUse(txtStaffDeptCode.Text.Trim()))
+            if (StaffDeptEx.IsDeptCodeInUse(txtStaffDeptCode.Text.Trim()))
             {
                 errorProvider.SetError(txtStaffDeptCode, "Dept Code in use");
                 return false;

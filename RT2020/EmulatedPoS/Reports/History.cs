@@ -13,8 +13,8 @@ using Gizmox.WebGUI.Common;
 using Gizmox.WebGUI.Forms;
 
 
-using RT2020.Helper;
-using RT2020.ModelEx;
+using RT2020.Common.Helper;
+using RT2020.Common.ModelEx;
 
 #endregion
 
@@ -43,8 +43,8 @@ namespace RT2020.EmulatedPoS.Reports
         /// </summary>
         private void FillComboList()
         {
-            ModelEx.EPOSSubLedgerHeaderEx.LoadCombo(ref cboFromTrn, "TxNumber", false);
-            ModelEx.EPOSSubLedgerHeaderEx.LoadCombo(ref cboToTrn, "TxNumber", false);
+            EPOSSubLedgerHeaderEx.LoadCombo(ref cboFromTrn, "TxNumber", false);
+            EPOSSubLedgerHeaderEx.LoadCombo(ref cboToTrn, "TxNumber", false);
             cboToTrn.SelectedIndex = cboToTrn.Items.Count - 1;
         }
 

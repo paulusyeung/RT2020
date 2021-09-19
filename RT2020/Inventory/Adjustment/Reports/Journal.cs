@@ -16,8 +16,8 @@ using System.IO;
 using FileHelpers.DataLink;
 using FileHelpers.MasterDetail;
 using System.Web;
-using RT2020.Helper;
-using RT2020.ModelEx;
+using RT2020.Common.Helper;
+using RT2020.Common.ModelEx;
 
 #endregion
 
@@ -47,12 +47,12 @@ namespace RT2020.Inventory.Adjustment.Reports
 
         private void FillLocation()
         {
-            ModelEx.WorkplaceEx.LoadCombo(ref cboLocation, "WorkplaceCode", false);
+            WorkplaceEx.LoadCombo(ref cboLocation, "WorkplaceCode", false);
         }
 
         private void FillVsLocation()
         {
-            ModelEx.WorkplaceEx.LoadCombo(ref cboVsLocation, "WorkplaceCode", false);
+            WorkplaceEx.LoadCombo(ref cboVsLocation, "WorkplaceCode", false);
         }
 
         private void FillRemarks()

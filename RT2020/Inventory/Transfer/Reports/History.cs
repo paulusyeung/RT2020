@@ -18,8 +18,8 @@ using FileHelpers.MasterDetail;
 
 using System.Configuration;
 using RT2020.Controls;
-using RT2020.Helper;
-using RT2020.ModelEx;
+using RT2020.Common.Helper;
+using RT2020.Common.ModelEx;
 
 namespace RT2020.Inventory.Transfer.Reports
 {
@@ -134,7 +134,7 @@ namespace RT2020.Inventory.Transfer.Reports
                 { "FromTxDate", this.dtpTxDateFrom.Value.ToString(DateTimeHelper.GetDateFormat()) },
                 { "ToTxDate", this.dtpTxDateTo.Value.ToString(DateTimeHelper.GetDateFormat()) },
                 { "PrintedOn", DateTime.Now.ToString(DateTimeHelper.GetDateTimeFormat()) },
-                { "PrintedBy", ModelEx.StaffEx.GetStaffNameById(ConfigHelper.CurrentUserId) },
+                { "PrintedBy", StaffEx.GetStaffNameById(ConfigHelper.CurrentUserId) },
                 { "DateFormat", DateTimeHelper.GetDateFormat() },
                 { "CompanyName", SystemInfoEx.CurrentInfo.Default.CompanyName},
                     { "StockCode", SystemInfoHelper.Settings.GetSystemLabelByKey("STKCODE") },

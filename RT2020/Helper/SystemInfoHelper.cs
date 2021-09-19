@@ -89,7 +89,7 @@ namespace RT2020.Helper
             {
                 string result = key;
 
-                var oLabel = ModelEx.SystemLabelEx.GetByLanguageCode(ConfigHelper.CurrentLanguageCode);
+                var oLabel = SystemLabelEx.GetByLanguageCode(ConfigHelper.CurrentLanguageCode);
                 if (oLabel != null)
                 {
                     PropertyInfo pi = oLabel.GetType().GetProperty(key.Trim().ToUpper());

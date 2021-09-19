@@ -16,8 +16,8 @@ using System.Web;
 
 using System.Data.Common;
 using System.Configuration;
-using RT2020.Helper;
-using RT2020.ModelEx;
+using RT2020.Common.Helper;
+using RT2020.Common.ModelEx;
 
 #endregion
 
@@ -74,16 +74,16 @@ namespace RT2020.Product.Reports
             switch (this.AppendixType.Trim().ToUpper())
             {
                 case "APPENDIX1":
-                    ModelEx.ProductAppendix1Ex.LoadCombo(ref cmbFrom, textField, false);
-                    ModelEx.ProductAppendix1Ex.LoadCombo(ref cmbTo, textField, false);
+                    ProductAppendix1Ex.LoadCombo(ref cmbFrom, textField, false);
+                    ProductAppendix1Ex.LoadCombo(ref cmbTo, textField, false);
                     break;
                 case "APPENDIX2":
-                    ModelEx.ProductAppendix2Ex.LoadCombo(ref cmbFrom, textField, false);
-                    ModelEx.ProductAppendix2Ex.LoadCombo(ref cmbTo, textField, false);
+                    ProductAppendix2Ex.LoadCombo(ref cmbFrom, textField, false);
+                    ProductAppendix2Ex.LoadCombo(ref cmbTo, textField, false);
                     break;
                 case "APPENDIX3":
-                    ModelEx.ProductAppendix3Ex.LoadCombo(ref cmbFrom, textField, false);
-                    ModelEx.ProductAppendix3Ex.LoadCombo(ref cmbTo, textField, false);
+                    ProductAppendix3Ex.LoadCombo(ref cmbFrom, textField, false);
+                    ProductAppendix3Ex.LoadCombo(ref cmbTo, textField, false);
                     break;
             }
 

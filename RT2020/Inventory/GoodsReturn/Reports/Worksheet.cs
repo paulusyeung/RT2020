@@ -18,8 +18,8 @@ using FileHelpers.DataLink;
 using FileHelpers.MasterDetail;
 
 
-using RT2020.Helper;
-using RT2020.ModelEx;
+using RT2020.Common.Helper;
+using RT2020.Common.ModelEx;
 
 #endregion
 
@@ -47,7 +47,7 @@ namespace RT2020.Inventory.GoodsReturn.Reports
 
         private void FillFromList()
         {
-            ModelEx.InvtBatchCAP_HeaderEx.LoadCombo(ref cboFrom, "TxNumber", false);
+            InvtBatchCAP_HeaderEx.LoadCombo(ref cboFrom, "TxNumber", false);
             /**
             cboFrom.Items.Clear();
 
@@ -63,7 +63,7 @@ namespace RT2020.Inventory.GoodsReturn.Reports
 
         private void FillToList()
         {
-            ModelEx.InvtBatchCAP_HeaderEx.LoadCombo(ref cboTo, "TxNumber", false);
+            InvtBatchCAP_HeaderEx.LoadCombo(ref cboTo, "TxNumber", false);
             /**
             cboTo.Items.Clear();
 
@@ -248,7 +248,7 @@ ORDER BY TxNumber, STKCODE, APPENDIX1, APPENDIX2, APPENDIX3
                 { "FromTxDate", this.dtpTxDateFrom.Value.ToString(DateTimeHelper.GetDateFormat()) },
                 { "ToTxDate", this.dtpTxDateTo.Value.ToString(DateTimeHelper.GetDateFormat()) },
                 { "PrintedOn", DateTime.Now.ToString(DateTimeHelper.GetDateTimeFormat()) },
-                { "PrintedBy", ModelEx.StaffEx.GetStaffNameById(ConfigHelper.CurrentUserId) },
+                { "PrintedBy", StaffEx.GetStaffNameById(ConfigHelper.CurrentUserId) },
                 { "StockCode", SystemInfoHelper.Settings.GetSystemLabelByKey("STKCODE") },
                 { "Appendix1", SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX1") },
                 { "Appendix2", SystemInfoHelper.Settings.GetSystemLabelByKey("APPENDIX2") },

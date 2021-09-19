@@ -12,7 +12,9 @@ using Gizmox.WebGUI.Forms;
 
 using System.Linq;
 using System.Data.Entity;
-using RT2020.Helper;
+
+using RT2020.Common.Helper;
+using RT2020.Common.ModelEx;
 
 #endregion
 
@@ -160,7 +162,7 @@ namespace RT2020.Inventory.StockTake
                             .Where(x => x.WorkplaceId == workplaceId && (rbtnNonZeroQtyItems.Checked ? x.CDQTY > 0 : true));
                         foreach (var wpItem in wpItemList)
                         {
-                            decimal avgCost = ModelEx.ProductCurrentSummaryEx.GetAverageCode(wpItem.ProductId);
+                            decimal avgCost = ProductCurrentSummaryEx.GetAverageCode(wpItem.ProductId);
                             var stkDetail = new EF6.StockTakeDetails();
 
                             stkDetail.DetailsId = Guid.NewGuid();
@@ -214,7 +216,7 @@ namespace RT2020.Inventory.StockTake
             int result = CreateSTK();
             if (result > 0)
             {
-                SystemInfoHelper.Settings.RefreshMainList<Default>();
+                Helper.DesktopHelper.RefreshMainList<Default>();
                 MessageBox.Show(result.ToString() + " Transaction(s) Creation Complete !", "Creation Succeed", MessageBoxButtons.OK, MessageBoxIcon.Information, new EventHandler(CreationMessageHandler));
             }
             else

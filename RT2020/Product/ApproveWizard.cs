@@ -16,7 +16,9 @@ using Gizmox.WebGUI.Common.Interfaces;
 using System.Web;
 using System.Configuration;
 using System.Linq;
-using RT2020.Helper;
+
+using RT2020.Common.Helper;
+using RT2020.Common.ModelEx;
 
 #endregion
 
@@ -396,9 +398,9 @@ namespace RT2020.Product
             objItem.SubItems.Add(a1);
             objItem.SubItems.Add(a2);
             objItem.SubItems.Add(a3);
-            objItem.SubItems.Add(ModelEx.ProductAppendix1Ex.GetIdByInitial(a1).ToString());
-            objItem.SubItems.Add(ModelEx.ProductAppendix2Ex.GetIdByInitial(a2).ToString());
-            objItem.SubItems.Add(ModelEx.ProductAppendix3Ex.GetIdByInitial(a3).ToString());
+            objItem.SubItems.Add(ProductAppendix1Ex.GetIdByInitial(a1).ToString());
+            objItem.SubItems.Add(ProductAppendix2Ex.GetIdByInitial(a2).ToString());
+            objItem.SubItems.Add(ProductAppendix3Ex.GetIdByInitial(a3).ToString());
         }
         #endregion
 
@@ -480,7 +482,7 @@ namespace RT2020.Product
 
                                 oItem.NormalDiscount = oBatch.NRDISC.Value;
                                 oItem.UOM = oBatch.MAINUNIT;
-                                oItem.NatureId = ModelEx.ProductNatureEx.GetIdByCode(oBatch.NATURE);
+                                oItem.NatureId = ProductNatureEx.GetIdByCode(oBatch.NATURE);
 
                                 oItem.FixedPriceItem = false;
 
@@ -513,12 +515,12 @@ namespace RT2020.Product
                                 #endregion
 
                                 #region Appendix / Class
-                                System.Guid c1Id = ModelEx.ProductClass1Ex.GetClassIdByCode(oBatch.CLASS1);
-                                System.Guid c2Id = ModelEx.ProductClass2Ex.GetClassIdByCode(oBatch.CLASS2);
-                                System.Guid c3Id = ModelEx.ProductClass3Ex.GetClassIdByCode(oBatch.CLASS3);
-                                System.Guid c4Id = ModelEx.ProductClass4Ex.GetClassIdByCode(oBatch.CLASS4);
-                                System.Guid c5Id = ModelEx.ProductClass5Ex.GetClassIdByCode(oBatch.CLASS5);
-                                System.Guid c6Id = ModelEx.ProductClass6Ex.GetClassIdByCode(oBatch.CLASS6);
+                                System.Guid c1Id = ProductClass1Ex.GetClassIdByCode(oBatch.CLASS1);
+                                System.Guid c2Id = ProductClass2Ex.GetClassIdByCode(oBatch.CLASS2);
+                                System.Guid c3Id = ProductClass3Ex.GetClassIdByCode(oBatch.CLASS3);
+                                System.Guid c4Id = ProductClass4Ex.GetClassIdByCode(oBatch.CLASS4);
+                                System.Guid c5Id = ProductClass5Ex.GetClassIdByCode(oBatch.CLASS5);
+                                System.Guid c6Id = ProductClass6Ex.GetClassIdByCode(oBatch.CLASS6);
                                 // SaveProductCode(productId, a1Id, a2Id, a3Id, c1Id, c2Id, c3Id, c4Id, c5Id, c6Id);
                                 var oCode = ctx.ProductCode.Where(x => x.ProductId == productId).FirstOrDefault();
                                 if (oCode == null)
@@ -613,7 +615,7 @@ namespace RT2020.Product
         {
             using (var ctx = new EF6.RT2020Entities())
             {
-                var priceTypeId = ModelEx.ProductPriceTypeEx.GetIdByPriceType(priceType);
+                var priceTypeId = ProductPriceTypeEx.GetIdByPriceType(priceType);
                 //string sql = "ProductId = '" + productId.ToString() + "' AND PriceTypeId = '" + priceTypeId.ToString() + "'";
 
                 var oPrice = ctx.ProductPrice.Where(x => x.ProductId == productId && x.ProductPriceId == priceTypeId).FirstOrDefault();
@@ -625,7 +627,7 @@ namespace RT2020.Product
 
                     ctx.ProductPrice.Add(oPrice);
                 }
-                oPrice.PriceTypeId = ModelEx.ProductPriceTypeEx.GetIdByPriceType(priceType);
+                oPrice.PriceTypeId = ProductPriceTypeEx.GetIdByPriceType(priceType);
                 oPrice.CurrencyCode = currencyCode;
                 oPrice.Price = Convert.ToDecimal((price == string.Empty) ? "0" : price);
 

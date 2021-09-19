@@ -16,8 +16,8 @@ using FileHelpers.DataLink;
 using FileHelpers.MasterDetail;
 
 
-using RT2020.Helper;
-using RT2020.ModelEx;
+using RT2020.Common.Helper;
+using RT2020.Common.ModelEx;
 
 namespace RT2020.Inventory.Transfer.Reports
 {
@@ -44,7 +44,7 @@ namespace RT2020.Inventory.Transfer.Reports
 
         private void FillFromList()
         {
-            ModelEx.InvtBatchTXF_HeaderEx.LoadCombo(ref cboFrom, "TxNumber", false);
+            InvtBatchTXF_HeaderEx.LoadCombo(ref cboFrom, "TxNumber", false);
             /**
             cboFrom.Items.Clear();
 
@@ -61,7 +61,7 @@ namespace RT2020.Inventory.Transfer.Reports
 
         private void FillToList()
         {
-            ModelEx.InvtBatchTXF_HeaderEx.LoadCombo(ref cboTo, "TxNumber", false);
+            InvtBatchTXF_HeaderEx.LoadCombo(ref cboTo, "TxNumber", false);
             /**
             cboTo.Items.Clear();
 
@@ -176,7 +176,7 @@ namespace RT2020.Inventory.Transfer.Reports
                     {"ToTxNumber",this.cboTo.Text.Trim()},
                     {"FromTxDate",this.dtpTxDateFrom.Value.ToString(DateTimeHelper.GetDateFormat())},
                     {"ToTxDate",this.dtpTxDateTo.Value.ToString(DateTimeHelper.GetDateFormat())},
-                    {"PrintedBy",ModelEx.StaffEx.GetStaffNameById(ConfigHelper.CurrentUserId) },
+                    {"PrintedBy",StaffEx.GetStaffNameById(ConfigHelper.CurrentUserId) },
                     {"PrintedOn",DateTime.Now.ToString(DateTimeHelper.GetDateFormat())},
                     {"DateFormat",DateTimeHelper.GetDateFormat()},
                     {"CompanyName",SystemInfoEx.CurrentInfo.Default.CompanyName},

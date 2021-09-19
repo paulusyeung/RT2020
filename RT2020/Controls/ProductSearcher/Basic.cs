@@ -11,7 +11,9 @@ using Gizmox.WebGUI.Common;
 using Gizmox.WebGUI.Forms;
 
 using System.Linq;
-using RT2020.Helper;
+
+using RT2020.Common.Helper;
+using RT2020.Common.ModelEx;
 
 #endregion
 
@@ -319,7 +321,7 @@ namespace RT2020.Controls.ProductSearcher
 
             if (query.Length > 0)
             {
-                var oProd = ModelEx.ProductEx.Get(query);
+                var oProd = ProductEx.Get(query);
                 if (oProd != null)
                 {
                     this.SelectedItem = oProd.ProductId;
@@ -330,7 +332,7 @@ namespace RT2020.Controls.ProductSearcher
                         oProd.RetailPrice.Value,
                         Utility.GetOnHandQtyByCurrentZone(oProd.ProductId),
                         oProd.OriginalRetailPrice.Value,
-                        ModelEx.ProductCurrentSummaryEx.GetAverageCode(oProd.ProductId),
+                        ProductCurrentSummaryEx.GetAverageCode(oProd.ProductId),
                         oProd.NormalDiscount);
 
                     OnSelectionChanged(args);

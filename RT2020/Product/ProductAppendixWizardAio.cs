@@ -13,10 +13,11 @@ using Gizmox.WebGUI.Common.Resources;
 
 using System.Data.SqlClient;
 using System.Configuration;
-using RT2020.Helper;
 using System.Linq;
 using System.Data.Entity;
-using static RT2020.Helper.EnumHelper;
+
+using RT2020.Common.Helper;
+using RT2020.Common.ModelEx;
 
 #endregion
 
@@ -328,7 +329,7 @@ namespace RT2020.Product
                 {
                     case ProductHelper.Appendix.Appendix1:
                         #region ProductAppendix1
-                        if (ModelEx.ProductAppendix1Ex.IsAppendixCodeInUse(txtCode.Text.Trim()))
+                        if (ProductAppendix1Ex.IsAppendixCodeInUse(txtCode.Text.Trim()))
                         {
                             errorProvider.SetError(txtCode, "Class Code in use");
                             errorProvider.SetIconAlignment(txtCode, ErrorIconAlignment.TopLeft);
@@ -338,7 +339,7 @@ namespace RT2020.Product
                         #endregion
                     case ProductHelper.Appendix.Appendix2:
                         #region ProductAppendix2
-                        if (ModelEx.ProductAppendix2Ex.IsAppendixCodeInUse(txtCode.Text.Trim()))
+                        if (ProductAppendix2Ex.IsAppendixCodeInUse(txtCode.Text.Trim()))
                         {
                             errorProvider.SetError(txtCode, "Class Code in use");
                             errorProvider.SetIconAlignment(txtCode, ErrorIconAlignment.TopLeft);
@@ -348,7 +349,7 @@ namespace RT2020.Product
                     #endregion
                     case ProductHelper.Appendix.Appendix3:
                         #region ProductAppendix3
-                        if (ModelEx.ProductAppendix3Ex.IsAppendixCodeInUse(txtCode.Text.Trim()))
+                        if (ProductAppendix3Ex.IsAppendixCodeInUse(txtCode.Text.Trim()))
                         {
                             errorProvider.SetError(txtCode, "Class Code in use");
                             errorProvider.SetIconAlignment(txtCode, ErrorIconAlignment.TopLeft);
@@ -462,13 +463,13 @@ namespace RT2020.Product
             switch (_AppendixType)
             {
                 case ProductHelper.Appendix.Appendix1:
-                    result = ModelEx.ProductAppendix1Ex.Delete(_AppendixId);
+                    result = ProductAppendix1Ex.Delete(_AppendixId);
                     break;
                 case ProductHelper.Appendix.Appendix2:
-                    result = ModelEx.ProductAppendix2Ex.Delete(_AppendixId);
+                    result = ProductAppendix2Ex.Delete(_AppendixId);
                     break;
                 case ProductHelper.Appendix.Appendix3:
-                    result = ModelEx.ProductAppendix3Ex.Delete(_AppendixId);
+                    result = ProductAppendix3Ex.Delete(_AppendixId);
                     break;
             }
             MessageBox.Show(result ? "Record Removed" : "Can't Delete Record...", "Delete Result");

@@ -14,8 +14,8 @@ using Gizmox.WebGUI.Common.Interfaces;
 
 
 using RT2020.Controls;
-using RT2020.Helper;
-using RT2020.ModelEx;
+using RT2020.Common.Helper;
+using RT2020.Common.ModelEx;
 
 namespace RT2020.Inventory.Adjustment
 {
@@ -299,7 +299,7 @@ namespace RT2020.Inventory.Adjustment
                 { "FromTxDate", this.dtpTxDate.Value.ToString(DateTimeHelper.GetDateFormat()) },
                 { "ToTxDate", this.dtpTxDate.Value.ToString(DateTimeHelper.GetDateFormat()) },
                 { "PrintedOn", DateTime.Now.ToString(DateTimeHelper.GetDateTimeFormat()) },
-                { "PrintedBy", ModelEx.StaffEx.GetStaffNameById(ConfigHelper.CurrentUserId) },
+                { "PrintedBy", StaffEx.GetStaffNameById(ConfigHelper.CurrentUserId) },
                 { "DateFormat", DateTimeHelper.GetDateFormat() },
                 { "CompanyName", SystemInfoEx.CurrentInfo.Default.CompanyName},
                 { "StockCode", SystemInfoHelper.Settings.GetSystemLabelByKey("STKCODE") },
@@ -328,12 +328,12 @@ namespace RT2020.Inventory.Adjustment
 
         private void FillLocationList()
         {
-            ModelEx.WorkplaceEx.LoadCombo(ref cboWorkplace, "WorkplaceCode", false);
+            WorkplaceEx.LoadCombo(ref cboWorkplace, "WorkplaceCode", false);
         }
 
         private void FillStaffList()
         {
-            ModelEx.StaffEx.LoadCombo(ref cboOperatorCode, "StaffNumber", false);
+            StaffEx.LoadCombo(ref cboOperatorCode, "StaffNumber", false);
 
             cboOperatorCode.SelectedValue = ConfigHelper.CurrentUserId;
         }
@@ -469,7 +469,7 @@ namespace RT2020.Inventory.Adjustment
         #region Load ADJ Header Info
         private void LoadADJInfo()
         {
-            var oHeader = ModelEx.InvtBatchADJ_HeaderEx.Get(this.ADJId);
+            var oHeader = InvtBatchADJ_HeaderEx.Get(this.ADJId);
             if (oHeader != null)
             {
                 txtTxNumber.Text = oHeader.TxNumber;
@@ -485,10 +485,10 @@ namespace RT2020.Inventory.Adjustment
                 txtRefNumber.Text = oHeader.Reference;
 
                 txtLastUpdateOn.Text = DateTimeHelper.DateTimeToString(oHeader.ModifiedOn, false);
-                txtLastUpdateBy.Text = ModelEx.StaffEx.GetStaffNumberById(oHeader.ModifiedBy);
+                txtLastUpdateBy.Text = StaffEx.GetStaffNumberById(oHeader.ModifiedBy);
 
-                txtTotalQty.Text = ModelEx.InvtBatchADJ_DetailsEx.GetTotalQty(this.ADJId).ToString("n0");
-                txtTotalAmount.Text = ModelEx.InvtBatchADJ_DetailsEx.GetTotalAmount(this.ADJId).ToString("n2");
+                txtTotalQty.Text = InvtBatchADJ_DetailsEx.GetTotalQty(this.ADJId).ToString("n0");
+                txtTotalAmount.Text = InvtBatchADJ_DetailsEx.GetTotalAmount(this.ADJId).ToString("n2");
 
                 _WorkplaceId = oHeader.WorkplaceId;
 
@@ -568,7 +568,7 @@ namespace RT2020.Inventory.Adjustment
 
                     if (this.ADJId != System.Guid.Empty)
                     {
-                        SystemInfoHelper.Settings.RefreshMainList<Default>();
+                        Helper.DesktopHelper.RefreshMainList<Default>();
                         MessageBox.Show("Success!", "Save Result");
 
                         this.Close();
@@ -593,7 +593,7 @@ namespace RT2020.Inventory.Adjustment
 
                     if (this.ADJId != System.Guid.Empty)
                     {
-                        SystemInfoHelper.Settings.RefreshMainList<Default>();
+                        Helper.DesktopHelper.RefreshMainList<Default>();
                         this.Close();
                         RT2020.Inventory.Adjustment.Wizard wizard = new RT2020.Inventory.Adjustment.Wizard();
                         wizard.ShowDialog();
@@ -616,7 +616,7 @@ namespace RT2020.Inventory.Adjustment
 
                     if (this.ADJId != System.Guid.Empty)
                     {
-                        SystemInfoHelper.Settings.RefreshMainList<Default>();
+                        Helper.DesktopHelper.RefreshMainList<Default>();
                         this.Close();
                     }
                 }
@@ -631,7 +631,7 @@ namespace RT2020.Inventory.Adjustment
         {
             if (((Form)sender).DialogResult == DialogResult.Yes)
             {
-                ModelEx.InvtBatchADJ_HeaderEx.DeleteChildToo(this.ADJId);   // Delete();
+                InvtBatchADJ_HeaderEx.DeleteChildToo(this.ADJId);   // Delete();
 
                 this.Close();
             }
@@ -860,7 +860,7 @@ namespace RT2020.Inventory.Adjustment
                 Guid prodId = Guid.Empty;
                 Guid.TryParse(basicFindProduct.SelectedItem.ToString(), out prodId);
 
-                var oProd = ModelEx.ProductEx.Get(prodId);
+                var oProd = ProductEx.Get(prodId);
                 if (oProd != null)
                 {
                     stkCode = oProd.STKCODE;
@@ -994,7 +994,7 @@ namespace RT2020.Inventory.Adjustment
                 string wpCode = cboWorkplace.Text.Trim();
                 if (wpCode.Length >= 4)
                 {
-                    if (!ModelEx.WorkplaceEx.IsWorkplaceCodeInUse(wpCode.Substring(0, 4)))
+                    if (!WorkplaceEx.IsWorkplaceCodeInUse(wpCode.Substring(0, 4)))
                     {
                         errorProvider.SetError(cboWorkplace, "Location code does exist!");
                     }
@@ -1017,7 +1017,7 @@ namespace RT2020.Inventory.Adjustment
                 string staffNumber = cboOperatorCode.Text.Trim();
                 if (staffNumber.Length >= 4)
                 {
-                    if (!ModelEx.StaffEx.IsStaffNumberInUse(staffNumber.Substring(0, 4)))
+                    if (!StaffEx.IsStaffNumberInUse(staffNumber.Substring(0, 4)))
                     {
                         errorProvider.SetError(cboOperatorCode, "Operator code does exist!");
                     }
@@ -1039,7 +1039,7 @@ namespace RT2020.Inventory.Adjustment
         {
             foreach (RT2020.Controls.ProductSearcher.DetailData detail in resultList)
             {
-                var oProduct = ModelEx.ProductEx.Get(detail.ProductId);
+                var oProduct = ProductEx.Get(detail.ProductId);
                 if (oProduct != null)
                 {
                     string stkCode = oProduct.STKCODE;

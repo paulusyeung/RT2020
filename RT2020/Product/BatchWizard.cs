@@ -12,7 +12,9 @@ using Gizmox.WebGUI.Forms;
 using Gizmox.WebGUI.Common.Resources;
 
 using System.Linq;
-using RT2020.Helper;
+
+using RT2020.Common.Helper;
+using RT2020.Common.ModelEx;
 
 #endregion
 
@@ -324,7 +326,7 @@ namespace RT2020.Product
             Guid id = Guid.Empty;
             if (Guid.TryParse(cboAppendix1.SelectedValue.ToString(), out id))
             {
-                var detailList = ModelEx.ProductDim_DetailsEx.GetListByDimensionId(id);
+                var detailList = ProductDim_DetailsEx.GetListByDimensionId(id);
                 foreach (var detail in detailList)
                 {
                     if (!string.IsNullOrEmpty(detail.APPENDIX1))
@@ -340,7 +342,7 @@ namespace RT2020.Product
             Guid id = Guid.Empty;
             if (Guid.TryParse(cboAppendix2.SelectedValue.ToString(), out id))
             {
-                var detailList = ModelEx.ProductDim_DetailsEx.GetListByDimensionId(id);
+                var detailList = ProductDim_DetailsEx.GetListByDimensionId(id);
                 foreach (var detail in detailList)
                 {
                     if (!string.IsNullOrEmpty(detail.APPENDIX2))
@@ -356,7 +358,7 @@ namespace RT2020.Product
             Guid id = Guid.Empty;
             if (Guid.TryParse(cboAppendix3.SelectedValue.ToString(), out id))
             {
-                var detailList = ModelEx.ProductDim_DetailsEx.GetListByDimensionId(id);
+                var detailList = ProductDim_DetailsEx.GetListByDimensionId(id);
                 foreach (var detail in detailList)
                 {
                     if (!string.IsNullOrEmpty(detail.APPENDIX3))
@@ -378,9 +380,9 @@ namespace RT2020.Product
             objItem.SubItems.Add(a1);
             objItem.SubItems.Add(a2);
             objItem.SubItems.Add(a3);
-            objItem.SubItems.Add(ModelEx.ProductAppendix1Ex.GetIdByInitial(a1).ToString());
-            objItem.SubItems.Add(ModelEx.ProductAppendix2Ex.GetIdByInitial(a2).ToString());
-            objItem.SubItems.Add(ModelEx.ProductAppendix3Ex.GetIdByInitial(a3).ToString());
+            objItem.SubItems.Add(ProductAppendix1Ex.GetIdByInitial(a1).ToString());
+            objItem.SubItems.Add(ProductAppendix2Ex.GetIdByInitial(a2).ToString());
+            objItem.SubItems.Add(ProductAppendix3Ex.GetIdByInitial(a3).ToString());
         }
         #endregion
 
@@ -770,7 +772,7 @@ namespace RT2020.Product
                 oBatch.DATEPOST = new DateTime(1900, 1, 1);
                 oBatch.DATECREATE = DateTime.Now;
                 oBatch.DATELCHG = DateTime.Now;
-                oBatch.USERLCHG = ModelEx.StaffEx.GetStaffNumberById(ConfigHelper.CurrentUserId);
+                oBatch.USERLCHG = StaffEx.GetStaffNumberById(ConfigHelper.CurrentUserId);
                 oBatch.RETAILITEM = general.chkRetailItem.Checked.ToString();
                 oBatch.BINX = general.txtBin_X.Text;
                 oBatch.BINY = general.txtBin_Y.Text;

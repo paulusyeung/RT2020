@@ -12,9 +12,10 @@ using Gizmox.WebGUI.Forms;
 using Gizmox.WebGUI.Common.Resources;
 using Gizmox.WebGUI.Common.Interfaces;
 
-
 using System.Linq;
-using RT2020.Helper;
+
+using RT2020.Common.Helper;
+using RT2020.Common.ModelEx;
 
 namespace RT2020.Inventory.Transfer
 {
@@ -213,12 +214,12 @@ namespace RT2020.Inventory.Transfer
 
         private void FillFromLocationList()
         {
-            ModelEx.WorkplaceEx.LoadCombo(ref cboFromLocation, "WorkplaceCode", false);
+            WorkplaceEx.LoadCombo(ref cboFromLocation, "WorkplaceCode", false);
         }
 
         private void FillToLocationList()
         {
-            ModelEx.WorkplaceEx.LoadCombo(ref cboToLocation, "WorkplaceCode", false);
+            WorkplaceEx.LoadCombo(ref cboToLocation, "WorkplaceCode", false);
             cboToLocation.SelectedIndex = cboToLocation.Items.Count - 1;
         }
         #endregion
@@ -381,7 +382,7 @@ namespace RT2020.Inventory.Transfer
 
                                 oLedgerHeader.CONFIRM_TRF = this.IsConfirmedTransaction;
                                 oLedgerHeader.CONFIRM_TRF_LASTUPDATE = DateTime.Now;
-                                oLedgerHeader.CONFIRM_TRF_LASTUSER = ModelEx.StaffEx.GetStaffNumberById(ConfigHelper.CurrentUserId);
+                                oLedgerHeader.CONFIRM_TRF_LASTUSER = StaffEx.GetStaffNumberById(ConfigHelper.CurrentUserId);
 
                                 oLedgerHeader.ModifiedBy = ConfigHelper.CurrentUserId;
                                 oLedgerHeader.ModifiedOn = DateTime.Now;
@@ -654,7 +655,7 @@ namespace RT2020.Inventory.Transfer
                     dtpTxDate.Value = oBatchHeader.TxDate.Value;
 
                     txtLatestConfirmedOn.Text = DateTimeHelper.DateTimeToString(oBatchHeader.CONFIRM_TRF_LASTUPDATE.Value, false);
-                    txtLatestConfirmedBy.Text = ModelEx.StaffEx.GetStaffNumberById(oBatchHeader.CONFIRM_TRF_LASTUSER.Value);
+                    txtLatestConfirmedBy.Text = StaffEx.GetStaffNumberById(oBatchHeader.CONFIRM_TRF_LASTUSER.Value);
 
                     txtRecordStatus.Text = string.Format(txtRecordStatus.Text, oBatchHeader.TxType);
 
@@ -687,8 +688,8 @@ namespace RT2020.Inventory.Transfer
                         txtTxNumber.Text = oFepHeader.TxNumber;
                         txtTxType.Text = oFepHeader.TxType;
 
-                        cboFromLocation.SelectedValue = ModelEx.WorkplaceEx.GetWorkplaceIdByCode(oFepHeader.SHOP);
-                        cboToLocation.SelectedValue = ModelEx.WorkplaceEx.GetWorkplaceIdByCode(oFepHeader.FTSHOP);
+                        cboFromLocation.SelectedValue = WorkplaceEx.GetWorkplaceIdByCode(oFepHeader.SHOP);
+                        cboToLocation.SelectedValue = WorkplaceEx.GetWorkplaceIdByCode(oFepHeader.FTSHOP);
                         dtpTxDate.Value = oFepHeader.TxDate.Value;
 
                         txtLatestConfirmedOn.Text = DateTimeHelper.DateTimeToString(oFepHeader.CONFIRM_TRF_LASTUPDATE.Value, false);
@@ -1026,7 +1027,7 @@ namespace RT2020.Inventory.Transfer
             if (basicProduct.SelectedItem != null)
             {
                 //RT2020.DAL.Product oProd = RT2020.DAL.Product.Load(new Guid(basicProduct.SelectedItem.ToString()));
-                var oProd = ModelEx.ProductEx.Get((Guid)basicProduct.SelectedItem);
+                var oProd = ProductEx.Get((Guid)basicProduct.SelectedItem);
                 if (oProd != null)
                 {
                     stkCode = oProd.STKCODE;

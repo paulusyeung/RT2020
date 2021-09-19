@@ -15,8 +15,8 @@ using Gizmox.WebGUI.Common.Interfaces;
 using System.Web;
 using System.Data.Common;
 using System.Configuration;
-using RT2020.Helper;
-using RT2020.ModelEx;
+using RT2020.Common.Helper;
+using RT2020.Common.ModelEx;
 
 
 #endregion
@@ -34,8 +34,8 @@ namespace RT2020.Supplier.Reports
         #region FillComboBox
         private void FillComboBox()
         {
-            ModelEx.SupplierEx.LoadCombo(ref cmbFrom, "SupplierCode", false);
-            ModelEx.SupplierEx.LoadCombo(ref cmbTo, "SupplierCode", false);
+            SupplierEx.LoadCombo(ref cmbFrom, "SupplierCode", false);
+            SupplierEx.LoadCombo(ref cmbTo, "SupplierCode", false);
             cmbTo.SelectedIndex = cmbTo.Items.Count - 1;
         }
 

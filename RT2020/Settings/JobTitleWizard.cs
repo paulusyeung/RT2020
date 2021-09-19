@@ -14,8 +14,10 @@ using Gizmox.WebGUI.Common.Resources;
 using System.Data.SqlClient;
 using System.Configuration;
 using System.Linq;
-using RT2020.Helper;
 using System.Data.Entity;
+
+using RT2020.Common.Helper;
+using RT2020.Common.ModelEx;
 
 #endregion
 
@@ -212,7 +214,7 @@ namespace RT2020.Settings
         private void FillParentJobTitleList()
         {
             string sql = "JobTitleId NOT IN ('" + _JobTitleId.ToString() + "')";
-            ModelEx.JobTitleEx.LoadCombo(ref cboParentJobTitle, "JobTitleCode", true, true, "", sql);
+            JobTitleEx.LoadCombo(ref cboParentJobTitle, "JobTitleCode", true, true, "", sql);
         }
         #endregion
 
@@ -261,7 +263,7 @@ namespace RT2020.Settings
             #region 新增，要 check CountryCode 係咪 in use
             if (_JobTitleId == Guid.Empty)
             {
-                if (ModelEx.JobTitleEx.IsJobTitleCodeInUse(txtJobTitleCode.Text.Trim()))
+                if (JobTitleEx.IsJobTitleCodeInUse(txtJobTitleCode.Text.Trim()))
                 {
                     errorProvider.SetError(txtJobTitleCode, "Job Title Code in use");
                     result = false;

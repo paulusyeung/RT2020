@@ -15,8 +15,8 @@ using System.Text.RegularExpressions;
 using Gizmox.WebGUI.Common.Resources;
 using System.Configuration;
 using System.Linq;
-using RT2020.Helper;
-using RT2020.ModelEx;
+using RT2020.Common.Helper;
+using RT2020.Common.ModelEx;
 
 #endregion
 
@@ -49,7 +49,7 @@ namespace RT2020.Inventory.Replenishment
 
         private void FillComboBox()
         {
-            ModelEx.StaffEx.LoadCombo(ref cboStaff, "StaffNumber", false);
+            StaffEx.LoadCombo(ref cboStaff, "StaffNumber", false);
             cboStaff.SelectedValue = ConfigHelper.CurrentUserId;
         }
         #endregion
@@ -78,7 +78,7 @@ namespace RT2020.Inventory.Replenishment
                     objItem.SubItems.Add(reader.GetString(4)); // From Location
                     objItem.SubItems.Add(reader.GetString(5)); // To Location
                     objItem.SubItems.Add(DateTimeHelper.DateTimeToString(reader.GetDateTime(2), false)); // TxDate
-                    objItem.SubItems.Add(DateTimeHelper.DateTimeToString(reader.GetDateTime(10), false) + " " + ModelEx.StaffEx.GetStaffNumberById(reader.GetGuid(11))); // Last Update
+                    objItem.SubItems.Add(DateTimeHelper.DateTimeToString(reader.GetDateTime(10), false) + " " + StaffEx.GetStaffNumberById(reader.GetGuid(11))); // Last Update
                     objItem.BackColor = CheckTxDate(reader.GetDateTime(2)) ? Color.Transparent : SystemInfoHelper.ControlBackColor.DisabledBox;
 
                     iCount++;
@@ -199,7 +199,7 @@ namespace RT2020.Inventory.Replenishment
             if (txtTxNumber.Text.Trim().Length > 0)
             {
                 string sql = "TxNumber LIKE '%" + txtTxNumber.Text.Trim() + "%'";
-                var oHeader = ModelEx.InvtBatchRPL_HeaderEx.Get(sql);
+                var oHeader = InvtBatchRPL_HeaderEx.Get(sql);
                 if (oHeader != null)
                 {
                     EnumHelper.Status oStatus = (EnumHelper.Status)Enum.Parse(typeof(EnumHelper.Status), oHeader.Status.ToString());
@@ -287,7 +287,7 @@ namespace RT2020.Inventory.Replenishment
             Guid id = Guid.Empty;
             if (Guid.TryParse(headerId, out id))
             {
-                var oBatchHeader = ModelEx.InvtBatchRPL_HeaderEx.Get(id);
+                var oBatchHeader = InvtBatchRPL_HeaderEx.Get(id);
                 if (oBatchHeader != null)
                 {
                     if (!CheckTxDate(oBatchHeader.TxDate.Value))
@@ -341,13 +341,13 @@ namespace RT2020.Inventory.Replenishment
                         isPostable = isPostable & false;
                     }
 
-                    var detailList = ModelEx.InvtBatchRPL_DetailsEx.GetList("HeaderId = '" + oBatchHeader.HeaderId.ToString() + "' AND TxType = 'RPL'");
+                    var detailList = InvtBatchRPL_DetailsEx.GetList("HeaderId = '" + oBatchHeader.HeaderId.ToString() + "' AND TxType = 'RPL'");
                     foreach (var detail in detailList)
                     {
                         bool retired = false;
                         string stk = string.Empty, a1 = string.Empty, a2 = string.Empty, a3 = string.Empty;
 
-                        var oProduct = ModelEx.ProductEx.Get(detail.ProductId.Value);
+                        var oProduct = ProductEx.Get(detail.ProductId.Value);
                         if (oProduct != null)
                         {
                             stk = oProduct.STKCODE;
@@ -539,8 +539,8 @@ namespace RT2020.Inventory.Replenishment
 
                                 oHeader.Status = (int)EnumHelper.Status.Active;
 
-                                oHeader.FromLocation = ModelEx.WorkplaceEx.GetWorkplaceIdByCode(oBatchHeader.FromLocation);
-                                oHeader.ToLocation = ModelEx.WorkplaceEx.GetWorkplaceIdByCode(oBatchHeader.ToLocation);
+                                oHeader.FromLocation = WorkplaceEx.GetWorkplaceIdByCode(oBatchHeader.FromLocation);
+                                oHeader.ToLocation = WorkplaceEx.GetWorkplaceIdByCode(oBatchHeader.ToLocation);
                                 oHeader.StaffId = oBatchHeader.StaffId;
                                 oHeader.TxDate = oBatchHeader.TxDate;
                                 oHeader.TransferredOn = oBatchHeader.TXFOn;
@@ -774,7 +774,7 @@ namespace RT2020.Inventory.Replenishment
                 oTable = ErrorMessageTable();
             }
 
-            var oBatchHeader = ModelEx.InvtBatchRPL_HeaderEx.Get(headerId);
+            var oBatchHeader = InvtBatchRPL_HeaderEx.Get(headerId);
             if (oBatchHeader != null)
             {
                 if (dtpTxDate.Value == null || dtpTxDate.Value.Year <= 1900)
@@ -870,7 +870,7 @@ namespace RT2020.Inventory.Replenishment
                 }
                 else
                 {
-                    var staff = ModelEx.StaffEx.GetByStaffId((Guid)cboStaff.SelectedValue);
+                    var staff = StaffEx.GetByStaffId((Guid)cboStaff.SelectedValue);
                     if (staff != null)
                     {
                         if (staff.Retired)
@@ -985,8 +985,8 @@ namespace RT2020.Inventory.Replenishment
                             string txNumber = SystemInfoHelper.Settings.QueuingTxNumber(EnumHelper.TxType.TXF);
                             var headerId = Guid.Empty;
                             #region Guid headerId = ConsolidatedTXFBatchHeader(txNumber, fromLoc, toLoc, consolidatedTxNumber);
-                            var fromLocation = ModelEx.WorkplaceEx.GetWorkplaceIdByCode(fromLoc);
-                            var toLocation = ModelEx.WorkplaceEx.GetWorkplaceIdByCode(toLoc);
+                            var fromLocation = WorkplaceEx.GetWorkplaceIdByCode(fromLoc);
+                            var toLocation = WorkplaceEx.GetWorkplaceIdByCode(toLoc);
                             var staffId = Guid.Empty;
                             if (Guid.TryParse(cboStaff.SelectedValue.ToString(), out staffId) && fromLocation != Guid.Empty && toLocation != Guid.Empty)
                             {

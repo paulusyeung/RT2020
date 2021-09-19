@@ -19,7 +19,9 @@ namespace RT2020.Purchasing.Wizard
     
     using System.Linq;
     using System.Data.Entity;
-    using Helper;
+
+    using RT2020.Common.Helper;
+    using RT2020.Common.ModelEx;
 
     /// <summary>
     /// Documentation for the second part of PurchaseOrder.
@@ -139,7 +141,7 @@ namespace RT2020.Purchasing.Wizard
 
                     this.cboType.Text = orderType;
 
-                    this.txtOrderAmount.Text = ModelEx.PurchaseOrderDetailsEx.GetTotalAmount(this.OrderHeaderId).ToString("n2");
+                    this.txtOrderAmount.Text = PurchaseOrderDetailsEx.GetTotalAmount(this.OrderHeaderId).ToString("n2");
 
                     this.cboSupplierCode.SelectedValue = objHeader.SupplierId;
                     this.cboOperatorCode.SelectedValue = objHeader.StaffId;
@@ -162,13 +164,13 @@ namespace RT2020.Purchasing.Wizard
                     this.cboPartialShipment.SelectedIndex = objHeader.PartialShipment ? 0 : 1;
                     this.cboShipmentMethod.Text = objHeader.ShipmentMethod;
                     this.txtShipmentRemark.Text = objHeader.ShipmentRemarks;
-                    this.txtLastUser.Text = ModelEx.StaffEx.GetStaffNumberById(objHeader.ModifiedBy);
+                    this.txtLastUser.Text = StaffEx.GetStaffNumberById(objHeader.ModifiedBy);
                     this.txtFreightCharge.Text = objHeader.FreightChargePcn.ToString("n2");
                     this.txtHandlingCharge.Text = objHeader.HandlingChargePcn.ToString("n2");
                     this.txtInsuranceCharge.Text = objHeader.InsuranceChargePcn.ToString("n2");
                     this.txtOtherCharge.Text = objHeader.OtherChargesPcn.ToString("n2");
 
-                    this.txtTotalQty.Text = ModelEx.PurchaseOrderDetailsEx.GetTotalOrderQty(this.OrderHeaderId).ToString("n0");
+                    this.txtTotalQty.Text = PurchaseOrderDetailsEx.GetTotalOrderQty(this.OrderHeaderId).ToString("n0");
 
                     this.GetNetCost(objHeader.TotalCost, objHeader.GroupDiscount1, objHeader.GroupDiscount2, objHeader.GroupDiscount3, objHeader.FreightChargeAmt, objHeader.HandlingChargeAmt, objHeader.InsuranceChargeAmt, objHeader.OtherChargesAmt, objHeader.ChargeCoefficient);
 
@@ -259,7 +261,7 @@ namespace RT2020.Purchasing.Wizard
         /// </summary>
         private void LoadLastName()
         {
-            var objStaff = ModelEx.StaffEx.GetByStaffId(ConfigHelper.CurrentUserId);
+            var objStaff = StaffEx.GetByStaffId(ConfigHelper.CurrentUserId);
             if (objStaff != null)
             {
                 this.txtLastUser.Text = objStaff.StaffNumber;
@@ -501,7 +503,7 @@ namespace RT2020.Purchasing.Wizard
             {
                 //RT2020.DAL.Product objProd = RT2020.DAL.Product.Load(new Guid(this.basicProduct.SelectedItem.ToString()));
                 var productId = new Guid(this.basicProduct.SelectedItem.ToString());
-                var objProd = ModelEx.ProductEx.Get(productId);
+                var objProd = ProductEx.Get(productId);
                 if (objProd != null)
                 {
                     stkCode = objProd.STKCODE;
@@ -558,7 +560,7 @@ namespace RT2020.Purchasing.Wizard
         /// </summary>
         private void FillSupplierList()
         {
-            ModelEx.SupplierEx.LoadCombo(ref this.cboSupplierCode, "SupplierCode", false);
+            SupplierEx.LoadCombo(ref this.cboSupplierCode, "SupplierCode", false);
         }
 
         /// <summary>
@@ -566,7 +568,7 @@ namespace RT2020.Purchasing.Wizard
         /// </summary>
         private void FillOperationList()
         {
-            ModelEx.StaffEx.LoadCombo(ref this.cboOperatorCode, "StaffNumber", false);
+            StaffEx.LoadCombo(ref this.cboOperatorCode, "StaffNumber", false);
         }
 
         /// <summary>
@@ -574,7 +576,7 @@ namespace RT2020.Purchasing.Wizard
         /// </summary>
         private void FillCurrencyList()
         {
-            ModelEx.CurrencyEx.LoadCombo(ref this.cboCurrency, "CurrencyCode", false);
+            CurrencyEx.LoadCombo(ref this.cboCurrency, "CurrencyCode", false);
         }
 
         /// <summary>
@@ -582,7 +584,7 @@ namespace RT2020.Purchasing.Wizard
         /// </summary>
         private void FillLocationList()
         {
-            ModelEx.WorkplaceEx.LoadCombo(ref this.cboLocation, "WorkplaceCode", false);
+            WorkplaceEx.LoadCombo(ref this.cboLocation, "WorkplaceCode", false);
         }
 
         /// <summary>
@@ -590,7 +592,7 @@ namespace RT2020.Purchasing.Wizard
         /// </summary>
         private void FillShipmentMethodList()
         {
-            ModelEx.ShipmentMethodEx.LoadCombo(ref this.cboShipmentMethod, "MethodCode", false);
+            ShipmentMethodEx.LoadCombo(ref this.cboShipmentMethod, "MethodCode", false);
         }
 
         /// <summary>
@@ -598,7 +600,7 @@ namespace RT2020.Purchasing.Wizard
         /// </summary>
         private void FillSupplierTermsList()
         {
-            ModelEx.SupplierTermsEx.LoadCombo(ref this.cboPaymentMethod, "TermsCode", false);
+            SupplierTermsEx.LoadCombo(ref this.cboPaymentMethod, "TermsCode", false);
         }
         #endregion
 
@@ -873,7 +875,7 @@ namespace RT2020.Purchasing.Wizard
 
                     if (this.OrderHeaderId != System.Guid.Empty)
                     {
-                        SystemInfoHelper.Settings.RefreshMainList<DefaultPOList>();
+                        Helper.DesktopHelper.RefreshMainList<DefaultPOList>();
                         MessageBox.Show("Success!", "Save Result");
 
                         this.Close();
@@ -903,7 +905,7 @@ namespace RT2020.Purchasing.Wizard
 
                     if (this.OrderHeaderId != System.Guid.Empty)
                     {
-                        SystemInfoHelper.Settings.RefreshMainList<DefaultPOList>();
+                        Helper.DesktopHelper.RefreshMainList<DefaultPOList>();
                         this.Close();
                         PurchaseOrder purchaseOrder = new PurchaseOrder();
                         purchaseOrder.ShowDialog();
@@ -931,7 +933,7 @@ namespace RT2020.Purchasing.Wizard
 
                     if (this.OrderHeaderId != System.Guid.Empty)
                     {
-                        SystemInfoHelper.Settings.RefreshMainList<DefaultPOList>();
+                        Helper.DesktopHelper.RefreshMainList<DefaultPOList>();
                         this.Close();
                     }
                 }

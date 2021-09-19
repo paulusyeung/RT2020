@@ -16,7 +16,9 @@ namespace RT2020.Purchasing.Wizard
     
     using System.Linq;
     using System.Data.Entity;
-    using Helper;
+
+    using RT2020.Common.Helper;
+    using RT2020.Common.ModelEx;
 
     /// <summary>
     ///  Documentation for the second part of SettleOrder.
@@ -111,7 +113,7 @@ namespace RT2020.Purchasing.Wizard
         /// </summary>
         private void LoadLastName()
         {
-            this.txtLastUser.Text = ModelEx.StaffEx.GetStaffNumberById(ConfigHelper.CurrentUserId);
+            this.txtLastUser.Text = StaffEx.GetStaffNumberById(ConfigHelper.CurrentUserId);
         }
 
         /// <summary>
@@ -197,7 +199,7 @@ namespace RT2020.Purchasing.Wizard
         /// </summary>
         private void FillSupplierList()
         {
-            ModelEx.SupplierEx.LoadCombo(ref this.cboSupplierCode, "SupplierCode", false);
+            SupplierEx.LoadCombo(ref this.cboSupplierCode, "SupplierCode", false);
         }
 
         /// <summary>
@@ -205,7 +207,7 @@ namespace RT2020.Purchasing.Wizard
         /// </summary>
         private void FillOperationList()
         {
-            ModelEx.StaffEx.LoadCombo(ref this.cboOperatorCode, "StaffNumber", false);
+            StaffEx.LoadCombo(ref this.cboOperatorCode, "StaffNumber", false);
         }
 
         /// <summary>
@@ -213,7 +215,7 @@ namespace RT2020.Purchasing.Wizard
         /// </summary>
         private void FillCurrencyList()
         {
-            ModelEx.CurrencyEx.LoadCombo(ref this.cboCurrency, "CurrencyCode", false);
+            CurrencyEx.LoadCombo(ref this.cboCurrency, "CurrencyCode", false);
         }
 
         /// <summary>
@@ -221,7 +223,7 @@ namespace RT2020.Purchasing.Wizard
         /// </summary>
         private void FillLocationList()
         {
-            ModelEx.WorkplaceEx.LoadCombo(ref this.cboLocation, "WorkplaceCode", false);
+            WorkplaceEx.LoadCombo(ref this.cboLocation, "WorkplaceCode", false);
         }
 
         /// <summary>
@@ -229,7 +231,7 @@ namespace RT2020.Purchasing.Wizard
         /// </summary>
         private void FillShipmentMethodList()
         {
-            ModelEx.ShipmentMethodEx.LoadCombo(ref this.cboShipmentMethod, "MethodCode", false);
+            ShipmentMethodEx.LoadCombo(ref this.cboShipmentMethod, "MethodCode", false);
         }
 
         /// <summary>
@@ -237,7 +239,7 @@ namespace RT2020.Purchasing.Wizard
         /// </summary>
         private void FillSupplierTermsList()
         {
-            ModelEx.SupplierTermsEx.LoadCombo(ref this.cboPaymentMethod, "TermsCode", false);
+            SupplierTermsEx.LoadCombo(ref this.cboPaymentMethod, "TermsCode", false);
         }
         #endregion
 
@@ -351,7 +353,7 @@ namespace RT2020.Purchasing.Wizard
 
                     if (this.ReceivingHeaderId != System.Guid.Empty)
                     {
-                        SystemInfoHelper.Settings.RefreshMainList<DefaultOSTList>();
+                        Helper.DesktopHelper.RefreshMainList<DefaultOSTList>();
                         MessageBox.Show("Success!", "Save Result");
 
                         this.Close();
@@ -381,7 +383,7 @@ namespace RT2020.Purchasing.Wizard
 
                     if (this.ReceivingHeaderId != System.Guid.Empty)
                     {
-                        SystemInfoHelper.Settings.RefreshMainList<DefaultOSTList>();
+                        Helper.DesktopHelper.RefreshMainList<DefaultOSTList>();
                         this.Close();
                         SettleOrder settleOrder = new SettleOrder();
                         settleOrder.ShowDialog();
@@ -409,7 +411,7 @@ namespace RT2020.Purchasing.Wizard
 
                     if (this.ReceivingHeaderId != System.Guid.Empty)
                     {
-                        SystemInfoHelper.Settings.RefreshMainList<DefaultOSTList>();
+                        Helper.DesktopHelper.RefreshMainList<DefaultOSTList>();
                         this.Close();
                     }
                 }
@@ -539,7 +541,7 @@ namespace RT2020.Purchasing.Wizard
                     this.cboPartialShipment.SelectedItem = objHeader.PartialShipment ? "YES" : "NO";
                     this.cboShipmentMethod.Text = objHeader.ShipmentMethod;
                     this.txtShipmentRemark.Text = objHeader.ShipmentRemarks;
-                    this.txtLastUser.Text = ModelEx.StaffEx.GetStaffNumberById(objHeader.ModifiedBy);
+                    this.txtLastUser.Text = StaffEx.GetStaffNumberById(objHeader.ModifiedBy);
 
                     this.cboStatus.SelectedItem = (objHeader.Status == 0) ? "HOLD" : "POST";
                     this.txtXRate.Text = objHeader.ExchangeRate.Value.ToString("n6");

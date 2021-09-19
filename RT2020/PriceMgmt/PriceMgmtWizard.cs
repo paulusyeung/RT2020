@@ -5,16 +5,16 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Linq;
 using System.Text;
 
 using Gizmox.WebGUI.Common;
 using Gizmox.WebGUI.Forms;
 using Gizmox.WebGUI.Common.Resources;
-
-using System.Linq;
-using RT2020.Helper;
 using Gizmox.WebGUI.Forms.Dialogs;
-using RT2020.ModelEx;
+
+using RT2020.Common.Helper;
+using RT2020.Common.ModelEx;
 
 #endregion
 
@@ -171,7 +171,7 @@ namespace RT2020.PriceMgmt
             var textField = new string[] { "ReasonCode", "ReasonName" };
             var pattern = "{0} - {1}";
             var orderBy = new string[] { "ReasonCode" };
-            ModelEx.PriceManagementReasonEx.LoadCombo(ref cboReasonCode, textField, pattern, true, true, string.Empty, "", orderBy);
+            PriceManagementReasonEx.LoadCombo(ref cboReasonCode, textField, pattern, true, true, string.Empty, "", orderBy);
         }
 
         #region ToolBar
@@ -609,7 +609,7 @@ AND CONVERT(NVARCHAR(10),EffectDate,126) BETWEEN '" + this.dtpEffectiveDate.Valu
                     txtRemarks.Text = oHeader.Remarks;
 
                     txtModifiedOn.Text = DateTimeHelper.DateTimeToString(oHeader.ModifiedOn.Value, true);
-                    txtModifiedBy.Text = ModelEx.StaffEx.GetStaffNumberById(oHeader.ModifiedBy);
+                    txtModifiedBy.Text = StaffEx.GetStaffNumberById(oHeader.ModifiedBy);
                     txtCreatedOn.Text = DateTimeHelper.DateTimeToString(oHeader.CreatedOn.Value, true);
 
                 }
@@ -915,7 +915,7 @@ AND CONVERT(NVARCHAR(10),EffectDate,126) BETWEEN '" + this.dtpEffectiveDate.Valu
             {
                 if (Save())
                 {
-                    SystemInfoHelper.Settings.RefreshMainList<DiscountReasonList>();
+                    Helper.DesktopHelper.RefreshMainList<DiscountReasonList>();
                     MessageBox.Show("Success!", "Save Result");
 
                     this.Close();
@@ -938,7 +938,7 @@ AND CONVERT(NVARCHAR(10),EffectDate,126) BETWEEN '" + this.dtpEffectiveDate.Valu
             {
                 if (Save())
                 {
-                    SystemInfoHelper.Settings.RefreshMainList<DiscountReasonList>();
+                    Helper.DesktopHelper.RefreshMainList<DiscountReasonList>();
                     this.Close();
                     PriceMgmtWizard wizard = new PriceMgmtWizard();
                     wizard.PMType = this.PMType;
@@ -958,7 +958,7 @@ AND CONVERT(NVARCHAR(10),EffectDate,126) BETWEEN '" + this.dtpEffectiveDate.Valu
             {
                 if (Save())
                 {
-                    SystemInfoHelper.Settings.RefreshMainList<DiscountReasonList>();
+                    Helper.DesktopHelper.RefreshMainList<DiscountReasonList>();
                     this.Close();
                 }
             }

@@ -13,7 +13,9 @@ using System.Data.SqlClient;
 
 using System.Text.RegularExpressions;
 using System.Configuration;
-using RT2020.Helper;
+
+using RT2020.Common.Helper;
+using RT2020.Common.ModelEx;
 
 #endregion
 
@@ -64,7 +66,7 @@ namespace RT2020.Inventory.Replenishment
                     objItem.SubItems.Add(string.Empty); // CompletedDate
                     objItem.SubItems.Add(reader.GetString(4)); // From Location
                     objItem.SubItems.Add(reader.GetString(5)); // To Location
-                    objItem.SubItems.Add(DateTimeHelper.DateTimeToString(reader.GetDateTime(13), false) + " " + ModelEx.StaffEx.GetStaffNumberById(reader.GetGuid(14))); // Last Update
+                    objItem.SubItems.Add(DateTimeHelper.DateTimeToString(reader.GetDateTime(13), false) + " " + StaffEx.GetStaffNumberById(reader.GetGuid(14))); // Last Update
 
                     iCount++;
                 }

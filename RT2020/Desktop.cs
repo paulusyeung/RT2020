@@ -16,7 +16,7 @@ using RT2020.Controls;
 
 using System.Web.Caching;
 using RT2020.Components.Layout;
-using RT2020.Helper;
+using RT2020.Common.Helper;
 
 #endregion
 
@@ -105,8 +105,8 @@ namespace RT2020
             /**
              * 2020.03.20 paulus: 根據個 theme 改個 background color
              */
-            Context.CurrentTheme = Helper.ThemeHelper.CurrentThemeVWGName;
-            wspPane.BackColor = Helper.ThemeHelper.TopPanel_BackgroundColor;
+            Context.CurrentTheme = ThemeHelper.CurrentThemeVWGName;
+            wspPane.BackColor = ThemeHelper.TopPanel_BackgroundColor;
         }
 
         private void SetNavPanes()

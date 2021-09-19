@@ -10,10 +10,10 @@ using System.Text;
 using Gizmox.WebGUI.Common;
 using Gizmox.WebGUI.Forms;
 using System.Data.SqlClient;
-using RT2020.Helper;
+using RT2020.Common.Helper;
 using System.Collections;
 using System.IO;
-using RT2020.ModelEx;
+using RT2020.Common.ModelEx;
 
 #endregion
 

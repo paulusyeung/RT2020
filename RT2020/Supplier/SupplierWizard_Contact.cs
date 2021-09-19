@@ -9,9 +9,11 @@ using System.Text;
 
 using Gizmox.WebGUI.Common;
 using Gizmox.WebGUI.Forms;
-using RT2020.Helper;
 using System.Linq;
 using System.Data.Entity;
+
+using RT2020.Common.Helper;
+using RT2020.Common.ModelEx;
 
 #endregion
 
@@ -168,12 +170,12 @@ namespace RT2020.Supplier
 
         private void FillSalutationList()
         {
-            ModelEx.SalutationEx.LoadCombo(ref cboSalutation, "SalutationName", true, true, String.Empty, String.Empty);
+            SalutationEx.LoadCombo(ref cboSalutation, "SalutationName", true, true, String.Empty, String.Empty);
         }
 
         private void FillJobTitleList()
         {
-            ModelEx.JobTitleEx.LoadCombo(ref cboJobTitle, "JobTitleName", true, true, String.Empty, String.Empty);
+            JobTitleEx.LoadCombo(ref cboJobTitle, "JobTitleName", true, true, String.Empty, String.Empty);
         }
         #endregion
 

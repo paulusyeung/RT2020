@@ -13,9 +13,11 @@ using Gizmox.WebGUI.Common.Resources;
 
 using System.Data.SqlClient;
 using System.Configuration;
-using RT2020.Helper;
 using System.Linq;
 using System.Data.Entity;
+
+using RT2020.Common.Helper;
+using RT2020.Common.ModelEx;
 
 #endregion
 
@@ -254,7 +256,7 @@ namespace RT2020.Settings
 
             #region 新增，要 check TagCode 係咪 in use
             errorProvider.SetError(txtInternetTagCode, string.Empty);
-            if (_TagId == Guid.Empty && ModelEx.InternetTagEx.IsInternetTagCodeInUse(txtInternetTagCode.Text.Trim()))
+            if (_TagId == Guid.Empty && InternetTagEx.IsInternetTagCodeInUse(txtInternetTagCode.Text.Trim()))
             {
                 errorProvider.SetError(txtInternetTagCode, "Tag Code in use");
                 return false;

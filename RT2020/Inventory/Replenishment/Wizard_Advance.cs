@@ -11,7 +11,9 @@ using Gizmox.WebGUI.Common;
 using Gizmox.WebGUI.Forms;
 
 using Gizmox.WebGUI.Common.Resources;
-using RT2020.Helper;
+
+using RT2020.Common.Helper;
+using RT2020.Common.ModelEx;
 
 #endregion
 
@@ -156,7 +158,7 @@ namespace RT2020.Inventory.Replenishment
         #region Delete
         private void Delete()
         {
-            ModelEx.InvtBatchTXF_HeaderEx.DeleteChildToo(this.RplId);
+            InvtBatchTXF_HeaderEx.DeleteChildToo(this.RplId);
         }
         #endregion
 
@@ -169,7 +171,7 @@ namespace RT2020.Inventory.Replenishment
 
                 if (this.RplId != System.Guid.Empty)
                 {
-                    SystemInfoHelper.Settings.RefreshMainList<Default>();
+                    Helper.DesktopHelper.RefreshMainList<Default>();
                     MessageBox.Show("Success!", "Save Result");
 
                     this.Close();
@@ -187,7 +189,7 @@ namespace RT2020.Inventory.Replenishment
 
                 if (this.RplId != System.Guid.Empty)
                 {
-                    SystemInfoHelper.Settings.RefreshMainList<Default>();
+                    Helper.DesktopHelper.RefreshMainList<Default>();
                     this.Close();
                     RT2020.Inventory.Replenishment.Wizard wizard = new RT2020.Inventory.Replenishment.Wizard();
                     wizard.ShowDialog();
@@ -203,7 +205,7 @@ namespace RT2020.Inventory.Replenishment
 
                 if (this.RplId != System.Guid.Empty)
                 {
-                    SystemInfoHelper.Settings.RefreshMainList<Default>();
+                    Helper.DesktopHelper.RefreshMainList<Default>();
                     this.Close();
                 }
             }

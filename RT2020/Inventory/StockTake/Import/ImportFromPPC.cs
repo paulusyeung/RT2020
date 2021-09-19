@@ -16,7 +16,9 @@ using RT2020.Controls;
 
 using FileHelpers;
 using System.Data.Entity;
-using RT2020.Helper;
+
+using RT2020.Common.Helper;
+using RT2020.Common.ModelEx;
 
 #endregion
 
@@ -411,7 +413,7 @@ namespace RT2020.Inventory.StockTake.Import
                                 Utility.WriteLog("	[ERROR] The Stock Take Number was posted, cannot be used anymore. ", logFile);
                                 isValid = isValid & false;
                             }
-                            else if (!ModelEx.WorkplaceEx.GetWorkplaceCodeById(stktkHeader.WorkplaceId.Value).Equals(lvItem.Text.Trim()))
+                            else if (!WorkplaceEx.GetWorkplaceCodeById(stktkHeader.WorkplaceId.Value).Equals(lvItem.Text.Trim()))
                             {
                                 Utility.WriteLog("	[ERROR] The loc# in Stock Take Header must be as same as the selected one. ", logFile);
                                 isValid = isValid & false;
@@ -481,7 +483,7 @@ namespace RT2020.Inventory.StockTake.Import
                             }
                             else
                             {
-                                Guid productId = ModelEx.ProductBarcodeEx.GetProductIdByBarcode(detailInfo.Barcode);
+                                Guid productId = ProductBarcodeEx.GetProductIdByBarcode(detailInfo.Barcode);
 
                                 if (productId == System.Guid.Empty)
                                 {
@@ -637,7 +639,7 @@ namespace RT2020.Inventory.StockTake.Import
                     {
                         foreach (ImportDetailsInfo detail in detailList)
                         {
-                            Guid productId = ModelEx.ProductBarcodeEx.GetProductIdByBarcode(detail.Barcode);
+                            Guid productId = ProductBarcodeEx.GetProductIdByBarcode(detail.Barcode);
 
                             if (!string.IsNullOrEmpty(detail.Barcode.Trim()) && productId != Guid.Empty)
                             {
@@ -728,7 +730,7 @@ namespace RT2020.Inventory.StockTake.Import
                     {
                         foreach (ImportDetailsInfo detail in detailList)
                         {
-                            Guid productId = ModelEx.ProductBarcodeEx.GetProductIdByBarcode(detail.Barcode);
+                            Guid productId = ProductBarcodeEx.GetProductIdByBarcode(detail.Barcode);
 
                             if (!string.IsNullOrEmpty(detail.Barcode.Trim()) && productId != System.Guid.Empty)
                             {

@@ -13,9 +13,11 @@ using Gizmox.WebGUI.Common.Resources;
 
 using System.Data.SqlClient;
 using System.Configuration;
-using RT2020.Helper;
 using System.Linq;
 using System.Data.Entity;
+
+using RT2020.Common.Helper;
+using RT2020.Common.ModelEx;
 
 #endregion
 
@@ -231,14 +233,14 @@ namespace RT2020.Settings
 
         private void FillCurrencyList()
         {
-            ModelEx.CurrencyEx.LoadCombo(ref cboCurrency, "CurrencyCode", false, true, "", "");
+            CurrencyEx.LoadCombo(ref cboCurrency, "CurrencyCode", false, true, "", "");
         }
 
         private void FillParentLineList()
         {
             string sql = "LineOfOperationId NOT IN ('" + this.LineOfOperationId.ToString() + "')";
             string[] orderBy = new string[] { "LineOfOperationCode" };
-            ModelEx.LineOfOperationEx.LoadCombo(ref cboParentLine, "LineOfOperationCode", true, true, "", sql, orderBy);
+            LineOfOperationEx.LoadCombo(ref cboParentLine, "LineOfOperationCode", true, true, "", sql, orderBy);
         }
         #endregion
 
@@ -259,7 +261,7 @@ namespace RT2020.Settings
 
             #region 新增，要 check Group Code 係咪 in use
             errorProvider.SetError(txtLineOfOperationCode, string.Empty);
-            if (this.LineOfOperationId == Guid.Empty && ModelEx.LineOfOperationEx.IsLineOfOperationCodeInUse(txtLineOfOperationCode.Text.Trim()))
+            if (this.LineOfOperationId == Guid.Empty && LineOfOperationEx.IsLineOfOperationCodeInUse(txtLineOfOperationCode.Text.Trim()))
             {
                 errorProvider.SetError(txtLineOfOperationCode, "Group Code in use");
                 return false;

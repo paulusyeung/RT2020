@@ -7,7 +7,7 @@ using System.Reflection;
 
 using Gizmox.WebGUI.Forms;
 
-using RT2020.Helper;
+using RT2020.Common.Helper;
 
 namespace RT2020.ModelEx
 {

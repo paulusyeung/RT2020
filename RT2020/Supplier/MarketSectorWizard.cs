@@ -13,9 +13,11 @@ using Gizmox.WebGUI.Common.Resources;
 
 using System.Data.SqlClient;
 using System.Configuration;
-using RT2020.Helper;
 using System.Linq;
 using System.Data.Entity;
+
+using RT2020.Common.Helper;
+using RT2020.Common.ModelEx;
 
 #endregion
 
@@ -217,7 +219,7 @@ namespace RT2020.Supplier
             string sql = "MarketSectorId NOT IN ('" + _MarketSectorId.ToString() + "')";
             string[] orderBy = new string[] { "MarketSectorCode" };
 
-            ModelEx.MarketSectorEx.LoadCombo(ref cboParentSector, "MarketSectorCode", false, true, "", sql, orderBy);
+            MarketSectorEx.LoadCombo(ref cboParentSector, "MarketSectorCode", false, true, "", sql, orderBy);
         }
         #endregion
 
@@ -271,7 +273,7 @@ namespace RT2020.Supplier
 
             #region 新增，要 check CountryCode 係咪 in use
             errorProvider.SetError(txtMarketSectorCode, string.Empty);
-            if (_MarketSectorId == System.Guid.Empty && ModelEx.MarketSectorEx.IsMarketSectorCodeInUse(txtMarketSectorCode.Text.Trim()))
+            if (_MarketSectorId == System.Guid.Empty && MarketSectorEx.IsMarketSectorCodeInUse(txtMarketSectorCode.Text.Trim()))
             {
                 errorProvider.SetError(txtMarketSectorCode, "Market Sector Code in use");
                 return false;

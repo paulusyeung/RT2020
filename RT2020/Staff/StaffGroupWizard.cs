@@ -14,7 +14,9 @@ using System.Data.SqlClient;
 using System.Configuration;
 using System.Linq;
 using System.Data.Entity;
-using RT2020.Helper;
+
+using RT2020.Common.Helper;
+using RT2020.Common.ModelEx;
 
 #endregion
 
@@ -225,7 +227,7 @@ namespace RT2020.Staff
             var sql = "GroupId NOT IN ('" + this.StaffGroupId.ToString() + "')";
             var orderBy = new string[] { "GradeCode" };
 
-            ModelEx.StaffGroupEx.LoadCombo(ref cboParentGrade, textFields, pattern, true, true, "", sql, orderBy);
+            StaffGroupEx.LoadCombo(ref cboParentGrade, textFields, pattern, true, true, "", sql, orderBy);
         }
         #endregion
 
@@ -274,7 +276,7 @@ namespace RT2020.Staff
             #region 新增，要 check CityCode 係咪 in use
             if (_GroupId == Guid.Empty)
             {
-                if (ModelEx.StaffGroupEx.IsGradeCodeInUse(txtStaffGroupCode.Text.Trim()))
+                if (StaffGroupEx.IsGradeCodeInUse(txtStaffGroupCode.Text.Trim()))
                 {
                     errorProvider.SetError(txtStaffGroupCode, "Grade Code in use");
                     return false;
@@ -321,7 +323,7 @@ namespace RT2020.Staff
 
         private void Delete()
         {
-            if (!ModelEx.StaffGroupEx.Delete(this.StaffGroupId))
+            if (!StaffGroupEx.Delete(this.StaffGroupId))
             {
                 MessageBox.Show("Cannot delete the record being used by other record!", "Delete Warning");
             }

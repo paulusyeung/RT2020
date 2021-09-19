@@ -9,7 +9,7 @@ using System.Text;
 
 using Gizmox.WebGUI.Common;
 using Gizmox.WebGUI.Forms;
-using RT2020.ModelEx;
+using RT2020.Common.ModelEx;
 
 
 
@@ -58,7 +58,7 @@ namespace RT2020.EmulatedPoS
         /// </summary>
         private void FillLocationList()
         {
-            ModelEx.WorkplaceEx.LoadCombo(ref cboWorkplace, "WorkplaceCode", false);
+            WorkplaceEx.LoadCombo(ref cboWorkplace, "WorkplaceCode", false);
         }
 
         /// <summary>

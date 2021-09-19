@@ -16,8 +16,10 @@ using Gizmox.WebGUI.Common.Interfaces;
 using System.Reflection;
 using RT2020.Controls;
 using System.Configuration;
-using RT2020.Helper;
 using Westwind.Globalization;
+
+using RT2020.Common.Helper;
+using RT2020.Common.ModelEx;
 
 #endregion
 
@@ -91,7 +93,7 @@ namespace RT2020.Public
         /// </summary>
         public void FillZoneList()
         {
-            ModelEx.WorkplaceZoneEx.LoadCombo(ref cboZone, "ZoneName", true);
+            WorkplaceZoneEx.LoadCombo(ref cboZone, "ZoneName", true);
 
             if (ConfigHelper.CurrentZoneId != Guid.Empty)
                 cboZone.SelectedValue = ConfigHelper.CurrentZoneId;
@@ -130,10 +132,10 @@ namespace RT2020.Public
         {
             if (Verify())
             {
-                var oUser = ModelEx.UserProfileEx.GetLoginUser(txtStaffNumber.Text.Trim().Replace("'", ""), txtPassword.Text.Trim().Replace("'", ""));
+                var oUser = UserProfileEx.GetLoginUser(txtStaffNumber.Text.Trim().Replace("'", ""), txtPassword.Text.Trim().Replace("'", ""));
                 if (oUser != null)
                 {
-                    var oStaff = ModelEx.StaffEx.GetByStaffId(oUser.UserSid);
+                    var oStaff = StaffEx.GetByStaffId(oUser.UserSid);
                     if (oStaff != null)
                     {
                         if (oStaff.Status > Convert.ToInt32(EnumHelper.Status.Inactive.ToString("d")))

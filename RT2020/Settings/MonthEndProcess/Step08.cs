@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 
 using RT2020.Controls;
-using RT2020.ModelEx;
+using RT2020.Common.ModelEx;
 
 namespace RT2020.Settings.MonthEndProcess
 {

@@ -6,7 +6,7 @@ using System.Text;
 using System.Data.SqlClient;
 using System.Configuration;
 using RT2020.Controls;
-using RT2020.ModelEx;
+using RT2020.Common.ModelEx;
 
 namespace RT2020.Settings.MonthEndProcess
 {
@@ -50,7 +50,7 @@ namespace RT2020.Settings.MonthEndProcess
                                 if (oDetail != null)
                                 {
                                     oDetail.TxDate = oHeader.TxDate;
-                                    oDetail.SHOP = ModelEx.WorkplaceEx.GetWorkplaceCodeById(oHeader.WorkplaceId);
+                                    oDetail.SHOP = WorkplaceEx.GetWorkplaceCodeById(oHeader.WorkplaceId);
 
                                     #region this.AppendMissingProductWorkplace(oDetail.ProductId, oHeader.WorkplaceId);
                                     var oProdWp = ctx.ProductWorkplace.Where(x => x.ProductId == oDetail.ProductId && x.WorkplaceId == oHeader.WorkplaceId).FirstOrDefault();

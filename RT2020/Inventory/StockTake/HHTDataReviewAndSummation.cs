@@ -13,7 +13,8 @@ using Gizmox.WebGUI.Forms;
 using System.Data.SqlClient;
 using System.Configuration;
 
-using RT2020.Helper;
+using RT2020.Common.Helper;
+using RT2020.Common.ModelEx;
 
 #endregion
 
@@ -139,7 +140,7 @@ namespace RT2020.Inventory.StockTake
                 if (hhtHeader != null)
                 {
                     //string sql = "TxNumber = '" + hhtHeader.TxNumber + "'";
-                    var stkHeader = ModelEx.StockTakeHeaderEx.GetByTxNumber(hhtHeader.TxNumber);
+                    var stkHeader = StockTakeHeaderEx.GetByTxNumber(hhtHeader.TxNumber);
                     if (stkHeader != null)
                     {
                         if (!string.IsNullOrEmpty(stkHeader.ADJNUM) && stkHeader.PostedOn.Value.Year > 1900)
@@ -264,7 +265,7 @@ namespace RT2020.Inventory.StockTake
 
                         stkDetail.HHTQty = hhtDetail.Qty;
                     }
-                    stkDetail.AverageCost = ModelEx.ProductCurrentSummaryEx.GetAverageCode(stkDetail.ProductId.Value);
+                    stkDetail.AverageCost = ProductCurrentSummaryEx.GetAverageCode(stkDetail.ProductId.Value);
                     stkDetail.HHTQty = (stkDetail.HHTQty == null ? 0 : stkDetail.HHTQty) + hhtDetail.Qty;
                     ctx.SaveChanges();
                 }

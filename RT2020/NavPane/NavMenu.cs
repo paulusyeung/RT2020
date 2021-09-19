@@ -11,7 +11,7 @@ using Gizmox.WebGUI.Common.Resources;
 using Gizmox.WebGUI.Forms;
 using System.IO;
 using System.Collections.Generic;
-using RT2020.Helper;
+using RT2020.Common.Helper;
 
 namespace RT2020.NavPane
 {

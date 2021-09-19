@@ -16,8 +16,8 @@ namespace RT2020.Purchasing.Reports.Others
     using Gizmox.WebGUI.Forms;
 
 
-    using Helper;
-    using ModelEx;
+    using RT2020.Common.Helper;
+    using RT2020.Common.ModelEx;
 
     /// <summary>
     /// Remarks class
@@ -48,7 +48,7 @@ namespace RT2020.Purchasing.Reports.Others
         /// </summary>
         private void FillFromList()
         {
-            ModelEx.RemarksEx.LoadCombo(ref cboFrom, "RemarkCode", false);
+            RemarksEx.LoadCombo(ref cboFrom, "RemarkCode", false);
         }
 
         /// <summary>
@@ -56,7 +56,7 @@ namespace RT2020.Purchasing.Reports.Others
         /// </summary>
         private void FillToList()
         {
-            ModelEx.RemarksEx.LoadCombo(ref cboFrom, "RemarkCode", false);
+            RemarksEx.LoadCombo(ref cboFrom, "RemarkCode", false);
 
             cboTo.SelectedIndex = cboTo.Items.Count - 1;
         }

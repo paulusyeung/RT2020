@@ -12,8 +12,10 @@ using Gizmox.WebGUI.Forms;
 using Gizmox.WebGUI.Common.Resources;
 
 using System.Data.SqlClient;
-using RT2020.Helper;
 using System.Linq;
+
+using RT2020.Common.Helper;
+using RT2020.Common.ModelEx;
 
 #endregion
 
@@ -130,7 +132,7 @@ namespace RT2020.Settings
 
         private void FillWorkplaceList()
         {
-            ModelEx.WorkplaceEx.LoadCombo(ref cboWorkplace, "WorkplaceCode", false);
+            WorkplaceEx.LoadCombo(ref cboWorkplace, "WorkplaceCode", false);
 
             #region cbxWorkplace: CheckBox ComboBox
             cbxWorkplace.SetWidth(120);
@@ -152,7 +154,7 @@ namespace RT2020.Settings
         {
             var where = "TypeName <> ''";
             var orderBy = new string[] { "TypeCode", "TypeName" };
-            ModelEx.PosTenderTypeEx.LoadCombo(ref cboTender, "TypeName", true, true, "", where, orderBy);
+            PosTenderTypeEx.LoadCombo(ref cboTender, "TypeName", true, true, "", where, orderBy);
         }
         #endregion
 
@@ -384,7 +386,7 @@ FROM        vwPaymentFactorList";
                 duplicatedMsg = string.Format(duplicatedMsg, "Workplace + Event Code + Data Range");
             }
 
-            var factorListCount = ModelEx.PromotionPaymentFactorEx.Counts(sql);
+            var factorListCount = PromotionPaymentFactorEx.Counts(sql);
             if (factorListCount > 0)
             {
                 errorProvider.SetError(cboWorkplace, duplicatedMsg);
@@ -537,7 +539,7 @@ FROM        vwPaymentFactorList";
                     dtpEndDate.Value = item.EndOn.HasValue ? item.EndOn.Value : DateTimeHelper.DateZero();
 
                     txtCreatedOn.Text = DateTimeHelper.DateTimeToString(item.CreatedOn, false);
-                    txtLastUpdatedBy.Text = ModelEx.StaffEx.GetStaffNumberById(item.ModifiedBy);
+                    txtLastUpdatedBy.Text = StaffEx.GetStaffNumberById(item.ModifiedBy);
                     txtLastUpdatedOn.Text = DateTimeHelper.DateTimeToString(item.ModifiedOn, false);
                 }
             }

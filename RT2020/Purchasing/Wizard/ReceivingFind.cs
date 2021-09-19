@@ -6,6 +6,7 @@ namespace RT2020.Purchasing.Wizard
     using System.ComponentModel;
     using System.Data;
     using System.Drawing;
+    using System.Linq;
     using System.Text;
 
     using Gizmox.WebGUI.Common;
@@ -14,8 +15,7 @@ namespace RT2020.Purchasing.Wizard
     using Gizmox.WebGUI.Forms;
 
 
-    using System.Linq;
-    using Helper;
+    using RT2020.Common.Helper;
 
     /// <summary>
     /// Documentation for the second part of ReceivingFind.

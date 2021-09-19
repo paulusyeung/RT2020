@@ -12,9 +12,11 @@ using Gizmox.WebGUI.Forms;
 using Gizmox.WebGUI.Common.Resources;
 using System.Data.SqlClient;
 using System.Configuration;
-using RT2020.Helper;
 using System.Linq;
 using System.Data.Entity;
+
+using RT2020.Common.Helper;
+using RT2020.Common.ModelEx;
 
 #endregion
 
@@ -231,7 +233,7 @@ namespace RT2020.Staff
 
             #region 新增，要 check CountryCode 係咪 in use
             errorProvider.SetError(txtJobTitleCode, string.Empty);
-            if (this.JobTitleId == System.Guid.Empty && ModelEx.StaffJobTitleEx.IsJobTitleCodeInUse(txtJobTitleCode.Text.Trim()))
+            if (this.JobTitleId == System.Guid.Empty && StaffJobTitleEx.IsJobTitleCodeInUse(txtJobTitleCode.Text.Trim()))
             {
                 errorProvider.SetError(txtJobTitleCode, "Job Title Code in use");
                 result = false;

@@ -14,8 +14,8 @@ using Gizmox.WebGUI.Common.Interfaces;
 using System.Web;
 using System.Data.SqlClient;
 using System.Configuration;
-using RT2020.Helper;
-using RT2020.ModelEx;
+using RT2020.Common.Helper;
+using RT2020.Common.ModelEx;
 
 #endregion
 
@@ -37,8 +37,8 @@ namespace RT2020.Product.Reports
             cmbTo.Items.Clear();
 
             string[] orderBy = new string[] { "DimCode" };
-            ModelEx.ProductDimEx.LoadCombo(ref cmbFrom, "DimCode", false);
-            ModelEx.ProductDimEx.LoadCombo(ref cmbTo, "DimCode", false);
+            ProductDimEx.LoadCombo(ref cmbFrom, "DimCode", false);
+            ProductDimEx.LoadCombo(ref cmbTo, "DimCode", false);
 
             if (cmbTo.Items.Count > 1) cmbTo.SelectedIndex = cmbTo.Items.Count - 1;
         }

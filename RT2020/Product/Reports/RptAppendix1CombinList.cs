@@ -16,8 +16,8 @@ using System.Web;
 
 using System.Data.Common;
 using System.Configuration;
-using RT2020.Helper;
-using RT2020.ModelEx;
+using RT2020.Common.Helper;
+using RT2020.Common.ModelEx;
 
 #endregion
 
@@ -49,8 +49,8 @@ namespace RT2020.Product.Reports
             string sql = "DimType = 'A1'";
             var orderBy = new string[] { "DimCode" };
 
-            ModelEx.ProductDimEx.LoadCombo(ref cmbFrom, "DimCode", false, false, "", sql, orderBy);
-            ModelEx.ProductDimEx.LoadCombo(ref cmbTo, "DimCode", false, false, "", sql, orderBy);
+            ProductDimEx.LoadCombo(ref cmbFrom, "DimCode", false, false, "", sql, orderBy);
+            ProductDimEx.LoadCombo(ref cmbTo, "DimCode", false, false, "", sql, orderBy);
 
             if (cmbTo.Items.Count > 1) cmbTo.SelectedIndex = cmbTo.Items.Count - 1;
         }

@@ -13,9 +13,11 @@ using Gizmox.WebGUI.Common.Resources;
 
 using System.Data.SqlClient;
 using System.Configuration;
-using RT2020.Helper;
 using System.Linq;
 using System.Data.Entity;
+
+using RT2020.Common.Helper;
+using RT2020.Common.ModelEx;
 
 #endregion
 
@@ -232,7 +234,7 @@ namespace RT2020.Member
             string sql = "ClassId NOT IN ('" + _ClassId.ToString() + "')";
             string[] orderBy = new string[] { "ClassCode" };
 
-            ModelEx.MemberClassEx.LoadCombo(ref cboParentClass, "ClassName", true, true, "", sql, orderBy);
+            MemberClassEx.LoadCombo(ref cboParentClass, "ClassName", true, true, "", sql, orderBy);
         }
         #endregion
 
@@ -248,7 +250,7 @@ namespace RT2020.Member
                 var list = ctx.MemberClass.OrderBy(x => x.ClassCode).AsNoTracking().ToList();
                 foreach (var item in list)
                 {
-                    var parent = ModelEx.MemberClassEx.GetParentName(item);
+                    var parent = MemberClassEx.GetParentName(item);
 
                     ListViewItem objItem = this.lvClassList.Items.Add(item.ClassId.ToString());
                     objItem.SubItems.Add(iCount.ToString()); // Line Number
@@ -281,7 +283,7 @@ namespace RT2020.Member
 
             #region 新增，要 check Class Code 係咪 in use
             errorProvider.SetError(txtClassCode, string.Empty);
-            if (_ClassId == Guid.Empty && ModelEx.MemberGroupEx.IsGroupCodeInUse(txtClassCode.Text.Trim()))
+            if (_ClassId == Guid.Empty && MemberGroupEx.IsGroupCodeInUse(txtClassCode.Text.Trim()))
             {
                 errorProvider.SetError(txtClassCode, "Class Code in use");
                 return false;
@@ -349,7 +351,7 @@ namespace RT2020.Member
                 Guid id = Guid.Empty;
                 if (Guid.TryParse(lvClassList.SelectedItem.Text, out id))
                 {
-                    var oMemberClass = ModelEx.MemberClassEx.Get(id);
+                    var oMemberClass = MemberClassEx.Get(id);
                     if (oMemberClass != null)
                     {
                         _ClassId = oMemberClass.ClassId;

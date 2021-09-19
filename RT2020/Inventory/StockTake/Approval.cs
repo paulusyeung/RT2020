@@ -13,8 +13,8 @@ using Gizmox.WebGUI.Forms;
 using System.Data.SqlClient;
 using System.Text.RegularExpressions;
 using System.Configuration;
-using RT2020.Helper;
-using RT2020.ModelEx;
+using RT2020.Common.Helper;
+using RT2020.Common.ModelEx;
 
 #endregion
 
@@ -65,7 +65,7 @@ namespace RT2020.Inventory.StockTake
                     objItem.SubItems.Add(reader.GetString(1)); // TxNumber
                     objItem.SubItems.Add(reader.GetString(3)); // Location
                     objItem.SubItems.Add(DateTimeHelper.DateTimeToString(reader.GetDateTime(2), false)); // TxDate
-                    objItem.SubItems.Add(DateTimeHelper.DateTimeToString(reader.GetDateTime(6), false) + " " + ModelEx.StaffEx.GetStaffNumberById(reader.GetGuid(7))); // Last Update
+                    objItem.SubItems.Add(DateTimeHelper.DateTimeToString(reader.GetDateTime(6), false) + " " + StaffEx.GetStaffNumberById(reader.GetGuid(7))); // Last Update
                     objItem.SubItems.Add(string.Empty);
 
                     iCount++;

@@ -13,7 +13,9 @@ using Gizmox.WebGUI.Forms;
 using RT2020.Controls;
 using System.Linq;
 using System.Data.Entity;
-using RT2020.Helper;
+
+using RT2020.Common.Helper;
+using RT2020.Common.ModelEx;
 
 #endregion
 
@@ -158,7 +160,7 @@ namespace RT2020.Member
         private void FillAddressType()
         {
             string[] orderBy = new string[] { "AddressTypeName" };
-            ModelEx.MemberAddressTypeEx.LoadCombo(ref cboAddressType, "AddressTypeName", true, false, "", "", orderBy);
+            MemberAddressTypeEx.LoadCombo(ref cboAddressType, "AddressTypeName", true, false, "", "", orderBy);
         }
 
         private void FillCountryList()
@@ -166,21 +168,21 @@ namespace RT2020.Member
             var fields = new string[] { "CountryCode", "CountryName" };
             var pattern = "{0} - {1}";
             var orderby = new string[] { "CountryCode" };
-            ModelEx.CountryEx.LoadCombo(ref cboCountry, fields, pattern, true, true, "", "", orderby);
+            CountryEx.LoadCombo(ref cboCountry, fields, pattern, true, true, "", "", orderby);
         }
 
         private void FillProvinceList(Guid countryId)
         {
             var sql = string.Format("CountryId = '{0}'", countryId.ToString());
 
-            ModelEx.ProvinceEx.LoadCombo(ref cboProvince, "ProvinceName", true, true, "", sql);
+            ProvinceEx.LoadCombo(ref cboProvince, "ProvinceName", true, true, "", sql);
         }
 
         private void FillCityList(Guid provinceId)
         {
             var sql = String.Format("ProvinceId = '{0}'", provinceId.ToString());
 
-            ModelEx.CityEx.LoadCombo(ref cboCity, "CityName", true, true, "", sql);
+            CityEx.LoadCombo(ref cboCity, "CityName", true, true, "", sql);
         }
         #endregion
 
@@ -221,7 +223,7 @@ namespace RT2020.Member
 
                 if (oVip != null)
                 {
-                    result = ModelEx.MemberVipDataEx.GetAttribute(oVip.MetadataXml, "Address", "Phone", "Pager", addressTypeId.ToString("N"));
+                    result = MemberVipDataEx.GetAttribute(oVip.MetadataXml, "Address", "Phone", "Pager", addressTypeId.ToString("N"));
                 }
             }
 

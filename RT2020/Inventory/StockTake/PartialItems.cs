@@ -14,7 +14,9 @@ using System.Data.SqlClient;
 using System.Configuration;
 using System.Linq;
 using System.Data.Entity;
-using RT2020.Helper;
+
+using RT2020.Common.Helper;
+using RT2020.Common.ModelEx;
 
 #endregion
 
@@ -126,7 +128,7 @@ namespace RT2020.Inventory.StockTake
 
         private void FillFromClass1List()
         {
-            ModelEx.ProductClass1Ex.LoadCombo(ref cboClass1_From, "Class1Code", false, true, "", "");
+            ProductClass1Ex.LoadCombo(ref cboClass1_From, "Class1Code", false, true, "", "");
             /**
             cboClass1_From.Items.Clear();
 
@@ -142,7 +144,7 @@ namespace RT2020.Inventory.StockTake
 
         private void FillToClass1List()
         {
-            ModelEx.ProductClass1Ex.LoadCombo(ref cboClass1_To, "Class1Code", false, true, "zz", "");
+            ProductClass1Ex.LoadCombo(ref cboClass1_To, "Class1Code", false, true, "zz", "");
             /**
             cboClass1_To.Items.Clear();
             ProductClass1 prodCls1 = new ProductClass1();
@@ -160,7 +162,7 @@ namespace RT2020.Inventory.StockTake
 
         private void FillFromClass2List()
         {
-            ModelEx.ProductClass2Ex.LoadCombo(ref cboClass2_From, "Class2Code", false, true, "", "");
+            ProductClass2Ex.LoadCombo(ref cboClass2_From, "Class2Code", false, true, "", "");
             /**
             cboClass2_From.Items.Clear();
 
@@ -176,7 +178,7 @@ namespace RT2020.Inventory.StockTake
 
         private void FillToClass2List()
         {
-            ModelEx.ProductClass2Ex.LoadCombo(ref cboClass2_To, "Class2Code", false, true, "zz", "");
+            ProductClass2Ex.LoadCombo(ref cboClass2_To, "Class2Code", false, true, "zz", "");
             /**
             cboClass2_To.Items.Clear();
             ProductClass2 prodCls2 = new ProductClass2();
@@ -195,7 +197,7 @@ namespace RT2020.Inventory.StockTake
 
         private void FillFromClass3List()
         {
-            ModelEx.ProductClass3Ex.LoadCombo(ref cboClass3_From, "Class3Code", false, true, "", "");
+            ProductClass3Ex.LoadCombo(ref cboClass3_From, "Class3Code", false, true, "", "");
             /**
             cboClass3_From.Items.Clear();
 
@@ -211,7 +213,7 @@ namespace RT2020.Inventory.StockTake
 
         private void FillToClass3List()
         {
-            ModelEx.ProductClass3Ex.LoadCombo(ref cboClass3_To, "Class4Code", false, true, "zz", "");
+            ProductClass3Ex.LoadCombo(ref cboClass3_To, "Class4Code", false, true, "zz", "");
             /**
             cboClass3_To.Items.Clear();
             ProductClass3 prodCls3 = new ProductClass3();
@@ -246,7 +248,7 @@ namespace RT2020.Inventory.StockTake
 
         private void FillFromClass4List()
         {
-            ModelEx.ProductClass4Ex.LoadCombo(ref cboClass4_From, "Class4Code", false, true, "", "");
+            ProductClass4Ex.LoadCombo(ref cboClass4_From, "Class4Code", false, true, "", "");
             /**
             cboClass5_From.Items.Clear();
 
@@ -262,7 +264,7 @@ namespace RT2020.Inventory.StockTake
 
         private void FillToClass4List()
         {
-            ModelEx.ProductClass4Ex.LoadCombo(ref cboClass4_To, "Class4Code", false, true, "zz", "");
+            ProductClass4Ex.LoadCombo(ref cboClass4_To, "Class4Code", false, true, "zz", "");
             /**
             cboClass4_To.Items.Clear();
             ProductClass4 prodCls4 = new ProductClass4();
@@ -281,7 +283,7 @@ namespace RT2020.Inventory.StockTake
 
         private void FillFromClass5List()
         {
-            ModelEx.ProductClass5Ex.LoadCombo(ref cboClass5_From, "Class5Code", false, true, "", "");
+            ProductClass5Ex.LoadCombo(ref cboClass5_From, "Class5Code", false, true, "", "");
             /**
             cboClass5_From.Items.Clear();
 
@@ -297,7 +299,7 @@ namespace RT2020.Inventory.StockTake
 
         private void FillToClass5List()
         {
-            ModelEx.ProductClass5Ex.LoadCombo(ref cboClass5_To, "Class5Code", false, true, "zz", "");
+            ProductClass5Ex.LoadCombo(ref cboClass5_To, "Class5Code", false, true, "zz", "");
             /**
             cboClass5_To.Items.Clear();
             ProductClass5 prodCls5 = new ProductClass5();
@@ -316,7 +318,7 @@ namespace RT2020.Inventory.StockTake
 
         private void FillFromClass6List()
         {
-            ModelEx.ProductClass6Ex.LoadCombo(ref cboClass6_From, "Class6Code", false, true, "", "");
+            ProductClass6Ex.LoadCombo(ref cboClass6_From, "Class6Code", false, true, "", "");
             /**
             cboClass6_From.Items.Clear();
 
@@ -332,7 +334,7 @@ namespace RT2020.Inventory.StockTake
 
         private void FillToClass6List()
         {
-            ModelEx.ProductClass6Ex.LoadCombo(ref cboClass6_To, "Class6Code", false, true, "zz", "");
+            ProductClass6Ex.LoadCombo(ref cboClass6_To, "Class6Code", false, true, "zz", "");
             /**
             cboClass6_To.Items.Clear();
             ProductClass6 prodCls6 = new ProductClass6();
@@ -504,7 +506,7 @@ namespace RT2020.Inventory.StockTake
                                 .FirstOrDefault();
                             if (wpItem != null)
                             {
-                                decimal avgCost = ModelEx.ProductCurrentSummaryEx.GetAverageCode(prod.ProductId);
+                                decimal avgCost = ProductCurrentSummaryEx.GetAverageCode(prod.ProductId);
 
                                 #region 一隻跟一隻 save detail
                                 var stkDetail = new EF6.StockTakeDetails();
@@ -563,7 +565,7 @@ namespace RT2020.Inventory.StockTake
             int result = CreateSTK();
             if (result > 0)
             {
-                SystemInfoHelper.Settings.RefreshMainList<Default>();
+                Helper.DesktopHelper.RefreshMainList<Default>();
                 MessageBox.Show(result.ToString() + " Transaction(s) Creation Complete !", "Creation Succeed", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, new EventHandler(CreationMessageHandler));
             }
             else

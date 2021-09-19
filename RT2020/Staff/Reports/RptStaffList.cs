@@ -14,8 +14,8 @@ using DevExpress.XtraReports.UI;
 using Gizmox.WebGUI.Common.Interfaces;
 using System.Web;
 using System.Configuration;
-using RT2020.Helper;
-using RT2020.ModelEx;
+using RT2020.Common.Helper;
+using RT2020.Common.ModelEx;
 #endregion
 
 namespace RT2020.Staff.Reports
@@ -31,9 +31,9 @@ namespace RT2020.Staff.Reports
         #region FillComboBox
         private void FillComboBox()
         {
-            ModelEx.StaffEx.LoadCombo(ref cmbFrmStaffCode, "StaffNumber", false);
+            StaffEx.LoadCombo(ref cmbFrmStaffCode, "StaffNumber", false);
 
-            ModelEx.StaffEx.LoadCombo(ref cmbToStaffCode, "StaffNumber", false);
+            StaffEx.LoadCombo(ref cmbToStaffCode, "StaffNumber", false);
 
             cmbToStaffCode.SelectedIndex = cmbToStaffCode.Items.Count - 1;
         }

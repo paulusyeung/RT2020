@@ -15,8 +15,8 @@ using System.Collections;
 using System.Configuration;
 using System.Linq;
 using System.Data.Entity;
-using RT2020.Helper;
-using RT2020.ModelEx;
+using RT2020.Common.Helper;
+using RT2020.Common.ModelEx;
 #endregion
 
 namespace RT2020.Purchasing.Reports.Receiving
@@ -46,7 +46,7 @@ namespace RT2020.Purchasing.Reports.Receiving
         /// </summary>
         private void FillSuppFromList()
         {
-            ModelEx.SupplierEx.LoadCombo(ref cboSupplierFrom, "SupplierCode", false, false, string.Empty, " Retired = 0");
+            SupplierEx.LoadCombo(ref cboSupplierFrom, "SupplierCode", false, false, string.Empty, " Retired = 0");
         }
 
         /// <summary>
@@ -54,7 +54,7 @@ namespace RT2020.Purchasing.Reports.Receiving
         /// </summary>
         private void FillSuppToList()
         {
-            ModelEx.SupplierEx.LoadCombo(ref cboSupplierTo, "SupplierCode", false, false, string.Empty, " Retired = 0");
+            SupplierEx.LoadCombo(ref cboSupplierTo, "SupplierCode", false, false, string.Empty, " Retired = 0");
 
             if (cboSupplierTo.Items.Count > 0)
             {

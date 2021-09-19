@@ -10,7 +10,7 @@ using System.Text;
 using Gizmox.WebGUI.Common;
 using Gizmox.WebGUI.Forms;
 
-
+using RT2020.Common.ModelEx;
 
 #endregion
 
@@ -160,16 +160,16 @@ namespace RT2020.EmulatedPoS
             var pattern = "{0} {1}";
             var orderBy = new string[] { "AnalysisCode" };
 
-            ModelEx.PosAnalysisCodeEx.LoadCombo(ref cboAnalysisCode01, textFields, pattern, true, false, string.Empty, GetAnalysisSqlCondition("01"), orderBy);
-            ModelEx.PosAnalysisCodeEx.LoadCombo(ref cboAnalysisCode02, textFields, pattern, true, false, string.Empty, GetAnalysisSqlCondition("02"), orderBy);
-            ModelEx.PosAnalysisCodeEx.LoadCombo(ref cboAnalysisCode03, textFields, pattern, true, false, string.Empty, GetAnalysisSqlCondition("03"), orderBy);
-            ModelEx.PosAnalysisCodeEx.LoadCombo(ref cboAnalysisCode04, textFields, pattern, true, false, string.Empty, GetAnalysisSqlCondition("04"), orderBy);
-            ModelEx.PosAnalysisCodeEx.LoadCombo(ref cboAnalysisCode05, textFields, pattern, true, false, string.Empty, GetAnalysisSqlCondition("05"), orderBy);
-            ModelEx.PosAnalysisCodeEx.LoadCombo(ref cboAnalysisCode06, textFields, pattern, true, false, string.Empty, GetAnalysisSqlCondition("06"), orderBy);
-            ModelEx.PosAnalysisCodeEx.LoadCombo(ref cboAnalysisCode07, textFields, pattern, true, false, string.Empty, GetAnalysisSqlCondition("07"), orderBy);
-            ModelEx.PosAnalysisCodeEx.LoadCombo(ref cboAnalysisCode08, textFields, pattern, true, false, string.Empty, GetAnalysisSqlCondition("08"), orderBy);
-            ModelEx.PosAnalysisCodeEx.LoadCombo(ref cboAnalysisCode09, textFields, pattern, true, false, string.Empty, GetAnalysisSqlCondition("09"), orderBy);
-            ModelEx.PosAnalysisCodeEx.LoadCombo(ref cboAnalysisCode10, textFields, pattern, true, false, string.Empty, GetAnalysisSqlCondition("10"), orderBy);
+            PosAnalysisCodeEx.LoadCombo(ref cboAnalysisCode01, textFields, pattern, true, false, string.Empty, GetAnalysisSqlCondition("01"), orderBy);
+            PosAnalysisCodeEx.LoadCombo(ref cboAnalysisCode02, textFields, pattern, true, false, string.Empty, GetAnalysisSqlCondition("02"), orderBy);
+            PosAnalysisCodeEx.LoadCombo(ref cboAnalysisCode03, textFields, pattern, true, false, string.Empty, GetAnalysisSqlCondition("03"), orderBy);
+            PosAnalysisCodeEx.LoadCombo(ref cboAnalysisCode04, textFields, pattern, true, false, string.Empty, GetAnalysisSqlCondition("04"), orderBy);
+            PosAnalysisCodeEx.LoadCombo(ref cboAnalysisCode05, textFields, pattern, true, false, string.Empty, GetAnalysisSqlCondition("05"), orderBy);
+            PosAnalysisCodeEx.LoadCombo(ref cboAnalysisCode06, textFields, pattern, true, false, string.Empty, GetAnalysisSqlCondition("06"), orderBy);
+            PosAnalysisCodeEx.LoadCombo(ref cboAnalysisCode07, textFields, pattern, true, false, string.Empty, GetAnalysisSqlCondition("07"), orderBy);
+            PosAnalysisCodeEx.LoadCombo(ref cboAnalysisCode08, textFields, pattern, true, false, string.Empty, GetAnalysisSqlCondition("08"), orderBy);
+            PosAnalysisCodeEx.LoadCombo(ref cboAnalysisCode09, textFields, pattern, true, false, string.Empty, GetAnalysisSqlCondition("09"), orderBy);
+            PosAnalysisCodeEx.LoadCombo(ref cboAnalysisCode10, textFields, pattern, true, false, string.Empty, GetAnalysisSqlCondition("10"), orderBy);
         }
 
         /// <summary>

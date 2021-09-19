@@ -3,7 +3,7 @@ using System.Drawing;
 using System.Collections;
 using System.ComponentModel;
 using DevExpress.XtraReports.UI;
-using RT2020.Helper;
+using RT2020.Common.Helper;
 
 namespace RT2020.Member.Reports
 {

@@ -12,8 +12,8 @@ using Gizmox.WebGUI.Forms;
 
 using System.Linq;
 using System.Data.Entity;
-using RT2020.Helper;
-using RT2020.ModelEx;
+using RT2020.Common.Helper;
+using RT2020.Common.ModelEx;
 
 #endregion
 
@@ -88,8 +88,8 @@ namespace RT2020.Member.Reports
         }
         private void FillComboBoxGroup()
         {
-            ModelEx.MemberGroupEx.LoadCombo(ref cboFromGroup, "GroupName", true);
-            ModelEx.MemberGroupEx.LoadCombo(ref cboToGroup, "GroupName", true);
+            MemberGroupEx.LoadCombo(ref cboFromGroup, "GroupName", true);
+            MemberGroupEx.LoadCombo(ref cboToGroup, "GroupName", true);
             /**
             MemberGroupCollection collection = RT2020.DAL.MemberGroup.LoadCollection(new string[] { "GroupName" }, true);
             if (collection.Count > 0)

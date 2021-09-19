@@ -17,8 +17,8 @@ using Gizmox.WebGUI.Common.Interfaces;
 
 
 using RT2020.Controls;
-using RT2020.Helper;
-using RT2020.ModelEx;
+using RT2020.Common.Helper;
+using RT2020.Common.ModelEx;
 #endregion
 
 namespace RT2020.EmulatedPoS
@@ -366,7 +366,7 @@ namespace RT2020.EmulatedPoS
         /// </summary>
         private void FillLocationList()
         {
-            ModelEx.WorkplaceEx.LoadCombo(ref cboWorkplace, "WorkplaceCode", false);
+            WorkplaceEx.LoadCombo(ref cboWorkplace, "WorkplaceCode", false);
         }
 
         /// <summary>
@@ -374,7 +374,7 @@ namespace RT2020.EmulatedPoS
         /// </summary>
         private void FillStaff1List()
         {
-            ModelEx.StaffEx.LoadCombo(ref cboStaff1, "StaffNumber", false);
+            StaffEx.LoadCombo(ref cboStaff1, "StaffNumber", false);
 
             cboStaff1.SelectedValue = ConfigHelper.CurrentUserId;
         }
@@ -384,7 +384,7 @@ namespace RT2020.EmulatedPoS
         /// </summary>
         private void FillStaff2List()
         {
-            ModelEx.StaffEx.LoadCombo(ref cboStaff2, "StaffNumber", false);
+            StaffEx.LoadCombo(ref cboStaff2, "StaffNumber", false);
         }
 
         /// <summary>
@@ -392,7 +392,7 @@ namespace RT2020.EmulatedPoS
         /// </summary>
         private void FillEventCodeList()
         {
-            ModelEx.PromotionPaymentFactorEx.LoadCombo(ref cboEvtCode, "EventCode", false);
+            PromotionPaymentFactorEx.LoadCombo(ref cboEvtCode, "EventCode", false);
         }
 
         /// <summary>
@@ -400,7 +400,7 @@ namespace RT2020.EmulatedPoS
         /// </summary>
         private void FillCurrencyCodeList()
         {
-            ModelEx.CurrencyEx.LoadCombo(ref cboCurrencyCode, "CurrencyCode", false);
+            CurrencyEx.LoadCombo(ref cboCurrencyCode, "CurrencyCode", false);
 
             if (cboCurrencyCode.Items.Count > 0)
             {
@@ -415,7 +415,7 @@ namespace RT2020.EmulatedPoS
         /// </summary>
         private void FillPriceTypeList()
         {
-            ModelEx.ProductPriceTypeEx.LoadCombo(ref cboPriceType, "PriceType", false);
+            ProductPriceTypeEx.LoadCombo(ref cboPriceType, "PriceType", false);
         }
 
         /// <summary>
@@ -423,7 +423,7 @@ namespace RT2020.EmulatedPoS
         /// </summary>
         private void FillVipList()
         {
-            ModelEx.MemberEx.LoadCombo(ref cboMemberNumber, "MemberNumber", false);
+            MemberEx.LoadCombo(ref cboMemberNumber, "MemberNumber", false);
         }
 
         /// <summary>
@@ -431,7 +431,7 @@ namespace RT2020.EmulatedPoS
         /// </summary>
         private void FillNameList()
         {
-            ModelEx.MemberEx.LoadCombo(ref cboFullName, "FullName", false);
+            MemberEx.LoadCombo(ref cboFullName, "FullName", false);
         }
 
         /// <summary>
@@ -443,16 +443,16 @@ namespace RT2020.EmulatedPoS
             var pattern = "{0} {1}";
             var orderBy = new string[] { "AnalysisCode" };
 
-            ModelEx.PosAnalysisCodeEx.LoadCombo(ref cboAnalysisCode01, textFields, pattern, false, false, string.Empty, GetAnalysisSqlCondition("01"), orderBy);
-            ModelEx.PosAnalysisCodeEx.LoadCombo(ref cboAnalysisCode02, textFields, pattern, false, false, string.Empty, GetAnalysisSqlCondition("02"), orderBy);
-            ModelEx.PosAnalysisCodeEx.LoadCombo(ref cboAnalysisCode03, textFields, pattern, false, false, string.Empty, GetAnalysisSqlCondition("03"), orderBy);
-            ModelEx.PosAnalysisCodeEx.LoadCombo(ref cboAnalysisCode04, textFields, pattern, false, false, string.Empty, GetAnalysisSqlCondition("04"), orderBy);
-            ModelEx.PosAnalysisCodeEx.LoadCombo(ref cboAnalysisCode05, textFields, pattern, false, false, string.Empty, GetAnalysisSqlCondition("05"), orderBy);
-            ModelEx.PosAnalysisCodeEx.LoadCombo(ref cboAnalysisCode06, textFields, pattern, false, false, string.Empty, GetAnalysisSqlCondition("06"), orderBy);
-            ModelEx.PosAnalysisCodeEx.LoadCombo(ref cboAnalysisCode07, textFields, pattern, false, false, string.Empty, GetAnalysisSqlCondition("07"), orderBy);
-            ModelEx.PosAnalysisCodeEx.LoadCombo(ref cboAnalysisCode08, textFields, pattern, false, false, string.Empty, GetAnalysisSqlCondition("08"), orderBy);
-            ModelEx.PosAnalysisCodeEx.LoadCombo(ref cboAnalysisCode09, textFields, pattern, false, false, string.Empty, GetAnalysisSqlCondition("09"), orderBy);
-            ModelEx.PosAnalysisCodeEx.LoadCombo(ref cboAnalysisCode10, textFields, pattern, false, false, string.Empty, GetAnalysisSqlCondition("10"), orderBy);
+            PosAnalysisCodeEx.LoadCombo(ref cboAnalysisCode01, textFields, pattern, false, false, string.Empty, GetAnalysisSqlCondition("01"), orderBy);
+            PosAnalysisCodeEx.LoadCombo(ref cboAnalysisCode02, textFields, pattern, false, false, string.Empty, GetAnalysisSqlCondition("02"), orderBy);
+            PosAnalysisCodeEx.LoadCombo(ref cboAnalysisCode03, textFields, pattern, false, false, string.Empty, GetAnalysisSqlCondition("03"), orderBy);
+            PosAnalysisCodeEx.LoadCombo(ref cboAnalysisCode04, textFields, pattern, false, false, string.Empty, GetAnalysisSqlCondition("04"), orderBy);
+            PosAnalysisCodeEx.LoadCombo(ref cboAnalysisCode05, textFields, pattern, false, false, string.Empty, GetAnalysisSqlCondition("05"), orderBy);
+            PosAnalysisCodeEx.LoadCombo(ref cboAnalysisCode06, textFields, pattern, false, false, string.Empty, GetAnalysisSqlCondition("06"), orderBy);
+            PosAnalysisCodeEx.LoadCombo(ref cboAnalysisCode07, textFields, pattern, false, false, string.Empty, GetAnalysisSqlCondition("07"), orderBy);
+            PosAnalysisCodeEx.LoadCombo(ref cboAnalysisCode08, textFields, pattern, false, false, string.Empty, GetAnalysisSqlCondition("08"), orderBy);
+            PosAnalysisCodeEx.LoadCombo(ref cboAnalysisCode09, textFields, pattern, false, false, string.Empty, GetAnalysisSqlCondition("09"), orderBy);
+            PosAnalysisCodeEx.LoadCombo(ref cboAnalysisCode10, textFields, pattern, false, false, string.Empty, GetAnalysisSqlCondition("10"), orderBy);
         }
 
         /// <summary>
@@ -709,7 +709,7 @@ namespace RT2020.EmulatedPoS
         /// </summary>
         private void LoadPOSBatchInfo()
         {
-            var oHeader = ModelEx.EPOSBatchHeaderEx.Get(this.HeaderId);
+            var oHeader = EPOSBatchHeaderEx.Get(this.HeaderId);
             if (oHeader != null)
             {
                 txtTxNumber.Text = oHeader.TxNumber;
@@ -750,10 +750,10 @@ namespace RT2020.EmulatedPoS
                 cboAnalysisCode10.Text = oHeader.ANALYSIS_CODE10;
 
                 txtLastUpdateOn.Text = DateTimeHelper.DateTimeToString(oHeader.ModifiedOn.Value, false);
-                txtLastUpdateBy.Text = ModelEx.StaffEx.GetStaffNumberById(oHeader.ModifiedBy.Value);
+                txtLastUpdateBy.Text = StaffEx.GetStaffNumberById(oHeader.ModifiedBy.Value);
                 txtCreateDate.Text = DateTimeHelper.DateTimeToString(oHeader.CreatedOn.Value, false);
 
-                txtTotalQty.Text = ModelEx.EPOSBatchDetailsEx.GetTotalQty(this.HeaderId).ToString("n0");
+                txtTotalQty.Text = EPOSBatchDetailsEx.GetTotalQty(this.HeaderId).ToString("n0");
                 txtTotalAmount.Text = oHeader.TotalAmount.Value.ToString("n2");
                 txtTotalAmt.Text = oHeader.TotalAmount.Value.ToString("n2");
 
@@ -849,7 +849,7 @@ namespace RT2020.EmulatedPoS
 
                     if (this.HeaderId != System.Guid.Empty)
                     {
-                        SystemInfoHelper.Settings.RefreshMainList<Default>();
+                        Helper.DesktopHelper.RefreshMainList<Default>();
                         MessageBox.Show("Success!", "Save Result");
 
                         this.Close();
@@ -883,7 +883,7 @@ namespace RT2020.EmulatedPoS
 
                     if (this.HeaderId != System.Guid.Empty)
                     {
-                        SystemInfoHelper.Settings.RefreshMainList<Default>();
+                        Helper.DesktopHelper.RefreshMainList<Default>();
                         this.Close();
                         RT2020.EmulatedPoS.SalesWizard wizard = new RT2020.EmulatedPoS.SalesWizard(this.SalesType);
                         wizard.ShowDialog();
@@ -915,7 +915,7 @@ namespace RT2020.EmulatedPoS
 
                     if (this.HeaderId != System.Guid.Empty)
                     {
-                        SystemInfoHelper.Settings.RefreshMainList<Default>();
+                        Helper.DesktopHelper.RefreshMainList<Default>();
                         this.Close();
                     }
                 }
@@ -935,7 +935,7 @@ namespace RT2020.EmulatedPoS
         {
             if (((Form)sender).DialogResult == DialogResult.Yes)
             {
-                ModelEx.EPOSBatchHeaderEx.DeleteChildToo(this.HeaderId); // Delete();
+                EPOSBatchHeaderEx.DeleteChildToo(this.HeaderId); // Delete();
 
                 this.Close();
             }
@@ -1279,7 +1279,7 @@ namespace RT2020.EmulatedPoS
                 Guid prodId = Guid.Empty;
                 Guid.TryParse(basicFindProduct.SelectedItem.ToString(), out prodId);
                 //System.Guid prodId = Common.Utility.IsGUID(basicFindProduct.SelectedItem.ToString()) ? new System.Guid(basicFindProduct.SelectedItem.ToString()) : System.Guid.Empty;
-                var oProd = ModelEx.ProductEx.Get(prodId);
+                var oProd = ProductEx.Get(prodId);
                 if (oProd != null)
                 {
                     stkCode = oProd.STKCODE;
@@ -1388,7 +1388,7 @@ namespace RT2020.EmulatedPoS
                     foreach (var posTender in posTenderCollection)
                     {
                         string typeCode;
-                        var posType = ModelEx.PosTenderTypeEx.Get(posTender.TypeId);
+                        var posType = PosTenderTypeEx.Get(posTender.TypeId);
                         typeCode = posType.TypeCode;
                         ListViewItem item = new ListViewItem(posTender.TenderId.ToString());
                         item.SubItems.Add(posTender.TypeId.ToString());
@@ -1545,7 +1545,7 @@ namespace RT2020.EmulatedPoS
         private void InitPaymentItems(decimal amount)
         {
             //string sqlWhere = "TypeCode = 'CASH' AND CurrencyCode = 'HKD'";
-            var posTenderType = ModelEx.PosTenderTypeEx.Get("CASH", "HKD");
+            var posTenderType = PosTenderTypeEx.Get("CASH", "HKD");
 
             if (lvPaymentItems.Items[0].SubItems.Count <= 1)
             {
@@ -1797,7 +1797,7 @@ namespace RT2020.EmulatedPoS
                 txtBarcode.Text = productBarcode.Barcode;
             }
             */
-            txtBarcode.Text = ModelEx.ProductBarcodeEx.GetBarcodeByProductId(productId);
+            txtBarcode.Text = ProductBarcodeEx.GetBarcodeByProductId(productId);
         }
 
         #region Calculate

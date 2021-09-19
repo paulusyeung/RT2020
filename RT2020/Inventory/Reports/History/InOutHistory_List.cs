@@ -13,8 +13,8 @@ using Gizmox.WebGUI.Forms;
 using System.Data.SqlClient;
 using System.Configuration;
 using System.Collections;
-using RT2020.Helper;
-using RT2020.ModelEx;
+using RT2020.Common.Helper;
+using RT2020.Common.ModelEx;
 
 #endregion
 

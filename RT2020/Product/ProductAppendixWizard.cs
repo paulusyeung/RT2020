@@ -13,7 +13,9 @@ using Gizmox.WebGUI.Common.Resources;
 using System.Collections;
 using System.Linq;
 using System.Data.Entity;
-using RT2020.Helper;
+
+using RT2020.Common.Helper;
+using RT2020.Common.ModelEx;
 
 #endregion
 
@@ -210,17 +212,17 @@ namespace RT2020.Product
                 case ProductHelper.Appendix.Appendix1:
                     sql = "Appendix1Id NOT IN ('" + _AppendixId.ToString() + "')";
                     orderBy = new string[] { "Appendix1Code" };
-                    ModelEx.ProductAppendix1Ex.LoadCombo(ref cboParentAppendix, "Appendix1Code", true, true, "", sql, orderBy);
+                    ProductAppendix1Ex.LoadCombo(ref cboParentAppendix, "Appendix1Code", true, true, "", sql, orderBy);
                     break;
                 case ProductHelper.Appendix.Appendix2:
                     sql = "Appendix1Id NOT IN ('" + this.AppendixId.ToString() + "')";
                     orderBy = new string[] { "Appendix1Code" };
-                    ModelEx.ProductAppendix1Ex.LoadCombo(ref cboParentAppendix, "Appendix1Code", true, true, "", sql, orderBy);
+                    ProductAppendix1Ex.LoadCombo(ref cboParentAppendix, "Appendix1Code", true, true, "", sql, orderBy);
                     break;
                 case ProductHelper.Appendix.Appendix3:
                     sql = "Appendix3Id NOT IN ('" + this.AppendixId.ToString() + "')";
                     orderBy = new string[] { "Appendix3Code" };
-                    ModelEx.ProductAppendix3Ex.LoadCombo(ref cboParentAppendix, "Appendix3Code", true, true, "", sql, orderBy);
+                    ProductAppendix3Ex.LoadCombo(ref cboParentAppendix, "Appendix3Code", true, true, "", sql, orderBy);
                     break;
             }
 
@@ -304,7 +306,7 @@ namespace RT2020.Product
                     SaveAppendix3();
                     break;
             }
-            SystemInfoHelper.Settings.RefreshMainList<AppendixList>();
+            Helper.DesktopHelper.RefreshMainList<AppendixList>();
         }
 
         private bool SaveAppendix1()
@@ -468,7 +470,7 @@ namespace RT2020.Product
 
                     txtLastUpdatedOn.Text = DateTimeHelper.DateTimeToString(item.ModifiedOn, false);
                     txtCreatedOn.Text = DateTimeHelper.DateTimeToString(item.CreatedOn, false);
-                    txtLastUpdatedBy.Text = ModelEx.StaffEx.GetStaffNumberById(item.ModifiedBy);
+                    txtLastUpdatedBy.Text = StaffEx.GetStaffNumberById(item.ModifiedBy);
 
                     SetCtrlEditable();
                 }
@@ -493,7 +495,7 @@ namespace RT2020.Product
 
                     txtLastUpdatedOn.Text = DateTimeHelper.DateTimeToString(item.ModifiedOn, false);
                     txtCreatedOn.Text = DateTimeHelper.DateTimeToString(item.CreatedOn, false);
-                    txtLastUpdatedBy.Text = ModelEx.StaffEx.GetStaffNumberById(item.ModifiedBy);
+                    txtLastUpdatedBy.Text = StaffEx.GetStaffNumberById(item.ModifiedBy);
 
                     SetCtrlEditable();
                 }
@@ -518,7 +520,7 @@ namespace RT2020.Product
 
                     txtLastUpdatedOn.Text = DateTimeHelper.DateTimeToString(item.ModifiedOn, false);
                     txtCreatedOn.Text = DateTimeHelper.DateTimeToString(item.CreatedOn, false);
-                    txtLastUpdatedBy.Text = ModelEx.StaffEx.GetStaffNumberById(item.ModifiedBy);
+                    txtLastUpdatedBy.Text = StaffEx.GetStaffNumberById(item.ModifiedBy);
 
                     SetCtrlEditable();
                 }

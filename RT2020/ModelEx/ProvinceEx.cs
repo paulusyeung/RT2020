@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 
 using Gizmox.WebGUI.Forms;
-using RT2020.Helper;
+using RT2020.Common.Helper;
 using System.Reflection;
 using System.ComponentModel;
 

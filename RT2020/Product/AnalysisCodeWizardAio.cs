@@ -13,10 +13,11 @@ using Gizmox.WebGUI.Common.Resources;
 
 using System.Data.SqlClient;
 using System.Configuration;
-using RT2020.Helper;
 using System.Linq;
 using System.Data.Entity;
-using static RT2020.Helper.EnumHelper;
+
+using RT2020.Common.Helper;
+using RT2020.Common.ModelEx;
 
 #endregion
 
@@ -227,7 +228,7 @@ namespace RT2020.Product
             string sql = "ParentCode IS NULL OR ParentCode = '" + Guid.Empty.ToString() + "'";
             string[] orderBy = new string[] { "AnalysisCode" };
 
-            ModelEx.PosAnalysisCodeEx.LoadCombo(ref cboParentAnalysisCode, "AnalysisCode", false, true, "", sql, orderBy);
+            PosAnalysisCodeEx.LoadCombo(ref cboParentAnalysisCode, "AnalysisCode", false, true, "", sql, orderBy);
         }
 
         private void VerifyFixedAnalysisCode()
@@ -315,7 +316,7 @@ namespace RT2020.Product
             #region 新增，要 check Analysis Code 係咪 in use
             if (_CodeId == Guid.Empty)
             {
-                if (ModelEx.PosAnalysisCodeEx.IsAnalysisCodeInUse(txtCode.Text.Trim()))
+                if (PosAnalysisCodeEx.IsAnalysisCodeInUse(txtCode.Text.Trim()))
                 {
                     errorProvider.SetError(txtCode, "Analysis Code in use");
                     errorProvider.SetIconAlignment(txtCode, ErrorIconAlignment.TopLeft);
@@ -365,7 +366,7 @@ namespace RT2020.Product
                 RT2020.Controls.Log4net.LogInfo(RT2020.Controls.Log4net.LogAction.Create, item.ToString());
 
                 this.AnalysisCodeId = item.AnalysisCodeId;
-                SystemInfoHelper.Settings.RefreshMainList<AnalysisCodeList>();
+                Helper.DesktopHelper.RefreshMainList<AnalysisCodeList>();
 
                 result = true;
             }
@@ -378,7 +379,7 @@ namespace RT2020.Product
         {
             bool result = false;
 
-            result = ModelEx.PosAnalysisCodeEx.Delete(_CodeId);
+            result = PosAnalysisCodeEx.Delete(_CodeId);
             MessageBox.Show(result ? "Record Removed" : "Can't Delete Record...", "Delete Result");
         }
 
@@ -386,7 +387,7 @@ namespace RT2020.Product
         {
             if (lvList.SelectedItem != null)
             {
-                var item = ModelEx.PosAnalysisCodeEx.GetByCode(lvList.SelectedItem.Text);
+                var item = PosAnalysisCodeEx.GetByCode(lvList.SelectedItem.Text);
 
                 if (item != null)
                 {

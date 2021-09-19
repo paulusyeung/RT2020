@@ -13,8 +13,9 @@ using FileHelpers;
 using System.IO;
 using RT2020.Controls;
 using FileHelpers.MasterDetail;
-using RT2020.Helper;
 
+using RT2020.Common.Helper;
+using RT2020.Common.ModelEx;
 
 #endregion
 
@@ -158,7 +159,7 @@ namespace RT2020.Inventory.Transfer.Import
         private Guid GetProductId(TxferTxtIEDetails detail)
         {
             string sql = "STKCODE = '" + detail.StockCode +"' AND APPENDIX1 = '" + detail.Appendix1 + "' AND APPENDIX2 = '" + detail.Appendix2 + "' AND APPENDIX3 = '" + detail.Appendix3 + "'";
-            var oItem = ModelEx.ProductEx.Get(sql);
+            var oItem = ProductEx.Get(sql);
             if (oItem != null)
             {
                 return oItem.ProductId;
@@ -195,9 +196,9 @@ namespace RT2020.Inventory.Transfer.Import
                             oHeader.TxDate = master.TxDate;
                             oHeader.TransferredOn = master.TxferDate;
                             oHeader.CompletedOn = master.CompletionDate;
-                            oHeader.FromLocation = ModelEx.WorkplaceEx.GetWorkplaceIdByCode(master.FromLocation);
-                            oHeader.ToLocation = ModelEx.WorkplaceEx.GetWorkplaceIdByCode(master.ToLocation);
-                            oHeader.StaffId = ModelEx.StaffEx.GetStaffIdByStaffNumber(master.Operator);
+                            oHeader.FromLocation = WorkplaceEx.GetWorkplaceIdByCode(master.FromLocation);
+                            oHeader.ToLocation = WorkplaceEx.GetWorkplaceIdByCode(master.ToLocation);
+                            oHeader.StaffId = StaffEx.GetStaffIdByStaffNumber(master.Operator);
                             oHeader.Status = Convert.ToInt32(EnumHelper.Status.Draft.ToString("d"));
                             oHeader.Reference = master.RefNumber;
                             oHeader.Remarks = master.Remarks;

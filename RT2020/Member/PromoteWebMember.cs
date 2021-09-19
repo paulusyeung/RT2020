@@ -12,8 +12,10 @@ using Gizmox.WebGUI.Forms;
 
 using System.Data.SqlClient;
 using System.Linq;
-using RT2020.Helper;
 using System.Data.Entity;
+
+using RT2020.Common.Helper;
+using RT2020.Common.ModelEx;
 
 #endregion
 
@@ -92,7 +94,7 @@ namespace RT2020.Member
             lblNature.Click += (s, e) =>                   // 彈出 wizard
             {
                 var dialog = new SmartTag4Member_OptionsWizard();
-                dialog.SmartTagId = ModelEx.SmartTag4MemberEx.GetIdByPriority(99);
+                dialog.SmartTagId = SmartTag4MemberEx.GetIdByPriority(99);
                 dialog.FormClosed += (sender, eventArgs) =>     // 關閉後 refresh 個 combo box items
                 {
                     FillComboBox_Nature();
@@ -240,18 +242,18 @@ namespace RT2020.Member
         private void FillLineOfOperationList()
         {
             string[] orderBy = new string[] { "LineOfOperationName" };
-            ModelEx.LineOfOperationEx.LoadCombo(ref cboLineOfOperation, "LineOfOperationName", true, true, "", "", orderBy);
+            LineOfOperationEx.LoadCombo(ref cboLineOfOperation, "LineOfOperationName", true, true, "", "", orderBy);
         }
 
         private void FillComboBox_Nature()
         {
-            var id = ModelEx.SmartTag4MemberEx.GetIdByPriority(99); // member nature
+            var id = SmartTag4MemberEx.GetIdByPriority(99); // member nature
             var textFields = new string[] { "OptionCode", "OptionName" };
             var pattern = "{0} - {1}";
             var where = string.Format("TagId = '{0}'", id.ToString());
             var orderBy = new string[] { "OptionCode" };
 
-            ModelEx.SmartTag4Member_OptionsEx.LoadCombo(ref cboNature, textFields, pattern, true, true, "", where, orderBy);
+            SmartTag4Member_OptionsEx.LoadCombo(ref cboNature, textFields, pattern, true, true, "", where, orderBy);
         }
 
         #endregion
@@ -387,7 +389,7 @@ namespace RT2020.Member
                             member.FullName = item.FNAME + "," + item.LNAME; // Full Name
                             member.FullName_Chs = item.CNAME; // Chinese Name (S)
                             member.FullName_Cht = item.CNAME; // Chinese Name (T)
-                            member.JobTitleId = ModelEx.JobTitleEx.GetJobTitleIdByName(item.TITLE);
+                            member.JobTitleId = JobTitleEx.GetJobTitleIdByName(item.TITLE);
                             member.AssignedTo = Guid.Empty;
                             member.Remarks = item.REMARKS;
                             member.NormalDiscount = (decimal)item.NRDISC;
@@ -409,7 +411,7 @@ namespace RT2020.Member
 
                             #region SaveMemberAddresses(memberId, item);
                             #region English Address
-                            var enAddressTypeId = ModelEx.MemberAddressTypeEx.GetIdByCode("ADDR_EN");
+                            var enAddressTypeId = MemberAddressTypeEx.GetIdByCode("ADDR_EN");
                             string enAddress = item.ADDRESS1 + Environment.NewLine + item.ADDRESS2 + Environment.NewLine + item.ADDRESS3 + Environment.NewLine + item.ADDRESS4;
 
                             var addressEn = ctx.MemberAddress.Where(x => x.MemberId == id && x.AddressTypeId == enAddressTypeId).FirstOrDefault();
@@ -430,22 +432,22 @@ namespace RT2020.Member
                             addressEn.CityId = Guid.Empty;
                             addressEn.District = string.Empty;
                             addressEn.Mailing = false;
-                            addressEn.PhoneTag1 = ModelEx.PhoneTagEx.GetPhoneTagIdByPriority(1);
+                            addressEn.PhoneTag1 = PhoneTagEx.GetPhoneTagIdByPriority(1);
                             addressEn.PhoneTag1Value = item.TELW;
-                            addressEn.PhoneTag2 = ModelEx.PhoneTagEx.GetPhoneTagIdByPriority(2);
+                            addressEn.PhoneTag2 = PhoneTagEx.GetPhoneTagIdByPriority(2);
                             addressEn.PhoneTag2Value = item.TELH;
-                            addressEn.PhoneTag3 = ModelEx.PhoneTagEx.GetPhoneTagIdByPriority(3);
+                            addressEn.PhoneTag3 = PhoneTagEx.GetPhoneTagIdByPriority(3);
                             addressEn.PhoneTag3Value = item.FAX;
-                            addressEn.PhoneTag4 = ModelEx.PhoneTagEx.GetPhoneTagIdByPriority(4);
+                            addressEn.PhoneTag4 = PhoneTagEx.GetPhoneTagIdByPriority(4);
                             addressEn.PhoneTag4Value = item.TELOTHER;
-                            addressEn.PhoneTag5 = ModelEx.PhoneTagEx.GetPhoneTagIdByPriority(5);
+                            addressEn.PhoneTag5 = PhoneTagEx.GetPhoneTagIdByPriority(5);
                             addressEn.PhoneTag5Value = item.TELP;
 
                             ctx.SaveChanges();
                             #endregion
 
                             #region Chinese Address
-                            var cnAddressTypeId = ModelEx.MemberAddressTypeEx.GetIdByCode("ADDR_CN");
+                            var cnAddressTypeId = MemberAddressTypeEx.GetIdByCode("ADDR_CN");
                             string cnAddress = item.ADDRESS1C + Environment.NewLine + item.ADDRESS2C + Environment.NewLine + item.ADDRESS3C + Environment.NewLine + item.ADDRESS4C;
 
                             var addressCn = ctx.MemberAddress.Where(x => x.MemberId == id && x.AddressTypeId == cnAddressTypeId).FirstOrDefault();
@@ -466,15 +468,15 @@ namespace RT2020.Member
                             addressCn.CityId = Guid.Empty;
                             addressCn.District = string.Empty;
                             addressCn.Mailing = false;
-                            addressCn.PhoneTag1 = ModelEx.PhoneTagEx.GetPhoneTagIdByPriority(1);
+                            addressCn.PhoneTag1 = PhoneTagEx.GetPhoneTagIdByPriority(1);
                             addressCn.PhoneTag1Value = item.TELW;
-                            addressCn.PhoneTag2 = ModelEx.PhoneTagEx.GetPhoneTagIdByPriority(2);
+                            addressCn.PhoneTag2 = PhoneTagEx.GetPhoneTagIdByPriority(2);
                             addressCn.PhoneTag2Value = item.TELH;
-                            addressCn.PhoneTag3 = ModelEx.PhoneTagEx.GetPhoneTagIdByPriority(3);
+                            addressCn.PhoneTag3 = PhoneTagEx.GetPhoneTagIdByPriority(3);
                             addressCn.PhoneTag3Value = item.FAX;
-                            addressCn.PhoneTag4 = ModelEx.PhoneTagEx.GetPhoneTagIdByPriority(4);
+                            addressCn.PhoneTag4 = PhoneTagEx.GetPhoneTagIdByPriority(4);
                             addressCn.PhoneTag4Value = item.TELOTHER;
-                            addressCn.PhoneTag5 = ModelEx.PhoneTagEx.GetPhoneTagIdByPriority(5);
+                            addressCn.PhoneTag5 = PhoneTagEx.GetPhoneTagIdByPriority(5);
                             addressCn.PhoneTag5Value = item.TELP;
 
                             ctx.SaveChanges();
@@ -486,7 +488,7 @@ namespace RT2020.Member
                             #region 1.Grade
                             //SaveMemberSmartTag(memberId, GetSmartTagId("Grade", 1), objTempVip.GRADE);
                             // 2021.01.28 paulus: 由 GetIdByTagCodeAndPriority 改為 GetIdByPriority，咁樣日後個 TagCode 改咗都照 update 倒
-                            var tagId = ModelEx.SmartTag4MemberEx.GetIdByPriority(1);
+                            var tagId = SmartTag4MemberEx.GetIdByPriority(1);
                             if (tagId != Guid.Empty)
                             {
                                 var oTag1 = ctx.MemberSmartTag.Where(x => x.MemberId == id && x.TagId == tagId).FirstOrDefault();
@@ -507,7 +509,7 @@ namespace RT2020.Member
 
                             #region 2.Sex
                             //SaveMemberSmartTag(memberId, GetSmartTagId("Sex", 2), objTempVip.SEX);
-                            tagId = ModelEx.SmartTag4MemberEx.GetIdByPriority(2);
+                            tagId = SmartTag4MemberEx.GetIdByPriority(2);
                             if (tagId != Guid.Empty)
                             {
                                 var oTag2 = ctx.MemberSmartTag.Where(x => x.MemberId == id && x.TagId == tagId).FirstOrDefault();
@@ -528,7 +530,7 @@ namespace RT2020.Member
 
                             #region 3.Race
                             //SaveMemberSmartTag(memberId, GetSmartTagId("Race", 3), objTempVip.RACE);
-                            tagId = ModelEx.SmartTag4MemberEx.GetIdByPriority(3);
+                            tagId = SmartTag4MemberEx.GetIdByPriority(3);
                             if (tagId != Guid.Empty)
                             {
                                 var oTag3 = ctx.MemberSmartTag.Where(x => x.MemberId == id && x.TagId == tagId).FirstOrDefault();
@@ -549,7 +551,7 @@ namespace RT2020.Member
 
                             #region 4.Age Group
                             //SaveMemberSmartTag(memberId, GetSmartTagId("Age Group", 4), objTempVip.AGE_GROUP);
-                            tagId = ModelEx.SmartTag4MemberEx.GetIdByPriority(4);
+                            tagId = SmartTag4MemberEx.GetIdByPriority(4);
                             if (tagId != Guid.Empty)
                             {
                                 var oTag4 = ctx.MemberSmartTag.Where(x => x.MemberId == id && x.TagId == tagId).FirstOrDefault();
@@ -570,7 +572,7 @@ namespace RT2020.Member
 
                             #region 5.CodeNumber
                             //this.SaveMemberSmartTag(memberId, GetSmartTagId("CodeNumber", 5), objTempVip.CODENUM);
-                            tagId = ModelEx.SmartTag4MemberEx.GetIdByPriority(5);
+                            tagId = SmartTag4MemberEx.GetIdByPriority(5);
                             if (tagId != Guid.Empty)
                             {
                                 var oTag5 = ctx.MemberSmartTag.Where(x => x.MemberId == id && x.TagId == tagId).FirstOrDefault();
@@ -591,7 +593,7 @@ namespace RT2020.Member
 
                             #region 6.LoyaltyNum
                             //this.SaveMemberSmartTag(memberId, GetSmartTagId("LoyaltyNum", 6), objTempVip.LOYALTYNUM);
-                            tagId = ModelEx.SmartTag4MemberEx.GetIdByPriority(6);
+                            tagId = SmartTag4MemberEx.GetIdByPriority(6);
                             if (tagId != Guid.Empty)
                             {
                                 var oTag6 = ctx.MemberSmartTag.Where(x => x.MemberId == id && x.TagId == tagId).FirstOrDefault();
@@ -612,7 +614,7 @@ namespace RT2020.Member
 
                             #region 7.Profile
                             //this.SaveMemberSmartTag(memberId, GetSmartTagId("Profile", 7), objTempVip.PROFILE);
-                            tagId = ModelEx.SmartTag4MemberEx.GetIdByPriority(7);
+                            tagId = SmartTag4MemberEx.GetIdByPriority(7);
                             if (tagId != Guid.Empty)
                             {
                                 var oTag7 = ctx.MemberSmartTag.Where(x => x.MemberId == id && x.TagId == tagId).FirstOrDefault();
@@ -633,7 +635,7 @@ namespace RT2020.Member
 
                             #region 8.DOB
                             //this.SaveMemberSmartTag(memberId, GetSmartTagId("DOB", 8), objTempVip.DATE_BIRTH.Value.ToString("yyyy-MM-dd"));
-                            tagId = ModelEx.SmartTag4MemberEx.GetIdByPriority(8);
+                            tagId = SmartTag4MemberEx.GetIdByPriority(8);
                             if (tagId != Guid.Empty)
                             {
                                 var oTag8 = ctx.MemberSmartTag.Where(x => x.MemberId == id && x.TagId == tagId).FirstOrDefault();
@@ -654,7 +656,7 @@ namespace RT2020.Member
 
                             #region 9.DOR
                             //this.SaveMemberSmartTag(memberId, GetSmartTagId("DOR", 9), objTempVip.DATE_REGIS.Value.ToString("yyyy-MM-dd"));
-                            tagId = ModelEx.SmartTag4MemberEx.GetIdByPriority(9);
+                            tagId = SmartTag4MemberEx.GetIdByPriority(9);
                             if (tagId != Guid.Empty)
                             {
                                 var oTag9 = ctx.MemberSmartTag.Where(x => x.MemberId == id && x.TagId == tagId).FirstOrDefault();
@@ -675,7 +677,7 @@ namespace RT2020.Member
 
                             #region 10.HKID
                             //this.SaveMemberSmartTag(memberId, GetSmartTagId("HKID", 10), objTempVip.ID_NO);
-                            tagId = ModelEx.SmartTag4MemberEx.GetIdByPriority(10);
+                            tagId = SmartTag4MemberEx.GetIdByPriority(10);
                             if (tagId != Guid.Empty)
                             {
                                 var oTag10 = ctx.MemberSmartTag.Where(x => x.MemberId == id && x.TagId == tagId).FirstOrDefault();
@@ -696,7 +698,7 @@ namespace RT2020.Member
 
                             #region 11.Nationalit
                             //this.SaveMemberSmartTag(memberId, GetSmartTagId("Nationalit", 11), objTempVip.NATION);
-                            tagId = ModelEx.SmartTag4MemberEx.GetIdByPriority(11);
+                            tagId = SmartTag4MemberEx.GetIdByPriority(11);
                             if (tagId != Guid.Empty)
                             {
                                 var oTag11 = ctx.MemberSmartTag.Where(x => x.MemberId == id && x.TagId == tagId).FirstOrDefault();
@@ -717,7 +719,7 @@ namespace RT2020.Member
 
                             #region 12.Email
                             //this.SaveMemberSmartTag(memberId, GetSmartTagId("Email", 12), objTempVip.EMAIL);
-                            tagId = ModelEx.SmartTag4MemberEx.GetIdByPriority(12);
+                            tagId = SmartTag4MemberEx.GetIdByPriority(12);
                             if (tagId != Guid.Empty)
                             {
                                 var oTag12 = ctx.MemberSmartTag.Where(x => x.MemberId == id && x.TagId == tagId).FirstOrDefault();
@@ -738,7 +740,7 @@ namespace RT2020.Member
 
                             #region 13.ComName EN
                             //this.SaveMemberSmartTag(memberId, GetSmartTagId("ComName EN", 13), objTempVip.COMPNAME);
-                            tagId = ModelEx.SmartTag4MemberEx.GetIdByPriority(13);
+                            tagId = SmartTag4MemberEx.GetIdByPriority(13);
                             if (tagId != Guid.Empty)
                             {
                                 var oTag13 = ctx.MemberSmartTag.Where(x => x.MemberId == id && x.TagId == tagId).FirstOrDefault();
@@ -759,7 +761,7 @@ namespace RT2020.Member
 
                             #region 14.ComName CN
                             //this.SaveMemberSmartTag(memberId, GetSmartTagId("ComName CN", 14), objTempVip.COMPNAMEC);
-                            tagId = ModelEx.SmartTag4MemberEx.GetIdByPriority(14);
+                            tagId = SmartTag4MemberEx.GetIdByPriority(14);
                             if (tagId != Guid.Empty)
                             {
                                 var oTag14 = ctx.MemberSmartTag.Where(x => x.MemberId == id && x.TagId == tagId).FirstOrDefault();
@@ -817,7 +819,7 @@ namespace RT2020.Member
                                 oVipLoo.VipLooId = Guid.NewGuid();
                                 oVipLoo.VipLooId = System.Guid.NewGuid();
                                 oVipLoo.MemberVipId = memberVipId;
-                                oVipLoo.LineOfOperationId = ModelEx.LineOfOperationEx.GetLineOfOperationIdByName(item.LOOID);
+                                oVipLoo.LineOfOperationId = LineOfOperationEx.GetLineOfOperationIdByName(item.LOOID);
 
                                 ctx.MemberVipLineOfOperation.Add(oVipLoo);
                             }

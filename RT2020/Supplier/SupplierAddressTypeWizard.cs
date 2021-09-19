@@ -12,9 +12,11 @@ using Gizmox.WebGUI.Forms;
 using Gizmox.WebGUI.Common.Resources;
 using System.Data.SqlClient;
 using System.Configuration;
-using RT2020.Helper;
 using System.Linq;
 using System.Data.Entity;
+
+using RT2020.Common.Helper;
+using RT2020.Common.ModelEx;
 
 #endregion
 
@@ -267,7 +269,7 @@ namespace RT2020.Supplier
             errorProvider.SetError(txtTypeCode, string.Empty);
             if (_AddressTypeId == Guid.Empty)
             {
-                if (ModelEx.SupplierAddressTypeEx.IsCodeInUse(txtTypeCode.Text.Trim()))
+                if (SupplierAddressTypeEx.IsCodeInUse(txtTypeCode.Text.Trim()))
                 {
                     errorProvider.SetError(txtTypeCode, "Type Code in use");
                     errorProvider.SetIconAlignment(txtTypeCode, ErrorIconAlignment.TopLeft);
