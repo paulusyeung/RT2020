@@ -14,12 +14,12 @@ using FastReport.Utils;
 using FastReport.Export.Image;
 using FastReport.Export.Html;
 using FastReport.Export.PdfSimple;
-using RT2020.Reports.ModelEx;
-using RT2020.Reports.Helper;
 using ClosedXML.Excel;
 using ClosedXML.Report;
-using RT2020.Inventory.Reports.TestModels;
 using LinqToDB;
+
+using RT2020.Common.Helper;
+using RT2020.Reports.ModelEx;
 
 namespace RT2020.Reports.Inventory.Journal
 {
@@ -96,7 +96,7 @@ order by STKCODE, APPENDIX1, APPENDIX2, APPENDIX3, TxDate, TxType, TxNumber
 
                         //! 準備 custom 嘅 data source
                         DataSet ds = new DataSet();
-                        ds = Helper.SqlHelper.Default.ExecuteDataSet(CommandType.Text, sql);
+                        ds = SqlHelper.Default.ExecuteDataSet(CommandType.Text, sql);
 
                         //! 替代 design time 嘅設定
                         string desingTimeDataSourceAlias = "Table", desingTimeDataBandName = "Data1";
@@ -218,7 +218,7 @@ order by STKCODE, APPENDIX1, APPENDIX2, APPENDIX3, TxDate, TxType, TxNumber
 
                         //! 再準備 custom 嘅 data source
                         DataSet ds = new DataSet();
-                        ds = Helper.SqlHelper.Default.ExecuteDataSet(CommandType.Text, sql);
+                        ds = SqlHelper.Default.ExecuteDataSet(CommandType.Text, sql);
 
                         //! 替代 design time 嘅設定
                         string desingTimeDataSourceAlias = "Table", desingTimeDataBandName = "Data1";
@@ -318,7 +318,7 @@ order by STKCODE, APPENDIX1, APPENDIX2, APPENDIX3, TxDate, TxType, TxNumber
                 {
                     var tpl = new XLTemplate(ExcelFilePath);
 
-                    var ds = Helper.SqlHelper.Default.ExecuteDataSet(CommandType.Text, sql);
+                    var ds = SqlHelper.Default.ExecuteDataSet(CommandType.Text, sql);
                     var dt = ds.Tables[0];
                     var dr = from row in dt.AsEnumerable() select row;
                     //var dr = dt.Rows.Cast<DataRow>();      // 可以咁玩
@@ -510,7 +510,7 @@ order by STKCODE, APPENDIX1, APPENDIX2, APPENDIX3, TxDate, TxType, TxNumber
                 {
                     var tpl = new XLTemplate(PivotFilePath);
 
-                    var ds = Helper.SqlHelper.Default.ExecuteDataSet(CommandType.Text, sql);
+                    var ds = SqlHelper.Default.ExecuteDataSet(CommandType.Text, sql);
                     var dt = ds.Tables[0];
                     var dr = from row in dt.AsEnumerable() select row;
 

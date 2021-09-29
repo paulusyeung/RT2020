@@ -165,9 +165,6 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Helper\CookieHelper.cs" />
-    <Compile Include="Helper\SqlHelper.cs" />
-    <Compile Include="Helper\WestwindHelper.cs" />
     <Compile Include="Inventory\Journal\Summary.cs" />
     <Compile Include="Inventory\Journal\List.cs" />
     <Compile Include="Inventory\Journal\Monthly.cs" />
@@ -190,9 +187,14 @@
     <None Include="README.md" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Helper\" />
     <Folder Include="Resources\FastReport\Inventory\Status\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\RT2020.Common\RT2020.Common.csproj">
+      <Project>{25d1ff78-1326-4b16-9cf3-aace9b3a4151}</Project>
+      <Name>RT2020.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\RT2020.EF6\RT2020.EF6.csproj">
       <Project>{80747ba9-d766-4dca-b58a-e8426bf72ace}</Project>
       <Name>RT2020.EF6</Name>

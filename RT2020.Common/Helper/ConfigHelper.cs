@@ -416,6 +416,25 @@ namespace RT2020.Common.Helper
             }
         }
 
+        public static string OutBox
+        {
+            get
+            {
+                string result = @"C:\Shared\RT2020\OutBox";
+
+                if (ConfigurationManager.AppSettings["OutBox"] != null)
+                {
+                    result = (string)ConfigurationManager.AppSettings["OutBox"];
+                    if (!(Directory.Exists(result)))
+                    {
+                        Directory.CreateDirectory(result);
+                    }
+                }
+
+                return result;
+            }
+        }
+
         /// <summary>
         /// Sets the culture info.
         /// </summary>
@@ -425,6 +444,7 @@ namespace RT2020.Common.Helper
             Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture(selectedLanguage);
             Thread.CurrentThread.CurrentUICulture = new CultureInfo(selectedLanguage);
         }
+
         public static bool UseNetSqlAzMan
         {
             get
