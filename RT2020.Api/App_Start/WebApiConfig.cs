@@ -15,13 +15,20 @@ namespace RT2020.Api
     {
         public static void Register(HttpConfiguration config)
         {
-            // Web API configuration and services
+            #region Web API configuration and services
+            // 開啟 Authorization，暫時用 Basic Authentication
+            config.Filters.Add(new AuthorizeAttribute());
+            #endregion
 
             // Web API routes
             config.MapHttpAttributeRoutes();
 
-            config.EnableUnqualifiedNameCall(true);
-            RegisterRT2020Api(config, GlobalConfiguration.DefaultServer);
+            // oData Restier: 目前冇用 ref: https://github.com/OData/RESTier
+            //config.EnableUnqualifiedNameCall(true);
+            //RegisterRT2020Api(config, GlobalConfiguration.DefaultServer);
+
+            // 使用 Microsoft.AspNet.WebApi.Cors, ref: https://docs.microsoft.com/en-us/aspnet/web-api/overview/security/enabling-cross-origin-requests-in-web-api
+            config.EnableCors();
 
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",

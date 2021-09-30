@@ -1,7 +1,10 @@
+using System;
+using System.Net.Http;
 using System.Web.Http;
+
+using Swashbuckle.Application;
 using WebActivatorEx;
 using RT2020.Api;
-using Swashbuckle.Application;
 
 [assembly: PreApplicationStartMethod(typeof(SwaggerConfig), "Register")]
 
@@ -21,6 +24,7 @@ namespace RT2020.Api
                         // resolve correctly. You can workaround this by providing your own code to determine the root URL.
                         //
                         //c.RootUrl(req => GetRootUrlFromAppConfig());
+                        //c.RootUrl(ResolveBasePath);
 
                         // If schemes are not explicitly provided in a Swagger 2.0 document, then the scheme used to access
                         // the docs is taken as the default. If your API supports multiple schemes and you want to be explicit
@@ -250,6 +254,20 @@ namespace RT2020.Api
                         //
                         //c.EnableApiKeySupport("apiKey", "header");
                     });
+        }
+
+        private static string ResolveBasePath(HttpRequestMessage message)
+        {
+            String result = "";
+
+            var virtualPathRoot = message.GetRequestContext().VirtualPathRoot;
+
+            var schemeAndHost = message.RequestUri.Port == 80 || message.RequestUri.Port == 443 ?
+                "http://" + message.RequestUri.Host :
+                string.Format("http://{0}:{1}", message.RequestUri.Host, message.RequestUri.Port.ToString());
+            result = new Uri(new Uri(schemeAndHost, UriKind.Absolute), virtualPathRoot).AbsoluteUri;
+
+            return result;
         }
     }
 }
