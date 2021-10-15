@@ -365,6 +365,7 @@
         <AssociationConnector Association="RT2020Model.FK_Workplace_PromotionPaymentFactor" />
         <EntityTypeShape EntityType="RT2020Model.UserProfile" Width="1.5" PointX="7.75" PointY="9.75" />
         <AssociationConnector Association="RT2020Model.FK_UserProfile_UserPreference" />
+        <EntityTypeShape EntityType="RT2020Model.Pipeline" Width="1.5" PointX="0.75" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

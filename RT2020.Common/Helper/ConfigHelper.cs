@@ -416,6 +416,51 @@ namespace RT2020.Common.Helper
             }
         }
 
+        public static string ApiServerName
+        {
+            get
+            {
+                string result = @"https://api.rt2020.com";
+
+                if (ConfigurationManager.AppSettings["ApiServerName"] != null)
+                {
+                    result = (string)ConfigurationManager.AppSettings["ApiServerName"];
+                }
+
+                return result;
+            }
+        }
+
+        public static string Impersonate_UserName
+        {
+            get
+            {
+                string result = @"Administrator";
+
+                if (ConfigurationManager.AppSettings["Impersonate_UserName"] != null)
+                {
+                    result = (string)ConfigurationManager.AppSettings["Impersonate_UserName"];
+                }
+
+                return result;
+            }
+        }
+
+        public static string Impersonate_UserPassword
+        {
+            get
+            {
+                string result = @"nx-9602";
+
+                if (ConfigurationManager.AppSettings["Impersonate_UserPassword"] != null)
+                {
+                    result = (string)ConfigurationManager.AppSettings["Impersonate_UserPassword"];
+                }
+
+                return result;
+            }
+        }
+
         public static string OutBox
         {
             get
@@ -425,6 +470,25 @@ namespace RT2020.Common.Helper
                 if (ConfigurationManager.AppSettings["OutBox"] != null)
                 {
                     result = (string)ConfigurationManager.AppSettings["OutBox"];
+                    if (!(Directory.Exists(result)))
+                    {
+                        Directory.CreateDirectory(result);
+                    }
+                }
+
+                return result;
+            }
+        }
+
+        public static string ReportsBox
+        {
+            get
+            {
+                string result = @"C:\Shared\RT2020\ReportsBox";
+
+                if (ConfigurationManager.AppSettings["ReportsBox"] != null)
+                {
+                    result = (string)ConfigurationManager.AppSettings["ReportsBox"];
                     if (!(Directory.Exists(result)))
                     {
                         Directory.CreateDirectory(result);

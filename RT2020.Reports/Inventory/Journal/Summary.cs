@@ -8,6 +8,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using Newtonsoft.Json;
+using log4net;
+
+using Gizmox.WebGUI.Common.Resources;
 using Gizmox.WebGUI.Forms;
 
 using FastReport;
@@ -31,158 +35,101 @@ namespace RT2020.Reports.Inventory.Journal
         private const string _SpNameForOtherPeriods = "apStockInOutSummary_HistoryMonth";
         private const string _Sql = @"";
 
-        private static string _ReportName = "Inventory\\Journal\\Summary.frx";
-        private static string _ExcelTemplate = "Inventory\\Journal\\Summary.xlsx";
-        private static string _PivotTemplate = "Inventory\\Journal\\SummaryPivot.xlsx";
+        private static string _FastReportName = "Inventory\\Journal\\SA1340-Summary.frx";
+        private static string _ExcelTemplate = "Inventory\\Journal\\SA1340-Summary.xlsx";
+        private static string _HtmlTemplate = "Inventory\\Journal\\SA1340-Summary.html";
+        private static string _PivotTemplate = "Inventory\\Journal\\SA1340-SummaryPivot.xlsx";
+        private static string _WptTemplate = "Inventory\\Journal\\SA1340-Summary.wpt";
+        private static string _WptTemplateUrl = @"api/wpt/getwptfile/SA1340-Summary/{0}/{1}/";    //0=id, 1=language
 
-        private static string ReportFilePath
+        private static string FastReportFilePath
         {
-            get { return Path.Combine(VWGContext.Current.Config.GetDirectory("Reports"), _ReportName); ; }
+            get { return Path.Combine(VWGContext.Current.Config.GetDirectory("Reports"), _FastReportName); }
         }
 
         private static string ReportFileName
         {
-            get { return Path.GetFileNameWithoutExtension(ReportFilePath); }
+            get { return Path.GetFileNameWithoutExtension(FastReportFilePath); }
         }
 
         private static string ExcelFilePath
         {
-            get { return Path.Combine(VWGContext.Current.Config.GetDirectory("Reports"), _ExcelTemplate); ; }
+            get { return Path.Combine(VWGContext.Current.Config.GetDirectory("Reports"), _ExcelTemplate); }
+        }
+
+        private static string HtmlFilePath
+        {
+            get { return Path.Combine(VWGContext.Current.Config.GetDirectory("Reports"), _HtmlTemplate); }
         }
 
         private static string PivotFilePath
         {
-            get { return Path.Combine(VWGContext.Current.Config.GetDirectory("Reports"), _PivotTemplate); ; }
+            get { return Path.Combine(VWGContext.Current.Config.GetDirectory("Reports"), _PivotTemplate); }
+        }
+
+        private static string WptFilePath
+        {
+            get { return Path.Combine(VWGContext.Current.Config.GetDirectory("Reports"), _WptTemplate); }
+        }
+
+        private static string WptTemplateUrl
+        {
+            get
+            {
+                // HACK: 實際用嘅時候，要由 web.figure 讀取
+                var domain = @"https://rt2020api.nxstudio.com/";
+                if (ConfigurationManager.AppSettings["ApiServerDomainName"] != null)
+                {
+                    domain = (string)ConfigurationManager.AppSettings["ApiServerDomainName"];
+                }
+                    return domain + _WptTemplateUrl;
+            }
         }
         #endregion
 
-        /// <summary>
-        /// Return the report in HTML string
-        /// Usage Example:
-        ///   htmlbox.html = HTML("2012-01-01", "2012-01-15", "03", "03Z");
-        /// </summary>
-        /// <param name="fromCode"></param>
-        /// <param name="toCode"></param>
-        /// <param name="fromDate"></param>
-        /// <param name="toDate"></param>
-        /// <returns></returns>
-        public static string HTML(string fromCode, string toCode, string fromDate, string toDate)
+        #region Instead of naming my invoking class, I started using the following:
+        //private static log4net.ILog Log { get; set; }
+        //ILog log = log4net.LogManager.GetLogger(typeof(BotController));
+
+        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
+        // In this way, I can use the same line of code in every class that uses log4net without having to remember to change code when I copy and paste.
+        // Alternatively, i could create a logging class, and have every other class inherit from my logging class.
+        // Refer: https://stackoverflow.com/questions/7089286/correct-way-of-using-log4net-logger-naming
+        #endregion
+
+        private static readonly object lockObject = new object();
+
+        public static string HTML(string id)
         {
             var result = "";
 
-            var sql = string.Format(_Sql, fromDate, toDate, fromCode, toCode);
-
-            //! 提供一個 data connection object (依家用 MsSql)
-            FastReport.Utils.RegisteredObjects.AddConnection(typeof(FastReport.Data.MsSqlDataConnection));
-
-            using (MemoryStream stream = new MemoryStream()) //Create the stream for the report
+            if (File.Exists(HtmlFilePath))
             {
-                try
-                {
-                    Config.WebMode = true;
+                var wptTemplate = File.ReadAllText(HtmlFilePath);
 
-                    using (Report report = new Report())
-                    {
-                        report.Load(ReportFilePath);
+                /** wpt.js
+                CDN 找到的：src="https://cdn.jsdelivr.net/npm/webpivottable@6.0.3/public/dist/wpt.js"
+                在官方說的：src="https://webpivottable.com/releases/latest/dist/wpt.js"
+                我揀自己嘅，有酬需要時可以改
+                */
+                var wptJs = (new GeneralResourceHandle("Resources/Assets/WebPivotTable/dist/wpt.js")).ToString();
 
-                        #region populate data source
-                        //! 首先，取消 designer 用緊嘅 Connection
-                        report.Dictionary.Connections.Clear();
+                /** localeFilePath
+                 * 由於 VWG 唔准你直接 browse & retrieve 佢管轄下嘅檔案，要利用 GeneralResourceHandle 嚟搞個 Url，
+                 * 因為我淨係要個 directory path，個尾多咗 &CT=，ContentType 要刪除
+                 */
+                var localeFilePath = (new GeneralResourceHandle("Resources/Assets/WebPivotTable/lang/")).ToString().Replace(@"&CT=", "");
 
-                        //! 準備 custom 嘅 data source
-                        DataSet ds = new DataSet();
-                        ds = SqlHelper.Default.ExecuteDataSet(CommandType.Text, sql);
+                var locale = CookieHelper.CurrentLocaleId;
 
-                        //! 替代 design time 嘅設定
-                        string desingTimeDataSourceAlias = "Table", desingTimeDataBandName = "Data1";
-                        report.Dictionary.Report.RegisterData(ds, desingTimeDataSourceAlias, true);
-                        ((DataBand)report.Report.FindObject(desingTimeDataBandName)).DataSource = report.GetDataSource(desingTimeDataSourceAlias);
-                        report.GetDataSource(desingTimeDataSourceAlias).Enabled = true;
-                        //! DataSource 已經 sorted，不過 DataBand 會亂來，除非你喺 designer 設定咗 DataBand 個 Sort
-                        //! 我選擇喺 code 度搞
-                        ((DataBand)report.Report.FindObject(desingTimeDataBandName)).Sort.AddRange(new Sort[] {
-                            new Sort(string.Format("[{0}.TxDate]", desingTimeDataSourceAlias), false),
-                            new Sort(string.Format("[{0}.TxType]", desingTimeDataSourceAlias), false),
-                            new Sort(string.Format("[{0}.TxNumber]", desingTimeDataSourceAlias), false)
-                            });
-                        #endregion
+                var wptUrl = string.Format(WptTemplateUrl, id, locale);
 
-                        #region render 個 report 前作最後處理
-                        //report.SetParameterValue("pReportTitle", WestwindHelper.GetWord("report.SA1330", "Setting"));                                        // 塞個 report title 入去
-                        //! 唔用 parameter, design time 嘅時候容易知道係邊隻 report
-                        ((TextObject)report.Report.FindObject("lblReportTitle")).Text = WestwindHelper.GetWord("report.SA1330", "Setting");
-
-                        //! 如果用 PrintOn.FirstPage，咁就祇能用 [Page]
-                        //((PageHeaderBand)report.Report.FindObject("PageHeader1")).PrintOn = PrintOn.FirstPage;              // PageHeader1 淨係喺第一頁出現，出 HTML 有用
-                        ((TextObject)report.Report.FindObject("txtPageNofM")).Text = string.Format(WestwindHelper.GetWord("reports.pageNofM", "General"), "[Page]","[TotalPages]");
-
-                        report.SetParameterValue("pCompanyName", WestwindHelper.GetWord("companyInfo.name", "Setting"));    // SystemInfoEx.CurrentInfo.Default.CompanyName);
-                        ((TextObject)report.Report.FindObject("lblSelectedRange")).Text = WestwindHelper.GetWordWithColon("reports.selectedRange", "General");
-                        ((TextObject)report.Report.FindObject("lblSelectedStockCode")).Text = WestwindHelper.GetWordWithColon("article.code", "Product");
-                        ((TextObject)report.Report.FindObject("lblSelectedDate")).Text = WestwindHelper.GetWordWithColon("transaction.date", "Transaction");
-                        report.SetParameterValue("pSelectedStockCode", string.Format("{0} ⇔ {1}", fromCode, toCode));
-                        report.SetParameterValue("pSelectedDate", string.Format("{0} ⇔ {1}", fromDate, toDate));
-                        ((TextObject)report.Report.FindObject("lblPrintedOn")).Text = WestwindHelper.GetWordWithColon("reports.printedOn", "General");
-                        ((TextObject)report.Report.FindObject("lblPage")).Text = WestwindHelper.GetWordWithColon("reports.page", "General");
-
-                        ((TextObject)report.Report.FindObject("lblStockCode")).Text = WestwindHelper.GetWordWithColon("article.code", "Product");
-                        ((TextObject)report.Report.FindObject("lblAppendix1")).Text = WestwindHelper.GetWordWithColon("appendix.appendix1", "Product");
-                        ((TextObject)report.Report.FindObject("lblAppendix2")).Text = WestwindHelper.GetWordWithColon("appendix.appendix2", "Product");
-                        ((TextObject)report.Report.FindObject("lblAppendix3")).Text = WestwindHelper.GetWordWithColon("appendix.appendix3", "Product");
-                        ((TextObject)report.Report.FindObject("lblClass1")).Text = WestwindHelper.GetWordWithColon("class.class1", "Product");
-                        ((TextObject)report.Report.FindObject("lblClass2")).Text = WestwindHelper.GetWordWithColon("class.class2", "Product");
-                        ((TextObject)report.Report.FindObject("lblClass3")).Text = WestwindHelper.GetWordWithColon("class.class3", "Product");
-                        ((TextObject)report.Report.FindObject("lblClass4")).Text = WestwindHelper.GetWordWithColon("class.class4", "Product");
-                        ((TextObject)report.Report.FindObject("lblClass5")).Text = WestwindHelper.GetWordWithColon("class.class5", "Product");
-                        ((TextObject)report.Report.FindObject("lblClass6")).Text = WestwindHelper.GetWordWithColon("class.class6", "Product");
-                        ((TextObject)report.Report.FindObject("lblBFQty")).Text = WestwindHelper.GetWordWithColon("inventory.bfQty", "Product");
-                        ((TextObject)report.Report.FindObject("lblBFAmount")).Text = WestwindHelper.GetWordWithColon("inventory.bfAmount", "Product");
-                        ((TextObject)report.Report.FindObject("lblCDQty")).Text = WestwindHelper.GetWordWithColon("inventory.cdQty", "Product");
-                        ((TextObject)report.Report.FindObject("lblCDAmount")).Text = WestwindHelper.GetWordWithColon("inventory.cdAmount", "Product");
-
-                        ((TextObject)report.Report.FindObject("lblTxDate")).Text = WestwindHelper.GetWord("transaction.date", "Transaction");
-                        ((TextObject)report.Report.FindObject("lblTxType")).Text = WestwindHelper.GetWord("transaction.type", "Transaction");
-                        ((TextObject)report.Report.FindObject("lblQtyIn")).Text = WestwindHelper.GetWord("transaction.qtyIn", "Transaction");
-                        ((TextObject)report.Report.FindObject("lblQtyOut")).Text = WestwindHelper.GetWord("transaction.qtyOut", "Transaction");
-                        ((TextObject)report.Report.FindObject("lblPrice")).Text = WestwindHelper.GetWord("transaction.price", "Transaction");
-                        ((TextObject)report.Report.FindObject("lblCost")).Text = WestwindHelper.GetWord("transaction.cost", "Transaction");
-                        ((TextObject)report.Report.FindObject("lblTxNumber")).Text = WestwindHelper.GetWord("transaction.number", "Transaction");
-                        ((TextObject)report.Report.FindObject("lblReference")).Text = WestwindHelper.GetWord("transaction.reference", "Transaction");
-                        ((TextObject)report.Report.FindObject("lblLocation")).Text = WestwindHelper.GetWord("workplace", "Model");
-                        ((TextObject)report.Report.FindObject("lblSupplierCode")).Text = WestwindHelper.GetWord("supplier", "Model");
-                        ((TextObject)report.Report.FindObject("lblRemarks")).Text = WestwindHelper.GetWord("transaction.remarks", "Transaction");
-                        ((TextObject)report.Report.FindObject("lblSubTotal")).Text = WestwindHelper.GetWordWithColon("transaction.subtotal", "Transaction");
-                        #endregion
-
-                        report.Prepare();   //Prepare the report
-
-                        #region report export to HTML
-                        HTMLExport html = new HTMLExport();
-                        html.SinglePage = true;         //report on the one page
-                        html.Navigator = false;         //navigation panel on top
-                        html.EmbedPictures = true;      //build in images to the document
-                        html.Zoom = 1.20F;              //design 嘅 font size 係以 A4 為主，喺 HTML 會太細，所以要放大 1.25 倍
-                        report.Export(html, stream);    //export as HTML to stream
-
-                        // debug: write to a file
-                        //report.Export(html, string.Format("C:\\Temp\\{0}.html", ReportFileName));
-
-                        stream.Position = 0;
-                        var reader = new StreamReader(stream);
-                        result = reader.ReadToEnd();
-                        #endregion
-
-                        stream.Flush();
-                    }
-                }
-                catch (Exception ex)
-                {
-                    //
-                }
-                finally
-                {
-                    stream.Dispose();
-                }
+                result = wptTemplate
+                    .Replace("#wptJs#", wptJs)
+                    .Replace("#localeFilePath#", localeFilePath)
+                    .Replace("#locale#", locale)
+                    .Replace("#wptUrl#", wptUrl);
             }
 
             return result;
@@ -205,7 +152,7 @@ namespace RT2020.Reports.Inventory.Journal
 
                     using (Report report = new Report())
                     {
-                        report.Load(ReportFilePath);
+                        report.Load(FastReportFilePath);
 
                         #region populate data source
                         //! 首先，取消 designer 用緊嘅 Connection
@@ -510,7 +457,7 @@ namespace RT2020.Reports.Inventory.Journal
 
                     var tpl = new XLTemplate(PivotFilePath);
 
-                    var ds = SqlHelper.Default.ExecuteDataSet(IsCurrentPeriod(fromDate, toDate) ? _SpNameForCurrentPeriod : _SpNameForOtherPeriods, param);
+                    var ds = SqlHelper.Default.ExecuteDataSet(SystemInfoHelper.IsCurrentPeriod(fromDate, toDate) ? _SpNameForCurrentPeriod : _SpNameForOtherPeriods, param);
                     var dt = ds.Tables[0];
                     var dr = from row in dt.AsEnumerable() select row;
 
@@ -660,25 +607,6 @@ namespace RT2020.Reports.Inventory.Journal
                     stream.Dispose();
                 }
             }
-
-            return result;
-        }
-
-        /// <summary>
-        /// 睇下 selected date range 係咪屬於 current period
-        /// </summary>
-        /// <param name="fromDate"></param>
-        /// <param name="toDate"></param>
-        /// <returns></returns>
-        private static bool IsCurrentPeriod(DateTime fromDate, DateTime toDate)
-        {
-            var result = false;
-
-            var currentPeriod = SystemInfoEx.CurrentInfo.Default.CurrentSystemYear + SystemInfoEx.CurrentInfo.Default.CurrentSystemMonth;
-            result = string.Compare(fromDate.ToString("yyyyMM"), currentPeriod) == 0 &&
-                string.Compare(toDate.ToString("yyyyMM"), currentPeriod) == 0 ?
-                true :
-                false;
 
             return result;
         }

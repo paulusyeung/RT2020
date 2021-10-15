@@ -214,6 +214,9 @@
     <Compile Include="PhoneTag.cs">
       <DependentUpon>RT2020Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="Pipeline.cs">
+      <DependentUpon>RT2020Model.tt</DependentUpon>
+    </Compile>
     <Compile Include="PosAnalysisCode.cs">
       <DependentUpon>RT2020Model.tt</DependentUpon>
     </Compile>

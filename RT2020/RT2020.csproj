@@ -159,8 +159,8 @@
     <Reference Include="Gizmox.WebGUI.Forms.Office, Version=4.5.25701.0, Culture=neutral, PublicKeyToken=d50c2c7452ba77d9, processorArchitecture=MSIL" />
     <Reference Include="Gizmox.WebGUI.Forms.Themes, Version=4.5.25701.0, Culture=neutral, PublicKeyToken=263fa4ef694acff6, processorArchitecture=MSIL" />
     <Reference Include="Gizmox.WebGUI.Server, Version=4.5.25701.0, Culture=neutral, PublicKeyToken=3de6eb684226c24d, processorArchitecture=MSIL" />
-    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
-      <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
+    <Reference Include="log4net, Version=2.0.12.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.12\lib\net45\log4net.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
@@ -415,6 +415,8 @@
     <Content Include="LocalizationAdmin\scripts\ww.jquery.min.js" />
     <Content Include="LocalizationAdmin\scripts\ww.resourceEditor.js" />
     <Content Include="LocalizationAdmin\touch-icon.png" />
+    <Content Include="Resources\Assets\WebPivotTable\dist\wpt.js" />
+    <Content Include="Resources\Assets\WebPivotTable\quick-start.html" />
     <Content Include="Resources\Icons\24x24\earth.png" />
     <Content Include="Resources\Icons\24x24\half.png" />
     <Content Include="Resources\Icons\24x24\power_24.png" />
@@ -717,6 +719,7 @@
     <Content Include="Resources\Icons\24x24\sales_24x24.gif" />
     <Content Include="Resources\Icons\24x24\services_24x24.gif" />
     <Content Include="Resources\Icons\24x24\settings_24x24.gif" />
+    <Content Include="Resources\Reports\Inventory\Journal\SA1340-Summary.html" />
     <Content Include="scripts\ww.jquery.js" />
     <Content Include="scripts\ww.jquery.min.js" />
   </ItemGroup>
@@ -3081,14 +3084,27 @@
     <Content Include="Resources\Reports\Inventory\Journal\ListPivot.xlsx" />
     <Content Include="Resources\Reports\Inventory\Journal\List.xlsx" />
     <Content Include="Resources\Reports\Inventory\Journal\List.frx" />
-    <Content Include="Resources\Reports\Inventory\Journal\SummaryPivot.xlsx" />
+    <Content Include="Resources\Reports\Inventory\Journal\SA1340-SummaryPivot.xlsx" />
+    <Content Include="Resources\Reports\Inventory\Journal\SA1340-Summary.xlsx" />
+    <Content Include="Resources\Assets\WebPivotTable\lang\de.json" />
+    <Content Include="Resources\Assets\WebPivotTable\lang\en.json" />
+    <Content Include="Resources\Assets\WebPivotTable\lang\es.json" />
+    <Content Include="Resources\Assets\WebPivotTable\lang\it.json" />
+    <Content Include="Resources\Assets\WebPivotTable\lang\pt.json" />
+    <Content Include="Resources\Assets\WebPivotTable\lang\tr-TR.json" />
+    <Content Include="Resources\Assets\WebPivotTable\lang\zh-CN.json" />
+    <Content Include="Resources\Assets\WebPivotTable\lang\zh-HK.json" />
+    <Content Include="Resources\Assets\WebPivotTable\lang\zh-TW.json" />
+    <Content Include="Resources\Reports\Inventory\Journal\SA1340-Summary.wpt" />
     <None Include="Resources\Templates\CAP Import Template.XLS" />
     <None Include="Resources\Templates\CAP Import Template.xlsx" />
     <None Include="Resources\Templates\VIPThanksLetter.dotx" />
     <None Include="Resources\Templates\Stock Code Import Template %2803%29.xls" />
     <None Include="Resources\Templates\Stock Code Import Template %2807%29.xlsx" />
     <None Include="Settings.StyleCop" />
-    <None Include="Web.config" />
+    <None Include="Web.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Admin\Localization\App_LocalResource\default.aspx.de.resx">

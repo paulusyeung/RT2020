@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 namespace RT2020.Common.Helper
 {
     [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
-    class Impersonate : IDisposable
+    public class Impersonate : IDisposable
     {
         private readonly SafeTokenHandle _handle;
         private readonly WindowsImpersonationContext _context;

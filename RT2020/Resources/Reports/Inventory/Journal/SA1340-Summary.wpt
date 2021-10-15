@@ -1,0 +1,1004 @@
+{
+  "format": "WPT",
+  "version": "4.0",
+  "sheet": {
+    "pivot": {
+      "fields": {
+        "Article Code": {
+          "id": "Article Code",
+          "sort": {
+            "sortType": "LABEL",
+            "sortDescend": 0
+          }
+        },
+        "FABRICS": {
+          "id": "FABRICS",
+          "sort": {
+            "sortType": "LABEL",
+            "sortDescend": 0
+          }
+        },
+        "COLOR": {
+          "id": "COLOR",
+          "sort": {
+            "sortType": "LABEL",
+            "sortDescend": 0
+          }
+        },
+        "SIZE": {
+          "id": "SIZE",
+          "sort": {
+            "sortType": "LABEL",
+            "sortDescend": 0
+          }
+        }
+      },
+      "rows": [ "Article Code", "FABRICS", "COLOR", "SIZE" ],
+      "columns": [],
+      "filters": [ "Tx Type", "Store Outlets" ],
+      "values": [
+        {
+          "id": "2505410429388",
+          "fieldId": "B/F Qty",
+          "name": "B/F Qty",
+          "stats": "SUM",
+          "format": {
+            "category": "NUMBER",
+            "decimal": 0,
+            "separatorFlag": true,
+            "symbol": "$",
+            "symbolSuffix": 0,
+            "negative": "RED_MINUS"
+          },
+          "statsParameter": 0,
+          "showValueAs": "NO_CALCULATION"
+        },
+        {
+          "id": "1656259516071",
+          "fieldId": "B/F Amount",
+          "name": "B/F Amount",
+          "stats": "SUM",
+          "format": {
+            "category": "NUMBER",
+            "decimal": 2,
+            "separatorFlag": true,
+            "symbol": "$",
+            "symbolSuffix": 0,
+            "negative": "RED_MINUS"
+          },
+          "statsParameter": 0,
+          "showValueAs": "NO_CALCULATION"
+        },
+        {
+          "id": "1656666061033",
+          "fieldId": "REC (+)",
+          "name": "REC (+)",
+          "stats": "SUM",
+          "format": {
+            "category": "NUMBER",
+            "decimal": 0,
+            "separatorFlag": true,
+            "symbol": "$",
+            "symbolSuffix": 0,
+            "negative": "RED_MINUS"
+          },
+          "statsParameter": 0,
+          "showValueAs": "NO_CALCULATION"
+        },
+        {
+          "id": "2367762527792",
+          "fieldId": "REC ($)",
+          "name": "REC ($)",
+          "stats": "SUM",
+          "format": {
+            "category": "NUMBER",
+            "decimal": 2,
+            "separatorFlag": true,
+            "symbol": "$",
+            "symbolSuffix": 0,
+            "negative": "RED_MINUS"
+          },
+          "statsParameter": 0,
+          "showValueAs": "NO_CALCULATION"
+        },
+        {
+          "id": "2255261723051",
+          "fieldId": "CAP (+)",
+          "name": "CAP (+)",
+          "stats": "SUM",
+          "format": {
+            "category": "NUMBER",
+            "decimal": 0,
+            "separatorFlag": true,
+            "symbol": "$",
+            "symbolSuffix": 0,
+            "negative": "RED_MINUS"
+          },
+          "statsParameter": 0,
+          "showValueAs": "NO_CALCULATION"
+        },
+        {
+          "id": "2152232766906",
+          "fieldId": "CAP ($)",
+          "name": "CAP ($)",
+          "stats": "SUM",
+          "format": {
+            "category": "NUMBER",
+            "decimal": 2,
+            "separatorFlag": true,
+            "symbol": "$",
+            "symbolSuffix": 0,
+            "negative": "RED_MINUS"
+          },
+          "statsParameter": 0,
+          "showValueAs": "NO_CALCULATION"
+        },
+        {
+          "id": "1873286930339",
+          "fieldId": "REJ (-)",
+          "name": "REJ (-))",
+          "stats": "SUM",
+          "format": {
+            "category": "NUMBER",
+            "decimal": 0,
+            "separatorFlag": true,
+            "symbol": "$",
+            "symbolSuffix": 0,
+            "negative": "RED_MINUS"
+          },
+          "statsParameter": 0,
+          "showValueAs": "NO_CALCULATION"
+        },
+        {
+          "id": "1713188420691",
+          "fieldId": "REJ ($)",
+          "name": "REJ ($)",
+          "stats": "SUM",
+          "format": {
+            "category": "NUMBER",
+            "decimal": 2,
+            "separatorFlag": true,
+            "symbol": "$",
+            "symbolSuffix": 0,
+            "negative": "RED_MINUS"
+          },
+          "statsParameter": 0,
+          "showValueAs": "NO_CALCULATION"
+        },
+        {
+          "id": "1734448452211",
+          "fieldId": "ADJ (+/-)",
+          "name": "ADJ (+/-)",
+          "stats": "SUM",
+          "format": {
+            "category": "NUMBER",
+            "decimal": 0,
+            "separatorFlag": true,
+            "symbol": "$",
+            "symbolSuffix": 0,
+            "negative": "RED_MINUS"
+          },
+          "statsParameter": 0,
+          "showValueAs": "NO_CALCULATION"
+        },
+        {
+          "id": "1713227122004",
+          "fieldId": "ADJ ($)",
+          "name": "ADJ ($)",
+          "stats": "SUM",
+          "format": {
+            "category": "NUMBER",
+            "decimal": 2,
+            "separatorFlag": true,
+            "symbol": "$",
+            "symbolSuffix": 0,
+            "negative": "RED_MINUS"
+          },
+          "statsParameter": 0,
+          "showValueAs": "NO_CALCULATION"
+        },
+        {
+          "id": "2509122712768",
+          "fieldId": "TXI (+)",
+          "name": "TXI (+)",
+          "stats": "SUM",
+          "format": {
+            "category": "NUMBER",
+            "decimal": 0,
+            "separatorFlag": true,
+            "symbol": "$",
+            "symbolSuffix": 0,
+            "negative": "RED_MINUS"
+          },
+          "statsParameter": 0,
+          "showValueAs": "NO_CALCULATION"
+        },
+        {
+          "id": "2413049931566",
+          "fieldId": "TXI ($)",
+          "name": "TXI ($)",
+          "stats": "SUM",
+          "format": {
+            "category": "NUMBER",
+            "decimal": 2,
+            "separatorFlag": true,
+            "symbol": "$",
+            "symbolSuffix": 0,
+            "negative": "RED_MINUS"
+          },
+          "statsParameter": 0,
+          "showValueAs": "NO_CALCULATION"
+        },
+        {
+          "id": "1774806401083",
+          "fieldId": "TXO (-)",
+          "name": "TXO (-)",
+          "stats": "SUM",
+          "format": {
+            "category": "NUMBER",
+            "decimal": 0,
+            "separatorFlag": true,
+            "symbol": "$",
+            "symbolSuffix": 0,
+            "negative": "RED_MINUS"
+          },
+          "statsParameter": 0,
+          "showValueAs": "NO_CALCULATION"
+        },
+        {
+          "id": "1927740598727",
+          "fieldId": "TXO ($)",
+          "name": "TXO ($)",
+          "stats": "SUM",
+          "format": {
+            "category": "NUMBER",
+            "decimal": 2,
+            "separatorFlag": true,
+            "symbol": "$",
+            "symbolSuffix": 0,
+            "negative": "RED_MINUS"
+          },
+          "statsParameter": 0,
+          "showValueAs": "NO_CALCULATION"
+        },
+        {
+          "id": "1748327308822",
+          "fieldId": "CAS (-)",
+          "name": "CAS (-)",
+          "stats": "SUM",
+          "format": {
+            "category": "NUMBER",
+            "decimal": 0,
+            "separatorFlag": true,
+            "symbol": "$",
+            "symbolSuffix": 0,
+            "negative": "RED_MINUS"
+          },
+          "statsParameter": 0,
+          "showValueAs": "NO_CALCULATION"
+        },
+        {
+          "id": "2330985573248",
+          "fieldId": "CAS ($)",
+          "name": "CAS ($)",
+          "stats": "SUM",
+          "format": {
+            "category": "NUMBER",
+            "decimal": 2,
+            "separatorFlag": true,
+            "symbol": "$",
+            "symbolSuffix": 0,
+            "negative": "RED_MINUS"
+          },
+          "statsParameter": 0,
+          "showValueAs": "NO_CALCULATION"
+        },
+        {
+          "id": "1819354820351",
+          "fieldId": "CRT (+)",
+          "name": "CRT (+)",
+          "stats": "SUM",
+          "format": {
+            "category": "NUMBER",
+            "decimal": 0,
+            "separatorFlag": true,
+            "symbol": "$",
+            "symbolSuffix": 0,
+            "negative": "RED_MINUS"
+          },
+          "statsParameter": 0,
+          "showValueAs": "NO_CALCULATION"
+        },
+        {
+          "id": "2031813926726",
+          "fieldId": "CRT ($)",
+          "name": "CRT ($)",
+          "stats": "SUM",
+          "format": {
+            "category": "NUMBER",
+            "decimal": 2,
+            "separatorFlag": true,
+            "symbol": "$",
+            "symbolSuffix": 0,
+            "negative": "RED_MINUS"
+          },
+          "statsParameter": 0,
+          "showValueAs": "NO_CALCULATION"
+        },
+        {
+          "id": "2058046320614",
+          "fieldId": "VOD (+)",
+          "name": "VOD (+)",
+          "stats": "SUM",
+          "format": {
+            "category": "NUMBER",
+            "decimal": 0,
+            "separatorFlag": true,
+            "symbol": "$",
+            "symbolSuffix": 0,
+            "negative": "RED_MINUS"
+          },
+          "statsParameter": 0,
+          "showValueAs": "NO_CALCULATION"
+        },
+        {
+          "id": "1896090517831",
+          "fieldId": "VOD ($)",
+          "name": "VOD ($)",
+          "stats": "SUM",
+          "format": {
+            "category": "NUMBER",
+            "decimal": 2,
+            "separatorFlag": true,
+            "symbol": "$",
+            "symbolSuffix": 0,
+            "negative": "RED_MINUS"
+          },
+          "statsParameter": 0,
+          "showValueAs": "NO_CALCULATION"
+        },
+        {
+          "id": "1753443598045",
+          "fieldId": "SAL (-)",
+          "name": "SAL (-)",
+          "stats": "SUM",
+          "format": {
+            "category": "NUMBER",
+            "decimal": 0,
+            "separatorFlag": true,
+            "symbol": "$",
+            "symbolSuffix": 0,
+            "negative": "RED_MINUS"
+          },
+          "statsParameter": 0,
+          "showValueAs": "NO_CALCULATION"
+        },
+        {
+          "id": "2169860420029",
+          "fieldId": "SAL ($)",
+          "name": "SAL ($)",
+          "stats": "SUM",
+          "format": {
+            "category": "NUMBER",
+            "decimal": 0,
+            "separatorFlag": true,
+            "symbol": "$",
+            "symbolSuffix": 0,
+            "negative": "RED_MINUS"
+          },
+          "statsParameter": 0,
+          "showValueAs": "NO_CALCULATION"
+        },
+        {
+          "id": "2301395004563",
+          "fieldId": "SRT (+)",
+          "name": "SRT (+)",
+          "stats": "SUM",
+          "format": {
+            "category": "NUMBER",
+            "decimal": 0,
+            "separatorFlag": true,
+            "symbol": "$",
+            "symbolSuffix": 0,
+            "negative": "RED_MINUS"
+          },
+          "statsParameter": 0,
+          "showValueAs": "NO_CALCULATION"
+        },
+        {
+          "id": "2553402394696",
+          "fieldId": "SRT ($)",
+          "name": "SRT ($)",
+          "stats": "SUM",
+          "format": {
+            "category": "NUMBER",
+            "decimal": 2,
+            "separatorFlag": true,
+            "symbol": "$",
+            "symbolSuffix": 0,
+            "negative": "RED_MINUS"
+          },
+          "statsParameter": 0,
+          "showValueAs": "NO_CALCULATION"
+        },
+        {
+          "id": "1851908969994",
+          "fieldId": "C/D Qty",
+          "name": "C/D Qty",
+          "stats": "SUM",
+          "format": {
+            "category": "NUMBER",
+            "decimal": 0,
+            "separatorFlag": true,
+            "symbol": "$",
+            "symbolSuffix": 0,
+            "negative": "RED_MINUS"
+          },
+          "statsParameter": 0,
+          "showValueAs": "NO_CALCULATION"
+        },
+        {
+          "id": "2540244193270",
+          "fieldId": "C/D Amount",
+          "name": "C/D Amount",
+          "stats": "SUM",
+          "format": {
+            "category": "NUMBER",
+            "decimal": 2,
+            "separatorFlag": true,
+            "symbol": "$",
+            "symbolSuffix": 0,
+            "negative": "RED_MINUS"
+          },
+          "statsParameter": 0,
+          "showValueAs": "NO_CALCULATION"
+        }
+      ],
+      "valuesInAxis": 0,
+      "valuesIndex": 0,
+      "nonEmpty": 1
+    },
+    "collapsed": {
+      "R-2-2-0-3": true,
+      "R-2-2-0-0": true,
+      "R-2-2-0-1": true,
+      "R-2-2-0-6": true,
+      "R-2-2-0-2": true,
+      "R-2-2-0-5": true,
+      "R-2-2-0-4": true,
+      "R-2-2-0-9": true,
+      "R-2-2-0": true,
+      "R-2-2": true,
+      "R-2": true,
+      "R-11-3-5-3": true,
+      "R-11-3-5-0": true,
+      "R-11-3-5-4": true,
+      "R-11-3-5-2": true,
+      "R-11-3-6-3": true,
+      "R-11-3-6-1": true,
+      "R-11-3-8-7": true,
+      "R-11-3-7-2": true,
+      "R-18-6-0-2": true,
+      "R-18-6-0": true,
+      "R-0-0-0-8": true,
+      "R-0-0-0-3": true,
+      "R-0-0-0-0": true,
+      "R-0-0-0-1": true,
+      "R-0-0-0-6": true,
+      "R-0-0-0-2": true,
+      "R-0-0-0-5": true,
+      "R-0-0-0-4": true,
+      "R-0-0-0-7": true,
+      "R-0-0-0-9": true,
+      "R-0-0-0": true,
+      "R-0-0": true,
+      "R-0": true,
+      "R-17-7-0-3": true,
+      "R-17-7-0": true,
+      "R-17-7": true,
+      "R-17": true,
+      "R-13-5-0-3": true,
+      "R-13-5-0-0": true,
+      "R-13-5-0": true,
+      "R-13-5": true,
+      "R-13": true,
+      "R-12-4-6-0": true,
+      "R-12-4-6-4": true,
+      "R-12-4-6": true,
+      "R-12-4-0-0": true,
+      "R-12-4-0": true,
+      "R-12-4": true,
+      "R-12": true,
+      "R-8-0-0-3": true,
+      "R-8-0-0-0": true,
+      "R-8-0-0-4": true,
+      "R-8-0-0-2": true,
+      "R-8-0-0-7": true,
+      "R-8-0-0": true,
+      "R-8-0": true,
+      "R-8": true,
+      "R-9-0-0-3": true,
+      "R-9-0-0-0": true,
+      "R-9-0-0-5": true,
+      "R-9-0-0-4": true,
+      "R-9-0-0-2": true,
+      "R-9-0-0-7": true,
+      "R-9-0-0": true,
+      "R-9-0": true,
+      "R-9": true,
+      "R-5-0-3-8": true,
+      "R-5-0-3-3": true,
+      "R-5-0-3-0": true,
+      "R-5-0-3-1": true,
+      "R-5-0-3-6": true,
+      "R-5-0-3-4": true,
+      "R-5-0-3-5": true,
+      "R-5-0-3-2": true,
+      "R-5-0-3-7": true,
+      "R-5-0-3-9": true,
+      "R-5-0-3": true,
+      "R-5-0": true,
+      "R-5": true,
+      "R-10-0-4-8": true,
+      "R-10-0-4-3": true,
+      "R-10-0-4-0": true,
+      "R-10-0-4-1": true,
+      "R-10-0-4-4": true,
+      "R-10-0-4-2": true,
+      "R-10-0-4-7": true,
+      "R-10-0-4": true,
+      "R-10-0": true,
+      "R-10": true,
+      "R-1-1-1-8": true,
+      "R-1-1-1-3": true,
+      "R-1-1-1-0": true,
+      "R-1-1-1-1": true,
+      "R-1-1-1-6": true,
+      "R-1-1-1-4": true,
+      "R-1-1-1-2": true,
+      "R-1-1-1-7": true,
+      "R-1-1-1-5": true,
+      "R-1-1-1": true,
+      "R-1-1": true,
+      "R-1": true,
+      "R-4-1-2-3": true,
+      "R-4-1-2-0": true,
+      "R-4-1-2-2": true,
+      "R-4-1-2": true,
+      "R-4-1": true,
+      "R-4": true,
+      "R-3-0-0-3": true,
+      "R-3-0-0-2": true,
+      "R-3-0-0-4": true,
+      "R-3-0-0-5": true,
+      "R-3-0-0": true,
+      "R-3-0": true,
+      "R-3": true,
+      "R-6-0-4-3": true,
+      "R-6-0-4-0": true,
+      "R-6-0-4-1": true,
+      "R-6-0-4-4": true,
+      "R-6-0-4-7": true,
+      "R-6-0-4-2": true,
+      "R-6-0-4-5": true,
+      "R-6-0-4": true,
+      "R-6-0": true,
+      "R-6": true,
+      "R-7-0-4-3": true,
+      "R-7-0-4-0": true,
+      "R-7-0-4-1": true,
+      "R-7-0-4-7": true,
+      "R-7-0-4-4": true,
+      "R-7-0-4-2": true,
+      "R-7-0-4-5": true,
+      "R-7-0-4": true,
+      "R-7-0": true,
+      "R-7": true,
+      "R-15-1-2-0": true,
+      "R-15-1-2": true,
+      "R-15-1": true,
+      "R-15": true,
+      "R-16-6-0-4": true,
+      "R-16-6-0": true,
+      "R-16-6": true,
+      "R-16": true,
+      "R-14-5-0-1": true,
+      "R-14-5-0": true,
+      "R-14-5": true,
+      "R-14": true,
+      "R-18-6": true,
+      "R-18": true,
+      "R-11-3-8": true,
+      "R-11-3-7": true
+    },
+    "options": {
+      "showGrid": 1,
+      "expandRows": 1,
+      "expandCols": 1,
+      "showRowTotals": 1,
+      "showColTotals": 1,
+      "showRowSubtotals": 0,
+      "showColSubtotals": 0,
+      "grid": {
+        "showSigns": 1,
+        "showEmptyAsZero": 0,
+        "compactForm": 0,
+        "rowHeaderWidth": 90,
+        "cellWidth": 90,
+        "cellHeight": 20,
+        "theme": "wpt-default",
+        "noFixedColumns": 0,
+        "cellStyle": {
+          "columnHeader": {
+            "textAlign": "center",
+            "backgroundColor": "#bfd6eb",
+            "fontWeight": "bold"
+          },
+          "compoundColumn": {
+            "verticalAlign": "top",
+            "textAlign": "left",
+            "backgroundColor": "#bfd6eb",
+            "fontWeight": "bold"
+          },
+          "rowHeader": {
+            "textAlign": "left",
+            "backgroundColor": "#bfd6eb",
+            "fontWeight": "bold"
+          },
+          "compoundRow": {
+            "verticalAlign": "top",
+            "textAlign": "left",
+            "backgroundColor": "#bfd6eb",
+            "fontWeight": "bold"
+          },
+          "totalCell": {
+            "textAlign": "right",
+            "backgroundColor": "#72d2df"
+          },
+          "subtotalCell": {
+            "textAlign": "right",
+            "backgroundColor": "#d2e9e9"
+          },
+          "dataCell": {
+            "textAlign": "right",
+            "backgroundColor": "#eee"
+          },
+          "noDataCell": { "backgroundColor": "#ddd" }
+        }
+      },
+      "chart": {
+        "width": 600,
+        "height": 500,
+        "combined": true,
+        "high": {
+          "theme": "default",
+          "chart": {
+            "type": "column",
+            "options3d": {
+              "enabled": false,
+              "alpha": 15,
+              "beta": 15,
+              "depth": 50,
+              "viewDistance": 25
+            }
+          },
+          "credits": { "enabled": false },
+          "exporting": { "enabled": false },
+          "navigation": {
+            "buttonOptions": {
+              "align": "right",
+              "verticalAlign": "top"
+            }
+          },
+          "legend": {
+            "enabled": true,
+            "floating": false,
+            "layout": "vertical",
+            "align": "right",
+            "verticalAlign": "middle",
+            "reversed": false
+          },
+          "tooltip": {
+            "enabled": true,
+            "shadow": true
+          },
+          "plotOptions": {
+            "series": {
+              "stacking": null,
+              "dataLabels": {
+                "enabled": false,
+                "align": "center",
+                "rotation": 0
+              }
+            }
+          },
+          "xAxis": {
+            "labels": {
+              "enabled": true,
+              "align": "left",
+              "rotation": 45
+            }
+          }
+        }
+      }
+    }
+  },
+  "source": {
+    "type": "CSV",
+    "mode": "MEMORY",
+    "url": "#dsUrl#",
+    "delimiter": ",",
+    "fields": [
+      {
+        "id": "Tx Type",
+        "name": "Tx Type",
+        "cellIndex": 0,
+        "type": "STRING"
+      },
+      {
+        "id": "Tx#",
+        "name": "Tx#",
+        "cellIndex": 1,
+        "type": "STRING"
+      },
+      {
+        "id": "Store Outlets",
+        "name": "Store Outlets",
+        "cellIndex": 2,
+        "type": "STRING"
+      },
+      {
+        "id": "Article Code",
+        "name": "Article Code",
+        "cellIndex": 3,
+        "type": "NUMBER"
+      },
+      {
+        "id": "FABRICS",
+        "name": "FABRICS",
+        "cellIndex": 4,
+        "type": "STRING"
+      },
+      {
+        "id": "COLOR",
+        "name": "COLOR",
+        "cellIndex": 5,
+        "type": "STRING"
+      },
+      {
+        "id": "SIZE",
+        "name": "SIZE",
+        "cellIndex": 6,
+        "type": "NUMBER"
+      },
+      {
+        "id": "Seq#",
+        "name": "Seq#",
+        "cellIndex": 7,
+        "type": "NUMBER"
+      },
+      {
+        "id": "Article Description",
+        "name": "Article Description",
+        "cellIndex": 8,
+        "type": "STRING"
+      },
+      {
+        "id": "PW_CDQTY",
+        "name": "PW_CDQTY",
+        "cellIndex": 9,
+        "type": "NUMBER"
+      },
+      {
+        "id": "BF_AVRCOST",
+        "name": "BF_AVRCOST",
+        "cellIndex": 10,
+        "type": "NUMBER"
+      },
+      {
+        "id": "Cost ($)",
+        "name": "Cost ($)",
+        "cellIndex": 11,
+        "type": "NUMBER"
+      },
+      {
+        "id": "QTY",
+        "name": "QTY",
+        "cellIndex": 12,
+        "type": "NUMBER"
+      },
+      {
+        "id": "PCS_BFQTY",
+        "name": "PCS_BFQTY",
+        "cellIndex": 13,
+        "type": "NUMBER"
+      },
+      {
+        "id": "PW_BFQTY",
+        "name": "PW_BFQTY",
+        "cellIndex": 14,
+        "type": "NUMBER"
+      },
+      {
+        "id": "B/F Qty",
+        "name": "B/F Qty",
+        "cellIndex": 15,
+        "type": "NUMBER"
+      },
+      {
+        "id": "B/F Amount",
+        "name": "B/F Amount",
+        "cellIndex": 16,
+        "type": "NUMBER"
+      },
+      {
+        "id": "REC (+)",
+        "name": "REC (+)",
+        "cellIndex": 17,
+        "type": "NUMBER"
+      },
+      {
+        "id": "REC ($)",
+        "name": "REC ($)",
+        "cellIndex": 18,
+        "type": "NUMBER"
+      },
+      {
+        "id": "CAP (+)",
+        "name": "CAP (+)",
+        "cellIndex": 19,
+        "type": "NUMBER"
+      },
+      {
+        "id": "CAP ($)",
+        "name": "CAP ($)",
+        "cellIndex": 20,
+        "type": "NUMBER"
+      },
+      {
+        "id": "REJ (-)",
+        "name": "REJ (-)",
+        "cellIndex": 21,
+        "type": "NUMBER"
+      },
+      {
+        "id": "REJ ($)",
+        "name": "REJ ($)",
+        "cellIndex": 22,
+        "type": "NUMBER"
+      },
+      {
+        "id": "ADJ (+/-)",
+        "name": "ADJ (+/-)",
+        "cellIndex": 23,
+        "type": "NUMBER"
+      },
+      {
+        "id": "ADJ ($)",
+        "name": "ADJ ($)",
+        "cellIndex": 24,
+        "type": "NUMBER"
+      },
+      {
+        "id": "TXI (+)",
+        "name": "TXI (+)",
+        "cellIndex": 25,
+        "type": "NUMBER"
+      },
+      {
+        "id": "TXI ($)",
+        "name": "TXI ($)",
+        "cellIndex": 26,
+        "type": "NUMBER"
+      },
+      {
+        "id": "TXO (-)",
+        "name": "TXO (-)",
+        "cellIndex": 27,
+        "type": "NUMBER"
+      },
+      {
+        "id": "TXO ($)",
+        "name": "TXO ($)",
+        "cellIndex": 28,
+        "type": "NUMBER"
+      },
+      {
+        "id": "CAS (-)",
+        "name": "CAS (-)",
+        "cellIndex": 29,
+        "type": "NUMBER"
+      },
+      {
+        "id": "CAS ($)",
+        "name": "CAS ($)",
+        "cellIndex": 30,
+        "type": "NUMBER"
+      },
+      {
+        "id": "CRT (+)",
+        "name": "CRT (+)",
+        "cellIndex": 31,
+        "type": "NUMBER"
+      },
+      {
+        "id": "CRT ($)",
+        "name": "CRT ($)",
+        "cellIndex": 32,
+        "type": "NUMBER"
+      },
+      {
+        "id": "VOD (+)",
+        "name": "VOD (+)",
+        "cellIndex": 33,
+        "type": "NUMBER"
+      },
+      {
+        "id": "VOD ($)",
+        "name": "VOD ($)",
+        "cellIndex": 34,
+        "type": "NUMBER"
+      },
+      {
+        "id": "SAL (-)",
+        "name": "SAL (-)",
+        "cellIndex": 35,
+        "type": "NUMBER"
+      },
+      {
+        "id": "SAL ($)",
+        "name": "SAL ($)",
+        "cellIndex": 36,
+        "type": "NUMBER"
+      },
+      {
+        "id": "SRT (+)",
+        "name": "SRT (+)",
+        "cellIndex": 37,
+        "type": "NUMBER"
+      },
+      {
+        "id": "SRT ($)",
+        "name": "SRT ($)",
+        "cellIndex": 38,
+        "type": "NUMBER"
+      },
+      {
+        "id": "C/D Qty",
+        "name": "C/D Qty",
+        "cellIndex": 39,
+        "type": "NUMBER"
+      },
+      {
+        "id": "C/D Amount",
+        "name": "C/D Amount",
+        "cellIndex": 40,
+        "type": "NUMBER"
+      },
+      {
+        "id": "CAL CDQTY",
+        "name": "CAL CDQTY",
+        "cellIndex": 41,
+        "type": "NUMBER"
+      },
+      {
+        "id": "CAL CDAMT",
+        "name": "CAL CDAMT",
+        "cellIndex": 42,
+        "type": "NUMBER"
+      },
+      {
+        "id": "DIFF CDQTY",
+        "name": "DIFF CDQTY",
+        "cellIndex": 43,
+        "type": "NUMBER"
+      },
+      {
+        "id": "DIFF CDAMT",
+        "name": "DIFF CDAMT",
+        "cellIndex": 44,
+        "type": "NUMBER"
+      }
+    ]
+  }
+}

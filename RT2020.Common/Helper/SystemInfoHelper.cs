@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 using Gizmox.WebGUI.Forms;
 using RT2020.EF6;
+using RT2020.Common.ModelEx;
 
 namespace RT2020.Common.Helper
 {
@@ -191,6 +192,25 @@ namespace RT2020.Common.Helper
                 Array.Copy(buffer, ret, read);
                 return ret;
             }
+        }
+
+        /// <summary>
+        /// 睇下 selected date range 係咪屬於 current period
+        /// </summary>
+        /// <param name="fromDate"></param>
+        /// <param name="toDate"></param>
+        /// <returns></returns>
+        public static bool IsCurrentPeriod(DateTime fromDate, DateTime toDate)
+        {
+            var result = false;
+
+            var currentPeriod = SystemInfoEx.CurrentInfo.Default.CurrentSystemYear + SystemInfoEx.CurrentInfo.Default.CurrentSystemMonth;
+            result = string.Compare(fromDate.ToString("yyyyMM"), currentPeriod) == 0 &&
+                string.Compare(toDate.ToString("yyyyMM"), currentPeriod) == 0 ?
+                true :
+                false;
+
+            return result;
         }
 
         /// <summary>

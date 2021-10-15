@@ -16,6 +16,8 @@ using Gizmox.WebGUI.Forms;
 
 using RT2020.Common.Helper;
 using RT2020.Common.ModelEx;
+using Newtonsoft.Json;
+using System.Text.RegularExpressions;
 
 #endregion
 
@@ -76,9 +78,11 @@ namespace RT2020.Inventory.Reports.Journal
             tvwWorkplace.CheckBoxes = true;
             tvwWorkplace.AfterCheck += OnAfterCheck;
 
-            cmdPreview.Enabled = cmdPDF.Enabled = cmdExcel.Enabled = false;
+            cmdPDF.Enabled = cmdExcel.Enabled = false;
 
             this.txtFrom.Focus();
+
+            htmlBox1.Html = PivotHelper.QuickStart();
         }
         #endregion
 
@@ -156,6 +160,27 @@ namespace RT2020.Inventory.Reports.Journal
             return result;
         }
 
+        private string GetSelectionsJson()
+        {
+            string result = "";
+
+            Dictionary<string, string> data = new Dictionary<string, string>
+            {
+                { "fromSTKCODE", txtFrom.Text.Trim() },
+                { "toSTKCODE", txtTo.Text.Trim() },
+                { "fromDate", datFromDate.Value.ToString("yyyy-MM-dd") },
+                { "toDate", datToDate.Value.ToString("yyyy-MM-dd") },
+                { "selectedWorkplaceCode", SelectedWorkplaceCodeList().Replace("'","") },
+                { "selectedTYPE", SelectedDataType() },
+                { "showSkipZeroQty", chkZeroQty.Checked.ToString() },
+                { "showReCalculatedCD", "false" }
+            };
+            result = JsonConvert.SerializeObject(data, Formatting.Indented);
+            result = Regex.Replace(result, @"(""(?:[^""\\]|\\.)*"")|\s+", "$1");    // minify indented JSON string
+
+            return result;
+        }
+
         private string SelectedDataType()
         {
             StringBuilder selectType = new StringBuilder();
@@ -227,8 +252,17 @@ namespace RT2020.Inventory.Reports.Journal
             switch (cmd.Name)
             {
                 case "cmdPreview":
-                    htmlBox1.Html = RT2020.Reports.Inventory.Journal.Monthly.HTML(txtFrom.Text.Trim(), txtTo.Text.Trim(), FromDate.ToString("yyyy-MM-dd"), ToDate.ToString("yyyy-MM-dd"));
+                    #region gen HTML Preview
+                    var id = Guid.NewGuid();
+                    var subject = "SA1340-Summary";
+                    var json = GetSelectionsJson();
+                    var result = PipelineEx.Save(id, subject, json, (int)EnumHelper.Status.Active, DateTime.Now, ConfigHelper.CurrentUserId);
+                    if (result)
+                    {
+                        htmlBox1.Html = RT2020.Reports.Inventory.Journal.Summary.HTML(id.ToString());
+                    }
                     break;
+                    #endregion
                 case "cmdPDF":
                     #region export PDF
                     var pdf = RT2020.Reports.Inventory.Journal.Monthly.PDF(txtFrom.Text.Trim(), txtTo.Text.Trim(), FromDate.ToString("yyyy-MM-dd"), ToDate.ToString("yyyy-MM-dd"));

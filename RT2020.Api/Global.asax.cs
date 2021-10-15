@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Gizmox.WebGUI.Forms;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -19,10 +20,6 @@ namespace RT2020.Api
             #endregion
 
             GlobalConfiguration.Configure(WebApiConfig.Register);
-
-            // Thinktecture IdentityModel: configure CORS globally
-            // ref: https://brockallen.com/2012/06/28/cors-support-in-webapi-mvc-and-iis-with-thinktecture-identitymodel/
-            //ConfigureCors(UrlBasedCorsConfiguration.Configuration);
         }
     }
 }

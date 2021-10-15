@@ -1395,6 +1395,18 @@ warning 6002: The table/view 'RT2020.dbo.Localizations_Backup' does not have a p
           <Property Name="PhoneName_Cht" Type="nvarchar" MaxLength="64" />
           <Property Name="Priority" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="Pipeline">
+          <Key>
+            <PropertyRef Name="PipelineId" />
+          </Key>
+          <Property Name="PipelineId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Subject" Type="nvarchar" MaxLength="256" />
+          <Property Name="Content" Type="ntext" />
+          <Property Name="MetadataXml" Type="xml" />
+          <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="CreatedOn" Type="datetime" Nullable="false" />
+          <Property Name="CreatedBy" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
         <EntityType Name="PosAnalysisCode">
           <Key>
             <PropertyRef Name="AnalysisCodeId" />
@@ -3835,6 +3847,8 @@ warning 6002: The table/view 'RT2020.dbo.vwWorkplaceList' does not have a primar
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <!--Errors Found During Generation:
+warning 6037: Foreign key constraint 'FK_MemberVipData_MemberVipSupplement' has been omitted from the storage model. Column 'MemberVipId' of table 'RT2020Model.Store.MemberVipSupplement' is a foreign key participating in multiple relationships. A one-to-one Entity Model will not validate since data inconsistency is possible.
         <Association Name="FK_MemberVipData_MemberVipSupplement">
           <End Role="MemberVipData" Type="Self.MemberVipData" Multiplicity="1" />
           <End Role="MemberVipSupplement" Type="Self.MemberVipSupplement" Multiplicity="*" />
@@ -3846,7 +3860,7 @@ warning 6002: The table/view 'RT2020.dbo.vwWorkplaceList' does not have a primar
               <PropertyRef Name="MemberVipId" />
             </Dependent>
           </ReferentialConstraint>
-        </Association>
+        </Association>-->
         <Association Name="FK_PosAnalysisCode_PosAnalysisCode">
           <End Role="PosAnalysisCode" Type="Self.PosAnalysisCode" Multiplicity="0..1" />
           <End Role="PosAnalysisCode1" Type="Self.PosAnalysisCode" Multiplicity="*" />
@@ -5845,6 +5859,7 @@ warning 6002: The table/view 'RT2020.dbo.vwWorkplaceList' does not have a primar
           <EntitySet Name="MemberVipLineOfOperation" EntityType="Self.MemberVipLineOfOperation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MemberVipSupplement" EntityType="Self.MemberVipSupplement" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PhoneTag" EntityType="Self.PhoneTag" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Pipeline" EntityType="Self.Pipeline" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PosAnalysisCode" EntityType="Self.PosAnalysisCode" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PosLedgerAnalysis" EntityType="Self.PosLedgerAnalysis" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PosLedgerDetails" EntityType="Self.PosLedgerDetails" Schema="dbo" store:Type="Tables" />
@@ -6237,10 +6252,6 @@ warning 6002: The table/view 'RT2020.dbo.vwWorkplaceList' does not have a primar
             <End Role="MemberVipLineOfOperation" EntitySet="MemberVipLineOfOperation" />
           </AssociationSet>
           <AssociationSet Name="FK_MemberVipData_MemberVipSupple" Association="Self.FK_MemberVipData_MemberVipSupple">
-            <End Role="MemberVipData" EntitySet="MemberVipData" />
-            <End Role="MemberVipSupplement" EntitySet="MemberVipSupplement" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MemberVipData_MemberVipSupplement" Association="Self.FK_MemberVipData_MemberVipSupplement">
             <End Role="MemberVipData" EntitySet="MemberVipData" />
             <End Role="MemberVipSupplement" EntitySet="MemberVipSupplement" />
           </AssociationSet>
@@ -13851,6 +13862,7 @@ warning 6002: The table/view 'RT2020.dbo.vwWorkplaceList' does not have a primar
             <End Role="UserProfile" EntitySet="UserProfile" />
             <End Role="UserPreference" EntitySet="UserPreference" />
           </AssociationSet>
+          <EntitySet Name="Pipeline" EntityType="RT2020Model.Pipeline" />
         </EntityContainer>
         <EntityType Name="vwPhonebookList">
           <Key>
@@ -14090,6 +14102,18 @@ warning 6002: The table/view 'RT2020.dbo.vwWorkplaceList' does not have a primar
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Pipeline">
+          <Key>
+            <PropertyRef Name="PipelineId" />
+          </Key>
+          <Property Name="PipelineId" Type="Guid" Nullable="false" />
+          <Property Name="Subject" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="Content" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="MetadataXml" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedBy" Type="Guid" Nullable="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -17425,6 +17449,19 @@ warning 6002: The table/view 'RT2020.dbo.vwWorkplaceList' does not have a primar
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Pipeline">
+            <EntityTypeMapping TypeName="RT2020Model.Pipeline">
+              <MappingFragment StoreEntitySet="Pipeline">
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="MetadataXml" ColumnName="MetadataXml" />
+                <ScalarProperty Name="Content" ColumnName="Content" />
+                <ScalarProperty Name="Subject" ColumnName="Subject" />
+                <ScalarProperty Name="PipelineId" ColumnName="PipelineId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
@@ -17440,7 +17477,7 @@ warning 6002: The table/view 'RT2020.dbo.vwWorkplaceList' does not have a primar
       <DesignerInfoPropertySet>
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
         <DesignerProperty Name="EnablePluralization" Value="false" />
-        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="False" />
         <DesignerProperty Name="UseLegacyProvider" Value="false" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
       </DesignerInfoPropertySet>

@@ -21,5 +21,12 @@ namespace RT2020.Common.Helper
             get { return _Theme; }
             set { _Theme = value; }
         }
+
+        private static String _BaseLocale = "en";
+        public static String BaseLocale
+        {
+            get { return _BaseLocale; }
+            set { _BaseLocale = value; }
+        }
     }
 }

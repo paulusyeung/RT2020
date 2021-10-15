@@ -74,31 +74,31 @@ namespace RT2020.Common.Helper
             return result;
         }
 
-        public static String GetWord(String resourceId, String resource)
+        public static String GetWord(String resourceId, String resource, string lang = "")
         {
             var result = "";
 
-            result = DbRes.T(resourceId, resource, CookieHelper.CurrentLocaleId);
+            result = DbRes.T(resourceId, resource, lang == "" ? CookieHelper.CurrentLocaleId : lang);
 
             return result;
         }
 
-        public static String GetWordWithColon(String resourceId, String resource)
+        public static String GetWordWithColon(String resourceId, String resource, string lang = "")
         {
             var result = "";
 
-            result = DbRes.T(resourceId, resource, CookieHelper.CurrentLocaleId) +
-                DbRes.T("punctuation.colon", "General", CookieHelper.CurrentLocaleId);
+            result = DbRes.T(resourceId, resource, lang == "" ? CookieHelper.CurrentLocaleId : lang) +
+                DbRes.T("punctuation.colon", "General", lang == "" ?  CookieHelper.CurrentLocaleId : lang);
 
             return result;
         }
 
-        public static String GetWordWithQuestionMark(String resourceId, String resource)
+        public static String GetWordWithQuestionMark(String resourceId, String resource, string lang = "")
         {
             var result = "";
 
-            result = DbRes.T(resourceId, resource, CookieHelper.CurrentLocaleId) +
-                DbRes.T("punctuation.questionMark", "General", CookieHelper.CurrentLocaleId);
+            result = DbRes.T(resourceId, resource, lang == "" ? CookieHelper.CurrentLocaleId : lang) +
+                DbRes.T("punctuation.questionMark", "General", lang == "" ?  CookieHelper.CurrentLocaleId : lang);
 
             return result;
         }

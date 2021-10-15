@@ -171,5 +171,6 @@ namespace RT2020.EF6
         public virtual DbSet<SmartTag4Workplace_Options> SmartTag4Workplace_Options { get; set; }
         public virtual DbSet<PromotionPaymentFactor> PromotionPaymentFactor { get; set; }
         public virtual DbSet<UserProfile> UserProfile { get; set; }
+        public virtual DbSet<Pipeline> Pipeline { get; set; }
     }
 }
