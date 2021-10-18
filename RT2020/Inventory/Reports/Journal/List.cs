@@ -1,4 +1,4 @@
-#region Using
+﻿#region Using
 
 using System;
 using System.Collections.Generic;
@@ -48,13 +48,32 @@ namespace RT2020.Inventory.Reports.Journal
 
         private void Monthly_Load(object sender, EventArgs e)
         {
+            SetCaptions();
             SetAttributes();
+        }
+
+        #region SetCaptions & SetAttributes
+        private void SetCaptions()
+        {
+            groupBox1.Text = WestwindHelper.GetWord("reports.selectedRange", "General");
+
+            lblSTkFrom.Text = WestwindHelper.GetWordWithColon("article.code", "Product");
+            lblSTkTo.Text = "⇔ ";
+            lblFromDate.Text = WestwindHelper.GetWordWithColon("transaction.date", "Transaction");
+            lbltoDate.Text = "⇔ ";
+            lblIgnorQty.Text = WestwindHelper.GetWordWithColon("reports.ignorStockTakeQty", "General");
+
+            lblSTkFrom.TextAlign = lblFromDate.TextAlign = lblIgnorQty.TextAlign = ContentAlignment.MiddleRight;
+            lblSTkTo.TextAlign = lbltoDate.TextAlign = ContentAlignment.MiddleRight;
         }
 
         private void SetAttributes()
         {
-            this.txtFrom.Focus();
+            chkTakeQty.Checked = true;
+
+            txtFrom.Focus();
         }
+        #endregion
 
         #region Validate Selections
         private bool IsSelValid()

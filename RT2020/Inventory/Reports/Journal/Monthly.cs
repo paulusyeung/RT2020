@@ -1,4 +1,4 @@
-#region Using
+﻿#region Using
 
 using System;
 using System.Collections.Generic;
@@ -48,15 +48,34 @@ namespace RT2020.Inventory.Reports.Journal
 
         private void Monthly_Load(object sender, EventArgs e)
         {
+            SetCaptions();
             SetAttributes();
+        }
+
+        #region SetCaptions & SetAttributes
+        private void SetCaptions()
+        {
+            groupBox1.Text = WestwindHelper.GetWord("reports.selectedRange", "General");
+
+            lblSTkFrom.Text = WestwindHelper.GetWordWithColon("article.code", "Product");
+            lblSTkTo.Text = "⇔ ";
+            lblYear.Text = string.Format("{0} (YYYY):", WestwindHelper.GetWord("glossary.year", "General"));
+            lblMonth.Text = string.Format("{0} (MM):", WestwindHelper.GetWord("glossary.month", "General"));
+            lblIgnorQty.Text = WestwindHelper.GetWordWithColon("reports.ignorStockTakeQty", "General");
+
+            lblSTkFrom.TextAlign = lblIgnorQty.TextAlign = ContentAlignment.MiddleRight;
+            lblSTkTo.TextAlign = ContentAlignment.MiddleRight;
         }
 
         private void SetAttributes()
         {
-            this.txtYear.Text = SystemInfoEx.CurrentInfo.Default.CurrentSystemYear;
-            this.txtMonth.Text = SystemInfoEx.CurrentInfo.Default.CurrentSystemMonth;
-            this.txtFrom.Focus();
+            txtYear.Text = SystemInfoEx.CurrentInfo.Default.CurrentSystemYear;
+            txtMonth.Text = SystemInfoEx.CurrentInfo.Default.CurrentSystemMonth;
+            chkTakeQty.Checked = true;
+
+            txtFrom.Focus();
         }
+        #endregion
 
         #region Validate Selections
         private bool IsSelValid()

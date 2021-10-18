@@ -35,18 +35,19 @@ namespace RT2020.Inventory.Reports.Journal
             this.cmdPivot = new Gizmox.WebGUI.Forms.Button();
             this.cmdExcel = new Gizmox.WebGUI.Forms.Button();
             this.groupBox1 = new Gizmox.WebGUI.Forms.GroupBox();
+            this.lbltoDate = new Gizmox.WebGUI.Forms.Label();
             this.txtTo = new Gizmox.WebGUI.Forms.TextBox();
+            this.lblFromDate = new Gizmox.WebGUI.Forms.Label();
             this.txtFrom = new Gizmox.WebGUI.Forms.TextBox();
+            this.datFromDate = new Gizmox.WebGUI.Forms.DateTimePicker();
+            this.datToDate = new Gizmox.WebGUI.Forms.DateTimePicker();
             this.lblSTkFrom = new Gizmox.WebGUI.Forms.Label();
             this.lblSTkTo = new Gizmox.WebGUI.Forms.Label();
-            this.chkTakeQty = new Gizmox.WebGUI.Forms.CheckBox();
             this.cmdPreview = new Gizmox.WebGUI.Forms.Button();
             this.cmdPDF = new Gizmox.WebGUI.Forms.Button();
             this.htmlBox1 = new Gizmox.WebGUI.Forms.HtmlBox();
-            this.datToDate = new Gizmox.WebGUI.Forms.DateTimePicker();
-            this.datFromDate = new Gizmox.WebGUI.Forms.DateTimePicker();
-            this.lblFromDate = new Gizmox.WebGUI.Forms.Label();
-            this.lbltoDate = new Gizmox.WebGUI.Forms.Label();
+            this.lblIgnorQty = new Gizmox.WebGUI.Forms.Label();
+            this.chkTakeQty = new Gizmox.WebGUI.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -77,7 +78,7 @@ namespace RT2020.Inventory.Reports.Journal
             // 
             // cmdPivot
             // 
-            this.cmdPivot.Location = new System.Drawing.Point(130, 258);
+            this.cmdPivot.Location = new System.Drawing.Point(130, 211);
             this.cmdPivot.Name = "cmdPivot";
             this.cmdPivot.Size = new System.Drawing.Size(80, 23);
             this.cmdPivot.TabIndex = 4;
@@ -86,7 +87,7 @@ namespace RT2020.Inventory.Reports.Journal
             // 
             // cmdExcel
             // 
-            this.cmdExcel.Location = new System.Drawing.Point(130, 226);
+            this.cmdExcel.Location = new System.Drawing.Point(130, 179);
             this.cmdExcel.Name = "cmdExcel";
             this.cmdExcel.Size = new System.Drawing.Size(80, 23);
             this.cmdExcel.TabIndex = 3;
@@ -95,6 +96,8 @@ namespace RT2020.Inventory.Reports.Journal
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.chkTakeQty);
+            this.groupBox1.Controls.Add(this.lblIgnorQty);
             this.groupBox1.Controls.Add(this.lbltoDate);
             this.groupBox1.Controls.Add(this.txtTo);
             this.groupBox1.Controls.Add(this.lblFromDate);
@@ -103,23 +106,43 @@ namespace RT2020.Inventory.Reports.Journal
             this.groupBox1.Controls.Add(this.datToDate);
             this.groupBox1.Controls.Add(this.lblSTkFrom);
             this.groupBox1.Controls.Add(this.lblSTkTo);
-            this.groupBox1.Controls.Add(this.chkTakeQty);
             this.groupBox1.FlatStyle = Gizmox.WebGUI.Forms.FlatStyle.Flat;
             this.groupBox1.Location = new System.Drawing.Point(4, 4);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(216, 210);
+            this.groupBox1.RightToLeft = Gizmox.WebGUI.Forms.RightToLeft.No;
+            this.groupBox1.Size = new System.Drawing.Size(216, 165);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Selections";
             // 
+            // lbltoDate
+            // 
+            this.lbltoDate.Location = new System.Drawing.Point(3, 104);
+            this.lbltoDate.Name = "lbltoDate";
+            this.lbltoDate.RightToLeft = Gizmox.WebGUI.Forms.RightToLeft.No;
+            this.lbltoDate.Size = new System.Drawing.Size(101, 23);
+            this.lbltoDate.TabIndex = 6;
+            this.lbltoDate.Text = "To Date :";
+            this.lbltoDate.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
             // txtTo
             // 
-            this.txtTo.Location = new System.Drawing.Point(106, 61);
+            this.txtTo.Location = new System.Drawing.Point(106, 50);
             this.txtTo.Name = "txtTo";
             this.txtTo.RightToLeft = Gizmox.WebGUI.Forms.RightToLeft.No;
             this.txtTo.Size = new System.Drawing.Size(100, 20);
             this.txtTo.TabIndex = 3;
             this.txtTo.Enter += new System.EventHandler(this.txtTo_Enter);
+            // 
+            // lblFromDate
+            // 
+            this.lblFromDate.Location = new System.Drawing.Point(3, 76);
+            this.lblFromDate.Name = "lblFromDate";
+            this.lblFromDate.RightToLeft = Gizmox.WebGUI.Forms.RightToLeft.No;
+            this.lblFromDate.Size = new System.Drawing.Size(101, 23);
+            this.lblFromDate.TabIndex = 4;
+            this.lblFromDate.Text = "From Date :";
+            this.lblFromDate.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // txtFrom
             // 
@@ -130,33 +153,48 @@ namespace RT2020.Inventory.Reports.Journal
             this.txtFrom.TabIndex = 1;
             this.txtFrom.Enter += new System.EventHandler(this.txtFrom_Enter);
             // 
+            // datFromDate
+            // 
+            this.datFromDate.CustomFormat = "yyyy-MM-dd";
+            this.datFromDate.Format = Gizmox.WebGUI.Forms.DateTimePickerFormat.Custom;
+            this.datFromDate.Location = new System.Drawing.Point(106, 76);
+            this.datFromDate.Name = "datFromDate";
+            this.datFromDate.Size = new System.Drawing.Size(100, 21);
+            this.datFromDate.TabIndex = 5;
+            this.datFromDate.ValueChanged += new System.EventHandler(this.datFromDate_ValueChanged);
+            // 
+            // datToDate
+            // 
+            this.datToDate.CustomFormat = "yyyy-MM-dd";
+            this.datToDate.Format = Gizmox.WebGUI.Forms.DateTimePickerFormat.Custom;
+            this.datToDate.Location = new System.Drawing.Point(106, 104);
+            this.datToDate.Name = "datToDate";
+            this.datToDate.Size = new System.Drawing.Size(100, 21);
+            this.datToDate.TabIndex = 7;
+            // 
             // lblSTkFrom
             // 
-            this.lblSTkFrom.Location = new System.Drawing.Point(18, 27);
+            this.lblSTkFrom.Location = new System.Drawing.Point(3, 24);
             this.lblSTkFrom.Name = "lblSTkFrom";
-            this.lblSTkFrom.Size = new System.Drawing.Size(86, 23);
+            this.lblSTkFrom.RightToLeft = Gizmox.WebGUI.Forms.RightToLeft.No;
+            this.lblSTkFrom.Size = new System.Drawing.Size(101, 23);
             this.lblSTkFrom.TabIndex = 0;
             this.lblSTkFrom.Text = "From STKCODE :";
+            this.lblSTkFrom.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // lblSTkTo
             // 
-            this.lblSTkTo.Location = new System.Drawing.Point(18, 64);
+            this.lblSTkTo.Location = new System.Drawing.Point(3, 50);
             this.lblSTkTo.Name = "lblSTkTo";
-            this.lblSTkTo.Size = new System.Drawing.Size(86, 23);
+            this.lblSTkTo.RightToLeft = Gizmox.WebGUI.Forms.RightToLeft.No;
+            this.lblSTkTo.Size = new System.Drawing.Size(101, 23);
             this.lblSTkTo.TabIndex = 2;
             this.lblSTkTo.Text = "To Stock Code :";
-            // 
-            // chkTakeQty
-            // 
-            this.chkTakeQty.Location = new System.Drawing.Point(106, 177);
-            this.chkTakeQty.Name = "chkTakeQty";
-            this.chkTakeQty.Size = new System.Drawing.Size(100, 24);
-            this.chkTakeQty.TabIndex = 8;
-            this.chkTakeQty.Text = "Show Take Qty";
+            this.lblSTkTo.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // cmdPreview
             // 
-            this.cmdPreview.Location = new System.Drawing.Point(25, 226);
+            this.cmdPreview.Location = new System.Drawing.Point(25, 179);
             this.cmdPreview.Name = "cmdPreview";
             this.cmdPreview.Size = new System.Drawing.Size(80, 23);
             this.cmdPreview.TabIndex = 1;
@@ -165,7 +203,7 @@ namespace RT2020.Inventory.Reports.Journal
             // 
             // cmdPDF
             // 
-            this.cmdPDF.Location = new System.Drawing.Point(25, 258);
+            this.cmdPDF.Location = new System.Drawing.Point(25, 211);
             this.cmdPDF.Name = "cmdPDF";
             this.cmdPDF.Size = new System.Drawing.Size(80, 23);
             this.cmdPDF.TabIndex = 2;
@@ -182,42 +220,23 @@ namespace RT2020.Inventory.Reports.Journal
             this.htmlBox1.Size = new System.Drawing.Size(161, 296);
             this.htmlBox1.TabIndex = 0;
             // 
-            // datToDate
+            // lblIgnorQty
             // 
-            this.datToDate.CustomFormat = "yyyy-MM-dd";
-            this.datToDate.Format = Gizmox.WebGUI.Forms.DateTimePickerFormat.Custom;
-            this.datToDate.Location = new System.Drawing.Point(106, 134);
-            this.datToDate.Name = "datToDate";
-            this.datToDate.Size = new System.Drawing.Size(100, 21);
-            this.datToDate.TabIndex = 7;
+            this.lblIgnorQty.Location = new System.Drawing.Point(3, 133);
+            this.lblIgnorQty.Name = "lblIgnorQty";
+            this.lblIgnorQty.RightToLeft = Gizmox.WebGUI.Forms.RightToLeft.No;
+            this.lblIgnorQty.Size = new System.Drawing.Size(101, 20);
+            this.lblIgnorQty.TabIndex = 8;
+            this.lblIgnorQty.Text = "Ignor Zero Qty:";
+            this.lblIgnorQty.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // datFromDate
+            // chkTakeQty
             // 
-            this.datFromDate.CustomFormat = "yyyy-MM-dd";
-            this.datFromDate.Format = Gizmox.WebGUI.Forms.DateTimePickerFormat.Custom;
-            this.datFromDate.Location = new System.Drawing.Point(106, 97);
-            this.datFromDate.Name = "datFromDate";
-            this.datFromDate.Size = new System.Drawing.Size(100, 21);
-            this.datFromDate.TabIndex = 5;
-            this.datFromDate.ValueChanged += new System.EventHandler(this.datFromDate_ValueChanged);
-            // 
-            // lblFromDate
-            // 
-            this.lblFromDate.Location = new System.Drawing.Point(18, 97);
-            this.lblFromDate.Name = "lblFromDate";
-            this.lblFromDate.RightToLeft = Gizmox.WebGUI.Forms.RightToLeft.No;
-            this.lblFromDate.Size = new System.Drawing.Size(86, 23);
-            this.lblFromDate.TabIndex = 4;
-            this.lblFromDate.Text = "From Date :";
-            // 
-            // lbltoDate
-            // 
-            this.lbltoDate.Location = new System.Drawing.Point(18, 134);
-            this.lbltoDate.Name = "lbltoDate";
-            this.lbltoDate.RightToLeft = Gizmox.WebGUI.Forms.RightToLeft.No;
-            this.lbltoDate.Size = new System.Drawing.Size(86, 23);
-            this.lbltoDate.TabIndex = 6;
-            this.lbltoDate.Text = "To Date :";
+            this.chkTakeQty.Location = new System.Drawing.Point(106, 133);
+            this.chkTakeQty.Name = "chkTakeQty";
+            this.chkTakeQty.RightToLeft = Gizmox.WebGUI.Forms.RightToLeft.No;
+            this.chkTakeQty.Size = new System.Drawing.Size(100, 24);
+            this.chkTakeQty.TabIndex = 9;
             // 
             // List
             // 
@@ -237,7 +256,6 @@ namespace RT2020.Inventory.Reports.Journal
         private GroupBox groupBox1;
         private Label lblSTkFrom;
         private Label lblSTkTo;
-        private CheckBox chkTakeQty;
         private Button cmdPreview;
         private Button cmdPDF;
         private HtmlBox htmlBox1;
@@ -249,5 +267,7 @@ namespace RT2020.Inventory.Reports.Journal
         private Label lblFromDate;
         private DateTimePicker datFromDate;
         private DateTimePicker datToDate;
+        private Label lblIgnorQty;
+        private CheckBox chkTakeQty;
     }
 }

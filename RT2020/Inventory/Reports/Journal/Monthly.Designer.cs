@@ -47,6 +47,7 @@ namespace RT2020.Inventory.Reports.Journal
             this.cmdPreview = new Gizmox.WebGUI.Forms.Button();
             this.cmdPDF = new Gizmox.WebGUI.Forms.Button();
             this.htmlBox1 = new Gizmox.WebGUI.Forms.HtmlBox();
+            this.lblIgnorQty = new Gizmox.WebGUI.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -76,7 +77,7 @@ namespace RT2020.Inventory.Reports.Journal
             // 
             // cmdPivot
             // 
-            this.cmdPivot.Location = new System.Drawing.Point(130, 258);
+            this.cmdPivot.Location = new System.Drawing.Point(130, 212);
             this.cmdPivot.Name = "cmdPivot";
             this.cmdPivot.Size = new System.Drawing.Size(80, 23);
             this.cmdPivot.TabIndex = 3;
@@ -85,7 +86,7 @@ namespace RT2020.Inventory.Reports.Journal
             // 
             // cmdExcel
             // 
-            this.cmdExcel.Location = new System.Drawing.Point(130, 226);
+            this.cmdExcel.Location = new System.Drawing.Point(130, 180);
             this.cmdExcel.Name = "cmdExcel";
             this.cmdExcel.Size = new System.Drawing.Size(80, 23);
             this.cmdExcel.TabIndex = 3;
@@ -94,6 +95,7 @@ namespace RT2020.Inventory.Reports.Journal
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.lblIgnorQty);
             this.groupBox1.Controls.Add(this.txtTo);
             this.groupBox1.Controls.Add(this.txtFrom);
             this.groupBox1.Controls.Add(this.lblSTkFrom);
@@ -106,14 +108,14 @@ namespace RT2020.Inventory.Reports.Journal
             this.groupBox1.FlatStyle = Gizmox.WebGUI.Forms.FlatStyle.Flat;
             this.groupBox1.Location = new System.Drawing.Point(4, 4);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(216, 210);
+            this.groupBox1.Size = new System.Drawing.Size(216, 165);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Selections";
             // 
             // txtTo
             // 
-            this.txtTo.Location = new System.Drawing.Point(106, 61);
+            this.txtTo.Location = new System.Drawing.Point(106, 50);
             this.txtTo.Name = "txtTo";
             this.txtTo.Size = new System.Drawing.Size(100, 20);
             this.txtTo.TabIndex = 3;
@@ -129,39 +131,43 @@ namespace RT2020.Inventory.Reports.Journal
             // 
             // lblSTkFrom
             // 
-            this.lblSTkFrom.Location = new System.Drawing.Point(18, 27);
+            this.lblSTkFrom.Location = new System.Drawing.Point(3, 24);
             this.lblSTkFrom.Name = "lblSTkFrom";
-            this.lblSTkFrom.Size = new System.Drawing.Size(86, 23);
+            this.lblSTkFrom.Size = new System.Drawing.Size(101, 23);
             this.lblSTkFrom.TabIndex = 0;
             this.lblSTkFrom.Text = "From STKCODE :";
+            this.lblSTkFrom.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // lblSTkTo
             // 
-            this.lblSTkTo.Location = new System.Drawing.Point(18, 64);
+            this.lblSTkTo.Location = new System.Drawing.Point(3, 50);
             this.lblSTkTo.Name = "lblSTkTo";
-            this.lblSTkTo.Size = new System.Drawing.Size(86, 23);
+            this.lblSTkTo.Size = new System.Drawing.Size(101, 23);
             this.lblSTkTo.TabIndex = 2;
             this.lblSTkTo.Text = "To Stock Code :";
+            this.lblSTkTo.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // lblYear
             // 
-            this.lblYear.Location = new System.Drawing.Point(18, 103);
+            this.lblYear.Location = new System.Drawing.Point(3, 76);
             this.lblYear.Name = "lblYear";
-            this.lblYear.Size = new System.Drawing.Size(86, 23);
+            this.lblYear.Size = new System.Drawing.Size(101, 23);
             this.lblYear.TabIndex = 4;
             this.lblYear.Text = "Year (YYYY):";
+            this.lblYear.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // lblMonth
             // 
-            this.lblMonth.Location = new System.Drawing.Point(18, 139);
+            this.lblMonth.Location = new System.Drawing.Point(3, 102);
             this.lblMonth.Name = "lblMonth";
-            this.lblMonth.Size = new System.Drawing.Size(86, 23);
+            this.lblMonth.Size = new System.Drawing.Size(101, 23);
             this.lblMonth.TabIndex = 6;
             this.lblMonth.Text = "Month (MM):";
+            this.lblMonth.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // txtYear
             // 
-            this.txtYear.Location = new System.Drawing.Point(106, 100);
+            this.txtYear.Location = new System.Drawing.Point(106, 76);
             this.txtYear.Name = "txtYear";
             this.txtYear.Size = new System.Drawing.Size(100, 20);
             this.txtYear.TabIndex = 5;
@@ -169,7 +175,7 @@ namespace RT2020.Inventory.Reports.Journal
             // 
             // txtMonth
             // 
-            this.txtMonth.Location = new System.Drawing.Point(106, 136);
+            this.txtMonth.Location = new System.Drawing.Point(106, 102);
             this.txtMonth.Name = "txtMonth";
             this.txtMonth.Size = new System.Drawing.Size(100, 20);
             this.txtMonth.TabIndex = 7;
@@ -177,15 +183,14 @@ namespace RT2020.Inventory.Reports.Journal
             // 
             // chkTakeQty
             // 
-            this.chkTakeQty.Location = new System.Drawing.Point(106, 177);
+            this.chkTakeQty.Location = new System.Drawing.Point(106, 130);
             this.chkTakeQty.Name = "chkTakeQty";
             this.chkTakeQty.Size = new System.Drawing.Size(100, 24);
             this.chkTakeQty.TabIndex = 8;
-            this.chkTakeQty.Text = "Show Take Qty";
             // 
             // cmdPreview
             // 
-            this.cmdPreview.Location = new System.Drawing.Point(25, 226);
+            this.cmdPreview.Location = new System.Drawing.Point(25, 180);
             this.cmdPreview.Name = "cmdPreview";
             this.cmdPreview.Size = new System.Drawing.Size(80, 23);
             this.cmdPreview.TabIndex = 1;
@@ -194,7 +199,7 @@ namespace RT2020.Inventory.Reports.Journal
             // 
             // cmdPDF
             // 
-            this.cmdPDF.Location = new System.Drawing.Point(25, 258);
+            this.cmdPDF.Location = new System.Drawing.Point(25, 212);
             this.cmdPDF.Name = "cmdPDF";
             this.cmdPDF.Size = new System.Drawing.Size(80, 23);
             this.cmdPDF.TabIndex = 2;
@@ -210,6 +215,16 @@ namespace RT2020.Inventory.Reports.Journal
             this.htmlBox1.Name = "htmlBox1";
             this.htmlBox1.Size = new System.Drawing.Size(161, 306);
             this.htmlBox1.TabIndex = 0;
+            // 
+            // lblIgnorQty
+            // 
+            this.lblIgnorQty.Location = new System.Drawing.Point(5, 130);
+            this.lblIgnorQty.Name = "lblIgnorQty";
+            this.lblIgnorQty.RightToLeft = Gizmox.WebGUI.Forms.RightToLeft.No;
+            this.lblIgnorQty.Size = new System.Drawing.Size(101, 20);
+            this.lblIgnorQty.TabIndex = 8;
+            this.lblIgnorQty.Text = "Ignor Zero Qty:";
+            this.lblIgnorQty.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // Monthly
             // 
@@ -241,5 +256,6 @@ namespace RT2020.Inventory.Reports.Journal
         private TextBox txtFrom;
         private Button cmdExcel;
         private Button cmdPivot;
+        private Label lblIgnorQty;
     }
 }
