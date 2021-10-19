@@ -36,9 +36,9 @@ WHERE V.TxDate >= '{0}' AND V.TxDate <= '{1}' AND V.STKCODE >= '{2}' AND V.STKCO
 ) as vw
 order by STKCODE, APPENDIX1, APPENDIX2, APPENDIX3, TxDate, TxType, TxNumber
 ";
-        private static string _ReportName = "Inventory\\Journal\\Monthly.frx";
-        private static string _ExcelTemplate = "Inventory\\Journal\\Monthly.xlsx";
-        private static string _PivotTemplate = "Inventory\\Journal\\MonthlyPivot.xlsx";
+        private static string _ReportName = "Inventory\\Journal\\SA1330-Monthly.frx";
+        private static string _ExcelTemplate = "Inventory\\Journal\\SA1330-Monthly.xlsx";
+        private static string _PivotTemplate = "Inventory\\Journal\\SA1330-MonthlyPivot.xlsx";
 
         private static string ReportFilePath
         {
