@@ -36,13 +36,13 @@ WHERE V.TxDate >= '{0}' AND V.TxDate <= '{1}' AND V.STKCODE >= '{2}' AND V.STKCO
 ) as vw
 order by STKCODE, APPENDIX1, APPENDIX2, APPENDIX3, TxDate, TxType, TxNumber
 ";
-        private static string _ReportName = "Inventory\\Journal\\SA1330-List.frx";
-        private static string _ExcelTemplate = "Inventory\\Journal\\SA1330-List.xlsx";
-        private static string _PivotTemplate = "Inventory\\Journal\\SA1330-ListPivot.xlsx";
+        private static string _ReportFile = "Inventory\\Journal\\SA1330-List.frx";          // FastReport
+        private static string _ExcelTemplate = "Inventory\\Journal\\SA1330-List.xlsx";      // ClosedXML.Report
+        private static string _PivotTemplate = "Inventory\\Journal\\SA1330-ListPivot.xlsx"; // ClosedXML.Report with Pivot
 
         private static string ReportFilePath
         {
-            get { return Path.Combine(VWGContext.Current.Config.GetDirectory("Reports"), _ReportName); ; }
+            get { return Path.Combine(VWGContext.Current.Config.GetDirectory("Reports"), _ReportFile); ; }
         }
 
         private static string ReportFileName
@@ -62,9 +62,9 @@ order by STKCODE, APPENDIX1, APPENDIX2, APPENDIX3, TxDate, TxType, TxNumber
         #endregion
 
         /// <summary>
-        /// Return the report in HTML string
+        /// 用 FastReport return the report in HTML string
         /// Usage Example:
-        ///   htmlbox.html = HTML("2012-01-01", "2012-01-15", "03", "03Z");
+        ///   htmlbox.html = HTML("03", "03Z", "2012-01-01", "2012-01-15");
         /// </summary>
         /// <param name="fromCode"></param>
         /// <param name="toCode"></param>
@@ -193,6 +193,14 @@ order by STKCODE, APPENDIX1, APPENDIX2, APPENDIX3, TxDate, TxType, TxNumber
             return result;
         }
 
+        /// <summary>
+        /// 用 FastReport return the PDF in byte array
+        /// </summary>
+        /// <param name="fromCode"></param>
+        /// <param name="toCode"></param>
+        /// <param name="fromDate"></param>
+        /// <param name="toDate"></param>
+        /// <returns></returns>
         public static byte[] PDF(string fromCode, string toCode, string fromDate, string toDate)
         {
             byte[] result = null;
@@ -306,6 +314,14 @@ order by STKCODE, APPENDIX1, APPENDIX2, APPENDIX3, TxDate, TxType, TxNumber
             return result;
         }
 
+        /// <summary>
+        /// 用 ClosedXML.Report return Excel in byte array
+        /// </summary>
+        /// <param name="fromCode"></param>
+        /// <param name="toCode"></param>
+        /// <param name="fromDate"></param>
+        /// <param name="toDate"></param>
+        /// <returns></returns>
         public static byte[] Excel(string fromCode, string toCode, string fromDate, string toDate)
         {
             byte[] result = null;
@@ -498,6 +514,14 @@ order by STKCODE, APPENDIX1, APPENDIX2, APPENDIX3, TxDate, TxType, TxNumber
             return result;
         }
 
+        /// <summary>
+        /// 用 ClosedXML.Report return Pivot Table in Excel byte array
+        /// </summary>
+        /// <param name="fromCode"></param>
+        /// <param name="toCode"></param>
+        /// <param name="fromDate"></param>
+        /// <param name="toDate"></param>
+        /// <returns></returns>
         public static byte[] Pivot(string fromCode, string toCode, string fromDate, string toDate)
         {
             byte[] result = null;

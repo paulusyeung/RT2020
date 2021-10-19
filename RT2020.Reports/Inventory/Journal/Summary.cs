@@ -35,12 +35,13 @@ namespace RT2020.Reports.Inventory.Journal
         private const string _SpNameForOtherPeriods = "apStockInOutSummary_HistoryMonth";
         private const string _Sql = @"";
 
-        private static string _FastReportName = "Inventory\\Journal\\SA1340-Summary.frx";
-        private static string _ExcelTemplate = "Inventory\\Journal\\SA1340-Summary.xlsx";
-        private static string _HtmlTemplate = "Inventory\\Journal\\SA1340-Summary.html";
-        private static string _PivotTemplate = "Inventory\\Journal\\SA1340-SummaryPivot.xlsx";
-        private static string _WptTemplate = "Inventory\\Journal\\SA1340-Summary.wpt";
-        private static string _WptTemplateUrl = @"api/wpt/getwptfile/SA1340-Summary/{0}/{1}/";    //0=id, 1=language
+        private static string _FastReportName = "Inventory\\Journal\\SA1340-Summary.frx";       // FatReport
+        private static string _ExcelTemplate = "Inventory\\Journal\\SA1340-Summary.xlsx";       // ClosedXML.Report
+        private static string _PivotTemplate = "Inventory\\Journal\\SA1340-SummaryPivot.xlsx";  // ClosedXML.Report with Pivot
+        private static string _HtmlTemplate = "Inventory\\Journal\\SA1340-Summary.html";        // WebPivotTable loaded HTML
+        private static string _WptTemplate = "Inventory\\Journal\\SA1340-Summary.wpt";          // WebPivotTable custom template
+
+        private static string _WptTemplateUrl = @"api/wpt/getwptfile/SA1340-Summary/{0}/{1}/";  //0=id, 1=language
 
         private static string FastReportFilePath
         {
@@ -87,7 +88,7 @@ namespace RT2020.Reports.Inventory.Journal
         }
         #endregion
 
-        #region Instead of naming my invoking class, I started using the following:
+        #region Log4net: Instead of naming my invoking class, I started using the following:
         //private static log4net.ILog Log { get; set; }
         //ILog log = log4net.LogManager.GetLogger(typeof(BotController));
 
