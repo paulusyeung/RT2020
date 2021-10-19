@@ -616,8 +616,8 @@ order by STKCODE, APPENDIX1, APPENDIX2, APPENDIX3, TxDate, TxType, TxNumber
                     tpl.AddVariable("lblVsLocation", "VS " + WestwindHelper.GetWord("workplace", "Model"));
                     tpl.AddVariable("lblSupplierCode", WestwindHelper.GetWord("supplier", "Model"));
                     tpl.AddVariable("lblRemarks", WestwindHelper.GetWord("transaction.remarks", "Transaction"));
-                    tpl.AddVariable("lblSubTotal", WestwindHelper.GetWordWithColon("transaction.subtotal", "Transaction"));
-                    tpl.AddVariable("lblGrandTotal", WestwindHelper.GetWordWithColon("transaction.grandtotal", "Transaction"));
+                    //tpl.AddVariable("lblSubTotal", WestwindHelper.GetWordWithColon("transaction.subtotal", "Transaction"));
+                    //tpl.AddVariable("lblGrandTotal", WestwindHelper.GetWordWithColon("transaction.grandtotal", "Transaction"));
                     #endregion
 
                     tpl.Generate();
