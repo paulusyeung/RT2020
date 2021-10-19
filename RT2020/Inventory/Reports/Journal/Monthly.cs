@@ -130,9 +130,9 @@ namespace RT2020.Inventory.Reports.Journal
 
                     if (pdf != null)
                     {
-                        var dl = new Controls.FileDownloadGateway();
-                        dl.Filename = string.Format("{0}.{1}.pdf", WestwindHelper.GetWord("report.SA1330", "Setting"), DateTime.Now.ToString("yyyyMMddHHmmss"));
-                        dl.SetContentType(RT2020.Controls.DownloadContentType.OctetStream);
+                        var dl = new FileDownloadGateway();
+                        dl.FileName = string.Format("{0}.{1}.pdf", WestwindHelper.GetWord("report.SA1330", "Setting"), DateTime.Now.ToString("yyyyMMddHHmmss"));
+                        dl.SetContentType(DownloadContentType.OctetStream);
                         dl.StartBytesDownload(this, pdf);
                     }
                     break;
@@ -143,9 +143,9 @@ namespace RT2020.Inventory.Reports.Journal
 
                     if (xls != null)
                     {
-                        var dl = new Controls.FileDownloadGateway();
-                        dl.Filename = string.Format("{0}.{1}.xlsx", WestwindHelper.GetWord("report.SA1330", "Setting"), DateTime.Now.ToString("yyyyMMddHHmmss"));
-                        dl.SetContentType(RT2020.Controls.DownloadContentType.MicrosoftExcel);
+                        var dl = new FileDownloadGateway();
+                        dl.FileName = string.Format("{0}.{1}.xlsx", WestwindHelper.GetWord("report.SA1330", "Setting"), DateTime.Now.ToString("yyyyMMddHHmmss"));
+                        dl.SetContentType(DownloadContentType.MicrosoftExcel);
                         dl.StartBytesDownload(this, xls);
                     }
                     break;
@@ -156,9 +156,9 @@ namespace RT2020.Inventory.Reports.Journal
 
                     if (pvt != null)
                     {
-                        var dl = new Controls.FileDownloadGateway();
-                        dl.Filename = string.Format("{0}.{1}.xlsx", WestwindHelper.GetWord("report.SA1330", "Setting"), DateTime.Now.ToString("yyyyMMddHHmmss"));
-                        dl.SetContentType(RT2020.Controls.DownloadContentType.MicrosoftExcel);
+                        var dl = new FileDownloadGateway();
+                        dl.FileName = string.Format("{0}.{1}.xlsx", WestwindHelper.GetWord("report.SA1330", "Setting"), DateTime.Now.ToString("yyyyMMddHHmmss"));
+                        dl.SetContentType(DownloadContentType.MicrosoftExcel);
                         dl.StartBytesDownload(this, pvt);
                     }
                     break;

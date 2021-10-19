@@ -27,7 +27,7 @@ namespace RT2020.Controls
     /// 
     /// </summary>
     /// <remarks></remarks>
-    [MetadataTag("xFilm3.Controls.FileDownloadGateway")]
+    [MetadataTag("RT2020.Controls.FileDownloadGateway")]
     public class FileDownloadGateway : Control, IGatewayComponent
     {
         private string contenttype;

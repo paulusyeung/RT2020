@@ -36,7 +36,7 @@ namespace RT2020.Common.Helper
         private string filepath;
         private Byte[] bytes;
 
-        public string filename;
+        public string FileName;
         public LinkParameters linkparameters = new LinkParameters();
         public Boolean downloadattachment = true;
 
@@ -90,10 +90,10 @@ namespace RT2020.Common.Helper
             if (!String.IsNullOrEmpty(this.contenttype))
                 objResponse.ContentType = contenttype;
 
-            if (this.downloadattachment && !String.IsNullOrEmpty(filename))
-                objResponse.AddHeader("content-disposition", "attachment; filename=\"" + this.filename + "\"");
+            if (this.downloadattachment && !String.IsNullOrEmpty(FileName))
+                objResponse.AddHeader("content-disposition", "attachment; filename=\"" + this.FileName + "\"");
             else if (this.downloadattachment)
-                objResponse.AddHeader("content-disposition", "attachment; filename=\"" + this.filename + "\"");
+                objResponse.AddHeader("content-disposition", "attachment; filename=\"" + this.FileName + "\"");
             if (!String.IsNullOrEmpty(filepath))
                 objResponse.WriteFile(filepath);
             else if (stream != null)

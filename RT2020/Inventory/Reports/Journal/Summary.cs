@@ -263,15 +263,16 @@ namespace RT2020.Inventory.Reports.Journal
                     }
                     break;
                     #endregion
+                /** suspended
                 case "cmdPDF":
                     #region export PDF
                     var pdf = RT2020.Reports.Inventory.Journal.Monthly.PDF(txtFrom.Text.Trim(), txtTo.Text.Trim(), FromDate.ToString("yyyy-MM-dd"), ToDate.ToString("yyyy-MM-dd"));
 
                     if (pdf != null)
                     {
-                        var dl = new Controls.FileDownloadGateway();
-                        dl.Filename = string.Format("{0}.{1}.pdf", WestwindHelper.GetWord("report.SA1330", "Setting"), DateTime.Now.ToString("yyyyMMddHHmmss"));
-                        dl.SetContentType(RT2020.Controls.DownloadContentType.OctetStream);
+                        var dl = new FileDownloadGateway();
+                        dl.FileName = string.Format("{0}.{1}.pdf", WestwindHelper.GetWord("report.SA1330", "Setting"), DateTime.Now.ToString("yyyyMMddHHmmss"));
+                        dl.SetContentType(DownloadContentType.OctetStream);
                         dl.StartBytesDownload(this, pdf);
                     }
                     break;
@@ -282,22 +283,23 @@ namespace RT2020.Inventory.Reports.Journal
 
                     if (xls != null)
                     {
-                        var dl = new Controls.FileDownloadGateway();
-                        dl.Filename = string.Format("{0}.{1}.xlsx", WestwindHelper.GetWord("report.SA1330", "Setting"), DateTime.Now.ToString("yyyyMMddHHmmss"));
-                        dl.SetContentType(RT2020.Controls.DownloadContentType.MicrosoftExcel);
+                        var dl = new FileDownloadGateway();
+                        dl.FileName = string.Format("{0}.{1}.xlsx", WestwindHelper.GetWord("report.SA1330", "Setting"), DateTime.Now.ToString("yyyyMMddHHmmss"));
+                        dl.SetContentType(DownloadContentType.MicrosoftExcel);
                         dl.StartBytesDownload(this, xls);
                     }
                     break;
                     #endregion
+                */
                 case "cmdPivot":
                     #region export PivotTable
                     var pvt = RT2020.Reports.Inventory.Journal.Summary.Pivot(GetSelections());
 
                     if (pvt != null)
                     {
-                        var dl = new Controls.FileDownloadGateway();
-                        dl.Filename = string.Format("{0}.{1}.xlsx", WestwindHelper.GetWord("report.SA1340", "Setting"), DateTime.Now.ToString("yyyyMMddHHmmss"));
-                        dl.SetContentType(RT2020.Controls.DownloadContentType.MicrosoftExcel);
+                        var dl = new FileDownloadGateway();
+                        dl.FileName = string.Format("{0}.{1}.xlsx", WestwindHelper.GetWord("report.SA1340", "Setting"), DateTime.Now.ToString("yyyyMMddHHmmss"));
+                        dl.SetContentType(DownloadContentType.MicrosoftExcel);
                         dl.StartBytesDownload(this, pvt);
                     }
                     break;
