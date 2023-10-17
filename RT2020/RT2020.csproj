@@ -157,6 +157,7 @@
     <Reference Include="Gizmox.WebGUI.Forms, Version=4.5.25701.0, Culture=neutral, PublicKeyToken=c508b41386c60f1d, processorArchitecture=MSIL" />
     <Reference Include="Gizmox.WebGUI.Forms.Extended, Version=4.5.25701.0, Culture=neutral, PublicKeyToken=85eae29607c9f5f3, processorArchitecture=MSIL" />
     <Reference Include="Gizmox.WebGUI.Forms.Office, Version=4.5.25701.0, Culture=neutral, PublicKeyToken=d50c2c7452ba77d9, processorArchitecture=MSIL" />
+    <Reference Include="Gizmox.WebGUI.Forms.Professional, Version=4.5.25701.0, Culture=neutral, PublicKeyToken=6b5c571512bede7c, processorArchitecture=MSIL" />
     <Reference Include="Gizmox.WebGUI.Forms.Themes, Version=4.5.25701.0, Culture=neutral, PublicKeyToken=263fa4ef694acff6, processorArchitecture=MSIL" />
     <Reference Include="Gizmox.WebGUI.Server, Version=4.5.25701.0, Culture=neutral, PublicKeyToken=3de6eb684226c24d, processorArchitecture=MSIL" />
     <Reference Include="log4net, Version=2.0.12.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
