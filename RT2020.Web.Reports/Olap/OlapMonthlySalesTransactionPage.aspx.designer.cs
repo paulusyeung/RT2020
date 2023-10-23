@@ -155,7 +155,7 @@ namespace RT2020.Web.Reports.Olap {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.XtraPivotGrid.Web.ASPxPivotGridExporter olapMonSalesTraExporter;
+        protected global::DevExpress.Web.ASPxPivotGrid.ASPxPivotGridExporter olapMonSalesTraExporter;
         
         /// <summary>
         /// olapMonSalesTra control.

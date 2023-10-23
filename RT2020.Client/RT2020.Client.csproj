@@ -74,8 +74,9 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Itchin.Winforms.Controls_F2.NavigationBar">
-      <HintPath>..\..\Itchin Navigation Bar\Itchin.Winforms.Controls_F2.NavigationBar.dll</HintPath>
+    <Reference Include="Itchin.Winforms.Controls_F2.NavigationBar, Version=1.0.2337.28038, Culture=neutral, PublicKeyToken=aa50cef38ab9454d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Itchin Navigation Bar\Itchin.Winforms.Controls_F2.NavigationBar.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Practices.EnterpriseLibrary.Common, Version=6.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\EnterpriseLibrary.Common.6.0.1304.0\lib\NET45\Microsoft.Practices.EnterpriseLibrary.Common.dll</HintPath>
@@ -541,7 +542,7 @@
   -->
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties Reset="1" AssemblyVersion="1" AssemblyFileVersion="1" StartDate="20101012" BuildVersion_BuildVersioningStyle="None.Increment.Increment.Increment" BuildVersion_UpdateAssemblyVersion="True" BuildVersion_UpdateFileVersion="True" BuildVersion_StartDate="2010/8/25" />
+      <UserProperties BuildVersion_StartDate="2010/8/25" BuildVersion_UpdateFileVersion="True" BuildVersion_UpdateAssemblyVersion="True" BuildVersion_BuildVersioningStyle="None.Increment.Increment.Increment" StartDate="20101012" AssemblyFileVersion="1" AssemblyVersion="1" Reset="1" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

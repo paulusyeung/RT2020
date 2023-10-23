@@ -48,17 +48,15 @@ namespace RT2020.Web.Reports.Forms
             this.btnSearch = new Gizmox.WebGUI.Forms.Button();
             this.label1 = new Gizmox.WebGUI.Forms.Label();
             this.rptViewer = new RT2020.Web.Reports.Controls.Viewer();
+            this.pnlLeft.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer1
             // 
-            this.splitContainer1.Anchor = Gizmox.WebGUI.Forms.AnchorStyles.None;
-            this.splitContainer1.BorderStyle = Gizmox.WebGUI.Forms.BorderStyle.None;
+            this.splitContainer1.AutoValidate = Gizmox.WebGUI.Forms.AutoValidate.EnablePreventFocusChange;
             this.splitContainer1.Dock = Gizmox.WebGUI.Forms.DockStyle.Fill;
-            this.splitContainer1.FixedPanel = Gizmox.WebGUI.Forms.FixedPanel.None;
             this.splitContainer1.Location = new System.Drawing.Point(0, 0);
             this.splitContainer1.Name = "splitContainer1";
-            this.splitContainer1.Orientation = Gizmox.WebGUI.Forms.Orientation.Vertical;
             // 
             // splitContainer1.Panel1
             // 
@@ -73,7 +71,6 @@ namespace RT2020.Web.Reports.Forms
             // 
             // pnlLeft
             // 
-            this.pnlLeft.Anchor = Gizmox.WebGUI.Forms.AnchorStyles.None;
             this.pnlLeft.Controls.Add(this.lblTxTypeTips);
             this.pnlLeft.Controls.Add(this.lblShop);
             this.pnlLeft.Controls.Add(this.txtShop);
@@ -230,7 +227,6 @@ namespace RT2020.Web.Reports.Forms
             // label1
             // 
             this.label1.AllowDrop = true;
-            this.label1.Anchor = Gizmox.WebGUI.Forms.AnchorStyles.None;
             this.label1.Dock = Gizmox.WebGUI.Forms.DockStyle.Top;
             this.label1.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Bold);
             this.label1.Location = new System.Drawing.Point(0, 0);
@@ -242,7 +238,7 @@ namespace RT2020.Web.Reports.Forms
             // 
             // rptViewer
             // 
-            this.rptViewer.Anchor = Gizmox.WebGUI.Forms.AnchorStyles.None;
+            this.rptViewer.AutoValidate = Gizmox.WebGUI.Forms.AutoValidate.EnablePreventFocusChange;
             this.rptViewer.Datasource = null;
             this.rptViewer.Dock = Gizmox.WebGUI.Forms.DockStyle.Fill;
             this.rptViewer.Location = new System.Drawing.Point(0, 0);
@@ -262,11 +258,11 @@ namespace RT2020.Web.Reports.Forms
             // 
             // DailyShopTransaction_Inline
             // 
-            this.Anchor = Gizmox.WebGUI.Forms.AnchorStyles.None;
             this.Controls.Add(this.splitContainer1);
-            this.Location = new System.Drawing.Point(184, 117);
+            this.Location = new System.Drawing.Point(153, 373);
             this.Size = new System.Drawing.Size(800, 600);
             this.Text = "StockQtyStatus_Inline";
+            this.pnlLeft.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

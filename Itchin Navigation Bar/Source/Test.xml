@@ -1,0 +1,115 @@
+<?xml version="1.0"?>
+<doc>
+  <assembly>
+    <name>Test</name>
+    <version>1.0.2328.30975</version>
+    <fullname>Test, Version=1.0.2328.30975, Culture=neutral, PublicKeyToken=null</fullname>
+  </assembly>
+  <members>
+    <member name="T:Test.TutorialItem">
+      <summary>
+ Tutorial Item 
+ </summary>
+ <remarks>
+ </remarks>
+ <history>
+ 	[G_Noble]	12/05/2006	Created 
+ </history></member>
+    <member name="T:Test.DemoTutorials">
+      <summary>
+ A Simple Class To Hold All Demo Tutorial Properties 
+ </summary>
+ <remarks>
+ </remarks>
+ <history>
+ 	[G_Noble]	12/05/2006	Created 
+ </history></member>
+    <member name="M:Test.DemoTutorials.#ctor(Itchin.Winforms.Controls.Panelcontrol)">
+      <summary>
+ Sets The Parent Panel 
+ </summary>
+ <param name="ParentPanel" />
+ <remarks>
+ </remarks>
+ <history>
+ 	[G_Noble]	12/05/2006	Created 
+ </history></member>
+    <member name="M:Test.DemoTutorials.AddTutorial(System.Windows.Forms.UserControl,System.String)">
+      <summary>
+ Adds A Tutorial Item to The collection 
+ </summary>
+ <param name="TutorialControl" />
+ <param name="TutorialName" />
+ <returns />
+ <remarks>
+ </remarks>
+ <history>
+ 	[G_Noble]	12/05/2006	Created 
+ </history></member>
+    <member name="M:Test.DemoTutorials.ShowTutorial(System.String)">
+      <summary>
+ Displays The Required Tutorial 
+ </summary>
+ <param name="TutorialName" />
+ <remarks>
+ </remarks>
+ <history>
+ 	[G_Noble]	12/05/2006	Created 
+ </history></member>
+    <member name="M:Test.Helpers.main">
+      <summary>
+ Runs A New instance of The App 
+ </summary>
+ <remarks>
+ </remarks>
+ <history>
+ 	[G_Noble]	16/05/2006	Created 
+ </history></member>
+    <member name="M:Test.Helpers.ImageFromResource(System.String)">
+      <summary>
+ Returns An Image From A Resources 
+ </summary>
+ <param name="ResFileName" />
+ <returns />
+ <remarks>
+ </remarks>
+ <history>
+ 	[G_Noble]	16/05/2006	Created 
+ </history></member>
+    <member name="M:Test.Helpers.IconFromResource(System.String)">
+      <summary>
+ Returns An Icon From A Resource 
+ </summary>
+ <param name="ResFileName" />
+ <returns />
+ <remarks>
+ </remarks>
+ <history>
+ 	[G_Noble]	16/05/2006	Created 
+ </history></member>
+    <member name="M:Test.Helpers.SetComboAlignment(System.Windows.Forms.ComboBox,System.Drawing.ContentAlignment)">
+      <summary>
+ Global Set Combo Text 
+ </summary>
+ <param name="cbo" />
+ <param name="Algn" />
+ <remarks>
+ This Is Used Only For the Property Tutorials 
+ </remarks>
+ <history>
+ 	[G_Noble]	16/05/2006	Created 
+ </history></member>
+    <member name="M:Test.Helpers.AddToEvents(System.Windows.Forms.ListView,System.String,System.String)">
+      <summary>
+ Adds An Entry To The Events Panel On The Main Window 
+ </summary>
+ <param name="lvwEvents" />
+ <param name="sEvent" />
+ <param name="sPanelName" />
+ <remarks>
+ </remarks>
+ <history>
+ 	[G_Noble]	16/05/2006	Created 
+ </history></member>
+  </members>
+</doc>
