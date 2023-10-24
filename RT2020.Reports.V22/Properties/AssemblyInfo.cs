@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("RT2020.Reports")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("nxStudio")]
 [assembly: AssemblyProduct("RT2020.Reports")]
 [assembly: AssemblyCopyright("Copyright © nxStudio 2023")]
 [assembly: AssemblyTrademark("")]
