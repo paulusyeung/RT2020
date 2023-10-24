@@ -110,6 +110,7 @@
     </Compile>
     <Compile Include="..\RT2020.Common\Helper\FileDownloadGateway.cs">
       <Link>Helper\FileDownloadGateway.cs</Link>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="..\RT2020.Common\Helper\GlobalVars.cs">
       <Link>Helper\GlobalVars.cs</Link>
