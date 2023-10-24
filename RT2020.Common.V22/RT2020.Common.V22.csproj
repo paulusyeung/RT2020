@@ -1,0 +1,495 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{B9D94088-B1D3-4E77-9ACD-292B15FF97AD}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>RT2020.Common</RootNamespace>
+    <AssemblyName>RT2020.Common</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CommonMark, Version=0.1.0.0, Culture=neutral, PublicKeyToken=001ef8810438905d, processorArchitecture=MSIL">
+      <HintPath>..\packages\CommonMark.NET.0.15.1\lib\net45\CommonMark.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Gizmox.WebGUI.Common, Version=4.5.25701.0, Culture=neutral, PublicKeyToken=263fa4ef694acff6, processorArchitecture=MSIL" />
+    <Reference Include="Gizmox.WebGUI.Forms, Version=4.5.25701.0, Culture=neutral, PublicKeyToken=c508b41386c60f1d, processorArchitecture=MSIL" />
+    <Reference Include="Gizmox.WebGUI.Forms.Extended, Version=4.5.25701.0, Culture=neutral, PublicKeyToken=85eae29607c9f5f3, processorArchitecture=MSIL" />
+    <Reference Include="Gizmox.WebGUI.Forms.Themes, Version=4.5.25701.0, Culture=neutral, PublicKeyToken=263fa4ef694acff6, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.IdentityModel.Logging, Version=1.1.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IdentityModel.Logging.1.1.5\lib\net451\Microsoft.IdentityModel.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.IdentityModel.Tokens, Version=5.1.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IdentityModel.Tokens.5.1.5\lib\net451\Microsoft.IdentityModel.Tokens.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.Common, Version=6.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\EnterpriseLibrary.Common.6.0.1304.0\lib\NET45\Microsoft.Practices.EnterpriseLibrary.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.Data, Version=6.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\EnterpriseLibrary.Data.6.0.1304.0\lib\NET45\Microsoft.Practices.EnterpriseLibrary.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="RestSharp, Version=106.15.0.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
+      <HintPath>..\packages\RestSharp.106.15.0\lib\net452\RestSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Design" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.IdentityModel.Tokens.Jwt, Version=5.1.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IdentityModel.Tokens.Jwt.5.1.5\lib\net451\System.IdentityModel.Tokens.Jwt.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Westwind.Globalization, Version=3.1.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Westwind.Globalization.3.1.2\lib\net45\Westwind.Globalization.dll</HintPath>
+    </Reference>
+    <Reference Include="Westwind.Utilities, Version=3.0.61.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Westwind.Utilities.3.0.61\lib\net40\Westwind.Utilities.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\RT2020.Common\Helper\BotHelper.cs">
+      <Link>Helper\BotHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\Helper\ComboBoxHelper.cs">
+      <Link>Helper\ComboBoxHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\Helper\ConfigHelper.cs">
+      <Link>Helper\ConfigHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\Helper\CookieHelper.cs">
+      <Link>Helper\CookieHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\Helper\DateTimeHelper.cs">
+      <Link>Helper\DateTimeHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\Helper\DecimalHelper.cs">
+      <Link>Helper\DecimalHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\Helper\EnumHelper.cs">
+      <Link>Helper\EnumHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\Helper\FileDownloadGateway.cs">
+      <Link>Helper\FileDownloadGateway.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\Helper\GlobalVars.cs">
+      <Link>Helper\GlobalVars.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\Helper\ImpersonateHelper.cs">
+      <Link>Helper\ImpersonateHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\Helper\JwtHelper.cs">
+      <Link>Helper\JwtHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\Helper\LanguageHelper.cs">
+      <Link>Helper\LanguageHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\Helper\ListViewHelper.cs">
+      <Link>Helper\ListViewHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\Helper\MemberHelper.cs">
+      <Link>Helper\MemberHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\Helper\MenuHelper.cs">
+      <Link>Helper\MenuHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\Helper\NetSqlAzManHelper.cs">
+      <Link>Helper\NetSqlAzManHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\Helper\NetworkConnectionHelper.cs">
+      <Link>Helper\NetworkConnectionHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\Helper\PhoneTagHelper.cs">
+      <Link>Helper\PhoneTagHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\Helper\PivotHelper.cs">
+      <Link>Helper\PivotHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\Helper\ProductHelper.cs">
+      <Link>Helper\ProductHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\Helper\SmartTagHelper.cs">
+      <Link>Helper\SmartTagHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\Helper\SqlHelper.cs">
+      <Link>Helper\SqlHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\Helper\SystemInfoHelper.cs">
+      <Link>Helper\SystemInfoHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\Helper\ThemeHelper.cs">
+      <Link>Helper\ThemeHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\Helper\TreeViewHelper.cs">
+      <Link>Helper\TreeViewHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\Helper\WebConfigHelper.cs">
+      <Link>Helper\WebConfigHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\Helper\WestwindHelper.cs">
+      <Link>Helper\WestwindHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\Helper\ZipHelper.cs">
+      <Link>Helper\ZipHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\ModelEx\CityEx.cs">
+      <Link>ModelEx\CityEx.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\ModelEx\CountryEx.cs">
+      <Link>ModelEx\CountryEx.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\ModelEx\CurrencyEx.cs">
+      <Link>ModelEx\CurrencyEx.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\ModelEx\EPOSBatchDetailsEx.cs">
+      <Link>ModelEx\EPOSBatchDetailsEx.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\ModelEx\EPOSBatchHeaderEx.cs">
+      <Link>ModelEx\EPOSBatchHeaderEx.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\ModelEx\EPOSBatchTenderEx.cs">
+      <Link>ModelEx\EPOSBatchTenderEx.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\ModelEx\EPOSSubLedgerDetailsEx.cs">
+      <Link>ModelEx\EPOSSubLedgerDetailsEx.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\ModelEx\EPOSSubLedgerHeaderEx.cs">
+      <Link>ModelEx\EPOSSubLedgerHeaderEx.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\ModelEx\EPOSSubLedgerTenderEx.cs">
+      <Link>ModelEx\EPOSSubLedgerTenderEx.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\ModelEx\FepBatchDetailEx.cs">
+      <Link>ModelEx\FepBatchDetailEx.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\ModelEx\FepBatchHeaderEx.cs">
+      <Link>ModelEx\FepBatchHeaderEx.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\ModelEx\FepBatchTenderEx.cs">
+      <Link>ModelEx\FepBatchTenderEx.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\ModelEx\InternetTagEx.cs">
+      <Link>ModelEx\InternetTagEx.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\ModelEx\InvtBatchADJ_DetailsEx.cs">
+      <Link>ModelEx\InvtBatchADJ_DetailsEx.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\ModelEx\InvtBatchADJ_HeaderEx.cs">
+      <Link>ModelEx\InvtBatchADJ_HeaderEx.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\ModelEx\InvtBatchCAP_DetailsEx.cs">
+      <Link>ModelEx\InvtBatchCAP_DetailsEx.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\ModelEx\InvtBatchCAP_HeaderEx.cs">
+      <Link>ModelEx\InvtBatchCAP_HeaderEx.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\ModelEx\InvtBatchRPL_DetailsEx.cs">
+      <Link>ModelEx\InvtBatchRPL_DetailsEx.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\ModelEx\InvtBatchRPL_HeaderEx.cs">
+      <Link>ModelEx\InvtBatchRPL_HeaderEx.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\ModelEx\InvtBatchTXF_DetailsEx.cs">
+      <Link>ModelEx\InvtBatchTXF_DetailsEx.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\ModelEx\InvtBatchTXF_HeaderEx.cs">
+      <Link>ModelEx\InvtBatchTXF_HeaderEx.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\ModelEx\InvtSubLedgerCAP_HeaderEx.cs">
+      <Link>ModelEx\InvtSubLedgerCAP_HeaderEx.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\ModelEx\JobTitleEx.cs">
+      <Link>ModelEx\JobTitleEx.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\ModelEx\LineOfOperationEx.cs">
+      <Link>ModelEx\LineOfOperationEx.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\ModelEx\MarketSectorEx.cs">
+      <Link>ModelEx\MarketSectorEx.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\ModelEx\MemberAddressEx.cs">
+      <Link>ModelEx\MemberAddressEx.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\ModelEx\MemberAddressTypeEx.cs">
+      <Link>ModelEx\MemberAddressTypeEx.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\ModelEx\MemberClassEx.cs">
+      <Link>ModelEx\MemberClassEx.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\ModelEx\MemberEx.cs">
+      <Link>ModelEx\MemberEx.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\ModelEx\MemberGroupEx.cs">
+      <Link>ModelEx\MemberGroupEx.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\ModelEx\MemberSmartTagEx.cs">
+      <Link>ModelEx\MemberSmartTagEx.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\ModelEx\MemberVipDataEx.cs">
+      <Link>ModelEx\MemberVipDataEx.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\ModelEx\MemberVipLineOfOperationEx.cs">
+      <Link>ModelEx\MemberVipLineOfOperationEx.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\ModelEx\MetadataXml.cs">
+      <Link>ModelEx\MetadataXml.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\ModelEx\PhoneTagEx.cs">
+      <Link>ModelEx\PhoneTagEx.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\ModelEx\PipelineEx.cs">
+      <Link>ModelEx\PipelineEx.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\ModelEx\PosAnalysisCodeEx.cs">
+      <Link>ModelEx\PosAnalysisCodeEx.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\ModelEx\PosTenderTypeEx.cs">
+      <Link>ModelEx\PosTenderTypeEx.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\ModelEx\PriceManagementActiveHeaderEx.cs">
+      <Link>ModelEx\PriceManagementActiveHeaderEx.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\ModelEx\PriceManagementBatchHeaderEx.cs">
+      <Link>ModelEx\PriceManagementBatchHeaderEx.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\ModelEx\PriceManagementReasonEx.cs">
+      <Link>ModelEx\PriceManagementReasonEx.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\ModelEx\ProductAppendix1Ex.cs">
+      <Link>ModelEx\ProductAppendix1Ex.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\ModelEx\ProductAppendix2Ex.cs">
+      <Link>ModelEx\ProductAppendix2Ex.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\ModelEx\ProductAppendix3Ex.cs">
+      <Link>ModelEx\ProductAppendix3Ex.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\ModelEx\ProductBarcodeEx.cs">
+      <Link>ModelEx\ProductBarcodeEx.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\ModelEx\ProductClass1Ex.cs">
+      <Link>ModelEx\ProductClass1Ex.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\ModelEx\ProductClass2Ex.cs">
+      <Link>ModelEx\ProductClass2Ex.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\ModelEx\ProductClass3Ex.cs">
+      <Link>ModelEx\ProductClass3Ex.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\ModelEx\ProductClass4Ex.cs">
+      <Link>ModelEx\ProductClass4Ex.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\ModelEx\ProductClass5Ex.cs">
+      <Link>ModelEx\ProductClass5Ex.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\ModelEx\ProductClass6Ex.cs">
+      <Link>ModelEx\ProductClass6Ex.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\ModelEx\ProductCurrentSummaryEx.cs">
+      <Link>ModelEx\ProductCurrentSummaryEx.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\ModelEx\ProductDimEx.cs">
+      <Link>ModelEx\ProductDimEx.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\ModelEx\ProductDim_DetailsEx.cs">
+      <Link>ModelEx\ProductDim_DetailsEx.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\ModelEx\ProductEx.cs">
+      <Link>ModelEx\ProductEx.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\ModelEx\ProductNatureEx.cs">
+      <Link>ModelEx\ProductNatureEx.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\ModelEx\ProductPriceEx.cs">
+      <Link>ModelEx\ProductPriceEx.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\ModelEx\ProductPriceTypeEx.cs">
+      <Link>ModelEx\ProductPriceTypeEx.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\ModelEx\ProductWorkplaceEx.cs">
+      <Link>ModelEx\ProductWorkplaceEx.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\ModelEx\PromotionPaymentFactorEx.cs">
+      <Link>ModelEx\PromotionPaymentFactorEx.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\ModelEx\ProvinceEx.cs">
+      <Link>ModelEx\ProvinceEx.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\ModelEx\PurchaseOrderDetailsEx.cs">
+      <Link>ModelEx\PurchaseOrderDetailsEx.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\ModelEx\PurchaseOrderHeaderEx.cs">
+      <Link>ModelEx\PurchaseOrderHeaderEx.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\ModelEx\RemarksEx.cs">
+      <Link>ModelEx\RemarksEx.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\ModelEx\SalutationEx.cs">
+      <Link>ModelEx\SalutationEx.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\ModelEx\ShipmentMethodEx.cs">
+      <Link>ModelEx\ShipmentMethodEx.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\ModelEx\SmartTag4MemberEx.cs">
+      <Link>ModelEx\SmartTag4MemberEx.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\ModelEx\SmartTag4Member_OptionsEx.cs">
+      <Link>ModelEx\SmartTag4Member_OptionsEx.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\ModelEx\SmartTag4StaffEx.cs">
+      <Link>ModelEx\SmartTag4StaffEx.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\ModelEx\SmartTag4Staff_OptionsEx.cs">
+      <Link>ModelEx\SmartTag4Staff_OptionsEx.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\ModelEx\SmartTag4SupplierEx.cs">
+      <Link>ModelEx\SmartTag4SupplierEx.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\ModelEx\SmartTag4Supplier_OptionsEx.cs">
+      <Link>ModelEx\SmartTag4Supplier_OptionsEx.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\ModelEx\SmartTag4WorkplaceEx.cs">
+      <Link>ModelEx\SmartTag4WorkplaceEx.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\ModelEx\SmartTag4Workplace_OptionsEx.cs">
+      <Link>ModelEx\SmartTag4Workplace_OptionsEx.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\ModelEx\StaffAddressEx.cs">
+      <Link>ModelEx\StaffAddressEx.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\ModelEx\StaffDeptEx.cs">
+      <Link>ModelEx\StaffDeptEx.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\ModelEx\StaffEx.cs">
+      <Link>ModelEx\StaffEx.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\ModelEx\StaffGroupEx.cs">
+      <Link>ModelEx\StaffGroupEx.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\ModelEx\StaffHREx.cs">
+      <Link>ModelEx\StaffHREx.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\ModelEx\StaffInternetTagEx.cs">
+      <Link>ModelEx\StaffInternetTagEx.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\ModelEx\StaffJobTitleEx.cs">
+      <Link>ModelEx\StaffJobTitleEx.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\ModelEx\StaffPreferenceEx.cs">
+      <Link>ModelEx\StaffPreferenceEx.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\ModelEx\StaffSecurityEx.cs">
+      <Link>ModelEx\StaffSecurityEx.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\ModelEx\StaffSmartTagEx.cs">
+      <Link>ModelEx\StaffSmartTagEx.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\ModelEx\StockTakeDetailsEx.cs">
+      <Link>ModelEx\StockTakeDetailsEx.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\ModelEx\StockTakeHeaderEx.cs">
+      <Link>ModelEx\StockTakeHeaderEx.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\ModelEx\StocktakeHeader_HHTEx.cs">
+      <Link>ModelEx\StocktakeHeader_HHTEx.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\ModelEx\SupplierAddressEx.cs">
+      <Link>ModelEx\SupplierAddressEx.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\ModelEx\SupplierAddressTypeEx.cs">
+      <Link>ModelEx\SupplierAddressTypeEx.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\ModelEx\SupplierContactEx.cs">
+      <Link>ModelEx\SupplierContactEx.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\ModelEx\SupplierEx.cs">
+      <Link>ModelEx\SupplierEx.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\ModelEx\SupplierSmartTagEx.cs">
+      <Link>ModelEx\SupplierSmartTagEx.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\ModelEx\SupplierTermsEx.cs">
+      <Link>ModelEx\SupplierTermsEx.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\ModelEx\SystemInfoEx.cs">
+      <Link>ModelEx\SystemInfoEx.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\ModelEx\SystemLabelEx.cs">
+      <Link>ModelEx\SystemLabelEx.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\ModelEx\UserPreferenceEx.cs">
+      <Link>ModelEx\UserPreferenceEx.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\ModelEx\UserProfileEx.cs">
+      <Link>ModelEx\UserProfileEx.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\ModelEx\WorkplaceAddressEx.cs">
+      <Link>ModelEx\WorkplaceAddressEx.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\ModelEx\WorkplaceEx.cs">
+      <Link>ModelEx\WorkplaceEx.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\ModelEx\WorkplaceNatureEx.cs">
+      <Link>ModelEx\WorkplaceNatureEx.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\ModelEx\WorkplaceSmartTagEx.cs">
+      <Link>ModelEx\WorkplaceSmartTagEx.cs</Link>
+    </Compile>
+    <Compile Include="..\RT2020.Common\ModelEx\WorkplaceZoneEx.cs">
+      <Link>ModelEx\WorkplaceZoneEx.cs</Link>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\RT2020.Common\app.config">
+      <Link>app.config</Link>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\RT2020.EF6\RT2020.EF6.csproj">
+      <Project>{80747ba9-d766-4dca-b58a-e8426bf72ace}</Project>
+      <Name>RT2020.EF6</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
