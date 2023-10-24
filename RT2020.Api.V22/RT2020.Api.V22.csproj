@@ -211,11 +211,12 @@
   <ItemGroup>
     <None Include="..\RT2020.Api\log4net.config">
       <Link>log4net.config</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="..\RT2020.Api\Web.config">
       <Link>Web.config</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
