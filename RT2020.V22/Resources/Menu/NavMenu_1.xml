@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<root>
+	<inventory Caption="Inventory" ImageUrl="24x24.settings_24x24.gif">
+		<item Caption="Transfer" ImageUrl="16x16.ico_16_1089.gif" Tag="Invt_Txfer" />
+	</inventory>
+</root>
