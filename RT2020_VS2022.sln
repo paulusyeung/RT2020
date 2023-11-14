@@ -32,6 +32,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RT2020.Api.V22", "RT2020.Ap
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RT2020.V22", "RT2020.V22\RT2020.V22.csproj", "{B0475F51-341A-478E-B078-C09931D747CB}"
 EndProject
+Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "RT2020.Docs", "RT2020.Docs\RT2020.Docs.njsproj", "{972FA01A-E242-42B3-BC8A-A293ED172A68}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -186,12 +188,24 @@ Global
 		{B0475F51-341A-478E-B078-C09931D747CB}.Release|x64.Build.0 = Release|Any CPU
 		{B0475F51-341A-478E-B078-C09931D747CB}.Release|x86.ActiveCfg = Release|Any CPU
 		{B0475F51-341A-478E-B078-C09931D747CB}.Release|x86.Build.0 = Release|Any CPU
+		{972FA01A-E242-42B3-BC8A-A293ED172A68}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{972FA01A-E242-42B3-BC8A-A293ED172A68}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{972FA01A-E242-42B3-BC8A-A293ED172A68}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{972FA01A-E242-42B3-BC8A-A293ED172A68}.Debug|x64.Build.0 = Debug|Any CPU
+		{972FA01A-E242-42B3-BC8A-A293ED172A68}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{972FA01A-E242-42B3-BC8A-A293ED172A68}.Debug|x86.Build.0 = Debug|Any CPU
+		{972FA01A-E242-42B3-BC8A-A293ED172A68}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{972FA01A-E242-42B3-BC8A-A293ED172A68}.Release|Any CPU.Build.0 = Release|Any CPU
+		{972FA01A-E242-42B3-BC8A-A293ED172A68}.Release|x64.ActiveCfg = Release|Any CPU
+		{972FA01A-E242-42B3-BC8A-A293ED172A68}.Release|x64.Build.0 = Release|Any CPU
+		{972FA01A-E242-42B3-BC8A-A293ED172A68}.Release|x86.ActiveCfg = Release|Any CPU
+		{972FA01A-E242-42B3-BC8A-A293ED172A68}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {EDF32261-CC23-4753-A1D3-61D885BA2892}
 		EnterpriseLibraryConfigurationToolBinariesPathV6 = packages\EnterpriseLibrary.Common.6.0.1304.0\lib\NET45;packages\EnterpriseLibrary.Data.6.0.1304.0\lib\NET45
+		SolutionGuid = {EDF32261-CC23-4753-A1D3-61D885BA2892}
 	EndGlobalSection
 EndGlobal

@@ -1,0 +1,213 @@
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">14.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+    <Name>RT2020.Docs</Name>
+    <RootNamespace>RT2020.Docs</RootNamespace>
+    <SaveNodeJsSettingsInProjectFile>True</SaveNodeJsSettingsInProjectFile>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>972fa01a-e242-42b3-bc8a-a293ed172a68</ProjectGuid>
+    <ProjectHome>.</ProjectHome>
+    <StartupFile>node_modules\@vue\cli-service\bin\vue-cli-service.js</StartupFile>
+    <SearchPath>
+    </SearchPath>
+    <WorkingDirectory>.</WorkingDirectory>
+    <OutputPath>.</OutputPath>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <ProjectTypeGuids>{3AF33F2E-1136-4D97-BBB7-1795711AC8B8};{349c5851-65df-11da-9384-00065b846f21};{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}</ProjectTypeGuids>
+    <NodejsPort>1337</NodejsPort>
+    <StartWebBrowser>True</StartWebBrowser>
+    <ScriptArguments>serve</ScriptArguments>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PostBuildEvent>
+      npm run build
+    </PostBuildEvent>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include=".github\workflows\deploy-docs.yml" />
+    <Content Include="package.json" />
+    <Content Include="README.md" />
+    <Content Include="src\.vuepress\public\assets\icon\apple-icon-152.png" />
+    <Content Include="src\.vuepress\public\assets\icon\chrome-192.png" />
+    <Content Include="src\.vuepress\public\assets\icon\chrome-512.png" />
+    <Content Include="src\.vuepress\public\assets\icon\chrome-mask-192.png" />
+    <Content Include="src\.vuepress\public\assets\icon\chrome-mask-512.png" />
+    <Content Include="src\.vuepress\public\assets\icon\guide-maskable.png" />
+    <Content Include="src\.vuepress\public\assets\icon\guide-monochrome.png" />
+    <Content Include="src\.vuepress\public\assets\icon\ms-icon-144.png" />
+    <Content Include="src\.vuepress\public\assets\image\advanced.svg" />
+    <Content Include="src\.vuepress\public\assets\image\blog.svg" />
+    <Content Include="src\.vuepress\public\assets\image\box.svg" />
+    <Content Include="src\.vuepress\public\assets\image\features.svg" />
+    <Content Include="src\.vuepress\public\assets\image\github-dark.svg" />
+    <Content Include="src\.vuepress\public\assets\image\github-light.svg" />
+    <Content Include="src\.vuepress\public\assets\image\layout.svg" />
+    <Content Include="src\.vuepress\public\assets\image\markdown.svg" />
+    <Content Include="src\.vuepress\public\favicon.ico" />
+    <Content Include="src\.vuepress\public\logo.png" />
+    <Content Include="src\.vuepress\public\logo.svg" />
+    <Content Include="src\.vuepress\styles\config.scss" />
+    <Content Include="src\.vuepress\styles\index.scss" />
+    <Content Include="src\.vuepress\styles\palette.scss" />
+    <Content Include="src\demo\disable.md" />
+    <Content Include="src\demo\encrypt.md" />
+    <Content Include="src\demo\markdown.md" />
+    <Content Include="src\demo\page.md" />
+    <Content Include="src\demo\README.md" />
+    <Content Include="src\docs\developer\api.md" />
+    <Content Include="src\docs\developer\database.md" />
+    <Content Include="src\docs\developer\digital-marketing.md" />
+    <Content Include="src\docs\developer\documentation.md" />
+    <Content Include="src\docs\developer\intro.md" />
+    <Content Include="src\docs\developer\inventory-sales-forecasting.md" />
+    <Content Include="src\docs\developer\README.md" />
+    <Content Include="src\docs\developer\reporting.md" />
+    <Content Include="src\docs\developer\tools-packages.md" />
+    <Content Include="src\docs\developer\vue-pure-admin.md" />
+    <Content Include="src\docs\README.md" />
+    <Content Include="src\docs\user\ray.md" />
+    <Content Include="src\docs\user\README.md" />
+    <Content Include="src\guide\bar\baz.md" />
+    <Content Include="src\guide\bar\README.md" />
+    <Content Include="src\guide\foo\ray.md" />
+    <Content Include="src\guide\foo\README.md" />
+    <Content Include="src\guide\README.md" />
+    <Content Include="src\hk\docs\developer\api.md" />
+    <Content Include="src\hk\docs\developer\database.md" />
+    <Content Include="src\hk\docs\developer\digital-marketing.md" />
+    <Content Include="src\hk\docs\developer\documentation.md" />
+    <Content Include="src\hk\docs\developer\glossary\README.md" />
+    <Content Include="src\hk\docs\developer\glossary\sql-server.md" />
+    <Content Include="src\hk\docs\developer\intro.md" />
+    <Content Include="src\hk\docs\developer\inventory-sales-forecasting.md" />
+    <Content Include="src\hk\docs\developer\README.md" />
+    <Content Include="src\hk\docs\developer\reporting.md" />
+    <Content Include="src\hk\docs\developer\tools-packages.md" />
+    <Content Include="src\hk\docs\developer\vue-pure-admin.md" />
+    <Content Include="src\hk\docs\README.md" />
+    <Content Include="src\hk\docs\user\glossary\data-backup.md" />
+    <Content Include="src\hk\docs\user\glossary\README.md" />
+    <Content Include="src\hk\docs\user\intro.md" />
+    <Content Include="src\hk\docs\user\README.md" />
+    <Content Include="src\hk\README.md" />
+    <Content Include="src\hk\tutorial\disable.md" />
+    <Content Include="src\hk\tutorial\encrypt.md" />
+    <Content Include="src\hk\tutorial\markdown.md" />
+    <Content Include="src\hk\tutorial\page.md" />
+    <Content Include="src\hk\tutorial\README.md" />
+    <Content Include="src\README.md" />
+    <Content Include="src\slides.md" />
+    <Content Include="src\tutorial\disable.md" />
+    <Content Include="src\tutorial\encrypt.md" />
+    <Content Include="src\tutorial\markdown.md" />
+    <Content Include="src\tutorial\page.md" />
+    <Content Include="src\tutorial\README.md" />
+    <Content Include="src\zh\demo\disable.md" />
+    <Content Include="src\zh\demo\encrypt.md" />
+    <Content Include="src\zh\demo\markdown.md" />
+    <Content Include="src\zh\demo\page.md" />
+    <Content Include="src\zh\demo\README.md" />
+    <Content Include="src\zh\guide\bar\baz.md" />
+    <Content Include="src\zh\guide\bar\README.md" />
+    <Content Include="src\zh\guide\foo\ray.md" />
+    <Content Include="src\zh\guide\foo\README.md" />
+    <Content Include="src\zh\guide\README.md" />
+    <Content Include="src\zh\README.md" />
+    <Content Include="src\zh\slides.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include=".github\" />
+    <Folder Include=".github\workflows\" />
+    <Folder Include="src\" />
+    <Folder Include="src\.vuepress\" />
+    <Folder Include="src\.vuepress\navbar\" />
+    <Folder Include="src\.vuepress\public\" />
+    <Folder Include="src\.vuepress\public\assets\" />
+    <Folder Include="src\.vuepress\public\assets\icon\" />
+    <Folder Include="src\.vuepress\public\assets\image\" />
+    <Folder Include="src\.vuepress\sidebar\" />
+    <Folder Include="src\.vuepress\styles\" />
+    <Folder Include="src\demo\" />
+    <Folder Include="src\docs\" />
+    <Folder Include="src\docs\developer\" />
+    <Folder Include="src\docs\user\" />
+    <Folder Include="src\guide\" />
+    <Folder Include="src\guide\bar\" />
+    <Folder Include="src\guide\foo\" />
+    <Folder Include="src\hk\" />
+    <Folder Include="src\hk\docs\" />
+    <Folder Include="src\hk\docs\developer\" />
+    <Folder Include="src\hk\docs\developer\glossary\" />
+    <Folder Include="src\hk\docs\user\" />
+    <Folder Include="src\hk\docs\user\glossary\" />
+    <Folder Include="src\hk\tutorial\" />
+    <Folder Include="src\tutorial\" />
+    <Folder Include="src\zh\" />
+    <Folder Include="src\zh\demo\" />
+    <Folder Include="src\zh\guide\" />
+    <Folder Include="src\zh\guide\bar\" />
+    <Folder Include="src\zh\guide\foo\" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="src\.vuepress\config.ts" />
+    <TypeScriptCompile Include="src\.vuepress\navbar\en.ts" />
+    <TypeScriptCompile Include="src\.vuepress\navbar\hk.ts" />
+    <TypeScriptCompile Include="src\.vuepress\navbar\index.ts" />
+    <TypeScriptCompile Include="src\.vuepress\navbar\zh.ts" />
+    <TypeScriptCompile Include="src\.vuepress\sidebar\en.ts" />
+    <TypeScriptCompile Include="src\.vuepress\sidebar\hk.ts" />
+    <TypeScriptCompile Include="src\.vuepress\sidebar\index.ts" />
+    <TypeScriptCompile Include="src\.vuepress\sidebar\zh.ts" />
+    <TypeScriptCompile Include="src\.vuepress\theme.ts" />
+  </ItemGroup>
+  <Import Project="$(VSToolsPath)\Node.js Tools\Microsoft.NodejsToolsV2.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>0</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:48022/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>True</UseCustomServer>
+          <CustomServerUrl>http://localhost:1337</CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}" User="">
+        <WebProjectProperties>
+          <StartPageUrl>
+          </StartPageUrl>
+          <StartAction>CurrentPage</StartAction>
+          <AspNetDebugging>True</AspNetDebugging>
+          <SilverlightDebugging>False</SilverlightDebugging>
+          <NativeDebugging>False</NativeDebugging>
+          <SQLDebugging>False</SQLDebugging>
+          <ExternalProgram>
+          </ExternalProgram>
+          <StartExternalURL>
+          </StartExternalURL>
+          <StartCmdLineArguments>
+          </StartCmdLineArguments>
+          <StartWorkingDirectory>
+          </StartWorkingDirectory>
+          <EnableENC>False</EnableENC>
+          <AlwaysStartWebServerOnDebug>False</AlwaysStartWebServerOnDebug>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

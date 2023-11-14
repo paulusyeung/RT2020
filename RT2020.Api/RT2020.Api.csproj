@@ -71,15 +71,9 @@
       <HintPath>..\packages\ExcelNumberFormat.1.0.10\lib\net20\ExcelNumberFormat.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Gizmox.WebGUI.Common, Version=, Culture=neutral, PublicKeyToken=263fa4ef694acff6" />
-    <Reference Include="Gizmox.WebGUI.Common, Version=, Culture=neutral, PublicKeyToken=263fa4ef694acff6" />
     <Reference Include="Gizmox.WebGUI.Common, Version=4.5.25701.0, Culture=neutral, PublicKeyToken=263fa4ef694acff6, processorArchitecture=MSIL" />
-    <Reference Include="Gizmox.WebGUI.Forms, Version=, Culture=neutral, PublicKeyToken=c508b41386c60f1d" />
-    <Reference Include="Gizmox.WebGUI.Forms, Version=, Culture=neutral, PublicKeyToken=c508b41386c60f1d" />
     <Reference Include="Gizmox.WebGUI.Forms, Version=4.5.25701.0, Culture=neutral, PublicKeyToken=c508b41386c60f1d, processorArchitecture=MSIL" />
     <Reference Include="Gizmox.WebGUI.Forms.Extended, Version=4.5.25701.0, Culture=neutral, PublicKeyToken=85eae29607c9f5f3, processorArchitecture=MSIL" />
-    <Reference Include="Gizmox.WebGUI.Server, Version=, Culture=neutral, PublicKeyToken=3de6eb684226c24d" />
-    <Reference Include="Gizmox.WebGUI.Server, Version=, Culture=neutral, PublicKeyToken=3de6eb684226c24d" />
     <Reference Include="log4net, Version=2.0.12.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\packages\log4net.2.0.12\lib\net45\log4net.dll</HintPath>
       <Private>True</Private>
